@@ -35,6 +35,11 @@ app.use(cors());
 app.use(express.json({ limit: '2mb' }));
 app.use(express.static(__dirname));
 
+// ── Root redirect ─────────────────────────────────────────────────────────────
+app.get('/', (_req, res) => {
+  res.redirect('/IELTS-Lab.html');
+});
+
 // ── GET /api/health ───────────────────────────────────────────────────────────
 app.get('/api/health', (_req, res) => {
   const keyOk = !!process.env.ANTHROPIC_API_KEY;
