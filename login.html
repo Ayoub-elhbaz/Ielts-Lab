@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -19,6 +20,7 @@
       --gold: #B8860B;
       --border: #E2DDD5;
       --success: #276749;
+      --error: #C53030;
     }
     html, body {
       min-height: 100vh;
@@ -189,10 +191,20 @@
       border-color: var(--royal-blue);
       box-shadow: 0 0 0 3px rgba(44,74,143,0.12);
     }
+    input.input-error { border-color: var(--error); }
     input::placeholder { color: #A0AEC0; }
 
     .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
     @media (max-width: 480px) { .field-row { grid-template-columns: 1fr; } }
+
+    /* Error messages */
+    .form-error {
+      font-size: 0.875rem;
+      color: var(--error);
+      margin-top: 0.75rem;
+      min-height: 1.25rem;
+      display: block;
+    }
 
     .forgot-link {
       text-align: right;
@@ -203,6 +215,7 @@
       font-size: 0.875rem;
       color: var(--royal-blue);
       text-decoration: none;
+      cursor: pointer;
     }
     .forgot-link a:hover { text-decoration: underline; }
 
@@ -223,6 +236,7 @@
     }
     .btn-submit:hover { background: var(--royal-blue-hover); transform: translateY(-1px); }
     .btn-submit:active { transform: translateY(0); }
+    .btn-submit:disabled { background: #A0AEC0; cursor: not-allowed; transform: none; }
 
     /* Divider */
     .or-divider {
@@ -280,6 +294,85 @@
     /* Panel hidden class */
     .form-panel { display: none; }
     .form-panel.active { display: block; }
+
+    /* ── Forgot Password Modal ── */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(28,28,46,0.55);
+      backdrop-filter: blur(4px);
+      z-index: 999;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .modal-backdrop.open { display: flex; }
+    .modal-box {
+      background: #FFFFFF;
+      border-radius: 1rem;
+      padding: 2rem;
+      width: 100%;
+      max-width: 400px;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    }
+    .modal-close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      width: 30px; height: 30px;
+      border: none;
+      background: #F0EDE8;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.1rem;
+      color: var(--secondary-text);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.2s;
+    }
+    .modal-close:hover { background: #E2DDD5; }
+    .modal-title {
+      font-family: 'Lora', serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary-text);
+      margin-bottom: 0.5rem;
+    }
+    .modal-subtitle {
+      font-size: 0.9375rem;
+      color: var(--secondary-text);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+    .modal-success {
+      text-align: center;
+      padding: 1rem 0;
+    }
+    .modal-success-icon {
+      width: 52px; height: 52px;
+      background: rgba(39,103,73,0.1);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1rem;
+      font-size: 1.5rem;
+    }
+    .modal-success-title {
+      font-family: 'Lora', serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--success);
+      margin-bottom: 0.5rem;
+    }
+    .modal-success-text {
+      font-size: 0.9375rem;
+      color: var(--secondary-text);
+      line-height: 1.6;
+    }
+    .modal-success-email {
+      font-weight: 600;
+      color: var(--primary-text);
+    }
   </style>
 </head>
 <body>
@@ -336,7 +429,7 @@
 
       <!-- LOGIN FORM -->
       <div class="form-panel active" id="panelLogin">
-        <form onsubmit="return false">
+        <form onsubmit="doLogin(); return false;">
           <div class="field">
             <label for="loginEmail">Email address</label>
             <input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email" />
@@ -346,12 +439,13 @@
             <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password" />
           </div>
           <div class="forgot-link">
-            <a href="#">Forgot your password?</a>
+            <a onclick="openForgotModal()">Forgot your password?</a>
           </div>
-          <button type="submit" class="btn-submit">Sign In</button>
+          <button type="submit" class="btn-submit" id="loginBtn">Sign In</button>
+          <span class="form-error" id="loginError"></span>
         </form>
         <div class="or-divider"><span>or continue with</span></div>
-        <button class="btn-google">
+        <button class="btn-google" onclick="signInWithGoogle()">
           <svg class="google-icon" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M17.64 9.205c0-.638-.057-1.252-.164-1.841H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/>
             <path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z" fill="#34A853"/>
@@ -367,7 +461,7 @@
 
       <!-- REGISTER FORM -->
       <div class="form-panel" id="panelRegister">
-        <form onsubmit="return false">
+        <form onsubmit="doRegister(); return false;">
           <div class="field-row">
             <div class="field">
               <label for="regFirst">First name</label>
@@ -386,10 +480,11 @@
             <label for="regPassword">Password</label>
             <input type="password" id="regPassword" placeholder="Min. 8 characters" autocomplete="new-password" />
           </div>
-          <button type="submit" class="btn-submit">Create Free Account</button>
+          <button type="submit" class="btn-submit" id="registerBtn">Create Free Account</button>
+          <span class="form-error" id="regError"></span>
         </form>
         <div class="or-divider"><span>or continue with</span></div>
-        <button class="btn-google">
+        <button class="btn-google" onclick="signInWithGoogle()">
           <svg class="google-icon" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M17.64 9.205c0-.638-.057-1.252-.164-1.841H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/>
             <path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z" fill="#34A853"/>
@@ -411,7 +506,71 @@
   </div>
 </div>
 
+<!-- ── Forgot Password Modal ── -->
+<div class="modal-backdrop" id="forgotModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeForgotModal()">✕</button>
+
+    <!-- Step 1: Enter email -->
+    <div id="fpStep1">
+      <div class="modal-title">Reset your password</div>
+      <p class="modal-subtitle">Enter your email address and we'll send you a link to reset your password.</p>
+      <div class="field">
+        <label for="fpEmail">Email address</label>
+        <input type="email" id="fpEmail" placeholder="you@example.com" />
+      </div>
+      <span class="form-error" id="fpError"></span>
+      <button class="btn-submit" onclick="sendResetEmail()" style="margin-top:0.5rem;">Send Reset Link</button>
+    </div>
+
+    <!-- Step 2: Confirmation -->
+    <div id="fpStep2" style="display:none;">
+      <div class="modal-success">
+        <div class="modal-success-icon">✉️</div>
+        <div class="modal-success-title">Check your inbox</div>
+        <p class="modal-success-text">
+          We sent a password reset link to<br/>
+          <span class="modal-success-email" id="fpSentEmail"></span>
+        </p>
+        <p class="modal-success-text" style="margin-top:0.75rem; font-size:0.8125rem;">
+          Didn't receive it? Check your spam folder or
+          <a onclick="fpTryAgain()" style="color:var(--royal-blue);cursor:pointer;">try again</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
+  // ── Config ──
+  // To enable Google Sign-In:
+  // 1. Go to console.cloud.google.com → APIs & Services → Credentials
+  // 2. Create OAuth 2.0 Client ID (Web application type)
+  // 3. Add your Railway domain to "Authorized JavaScript origins"
+  // 4. Replace the placeholder below with your Client ID
+  const GOOGLE_CLIENT_ID = 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com';
+  const REDIRECT = './IELTS-Lab.html';
+  const USERS_KEY = 'ielts_users';
+
+  // ── User storage helpers ──
+  function getUsers() {
+    try { return JSON.parse(localStorage.getItem(USERS_KEY)) || []; }
+    catch { return []; }
+  }
+  function saveUsers(u) { localStorage.setItem(USERS_KEY, JSON.stringify(u)); }
+
+  function setSession(name, email) {
+    localStorage.setItem('ielts_session', JSON.stringify({ name, email }));
+    window.location.replace(REDIRECT);
+  }
+
+  function setLoading(btnId, loading) {
+    const btn = document.getElementById(btnId);
+    btn.disabled = loading;
+    btn.textContent = loading ? 'Please wait…' : (btnId === 'loginBtn' ? 'Sign In' : 'Create Free Account');
+  }
+
+  // ── Tab switching ──
   function switchTab(tab) {
     const isLogin = tab === 'login';
     document.getElementById('tabLogin').classList.toggle('active', isLogin);
@@ -422,7 +581,148 @@
     document.getElementById('formSubtitle').textContent = isLogin
       ? 'Sign in to continue your IELTS journey.'
       : 'Join 18,000+ students preparing with IELTS Lab.';
+    document.getElementById('loginError').textContent = '';
+    document.getElementById('regError').textContent = '';
   }
+
+  // ── Sign In ──
+  function doLogin() {
+    const email    = document.getElementById('loginEmail').value.trim();
+    const password = document.getElementById('loginPassword').value;
+    const errEl    = document.getElementById('loginError');
+    errEl.textContent = '';
+
+    if (!email || !password) {
+      errEl.textContent = 'Please fill in all fields.';
+      return;
+    }
+
+    setLoading('loginBtn', true);
+
+    const users = getUsers();
+    const user  = users.find(u => u.email === email && u.password === password);
+
+    if (!user) {
+      errEl.textContent = 'Incorrect email or password. Please try again.';
+      setLoading('loginBtn', false);
+      return;
+    }
+
+    setSession(user.name, user.email);
+  }
+
+  // ── Register ──
+  function doRegister() {
+    const first    = document.getElementById('regFirst').value.trim();
+    const last     = document.getElementById('regLast').value.trim();
+    const email    = document.getElementById('regEmail').value.trim();
+    const password = document.getElementById('regPassword').value;
+    const errEl    = document.getElementById('regError');
+    errEl.textContent = '';
+
+    if (!first || !email || !password) {
+      errEl.textContent = 'Please fill in all required fields.';
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errEl.textContent = 'Please enter a valid email address.';
+      return;
+    }
+    if (password.length < 8) {
+      errEl.textContent = 'Password must be at least 8 characters.';
+      return;
+    }
+
+    const users = getUsers();
+    if (users.find(u => u.email === email)) {
+      errEl.textContent = 'An account with this email already exists.';
+      return;
+    }
+
+    setLoading('registerBtn', true);
+
+    const name = first + (last ? ' ' + last : '');
+    users.push({ name, email, password });
+    saveUsers(users);
+    setSession(name, email);
+  }
+
+  // ── Google Sign-In ──
+  function initGoogle() {
+    if (!window.google || GOOGLE_CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com') return;
+    google.accounts.id.initialize({
+      client_id: GOOGLE_CLIENT_ID,
+      callback: handleGoogleCredential,
+      auto_select: false,
+    });
+  }
+
+  function handleGoogleCredential(response) {
+    // Decode the JWT returned by Google to get name + email
+    const payload = JSON.parse(atob(response.credential.split('.')[1]));
+    const users   = getUsers();
+    // Auto-register on first Google login
+    if (!users.find(u => u.email === payload.email)) {
+      users.push({ name: payload.name, email: payload.email, password: null, provider: 'google' });
+      saveUsers(users);
+    }
+    setSession(payload.name, payload.email);
+  }
+
+  function signInWithGoogle() {
+    if (!window.google || GOOGLE_CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com') {
+      alert('Google Sign-In is not configured yet.\n\nTo enable it, add your Google OAuth Client ID to login.html.\nSee the comment in the script section for instructions.');
+      return;
+    }
+    google.accounts.id.prompt();
+  }
+
+  // ── Forgot Password Modal ──
+  function openForgotModal() {
+    document.getElementById('fpEmail').value = document.getElementById('loginEmail').value;
+    document.getElementById('fpError').textContent = '';
+    document.getElementById('fpStep1').style.display = 'block';
+    document.getElementById('fpStep2').style.display = 'none';
+    document.getElementById('forgotModal').classList.add('open');
+  }
+
+  function closeForgotModal() {
+    document.getElementById('forgotModal').classList.remove('open');
+  }
+
+  function sendResetEmail() {
+    const email = document.getElementById('fpEmail').value.trim();
+    const errEl = document.getElementById('fpError');
+    errEl.textContent = '';
+
+    if (!email) {
+      errEl.textContent = 'Please enter your email address.';
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errEl.textContent = 'Please enter a valid email address.';
+      return;
+    }
+
+    // Show success (standard UX: don't reveal whether email is registered)
+    document.getElementById('fpSentEmail').textContent = email;
+    document.getElementById('fpStep1').style.display = 'none';
+    document.getElementById('fpStep2').style.display = 'block';
+  }
+
+  function fpTryAgain() {
+    document.getElementById('fpStep1').style.display = 'block';
+    document.getElementById('fpStep2').style.display = 'none';
+    document.getElementById('fpError').textContent = '';
+  }
+
+  // Close modal when clicking the backdrop
+  document.getElementById('forgotModal').addEventListener('click', function(e) {
+    if (e.target === this) closeForgotModal();
+  });
+
+  // Init Google on page load
+  window.addEventListener('load', initGoogle);
 </script>
 </body>
 </html>
