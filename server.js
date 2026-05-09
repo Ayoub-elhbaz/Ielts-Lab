@@ -16,11 +16,12 @@
  */
 
 import 'dotenv/config';
-import express from 'express';
-import cors    from 'cors';
-import path    from 'path';
+import express    from 'express';
+import cors       from 'cors';
+import path       from 'path';
 import { fileURLToPath } from 'url';
 import { jsonrepair } from 'jsonrepair';
+import nodemailer from 'nodemailer';
 
 const MAX_TOKENS_PASS1 = 8000;
 const MAX_TOKENS_PASS2 = 5000;  // P1-B: raised from 3000 — prevents evidence truncation
@@ -146,18 +147,24 @@ function buildVerificationEmail(code) {
   </body></html>`;
 }
 
-async function sendEmailViaResend(to, subject, html) {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) throw Object.assign(new Error('Email service not configured.'), { code: 'NO_RESEND_KEY' });
-  const from = process.env.RESEND_FROM_EMAIL || 'IELTS Lab <onboarding@resend.dev>';
-  const r = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ from, to: [to], subject, html }),
+const gmailTransporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.GMAIL_USER,
+    pass: process.env.GMAIL_APP_PASSWORD,
+  },
+});
+
+async function sendEmail(to, subject, html) {
+  if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
+    throw Object.assign(new Error('Email service not configured.'), { code: 'NO_EMAIL_CONFIG' });
+  }
+  await gmailTransporter.sendMail({
+    from: `IELTS Lab <${process.env.GMAIL_USER}>`,
+    to,
+    subject,
+    html,
   });
-  const body = await r.json().catch(() => ({}));
-  if (!r.ok) throw new Error(body.message || `Resend error ${r.status}`);
-  return body;
 }
 
 // POST /api/auth/send-verification ───────────────────────────────────────────
@@ -169,12 +176,12 @@ app.post('/api/auth/send-verification', async (req, res) => {
   const code = String(Math.floor(100000 + Math.random() * 900000));
   verificationStore.set(email.toLowerCase(), { code, expiresAt: Date.now() + 10 * 60 * 1000 });
   try {
-    await sendEmailViaResend(email, 'Your IELTS Lab Verification Code', buildVerificationEmail(code));
+    await sendEmail(email, 'Your IELTS Lab Verification Code', buildVerificationEmail(code));
     console.log(`[send-verification] Code sent to ${email}`);
     res.json({ success: true });
   } catch (err) {
     console.error('[send-verification]', err.message);
-    const status = err.code === 'NO_RESEND_KEY' ? 503 : 502;
+    const status = err.code === 'NO_EMAIL_CONFIG' ? 503 : 502;
     res.status(status).json({ error: err.message });
   }
 });
@@ -1333,12 +1340,12 @@ app.post('/api/send-report', async (req, res) => {
   }
   const subject = `Your IELTS Writing Report — Band ${reportData.scores?.overall || '—'}`;
   try {
-    const result = await sendEmailViaResend(email, subject, buildEmailHtml(reportData));
+    const result = await sendEmail(email, subject, buildEmailHtml(reportData));
     console.log(`[send-report] Sent to ${email} — Resend ID: ${result.id}`);
     res.json({ success: true, id: result.id });
   } catch (err) {
     console.error('[send-report]', err.message);
-    const status = err.code === 'NO_RESEND_KEY' ? 503 : 502;
+    const status = err.code === 'NO_EMAIL_CONFIG' ? 503 : 502;
     res.status(status).json({ error: err.message });
   }
 });
