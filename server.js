@@ -21,7 +21,6 @@ import cors       from 'cors';
 import path       from 'path';
 import { fileURLToPath } from 'url';
 import { jsonrepair } from 'jsonrepair';
-import nodemailer from 'nodemailer';
 
 const MAX_TOKENS_PASS1 = 8000;
 const MAX_TOKENS_PASS2 = 5000;  // P1-B: raised from 3000 — prevents evidence truncation
@@ -147,24 +146,19 @@ function buildVerificationEmail(code) {
   </body></html>`;
 }
 
-const gmailTransporter = nodemailer.createTransport({
-  service: 'gmail',
-  auth: {
-    user: process.env.GMAIL_USER,
-    pass: process.env.GMAIL_APP_PASSWORD,
-  },
-});
-
 async function sendEmail(to, subject, html) {
-  if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
-    throw Object.assign(new Error('Email service not configured.'), { code: 'NO_EMAIL_CONFIG' });
-  }
-  await gmailTransporter.sendMail({
-    from: `IELTS Lab <${process.env.GMAIL_USER}>`,
-    to,
-    subject,
-    html,
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) throw Object.assign(new Error('Email service not configured.'), { code: 'NO_EMAIL_CONFIG' });
+  const from    = `IELTS Lab <${process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev'}>`;
+  const replyTo = process.env.GMAIL_USER || undefined;
+  const r = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ from, to: [to], subject, html, ...(replyTo && { reply_to: replyTo }) }),
   });
+  const body = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(body.message || `Email error ${r.status}`);
+  return body;
 }
 
 // POST /api/auth/send-verification ───────────────────────────────────────────
