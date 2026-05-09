@@ -422,7 +422,7 @@
       </div>
 
       <!-- Tabs -->
-      <div class="tabs">
+      <div class="tabs" id="tabs">
         <button class="tab-btn active" id="tabLogin" onclick="switchTab('login')">Sign In</button>
         <button class="tab-btn" id="tabRegister" onclick="switchTab('register')">Create Account</button>
       </div>
@@ -498,7 +498,34 @@
         </div>
       </div>
 
-      <p class="form-footer-note">
+      <!-- VERIFY EMAIL PANEL -->
+      <div class="form-panel" id="panelVerify">
+        <div style="text-align:center;margin-bottom:1.75rem;">
+          <div style="width:56px;height:56px;background:rgba(44,74,143,0.08);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.5rem;">📧</div>
+          <p style="font-size:0.9375rem;color:var(--secondary-text);line-height:1.7;margin:0;">
+            We sent a 6-digit code to<br/>
+            <strong id="verifyEmailDisplay" style="color:var(--primary-text);"></strong>
+          </p>
+        </div>
+        <div class="field">
+          <label for="verifyCode" style="text-align:center;display:block;">Verification Code</label>
+          <input type="text" id="verifyCode" placeholder="000000" maxlength="6" autocomplete="one-time-code"
+            style="text-align:center;font-size:2rem;letter-spacing:0.5rem;font-family:'Lora',serif;font-weight:700;padding:0.875rem 1rem;"
+            oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+            onkeydown="if(event.key==='Enter')submitVerification()" />
+        </div>
+        <span class="form-error" id="verifyError"></span>
+        <button class="btn-submit" id="verifyBtn" onclick="submitVerification()" style="margin-top:0.5rem;">Verify &amp; Create Account</button>
+        <div style="text-align:center;margin-top:1.25rem;font-size:0.875rem;color:var(--secondary-text);">
+          Didn't receive it?
+          <a onclick="resendCode()" id="resendLink" style="color:var(--royal-blue);cursor:pointer;font-weight:600;">Resend code</a><span id="resendTimer" style="color:var(--secondary-text);"></span>
+        </div>
+        <div class="toggle-msg" style="margin-top:0.75rem;">
+          <a onclick="switchTab('register')" style="font-size:0.875rem;font-weight:400;color:var(--secondary-text);">← Back to registration</a>
+        </div>
+      </div>
+
+      <p class="form-footer-note" id="formFooterNote">
         By continuing, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.<br/>
         7-day free trial · No credit card required.
       </p>
@@ -543,31 +570,22 @@
 
 <script>
   // ── Config ──
-  // To enable Google Sign-In:
-  // 1. Go to console.cloud.google.com → APIs & Services → Credentials
-  // 2. Create OAuth 2.0 Client ID (Web application type)
-  // 3. Add your Railway domain to "Authorized JavaScript origins"
-  // 4. Replace the placeholder below with your Client ID
   const GOOGLE_CLIENT_ID = '328632045409-usg6nlk5g9ig89pcj2rlujet7kmjrltt.apps.googleusercontent.com';
-  const REDIRECT = './IELTS-Lab.html';
+  const REDIRECT  = './IELTS-Lab.html';
   const USERS_KEY = 'ielts_users';
 
   // ── User storage helpers ──
-  function getUsers() {
-    try { return JSON.parse(localStorage.getItem(USERS_KEY)) || []; }
-    catch { return []; }
-  }
+  function getUsers() { try { return JSON.parse(localStorage.getItem(USERS_KEY)) || []; } catch { return []; } }
   function saveUsers(u) { localStorage.setItem(USERS_KEY, JSON.stringify(u)); }
-
   function setSession(name, email) {
     localStorage.setItem('ielts_session', JSON.stringify({ name, email }));
     window.location.replace(REDIRECT);
   }
-
   function setLoading(btnId, loading) {
     const btn = document.getElementById(btnId);
+    const labels = { loginBtn: 'Sign In', registerBtn: 'Create Free Account', verifyBtn: 'Verify & Create Account' };
     btn.disabled = loading;
-    btn.textContent = loading ? 'Please wait…' : (btnId === 'loginBtn' ? 'Sign In' : 'Create Free Account');
+    btn.textContent = loading ? 'Please wait…' : (labels[btnId] || 'Submit');
   }
 
   // ── Tab switching ──
@@ -577,6 +595,9 @@
     document.getElementById('tabRegister').classList.toggle('active', !isLogin);
     document.getElementById('panelLogin').classList.toggle('active', isLogin);
     document.getElementById('panelRegister').classList.toggle('active', !isLogin);
+    document.getElementById('panelVerify').classList.remove('active');
+    document.getElementById('tabs').style.display = '';
+    document.getElementById('formFooterNote').style.display = '';
     document.getElementById('formTitle').textContent = isLogin ? 'Welcome back' : 'Start your journey';
     document.getElementById('formSubtitle').textContent = isLogin
       ? 'Sign in to continue your IELTS journey.'
@@ -591,28 +612,18 @@
     const password = document.getElementById('loginPassword').value;
     const errEl    = document.getElementById('loginError');
     errEl.textContent = '';
-
-    if (!email || !password) {
-      errEl.textContent = 'Please fill in all fields.';
-      return;
-    }
-
+    if (!email || !password) { errEl.textContent = 'Please fill in all fields.'; return; }
     setLoading('loginBtn', true);
-
-    const users = getUsers();
-    const user  = users.find(u => u.email === email && u.password === password);
-
-    if (!user) {
-      errEl.textContent = 'Incorrect email or password. Please try again.';
-      setLoading('loginBtn', false);
-      return;
-    }
-
+    const user = getUsers().find(u => u.email === email && u.password === password);
+    if (!user) { errEl.textContent = 'Incorrect email or password. Please try again.'; setLoading('loginBtn', false); return; }
     setSession(user.name, user.email);
   }
 
-  // ── Register ──
-  function doRegister() {
+  // ── Register — sends verification code ──
+  let pendingRegistration = null;
+  let resendInterval = null;
+
+  async function doRegister() {
     const first    = document.getElementById('regFirst').value.trim();
     const last     = document.getElementById('regLast').value.trim();
     const email    = document.getElementById('regEmail').value.trim();
@@ -620,58 +631,124 @@
     const errEl    = document.getElementById('regError');
     errEl.textContent = '';
 
-    if (!first || !email || !password) {
-      errEl.textContent = 'Please fill in all required fields.';
-      return;
-    }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      errEl.textContent = 'Please enter a valid email address.';
-      return;
-    }
-    if (password.length < 8) {
-      errEl.textContent = 'Password must be at least 8 characters.';
-      return;
-    }
-
-    const users = getUsers();
-    if (users.find(u => u.email === email)) {
-      errEl.textContent = 'An account with this email already exists.';
-      return;
-    }
+    if (!first || !email || !password) { errEl.textContent = 'Please fill in all required fields.'; return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errEl.textContent = 'Please enter a valid email address.'; return; }
+    if (password.length < 8) { errEl.textContent = 'Password must be at least 8 characters.'; return; }
+    if (getUsers().find(u => u.email === email)) { errEl.textContent = 'An account with this email already exists.'; return; }
 
     setLoading('registerBtn', true);
+    try {
+      const res = await fetch('/api/auth/send-verification', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to send verification email.');
+      pendingRegistration = { name: first + (last ? ' ' + last : ''), email, password };
+      setLoading('registerBtn', false);
+      showVerifyPanel(email);
+    } catch (err) {
+      errEl.textContent = err.message;
+      setLoading('registerBtn', false);
+    }
+  }
 
-    const name = first + (last ? ' ' + last : '');
-    users.push({ name, email, password });
-    saveUsers(users);
-    setSession(name, email);
+  // ── Verification panel ──
+  function showVerifyPanel(email) {
+    document.getElementById('panelLogin').classList.remove('active');
+    document.getElementById('panelRegister').classList.remove('active');
+    document.getElementById('panelVerify').classList.add('active');
+    document.getElementById('tabs').style.display = 'none';
+    document.getElementById('formFooterNote').style.display = 'none';
+    document.getElementById('formTitle').textContent = 'Check your email';
+    document.getElementById('formSubtitle').textContent = 'Enter the 6-digit code we just sent you.';
+    document.getElementById('verifyEmailDisplay').textContent = email;
+    document.getElementById('verifyCode').value = '';
+    document.getElementById('verifyError').textContent = '';
+    setTimeout(() => document.getElementById('verifyCode').focus(), 100);
+    startResendCooldown(60);
+  }
+
+  function startResendCooldown(seconds) {
+    clearInterval(resendInterval);
+    const link = document.getElementById('resendLink');
+    const timer = document.getElementById('resendTimer');
+    link.style.pointerEvents = 'none'; link.style.opacity = '0.4';
+    let remaining = seconds;
+    timer.textContent = ` (${remaining}s)`;
+    resendInterval = setInterval(() => {
+      remaining--;
+      if (remaining <= 0) {
+        clearInterval(resendInterval);
+        link.style.pointerEvents = ''; link.style.opacity = '';
+        timer.textContent = '';
+      } else {
+        timer.textContent = ` (${remaining}s)`;
+      }
+    }, 1000);
+  }
+
+  async function submitVerification() {
+    const code  = document.getElementById('verifyCode').value.trim();
+    const errEl = document.getElementById('verifyError');
+    errEl.textContent = ''; errEl.style.color = '';
+    if (!code || code.length !== 6) { errEl.textContent = 'Please enter the 6-digit code.'; return; }
+    if (!pendingRegistration) { errEl.textContent = 'Session expired. Please start registration again.'; return; }
+    setLoading('verifyBtn', true);
+    try {
+      const res = await fetch('/api/auth/verify-code', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: pendingRegistration.email, code }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Verification failed.');
+      const users = getUsers();
+      users.push(pendingRegistration);
+      saveUsers(users);
+      setSession(pendingRegistration.name, pendingRegistration.email);
+    } catch (err) {
+      errEl.textContent = err.message;
+      setLoading('verifyBtn', false);
+    }
+  }
+
+  async function resendCode() {
+    if (!pendingRegistration) return;
+    const errEl = document.getElementById('verifyError');
+    errEl.textContent = ''; errEl.style.color = '';
+    try {
+      const res = await fetch('/api/auth/send-verification', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: pendingRegistration.email }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to resend.');
+      startResendCooldown(60);
+      errEl.style.color = 'var(--success)';
+      errEl.textContent = 'New code sent!';
+      setTimeout(() => { errEl.textContent = ''; errEl.style.color = ''; }, 3000);
+    } catch (err) {
+      errEl.textContent = err.message;
+    }
   }
 
   // ── Google Sign-In ──
   function initGoogle() {
     if (!window.google || GOOGLE_CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com') return;
-    google.accounts.id.initialize({
-      client_id: GOOGLE_CLIENT_ID,
-      callback: handleGoogleCredential,
-      auto_select: false,
-    });
+    google.accounts.id.initialize({ client_id: GOOGLE_CLIENT_ID, callback: handleGoogleCredential, auto_select: false });
   }
-
   function handleGoogleCredential(response) {
-    // Decode the JWT returned by Google to get name + email
     const payload = JSON.parse(atob(response.credential.split('.')[1]));
     const users   = getUsers();
-    // Auto-register on first Google login
     if (!users.find(u => u.email === payload.email)) {
       users.push({ name: payload.name, email: payload.email, password: null, provider: 'google' });
       saveUsers(users);
     }
     setSession(payload.name, payload.email);
   }
-
   function signInWithGoogle() {
     if (!window.google || GOOGLE_CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com') {
-      alert('Google Sign-In is not configured yet.\n\nTo enable it, add your Google OAuth Client ID to login.html.\nSee the comment in the script section for instructions.');
+      alert('Google Sign-In is not configured yet. Please use email/password login.');
       return;
     }
     google.accounts.id.prompt();
@@ -685,43 +762,23 @@
     document.getElementById('fpStep2').style.display = 'none';
     document.getElementById('forgotModal').classList.add('open');
   }
-
-  function closeForgotModal() {
-    document.getElementById('forgotModal').classList.remove('open');
-  }
-
+  function closeForgotModal() { document.getElementById('forgotModal').classList.remove('open'); }
   function sendResetEmail() {
     const email = document.getElementById('fpEmail').value.trim();
     const errEl = document.getElementById('fpError');
     errEl.textContent = '';
-
-    if (!email) {
-      errEl.textContent = 'Please enter your email address.';
-      return;
-    }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      errEl.textContent = 'Please enter a valid email address.';
-      return;
-    }
-
-    // Show success (standard UX: don't reveal whether email is registered)
+    if (!email) { errEl.textContent = 'Please enter your email address.'; return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errEl.textContent = 'Please enter a valid email address.'; return; }
     document.getElementById('fpSentEmail').textContent = email;
     document.getElementById('fpStep1').style.display = 'none';
     document.getElementById('fpStep2').style.display = 'block';
   }
-
   function fpTryAgain() {
     document.getElementById('fpStep1').style.display = 'block';
     document.getElementById('fpStep2').style.display = 'none';
     document.getElementById('fpError').textContent = '';
   }
-
-  // Close modal when clicking the backdrop
-  document.getElementById('forgotModal').addEventListener('click', function(e) {
-    if (e.target === this) closeForgotModal();
-  });
-
-  // Init Google on page load
+  document.getElementById('forgotModal').addEventListener('click', function(e) { if (e.target === this) closeForgotModal(); });
   window.addEventListener('load', initGoogle);
 </script>
 </body>

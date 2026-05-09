@@ -111,6 +111,92 @@ function snapScores(scores) {
   return scores;
 }
 
+// ── Email verification store (in-memory, 10-min TTL) ─────────────────────────
+const verificationStore = new Map(); // email → { code, expiresAt }
+setInterval(() => {
+  const now = Date.now();
+  for (const [k, v] of verificationStore) {
+    if (now > v.expiresAt) verificationStore.delete(k);
+  }
+}, 15 * 60 * 1000);
+
+function buildVerificationEmail(code) {
+  return `<!DOCTYPE html><html><head><meta charset="UTF-8"></head>
+  <body style="margin:0;padding:0;background:#f8f6f1;font-family:'Helvetica Neue',Arial,sans-serif;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background:#f8f6f1;padding:40px 16px;">
+      <tr><td align="center">
+        <table width="480" cellpadding="0" cellspacing="0" style="max-width:480px;width:100%;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
+          <tr><td style="background:#1C1C2E;padding:28px 36px;text-align:center;">
+            <div style="font-family:Georgia,serif;font-size:22px;font-weight:700;color:#F8F6F1;">IELTS <span style="color:#B8860B;">Lab</span></div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:4px;letter-spacing:0.1em;text-transform:uppercase;">Email Verification</div>
+          </td></tr>
+          <tr><td style="padding:40px 36px;text-align:center;">
+            <p style="font-size:15px;color:#4A5568;margin:0 0 24px;">Your verification code is:</p>
+            <div style="background:#f0f4ff;border:2px solid #2C4A8F;border-radius:12px;padding:20px 40px;display:inline-block;margin-bottom:24px;">
+              <div style="font-size:42px;font-weight:700;color:#1C1C2E;letter-spacing:12px;font-family:Georgia,serif;">${code}</div>
+            </div>
+            <p style="font-size:13px;color:#A0AEC0;line-height:1.7;margin:0;">This code expires in <strong>10 minutes</strong>.<br/>If you did not request this, you can safely ignore this email.</p>
+          </td></tr>
+          <tr><td style="padding:20px 36px;background:#f8f6f1;text-align:center;border-top:1px solid #E2DDD5;">
+            <div style="font-size:11px;color:#A0AEC0;">IELTS Lab · Band 9 is the destination</div>
+          </td></tr>
+        </table>
+      </td></tr>
+    </table>
+  </body></html>`;
+}
+
+async function sendEmailViaResend(to, subject, html) {
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) throw Object.assign(new Error('Email service not configured.'), { code: 'NO_RESEND_KEY' });
+  const from = process.env.RESEND_FROM_EMAIL || 'IELTS Lab <onboarding@resend.dev>';
+  const r = await fetch('https://api.resend.com/emails', {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ from, to: [to], subject, html }),
+  });
+  const body = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(body.message || `Resend error ${r.status}`);
+  return body;
+}
+
+// POST /api/auth/send-verification ───────────────────────────────────────────
+app.post('/api/auth/send-verification', async (req, res) => {
+  const { email } = req.body;
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return res.status(400).json({ error: 'A valid email address is required.' });
+  }
+  const code = String(Math.floor(100000 + Math.random() * 900000));
+  verificationStore.set(email.toLowerCase(), { code, expiresAt: Date.now() + 10 * 60 * 1000 });
+  try {
+    await sendEmailViaResend(email, 'Your IELTS Lab Verification Code', buildVerificationEmail(code));
+    console.log(`[send-verification] Code sent to ${email}`);
+    res.json({ success: true });
+  } catch (err) {
+    console.error('[send-verification]', err.message);
+    const status = err.code === 'NO_RESEND_KEY' ? 503 : 502;
+    res.status(status).json({ error: err.message });
+  }
+});
+
+// POST /api/auth/verify-code ─────────────────────────────────────────────────
+app.post('/api/auth/verify-code', (req, res) => {
+  const { email, code } = req.body;
+  if (!email || !code) return res.status(400).json({ error: 'Email and code are required.' });
+  const record = verificationStore.get(email.toLowerCase());
+  if (!record) return res.status(400).json({ error: 'No verification code found. Please request a new one.' });
+  if (Date.now() > record.expiresAt) {
+    verificationStore.delete(email.toLowerCase());
+    return res.status(400).json({ error: 'Code has expired. Please request a new one.' });
+  }
+  if (record.code !== String(code).trim()) {
+    return res.status(400).json({ error: 'Incorrect code. Please check and try again.' });
+  }
+  verificationStore.delete(email.toLowerCase());
+  console.log(`[verify-code] Verified: ${email}`);
+  res.json({ success: true });
+});
+
 // ── Shared: safely extract + parse JSON from AI response ─────────────────────
 function extractJSON(rawText, passLabel) {
   console.log(`[${passLabel}] raw response length: ${rawText.length} chars`);
@@ -1245,33 +1331,15 @@ app.post('/api/send-report', async (req, res) => {
   if (!email || !reportData) {
     return res.status(400).json({ error: 'email and reportData are required.' });
   }
-
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    return res.status(503).json({
-      error: 'Email service not configured. Add RESEND_API_KEY=re_xxxx to your .env file (get a free key at resend.com).',
-    });
-  }
-
-  const from    = process.env.RESEND_FROM_EMAIL || 'IELTS Lab <onboarding@resend.dev>';
   const subject = `Your IELTS Writing Report — Band ${reportData.scores?.overall || '—'}`;
-  const html    = buildEmailHtml(reportData);
-
   try {
-    const r = await fetch('https://api.resend.com/emails', {
-      method:  'POST',
-      headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ from, to: [email], subject, html }),
-    });
-    const body = await r.json().catch(() => ({}));
-    if (!r.ok) {
-      return res.status(502).json({ error: body.message || `Resend API error ${r.status}` });
-    }
-    console.log(`[send-report] Sent to ${email} — Resend ID: ${body.id}`);
-    res.json({ success: true, id: body.id });
+    const result = await sendEmailViaResend(email, subject, buildEmailHtml(reportData));
+    console.log(`[send-report] Sent to ${email} — Resend ID: ${result.id}`);
+    res.json({ success: true, id: result.id });
   } catch (err) {
     console.error('[send-report]', err.message);
-    res.status(502).json({ error: err.message });
+    const status = err.code === 'NO_RESEND_KEY' ? 503 : 502;
+    res.status(status).json({ error: err.message });
   }
 });
 
