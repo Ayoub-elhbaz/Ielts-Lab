@@ -90,6 +90,27 @@ async function callAnthropic({ system, messages, maxTokens = 3000, temperature }
 }
 
 
+// ── Snap any number to the nearest valid IELTS 0.5 increment ─────────────────
+function snapToIELTSBand(score) {
+  if (typeof score !== 'number' || isNaN(score)) return score;
+  return Math.round(score * 2) / 2;
+}
+
+function snapScores(scores) {
+  if (!scores) return scores;
+  const criteriaKeys = ['taskAchievement', 'coherenceCohesion', 'lexicalResource', 'grammaticalRange'];
+  criteriaKeys.forEach(k => {
+    if (!scores[k]) return;
+    if (typeof scores[k] === 'object') {
+      scores[k].band = snapToIELTSBand(scores[k].band);
+    } else if (typeof scores[k] === 'number') {
+      scores[k] = snapToIELTSBand(scores[k]);
+    }
+  });
+  if (typeof scores.overall === 'number') scores.overall = snapToIELTSBand(scores.overall);
+  return scores;
+}
+
 // ── Shared: safely extract + parse JSON from AI response ─────────────────────
 function extractJSON(rawText, passLabel) {
   console.log(`[${passLabel}] raw response length: ${rawText.length} chars`);
@@ -164,6 +185,10 @@ JSON SCHEMA:
 }
 
 SCORING — OFFICIAL BC BAND DESCRIPTORS (May 2023)
+
+VALID BAND SCORE VALUES — CRITICAL RULE:
+You MUST only use these exact official IELTS band score values: 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9.
+NEVER output 6.75, 7.25, 6.25, 7.75, or any value ending in .25 or .75. Only 0.5 increments are valid IELTS scores.
 
 Use 0.5 increments. Apply Full Fit Rule: essay must fully satisfy positive features to earn that band. Negative features limit the rating downward.
 
@@ -272,6 +297,7 @@ app.post('/api/correct-essay', async (req, res) => {
       return res.status(502).json({ error: 'AI response was missing score data. Please try again.' });
     }
 
+    result.scores = snapScores(result.scores);
     res.json(result);
   } catch (err) {
     console.error('[correct-essay]', err.message);
@@ -347,6 +373,10 @@ const PASS2_SYSTEM = `You are a senior IELTS examiner applying the official May 
 Your job:
 1. Verify the essay's structural format against its essay type.
 2. Score all 4 BC criteria HOLISTICALLY — applied to the entire essay, not paragraph by paragraph. Real IELTS examiners assess holistically.
+
+VALID BAND SCORE VALUES — CRITICAL RULE:
+You MUST only use these exact official IELTS band score values for every "band" field: 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9.
+NEVER output 6.75, 7.25, 6.25, 7.75, or any value ending in .25 or .75. Only 0.5 increments are valid IELTS scores.
 3. Back EVERY score with mandatory direct evidence — exact verbatim quotes from the student's essay.
 4. UNDER WORD COUNT RULE: If the prompt states "Under minimum: true", apply the official IELTS penalty — taskAchievement band cannot exceed 5.0, regardless of content quality. Still assess all other criteria normally. Mention the exact word count and how many words are missing in the taskAchievement label.
 
@@ -835,9 +865,9 @@ app.post('/api/correct-essay-v2', async (req, res) => {
       // P1-D — ceiling audit trail (empty array if no ceilings were triggered)
       ceilingsApplied,
 
-      // Pass 2 — holistic scores with evidence
+      // Pass 2 — holistic scores with evidence (snapped to valid 0.5 IELTS increments)
       formatVerification: pass2.formatVerification,
-      scores:             pass2.scores,
+      scores:             snapScores(pass2.scores),
 
       // Pass 2 → scoreLabels shim (keeps v1 frontend keys working)
       scoreLabels: {

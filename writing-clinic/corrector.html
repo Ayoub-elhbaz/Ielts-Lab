@@ -1022,8 +1022,8 @@
         { key: 'grammaticalRange',  abbr: 'GRA' },
       ];
       const chipsHtml = criteria.map(c => {
-        const val = (r.scores[c.key] && typeof r.scores[c.key] === 'object')
-          ? r.scores[c.key].band : (r.scores[c.key] ?? '—');
+        const val = snapToIELTSBand((r.scores[c.key] && typeof r.scores[c.key] === 'object')
+          ? r.scores[c.key].band : (r.scores[c.key] ?? '—'));
         return `<div style="background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px;">
           <span style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase;">${c.abbr}</span>
           <span style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--navy);">${val}</span>
@@ -1036,7 +1036,7 @@
             <div style="font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);">Re-score Result</div>
             <div style="display:flex;align-items:center;gap:10px;background:var(--navy);border-radius:100px;padding:6px 18px;">
               <span style="font-size:0.72rem;font-weight:600;color:rgba(255,255,255,0.65);letter-spacing:0.08em;text-transform:uppercase;">Overall</span>
-              <span style="font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:var(--gold-light);">${r.scores.overall}</span>
+              <span style="font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:var(--gold-light);">${snapToIELTSBand(r.scores.overall)}</span>
             </div>
           </div>
           <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:${r.examinerNote ? '16px' : '0'};">
@@ -1208,6 +1208,12 @@
         </div>`;
     }
 
+    // ── Snap any score to the nearest valid IELTS 0.5 increment ─────────────
+    function snapToIELTSBand(score) {
+      if (typeof score !== 'number' || isNaN(score)) return score;
+      return Math.round(score * 2) / 2;
+    }
+
     // ── MAIN RENDER ──────────────────────────────────────────────────────────
     function renderResults(r) {
       if (!r || !r.scores || typeof r.scores.overall === 'undefined') {
@@ -1260,7 +1266,7 @@
       `;
 
       // ── Overall band ──
-      document.getElementById('overallBand').textContent = r.scores.overall;
+      document.getElementById('overallBand').textContent = snapToIELTSBand(r.scores.overall);
 
       // ── Score grid — v2 scores are objects {band, label, evidence}, v1 are numbers ──
       const criteria = [
@@ -1271,7 +1277,7 @@
       ];
       document.getElementById('scoreGrid').innerHTML = criteria.map(c => {
         const scoreData = r.scores[c.key];
-        const scoreVal  = (scoreData && typeof scoreData === 'object') ? scoreData.band : (scoreData ?? '—');
+        const scoreVal  = snapToIELTSBand((scoreData && typeof scoreData === 'object') ? scoreData.band : (scoreData ?? '—'));
         const label     = r.scoreLabels?.[c.key] || '';
 
         // Evidence block (v2 only)
