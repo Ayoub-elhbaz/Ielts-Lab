@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+
+# Environment variables — never commit these
+.env
+.env.local
+.env.production
+
+# Google OAuth credentials
+credentials.json
+token.json
+*.token.json
+
+# macOS
+.DS_Store
+
+# Temporary files
+.tmp/
+*.log
+
+# Editor
+.vscode/

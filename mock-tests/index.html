@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IELTS Lab — Mock Tests</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Space+Mono:wght@400;700&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: { extend: { fontFamily: { display: ['Satoshi','Plus Jakarta Sans','system-ui','sans-serif'], sans: ['Plus Jakarta Sans','system-ui','sans-serif'] } } }
+    }
+  </script>
+  <style>
+    :root {
+      --gold: #c9a84c;
+      --gold-light: #DDB05A;
+      --gold-dim: rgba(201,168,76,0.10);
+      --gold-border: rgba(201,168,76,0.28);
+      --navy: #0d2b4e;
+      --navy-mid: #1a3c6e;
+      --white-ielts: #EEF4FF;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: #ffffff; color: #1a202c; }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    h1,h2,h3,h4,.font-display { font-family: 'Satoshi','Plus Jakarta Sans',system-ui,sans-serif; }
+    .text-gold { color: var(--gold); }
+    .label { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
+
+    /* NAV — stays dark */
+    .nav-glass { background: rgba(9,9,11,0.96); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .nav-logo { display: flex; align-items: baseline; gap: 0; text-decoration: none; }
+    .nl-ielts { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; letter-spacing: 1px; color: #EEF4FF; }
+    .nl-lab { font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: 3px; color: var(--gold); margin-left: 5px; filter: drop-shadow(0 0 6px rgba(201,149,46,0.5)); }
+
+    /* HERO */
+    .hero-section { background: #ffffff; padding: 72px 24px 56px; border-bottom: 1px solid #e5e7eb; }
+
+    /* FILTER BAR */
+    .filter-bar { background: #ffffff; border-bottom: 1px solid #e5e7eb; position: sticky; top: 64px; z-index: 40; box-shadow: 0 2px 12px rgba(0,0,0,0.04); }
+
+    /* Type tabs */
+    .type-tab { padding: 9px 18px; font-size: 0.8125rem; font-weight: 600; border-radius: 8px; cursor: pointer; transition: all 0.18s; border: none; background: transparent; color: #6b7280; letter-spacing: 0.01em; font-family: inherit; }
+    .type-tab.active { background: var(--navy-mid); color: #ffffff; }
+    .type-tab:not(.active):hover { background: #f3f4f6; color: var(--navy); }
+
+    /* Skill pills */
+    .skill-pill { padding: 5px 13px; font-size: 0.75rem; font-weight: 600; border-radius: 100px; cursor: pointer; transition: all 0.18s; border: 1.5px solid #d1d5db; background: #ffffff; color: #374151; display: inline-flex; align-items: center; gap: 4px; white-space: nowrap; font-family: inherit; }
+    .skill-pill.active { background: var(--navy-mid); color: #ffffff; border-color: var(--navy-mid); }
+    .skill-pill:not(.active):hover { border-color: var(--navy-mid); color: var(--navy); background: #eef1fb; }
+
+    /* Form controls */
+    .filter-select { background: #f9fafb; border: 1.5px solid #e5e7eb; border-radius: 9px; padding: 7px 30px 7px 11px; font-size: 0.8rem; color: #374151; outline: none; cursor: pointer; font-family: inherit; appearance: none; -webkit-appearance: none; transition: border-color 0.18s; }
+    .filter-select:focus { border-color: var(--gold); }
+    .search-wrap { position: relative; }
+    .search-input { background: #f9fafb; border: 1.5px solid #e5e7eb; border-radius: 9px; padding: 7px 12px 7px 34px; font-size: 0.8rem; color: #1a202c; outline: none; transition: border-color 0.18s; font-family: inherit; width: 200px; }
+    .search-input:focus { border-color: var(--gold); background: #fff; }
+    .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #9ca3af; }
+    .select-wrap { position: relative; display: inline-block; }
+    .select-arrow { position: absolute; right: 9px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #9ca3af; }
+
+    /* Book section */
+    .book-divider { display: flex; align-items: center; gap: 14px; margin-bottom: 22px; }
+    .book-divider-line { flex: 1; height: 1px; background: linear-gradient(to right, var(--gold-border), transparent); }
+    .book-divider-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); white-space: nowrap; }
+
+    /* Book cover */
+    .book-cover { background: linear-gradient(145deg, #0d2b4e 0%, #1a3c6e 100%); border-radius: 16px; padding: 28px 18px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; min-height: 190px; border: 1px solid rgba(255,255,255,0.07); box-shadow: 0 8px 32px rgba(13,43,78,0.2); }
+
+    /* Book layout grid */
+    .book-layout { display: grid; grid-template-columns: 190px 1fr; gap: 20px; align-items: start; }
+    @media (max-width: 768px) { .book-layout { grid-template-columns: 1fr; } }
+
+    /* Tests grid */
+    .tests-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 14px; }
+    @media (max-width: 480px) { .tests-grid { grid-template-columns: 1fr 1fr; } }
+
+    /* Test card */
+    .test-card { background: #ffffff; border: 1.5px solid #e5e7eb; border-radius: 16px; padding: 18px; transition: transform 0.22s cubic-bezier(0.16,1,0.3,1), box-shadow 0.22s ease, border-color 0.22s ease; box-shadow: 0 2px 8px rgba(0,0,0,0.04); position: relative; overflow: hidden; }
+    .test-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: transparent; transition: background 0.22s; }
+    .test-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.09), 0 0 0 1px rgba(201,168,76,0.18); border-color: rgba(201,168,76,0.28); }
+    .test-card:hover::before { background: var(--gold); }
+
+    /* Practice card */
+    .practice-card { background: #ffffff; border: 1.5px solid #e5e7eb; border-radius: 16px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.04); transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease; }
+    .practice-card:hover { transform: translateY(-4px); box-shadow: 0 16px 40px rgba(0,0,0,0.09); border-color: rgba(201,168,76,0.28); }
+
+    /* Results card */
+    .results-card { background: #ffffff; border: 1.5px solid #e5e7eb; border-radius: 16px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
+
+    /* Buttons */
+    .btn-gold { background: var(--gold); color: #1a1a1a; border: none; border-radius: 9px; padding: 9px 16px; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.03em; cursor: pointer; transition: all 0.2s; font-family: inherit; }
+    .btn-gold:hover { background: #b8943c; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(201,168,76,0.3); }
+
+    /* Skill badge */
+    .skill-badge { display: inline-flex; align-items: center; padding: 2px 7px; border-radius: 6px; font-size: 0.7rem; font-weight: 600; background: #f3f4f6; color: #374151; }
+
+    /* Results table */
+    .results-table { width: 100%; border-collapse: collapse; }
+    .results-table th { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: #9ca3af; padding: 12px 16px; text-align: left; border-bottom: 1px solid #f3f4f6; background: #fafafa; }
+    .results-table td { font-size: 0.8125rem; padding: 12px 16px; border-bottom: 1px solid #f3f4f6; color: #374151; }
+    .results-table tr:last-child td { border-bottom: none; }
+    .results-table tr:hover td { background: #fafafa; }
+    .band-chip { display: inline-flex; align-items: center; justify-content: center; min-width: 36px; padding: 2px 8px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; font-family: 'Space Mono', monospace; }
+    .band-high { background: rgba(16,185,129,0.1); color: #059669; border: 1px solid rgba(16,185,129,0.2); }
+    .band-mid { background: var(--gold-dim); color: #92700e; border: 1px solid var(--gold-border); }
+    .band-low { background: rgba(239,68,68,0.08); color: #dc2626; border: 1px solid rgba(239,68,68,0.15); }
+
+    /* Modal */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.45); backdrop-filter: blur(4px); z-index: 100; display: flex; align-items: center; justify-content: center; padding: 1rem; opacity: 0; pointer-events: none; transition: opacity 0.2s ease; }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal-box { background: #ffffff; border: 1px solid #e5e7eb; border-radius: 20px; padding: 2rem; max-width: 480px; width: 100%; transform: translateY(16px); transition: transform 0.25s cubic-bezier(0.16,1,0.3,1); box-shadow: 0 20px 60px rgba(0,0,0,0.18); }
+    .modal-overlay.open .modal-box { transform: translateY(0); }
+    .type-btn { border: 1.5px solid #e5e7eb; border-radius: 12px; padding: 1.25rem; cursor: pointer; transition: all 0.2s; background: transparent; text-align: left; width: 100%; font-family: inherit; }
+    .type-btn:hover, .type-btn.selected { border-color: var(--gold-border); background: var(--gold-dim); }
+    .type-btn.selected .type-check { opacity: 1; }
+    .type-check { width: 18px; height: 18px; border-radius: 50%; background: var(--gold); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; flex-shrink: 0; }
+
+    /* Reveal */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s cubic-bezier(0.16,1,0.3,1), transform 0.6s cubic-bezier(0.16,1,0.3,1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .d100 { transition-delay: 0.1s; } .d200 { transition-delay: 0.2s; } .d300 { transition-delay: 0.3s; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #f9fafb; }
+    ::-webkit-scrollbar-thumb { background: #d1d5db; border-radius: 3px; }
+
+    /* Theme toggle */
+    #themeToggle { background: transparent; border: 1px solid rgba(255,255,255,0.18); color: #a1a1aa; border-radius: 8px; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; font-size: 15px; flex-shrink: 0; padding: 0; }
+    #themeToggle:hover { border-color: var(--gold-border); color: var(--gold); }
+
+    /* ── DARK MODE OVERRIDES ── */
+    html[data-theme="dark"] { background: #09090b !important; color: #fafafa !important; }
+    html[data-theme="dark"] body { background: #09090b !important; color: #fafafa !important; }
+    html[data-theme="dark"] .hero-section { background: #09090b !important; border-color: #1c1c1e !important; }
+    html[data-theme="dark"] .hero-h1 { color: #f4f4f5 !important; }
+    html[data-theme="dark"] .hero-sub { color: #71717a !important; }
+    html[data-theme="dark"] .filter-bar { background: #09090b !important; border-color: #1c1c1e !important; box-shadow: 0 2px 12px rgba(0,0,0,0.3) !important; }
+    html[data-theme="dark"] .filter-row-border { border-color: #1c1c1e !important; }
+    html[data-theme="dark"] .type-tab:not(.active) { color: #71717a !important; }
+    html[data-theme="dark"] .type-tab:not(.active):hover { background: #18181b !important; color: #d4d4d8 !important; }
+    html[data-theme="dark"] .skill-pill:not(.active) { background: #111113 !important; border-color: #27272a !important; color: #a1a1aa !important; }
+    html[data-theme="dark"] .skill-pill:not(.active):hover { background: #1c1c1e !important; border-color: #3f3f46 !important; color: #d4d4d8 !important; }
+    html[data-theme="dark"] .filter-select { background: #111113 !important; border-color: #27272a !important; color: #a1a1aa !important; }
+    html[data-theme="dark"] .search-input { background: #111113 !important; border-color: #27272a !important; color: #f4f4f5 !important; }
+    html[data-theme="dark"] .filter-label { color: #52525b !important; }
+    html[data-theme="dark"] main { background: #09090b !important; }
+    html[data-theme="dark"] .section-heading { color: #f4f4f5 !important; }
+    html[data-theme="dark"] .section-sub { color: #71717a !important; }
+    html[data-theme="dark"] .book-divider-line { background: linear-gradient(to right, rgba(201,168,76,0.22), transparent) !important; }
+    html[data-theme="dark"] .test-card { background: rgba(17,17,19,0.85) !important; border-color: #1c1c1e !important; box-shadow: none !important; }
+    html[data-theme="dark"] .test-card:hover { box-shadow: 0 20px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(201,168,76,0.12) !important; border-color: rgba(201,168,76,0.28) !important; }
+    html[data-theme="dark"] .card-book-label { color: var(--gold) !important; }
+    html[data-theme="dark"] .card-test-title { color: #f4f4f5 !important; }
+    html[data-theme="dark"] .card-taken { color: #52525b !important; }
+    html[data-theme="dark"] .card-time { color: #52525b !important; }
+    html[data-theme="dark"] .skill-badge { background: #18181b !important; color: #a1a1aa !important; }
+    html[data-theme="dark"] .practice-card { background: rgba(17,17,19,0.85) !important; border-color: #1c1c1e !important; box-shadow: none !important; }
+    html[data-theme="dark"] .practice-title { color: #f4f4f5 !important; }
+    html[data-theme="dark"] .practice-sub { color: #71717a !important; }
+    html[data-theme="dark"] .practice-meta { color: #52525b !important; }
+    html[data-theme="dark"] .practice-body { color: #71717a !important; }
+    html[data-theme="dark"] .results-card { background: #111113 !important; border-color: #1c1c1e !important; box-shadow: none !important; }
+    html[data-theme="dark"] .results-table th { color: #52525b !important; border-color: #1c1c1e !important; background: #0c0c0e !important; }
+    html[data-theme="dark"] .results-table td { color: #a1a1aa !important; border-color: #18181b !important; }
+    html[data-theme="dark"] .results-table tr:hover td { background: rgba(255,255,255,0.015) !important; }
+    html[data-theme="dark"] .results-heading { color: #f4f4f5 !important; }
+    html[data-theme="dark"] .empty-card { background: rgba(17,17,19,0.85) !important; border-color: #1c1c1e !important; }
+    html[data-theme="dark"] .empty-title { color: #d4d4d8 !important; }
+    html[data-theme="dark"] .empty-sub { color: #52525b !important; }
+    html[data-theme="dark"] .modal-box { background: #111113 !important; border-color: #1c1c1e !important; }
+    html[data-theme="dark"] .modal-title { color: #f4f4f5 !important; }
+    html[data-theme="dark"] .modal-type-label { color: #52525b !important; }
+    html[data-theme="dark"] .type-btn { border-color: #27272a !important; }
+    html[data-theme="dark"] .type-btn-title { color: #d4d4d8 !important; }
+    html[data-theme="dark"] .type-btn-sub { color: #71717a !important; }
+    html[data-theme="dark"] #modalSkillInfo { background: #18181b !important; border-color: #27272a !important; color: #71717a !important; }
+    html[data-theme="dark"] footer { border-color: #1c1c1e !important; background: #09090b !important; }
+    html[data-theme="dark"] ::-webkit-scrollbar-track { background: #09090b !important; }
+    html[data-theme="dark"] ::-webkit-scrollbar-thumb { background: #3f3f46 !important; }
+    html[data-theme="dark"] .no-results-title { color: #d4d4d8 !important; }
+    html[data-theme="dark"] .no-results-sub { color: #52525b !important; }
+  </style>
+  <script>
+    (function(){
+      var t = localStorage.getItem('ieltslab_theme') || 'light';
+      document.documentElement.setAttribute('data-theme', t);
+    })();
+    function toggleTheme(){
+      var c = document.documentElement.getAttribute('data-theme') || 'light';
+      var n = c === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', n);
+      localStorage.setItem('ieltslab_theme', n);
+      var b = document.getElementById('themeToggle');
+      if (b) b.textContent = n === 'dark' ? '☀' : '🌙';
+    }
+    document.addEventListener('DOMContentLoaded', function(){
+      var b = document.getElementById('themeToggle');
+      if (b) {
+        var isDark = (document.documentElement.getAttribute('data-theme') || 'light') === 'dark';
+        b.textContent = isDark ? '☀' : '🌙';
+      }
+    });
+  </script>
+</head>
+<body>
+
+  <!-- NAV -->
+  <div id="header-container"></div>
+
+  <!-- HERO -->
+  <section class="hero-section">
+    <div class="max-w-6xl mx-auto">
+      <div class="label mb-4">AI-Powered Exam Simulation</div>
+      <h1 class="font-display font-black hero-h1" style="font-size:clamp(2.5rem,5vw,3.75rem);line-height:1.1;color:var(--navy);margin-bottom:16px;">IELTS Mock Tests</h1>
+      <p class="hero-sub" style="font-size:1rem;line-height:1.75;color:#6b7280;max-width:500px;">
+        AI-powered practice tests organized by Cambridge book and skill — updated regularly. Real timings, full band score feedback on every submission.
+      </p>
+    </div>
+  </section>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <div class="max-w-6xl mx-auto px-6">
+      <!-- Type tabs -->
+      <div class="flex items-center gap-1 pt-3 pb-2 filter-row-border" style="border-bottom:1px solid #f3f4f6;">
+        <button class="type-tab active" id="tab-all" onclick="setTypeFilter('all')">All Tests</button>
+        <button class="type-tab" id="tab-academic" onclick="setTypeFilter('academic')">Academic</button>
+        <button class="type-tab" id="tab-general" onclick="setTypeFilter('general')">General Training</button>
+      </div>
+      <!-- Skills + controls -->
+      <div class="flex flex-wrap items-center justify-between gap-3 py-3">
+        <div class="flex items-center gap-2 flex-nowrap overflow-x-auto pb-1 md:pb-0" style="-webkit-overflow-scrolling:touch;">
+          <span class="text-xs font-medium filter-label" style="color:#9ca3af;white-space:nowrap;">Skills:</span>
+          <button class="skill-pill active" id="pill-all" onclick="setSkillFilter('all')">All Skills</button>
+          <button class="skill-pill" id="pill-listening" onclick="setSkillFilter('listening')">🎧 Listening</button>
+          <button class="skill-pill" id="pill-reading" onclick="setSkillFilter('reading')">📖 Reading</button>
+          <button class="skill-pill" id="pill-writing" onclick="setSkillFilter('writing')">✏️ Writing</button>
+          <button class="skill-pill" id="pill-speaking" onclick="setSkillFilter('speaking')">🎤 Speaking</button>
+        </div>
+        <div class="flex items-center gap-2 flex-shrink-0">
+          <div class="select-wrap">
+            <select class="filter-select" id="bookFilter" onchange="setBookFilter(this.value)">
+              <option value="all">All Books</option>
+              <option value="20">Cambridge 20</option>
+              <option value="19">Cambridge 19</option>
+              <option value="18">Cambridge 18</option>
+              <option value="17">Cambridge 17</option>
+            </select>
+            <svg class="select-arrow" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+          <div class="search-wrap">
+            <svg class="search-icon" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input type="text" class="search-input" id="searchInput" placeholder="Search tests…" oninput="setSearch(this.value)" />
+          </div>
+          <div class="select-wrap">
+            <select class="filter-select" id="sortSelect" onchange="setSort(this.value)">
+              <option value="newest">Newest First</option>
+              <option value="oldest">Oldest First</option>
+            </select>
+            <svg class="select-arrow" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 9l6 6 6-6"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <main style="background:#f7f8fa;padding:44px 0 80px;">
+    <div class="max-w-6xl mx-auto px-6">
+
+      <!-- Cambridge Book Sections -->
+      <div id="booksContainer"></div>
+
+      <!-- No results -->
+      <div id="noResults" style="display:none;text-align:center;padding:80px 0;">
+        <div style="font-size:2.5rem;margin-bottom:14px;">🔍</div>
+        <div class="font-display font-bold no-results-title" style="font-size:1.1rem;color:var(--navy);margin-bottom:8px;">No tests match your filters</div>
+        <p class="no-results-sub" style="font-size:0.875rem;color:#9ca3af;">Try adjusting the filters or search query above.</p>
+      </div>
+
+      <!-- Practice Tests -->
+      <div style="margin-top:64px;" class="reveal">
+        <div class="label mb-2">Practice Tests</div>
+        <h2 class="font-display font-bold text-2xl section-heading" style="color:var(--navy);margin-bottom:6px;">Fixed Tests — Instant Results</h2>
+        <p class="section-sub" style="font-size:0.875rem;color:#6b7280;margin-bottom:24px;">Pre-built tests scored immediately — no AI generation wait time.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:18px;">
+          <div class="practice-card reveal d100">
+            <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;">
+              <div style="width:42px;height:42px;border-radius:12px;background:rgba(16,185,129,0.08);border:1px solid rgba(16,185,129,0.18);display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;">📖</div>
+              <div>
+                <div class="font-display font-bold practice-title" style="font-size:1rem;color:var(--navy);">Academic Reading</div>
+                <div class="practice-sub" style="font-size:0.75rem;color:#9ca3af;">Fixed test · Instant results</div>
+              </div>
+            </div>
+            <p class="practice-body" style="font-size:0.8125rem;color:#6b7280;line-height:1.65;margin-bottom:14px;">
+              3 academic passages with 40 mixed-format questions. True/False/Not Given, multiple choice, matching headings, sentence completion — scored instantly with detailed explanations.
+            </p>
+            <div class="practice-meta" style="display:flex;gap:14px;font-size:0.75rem;color:#9ca3af;margin-bottom:18px;">
+              <span>📖 60 min</span><span>❓ 40 questions</span><span>✅ Instant score</span>
+            </div>
+            <a href="academic-reading-test.html" class="btn-gold" style="text-decoration:none;display:block;text-align:center;width:100%;">Start Test →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- My Results -->
+      <div style="margin-top:64px;" class="reveal">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
+          <div>
+            <div class="label mb-1">History</div>
+            <h2 class="font-display font-bold text-2xl results-heading" style="color:var(--navy);">My Results</h2>
+          </div>
+          <button onclick="clearResults()" style="font-size:0.75rem;color:#9ca3af;background:none;border:none;cursor:pointer;transition:color 0.2s;font-family:inherit;" onmouseover="this.style.color='#ef4444'" onmouseout="this.style.color='#9ca3af'">Clear history</button>
+        </div>
+        <div id="resultsSection"></div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer style="border-top:1px solid #e5e7eb;background:#ffffff;text-align:center;padding:22px 24px;">
+    <p style="font-size:0.75rem;color:#9ca3af;letter-spacing:0.05em;">IELTS Lab Mock Tests · <span style="color:var(--gold);">Members Only</span> · AI-generated questions</p>
+  </footer>
+
+  <!-- SETUP MODAL -->
+  <div id="setupModal" class="modal-overlay" onclick="closeSetupOnOverlay(event)">
+    <div class="modal-box">
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:24px;">
+        <div>
+          <div class="label mb-1">Test Setup</div>
+          <h3 class="font-display font-bold text-xl modal-title" id="modalTitle" style="color:var(--navy);">Configure Your Test</h3>
+        </div>
+        <button onclick="closeSetup()" style="color:#9ca3af;background:none;border:none;cursor:pointer;padding:4px;transition:color 0.2s;" onmouseover="this.style.color='#374151'" onmouseout="this.style.color='#9ca3af'">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <div style="margin-bottom:20px;">
+        <div class="modal-type-label" style="font-size:0.7rem;text-transform:uppercase;letter-spacing:0.12em;font-weight:600;color:#9ca3af;margin-bottom:12px;">Training Type</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <button class="type-btn" id="typeAcademic" onclick="selectType('academic')">
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <div>
+                <div class="font-semibold text-sm type-btn-title" style="color:var(--navy);margin-bottom:2px;">Academic</div>
+                <div class="text-xs type-btn-sub" style="color:#9ca3af;">For university admission, professional registration</div>
+              </div>
+              <div class="type-check" id="checkAcademic">
+                <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="#1a202c" stroke-width="2.5"><path d="M2 6l3 3 5-5"/></svg>
+              </div>
+            </div>
+          </button>
+          <button class="type-btn" id="typeGeneral" onclick="selectType('general')">
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+              <div>
+                <div class="font-semibold text-sm type-btn-title" style="color:var(--navy);margin-bottom:2px;">General Training</div>
+                <div class="text-xs type-btn-sub" style="color:#9ca3af;">For work experience, secondary education, migration</div>
+              </div>
+              <div class="type-check" id="checkGeneral">
+                <svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="#1a202c" stroke-width="2.5"><path d="M2 6l3 3 5-5"/></svg>
+              </div>
+            </div>
+          </button>
+        </div>
+      </div>
+      <div id="modalSkillInfo" style="margin-bottom:20px;padding:12px;border-radius:10px;font-size:0.8rem;background:#f9fafb;border:1px solid #e5e7eb;color:#6b7280;"></div>
+      <button id="startBtn" onclick="startTest()" class="btn-gold" disabled style="width:100%;opacity:0.5;cursor:not-allowed;">Select a training type to continue</button>
+    </div>
+  </div>
+
+  <script>
+    // AUTH GUARD
+    const rawSession = localStorage.getItem('ielts_session');
+    if (!rawSession) window.location.replace('../login.html');
+    let session;
+    try { session = JSON.parse(rawSession); }
+    catch { localStorage.removeItem('ielts_session'); window.location.replace('../login.html'); }
+    const firstName = (session.name || 'Student').split(' ')[0];
+    const greetEl = document.getElementById('userGreeting');
+    if (greetEl) greetEl.innerHTML = `Welcome, <span style="color:#a1a1aa">${firstName}</span>`;
+    function logout() { localStorage.removeItem('ielts_session'); window.location.replace('../IELTS-Lab.html'); }
+
+    // DATA
+    const CAMBRIDGE_BOOKS = [
+      { num: 20, year: '2025', academic: true, general: true },
+      { num: 19, year: '2024', academic: true, general: true },
+      { num: 18, year: '2023', academic: true, general: true },
+      { num: 17, year: '2022', academic: true, general: true },
+    ];
+    const SKILL_ICONS  = { listening: '🎧', reading: '📖', writing: '✏️', speaking: '🎤' };
+    const SKILL_TIMES  = { listening: '30 min', reading: '60 min', writing: '60 min', speaking: '14 min' };
+    const SKILL_LABELS = { listening: 'Listening', reading: 'Reading', writing: 'Writing', speaking: 'Speaking' };
+    const SKILL_INFO   = {
+      listening: '🎧 30 minutes + 10 min transfer · Multiple choice, gap fill, short answer',
+      reading:   '📖 60 minutes · Multiple choice, True/False/NG, matching headings',
+      writing:   '✏️ 60 minutes · Task 1 (~20 min) + Task 2 (~40 min)',
+      speaking:  '🎤 11–14 minutes · Part 1, Part 2 (long turn), Part 3 (discussion)',
+      full:      '🧪 ~3 hours total · All 4 skills: Listening → Reading → Writing → Speaking',
+    };
+
+    // FILTER STATE
+    let filterType  = 'all';
+    let filterSkill = 'all';
+    let filterBook  = 'all';
+    let filterSearch = '';
+    let filterSort  = 'newest';
+
+    function setTypeFilter(type) {
+      filterType = type;
+      ['all','academic','general'].forEach(t => document.getElementById('tab-'+t).classList.remove('active'));
+      document.getElementById('tab-'+type).classList.add('active');
+      renderBooks();
+    }
+    function setSkillFilter(skill) {
+      filterSkill = skill;
+      ['all','listening','reading','writing','speaking'].forEach(s => document.getElementById('pill-'+s).classList.remove('active'));
+      document.getElementById('pill-'+skill).classList.add('active');
+      renderBooks();
+    }
+    function setBookFilter(book) { filterBook = book; renderBooks(); }
+    function setSearch(q) { filterSearch = q.toLowerCase().trim(); renderBooks(); }
+    function setSort(s) { filterSort = s; renderBooks(); }
+
+    function matchesFilters(book, testNum) {
+      if (filterType === 'academic' && !book.academic) return false;
+      if (filterType === 'general'  && !book.general)  return false;
+      if (filterBook !== 'all' && book.num !== parseInt(filterBook)) return false;
+      if (filterSearch) {
+        const label = `cambridge ielts ${book.num} test ${testNum} ${book.year}`;
+        if (!label.includes(filterSearch)) return false;
+      }
+      return true;
+    }
+
+    function getTestsTaken(bookNum, testNum) {
+      const results = JSON.parse(localStorage.getItem('ielts_mock_results') || '[]');
+      return results.filter(r => r.book === bookNum && r.testNum === testNum).length;
+    }
+
+    function renderTestCard(book, testNum) {
+      const taken = getTestsTaken(book.num, testNum);
+      const skillMode = filterSkill !== 'all' ? filterSkill : null;
+
+      const skillBadges = ['listening','reading','writing','speaking'].map(s => {
+        const dim = (filterSkill !== 'all' && filterSkill !== s) ? 'opacity:0.3;' : '';
+        return `<span class="skill-badge" style="${dim}">${SKILL_ICONS[s]}</span>`;
+      }).join('');
+
+      const timeStr  = skillMode ? `${SKILL_ICONS[skillMode]} ${SKILL_TIMES[skillMode]}` : '⏱ ~3 hours';
+      const btnLabel = skillMode ? `Start ${SKILL_LABELS[skillMode]} →` : 'Start Test →';
+      const onclickFn = skillMode ? `openSetup('single','${skillMode}')` : `openSetup('full',null)`;
+
+      return `
+        <div class="test-card">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;">
+            <div>
+              <div class="card-book-label" style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:3px;">Cambridge ${book.num}</div>
+              <div class="font-display font-bold card-test-title" style="font-size:0.9375rem;color:var(--navy);">Full Test ${testNum}</div>
+            </div>
+            <div class="card-taken" style="font-size:0.7rem;color:#9ca3af;display:flex;align-items:center;gap:3px;white-space:nowrap;">⚡ ${taken} taken</div>
+          </div>
+          <div style="display:flex;gap:4px;margin-bottom:10px;">${skillBadges}</div>
+          <div class="card-time" style="font-size:0.75rem;color:#9ca3af;margin-bottom:14px;">${timeStr}</div>
+          <button onclick="${onclickFn}" class="btn-gold" style="width:100%;font-size:0.8rem;padding:8px 0;">${btnLabel}</button>
+        </div>`;
+    }
+
+    function renderBooks() {
+      const container = document.getElementById('booksContainer');
+      let books = [...CAMBRIDGE_BOOKS];
+      if (filterSort === 'oldest') books = books.sort((a,b) => a.num - b.num);
+      else books = books.sort((a,b) => b.num - a.num);
+
+      let visibleCount = 0;
+      let html = '';
+
+      books.forEach(book => {
+        const visibleTests = [1,2,3,4].filter(t => matchesFilters(book, t));
+        if (visibleTests.length === 0) return;
+        visibleCount += visibleTests.length;
+
+        const typeLabel = (book.academic && book.general) ? 'Academic + General'
+          : book.academic ? 'Academic' : 'General Training';
+
+        html += `
+          <div class="book-section reveal" data-book="${book.num}" style="margin-bottom:52px;">
+            <div class="book-divider">
+              <div class="book-divider-line"></div>
+              <div class="book-divider-label">Cambridge IELTS ${book.num} · ${book.year}</div>
+              <div class="book-divider-line"></div>
+            </div>
+            <div class="book-layout">
+              <div class="book-cover">
+                <div style="font-size:0.6rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:rgba(201,168,76,0.6);margin-bottom:4px;">Cambridge</div>
+                <div style="font-family:'Cormorant Garamond',serif;font-size:3.5rem;font-weight:600;color:#ffffff;line-height:1;margin-bottom:6px;">${book.num}</div>
+                <div style="font-size:0.7rem;color:rgba(255,255,255,0.45);margin-bottom:18px;">${book.year}</div>
+                <div style="padding:4px 12px;border-radius:100px;border:1px solid rgba(201,168,76,0.3);font-size:0.6rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);">${typeLabel}</div>
+              </div>
+              <div class="tests-grid">
+                ${visibleTests.map(t => renderTestCard(book, t)).join('')}
+              </div>
+            </div>
+          </div>`;
+      });
+
+      container.innerHTML = html;
+      document.getElementById('noResults').style.display = visibleCount === 0 ? 'block' : 'none';
+      document.querySelectorAll('.book-section.reveal:not(.visible)').forEach(el => revealObserver.observe(el));
+    }
+
+    // SETUP MODAL
+    let pendingMode = null, pendingSkill = null, selectedType = null;
+
+    function openSetup(mode, skill) {
+      pendingMode  = mode;
+      pendingSkill = skill;
+      selectedType = null;
+      ['typeAcademic','typeGeneral'].forEach(id => document.getElementById(id).classList.remove('selected'));
+      ['checkAcademic','checkGeneral'].forEach(id => document.getElementById(id).style.opacity = '0');
+      const startBtn = document.getElementById('startBtn');
+      startBtn.disabled = true;
+      startBtn.textContent = 'Select a training type to continue';
+      startBtn.style.opacity = '0.5';
+      startBtn.style.cursor = 'not-allowed';
+      const key = mode === 'full' ? 'full' : skill;
+      document.getElementById('modalSkillInfo').textContent = SKILL_INFO[key] || '';
+      document.getElementById('modalTitle').textContent = mode === 'full'
+        ? 'Full Mock Test — 4 Skills'
+        : `${SKILL_LABELS[skill] || skill} Test`;
+      document.getElementById('setupModal').classList.add('open');
+    }
+    function closeSetup() { document.getElementById('setupModal').classList.remove('open'); }
+    function closeSetupOnOverlay(e) { if (e.target.id === 'setupModal') closeSetup(); }
+
+    function selectType(type) {
+      selectedType = type;
+      document.getElementById('typeAcademic').classList.toggle('selected', type === 'academic');
+      document.getElementById('typeGeneral').classList.toggle('selected', type === 'general');
+      document.getElementById('checkAcademic').style.opacity = type === 'academic' ? '1' : '0';
+      document.getElementById('checkGeneral').style.opacity = type === 'general' ? '1' : '0';
+      const startBtn = document.getElementById('startBtn');
+      startBtn.disabled = false;
+      startBtn.textContent = 'Begin Test';
+      startBtn.style.opacity = '1';
+      startBtn.style.cursor = 'pointer';
+    }
+
+    function startTest() {
+      if (!selectedType) return;
+      const setup = { mode: pendingMode, skill: pendingSkill, type: selectedType, startedAt: Date.now(), completedSkills: [] };
+      sessionStorage.setItem('mockTestSetup', JSON.stringify(setup));
+      const firstSkill = pendingMode === 'full' ? 'listening' : pendingSkill;
+      window.location.href = `${firstSkill}.html`;
+    }
+
+    // RESULTS
+    function getBandClass(b) {
+      if (b == null) return '';
+      if (b >= 7)   return 'band-high';
+      if (b >= 5.5) return 'band-mid';
+      return 'band-low';
+    }
+
+    function renderResults() {
+      const container = document.getElementById('resultsSection');
+      const results = JSON.parse(localStorage.getItem('ielts_mock_results') || '[]');
+      if (results.length === 0) {
+        container.innerHTML = `
+          <div class="practice-card empty-card" style="text-align:center;padding:48px 24px;">
+            <div style="font-size:2.5rem;margin-bottom:12px;">🧪</div>
+            <div class="font-display font-bold empty-title" style="color:var(--navy);margin-bottom:6px;">No tests taken yet</div>
+            <p class="empty-sub" style="font-size:0.875rem;color:#9ca3af;">Complete your first mock test to see scores here.</p>
+          </div>`;
+        return;
+      }
+      const rows = [...results].reverse().map(r => {
+        const chips = ['listening','reading','writing','speaking'].map(s => {
+          const v = r.scores?.[s];
+          return v != null ? `<span class="band-chip ${getBandClass(v)}">${v}</span>` : `<span style="color:#d1d5db;">—</span>`;
+        });
+        const overall = r.scores?.overall;
+        return `<tr>
+          <td>${new Date(r.date).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'})}</td>
+          <td>${r.testType || '—'}</td>
+          <td>${chips[0]}</td><td>${chips[1]}</td><td>${chips[2]}</td><td>${chips[3]}</td>
+          <td>${overall != null ? `<span class="band-chip ${getBandClass(overall)}">${overall}</span>` : '—'}</td>
+          <td><a href="results.html?id=${r.id}" style="font-size:0.75rem;color:#9ca3af;text-decoration:none;transition:color 0.2s;" onmouseover="this.style.color='var(--gold)'" onmouseout="this.style.color='#9ca3af'">View →</a></td>
+        </tr>`;
+      }).join('');
+      container.innerHTML = `
+        <div class="results-card">
+          <div style="overflow-x:auto;">
+            <table class="results-table">
+              <thead><tr>
+                <th>Date</th><th>Type</th>
+                <th>🎧 Listening</th><th>📖 Reading</th><th>✏️ Writing</th><th>🎤 Speaking</th>
+                <th>Overall</th><th></th>
+              </tr></thead>
+              <tbody>${rows}</tbody>
+            </table>
+          </div>
+        </div>`;
+    }
+
+    function clearResults() {
+      if (!confirm('Clear all mock test results? This cannot be undone.')) return;
+      localStorage.removeItem('ielts_mock_results');
+      renderResults();
+    }
+
+    // SCROLL REVEAL
+    const revealObserver = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); } });
+    }, { threshold: 0.05 });
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    // INIT
+    renderBooks();
+    renderResults();
+  </script>
+  <script src="/js/components.js"></script>
+  <script>loadHeader();</script>
+</body>
+</html>

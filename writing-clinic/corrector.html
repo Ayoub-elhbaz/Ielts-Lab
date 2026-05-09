@@ -1,0 +1,1582 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light" />
+  <title>IELTS Lab — AI Writing Corrector</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- PDF.js — renders uploaded PDFs to images client-side -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <!-- jsPDF — generates downloadable PDF reports -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Playfair Display', 'serif'],
+            sans: ['DM Sans', 'system-ui', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --navy:       #0f1e3c;
+      --navy-light: #1a2f5a;
+      --gold:       #c9a84c;
+      --gold-light: #e8c97a;
+      --cream:      #faf7f2;
+      --white:      #ffffff;
+      --text:       #1a1a2e;
+      --muted:      #6b7280;
+      --border:     #e5e0d8;
+      --success:    #16a34a;
+      --error:      #dc2626;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--cream); color: var(--text); }
+    body { font-family: 'DM Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; font-size: 16px; line-height: 1.85; }
+    h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
+    h1 { font-size: clamp(2rem, 5vw, 3rem); }
+    h2 { font-size: 1.4rem; }
+
+    .nav-glass {
+      background: var(--navy);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .nav-logo { display:flex; align-items:baseline; gap:0; text-decoration:none; }
+    .nl-ielts { font-family:'Playfair Display',serif; font-size:20px; font-weight:600; letter-spacing:1px; color:var(--white); }
+    .nl-lab   { font-family:'DM Sans',sans-serif; font-size:12px; font-weight:700; letter-spacing:3px; color:var(--gold); margin-left:5px; }
+    .label { font-size:0.78rem; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); }
+    .divider { border-top: 1px solid var(--border); }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--cream); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { animation: spin 0.75s linear infinite; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+    .fade-up { animation: fadeUp 0.6s cubic-bezier(0.16,1,0.3,1) both; }
+
+    /* Task buttons */
+    .task-btn {
+      border: 1px solid var(--border);
+      background: #ffffff;
+      border-radius: 0.875rem;
+      padding: 1rem 0.875rem;
+      cursor: pointer;
+      text-align: center;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .task-btn:hover { border-color: var(--gold); background: #fffdf7; transform: translateY(-2px); }
+    .task-btn.active { border-color: var(--navy); background: var(--navy); }
+    .task-btn .task-label { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 3px; }
+    .task-btn.active .task-label { color: rgba(255,255,255,0.65); }
+    .task-btn .task-name { font-size: 0.875rem; font-weight: 600; color: var(--text); }
+    .task-btn.active .task-name { color: var(--white); }
+
+    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+    .skeleton {
+      background: linear-gradient(90deg, var(--border) 25%, #e0dbd3 50%, var(--border) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 0.5rem;
+    }
+
+    /* ── TASK 3 STYLES ── */
+
+    .correction-highlight {
+      background: linear-gradient(135deg, #0f1e3c 0%, #1a2f5a 100%);
+      color: #e8c97a;
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.95rem;
+      padding: 10px 16px;
+      border-radius: 8px;
+      display: block;
+      margin: 10px 0;
+      border-left: 3px solid #c9a84c;
+      line-height: 1.7;
+    }
+
+    .pro-tip {
+      background: rgba(201,168,76,0.08);
+      border: 1.5px solid rgba(201,168,76,0.3);
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin: 10px 0;
+      font-size: 0.875rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    .paragraph-note {
+      background: #f0f4ff;
+      border-left: 3px solid #2c4a8f;
+      border-radius: 0 8px 8px 0;
+      padding: 10px 14px;
+      margin: 8px 0;
+      font-size: 0.85rem;
+      color: #1b2b4b;
+      font-style: italic;
+    }
+
+    .issue-title {
+      font-weight: 700;
+      color: var(--navy);
+      font-size: 0.9rem;
+      letter-spacing: 0.5px;
+      margin-top: 20px;
+      margin-bottom: 6px;
+      padding-bottom: 4px;
+      border-bottom: 1.5px solid var(--border);
+    }
+
+    .band8-label {
+      background: var(--navy);
+      color: var(--gold-light);
+      font-family: 'Playfair Display', serif;
+      font-size: 0.8rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-bottom: 8px;
+    }
+
+    /* ── V2 ERROR ANNOTATION ── */
+    .err-span {
+      border-radius: 2px;
+      cursor: help;
+      padding: 0 1px;
+      position: relative;
+    }
+    .err-span[data-type="grammar"]  { background: rgba(239,68,68,0.1);   border-bottom: 2.5px solid #ef4444; }
+    .err-span[data-type="lexical"]  { background: rgba(245,158,11,0.1);  border-bottom: 2.5px solid #f59e0b; }
+    .err-span[data-type="cohesion"] { background: rgba(59,130,246,0.1);  border-bottom: 2.5px solid #3b82f6; }
+    .err-span[data-type="task"]     { background: rgba(139,92,246,0.1);  border-bottom: 2.5px solid #8b5cf6; }
+
+    /* ── EMAIL CAPTURE MODAL ── */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(15,30,60,0.88);
+      display: flex; align-items: center; justify-content: center;
+      padding: 16px;
+      animation: fadeUp 0.35s cubic-bezier(0.16,1,0.3,1) both;
+    }
+    .modal-card {
+      background: var(--white);
+      border-radius: 24px;
+      padding: 40px 36px;
+      max-width: 440px;
+      width: 100%;
+      box-shadow: 0 24px 64px rgba(15,30,60,0.32);
+      text-align: center;
+    }
+    .modal-card .modal-icon {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: var(--navy);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.5rem;
+      margin: 0 auto 20px;
+    }
+
+    /* ── BAND GAP HOOK ── */
+    .band-gap-hook {
+      background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+      border-radius: 16px;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 16px; flex-wrap: wrap;
+      box-shadow: 0 4px 20px rgba(15,30,60,0.16);
+    }
+
+    /* ── RESUBMIT LOOP ── */
+    .resubmit-textarea {
+      width: 100%; background: var(--cream);
+      border: 1.5px solid var(--border); border-radius: 12px;
+      padding: 12px 16px; font-size: 0.9375rem;
+      color: var(--text); font-family: 'DM Sans', sans-serif;
+      outline: none; resize: vertical; line-height: 1.85;
+      transition: border-color 0.2s;
+      min-height: 140px;
+    }
+    .resubmit-textarea:focus { border-color: var(--navy); }
+    .rescore-result {
+      margin-top: 20px;
+      background: var(--cream);
+      border: 1.5px solid var(--border);
+      border-radius: 14px;
+      padding: 20px;
+      animation: fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) both;
+    }
+
+    /* ── TASK 2: ARCHIVE ── */
+    .archive-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 12px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .archive-card:hover { border-color: var(--gold); box-shadow: 0 4px 16px rgba(201,168,76,0.08); }
+    .archive-score-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: var(--gold-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    .archive-task-badge {
+      display: inline-block;
+      background: var(--navy);
+      color: var(--white);
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      padding: 3px 10px;
+      border-radius: 100px;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col" style="background:var(--cream);color:var(--text);">
+
+  <!-- ── NAV ── -->
+  <div id="header-container"></div>
+
+  <!-- ── HERO ── -->
+  <section class="relative overflow-hidden py-14 px-6 text-center"
+           style="background:linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);">
+    <div class="relative z-10 max-w-2xl mx-auto">
+      <div class="inline-block px-4 py-1.5 rounded-full border text-xs font-medium tracking-widest uppercase mb-5"
+           style="border-color:var(--gold);color:var(--gold);background:rgba(201,168,76,0.1);">
+        Members · Unlimited Access
+      </div>
+      <h1 style="color:var(--white);font-weight:700;line-height:1.15;letter-spacing:-0.01em;margin-bottom:12px;">
+        AI Writing <em style="color:var(--gold);font-style:italic;">Corrector</em>
+      </h1>
+      <p style="font-size:1rem;color:rgba(255,255,255,0.75);line-height:1.85;">
+        Instant band scores, detailed corrections, and personalised tips — just like a real IELTS tutor.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── MAIN ── -->
+  <main class="flex-1 max-w-3xl mx-auto w-full px-4 py-12">
+
+    <!-- Task selector -->
+    <div class="grid grid-cols-3 gap-3 mb-6 fade-up" id="taskSelector">
+      <button class="task-btn active" data-task="task2" onclick="selectTask(this)">
+        <div class="task-label">Most Common</div>
+        <div class="task-name">📝 Task 2</div>
+      </button>
+      <button class="task-btn" data-task="task1-academic" onclick="selectTask(this)">
+        <div class="task-label">Academic</div>
+        <div class="task-name">📊 Task 1</div>
+      </button>
+      <button class="task-btn" data-task="task1-general" onclick="selectTask(this)">
+        <div class="task-label">General</div>
+        <div class="task-name">✉️ Letter</div>
+      </button>
+    </div>
+
+    <!-- Form card -->
+    <div class="rounded-2xl overflow-hidden fade-up" id="formCard"
+         style="background:var(--white);border:1.5px solid var(--border);box-shadow:0 4px 24px rgba(15,30,60,0.06);">
+
+      <div class="px-7 py-5 flex items-center justify-between"
+           style="background:var(--navy);">
+        <h2 style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--white);">Submit Your Writing</h2>
+        <span style="font-size:0.78rem;font-weight:600;color:rgba(255,255,255,0.55);" id="wordCounter">0 words</span>
+      </div>
+
+      <div class="p-7 space-y-5">
+        <div>
+          <label class="block mb-2 label">
+            Question / Prompt <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted);font-size:0.75rem;">(optional)</span>
+          </label>
+          <input type="text" id="questionInput"
+            placeholder="e.g. Some people think that universities should provide…"
+            style="width:100%;background:var(--cream);border:1.5px solid var(--border);border-radius:12px;padding:12px 16px;font-size:1rem;color:var(--text);font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.2s;"
+            onfocus="this.style.borderColor='var(--navy)'" onblur="this.style.borderColor='var(--border)'"
+          />
+        </div>
+
+        <!-- Image upload (Task 1 graphs/charts/maps) -->
+        <div class="space-y-2" id="imageUploadSection">
+          <label class="label">Upload Question Image or PDF
+            <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted);font-size:0.75rem;">
+              (optional — for Task 1 graphs, charts, maps, diagrams)
+            </span>
+          </label>
+          <div id="uploadZone"
+            onclick="document.getElementById('imageInput').click()"
+            style="border:1.5px dashed var(--gold);border-radius:0.875rem;padding:24px;text-align:center;cursor:pointer;background:rgba(201,168,76,0.04);transition:border-color 0.2s,background 0.2s;">
+            <div id="uploadZoneIcon" style="font-size:1.5rem;margin-bottom:8px;">🖼️</div>
+            <div id="uploadZoneTitle" style="font-size:0.8125rem;color:var(--muted);font-weight:500;">Click to upload or drag & drop</div>
+            <div id="uploadZoneSub" style="font-size:0.75rem;color:var(--muted);margin-top:4px;">JPG, PNG, WEBP, PDF · Max 5MB</div>
+          </div>
+          <input type="file" id="imageInput" accept="image/*,.pdf" class="hidden" onchange="handleImageUpload(event)">
+          <div id="imagePreview" class="hidden" style="position:relative;display:inline-block;margin-top:8px;">
+            <img id="previewImg" style="max-height:160px;border-radius:0.75rem;border:1.5px solid var(--gold);" />
+            <button onclick="removeImage()" style="position:absolute;top:-8px;right:-8px;background:#ef4444;color:white;border:none;border-radius:50%;width:22px;height:22px;font-size:0.75rem;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+          </div>
+        </div>
+
+        <div>
+          <label class="block mb-2 label">Your Essay</label>
+          <textarea id="essayInput" rows="10"
+            placeholder="Paste your essay here…"
+            oninput="updateWordCount()"
+            style="width:100%;background:var(--cream);border:1.5px solid var(--border);border-radius:12px;padding:12px 16px;font-size:1rem;color:var(--text);font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.2s;resize:vertical;line-height:1.85;"
+            onfocus="this.style.borderColor='var(--navy)'" onblur="this.style.borderColor='var(--border)'"
+          ></textarea>
+        </div>
+
+        <button id="submitBtn" onclick="submitEssay()"
+          class="w-full flex items-center justify-center gap-2 py-4 rounded-xl text-xs font-semibold tracking-widest uppercase transition-all"
+          style="background:var(--navy);color:var(--white);border:none;cursor:pointer;box-shadow:0 4px 16px rgba(15,30,60,0.18);"
+          onmouseover="this.style.background='var(--navy-light)';this.style.transform='translateY(-1px)'"
+          onmouseout="this.style.background='var(--navy)';this.style.transform=''"
+        >
+          <svg id="submitSpinner" class="hidden spinner w-4 h-4" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
+          </svg>
+          <span id="submitBtnText">✦ Correct My Essay</span>
+        </button>
+
+        <div id="errorMsg" class="hidden px-4 py-3 rounded-xl text-xs border"
+             style="color:var(--error);border-color:rgba(220,38,38,0.3);background:rgba(220,38,38,0.05);"></div>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div id="results" class="hidden">
+
+      <!-- Info bar (word count + task type) -->
+      <div id="infoBar"></div>
+
+      <!-- Overall band -->
+      <div class="flex items-center justify-between mb-8 flex-wrap gap-4">
+        <h2 style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--navy);">Your Feedback Report</h2>
+        <div class="flex items-center gap-3 px-5 py-2.5 rounded-full"
+             style="background:var(--navy);">
+          <span style="font-size:0.75rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.7);">Overall Band</span>
+          <span style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;color:var(--gold-light);" id="overallBand">—</span>
+        </div>
+      </div>
+
+      <!-- Score grid -->
+      <div class="grid grid-cols-2 gap-3 mb-6" id="scoreGrid"></div>
+
+      <!-- Feedback sections -->
+      <div id="feedbackSections"></div>
+
+      <!-- Action buttons: Download + Email -->
+      <div class="flex gap-3 flex-wrap mt-8 mb-2">
+        <button onclick="downloadReport()" id="downloadBtn"
+          style="flex:1;min-width:160px;display:flex;align-items:center;justify-content:center;gap:8px;background:var(--navy);color:var(--white);border:none;cursor:pointer;padding:13px 20px;border-radius:12px;font-size:0.8125rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;transition:background 0.2s,transform 0.2s;box-shadow:0 4px 16px rgba(15,30,60,0.15);"
+          onmouseover="this.style.background='var(--navy-light)';this.style.transform='translateY(-1px)'"
+          onmouseout="this.style.background='var(--navy)';this.style.transform=''">
+          ⬇️ Download Report
+        </button>
+        <button onclick="emailReport()" id="emailReportBtn"
+          style="flex:1;min-width:160px;display:flex;align-items:center;justify-content:center;gap:8px;background:transparent;color:var(--navy);border:1.5px solid var(--navy);cursor:pointer;padding:13px 20px;border-radius:12px;font-size:0.8125rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;transition:all 0.2s;"
+          onmouseover="this.style.background='var(--navy)';this.style.color='var(--white)'"
+          onmouseout="this.style.background='transparent';this.style.color='var(--navy)'">
+          ✉️ Email My Report
+        </button>
+      </div>
+      <div id="emailReportMsg" class="hidden mb-4 px-4 py-3 rounded-xl text-sm text-center font-medium"></div>
+
+      <!-- Save to Progress (Task 2) -->
+      <div class="mt-6 mb-4 text-center">
+        <button id="saveProgressBtn" onclick="saveToProgress()"
+          style="background:var(--navy);color:var(--white);border:none;cursor:pointer;padding:12px 28px;border-radius:12px;font-size:0.875rem;font-weight:600;letter-spacing:0.03em;transition:background 0.2s,transform 0.2s;"
+          onmouseover="this.style.background='var(--navy-light)';this.style.transform='translateY(-1px)'"
+          onmouseout="this.style.background='var(--navy)';this.style.transform=''">
+          📊 Save to My Progress
+        </button>
+        <div id="saveConfirmMsg" class="hidden mt-2 text-sm font-medium" style="color:var(--success);">✅ Saved to your progress archive!</div>
+      </div>
+
+      <p id="resultSignature" class="text-center text-xs py-5 mt-2" style="color:var(--muted);border-top:1px solid var(--border);">
+        Corrected by IELTS Lab AI Expert · For personalised coaching, contact your IELTS Lab tutor.
+      </p>
+
+      <div class="flex gap-3 flex-wrap mt-6">
+        <button onclick="resetForm()"
+          class="flex items-center gap-2 px-5 py-2.5 rounded-xl border text-sm font-medium transition-all"
+          style="border-color:var(--border);color:var(--muted);background:transparent;cursor:pointer;"
+          onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--navy)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">
+          ← Submit Another Essay
+        </button>
+        <a href="index.html"
+          class="flex items-center gap-2 px-5 py-2.5 rounded-xl border text-sm font-medium transition-all"
+          style="border-color:var(--border);color:var(--muted);text-decoration:none;"
+          onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--navy)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--muted)'">
+          🩺 Back to Writing Clinic
+        </a>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ── PROGRESS ARCHIVE (Task 2) ── -->
+  <section id="progressArchive" style="background:var(--cream);border-top:1.5px solid var(--border);padding:48px 16px;">
+    <div class="max-w-3xl mx-auto">
+      <div class="flex items-start justify-between mb-2 flex-wrap gap-3">
+        <div>
+          <h2 style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--navy);">📊 My Progress Archive</h2>
+          <p style="font-size:0.9rem;color:var(--muted);margin-top:4px;">Track your band score improvement over time</p>
+        </div>
+        <button onclick="clearHistory()"
+          style="font-size:0.78rem;font-weight:600;color:var(--error);background:none;border:1.5px solid rgba(220,38,38,0.25);border-radius:8px;padding:6px 14px;cursor:pointer;transition:background 0.2s;"
+          onmouseover="this.style.background='rgba(220,38,38,0.06)'" onmouseout="this.style.background='none'">
+          🗑 Clear History
+        </button>
+      </div>
+      <div id="archiveList" class="mt-6"></div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer class="divider text-center py-5 px-6" style="background:var(--cream);">
+    <p class="text-xs tracking-wider" style="color:var(--muted);">IELTS Lab Writing Clinic · Members Only</p>
+  </footer>
+
+  <script>
+    // ── SESSION (no hard auth gate — email modal handles capture) ──
+    let session = null;
+    try { session = JSON.parse(localStorage.getItem('ielts_session') || 'null'); } catch {}
+    const firstName = (session?.name || '').split(' ')[0] || '';
+    const headerEl = document.getElementById('headerUser');
+    if (headerEl && firstName) headerEl.innerHTML = `✍️ <span style="color:rgba(255,255,255,0.5);">${firstName}</span>`;
+
+    // ── IMAGE / PDF UPLOAD ──
+    let uploadedImageBase64 = null;
+    let uploadedImageType   = null;
+
+    // Init PDF.js worker once the CDN script loads
+    if (typeof pdfjsLib !== 'undefined') {
+      pdfjsLib.GlobalWorkerOptions.workerSrc =
+        'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+
+    async function handleImageUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      if (file.size > 5 * 1024 * 1024) { showError('File must be under 5MB.'); return; }
+
+      if (file.type === 'application/pdf') {
+        // PDF path — render first page to canvas via PDF.js, treat as image
+        if (typeof pdfjsLib === 'undefined') {
+          showError('PDF renderer not loaded. Please refresh and try again.');
+          return;
+        }
+        setUploadZoneLoading(true);
+        try {
+          const reader = new FileReader();
+          reader.onload = async (e) => {
+            try {
+              const typedArr = new Uint8Array(e.target.result);
+              const pdf      = await pdfjsLib.getDocument({ data: typedArr }).promise;
+              const page     = await pdf.getPage(1);
+              const viewport = page.getViewport({ scale: 2.0 }); // 2× for clarity
+              const canvas   = document.createElement('canvas');
+              canvas.width   = viewport.width;
+              canvas.height  = viewport.height;
+              await page.render({ canvasContext: canvas.getContext('2d'), viewport }).promise;
+              const dataUrl           = canvas.toDataURL('image/png');
+              uploadedImageBase64     = dataUrl.split(',')[1];
+              uploadedImageType       = 'image/png';
+              document.getElementById('previewImg').src = dataUrl;
+              document.getElementById('imagePreview').classList.remove('hidden');
+              setUploadZoneLoading(false, `PDF converted — page 1 of ${pdf.numPages}`);
+            } catch (err) {
+              setUploadZoneLoading(false);
+              showError('Could not render PDF. Try uploading the chart as an image instead.');
+            }
+          };
+          reader.readAsArrayBuffer(file);
+        } catch (err) {
+          setUploadZoneLoading(false);
+          showError('Could not read PDF file.');
+        }
+        return;
+      }
+
+      // Regular image path
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const result        = e.target.result;
+        uploadedImageBase64 = result.split(',')[1];
+        uploadedImageType   = file.type;
+        document.getElementById('previewImg').src = result;
+        document.getElementById('imagePreview').classList.remove('hidden');
+        document.getElementById('uploadZone').style.borderColor = 'var(--gold)';
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function setUploadZoneLoading(loading, doneMsg = '') {
+      const icon  = document.getElementById('uploadZoneIcon');
+      const title = document.getElementById('uploadZoneTitle');
+      const sub   = document.getElementById('uploadZoneSub');
+      if (loading) {
+        icon.textContent  = '⏳';
+        title.textContent = 'Converting PDF…';
+        sub.textContent   = 'Rendering page 1 as image';
+      } else {
+        icon.textContent  = doneMsg ? '✅' : '🖼️';
+        title.textContent = doneMsg || 'Click to upload or drag & drop';
+        sub.textContent   = doneMsg ? 'PDF rendered successfully' : 'JPG, PNG, WEBP, PDF · Max 5MB';
+      }
+    }
+
+    function removeImage() {
+      uploadedImageBase64 = null;
+      uploadedImageType   = null;
+      document.getElementById('imageInput').value = '';
+      document.getElementById('imagePreview').classList.add('hidden');
+      document.getElementById('uploadZone').style.borderColor = 'var(--gold)';
+    }
+
+    // Drag and drop
+    (function() {
+      const zone = document.getElementById('uploadZone');
+      zone.addEventListener('dragover', e => {
+        e.preventDefault();
+        zone.style.borderColor = 'var(--gold)';
+        zone.style.background  = 'rgba(201,168,76,0.08)';
+      });
+      zone.addEventListener('dragleave', () => {
+        zone.style.borderColor = 'var(--gold)';
+        zone.style.background  = 'rgba(201,168,76,0.04)';
+      });
+      zone.addEventListener('drop', e => {
+        e.preventDefault();
+        zone.style.borderColor = 'var(--gold)';
+        zone.style.background  = 'rgba(201,168,76,0.04)';
+        const file = e.dataTransfer.files[0];
+        if (file && file.type.startsWith('image/')) {
+          handleImageUpload({ target: { files: [file] } });
+        }
+      });
+    })();
+
+    // ── STATE ──
+    let selectedTask    = 'task2';
+    let lastResult      = null;
+    let pendingResult   = null;   // holds API result while email modal is open
+    let currentQuestion = '';
+    let currentTaskLabel = '';
+
+    function selectTask(btn) {
+      document.querySelectorAll('.task-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedTask = btn.dataset.task;
+      updateWordCount();
+    }
+
+    function updateWordCount() {
+      const text    = document.getElementById('essayInput').value.trim();
+      const words   = text ? text.split(/\s+/).length : 0;
+      const counter = document.getElementById('wordCounter');
+      const min     = selectedTask === 'task2' ? 250 : 150;
+      counter.textContent = `${words} words`;
+      if (words >= min + 20)  counter.style.color = '#4ade80';
+      else if (words >= min)  counter.style.color = '#fbbf24';
+      else if (words > 0)     counter.style.color = '#f87171';
+      else                    counter.style.color = 'rgba(255,255,255,0.55)';
+    }
+
+    async function submitEssay() {
+      const essay    = document.getElementById('essayInput').value.trim();
+      const question = document.getElementById('questionInput').value.trim();
+      const btn      = document.getElementById('submitBtn');
+      const errEl    = document.getElementById('errorMsg');
+      const spinner  = document.getElementById('submitSpinner');
+      const btnText  = document.getElementById('submitBtnText');
+
+      errEl.classList.add('hidden');
+
+      if (!essay) {
+        showError('Please paste your essay before submitting.');
+        return;
+      }
+
+      btn.disabled = true;
+      spinner.classList.remove('hidden');
+      btnText.classList.add('hidden');
+
+      const taskLabel = {
+        'task2':          'Task 2 Essay',
+        'task1-academic': 'Task 1 Academic',
+        'task1-general':  'Task 1 General Training'
+      }[selectedTask];
+
+      currentQuestion  = question;
+      currentTaskLabel = taskLabel;
+
+      try {
+        const response = await fetch('/api/correct-essay-v2', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ taskLabel, essay, question, image: uploadedImageBase64 || null, imageType: uploadedImageType || null })
+        });
+
+        if (!response.ok) {
+          const err = await response.json().catch(() => ({}));
+          throw new Error(err.error || `Server error ${response.status}`);
+        }
+
+        const result = await response.json();
+
+        // Show email capture modal once; skip if email already stored
+        if (!localStorage.getItem('ielts_email')) {
+          pendingResult = result;
+          document.getElementById('emailModal').style.display = 'flex';
+          setTimeout(() => document.getElementById('emailInput').focus(), 100);
+        } else {
+          renderResults(result);
+        }
+
+      } catch (err) {
+        const msg = err instanceof TypeError && err.message === 'Failed to fetch'
+          ? 'Cannot reach the server. Make sure you opened this page via http://localhost:3000 (not as a file://) and the server is running: cd into the project folder and run "npm install" then "node server.js".'
+          : (err.message || 'Something went wrong. Please try again.');
+        showError(msg);
+      } finally {
+        btn.disabled = false;
+        spinner.classList.add('hidden');
+        btnText.classList.remove('hidden');
+      }
+    }
+
+    // ── DOWNLOAD REPORT (jsPDF) ──────────────────────────────────────────────
+    function downloadReport() {
+      if (!lastResult) return;
+      if (typeof window.jspdf === 'undefined') {
+        alert('PDF library not loaded yet. Please wait a moment and try again.');
+        return;
+      }
+      const r   = lastResult;
+      const doc = new window.jspdf.jsPDF({ unit: 'mm', format: 'a4' });
+      const PW  = 210, PH = 297, M = 18, CW = 210 - 18 * 2;
+      let y = 0;
+
+      const NAVY  = [15, 30, 60];
+      const GOLD  = [201, 168, 76];
+      const TEXT  = [26, 26, 46];
+      const MUTED = [107, 114, 128];
+      const CREAM = [250, 247, 242];
+
+      function sf(style, size, color = TEXT) {
+        doc.setFont('helvetica', style);
+        doc.setFontSize(size);
+        doc.setTextColor(...color);
+      }
+      function chk(needed = 20) {
+        if (y + needed > PH - 14) { doc.addPage(); y = M; }
+      }
+      function wrap(text, x, maxW, lineH = 5.5, style = 'normal', size = 9.5, color = TEXT) {
+        sf(style, size, color);
+        const lines = doc.splitTextToSize(String(text || ''), maxW);
+        chk(lines.length * lineH + 4);
+        doc.text(lines, x, y);
+        y += lines.length * lineH;
+      }
+      function secHead(title) {
+        chk(14);
+        y += 3;
+        doc.setFillColor(240, 244, 255);
+        doc.rect(M - 2, y - 5, CW + 4, 8, 'F');
+        sf('bold', 8, NAVY);
+        doc.text(title.toUpperCase(), M, y);
+        y += 6;
+      }
+
+      // ── Header bar ──
+      doc.setFillColor(...NAVY);
+      doc.rect(0, 0, PW, 26, 'F');
+      sf('bold', 17, GOLD);
+      doc.text('IELTS Lab', M, 12);
+      sf('normal', 8, [200, 210, 230]);
+      doc.text('AI Writing Corrector — Feedback Report', M, 19);
+      sf('normal', 7.5, [170, 185, 210]);
+      doc.text(`${r.taskType || 'Essay'} · ${r.essayType || ''}`, PW - M, 19, { align: 'right' });
+      y = 34;
+
+      // ── Overall band ──
+      doc.setFillColor(240, 244, 255);
+      doc.roundedRect(M, y, CW, 20, 3, 3, 'F');
+      sf('bold', 7.5, MUTED);
+      doc.text('OVERALL BAND', M + 6, y + 5);
+      sf('bold', 26, NAVY);
+      doc.text(String(r.scores?.overall || '—'), M + 6, y + 16);
+      sf('normal', 8, MUTED);
+      const wcTxt = `${r.wordCount || '—'} words  ·  ${r.wordCountStatus?.includes('PASS') ? '✓ Meets minimum' : '⚠ Under minimum'}`;
+      doc.text(wcTxt, PW - M, y + 16, { align: 'right' });
+      y += 28;
+
+      // ── Criteria grid ──
+      const ckeys = [
+        { key: 'taskAchievement',   abbr: 'TA',  label: 'Task Achievement'     },
+        { key: 'coherenceCohesion', abbr: 'CC',  label: 'Coherence & Cohesion' },
+        { key: 'lexicalResource',   abbr: 'LR',  label: 'Lexical Resource'     },
+        { key: 'grammaticalRange',  abbr: 'GRA', label: 'Grammar & Accuracy'   },
+      ];
+      const cW2 = CW / 2 - 3;
+      ckeys.forEach((c, i) => {
+        const sv   = r.scores?.[c.key];
+        const band = (sv && typeof sv === 'object') ? sv.band : (sv ?? '—');
+        const lbl  = (r.scoreLabels?.[c.key] || '').slice(0, 44);
+        const cx   = M + (i % 2) * (cW2 + 6);
+        const cy   = y + Math.floor(i / 2) * 20;
+        doc.setFillColor(...CREAM);
+        doc.setDrawColor(229, 224, 216);
+        doc.roundedRect(cx, cy, cW2, 17, 2, 2, 'FD');
+        sf('bold', 7.5, MUTED);
+        doc.text(`${c.abbr} — ${c.label}`, cx + 4, cy + 5);
+        sf('bold', 13, NAVY);
+        doc.text(String(band), cx + 4, cy + 13);
+        if (lbl) { sf('normal', 6.5, MUTED); doc.text(lbl + (r.scoreLabels?.[c.key]?.length > 44 ? '…' : ''), cx + 14, cy + 13); }
+      });
+      y += 45;
+
+      // ── Strengths ──
+      if (r.strengths) { secHead('✅ What You Did Well'); wrap(r.strengths, M, CW); y += 5; }
+
+      // ── Examiner Note ──
+      if (r.examinerNote) {
+        secHead('📋 Examiner Note');
+        const lines = doc.splitTextToSize(r.examinerNote, CW - 10);
+        const bH    = lines.length * 5.5 + 10;
+        chk(bH + 4);
+        doc.setFillColor(240, 244, 255);
+        doc.rect(M, y, 3, bH, 'F');
+        doc.setFillColor(245, 247, 255);
+        doc.rect(M + 3, y, CW - 3, bH, 'F');
+        sf('normal', 9.5, TEXT);
+        doc.text(lines, M + 7, y + 6);
+        y += bH + 5;
+      }
+
+      // ── Next Steps ──
+      if (r.nextSteps) {
+        secHead('🎯 Your Next Steps');
+        const steps = Array.isArray(r.nextSteps) ? r.nextSteps : [];
+        steps.forEach((s, i) => {
+          const task = s.task || String(s);
+          chk(10);
+          sf('bold', 9.5, NAVY);
+          doc.text(`${i + 1}.`, M, y);
+          wrap(task, M + 6, CW - 6);
+          if (s.descriptorTarget) {
+            const dt = s.descriptorTarget.slice(0, 90);
+            chk(6);
+            sf('italic', 7.5, MUTED);
+            doc.text(`"${dt}${s.descriptorTarget.length > 90 ? '…' : ''}"`, M + 6, y);
+            y += 4.5;
+          }
+          y += 2;
+        });
+        y += 3;
+      }
+
+      // ── Resubmit Challenge ──
+      if (r.resubmitChallenge) {
+        secHead('🔄 Resubmit Challenge');
+        const lines = doc.splitTextToSize(r.resubmitChallenge, CW - 10);
+        const bH    = lines.length * 5.5 + 10;
+        chk(bH + 4);
+        doc.setFillColor(255, 248, 237);
+        doc.setDrawColor(...GOLD);
+        doc.setLineWidth(0.4);
+        doc.roundedRect(M, y, CW, bH, 2, 2, 'FD');
+        sf('normal', 9.5, TEXT);
+        doc.text(lines, M + 5, y + 6);
+        y += bH + 5;
+      }
+
+      // ── Footer on every page ──
+      const total = doc.getNumberOfPages();
+      for (let p = 1; p <= total; p++) {
+        doc.setPage(p);
+        sf('normal', 7, MUTED);
+        doc.text(`IELTS Lab AI Report  ·  Page ${p} of ${total}`, PW / 2, PH - 8, { align: 'center' });
+        doc.text(new Date().toLocaleDateString('en-GB'), M, PH - 8);
+      }
+
+      doc.save(`IELTS-Lab-Report-Band-${r.scores?.overall ?? 'X'}.pdf`);
+    }
+
+
+    // ── EMAIL REPORT ─────────────────────────────────────────────────────────
+    async function emailReport() {
+      const btn    = document.getElementById('emailReportBtn');
+      const msgEl  = document.getElementById('emailReportMsg');
+      const email  = localStorage.getItem('ielts_email');
+
+      if (!lastResult) return;
+
+      if (!email) {
+        // No email stored yet — show the capture modal with the pending result
+        pendingResult = lastResult;
+        document.getElementById('emailModal').style.display = 'flex';
+        setTimeout(() => document.getElementById('emailInput').focus(), 100);
+        return;
+      }
+
+      btn.disabled   = true;
+      btn.textContent = '⏳ Sending…';
+      msgEl.classList.add('hidden');
+
+      try {
+        const res = await fetch('/api/send-report', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, reportData: lastResult }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || `Server error ${res.status}`);
+        msgEl.textContent = `✅ Report sent to ${email}`;
+        msgEl.style.color = 'var(--success)';
+        msgEl.style.background = 'rgba(22,163,74,0.07)';
+        msgEl.style.border = '1px solid rgba(22,163,74,0.2)';
+        msgEl.style.borderRadius = '10px';
+        msgEl.style.padding = '10px 16px';
+      } catch (err) {
+        msgEl.textContent = `⚠️ ${err.message}`;
+        msgEl.style.color = 'var(--error)';
+        msgEl.style.background = 'rgba(220,38,38,0.06)';
+        msgEl.style.border = '1px solid rgba(220,38,38,0.2)';
+        msgEl.style.borderRadius = '10px';
+        msgEl.style.padding = '10px 16px';
+      } finally {
+        msgEl.classList.remove('hidden');
+        btn.disabled    = false;
+        btn.textContent = '✉️ Email My Report';
+      }
+    }
+
+
+    // ── EMAIL MODAL LOGIC ────────────────────────────────────────────────────
+    function submitEmailCapture() {
+      const val = (document.getElementById('emailInput').value || '').trim();
+      const errEl = document.getElementById('emailError');
+      if (!val || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)) {
+        errEl.textContent = 'Please enter a valid email address.';
+        errEl.classList.remove('hidden');
+        return;
+      }
+      errEl.classList.add('hidden');
+      localStorage.setItem('ielts_email', val);
+      document.getElementById('emailModal').style.display = 'none';
+      if (pendingResult) { renderResults(pendingResult); pendingResult = null; }
+    }
+
+    function skipEmailCapture() {
+      document.getElementById('emailModal').style.display = 'none';
+      if (pendingResult) { renderResults(pendingResult); pendingResult = null; }
+    }
+
+
+    // ── BAND GAP HOOK ────────────────────────────────────────────────────────
+    function renderBandGapHook(r) {
+      const overall = parseFloat(r.scores?.overall);
+      if (!overall || overall >= 9) return '';
+
+      const nextTarget  = Math.min(9, Math.ceil((overall + 0.01) * 2) / 2);
+      const gap         = (nextTarget - overall).toFixed(1);
+      const criterionLabels = {
+        taskAchievement:   'Task Achievement',
+        coherenceCohesion: 'Coherence & Cohesion',
+        lexicalResource:   'Lexical Resource',
+        grammaticalRange:  'Grammar & Accuracy',
+      };
+      const weakKey   = r.weakestCriterion;
+      const weakLabel = criterionLabels[weakKey] || weakKey || 'your weakest criterion';
+
+      return `
+        <div class="band-gap-hook">
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;">Your Next Target</div>
+            <div style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--white);line-height:1.35;">
+              You are <span style="color:var(--gold-light);">${gap} band${gap === '1.0' ? '' : 's'}</span> from Band ${nextTarget}.
+            </div>
+            <div style="font-size:0.9rem;color:rgba(255,255,255,0.72);margin-top:6px;line-height:1.5;">
+              One thing is holding you back: <strong style="color:var(--gold-light);">${escapeHtml(weakLabel)}</strong>
+            </div>
+          </div>
+          <div style="flex-shrink:0;text-align:center;">
+            <div style="font-family:'Playfair Display',serif;font-size:2.25rem;font-weight:700;color:var(--gold-light);line-height:1;">${nextTarget}</div>
+            <div style="font-size:0.65rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,0.5);margin-top:3px;">Target Band</div>
+          </div>
+        </div>`;
+    }
+
+
+    // ── RESUBMIT LOOP ────────────────────────────────────────────────────────
+    function renderResubmitLoop(challengeText) {
+      if (!challengeText) return '';
+      const uid = 'rsb_' + Date.now();
+      return `
+        <div style="font-size:0.9375rem;color:var(--text);line-height:1.85;margin-bottom:20px;padding:16px 20px;background:#fff8ed;border-radius:12px;border-left:3px solid var(--gold);">
+          ${escapeHtml(challengeText)}
+        </div>
+        <div style="font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">
+          Your Revised Essay
+        </div>
+        <textarea id="${uid}_essay" class="resubmit-textarea"
+          placeholder="Paste your revised full essay here to get an instant re-score…"></textarea>
+        <button onclick="resubmitEssay('${uid}')"
+          style="margin-top:12px;background:var(--navy);color:var(--white);border:none;cursor:pointer;padding:13px 28px;border-radius:12px;font-size:0.8125rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;transition:background 0.2s;display:flex;align-items:center;gap:8px;"
+          onmouseover="this.style.background='var(--navy-light)'" onmouseout="this.style.background='var(--navy)'"
+          id="${uid}_btn">
+          <span id="${uid}_spinner" class="hidden spinner" style="width:14px;height:14px;">
+            <svg fill="none" viewBox="0 0 24 24" style="width:14px;height:14px;">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
+            </svg>
+          </span>
+          <span id="${uid}_btntext">↩ Re-score My Rewrite</span>
+        </button>
+        <div id="${uid}_result"></div>`;
+    }
+
+    async function resubmitEssay(uid) {
+      const textarea  = document.getElementById(uid + '_essay');
+      const btn       = document.getElementById(uid + '_btn');
+      const spinner   = document.getElementById(uid + '_spinner');
+      const btnText   = document.getElementById(uid + '_btntext');
+      const resultEl  = document.getElementById(uid + '_result');
+      const essay     = (textarea?.value || '').trim();
+
+      if (!essay) {
+        resultEl.innerHTML = `<div style="margin-top:12px;font-size:0.875rem;color:var(--error);">⚠️ Please paste your revised essay first.</div>`;
+        return;
+      }
+
+      btn.disabled = true;
+      spinner.classList.remove('hidden');
+      btnText.textContent = 'Scoring…';
+      resultEl.innerHTML = '';
+
+      try {
+        const response = await fetch('/api/correct-essay-v2', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            taskLabel: currentTaskLabel,
+            essay,
+            question: currentQuestion,
+            image: null, imageType: null
+          })
+        });
+        if (!response.ok) {
+          const err = await response.json().catch(() => ({}));
+          throw new Error(err.error || `Server error ${response.status}`);
+        }
+        const r = await response.json();
+        renderRescoreResult(r, resultEl);
+      } catch (err) {
+        resultEl.innerHTML = `<div style="margin-top:12px;font-size:0.875rem;color:var(--error);">⚠️ ${escapeHtml(err.message)}</div>`;
+      } finally {
+        btn.disabled = false;
+        spinner.classList.add('hidden');
+        btnText.textContent = '↩ Re-score My Rewrite';
+      }
+    }
+
+    function renderRescoreResult(r, container) {
+      if (!r?.scores?.overall) {
+        container.innerHTML = `<div style="margin-top:12px;font-size:0.875rem;color:var(--error);">Could not parse re-score result.</div>`;
+        return;
+      }
+      const criteria = [
+        { key: 'taskAchievement',   abbr: 'TA'  },
+        { key: 'coherenceCohesion', abbr: 'CC'  },
+        { key: 'lexicalResource',   abbr: 'LR'  },
+        { key: 'grammaticalRange',  abbr: 'GRA' },
+      ];
+      const chipsHtml = criteria.map(c => {
+        const val = (r.scores[c.key] && typeof r.scores[c.key] === 'object')
+          ? r.scores[c.key].band : (r.scores[c.key] ?? '—');
+        return `<div style="background:var(--white);border:1.5px solid var(--border);border-radius:10px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px;">
+          <span style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;color:var(--muted);text-transform:uppercase;">${c.abbr}</span>
+          <span style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--navy);">${val}</span>
+        </div>`;
+      }).join('');
+
+      container.innerHTML = `
+        <div class="rescore-result">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:8px;">
+            <div style="font-size:0.78rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);">Re-score Result</div>
+            <div style="display:flex;align-items:center;gap:10px;background:var(--navy);border-radius:100px;padding:6px 18px;">
+              <span style="font-size:0.72rem;font-weight:600;color:rgba(255,255,255,0.65);letter-spacing:0.08em;text-transform:uppercase;">Overall</span>
+              <span style="font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;color:var(--gold-light);">${r.scores.overall}</span>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:${r.examinerNote ? '16px' : '0'};">
+            ${chipsHtml}
+          </div>
+          ${r.examinerNote ? `
+            <div style="background:#f0f4ff;border-left:3px solid var(--navy);border-radius:0 10px 10px 0;padding:14px 18px;font-size:0.875rem;color:var(--text);line-height:1.75;">
+              <strong style="color:var(--navy);">Examiner Note:</strong> ${escapeHtml(r.examinerNote)}
+            </div>` : ''}
+        </div>`;
+      container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+
+    // ── V2 HELPER: Build colour-coded annotated essay from errors[] ──────────
+    function buildAnnotatedEssay(essayText, errors) {
+      const typeColors = {
+        grammar:  { bg: 'rgba(239,68,68,0.12)',   line: '#ef4444', label: 'Grammar' },
+        lexical:  { bg: 'rgba(245,158,11,0.12)',  line: '#f59e0b', label: 'Vocabulary' },
+        cohesion: { bg: 'rgba(59,130,246,0.12)',  line: '#3b82f6', label: 'Cohesion' },
+        task:     { bg: 'rgba(139,92,246,0.12)',  line: '#8b5cf6', label: 'Task' },
+      };
+
+      if (!errors || !errors.length) {
+        return `<div style="font-size:0.9375rem;color:var(--text);line-height:2;white-space:pre-wrap;">${escapeHtml(essayText)}</div>`;
+      }
+
+      // Sort longer originals first to avoid substring conflicts, then find positions
+      const sortedErrors = [...errors].sort((a, b) => (b.original?.length || 0) - (a.original?.length || 0));
+      const spans = [];
+      const usedRanges = [];
+
+      for (const err of sortedErrors) {
+        if (!err.original) continue;
+        let idx = 0;
+        while (idx < essayText.length) {
+          const pos = essayText.indexOf(err.original, idx);
+          if (pos === -1) break;
+          const end = pos + err.original.length;
+          const overlaps = usedRanges.some(([s, e]) => pos < e && end > s);
+          if (!overlaps) {
+            spans.push([pos, end, err]);
+            usedRanges.push([pos, end]);
+          }
+          idx = pos + 1;
+        }
+      }
+      spans.sort((a, b) => a[0] - b[0]);
+
+      // Legend
+      const typesPresent = [...new Set(errors.map(e => e.type).filter(Boolean))];
+      const legendHtml = `
+        <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--border);">
+          ${typesPresent.map(t => {
+            const c = typeColors[t] || typeColors.grammar;
+            return `<span style="display:inline-flex;align-items:center;gap:5px;font-size:0.72rem;font-weight:600;color:var(--text);">
+              <span style="display:inline-block;width:20px;height:3px;border-radius:2px;background:${c.line};"></span>${c.label}
+            </span>`;
+          }).join('')}
+          <span style="font-size:0.72rem;color:var(--muted);margin-left:auto;">Hover for correction</span>
+        </div>`;
+
+      // Annotated text
+      let html = '';
+      let cursor = 0;
+      for (const [start, end, err] of spans) {
+        if (start < cursor) continue;
+        html += escapeHtml(essayText.slice(cursor, start));
+        const c = typeColors[err.type] || typeColors.grammar;
+        const tooltip = escapeHtml(`${c.label}: ${err.correction} — ${err.explanation}`);
+        html += `<span class="err-span" data-type="${err.type}" title="${tooltip}">${escapeHtml(essayText.slice(start, end))}</span>`;
+        cursor = end;
+      }
+      html += escapeHtml(essayText.slice(cursor));
+
+      // Severity summary
+      const crit  = errors.filter(e => e.severity === 'critical').length;
+      const major = errors.filter(e => e.severity === 'major').length;
+      const minor = errors.filter(e => e.severity === 'minor').length;
+      const summaryHtml = `
+        <div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap;">
+          ${crit  > 0 ? `<span style="font-size:0.72rem;font-weight:600;background:rgba(239,68,68,0.1);color:#dc2626;padding:4px 12px;border-radius:100px;">${crit} critical</span>` : ''}
+          ${major > 0 ? `<span style="font-size:0.72rem;font-weight:600;background:rgba(245,158,11,0.1);color:#d97706;padding:4px 12px;border-radius:100px;">${major} major</span>` : ''}
+          ${minor > 0 ? `<span style="font-size:0.72rem;font-weight:600;background:rgba(107,114,128,0.1);color:var(--muted);padding:4px 12px;border-radius:100px;">${minor} minor</span>` : ''}
+        </div>`;
+
+      return legendHtml
+        + `<div style="font-size:0.9375rem;color:var(--text);line-height:2.1;white-space:pre-wrap;">${html}</div>`
+        + summaryHtml;
+    }
+
+    // ── V2 HELPER: Render modelParagraph (object in v2, string in v1) ─────────
+    function renderModelParagraph(mp) {
+      if (!mp) return '';
+      if (typeof mp === 'string') {
+        return `<div style="font-size:0.9375rem;color:var(--text);line-height:1.85;white-space:pre-wrap;">${escapeHtml(mp)}</div>`;
+      }
+      const choices = Array.isArray(mp.choicesExplained) ? mp.choicesExplained : [];
+      return `
+        ${mp.targetSection ? `<div style="font-size:0.68rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:14px;">${escapeHtml(mp.targetSection)}</div>` : ''}
+        <div style="margin-bottom:18px;">
+          <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Student's Original</div>
+          <div style="background:#fff8ed;border-left:3px solid var(--gold);border-radius:0 10px 10px 0;padding:14px 18px;font-size:0.9375rem;color:var(--text);line-height:1.85;white-space:pre-wrap;">${escapeHtml(mp.original || '')}</div>
+        </div>
+        <div style="margin-bottom:18px;">
+          <div class="band8-label" style="margin-bottom:10px;">Band 8–9 Rewrite</div>
+          <div style="background:#f0fdf4;border-left:3px solid var(--success);border-radius:0 10px 10px 0;padding:14px 18px;font-size:0.9375rem;color:var(--text);line-height:1.85;white-space:pre-wrap;">${escapeHtml(mp.rewritten || '')}</div>
+        </div>
+        ${choices.length > 0 ? `
+          <div>
+            <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;">Why these choices raise the band</div>
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              ${choices.map((ch, i) => `
+                <div style="display:flex;gap:12px;align-items:flex-start;">
+                  <div style="flex-shrink:0;width:24px;height:24px;border-radius:50%;background:var(--navy);color:var(--gold-light);font-size:0.7rem;font-weight:700;display:flex;align-items:center;justify-content:center;">${i+1}</div>
+                  <div style="font-size:0.875rem;color:var(--text);line-height:1.75;">${escapeHtml(ch)}</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        ` : ''}
+      `;
+    }
+
+    // ── V2 HELPER: Render nextSteps (array in v2, string in v1) ──────────────
+    function renderNextSteps(ns) {
+      if (!ns) return '';
+      if (typeof ns === 'string') {
+        return `<div style="font-size:0.9375rem;color:var(--text);line-height:1.85;white-space:pre-wrap;">${escapeHtml(ns)}</div>`;
+      }
+      if (!Array.isArray(ns)) return escapeHtml(String(ns));
+      const cLabels = {
+        taskAchievement: 'Task Achievement', coherenceCohesion: 'Coherence & Cohesion',
+        lexicalResource: 'Lexical Resource',  grammaticalRange:  'Grammar & Accuracy',
+      };
+      return `<div style="display:flex;flex-direction:column;gap:18px;">
+        ${ns.map(step => `
+          <div style="display:flex;gap:14px;align-items:flex-start;">
+            <div style="flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--navy);color:var(--gold-light);font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;display:flex;align-items:center;justify-content:center;">${step.step}</div>
+            <div style="flex:1;">
+              <div style="font-size:0.9375rem;color:var(--text);line-height:1.75;margin-bottom:8px;">${escapeHtml(step.task)}</div>
+              <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center;">
+                <span style="font-size:0.68rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;background:rgba(15,30,60,0.07);color:var(--navy);padding:3px 10px;border-radius:100px;">${escapeHtml(cLabels[step.targetsCriterion] || step.targetsCriterion || '')}</span>
+                ${step.descriptorTarget ? `<span style="font-size:0.78rem;color:var(--muted);font-style:italic;">"${escapeHtml(step.descriptorTarget)}"</span>` : ''}
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>`;
+    }
+
+    // ── V2 HELPER: Render formatVerification block ────────────────────────────
+    function renderFormatVerification(fv) {
+      if (!fv) return '';
+      const ok = fv.structureCorrect;
+      return `
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <div style="display:flex;align-items:flex-start;gap:12px;">
+            <span style="font-size:1.4rem;">${ok ? '✅' : '⚠️'}</span>
+            <div>
+              <div style="font-size:0.9375rem;font-weight:600;color:var(--navy);margin-bottom:2px;">${escapeHtml(fv.essayType || '')}</div>
+              <div style="font-size:0.8125rem;color:var(--muted);">${escapeHtml(fv.expectedStructure || '')}</div>
+            </div>
+          </div>
+          ${fv.structureIssues
+            ? `<div style="background:#fffbeb;border:1px solid #fcd34d;border-radius:10px;padding:12px 14px;font-size:0.875rem;color:#92400e;line-height:1.7;">⚠️ ${escapeHtml(fv.structureIssues)}</div>`
+            : `<div style="background:#f0fdf4;border:1px solid #86efac;border-radius:10px;padding:10px 14px;font-size:0.875rem;color:#166534;">✅ Your essay structure matches the expected format for this task type.</div>`
+          }
+        </div>`;
+    }
+
+    // ── MAIN RENDER ──────────────────────────────────────────────────────────
+    function renderResults(r) {
+      if (!r || !r.scores || typeof r.scores.overall === 'undefined') {
+        const detail = r?.error || JSON.stringify(r)?.slice(0, 120) || 'no detail';
+        showError('The server returned an unexpected response — ' + detail + '. Please try again.');
+        console.error('[renderResults] Bad response structure:', r);
+        return;
+      }
+
+      // Normalise: fill missing labels
+      const criteriaKeys = ['taskAchievement','coherenceCohesion','lexicalResource','grammaticalRange'];
+      if (!r.scoreLabels) r.scoreLabels = {};
+      criteriaKeys.forEach(k => { if (r.scoreLabels[k] == null) r.scoreLabels[k] = ''; });
+
+      lastResult = r;
+
+      document.getElementById('formCard').classList.add('hidden');
+      document.getElementById('taskSelector').classList.add('hidden');
+      const results = document.getElementById('results');
+      results.classList.remove('hidden');
+
+      // ── Info bar ──
+      const taskDisplay = r.taskType || 'Essay';
+      const wordCountOk = !r.underMinimum;
+      const missing     = r.underMinimum ? (r.minWords - r.wordCount) : 0;
+      const warningBanner = r.underMinimum ? `
+        <div style="background:#fff3cd;border:2px solid #f59e0b;border-radius:12px;padding:16px 20px;margin-bottom:16px;display:flex;align-items:flex-start;gap:12px;">
+          <span style="font-size:1.25rem;flex-shrink:0;">⚠️</span>
+          <div>
+            <div style="font-size:0.9375rem;font-weight:700;color:#92400e;margin-bottom:4px;">Under Word Count</div>
+            <div style="font-size:0.875rem;color:#92400e;line-height:1.6;">
+              Your essay is <strong>${r.wordCount} words</strong>. The minimum is <strong>${r.minWords} words</strong> — you are <strong>${missing} words short</strong>.
+              This has affected your Task Achievement score in line with official IELTS guidelines. In the real exam, under-length essays are penalised on Task Achievement and cannot score above Band 5 for that criterion.
+            </div>
+          </div>
+        </div>` : '';
+      document.getElementById('infoBar').innerHTML = `
+        ${warningBanner}
+        <div style="background:#f0f4ff;border:1.5px solid #2C5FAD;border-radius:12px;padding:14px 20px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+          <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.9375rem;font-weight:700;color:var(--navy);">📝 ${escapeHtml(taskDisplay)}</span>
+            ${r.essayType ? `<span style="color:#2C5FAD;font-size:0.875rem;">│</span><span style="font-size:0.875rem;font-weight:600;color:var(--navy);">📋 ${escapeHtml(r.essayType)}</span>` : ''}
+            <span style="color:#2C5FAD;font-size:0.875rem;">│</span>
+            <span style="font-size:0.9375rem;font-weight:600;color:var(--navy);">Word Count: ${r.wordCount || '—'} / ${r.minWords}</span>
+          </div>
+          <span style="font-size:0.875rem;font-weight:600;color:${wordCountOk ? 'var(--success)' : '#d97706'};">
+            ${wordCountOk ? '✅ Meets minimum' : `⚠️ ${missing} words short`}
+          </span>
+        </div>
+      `;
+
+      // ── Overall band ──
+      document.getElementById('overallBand').textContent = r.scores.overall;
+
+      // ── Score grid — v2 scores are objects {band, label, evidence}, v1 are numbers ──
+      const criteria = [
+        { key: 'taskAchievement',   label: 'Task Achievement',     abbr: 'TA'  },
+        { key: 'coherenceCohesion', label: 'Coherence & Cohesion', abbr: 'CC'  },
+        { key: 'lexicalResource',   label: 'Lexical Resource',     abbr: 'LR'  },
+        { key: 'grammaticalRange',  label: 'Grammar & Accuracy',   abbr: 'GRA' },
+      ];
+      document.getElementById('scoreGrid').innerHTML = criteria.map(c => {
+        const scoreData = r.scores[c.key];
+        const scoreVal  = (scoreData && typeof scoreData === 'object') ? scoreData.band : (scoreData ?? '—');
+        const label     = r.scoreLabels?.[c.key] || '';
+
+        // Evidence block (v2 only)
+        const hasEvidence = scoreData && typeof scoreData === 'object'
+          && ((scoreData.positiveEvidence?.length) || (scoreData.negativeEvidence?.length));
+        const evidenceHtml = hasEvidence ? `
+          <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--border);font-size:0.8rem;line-height:1.75;">
+            ${scoreData.descriptorApplied ? `<div style="font-style:italic;color:var(--muted);margin-bottom:6px;">"${escapeHtml(scoreData.descriptorApplied)}"</div>` : ''}
+            ${(scoreData.positiveEvidence || []).map(q => `<div style="color:var(--success);margin-bottom:3px;">✓ <em>"${escapeHtml(q)}"</em></div>`).join('')}
+            ${(scoreData.negativeEvidence || []).map(q => `<div style="color:var(--error);margin-bottom:3px;">✗ <em>"${escapeHtml(q)}"</em></div>`).join('')}
+          </div>` : '';
+
+        return `
+          <div style="background:var(--white);border:1.5px solid var(--border);border-radius:16px;padding:20px;display:flex;flex-direction:column;gap:0;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;">
+              <div style="flex:1;min-width:0;">
+                <div style="font-size:0.6875rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;">${c.abbr} — ${c.label}</div>
+                <div style="font-size:0.875rem;color:var(--text);line-height:1.7;">${escapeHtml(label)}</div>
+              </div>
+              <div style="flex-shrink:0;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1.125rem;font-weight:700;background:var(--navy);color:var(--gold-light);">
+                ${scoreVal}
+              </div>
+            </div>
+            ${evidenceHtml}
+          </div>`;
+      }).join('');
+
+      // ── Band Gap Hook (between score grid and feedback) ──
+      const bandGapEl = document.createElement('div');
+      bandGapEl.innerHTML = renderBandGapHook(r);
+      document.getElementById('scoreGrid').after(bandGapEl);
+
+      // ── Vocabulary Upgrade CTA (if LR < 7.0) ──
+      const lrRaw   = r.scores?.lexicalResource;
+      const lrScore = (lrRaw && typeof lrRaw === 'object') ? lrRaw.band : lrRaw;
+      if (lrScore && parseFloat(lrScore) < 7.0) {
+        const essayText  = document.getElementById('essayInput').value.trim();
+        const firstPara  = essayText.split(/\n\n+/).find(p => p.trim().length > 60) || essayText.slice(0, 400);
+        sessionStorage.setItem('ielts_vocab_prefill', firstPara.trim());
+
+        const vocabCta = document.createElement('div');
+        vocabCta.style.cssText = 'margin-bottom:20px;animation:fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) both;animation-delay:0.15s;';
+        vocabCta.innerHTML = `
+          <div style="background:rgba(201,168,76,0.07);border:1.5px solid rgba(201,168,76,0.3);border-radius:14px;padding:18px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+            <div style="display:flex;align-items:flex-start;gap:12px;">
+              <span style="font-size:1.4rem;flex-shrink:0;">📚</span>
+              <div>
+                <p style="font-size:0.9375rem;font-weight:700;color:var(--navy);margin-bottom:3px;">Your Lexical Resource scored Band ${lrScore}</p>
+                <p style="font-size:0.8125rem;color:var(--muted);line-height:1.6;">Specific word choices are holding your score back. See exactly which words to upgrade and practise them right now.</p>
+              </div>
+            </div>
+            <a href="/writing-clinic/vocabulary.html"
+               style="display:inline-flex;align-items:center;gap:8px;background:var(--gold);color:var(--navy);font-size:0.8125rem;font-weight:700;letter-spacing:0.04em;text-transform:uppercase;text-decoration:none;padding:10px 20px;border-radius:10px;white-space:nowrap;transition:background 0.18s,box-shadow 0.18s;box-shadow:0 2px 10px rgba(201,168,76,0.3);"
+               onmouseover="this.style.background='var(--gold-light)';this.style.boxShadow='0 4px 16px rgba(201,168,76,0.4)'"
+               onmouseout="this.style.background='var(--gold)';this.style.boxShadow='0 2px 10px rgba(201,168,76,0.3)'">
+              Upgrade your weak vocabulary
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>`;
+        bandGapEl.after(vocabCta);
+      }
+
+      // ── Feedback sections ──
+      const essay = document.getElementById('essayInput').value.trim();
+      const feedbackData = [
+        { icon: '✅', title: 'What You Did Well',            key: 'strengths',         leftBorder: 'var(--success)', bg: 'var(--white)' },
+        ...(r.formatVerification ? [{
+          icon: '📐', title: 'Essay Format Check',           key: 'formatVerification',
+          leftBorder: r.formatVerification.structureCorrect ? 'var(--success)' : '#f59e0b',
+          bg: r.formatVerification.structureCorrect ? '#f0fdf4' : '#fffbeb',
+          render: renderFormatVerification
+        }] : []),
+        ...(r.errors ? [{
+          icon: '📝', title: 'Annotated Essay — Error Breakdown', key: 'errors',
+          leftBorder: 'var(--navy)', bg: '#fffdf7',
+          render: (errors) => buildAnnotatedEssay(essay, errors)
+        }] : (r.annotatedEssay ? [{ icon: '📝', title: 'Annotated Essay', key: 'annotatedEssay', leftBorder: 'var(--navy)', bg: '#fffdf7' }] : [])),
+        ...(!r.errors && r.improvements ? [{ icon: '🔧', title: 'Key Areas to Improve', key: 'improvements', leftBorder: 'var(--gold)', bg: 'var(--white)' }] : []),
+        { icon: '🏆', title: 'Model Paragraph (Band 8–9)',   key: 'modelParagraph',    leftBorder: 'var(--navy)',    bg: 'var(--white)', render: renderModelParagraph },
+        { icon: '📋', title: 'Examiner Note',                key: 'examinerNote',      leftBorder: 'var(--navy)',    bg: '#f0f4ff'      },
+        { icon: '🎯', title: 'Your Next Steps',              key: 'nextSteps',         leftBorder: 'var(--success)', bg: '#f0fdf4',     render: renderNextSteps },
+        { icon: '🔄', title: 'Resubmit Challenge — Practice Now', key: 'resubmitChallenge', leftBorder: 'var(--gold)', bg: '#fff8ed', render: renderResubmitLoop },
+      ];
+
+      document.getElementById('feedbackSections').innerHTML = feedbackData.map(s => {
+        const content = r[s.key];
+        if (content === null || content === undefined || content === '') return '';
+        if (Array.isArray(content) && content.length === 0) return '';
+        const bodyHtml = s.render
+          ? s.render(content)
+          : `<div style="font-size:0.9375rem;color:var(--text);line-height:1.85;white-space:pre-wrap;">${escapeHtml(typeof content === 'string' ? content : JSON.stringify(content))}</div>`;
+        return `
+          <div style="background:${s.bg};border:1.5px solid var(--border);border-left:4px solid ${s.leftBorder};border-radius:16px;padding:24px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+            <h3 style="font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:16px;display:flex;align-items:center;gap:8px;">${s.icon} ${s.title}</h3>
+            ${bodyHtml}
+          </div>`;
+      }).join('');
+
+      // Post-process v1 pattern formatting (no-op for v2, harmless)
+      postProcessFeedback();
+
+      // ── Signature ──
+      const sigEl = document.getElementById('resultSignature');
+      if (sigEl) sigEl.textContent = r.signature || 'Corrected by IELTS Lab AI Expert · For personalised coaching, contact your IELTS Lab tutor.';
+
+      document.getElementById('saveConfirmMsg').classList.add('hidden');
+
+      // Persist lightweight context for IELTS Expert Chat
+      try {
+        const criteriaKeys = ['taskAchievement','coherenceCohesion','lexicalResource','grammaticalRange'];
+        const normScores = {};
+        criteriaKeys.forEach(k => {
+          const sv = r.scores[k];
+          normScores[k] = (sv && typeof sv === 'object') ? sv.band : (sv ?? null);
+        });
+        localStorage.setItem('ielts_last_correction', JSON.stringify({
+          taskType:        r.taskType   || null,
+          essayType:       r.essayType  || null,
+          overall:         r.scores.overall,
+          scores:          normScores,
+          weakestCriterion: r.weakestCriterion || null,
+          examinerNote:    (r.examinerNote || '').slice(0, 400),
+          date:            new Date().toLocaleDateString('en-GB'),
+        }));
+      } catch(_) {}
+
+      results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function postProcessFeedback() {
+      const container = document.getElementById('feedbackSections');
+      if (!container) return;
+      let html = container.innerHTML;
+      html = html.replace(/BAND 8 REWRITE:\s*'([^']*)'/g, '<span class="band8-label">BAND 8 REWRITE:</span> <span class="correction-highlight">$1</span>');
+      html = html.replace(/BAND 8 REWRITE:/g, '<span class="band8-label">BAND 8 REWRITE:</span>');
+      html = html.replace(/(Corrected:|Improved version:)\s*'([^']*)'/g, '$1 <span class="correction-highlight">$2</span>');
+      html = html.replace(/PRO TIP:\s*([^\n<]+)/g, '<div class="pro-tip"><span style="color:#c9a84c;font-weight:700;">💡 PRO TIP: </span>$1</div>');
+      html = html.replace(/PARAGRAPH NOTE:\s*([^\n<]+)/g, '<div class="paragraph-note">$1</div>');
+      html = html.replace(/^(\d+\.\s+[A-Z][A-Z\s\-'&,()]+)$/gm, '<div class="issue-title">$1</div>');
+      container.innerHTML = html;
+    }
+
+    function resetForm() {
+      document.getElementById('results').classList.add('hidden');
+      document.getElementById('formCard').classList.remove('hidden');
+      document.getElementById('taskSelector').classList.remove('hidden');
+      document.getElementById('essayInput').value    = '';
+      document.getElementById('questionInput').value = '';
+      lastResult = null;
+      removeImage();
+      updateWordCount();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showError(msg) {
+      const el = document.getElementById('errorMsg');
+      el.textContent = '⚠️ ' + msg;
+      el.classList.remove('hidden');
+    }
+
+    function escapeHtml(str) {
+      if (str == null) return '';
+      if (typeof str !== 'string') str = String(str);
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+
+    // ── TASK 2: Progress Archive ──
+    function formatDate(ts) {
+      const d = new Date(ts);
+      return d.toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' }) +
+             ' at ' + d.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit' });
+    }
+
+    function saveToProgress() {
+      if (!lastResult) return;
+      const r = lastResult;
+      const records = JSON.parse(localStorage.getItem('ielts_progress') || '[]');
+      // Normalise scores for archive — v2 criterion scores are objects, v1 are numbers
+      const archiveScores = { overall: r.scores.overall };
+      ['taskAchievement','coherenceCohesion','lexicalResource','grammaticalRange'].forEach(k => {
+        const sv = r.scores[k];
+        archiveScores[k] = (sv && typeof sv === 'object') ? sv.band : sv;
+      });
+      const record = {
+        id: Date.now(),
+        date: formatDate(Date.now()),
+        taskType: r.taskType || 'Essay',
+        essayType: r.essayType || null,
+        overall: r.scores.overall,
+        scores: archiveScores,
+        strengths: (r.strengths || '').slice(0, 200),
+        nextSteps: Array.isArray(r.nextSteps)
+          ? r.nextSteps.map(s => s.task).join(' | ').slice(0, 200)
+          : (r.nextSteps || '').slice(0, 200)
+      };
+      records.unshift(record);
+      localStorage.setItem('ielts_progress', JSON.stringify(records));
+      document.getElementById('saveConfirmMsg').classList.remove('hidden');
+      renderArchive();
+    }
+
+    function clearHistory() {
+      if (!confirm('Clear all progress history? This cannot be undone.')) return;
+      localStorage.removeItem('ielts_progress');
+      renderArchive();
+    }
+
+    function toggleDetails(id) {
+      const el = document.getElementById('details-' + id);
+      if (!el) return;
+      el.style.display = el.style.display === 'none' ? 'block' : 'none';
+      const btn = document.getElementById('detailsBtn-' + id);
+      if (btn) btn.textContent = el.style.display === 'none' ? 'View Details' : 'Hide Details';
+    }
+
+    function renderArchive() {
+      const records = JSON.parse(localStorage.getItem('ielts_progress') || '[]');
+      const list = document.getElementById('archiveList');
+      if (!list) return;
+
+      if (records.length === 0) {
+        list.innerHTML = `
+          <div style="text-align:center;padding:40px 20px;background:var(--white);border:1.5px dashed var(--border);border-radius:16px;">
+            <div style="font-size:2rem;margin-bottom:12px;">📝</div>
+            <p style="font-size:0.9375rem;font-weight:500;color:var(--text);margin-bottom:6px;">No essays submitted yet.</p>
+            <p style="font-size:0.875rem;color:var(--muted);">Your progress will appear here after your first correction.</p>
+          </div>
+        `;
+        return;
+      }
+
+      const criteriaLabels = {
+        taskAchievement: 'Task Achievement',
+        coherenceCohesion: 'Coherence & Cohesion',
+        lexicalResource: 'Lexical Resource',
+        grammaticalRange: 'Grammar & Accuracy'
+      };
+
+      list.innerHTML = records.map(rec => `
+        <div class="archive-card">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+            <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;flex:1;min-width:0;">
+              <div class="archive-score-circle">${escapeHtml(String(rec.overall))}</div>
+              <div style="flex:1;min-width:0;">
+                <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px;">
+                  <span class="archive-task-badge">${escapeHtml(rec.taskType)}</span>
+                  <span style="font-size:0.78rem;color:var(--muted);">${escapeHtml(rec.date)}</span>
+                </div>
+                <p style="font-size:0.875rem;color:var(--text);line-height:1.6;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:380px;">${escapeHtml(rec.strengths)}</p>
+              </div>
+            </div>
+            <button id="detailsBtn-${rec.id}" onclick="toggleDetails(${rec.id})"
+              style="flex-shrink:0;font-size:0.78rem;font-weight:600;color:var(--navy);background:none;border:1.5px solid var(--border);border-radius:8px;padding:6px 14px;cursor:pointer;white-space:nowrap;transition:border-color 0.2s;"
+              onmouseover="this.style.borderColor='var(--gold)'" onmouseout="this.style.borderColor='var(--border)'">
+              View Details
+            </button>
+          </div>
+          <div id="details-${rec.id}" style="display:none;margin-top:16px;padding-top:16px;border-top:1px solid var(--border);">
+            <div class="grid grid-cols-2 gap-2" style="margin-bottom:12px;">
+              ${Object.keys(criteriaLabels).map(k => `
+                <div style="background:var(--cream);border-radius:10px;padding:10px 14px;display:flex;align-items:center;justify-content:space-between;gap:8px;">
+                  <span style="font-size:0.75rem;color:var(--muted);font-weight:500;">${criteriaLabels[k]}</span>
+                  <span style="font-weight:700;color:var(--navy);font-size:0.95rem;">${rec.scores?.[k] || '—'}</span>
+                </div>
+              `).join('')}
+            </div>
+            ${rec.nextSteps ? `<div style="font-size:0.875rem;color:var(--text);line-height:1.75;"><strong style="color:var(--navy);">Next Steps:</strong> ${escapeHtml(rec.nextSteps)}</div>` : ''}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Render archive on page load
+    renderArchive();
+  </script>
+
+  <!-- ── EMAIL CAPTURE MODAL ── -->
+  <div id="emailModal" class="modal-overlay" style="display:none;">
+    <div class="modal-card fade-up">
+      <div class="modal-icon">📊</div>
+      <h2 style="font-family:'Playfair Display',serif;font-size:1.4rem;font-weight:700;color:var(--navy);margin-bottom:10px;">
+        Save Your Results
+      </h2>
+      <p style="font-size:0.9375rem;color:var(--muted);line-height:1.75;margin-bottom:24px;">
+        Enter your email to save this report and track your band score progress over time.
+      </p>
+      <input type="email" id="emailInput" placeholder="your@email.com"
+        style="width:100%;background:var(--cream);border:1.5px solid var(--border);border-radius:12px;padding:13px 16px;font-size:1rem;color:var(--text);font-family:'DM Sans',sans-serif;outline:none;transition:border-color 0.2s;margin-bottom:14px;"
+        onfocus="this.style.borderColor='var(--navy)'" onblur="this.style.borderColor='var(--border)'"
+        onkeydown="if(event.key==='Enter')submitEmailCapture()"
+      />
+      <div id="emailError" class="hidden" style="font-size:0.8125rem;color:var(--error);margin-bottom:10px;text-align:left;"></div>
+      <button onclick="submitEmailCapture()"
+        style="width:100%;background:var(--navy);color:var(--white);border:none;cursor:pointer;padding:14px;border-radius:12px;font-size:0.875rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;transition:background 0.2s;margin-bottom:14px;"
+        onmouseover="this.style.background='var(--navy-light)'" onmouseout="this.style.background='var(--navy)'">
+        Save My Results →
+      </button>
+      <button onclick="skipEmailCapture()"
+        style="background:none;border:none;cursor:pointer;font-size:0.8125rem;color:var(--muted);text-decoration:underline;text-underline-offset:3px;">
+        View results without saving
+      </button>
+    </div>
+  </div>
+
+  <script src="/js/components.js"></script>
+  <script>loadHeader();</script>
+</body>
+</html>

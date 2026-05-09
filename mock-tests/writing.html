@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IELTS Lab — Writing Test</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Space+Mono:wght@400;700&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = { theme: { extend: { fontFamily: { display: ['Satoshi','Plus Jakarta Sans','system-ui','sans-serif'], sans: ['Plus Jakarta Sans','system-ui','sans-serif'] } } } }
+  </script>
+  <style>
+    :root { --gold:#C9952E; --gold-light:#DDB05A; --gold-dim:rgba(201,149,46,0.10); --gold-border:rgba(201,149,46,0.22); --white:#EEF4FF; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{background:#09090b;color:#fafafa;}
+    body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+    h1,h2,h3,h4,.font-display{font-family:'Satoshi','Plus Jakarta Sans',system-ui,sans-serif;}
+    .text-gold{color:var(--gold);}
+    .nav-glass{background:rgba(9,9,11,0.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.04);}
+    .nav-logo{display:flex;align-items:baseline;gap:0;text-decoration:none;}
+    .nl-ielts{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;letter-spacing:1px;color:var(--white);}
+    .nl-lab{font-family:'Space Mono',monospace;font-size:12px;font-weight:700;letter-spacing:3px;color:var(--gold);margin-left:5px;filter:drop-shadow(0 0 6px rgba(201,149,46,0.5));}
+    ::-webkit-scrollbar{width:5px;}
+    ::-webkit-scrollbar-track{background:#09090b;}
+    ::-webkit-scrollbar-thumb{background:#3f3f46;border-radius:3px;}
+
+    /* Progress bar */
+    .progress-bar{height:3px;background:#18181b;position:fixed;top:64px;left:0;right:0;z-index:40;}
+    .progress-fill{height:100%;background:linear-gradient(to right,var(--gold),#DDB05A);transition:width 1s linear;width:0%;}
+
+    /* Timer */
+    .timer-box{
+      background:rgba(17,17,19,0.95);border:1px solid #1c1c1e;border-radius:0.75rem;
+      padding:10px 18px;font-family:'Space Mono',monospace;font-size:1.25rem;font-weight:700;
+      color:#fafafa;letter-spacing:2px;
+      box-shadow:0 4px 20px rgba(0,0,0,0.4);
+    }
+    .timer-box.warning{color:#fbbf24;border-color:rgba(251,191,36,0.3);}
+    .timer-box.critical{color:#f87171;border-color:rgba(248,113,113,0.3);animation:pulse 1s ease-in-out infinite;}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.7}}
+
+    /* Cards */
+    .section-card{background:rgba(17,17,19,0.7);border:1px solid #1c1c1e;border-radius:1.25rem;padding:1.75rem;}
+
+    /* Textarea */
+    .answer-area{
+      width:100%;background:#0c0c0e;border:1px solid #27272a;border-radius:0.75rem;
+      padding:1rem;color:#e4e4e7;font-size:0.9375rem;line-height:1.75;resize:vertical;
+      font-family:'Plus Jakarta Sans',system-ui,sans-serif;transition:border-color 0.2s;
+      min-height:200px;
+    }
+    .answer-area:focus{outline:none;border-color:var(--gold-border);}
+
+    /* Word counter */
+    .word-counter{font-size:0.75rem;font-family:'Space Mono',monospace;}
+    .word-counter.under{color:#71717a;}
+    .word-counter.ok{color:#4ade80;}
+    .word-counter.good{color:var(--gold);}
+
+    /* Buttons */
+    .btn-gold{background:linear-gradient(135deg,var(--gold) 0%,#a8741f 100%);color:#05081A;border:none;border-radius:0.5rem;padding:12px 32px;font-size:0.875rem;font-weight:700;letter-spacing:0.04em;cursor:pointer;transition:all 0.25s ease;box-shadow:0 0 20px rgba(201,149,46,0.25);}
+    .btn-gold:hover{transform:translateY(-2px);box-shadow:0 0 32px rgba(201,149,46,0.45);}
+    .btn-gold:disabled{opacity:0.4;cursor:not-allowed;transform:none !important;}
+
+    /* Overlay states */
+    .overlay{position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(9,9,11,0.97);padding:2rem;}
+    .overlay.hidden{display:none;}
+
+    /* Loading spinner */
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .spinner{width:40px;height:40px;border:3px solid #27272a;border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;}
+
+    /* Submitting overlay */
+    .submit-overlay{position:fixed;inset:0;z-index:300;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(9,9,11,0.97);}
+    .submit-overlay.hidden{display:none;}
+
+    /* ── Theme toggle button ── */
+    #themeToggle{background:transparent;border:1px solid rgba(201,149,46,0.25);color:#71717a;border-radius:8px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;font-size:15px;flex-shrink:0;padding:0;}
+    #themeToggle:hover{border-color:var(--gold-border);color:var(--gold);}
+    /* ── Light mode ── */
+    html[data-theme="light"]{background:#F4F1EB !important;color:#1C1C2E !important;}
+    html[data-theme="light"] body{background:#F4F1EB !important;color:#1C1C2E !important;}
+    html[data-theme="light"] .bg-zinc-950{background-color:#F4F1EB !important;}
+    html[data-theme="light"] .text-zinc-50{color:#1C1C2E !important;}
+    html[data-theme="light"] .text-zinc-400{color:#585862 !important;}
+    html[data-theme="light"] .text-zinc-500{color:#6B6B7A !important;}
+    html[data-theme="light"] .text-zinc-600{color:#7A7A88 !important;}
+    html[data-theme="light"] ::-webkit-scrollbar-track{background:#F4F1EB !important;}
+    html[data-theme="light"] ::-webkit-scrollbar-thumb{background:#C4B07A !important;}
+    html[data-theme="light"] .nav-glass{background:rgba(244,241,235,0.94) !important;border-bottom-color:rgba(0,0,0,0.08) !important;}
+    html[data-theme="light"] .nl-ielts{color:#1C1C2E !important;}
+    html[data-theme="light"] .section-card{background:rgba(255,255,255,0.95) !important;border-color:#E4E0D6 !important;}
+    html[data-theme="light"] .timer-box{background:#FFFFFF !important;border-color:#D4D0C8 !important;color:#1C1C2E !important;box-shadow:0 2px 10px rgba(0,0,0,0.08) !important;}
+    html[data-theme="light"] .timer-box.warning{color:#b45309 !important;}
+    html[data-theme="light"] .timer-box.critical{color:#dc2626 !important;}
+    html[data-theme="light"] .progress-bar{background:#E4E0D6 !important;}
+    html[data-theme="light"] .answer-area{background:#F9F6F0 !important;border-color:#D4D0C8 !important;color:#1C1C2E !important;}
+    html[data-theme="light"] .answer-area:focus{border-color:var(--gold-border) !important;}
+    html[data-theme="light"] .overlay{background:rgba(244,241,235,0.97) !important;}
+    html[data-theme="light"] .overlay .text-zinc-200{color:#1C1C2E !important;}
+    html[data-theme="light"] .overlay .text-zinc-500{color:#6B6B7A !important;}
+    html[data-theme="light"] .submit-overlay{background:rgba(244,241,235,0.97) !important;}
+    html[data-theme="light"] .spinner{border-color:#D4D0C8 !important;border-top-color:var(--gold) !important;}
+  </style>
+  <script>
+    (function(){var t=localStorage.getItem('ieltslab_theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();
+    function toggleTheme(){var c=document.documentElement.getAttribute('data-theme')||'dark',n=c==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('ieltslab_theme',n);var b=document.getElementById('themeToggle');if(b)b.textContent=n==='dark'?'☀':'🌙';}
+    document.addEventListener('DOMContentLoaded',function(){var b=document.getElementById('themeToggle');if(b){var d=(document.documentElement.getAttribute('data-theme')||'dark')==='dark';b.textContent=d?'☀':'🌙';}});
+  </script>
+</head>
+<body class="bg-zinc-950 text-zinc-50 min-h-screen flex flex-col">
+
+  <!-- PROGRESS BAR -->
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+  <!-- NAV -->
+  <div id="header-container"></div>
+
+  <!-- LOADING OVERLAY -->
+  <div class="overlay" id="loadingOverlay">
+    <div class="spinner mb-6"></div>
+    <div class="font-display font-bold text-zinc-200 text-xl mb-2">Generating Your Questions</div>
+    <p class="text-sm text-zinc-500 max-w-xs text-center">Our AI is creating a unique IELTS Writing test based on your training type. This takes a few seconds…</p>
+  </div>
+
+  <!-- SUBMITTING OVERLAY -->
+  <div class="submit-overlay hidden" id="submittingOverlay">
+    <div class="spinner mb-6"></div>
+    <div class="font-display font-bold text-zinc-200 text-xl mb-2">Grading Your Responses</div>
+    <p class="text-sm text-zinc-500 max-w-xs text-center">Our AI examiner is analysing your writing using official IELTS band descriptors…</p>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <main class="flex-1 max-w-4xl mx-auto px-6 py-10 w-full" id="testContent" style="display:none;">
+
+    <!-- Info bar -->
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <div class="text-xs font-medium tracking-widest uppercase mb-1" style="color:var(--gold);">✍️ Writing</div>
+        <h1 class="font-display font-black text-2xl text-zinc-100" id="testHeading">IELTS Writing Test</h1>
+        <p class="text-xs text-zinc-600 mt-1" id="trainingTypeLabel"></p>
+      </div>
+      <div class="hidden md:flex items-center gap-6 text-xs text-zinc-600">
+        <div>Task 1: <span class="text-zinc-400">~20 min · 150+ words</span></div>
+        <div>Task 2: <span class="text-zinc-400">~40 min · 250+ words</span></div>
+      </div>
+    </div>
+
+    <!-- TASK 1 -->
+    <div class="section-card mb-6">
+      <div class="flex items-center gap-3 mb-5">
+        <span class="inline-flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold" style="background:var(--gold-dim);border:1px solid var(--gold-border);color:var(--gold);">1</span>
+        <div>
+          <div class="font-display font-bold text-zinc-100">Task 1</div>
+          <div class="text-xs text-zinc-500">Minimum 150 words · Recommended: ~20 minutes</div>
+        </div>
+      </div>
+
+      <!-- Question -->
+      <div class="mb-5 p-4 rounded-xl text-sm leading-relaxed text-zinc-300" style="background:#0e0e10;border:1px solid #1c1c1e;" id="task1Question">
+        <div class="text-zinc-600 text-xs mb-2">Loading question…</div>
+      </div>
+
+      <!-- Answer -->
+      <textarea id="task1Answer" class="answer-area" placeholder="Write your Task 1 response here…" oninput="updateWordCount('task1')"></textarea>
+      <div class="flex justify-between items-center mt-2">
+        <div class="word-counter under" id="task1Counter">0 words</div>
+        <div class="text-xs text-zinc-700">Minimum: 150 words</div>
+      </div>
+    </div>
+
+    <!-- TASK 2 -->
+    <div class="section-card mb-8">
+      <div class="flex items-center gap-3 mb-5">
+        <span class="inline-flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold" style="background:var(--gold-dim);border:1px solid var(--gold-border);color:var(--gold);">2</span>
+        <div>
+          <div class="font-display font-bold text-zinc-100">Task 2</div>
+          <div class="text-xs text-zinc-500">Minimum 250 words · Recommended: ~40 minutes</div>
+        </div>
+      </div>
+
+      <!-- Question -->
+      <div class="mb-5 p-4 rounded-xl text-sm leading-relaxed text-zinc-300" style="background:#0e0e10;border:1px solid #1c1c1e;" id="task2Question">
+        <div class="text-zinc-600 text-xs mb-2">Loading question…</div>
+      </div>
+
+      <!-- Answer -->
+      <textarea id="task2Answer" class="answer-area" style="min-height:280px;" placeholder="Write your Task 2 response here…" oninput="updateWordCount('task2')"></textarea>
+      <div class="flex justify-between items-center mt-2">
+        <div class="word-counter under" id="task2Counter">0 words</div>
+        <div class="text-xs text-zinc-700">Minimum: 250 words</div>
+      </div>
+    </div>
+
+    <!-- Submit early -->
+    <div class="flex justify-center mb-16">
+      <button onclick="confirmEarlySubmit()" class="btn-gold px-12">Submit Writing Test</button>
+    </div>
+
+  </main>
+
+  <!-- TIME'S UP MODAL -->
+  <div id="timesUpModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:250;display:none;align-items:center;justify-content:center;" class="flex">
+    <div style="background:#111113;border:1px solid #27272a;border-radius:1.25rem;padding:2rem;max-width:400px;width:100%;text-align:center;margin:1rem;">
+      <div class="text-4xl mb-4">⏰</div>
+      <div class="font-display font-bold text-xl text-zinc-100 mb-2">Time's Up!</div>
+      <p class="text-sm text-zinc-400 mb-6">Your 60 minutes are up. Your answers are being submitted now.</p>
+      <button onclick="submitTest()" class="btn-gold w-full">Submit & See Results</button>
+    </div>
+  </div>
+
+  <script>
+    // ── AUTH + SETUP GUARD ──
+    const rawSession = localStorage.getItem('ielts_session');
+    if (!rawSession) { window.location.replace('../login.html'); }
+    let session;
+    try { session = JSON.parse(rawSession); }
+    catch { localStorage.removeItem('ielts_session'); window.location.replace('../login.html'); }
+
+    const rawSetup = sessionStorage.getItem('mockTestSetup');
+    if (!rawSetup) { window.location.replace('index.html'); }
+    let setup;
+    try { setup = JSON.parse(rawSetup); }
+    catch { window.location.replace('index.html'); }
+
+    const isAcademic = setup.type === 'academic';
+    const isFullTest = setup.mode === 'full';
+
+    document.getElementById('testHeading').textContent = `IELTS Writing Test — ${isAcademic ? 'Academic' : 'General Training'}`;
+    document.getElementById('trainingTypeLabel').textContent = isFullTest ? 'Full Mock Test · Writing section' : 'Single Skill Test';
+    document.getElementById('testLabel').textContent = isAcademic ? 'Writing — Academic' : 'Writing — General Training';
+
+    // ── TIMER (60 min = 3600s) ──
+    const TOTAL_SECONDS = 3600;
+    let secondsLeft = TOTAL_SECONDS;
+    let timerInterval = null;
+    let testStarted = false;
+    let questionData = null;
+
+    function formatTime(s) {
+      const m = Math.floor(s / 60);
+      const sec = s % 60;
+      return `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`;
+    }
+
+    function startTimer() {
+      testStarted = true;
+      document.getElementById('submitBtn').style.display = 'block';
+      timerInterval = setInterval(() => {
+        secondsLeft--;
+        const pct = ((TOTAL_SECONDS - secondsLeft) / TOTAL_SECONDS) * 100;
+        document.getElementById('progressFill').style.width = pct + '%';
+        const el = document.getElementById('timerDisplay');
+        el.textContent = formatTime(secondsLeft);
+        if (secondsLeft <= 300) { el.className = 'timer-box critical'; }
+        else if (secondsLeft <= 600) { el.className = 'timer-box warning'; }
+        if (secondsLeft <= 0) {
+          clearInterval(timerInterval);
+          showTimesUp();
+        }
+      }, 1000);
+    }
+
+    function showTimesUp() {
+      const modal = document.getElementById('timesUpModal');
+      modal.style.display = 'flex';
+    }
+
+    // ── WORD COUNT ──
+    function countWords(text) {
+      return text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+    }
+
+    function updateWordCount(task) {
+      const textarea = document.getElementById(task + 'Answer');
+      const counter = document.getElementById(task + 'Counter');
+      const min = task === 'task1' ? 150 : 250;
+      const count = countWords(textarea.value);
+      counter.textContent = `${count} words`;
+      counter.className = 'word-counter ' + (count >= min ? (count >= min * 1.3 ? 'good' : 'ok') : 'under');
+    }
+
+    // ── LOAD QUESTION ──
+    async function loadQuestion() {
+      try {
+        const response = await fetch('/api/mock/generate-question', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ skill: 'writing', trainingType: setup.type, mode: setup.mode })
+        });
+        if (!response.ok) throw new Error('API error ' + response.status);
+        questionData = await response.json();
+
+        // Render Task 1
+        const t1El = document.getElementById('task1Question');
+        t1El.innerHTML = `
+          <div class="text-xs font-medium tracking-widest uppercase mb-3" style="color:var(--gold);">Task 1 — ${isAcademic ? 'Academic Report' : 'General Training Letter'}</div>
+          <div class="text-zinc-200 leading-relaxed">${questionData.task1?.prompt || questionData.task1 || 'No question generated.'}</div>
+          ${questionData.task1?.tip ? `<div class="mt-3 text-xs text-zinc-600">💡 ${questionData.task1.tip}</div>` : ''}
+        `;
+
+        // Render Task 2
+        const t2El = document.getElementById('task2Question');
+        t2El.innerHTML = `
+          <div class="text-xs font-medium tracking-widest uppercase mb-3" style="color:var(--gold);">Task 2 — Essay</div>
+          <div class="text-zinc-200 leading-relaxed">${questionData.task2?.prompt || questionData.task2 || 'No question generated.'}</div>
+          ${questionData.task2?.tip ? `<div class="mt-3 text-xs text-zinc-600">💡 ${questionData.task2.tip}</div>` : ''}
+        `;
+
+        // Show test, hide loading
+        document.getElementById('loadingOverlay').classList.add('hidden');
+        document.getElementById('testContent').style.display = 'block';
+        startTimer();
+      } catch (err) {
+        document.getElementById('loadingOverlay').innerHTML = `
+          <div class="text-4xl mb-4">⚠️</div>
+          <div class="font-display font-bold text-red-400 text-xl mb-2">Failed to Load Question</div>
+          <p class="text-sm text-zinc-500 mb-6">${err.message}</p>
+          <button onclick="loadQuestion()" class="btn-gold">Retry</button>
+          <a href="index.html" class="block mt-4 text-xs text-zinc-600 hover:text-zinc-400">← Back to dashboard</a>
+        `;
+        document.getElementById('loadingOverlay').style.background = 'rgba(9,9,11,0.97)';
+      }
+    }
+
+    // ── SUBMIT ──
+    function confirmEarlySubmit() {
+      if (!confirm('Submit your writing test now? You can\'t go back after this.')) return;
+      submitTest();
+    }
+
+    async function submitTest() {
+      // Hide timer modal if showing
+      document.getElementById('timesUpModal').style.display = 'none';
+      clearInterval(timerInterval);
+
+      const task1Answer = document.getElementById('task1Answer').value;
+      const task2Answer = document.getElementById('task2Answer').value;
+
+      if (!task1Answer.trim() && !task2Answer.trim()) {
+        alert('Please write at least something for Task 1 and Task 2 before submitting.');
+        return;
+      }
+
+      document.getElementById('submittingOverlay').classList.remove('hidden');
+
+      try {
+        const response = await fetch('/api/mock/grade', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            skill: 'writing',
+            trainingType: setup.type,
+            question: questionData,
+            answers: { task1: task1Answer, task2: task2Answer }
+          })
+        });
+        if (!response.ok) throw new Error('Grading failed: ' + response.status);
+        const result = await response.json();
+
+        // Save result
+        const resultId = Date.now().toString();
+        const savedResult = {
+          id: resultId,
+          date: Date.now(),
+          testType: isFullTest ? 'Full Mock Test' : 'Writing — ' + (isAcademic ? 'Academic' : 'General Training'),
+          skill: 'writing',
+          trainingType: setup.type,
+          scores: { writing: result.overall_band, overall: result.overall_band },
+          feedback: result,
+          question: questionData,
+          answers: { task1: task1Answer, task2: task2Answer }
+        };
+
+        const existing = JSON.parse(localStorage.getItem('ielts_mock_results') || '[]');
+        existing.push(savedResult);
+        localStorage.setItem('ielts_mock_results', JSON.stringify(existing));
+
+        // Full test: move to next skill
+        if (isFullTest) {
+          setup.completedSkills = setup.completedSkills || [];
+          setup.completedSkills.push({ skill: 'writing', resultId });
+          sessionStorage.setItem('mockTestSetup', JSON.stringify(setup));
+          window.location.href = 'speaking.html';
+        } else {
+          window.location.href = `results.html?id=${resultId}`;
+        }
+      } catch (err) {
+        document.getElementById('submittingOverlay').classList.add('hidden');
+        alert('Grading failed: ' + err.message + '\n\nPlease try again.');
+      }
+    }
+
+    // Start loading question
+    loadQuestion();
+  </script>
+  <script src="/js/components.js"></script>
+  <script>loadHeader();</script>
+</body>
+</html>

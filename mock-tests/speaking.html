@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IELTS Lab — Speaking Test</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Space+Mono:wght@400;700&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = { theme: { extend: { fontFamily: { display: ['Satoshi','Plus Jakarta Sans','system-ui','sans-serif'], sans: ['Plus Jakarta Sans','system-ui','sans-serif'] } } } }
+  </script>
+  <style>
+    :root { --gold:#C9952E; --gold-light:#DDB05A; --gold-dim:rgba(201,149,46,0.10); --gold-border:rgba(201,149,46,0.22); --white:#EEF4FF; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{background:#09090b;color:#fafafa;}
+    body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+    h1,h2,h3,h4,.font-display{font-family:'Satoshi','Plus Jakarta Sans',system-ui,sans-serif;}
+    .nav-glass{background:rgba(9,9,11,0.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.04);}
+    .nav-logo{display:flex;align-items:baseline;gap:0;text-decoration:none;}
+    .nl-ielts{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;letter-spacing:1px;color:var(--white);}
+    .nl-lab{font-family:'Space Mono',monospace;font-size:12px;font-weight:700;letter-spacing:3px;color:var(--gold);margin-left:5px;filter:drop-shadow(0 0 6px rgba(201,149,46,0.5));}
+    ::-webkit-scrollbar{width:5px;}
+    ::-webkit-scrollbar-track{background:#09090b;}
+    ::-webkit-scrollbar-thumb{background:#3f3f46;border-radius:3px;}
+    .progress-bar{height:3px;background:#18181b;position:fixed;top:64px;left:0;right:0;z-index:40;}
+    .progress-fill{height:100%;background:linear-gradient(to right,var(--gold),#DDB05A);transition:width 1s linear;width:0%;}
+    .timer-box{background:rgba(17,17,19,0.95);border:1px solid #1c1c1e;border-radius:0.75rem;padding:10px 18px;font-family:'Space Mono',monospace;font-size:1.25rem;font-weight:700;color:#fafafa;letter-spacing:2px;box-shadow:0 4px 20px rgba(0,0,0,0.4);}
+    .timer-box.warning{color:#fbbf24;border-color:rgba(251,191,36,0.3);}
+    .timer-box.critical{color:#f87171;border-color:rgba(248,113,113,0.3);animation:pulse 1s ease-in-out infinite;}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.7}}
+    .section-card{background:rgba(17,17,19,0.7);border:1px solid #1c1c1e;border-radius:1.25rem;padding:1.75rem;}
+    .btn-gold{background:linear-gradient(135deg,var(--gold) 0%,#a8741f 100%);color:#05081A;border:none;border-radius:0.5rem;padding:12px 32px;font-size:0.875rem;font-weight:700;cursor:pointer;transition:all 0.25s ease;box-shadow:0 0 20px rgba(201,149,46,0.25);}
+    .btn-gold:hover{transform:translateY(-2px);box-shadow:0 0 32px rgba(201,149,46,0.45);}
+    .btn-ghost{background:transparent;color:var(--gold);border:1px solid var(--gold-border);border-radius:0.5rem;padding:10px 22px;font-size:0.8125rem;font-weight:600;cursor:pointer;transition:all 0.2s;}
+    .btn-ghost:hover{background:var(--gold-dim);}
+    .overlay{position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(9,9,11,0.97);padding:2rem;}
+    .overlay.hidden{display:none;}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .spinner{width:40px;height:40px;border:3px solid #27272a;border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;}
+    .submit-overlay{position:fixed;inset:0;z-index:300;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(9,9,11,0.97);}
+    .submit-overlay.hidden{display:none;}
+
+    /* Speaking parts */
+    .part-tab{padding:8px 20px;border-radius:0.5rem;font-size:0.8125rem;font-weight:600;cursor:pointer;border:1px solid #27272a;color:#71717a;background:transparent;transition:all 0.2s;}
+    .part-tab.active{background:var(--gold-dim);border-color:var(--gold-border);color:var(--gold);}
+    .part-panel{display:none;}
+    .part-panel.active{display:block;}
+
+    .prompt-box{background:#0e0e10;border:1px solid #1c1c1e;border-radius:0.75rem;padding:1.25rem;margin-bottom:1rem;}
+    .prompt-label{font-size:0.6875rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+    .prompt-text{font-size:0.9375rem;color:#d4d4d8;line-height:1.7;}
+    .sub-prompt{font-size:0.8125rem;color:#71717a;margin-top:6px;padding-left:1rem;border-left:2px solid #27272a;}
+
+    /* Answer textarea */
+    .answer-area{width:100%;background:#0c0c0e;border:1px solid #27272a;border-radius:0.75rem;padding:1rem;color:#e4e4e7;font-size:0.9375rem;line-height:1.75;resize:vertical;font-family:'Plus Jakarta Sans',system-ui,sans-serif;transition:border-color 0.2s;min-height:160px;}
+    .answer-area:focus{outline:none;border-color:var(--gold-border);}
+
+    /* Mic button (bonus) */
+    .mic-btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border:1px solid rgba(42,255,214,0.25);border-radius:99px;color:#7AFFF0;background:rgba(42,255,214,0.05);font-size:0.8125rem;cursor:pointer;transition:all 0.2s;}
+    .mic-btn:hover,.mic-btn.recording{background:rgba(42,255,214,0.1);border-color:rgba(42,255,214,0.4);}
+    .mic-btn.recording{animation:pulse 1s ease-in-out infinite;}
+
+    /* Cue card (Part 2) */
+    .cue-card{background:rgba(201,149,46,0.06);border:1px solid var(--gold-border);border-radius:0.875rem;padding:1.5rem;}
+    .cue-card-title{font-size:0.875rem;font-weight:600;color:var(--gold-light);margin-bottom:12px;}
+    .cue-card-topic{font-size:1rem;font-weight:700;color:#fafafa;margin-bottom:12px;line-height:1.5;}
+    .cue-card-points{font-size:0.875rem;color:#a1a1aa;line-height:1.9;padding-left:1.25rem;}
+    .cue-card-points li{margin-bottom:4px;}
+
+    /* Part indicator */
+    .part-badge{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:99px;font-size:0.6875rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;}
+
+    /* ── Theme toggle button ── */
+    #themeToggle{background:transparent;border:1px solid rgba(201,149,46,0.25);color:#71717a;border-radius:8px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;font-size:15px;flex-shrink:0;padding:0;}
+    #themeToggle:hover{border-color:var(--gold-border);color:var(--gold);}
+    /* ── Light mode ── */
+    html[data-theme="light"]{background:#F4F1EB !important;color:#1C1C2E !important;}
+    html[data-theme="light"] body{background:#F4F1EB !important;color:#1C1C2E !important;}
+    html[data-theme="light"] .bg-zinc-950{background-color:#F4F1EB !important;}
+    html[data-theme="light"] .text-zinc-50{color:#1C1C2E !important;}
+    html[data-theme="light"] .text-zinc-400{color:#585862 !important;}
+    html[data-theme="light"] .text-zinc-500{color:#6B6B7A !important;}
+    html[data-theme="light"] .text-zinc-600{color:#7A7A88 !important;}
+    html[data-theme="light"] ::-webkit-scrollbar-track{background:#F4F1EB !important;}
+    html[data-theme="light"] ::-webkit-scrollbar-thumb{background:#C4B07A !important;}
+    html[data-theme="light"] .nav-glass{background:rgba(244,241,235,0.94) !important;border-bottom-color:rgba(0,0,0,0.08) !important;}
+    html[data-theme="light"] .nl-ielts{color:#1C1C2E !important;}
+    html[data-theme="light"] .section-card{background:rgba(255,255,255,0.95) !important;border-color:#E4E0D6 !important;}
+    html[data-theme="light"] .timer-box{background:#FFFFFF !important;border-color:#D4D0C8 !important;color:#1C1C2E !important;box-shadow:0 2px 10px rgba(0,0,0,0.08) !important;}
+    html[data-theme="light"] .timer-box.warning{color:#b45309 !important;}
+    html[data-theme="light"] .timer-box.critical{color:#dc2626 !important;}
+    html[data-theme="light"] .progress-bar{background:#E4E0D6 !important;}
+    html[data-theme="light"] .prompt-box{background:#F4F0E8 !important;border-color:#D4D0C8 !important;}
+    html[data-theme="light"] .prompt-text{color:#3A3A4A !important;}
+    html[data-theme="light"] .sub-prompt{color:#6B6B7A !important;border-left-color:#D4D0C8 !important;}
+    html[data-theme="light"] .part-tab{border-color:#D4D0C8 !important;color:#6B6B7A !important;}
+    html[data-theme="light"] .cue-card{background:rgba(201,149,46,0.05) !important;border-color:rgba(201,149,46,0.2) !important;}
+    html[data-theme="light"] .cue-card-topic{color:#1C1C2E !important;}
+    html[data-theme="light"] .cue-card-points{color:#6B6B7A !important;}
+    html[data-theme="light"] .answer-area{background:#F9F6F0 !important;border-color:#D4D0C8 !important;color:#1C1C2E !important;}
+    html[data-theme="light"] .answer-area:focus{border-color:var(--gold-border) !important;}
+    html[data-theme="light"] .overlay{background:rgba(244,241,235,0.97) !important;}
+    html[data-theme="light"] .overlay .text-zinc-200{color:#1C1C2E !important;}
+    html[data-theme="light"] .overlay .text-zinc-500{color:#6B6B7A !important;}
+    html[data-theme="light"] .submit-overlay{background:rgba(244,241,235,0.97) !important;}
+    html[data-theme="light"] .spinner{border-color:#D4D0C8 !important;border-top-color:var(--gold) !important;}
+  </style>
+  <script>
+    (function(){var t=localStorage.getItem('ieltslab_theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();
+    function toggleTheme(){var c=document.documentElement.getAttribute('data-theme')||'dark',n=c==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('ieltslab_theme',n);var b=document.getElementById('themeToggle');if(b)b.textContent=n==='dark'?'☀':'🌙';}
+    document.addEventListener('DOMContentLoaded',function(){var b=document.getElementById('themeToggle');if(b){var d=(document.documentElement.getAttribute('data-theme')||'dark')==='dark';b.textContent=d?'☀':'🌙';}});
+  </script>
+</head>
+<body class="bg-zinc-950 text-zinc-50 min-h-screen flex flex-col">
+
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+  <!-- NAV -->
+  <div id="header-container"></div>
+
+  <!-- LOADING -->
+  <div class="overlay" id="loadingOverlay">
+    <div class="spinner mb-6"></div>
+    <div class="font-display font-bold text-zinc-200 text-xl mb-2">Generating Your Speaking Test</div>
+    <p class="text-sm text-zinc-500 max-w-xs text-center">Creating Part 1, Part 2, and Part 3 questions for your session…</p>
+  </div>
+
+  <!-- SUBMITTING -->
+  <div class="submit-overlay hidden" id="submittingOverlay">
+    <div class="spinner mb-6"></div>
+    <div class="font-display font-bold text-zinc-200 text-xl mb-2">Analysing Your Responses</div>
+    <p class="text-sm text-zinc-500 max-w-xs text-center">Evaluating fluency, vocabulary, grammar, and pronunciation…</p>
+  </div>
+
+  <!-- TIME'S UP -->
+  <div id="timesUpModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:250;align-items:center;justify-content:center;" class="flex">
+    <div style="background:#111113;border:1px solid #27272a;border-radius:1.25rem;padding:2rem;max-width:400px;width:100%;text-align:center;margin:1rem;">
+      <div class="text-4xl mb-4">⏰</div>
+      <div class="font-display font-bold text-xl text-zinc-100 mb-2">Time's Up!</div>
+      <p class="text-sm text-zinc-400 mb-6">Your 14 minutes are up. Submitting your answers now.</p>
+      <button onclick="submitTest()" class="btn-gold w-full">Submit & See Results</button>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <main class="flex-1 max-w-4xl mx-auto px-6 py-10 w-full" id="testContent" style="display:none;">
+
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <div class="text-xs font-medium tracking-widest uppercase mb-1" style="color:var(--gold);">🗣 Speaking</div>
+        <h1 class="font-display font-black text-2xl text-zinc-100">IELTS Speaking Test</h1>
+        <p class="text-xs text-zinc-600 mt-1" id="trainingTypeLabel"></p>
+      </div>
+      <div class="text-xs text-zinc-600 hidden md:block text-right">
+        <div>Part 1: 4–5 min</div>
+        <div>Part 2: 3–4 min</div>
+        <div>Part 3: 4–5 min</div>
+      </div>
+    </div>
+
+    <!-- NOTE -->
+    <div class="mb-6 px-4 py-3 rounded-xl text-xs text-zinc-500" style="background:#18181b;border:1px solid #27272a;">
+      📌 Type your responses as if you were speaking. Your vocabulary, grammar, coherence, and idea quality will be assessed. For the best results, write naturally — don't over-polish.
+    </div>
+
+    <!-- PART TABS -->
+    <div class="flex gap-3 mb-6">
+      <button class="part-tab active" id="tab1" onclick="switchPart(1)">Part 1 · Introduction</button>
+      <button class="part-tab" id="tab2" onclick="switchPart(2)">Part 2 · Long Turn</button>
+      <button class="part-tab" id="tab3" onclick="switchPart(3)">Part 3 · Discussion</button>
+    </div>
+
+    <!-- PART 1 -->
+    <div class="part-panel active" id="panel1">
+      <div class="section-card">
+        <div class="flex items-center gap-2 mb-5">
+          <span class="part-badge" style="background:rgba(58,123,247,0.1);border:1px solid rgba(58,123,247,0.2);color:#7AAEFF;">Part 1</span>
+          <span class="text-xs text-zinc-600">Introduction &amp; interview · 4–5 minutes</span>
+        </div>
+        <p class="text-xs text-zinc-600 mb-5 leading-relaxed">The examiner will ask general questions about yourself and familiar topics. Answer naturally and in full sentences.</p>
+        <div id="part1Questions"></div>
+        <div class="mt-4">
+          <div class="text-xs text-zinc-500 mb-2 uppercase tracking-widest font-medium">Your Response</div>
+          <textarea id="part1Answer" class="answer-area" placeholder="Write your responses to the Part 1 questions here…"></textarea>
+        </div>
+        <div class="mt-4 flex justify-end">
+          <button onclick="switchPart(2)" class="btn-ghost">Next: Part 2 →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PART 2 -->
+    <div class="part-panel" id="panel2">
+      <div class="section-card">
+        <div class="flex items-center gap-2 mb-5">
+          <span class="part-badge" style="background:var(--gold-dim);border:1px solid var(--gold-border);color:var(--gold);">Part 2</span>
+          <span class="text-xs text-zinc-600">Individual long turn · 3–4 minutes</span>
+        </div>
+        <p class="text-xs text-zinc-600 mb-5 leading-relaxed">You will be given a cue card. You have 1 minute to prepare, then speak for 1–2 minutes on the topic.</p>
+        <div class="cue-card mb-5" id="part2CueCard">
+          <div class="cue-card-title">📋 Cue Card — Talk about:</div>
+          <div class="cue-card-topic" id="part2Topic">Loading…</div>
+          <ul class="cue-card-points" id="part2Points"></ul>
+        </div>
+        <div class="mt-4">
+          <div class="text-xs text-zinc-500 mb-2 uppercase tracking-widest font-medium">Your Response <span class="text-zinc-700">(1–2 minutes — aim for ~250 words)</span></div>
+          <textarea id="part2Answer" class="answer-area" placeholder="Write your long turn response here…"></textarea>
+        </div>
+        <div class="mt-4 flex justify-between">
+          <button onclick="switchPart(1)" class="btn-ghost">← Part 1</button>
+          <button onclick="switchPart(3)" class="btn-ghost">Next: Part 3 →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PART 3 -->
+    <div class="part-panel" id="panel3">
+      <div class="section-card">
+        <div class="flex items-center gap-2 mb-5">
+          <span class="part-badge" style="background:rgba(42,255,214,0.07);border:1px solid rgba(42,255,214,0.2);color:#7AFFF0;">Part 3</span>
+          <span class="text-xs text-zinc-600">Two-way discussion · 4–5 minutes</span>
+        </div>
+        <p class="text-xs text-zinc-600 mb-5 leading-relaxed">The examiner asks more abstract discussion questions linked to the Part 2 topic. Give extended, thoughtful answers.</p>
+        <div id="part3Questions"></div>
+        <div class="mt-4">
+          <div class="text-xs text-zinc-500 mb-2 uppercase tracking-widest font-medium">Your Response</div>
+          <textarea id="part3Answer" class="answer-area" placeholder="Write your responses to the Part 3 questions here…"></textarea>
+        </div>
+        <div class="mt-6 flex justify-between items-center">
+          <button onclick="switchPart(2)" class="btn-ghost">← Part 2</button>
+          <button onclick="confirmEarlySubmit()" class="btn-gold">Submit Speaking Test</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-6 mb-12 text-center">
+      <p class="text-xs text-zinc-700">Scroll through all three parts before submitting · Your timer is running</p>
+    </div>
+  </main>
+
+  <script>
+    const rawSession = localStorage.getItem('ielts_session');
+    if (!rawSession) window.location.replace('../login.html');
+    let session;
+    try { session = JSON.parse(rawSession); }
+    catch { localStorage.removeItem('ielts_session'); window.location.replace('../login.html'); }
+
+    const rawSetup = sessionStorage.getItem('mockTestSetup');
+    if (!rawSetup) window.location.replace('index.html');
+    let setup;
+    try { setup = JSON.parse(rawSetup); }
+    catch { window.location.replace('index.html'); }
+
+    const isFullTest = setup.mode === 'full';
+    document.getElementById('trainingTypeLabel').textContent = isFullTest ? 'Full Mock Test · Speaking section' : 'Single Skill Test';
+
+    // ── PART TABS ──
+    function switchPart(n) {
+      [1,2,3].forEach(i => {
+        document.getElementById('tab'+i).classList.toggle('active', i === n);
+        document.getElementById('panel'+i).classList.toggle('active', i === n);
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // ── TIMER (14 min = 840s) ──
+    const TOTAL_SECONDS = 840;
+    let secondsLeft = TOTAL_SECONDS;
+    let timerInterval = null;
+    let questionData = null;
+
+    function formatTime(s) {
+      return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+    }
+
+    function startTimer() {
+      timerInterval = setInterval(() => {
+        secondsLeft--;
+        document.getElementById('progressFill').style.width = ((TOTAL_SECONDS-secondsLeft)/TOTAL_SECONDS*100)+'%';
+        const el = document.getElementById('timerDisplay');
+        el.textContent = formatTime(secondsLeft);
+        if (secondsLeft <= 120) el.className = 'timer-box critical';
+        else if (secondsLeft <= 300) el.className = 'timer-box warning';
+        if (secondsLeft <= 0) { clearInterval(timerInterval); document.getElementById('timesUpModal').style.display = 'flex'; }
+      }, 1000);
+    }
+
+    // ── RENDER QUESTIONS ──
+    function renderPartQuestions(containerId, questions) {
+      const el = document.getElementById(containerId);
+      if (!questions || !questions.length) return;
+      el.innerHTML = questions.map((q, i) => `
+        <div class="prompt-box">
+          <div class="prompt-label">Question ${i+1}</div>
+          <div class="prompt-text">${q}</div>
+        </div>
+      `).join('');
+    }
+
+    async function loadQuestion() {
+      try {
+        const response = await fetch('/api/mock/generate-question', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ skill: 'speaking', trainingType: setup.type, mode: setup.mode })
+        });
+        if (!response.ok) throw new Error('API error ' + response.status);
+        questionData = await response.json();
+
+        renderPartQuestions('part1Questions', questionData.part1?.questions);
+
+        document.getElementById('part2Topic').textContent = questionData.part2?.topic || '';
+        const pointsEl = document.getElementById('part2Points');
+        if (questionData.part2?.points) {
+          pointsEl.innerHTML = questionData.part2.points.map(p => `<li>${p}</li>`).join('');
+        }
+
+        renderPartQuestions('part3Questions', questionData.part3?.questions);
+
+        document.getElementById('loadingOverlay').classList.add('hidden');
+        document.getElementById('testContent').style.display = 'block';
+        startTimer();
+      } catch (err) {
+        document.getElementById('loadingOverlay').innerHTML = `
+          <div class="text-4xl mb-4">⚠️</div>
+          <div class="font-display font-bold text-red-400 text-xl mb-2">Failed to Load</div>
+          <p class="text-sm text-zinc-500 mb-6">${err.message}</p>
+          <button onclick="loadQuestion()" class="btn-gold">Retry</button>
+          <a href="index.html" class="block mt-4 text-xs text-zinc-600 hover:text-zinc-400">← Back</a>
+        `;
+      }
+    }
+
+    function confirmEarlySubmit() {
+      if (!confirm('Submit your speaking test now?')) return;
+      submitTest();
+    }
+
+    async function submitTest() {
+      document.getElementById('timesUpModal').style.display = 'none';
+      clearInterval(timerInterval);
+      document.getElementById('submittingOverlay').classList.remove('hidden');
+      const answers = {
+        part1: document.getElementById('part1Answer').value,
+        part2: document.getElementById('part2Answer').value,
+        part3: document.getElementById('part3Answer').value,
+      };
+      try {
+        const response = await fetch('/api/mock/grade', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ skill: 'speaking', trainingType: setup.type, question: questionData, answers })
+        });
+        if (!response.ok) throw new Error('Grading failed');
+        const result = await response.json();
+
+        const resultId = Date.now().toString();
+        const savedResult = {
+          id: resultId, date: Date.now(),
+          testType: isFullTest ? 'Full Mock Test' : 'Speaking',
+          skill: 'speaking', trainingType: setup.type,
+          scores: { speaking: result.overall_band, overall: result.overall_band },
+          feedback: result, question: questionData, answers
+        };
+
+        // For full test: merge all completed skill scores into one combined result
+        if (isFullTest) {
+          setup.completedSkills = setup.completedSkills || [];
+          setup.completedSkills.push({ skill: 'speaking', resultId });
+          sessionStorage.setItem('mockTestSetup', JSON.stringify(setup));
+
+          // Build combined result from all completed skills
+          const allResults = JSON.parse(localStorage.getItem('ielts_mock_results') || '[]');
+          const combinedScores = {};
+          let feedbackMap = {};
+          setup.completedSkills.forEach(cs => {
+            const r = allResults.find(x => x.id === cs.resultId);
+            if (r) {
+              Object.assign(combinedScores, r.scores);
+              feedbackMap[cs.skill] = r.feedback;
+            }
+          });
+          // Add current speaking score
+          combinedScores.speaking = result.overall_band;
+          feedbackMap.speaking = result;
+
+          const scores = [combinedScores.listening, combinedScores.reading, combinedScores.writing, combinedScores.speaking].filter(Boolean);
+          combinedScores.overall = scores.length ? Math.round(scores.reduce((a,b) => a+b,0) / scores.length * 2) / 2 : null;
+
+          const fullResultId = 'full_' + Date.now();
+          const fullResult = {
+            id: fullResultId, date: Date.now(),
+            testType: 'Full Mock Test',
+            skill: 'full', trainingType: setup.type,
+            scores: combinedScores, feedback: feedbackMap
+          };
+          allResults.push(savedResult); // speaking individual
+          allResults.push(fullResult);  // combined
+          localStorage.setItem('ielts_mock_results', JSON.stringify(allResults));
+          window.location.href = `results.html?id=${fullResultId}`;
+        } else {
+          const existing = JSON.parse(localStorage.getItem('ielts_mock_results') || '[]');
+          existing.push(savedResult);
+          localStorage.setItem('ielts_mock_results', JSON.stringify(existing));
+          window.location.href = `results.html?id=${resultId}`;
+        }
+      } catch (err) {
+        document.getElementById('submittingOverlay').classList.add('hidden');
+        alert('Grading failed: ' + err.message);
+      }
+    }
+
+    loadQuestion();
+  </script>
+  <script src="/js/components.js"></script>
+  <script>loadHeader();</script>
+</body>
+</html>

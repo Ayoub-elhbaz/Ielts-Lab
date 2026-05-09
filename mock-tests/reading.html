@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IELTS Lab — Reading Test</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Space+Mono:wght@400;700&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = { theme: { extend: { fontFamily: { display: ['Satoshi','Plus Jakarta Sans','system-ui','sans-serif'], sans: ['Plus Jakarta Sans','system-ui','sans-serif'] } } } }
+  </script>
+  <style>
+    :root { --gold:#C9952E; --gold-light:#DDB05A; --gold-dim:rgba(201,149,46,0.10); --gold-border:rgba(201,149,46,0.22); --white:#EEF4FF; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{background:#09090b;color:#fafafa;}
+    body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+    h1,h2,h3,h4,.font-display{font-family:'Satoshi','Plus Jakarta Sans',system-ui,sans-serif;}
+    .nav-glass{background:rgba(9,9,11,0.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.04);}
+    .nav-logo{display:flex;align-items:baseline;gap:0;text-decoration:none;}
+    .nl-ielts{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;letter-spacing:1px;color:var(--white);}
+    .nl-lab{font-family:'Space Mono',monospace;font-size:12px;font-weight:700;letter-spacing:3px;color:var(--gold);margin-left:5px;filter:drop-shadow(0 0 6px rgba(201,149,46,0.5));}
+    ::-webkit-scrollbar{width:5px;}
+    ::-webkit-scrollbar-track{background:#09090b;}
+    ::-webkit-scrollbar-thumb{background:#3f3f46;border-radius:3px;}
+    .progress-bar{height:3px;background:#18181b;position:fixed;top:64px;left:0;right:0;z-index:40;}
+    .progress-fill{height:100%;background:linear-gradient(to right,var(--gold),#DDB05A);transition:width 1s linear;width:0%;}
+    .timer-box{background:rgba(17,17,19,0.95);border:1px solid #1c1c1e;border-radius:0.75rem;padding:10px 18px;font-family:'Space Mono',monospace;font-size:1.25rem;font-weight:700;color:#fafafa;letter-spacing:2px;box-shadow:0 4px 20px rgba(0,0,0,0.4);}
+    .timer-box.warning{color:#fbbf24;border-color:rgba(251,191,36,0.3);}
+    .timer-box.critical{color:#f87171;border-color:rgba(248,113,113,0.3);animation:pulse 1s ease-in-out infinite;}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.7}}
+    .section-card{background:rgba(17,17,19,0.7);border:1px solid #1c1c1e;border-radius:1.25rem;padding:1.75rem;}
+    .passage-text{font-size:0.9375rem;line-height:1.85;color:#d4d4d8;font-family:'Plus Jakarta Sans',system-ui,sans-serif;}
+    .passage-text p{margin-bottom:1rem;}
+    .btn-gold{background:linear-gradient(135deg,var(--gold) 0%,#a8741f 100%);color:#05081A;border:none;border-radius:0.5rem;padding:12px 32px;font-size:0.875rem;font-weight:700;letter-spacing:0.04em;cursor:pointer;transition:all 0.25s ease;box-shadow:0 0 20px rgba(201,149,46,0.25);}
+    .btn-gold:hover{transform:translateY(-2px);box-shadow:0 0 32px rgba(201,149,46,0.45);}
+    .overlay{position:fixed;inset:0;z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(9,9,11,0.97);padding:2rem;}
+    .overlay.hidden{display:none;}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .spinner{width:40px;height:40px;border:3px solid #27272a;border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;}
+    .submit-overlay{position:fixed;inset:0;z-index:300;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(9,9,11,0.97);}
+    .submit-overlay.hidden{display:none;}
+
+    /* Question inputs */
+    .q-block{margin-bottom:1.25rem;padding:1rem;border-radius:0.75rem;background:#0e0e10;border:1px solid #1c1c1e;}
+    .q-num{font-size:0.6875rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+    .q-text{font-size:0.875rem;color:#d4d4d8;margin-bottom:10px;line-height:1.6;}
+    .q-input{width:100%;background:#111113;border:1px solid #27272a;border-radius:0.5rem;padding:8px 12px;color:#e4e4e7;font-size:0.875rem;transition:border-color 0.2s;}
+    .q-input:focus{outline:none;border-color:var(--gold-border);}
+    .q-options{display:flex;flex-direction:column;gap:8px;margin-top:8px;}
+    .q-option{display:flex;align-items:flex-start;gap:10px;cursor:pointer;padding:8px 10px;border-radius:0.5rem;border:1px solid transparent;transition:all 0.2s;}
+    .q-option:hover{background:#18181b;border-color:#27272a;}
+    .q-option input[type=radio]{accent-color:var(--gold);margin-top:2px;flex-shrink:0;}
+    .q-option label{font-size:0.875rem;color:#d4d4d8;cursor:pointer;line-height:1.5;}
+    .q-tfng{display:flex;gap:8px;}
+    .q-tfng-btn{flex:1;padding:8px;border:1px solid #27272a;border-radius:0.5rem;font-size:0.75rem;font-weight:600;cursor:pointer;background:transparent;color:#71717a;transition:all 0.2s;letter-spacing:0.05em;}
+    .q-tfng-btn.selected-true{border-color:rgba(74,222,128,0.4);background:rgba(74,222,128,0.08);color:#4ade80;}
+    .q-tfng-btn.selected-false{border-color:rgba(248,113,113,0.4);background:rgba(248,113,113,0.08);color:#f87171;}
+    .q-tfng-btn.selected-ng{border-color:rgba(251,191,36,0.4);background:rgba(251,191,36,0.08);color:#fbbf24;}
+
+    /* ── Theme toggle button ── */
+    #themeToggle{background:transparent;border:1px solid rgba(201,149,46,0.25);color:#71717a;border-radius:8px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;font-size:15px;flex-shrink:0;padding:0;}
+    #themeToggle:hover{border-color:var(--gold-border);color:var(--gold);}
+    /* ── Light mode ── */
+    html[data-theme="light"]{background:#F4F1EB !important;color:#1C1C2E !important;}
+    html[data-theme="light"] body{background:#F4F1EB !important;color:#1C1C2E !important;}
+    html[data-theme="light"] .bg-zinc-950{background-color:#F4F1EB !important;}
+    html[data-theme="light"] .text-zinc-50{color:#1C1C2E !important;}
+    html[data-theme="light"] .text-zinc-400{color:#585862 !important;}
+    html[data-theme="light"] .text-zinc-500{color:#6B6B7A !important;}
+    html[data-theme="light"] .text-zinc-600{color:#7A7A88 !important;}
+    html[data-theme="light"] ::-webkit-scrollbar-track{background:#F4F1EB !important;}
+    html[data-theme="light"] ::-webkit-scrollbar-thumb{background:#C4B07A !important;}
+    html[data-theme="light"] .nav-glass{background:rgba(244,241,235,0.94) !important;border-bottom-color:rgba(0,0,0,0.08) !important;}
+    html[data-theme="light"] .nl-ielts{color:#1C1C2E !important;}
+    html[data-theme="light"] .section-card{background:rgba(255,255,255,0.95) !important;border-color:#E4E0D6 !important;}
+    html[data-theme="light"] .timer-box{background:#FFFFFF !important;border-color:#D4D0C8 !important;color:#1C1C2E !important;box-shadow:0 2px 10px rgba(0,0,0,0.08) !important;}
+    html[data-theme="light"] .timer-box.warning{color:#b45309 !important;}
+    html[data-theme="light"] .timer-box.critical{color:#dc2626 !important;}
+    html[data-theme="light"] .progress-bar{background:#E4E0D6 !important;}
+    html[data-theme="light"] .passage-text{color:#3A3A4A !important;}
+    html[data-theme="light"] .q-block{background:#FFFFFF !important;border-color:#E4E0D6 !important;}
+    html[data-theme="light"] .q-text{color:#3A3A4A !important;}
+    html[data-theme="light"] .q-input{background:#F9F6F0 !important;border-color:#D4D0C8 !important;color:#1C1C2E !important;}
+    html[data-theme="light"] .q-option:hover{background:#F4F0E8 !important;border-color:#D4D0C8 !important;}
+    html[data-theme="light"] .q-option label{color:#3A3A4A !important;}
+    html[data-theme="light"] .q-tfng-btn{border-color:#D4D0C8 !important;color:#6B6B7A !important;background:#F9F6F0 !important;}
+    html[data-theme="light"] .overlay{background:rgba(244,241,235,0.97) !important;}
+    html[data-theme="light"] .overlay .text-zinc-200{color:#1C1C2E !important;}
+    html[data-theme="light"] .overlay .text-zinc-500{color:#6B6B7A !important;}
+    html[data-theme="light"] .submit-overlay{background:rgba(244,241,235,0.97) !important;}
+    html[data-theme="light"] .spinner{border-color:#D4D0C8 !important;border-top-color:var(--gold) !important;}
+  </style>
+  <script>
+    (function(){var t=localStorage.getItem('ieltslab_theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();
+    function toggleTheme(){var c=document.documentElement.getAttribute('data-theme')||'dark',n=c==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('ieltslab_theme',n);var b=document.getElementById('themeToggle');if(b)b.textContent=n==='dark'?'☀':'🌙';}
+    document.addEventListener('DOMContentLoaded',function(){var b=document.getElementById('themeToggle');if(b){var d=(document.documentElement.getAttribute('data-theme')||'dark')==='dark';b.textContent=d?'☀':'🌙';}});
+  </script>
+</head>
+<body class="bg-zinc-950 text-zinc-50 min-h-screen flex flex-col">
+
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+  <!-- NAV -->
+  <div id="header-container"></div>
+
+  <!-- LOADING -->
+  <div class="overlay" id="loadingOverlay">
+    <div class="spinner mb-6"></div>
+    <div class="font-display font-bold text-zinc-200 text-xl mb-2">Generating Your Reading Test</div>
+    <p class="text-sm text-zinc-500 max-w-xs text-center">Creating a unique passage and questions tailored to your training type…</p>
+  </div>
+
+  <!-- SUBMITTING -->
+  <div class="submit-overlay hidden" id="submittingOverlay">
+    <div class="spinner mb-6"></div>
+    <div class="font-display font-bold text-zinc-200 text-xl mb-2">Scoring Your Answers</div>
+    <p class="text-sm text-zinc-500 max-w-xs text-center">Comparing your responses to the answer key…</p>
+  </div>
+
+  <!-- MAIN -->
+  <main class="flex-1 max-w-5xl mx-auto px-6 py-10 w-full" id="testContent" style="display:none;">
+    <div class="flex items-center justify-between mb-8">
+      <div>
+        <div class="text-xs font-medium tracking-widest uppercase mb-1" style="color:var(--gold);">📖 Reading</div>
+        <h1 class="font-display font-black text-2xl text-zinc-100" id="testHeading">IELTS Reading Test</h1>
+        <p class="text-xs text-zinc-600 mt-1" id="trainingTypeLabel"></p>
+      </div>
+      <div class="text-xs text-zinc-600 hidden md:block">60 minutes · 40 questions</div>
+    </div>
+
+    <!-- LAYOUT: Passage left, Questions right on desktop -->
+    <div class="grid lg:grid-cols-2 gap-6">
+
+      <!-- Passage -->
+      <div class="section-card lg:sticky lg:top-24 lg:max-h-[calc(100vh-8rem)] lg:overflow-y-auto">
+        <div class="text-xs font-medium tracking-widest uppercase mb-3" style="color:var(--gold);">Reading Passage</div>
+        <div class="text-xs text-zinc-600 mb-4" id="passageTitle">Loading…</div>
+        <div class="passage-text" id="passageText">
+          <p class="text-zinc-600 text-sm">Your reading passage will appear here…</p>
+        </div>
+      </div>
+
+      <!-- Questions -->
+      <div>
+        <div class="section-card mb-6" id="questionsContainer">
+          <div class="text-xs font-medium tracking-widest uppercase mb-5" style="color:var(--gold);">Questions</div>
+          <p class="text-zinc-600 text-sm">Loading questions…</p>
+        </div>
+
+        <div class="flex justify-center mb-12">
+          <button onclick="confirmEarlySubmit()" class="btn-gold px-10">Submit Reading Test</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- TIME'S UP -->
+  <div id="timesUpModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:250;align-items:center;justify-content:center;" class="flex">
+    <div style="background:#111113;border:1px solid #27272a;border-radius:1.25rem;padding:2rem;max-width:400px;width:100%;text-align:center;margin:1rem;">
+      <div class="text-4xl mb-4">⏰</div>
+      <div class="font-display font-bold text-xl text-zinc-100 mb-2">Time's Up!</div>
+      <p class="text-sm text-zinc-400 mb-6">Your 60 minutes are up. Submitting your answers now.</p>
+      <button onclick="submitTest()" class="btn-gold w-full">Submit & See Results</button>
+    </div>
+  </div>
+
+  <script>
+    // ── AUTH + SETUP GUARD ──
+    const rawSession = localStorage.getItem('ielts_session');
+    if (!rawSession) window.location.replace('../login.html');
+    let session;
+    try { session = JSON.parse(rawSession); }
+    catch { localStorage.removeItem('ielts_session'); window.location.replace('../login.html'); }
+
+    const rawSetup = sessionStorage.getItem('mockTestSetup');
+    if (!rawSetup) window.location.replace('index.html');
+    let setup;
+    try { setup = JSON.parse(rawSetup); }
+    catch { window.location.replace('index.html'); }
+
+    const isAcademic = setup.type === 'academic';
+    const isFullTest = setup.mode === 'full';
+    document.getElementById('testHeading').textContent = `IELTS Reading Test — ${isAcademic ? 'Academic' : 'General Training'}`;
+    document.getElementById('trainingTypeLabel').textContent = isFullTest ? 'Full Mock Test · Reading section' : 'Single Skill Test';
+    document.getElementById('testLabel').textContent = isAcademic ? 'Reading — Academic' : 'Reading — General Training';
+
+    // ── TIMER (60 min) ──
+    const TOTAL_SECONDS = 3600;
+    let secondsLeft = TOTAL_SECONDS;
+    let timerInterval = null;
+    let questionData = null;
+    const answers = {};
+
+    function formatTime(s) {
+      return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+    }
+
+    function startTimer() {
+      timerInterval = setInterval(() => {
+        secondsLeft--;
+        document.getElementById('progressFill').style.width = ((TOTAL_SECONDS-secondsLeft)/TOTAL_SECONDS*100)+'%';
+        const el = document.getElementById('timerDisplay');
+        el.textContent = formatTime(secondsLeft);
+        if (secondsLeft <= 300) el.className = 'timer-box critical';
+        else if (secondsLeft <= 600) el.className = 'timer-box warning';
+        if (secondsLeft <= 0) { clearInterval(timerInterval); showTimesUp(); }
+      }, 1000);
+    }
+
+    function showTimesUp() { document.getElementById('timesUpModal').style.display = 'flex'; }
+
+    // ── RENDER QUESTIONS ──
+    function renderQuestions(questions) {
+      const container = document.getElementById('questionsContainer');
+      let html = '<div class="text-xs font-medium tracking-widest uppercase mb-5" style="color:var(--gold);">Questions</div>';
+
+      questions.forEach((q, i) => {
+        const qId = `q${i}`;
+        html += `<div class="q-block"><div class="q-num">Question ${i+1}</div>`;
+        html += `<div class="q-text">${q.question}</div>`;
+
+        if (q.type === 'multiple_choice' && q.options) {
+          html += `<div class="q-options">`;
+          q.options.forEach((opt, j) => {
+            const optId = `${qId}_opt${j}`;
+            html += `<label class="q-option">
+              <input type="radio" name="${qId}" value="${opt}" id="${optId}" onchange="recordAnswer('${qId}', '${opt.replace(/'/g, "\\'")}')">
+              <label for="${optId}">${opt}</label>
+            </label>`;
+          });
+          html += `</div>`;
+        } else if (q.type === 'true_false_ng') {
+          html += `<div class="q-tfng">
+            <button class="q-tfng-btn" onclick="selectTFNG('${qId}','True',this)">TRUE</button>
+            <button class="q-tfng-btn" onclick="selectTFNG('${qId}','False',this)">FALSE</button>
+            <button class="q-tfng-btn" onclick="selectTFNG('${qId}','Not Given',this)">NOT GIVEN</button>
+          </div>`;
+        } else {
+          html += `<input type="text" class="q-input" placeholder="Your answer…" oninput="recordAnswer('${qId}', this.value)" />`;
+        }
+        html += `</div>`;
+      });
+
+      container.innerHTML = html;
+    }
+
+    function selectTFNG(qId, val, btn) {
+      const group = btn.parentElement;
+      group.querySelectorAll('.q-tfng-btn').forEach(b => b.className = 'q-tfng-btn');
+      const cls = val === 'True' ? 'selected-true' : val === 'False' ? 'selected-false' : 'selected-ng';
+      btn.classList.add(cls);
+      recordAnswer(qId, val);
+    }
+
+    function recordAnswer(qId, val) { answers[qId] = val; }
+
+    // ── LOAD QUESTION ──
+    async function loadQuestion() {
+      try {
+        const response = await fetch('/api/mock/generate-question', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ skill: 'reading', trainingType: setup.type, mode: setup.mode })
+        });
+        if (!response.ok) throw new Error('API error ' + response.status);
+        questionData = await response.json();
+
+        document.getElementById('passageTitle').innerHTML = `<span class="text-zinc-300 font-medium">${questionData.title || 'Reading Passage'}</span>`;
+        document.getElementById('passageText').innerHTML = (questionData.passage || '').replace(/\n\n/g,'</p><p>').replace(/^/,'<p>').replace(/$/, '</p>');
+
+        if (questionData.questions && questionData.questions.length > 0) {
+          renderQuestions(questionData.questions);
+        } else {
+          document.getElementById('questionsContainer').innerHTML = '<div class="text-zinc-500 text-sm">No questions generated. Please try again.</div>';
+        }
+
+        document.getElementById('loadingOverlay').classList.add('hidden');
+        document.getElementById('testContent').style.display = 'block';
+        startTimer();
+      } catch (err) {
+        document.getElementById('loadingOverlay').innerHTML = `
+          <div class="text-4xl mb-4">⚠️</div>
+          <div class="font-display font-bold text-red-400 text-xl mb-2">Failed to Load</div>
+          <p class="text-sm text-zinc-500 mb-6">${err.message}</p>
+          <button onclick="loadQuestion()" class="btn-gold">Retry</button>
+          <a href="index.html" class="block mt-4 text-xs text-zinc-600 hover:text-zinc-400">← Back</a>
+        `;
+      }
+    }
+
+    function confirmEarlySubmit() {
+      if (!confirm('Submit your reading test now?')) return;
+      submitTest();
+    }
+
+    async function submitTest() {
+      document.getElementById('timesUpModal').style.display = 'none';
+      clearInterval(timerInterval);
+      document.getElementById('submittingOverlay').classList.remove('hidden');
+      try {
+        const response = await fetch('/api/mock/grade', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ skill: 'reading', trainingType: setup.type, question: questionData, answers })
+        });
+        if (!response.ok) throw new Error('Grading failed');
+        const result = await response.json();
+
+        const resultId = Date.now().toString();
+        const savedResult = {
+          id: resultId, date: Date.now(),
+          testType: isFullTest ? 'Full Mock Test' : 'Reading — ' + (isAcademic ? 'Academic' : 'General Training'),
+          skill: 'reading', trainingType: setup.type,
+          scores: { reading: result.overall_band, overall: result.overall_band },
+          feedback: result, question: questionData, answers
+        };
+        const existing = JSON.parse(localStorage.getItem('ielts_mock_results') || '[]');
+        existing.push(savedResult);
+        localStorage.setItem('ielts_mock_results', JSON.stringify(existing));
+
+        if (isFullTest) {
+          setup.completedSkills = setup.completedSkills || [];
+          setup.completedSkills.push({ skill: 'reading', resultId });
+          sessionStorage.setItem('mockTestSetup', JSON.stringify(setup));
+          window.location.href = 'writing.html';
+        } else {
+          window.location.href = `results.html?id=${resultId}`;
+        }
+      } catch (err) {
+        document.getElementById('submittingOverlay').classList.add('hidden');
+        alert('Grading failed: ' + err.message);
+      }
+    }
+
+    loadQuestion();
+  </script>
+  <script src="/js/components.js"></script>
+  <script>loadHeader();</script>
+</body>
+</html>

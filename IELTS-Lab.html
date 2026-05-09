@@ -1,0 +1,2094 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IELTS Lab — IELTS Preparation</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Space+Mono:wght@400;700&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Satoshi', 'Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+            sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --gold: #C9952E;
+      --gold-light: #DDB05A;
+      --gold-dim: rgba(201,149,46,0.10);
+      --gold-border: rgba(201,149,46,0.22);
+      --blue: #3A7BF7;
+      --teal: #2AFFD6;
+      --white: #EEF4FF;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: #F4F1EB; color: #1C1C2E; }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    h1, h2, h3, h4, h5, .font-display { font-family: 'Satoshi', 'Plus Jakarta Sans', system-ui, sans-serif; }
+
+    /* Scroll reveal */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.75s cubic-bezier(0.16,1,0.3,1), transform 0.75s cubic-bezier(0.16,1,0.3,1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-l { opacity: 0; transform: translateX(-30px); transition: opacity 0.75s cubic-bezier(0.16,1,0.3,1), transform 0.75s cubic-bezier(0.16,1,0.3,1); }
+    .reveal-l.visible { opacity: 1; transform: translateX(0); }
+    .reveal-r { opacity: 0; transform: translateX(30px); transition: opacity 0.75s cubic-bezier(0.16,1,0.3,1), transform 0.75s cubic-bezier(0.16,1,0.3,1); }
+    .reveal-r.visible { opacity: 1; transform: translateX(0); }
+    .d100 { transition-delay: 0.1s; }
+    .d200 { transition-delay: 0.2s; }
+    .d300 { transition-delay: 0.3s; }
+    .d400 { transition-delay: 0.4s; }
+    .d500 { transition-delay: 0.5s; }
+
+    /* Float */
+    @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    .float { animation: float 5s ease-in-out infinite; }
+    .float-slow { animation: float 7s ease-in-out infinite; animation-delay: 1s; }
+
+    /* Nav */
+    .nav-glass {
+      background: rgba(9,9,11,0.82);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+
+    /* Label */
+    .label {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .text-gold { color: var(--gold); }
+
+    /* Skill bar */
+    .skill-track { height: 2px; background: #DDD8CE; border-radius: 99px; overflow: hidden; }
+    .score-card-float .skill-track { background: #27272a; }
+    .skill-fill { height: 100%; background: var(--gold); border-radius: 99px; width: 0; transition: width 1.2s cubic-bezier(0.16,1,0.3,1); }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #F4F1EB; }
+    ::-webkit-scrollbar-thumb { background: #C49A2B; border-radius: 3px; }
+
+    /* Hover lift */
+    .hover-lift { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .hover-lift:hover { transform: translateY(-2px); }
+
+    /* Score ring */
+    .ring-track { stroke: #27272a; }
+    .ring-fill {
+      stroke: var(--gold);
+      stroke-dashoffset: 0;
+      transform-origin: center;
+      transform: rotate(-90deg);
+      transition: stroke-dasharray 1.4s cubic-bezier(0.16,1,0.3,1);
+    }
+
+    /* Marquee */
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .marquee-inner { animation: marquee 26s linear infinite; white-space: nowrap; }
+    .marquee-wrap { overflow: hidden; }
+
+    /* Divider */
+    .divider { border-top: 1px solid #DDD8CE; }
+
+    blockquote { quotes: none; }
+
+    /* ── TEACHER CARDS ─────────────────────────────────────────────── */
+    .teachers-scroll {
+      display: flex;
+      gap: 1.25rem;
+      overflow-x: auto;
+      padding-bottom: 1rem;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .teachers-scroll::-webkit-scrollbar { display: none; }
+
+    .teacher-card {
+      flex: 0 0 260px;
+      scroll-snap-align: start;
+      background: #FFFFFF;
+      border: 1px solid #DDD8CE;
+      border-radius: 1.25rem;
+      padding: 1.75rem 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      transition: transform 0.25s cubic-bezier(0.16,1,0.3,1),
+                  border-color 0.25s ease,
+                  box-shadow 0.25s ease;
+    }
+    .teacher-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--gold-border);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.12), 0 0 0 1px rgba(201,149,46,0.12);
+    }
+
+    /* Avatar glow ring */
+    .avatar-ring {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #DDD8CE;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Satoshi', sans-serif;
+      font-weight: 900;
+      font-size: 1.5rem;
+      color: var(--gold);
+      margin-bottom: 1.25rem;
+      position: relative;
+      box-shadow:
+        0 0 0 2px var(--gold),
+        0 0 20px rgba(201,149,46,0.22),
+        0 0 40px rgba(201,149,46,0.08);
+    }
+
+    /* Book button */
+    .book-btn {
+      margin-top: auto;
+      padding-top: 1.25rem;
+      width: 100%;
+      padding-left: 0;
+      padding-right: 0;
+      height: 38px;
+      border-radius: 0.5rem;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      border: 1px solid var(--gold-border);
+      color: var(--gold);
+      background: transparent;
+      cursor: pointer;
+      transition: background 0.2s ease, color 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .book-btn:hover { background: var(--gold-dim); }
+
+    /* Stars */
+    .stars { color: var(--gold); font-size: 0.75rem; letter-spacing: 1px; }
+
+    /* ── ayoub lab hero UI layer ── */
+    .ui {
+      position:absolute; inset:0; z-index:10;
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+      pointer-events:none;
+    }
+    .score-card-float {
+      position:absolute;
+      right:60px;
+      top:50%;
+      transform:translateY(-50%);
+      z-index:20;
+      pointer-events:all;
+    }
+    .ui nav {
+      position:absolute; top:0; left:0; right:0;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:28px 48px;
+      pointer-events:all;
+      animation:fadeDown 1.2s ease both;
+    }
+    .nav-logo { display:flex; align-items:baseline; gap:0; text-decoration:none; }
+    .nl-ielts { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:600; letter-spacing:1px; color:var(--white); }
+    .nl-lab   { font-family:'Space Mono',monospace; font-size:13px; font-weight:700; letter-spacing:3px; color:var(--gold); margin-left:5px; padding-bottom:1px; filter:drop-shadow(0 0 8px rgba(201,149,46,0.5)); }
+    .nl-flask { font-size:16px; margin-left:4px; }
+    .nav-links { display:flex; gap:32px; list-style:none; }
+    .nav-links a { font-family:'DM Sans',sans-serif; font-size:11px; font-weight:300; letter-spacing:2.5px; text-transform:uppercase; color:rgba(200,216,255,0.45); text-decoration:none; transition:color 0.3s; }
+    .nav-links a:hover { color:var(--gold); }
+    .nav-cta { font-family:'DM Sans',sans-serif; font-size:10px; font-weight:400; letter-spacing:2px; text-transform:uppercase; padding:9px 22px; border-radius:2px; border:1px solid rgba(201,149,46,0.4); color:var(--gold); background:rgba(201,149,46,0.07); cursor:pointer; text-decoration:none; transition:all 0.3s; }
+    .nav-cta:hover { background:rgba(201,149,46,0.15); border-color:var(--gold); }
+    .ui .hero { display:flex; flex-direction:column; align-items:center; text-align:center; padding:0 24px; }
+    .logo-lockup { display:flex; flex-direction:column; align-items:center; margin-bottom:32px; animation:fadeUp 1.5s 0.1s ease both; }
+    .logo-top    { display:flex; align-items:center; gap:10px; }
+    .logo-line   { width:40px; height:1px; background:linear-gradient(to right, transparent, rgba(201,149,46,0.5)); }
+    .logo-line.right { background:linear-gradient(to left, transparent, rgba(58,123,247,0.5)); }
+    .logo-badge  { font-family:'Space Mono',monospace; font-size:9px; letter-spacing:5px; text-transform:uppercase; color:rgba(200,216,255,0.3); margin-top:8px; }
+    .brand-name  { display:flex; align-items:baseline; }
+    .brand-ielts { font-family:'Cormorant Garamond',serif; font-size:clamp(56px,8vw,110px); font-weight:600; letter-spacing:-1px; line-height:1; color:var(--white); }
+    .brand-lab   { font-family:'Space Mono',monospace; font-size:clamp(20px,2.8vw,38px); font-weight:700; letter-spacing:4px; color:var(--gold); margin-left:8px; filter:drop-shadow(0 0 16px rgba(201,149,46,0.6)); padding-bottom:6px; }
+    .brand-flask { font-size:clamp(20px,2.5vw,34px); margin-left:6px; animation:flaskBob 3.5s ease-in-out infinite; display:inline-block; }
+    @keyframes flaskBob { 0%,100%{transform:translateY(0) rotate(-6deg)} 50%{transform:translateY(-5px) rotate(6deg)} }
+    .quote-wrap { margin-top:8px; animation:fadeUp 1.5s 0.3s ease both; }
+    .quote { font-family:'Cormorant Garamond',serif; font-size:clamp(17px,2.2vw,26px); font-weight:300; font-style:italic; color:rgba(200,216,255,0.75); line-height:1.55; max-width:620px; }
+    .quote-mark { font-size:1.4em; line-height:0; vertical-align:-0.3em; color:var(--gold); opacity:0.6; }
+    .quote-attr { font-family:'DM Sans',sans-serif; font-size:10px; font-weight:300; letter-spacing:3px; text-transform:uppercase; color:rgba(200,216,255,0.3); margin-top:12px; }
+    .quote-attr span { color:var(--gold); opacity:0.7; }
+    .sub { font-family:'DM Sans',sans-serif; font-size:clamp(12px,1.4vw,15px); font-weight:200; color:rgba(200,216,255,0.45); letter-spacing:3px; text-transform:uppercase; margin-top:28px; animation:fadeUp 1.5s 0.5s ease both; }
+    .pills { display:flex; gap:10px; margin-top:28px; animation:fadeUp 1.5s 0.7s ease both; }
+    .pill  { font-family:'DM Sans',sans-serif; font-size:10px; font-weight:300; letter-spacing:2px; text-transform:uppercase; padding:8px 18px; border-radius:30px; backdrop-filter:blur(8px); }
+    .pill-w { border:1px solid rgba(201,149,46,0.35); color:#E8C97A; background:rgba(201,149,46,0.07); }
+    .pill-r { border:1px solid rgba(58,123,247,0.35);  color:#7AAEFF; background:rgba(58,123,247,0.07); }
+    .pill-l { border:1px solid rgba(201,149,46,0.35); color:#E8C97A; background:rgba(201,149,46,0.07); }
+    .pill-s { border:1px solid rgba(42,255,214,0.3);  color:#7AFFF0; background:rgba(42,255,214,0.06); }
+    .ctas { display:flex; gap:14px; margin-top:34px; pointer-events:all; animation:fadeUp 1.5s 0.9s ease both; }
+    .btn-main { font-family:'DM Sans',sans-serif; font-size:11px; font-weight:400; letter-spacing:2.5px; text-transform:uppercase; padding:13px 32px; border-radius:2px; border:none; cursor:pointer; background:linear-gradient(135deg,var(--gold) 0%,#a8741f 100%); color:#05081A; box-shadow:0 0 28px rgba(201,149,46,0.3); transition:all 0.3s; }
+    .btn-main:hover { transform:translateY(-2px); box-shadow:0 0 42px rgba(201,149,46,0.5); }
+    .btn-ghost { font-family:'DM Sans',sans-serif; font-size:11px; font-weight:300; letter-spacing:2.5px; text-transform:uppercase; padding:13px 32px; border-radius:2px; cursor:pointer; background:transparent; border:1px solid rgba(200,216,255,0.18); color:rgba(200,216,255,0.55); transition:all 0.3s; }
+    .btn-ghost:hover { border-color:rgba(58,123,247,0.6); color:#7AAEFF; }
+    .hero-stats { position:absolute; bottom:0; left:0; right:0; display:flex; justify-content:center; gap:clamp(24px,4vw,60px); padding:28px 48px; border-top:1px solid rgba(200,216,255,0.06); animation:fadeUp 1.5s 1.1s ease both; }
+    .hero-stat  { display:flex; flex-direction:column; align-items:center; gap:4px; }
+    .hero-stat-num { font-family:'Cormorant Garamond',serif; font-size:clamp(20px,2.5vw,28px); font-weight:600; color:var(--white); letter-spacing:1px; }
+    .hero-stat-num .stat-accent { color:var(--gold); }
+    .hero-stat-label { font-family:'DM Sans',sans-serif; font-size:9px; font-weight:300; letter-spacing:3px; text-transform:uppercase; color:rgba(200,216,255,0.3); }
+    .scroll-hint { position:absolute; bottom:90px; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:6px; animation:fadeUp 1.5s 1.3s ease both; pointer-events:none; }
+    .scroll-line { width:1px; height:40px; background:linear-gradient(to bottom, rgba(200,216,255,0.3),transparent); animation:scrollPulse 2s ease-in-out infinite; }
+    .scroll-text { font-family:'DM Sans',sans-serif; font-size:8px; letter-spacing:3px; text-transform:uppercase; color:rgba(200,216,255,0.25); }
+    @keyframes scrollPulse { 0%,100%{opacity:0.4;transform:scaleY(1)} 50%{opacity:1;transform:scaleY(1.1)} }
+    @keyframes fadeUp   { from{opacity:0;transform:translateY(24px)}  to{opacity:1;transform:translateY(0)} }
+    @keyframes fadeDown { from{opacity:0;transform:translateY(-16px)} to{opacity:1;transform:translateY(0)} }
+
+    /* ── Hero canvas layers (ayoub lab background) ── */
+    .hero-cv {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+    .hero-grain {
+      position: absolute; inset: 0;
+      z-index: 5; pointer-events: none;
+      opacity: 0.28; mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.08'/%3E%3C/svg%3E");
+    }
+    .hero-vignette {
+      position: absolute; inset: 0;
+      z-index: 6; pointer-events: none;
+      background: radial-gradient(ellipse 85% 75% at 50% 50%, transparent 30%, rgba(5,8,26,0.92) 100%);
+    }
+  </style>
+</head>
+
+<body class="bg-[#F4F1EB] text-[#1C1C2E]">
+
+  <!-- ╔══════════════════════════════ HERO ════════════════════════════════╗ -->
+  <section id="hero-section" class="min-h-[100dvh] flex items-center relative overflow-hidden" style="background:#05081A">
+
+    <!-- ── Ayoub Lab canvas layers ── -->
+    <canvas id="cvMap"      class="hero-cv" style="z-index:1;opacity:0.55"></canvas>
+    <canvas id="cvParticle" class="hero-cv" style="z-index:2"></canvas>
+    <canvas id="cvWave"     class="hero-cv" style="z-index:3"></canvas>
+    <canvas id="cvScript"   class="hero-cv" style="z-index:4"></canvas>
+    <div class="hero-grain"></div>
+    <div class="hero-vignette"></div>
+    <!-- warm gold accent glow over the background -->
+    <div class="absolute inset-0 pointer-events-none" style="z-index:7;background:radial-gradient(ellipse 55% 55% at 68% 48%, rgba(201,149,46,0.06) 0%, transparent 65%)"></div>
+
+    <!-- ayoub lab UI layer -->
+    <div class="ui">
+
+      <!-- NAV -->
+      <nav>
+        <a href="#" class="nav-logo">
+          <span class="nl-ielts">IELTS</span>
+          <span class="nl-lab">LAB</span>
+          <span class="nl-flask">⚗️</span>
+        </a>
+        <ul class="nav-links">
+          <li><a href="#skills">Courses</a></li>
+          <li><a href="#teachers">Teachers</a></li>
+          <li><a href="#mock">AI Examiner</a></li>
+          <li><a href="#pricing">Pricing</a></li>
+          <li id="clinicNavItem" style="display:none"><a href="writing-clinic/index.html" style="color:var(--gold);opacity:1;font-weight:400;">✍️ Writing Clinic</a></li>
+          <li id="mockNavItem" style="display:none"><a href="mock-tests/index.html" style="color:var(--gold);opacity:1;font-weight:400;">🧪 Mock Tests</a></li>
+        </ul>
+        <a href="login.html" class="nav-cta" id="mainNavCta">Start Free Trial</a>
+      </nav>
+
+      <!-- HERO CENTER -->
+      <div class="hero">
+        <div class="logo-lockup">
+          <div class="logo-top">
+            <div class="logo-line"></div>
+            <span class="logo-badge">Est. Your Journey · Band 9 Ahead</span>
+            <div class="logo-line right"></div>
+          </div>
+          <div class="brand-name">
+            <span class="brand-ielts">IELTS</span>
+            <span class="brand-lab">LAB</span>
+            <span class="brand-flask">⚗</span>
+          </div>
+        </div>
+
+        <div class="quote-wrap">
+          <p class="quote">
+            <span class="quote-mark">"</span>
+            Every expert was once a beginner<br>who refused to give up.
+            <span class="quote-mark">"</span>
+          </p>
+          <p class="quote-attr">Real Teachers · <span>AI Examiner</span> · Global Network</p>
+        </div>
+
+        <p class="sub">Writing · Reading · Listening · Speaking</p>
+
+        <div class="pills">
+          <div class="pill pill-w">✍ Writing</div>
+          <div class="pill pill-r">📖 Reading</div>
+          <div class="pill pill-l">🎧 Listening</div>
+          <div class="pill pill-s">🗣 Speaking</div>
+        </div>
+
+        <div class="ctas">
+          <button class="btn-main">Begin Your Experiment</button>
+          <button class="btn-ghost">Meet Our Teachers</button>
+        </div>
+      </div>
+
+      <!-- STATS BAR -->
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num">18<span class="stat-accent">K+</span></div>
+          <div class="hero-stat-label">Students Trained</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">Band <span class="stat-accent">7.8</span></div>
+          <div class="hero-stat-label">Average Score</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">240<span class="stat-accent">+</span></div>
+          <div class="hero-stat-label">Expert Teachers</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">50<span class="stat-accent">+</span></div>
+          <div class="hero-stat-label">Countries Reached</div>
+        </div>
+      </div>
+
+      <!-- SCROLL HINT -->
+      <div class="scroll-hint">
+        <div class="scroll-line"></div>
+        <div class="scroll-text">Explore</div>
+      </div>
+
+    </div>
+
+    <!-- SCORE CARD (floated right, above canvas) -->
+    <div class="score-card-float hidden lg:block">
+      <div class="relative w-80 xl:w-96">
+        <div class="rounded-2xl p-7 float" style="background:rgba(17,17,19,0.90);border:1px solid #1c1c1e;box-shadow:0 24px 64px rgba(0,0,0,0.6);backdrop-filter:blur(16px);">
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <div class="label mb-0.5">Overall Band Score</div>
+              <div class="text-xs text-zinc-600">Academic — Predicted Result</div>
+            </div>
+            <div class="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                <path d="M7 1.5a5.5 5.5 0 1 1 0 11 5.5 5.5 0 0 1 0-11z" stroke="#71717a" stroke-width="1.2"/>
+                <path d="M7 4.5v3l2 1.5" stroke="#71717a" stroke-width="1.2" stroke-linecap="round"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-6 mb-7">
+            <div class="relative flex-shrink-0">
+              <svg width="100" height="100" viewBox="0 0 140 140">
+                <circle class="ring-track" cx="70" cy="70" r="58" fill="none" stroke-width="7"/>
+                <circle id="heroRing" class="ring-fill" cx="70" cy="70" r="58" fill="none" stroke-width="7" stroke-linecap="round"
+                        style="stroke-dasharray:0 365;"/>
+              </svg>
+              <div class="absolute inset-0 flex flex-col items-center justify-center">
+                <span class="font-display font-black text-3xl text-zinc-50 leading-none">7.5</span>
+                <span class="text-xs text-zinc-500 mt-0.5">Band</span>
+              </div>
+            </div>
+            <div class="flex-1 space-y-3.5">
+              <div>
+                <div class="flex justify-between text-xs mb-1.5">
+                  <span class="text-zinc-400">Listening</span>
+                  <span class="font-medium text-zinc-200">8.0</span>
+                </div>
+                <div class="skill-track"><div class="skill-fill" data-w="88"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between text-xs mb-1.5">
+                  <span class="text-zinc-400">Reading</span>
+                  <span class="font-medium text-zinc-200">7.5</span>
+                </div>
+                <div class="skill-track"><div class="skill-fill" data-w="83"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between text-xs mb-1.5">
+                  <span class="text-zinc-400">Writing</span>
+                  <span class="font-medium text-zinc-200">7.0</span>
+                </div>
+                <div class="skill-track"><div class="skill-fill" data-w="77"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between text-xs mb-1.5">
+                  <span class="text-zinc-400">Speaking</span>
+                  <span class="font-medium text-zinc-200">7.5</span>
+                </div>
+                <div class="skill-track"><div class="skill-fill" data-w="83"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2 p-3 rounded-lg bg-zinc-800/50">
+            <div class="w-1.5 h-1.5 rounded-full flex-shrink-0" style="background:var(--gold)"></div>
+            <span class="text-xs text-zinc-400">Writing Task 2 needs work — 3 targeted exercises queued</span>
+          </div>
+        </div>
+
+        <div class="absolute -top-4 -right-4 float-slow px-3 py-2 rounded-xl text-xs font-medium border"
+             style="background:rgba(17,17,19,0.92);border-color:var(--gold-border);color:var(--gold-light);box-shadow:0 8px 24px rgba(0,0,0,0.4);backdrop-filter:blur(8px)">
+          +1.5 bands in 6 weeks
+        </div>
+
+        <div class="absolute -bottom-4 -left-5 float px-3 py-2 rounded-xl text-xs font-medium border border-zinc-800"
+             style="background:rgba(17,17,19,0.92);box-shadow:0 8px 24px rgba(0,0,0,0.4);backdrop-filter:blur(8px)">
+          <div class="flex items-center gap-2">
+            <div class="flex -space-x-1">
+              <div class="w-5 h-5 rounded-full bg-zinc-700 border border-zinc-800 text-xs flex items-center justify-center">S</div>
+              <div class="w-5 h-5 rounded-full bg-zinc-600 border border-zinc-800 text-xs flex items-center justify-center">A</div>
+              <div class="w-5 h-5 rounded-full bg-zinc-500 border border-zinc-800 text-xs flex items-center justify-center">R</div>
+            </div>
+            <span class="text-zinc-400">3 studying now</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ╔══════════════════════════════ TRUST STRIP ═════════════════════════╗ -->
+  <div class="py-10" style="background:#1B2B4B;border-top:1px solid rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06)">
+    <div class="marquee-wrap">
+      <div class="marquee-inner inline-flex items-center gap-16">
+        <span class="text-sm font-medium whitespace-nowrap" style="color:rgba(238,244,255,0.72)">BBC Learning English</span>
+        <span style="color:rgba(201,149,46,0.5)">·</span>
+        <span class="text-sm font-medium whitespace-nowrap" style="color:rgba(238,244,255,0.72)">British Council</span>
+        <span style="color:rgba(201,149,46,0.5)">·</span>
+        <span class="text-sm font-medium whitespace-nowrap" style="color:rgba(238,244,255,0.72)">Cambridge English</span>
+        <span style="color:rgba(201,149,46,0.5)">·</span>
+        <span class="text-sm font-medium whitespace-nowrap" style="color:rgba(238,244,255,0.72)">IDP Education</span>
+        <span style="color:rgba(201,149,46,0.5)">·</span>
+        <span class="text-sm font-medium whitespace-nowrap" style="color:rgba(238,244,255,0.72)">The Guardian Education</span>
+        <span style="color:rgba(201,149,46,0.5)">·</span>
+        <span class="text-sm font-medium whitespace-nowrap" style="color:rgba(238,244,255,0.72)">RMIT University</span>
+        <span style="color:rgba(201,149,46,0.5)">·</span>
+        <span class="text-sm font-medium whitespace-nowrap" style="color:rgba(238,244,255,0.72)">UCL Language Centre</span>
+        <span style="color:rgba(201,149,46,0.5)">·</span>
+        <span class="text-sm font-medium whitespace-nowrap" style="color:rgba(238,244,255,0.72)">QS World Rankings</span>
+        <span style="color:rgba(201,149,46,0.5)">·</span>
+        <span class="text-sm font-medium whitespace-nowrap" style="color:rgba(238,244,255,0.72)">BBC Learning English</span>
+        <span style="color:rgba(201,149,46,0.5)">·</span>
+        <span class="text-sm font-medium whitespace-nowrap" style="color:rgba(238,244,255,0.72)">British Council</span>
+        <span style="color:rgba(201,149,46,0.5)">·</span>
+        <span class="text-sm font-medium whitespace-nowrap" style="color:rgba(238,244,255,0.72)">Cambridge English</span>
+        <span style="color:rgba(201,149,46,0.5)">·</span>
+        <span class="text-sm font-medium whitespace-nowrap" style="color:rgba(238,244,255,0.72)">IDP Education</span>
+        <span style="color:rgba(201,149,46,0.5)">·</span>
+        <span class="text-sm font-medium whitespace-nowrap" style="color:rgba(238,244,255,0.72)">The Guardian Education</span>
+        <span style="color:rgba(201,149,46,0.5)">·</span>
+        <span class="text-sm font-medium whitespace-nowrap" style="color:rgba(238,244,255,0.72)">RMIT University</span>
+        <span style="color:rgba(201,149,46,0.5)">·</span>
+        <span class="text-sm font-medium whitespace-nowrap" style="color:rgba(238,244,255,0.72)">UCL Language Centre</span>
+        <span style="color:rgba(201,149,46,0.5)">·</span>
+        <span class="text-sm font-medium whitespace-nowrap" style="color:rgba(238,244,255,0.72)">QS World Rankings</span>
+        <span style="color:rgba(201,149,46,0.5)">·</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ╔══════════════════════════════ PAIN POINTS ═════════════════════════╗ -->
+  <section class="py-20" style="background:#1B2B4B">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="text-center mb-12 reveal">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-5" style="background:rgba(201,149,46,0.12);border:1px solid rgba(201,149,46,0.25)">
+          <span style="color:var(--gold);font-size:0.6875rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;">Does this sound familiar?</span>
+        </div>
+        <h2 class="font-display font-black text-3xl md:text-4xl tracking-tighter leading-tight" style="color:var(--white)">
+          Most students fail for<br/>the same three reasons.
+        </h2>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-5">
+        <div class="reveal p-8 rounded-2xl hover-lift" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08)">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(201,149,46,0.12);border:1px solid rgba(201,149,46,0.2)">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 2a9 9 0 1 0 0 18A9 9 0 0 0 11 2z" stroke="#C9952E" stroke-width="1.5"/><path d="M11 7v5l3 2" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <h3 class="font-display font-bold text-xl mb-3" style="color:var(--white)">Stuck at Band 6.5 — again?</h3>
+          <p class="text-sm leading-relaxed mb-6" style="color:rgba(238,244,255,0.58)">You know your English is good enough. But every attempt comes back 6.5. The problem isn't your language — it's that you don't know which criterion is bleeding your score.</p>
+          <div class="flex items-center gap-2 text-sm font-medium" style="color:var(--gold)">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Our AI pinpoints the exact criterion
+          </div>
+        </div>
+
+        <div class="reveal d100 p-8 rounded-2xl hover-lift" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08)">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(201,149,46,0.12);border:1px solid rgba(201,149,46,0.2)">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="4" width="16" height="15" rx="2" stroke="#C9952E" stroke-width="1.5"/><path d="M7 2v4M15 2v4M3 9h16" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <h3 class="font-display font-bold text-xl mb-3" style="color:var(--white)">Exam in 6–8 weeks?</h3>
+          <p class="text-sm leading-relaxed mb-6" style="color:rgba(238,244,255,0.58)">Visa deadline, university offer, job requirement — IELTS stress is always tied to a countdown. Generic prep wastes the weeks you don't have. You need a plan that compresses the learning curve from day one.</p>
+          <div class="flex items-center gap-2 text-sm font-medium" style="color:var(--gold)">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Adaptive plan built around your deadline
+          </div>
+        </div>
+
+        <div class="reveal d200 p-8 rounded-2xl hover-lift" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08)">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(201,149,46,0.12);border:1px solid rgba(201,149,46,0.2)">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 6h14M4 10h14M4 14h8" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round"/><circle cx="17" cy="16" r="3" stroke="#C9952E" stroke-width="1.5"/><path d="M19.5 18.5l2 2" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <h3 class="font-display font-bold text-xl mb-3" style="color:var(--white)">Studying hard — but no progress?</h3>
+          <p class="text-sm leading-relaxed mb-6" style="color:rgba(238,244,255,0.58)">Hours of practice tests, YouTube videos, apps — and the score barely moves. Effort without direction is the most common reason IELTS takers plateau. You need targeted feedback, not more practice.</p>
+          <div class="flex items-center gap-2 text-sm font-medium" style="color:var(--gold)">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Diagnostic shows exactly what to fix
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ╔══════════════════════════════ AI DEMO STRIP ═══════════════════════╗ -->
+  <style>
+    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    @keyframes demoFadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    .demo-tab { padding: 6px 16px; border-radius: 20px; font-size: 0.8125rem; font-weight: 500; border: 1px solid #DDD8CE; color: #3D4451; background: transparent; cursor: pointer; transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .demo-tab.active, .demo-tab:hover { background: #1B2B4B; color: #EEF4FF; border-color: #1B2B4B; }
+    .demo-input-area { width: 100%; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.9375rem; line-height: 1.7; resize: none; border: 1.5px solid #DDD8CE; border-radius: 12px; padding: 16px 20px; background: #fff; color: #1C1C2E; outline: none; transition: border-color 0.2s; }
+    .demo-input-area:focus { border-color: var(--gold); }
+    .demo-issue { display: flex; gap: 14px; padding: 14px 16px; border-radius: 10px; background: #fff; border: 1px solid #DDD8CE; }
+    .demo-issue-tag { font-size: 0.625rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; margin-top: 1px; }
+    .demo-tag-lr { background: rgba(239,68,68,0.08); color: #ef4444; border: 1px solid rgba(239,68,68,0.2); }
+    .demo-tag-gr { background: rgba(251,146,60,0.1); color: #c2550a; border: 1px solid rgba(251,146,60,0.25); }
+    .demo-tag-cc { background: rgba(59,130,246,0.08); color: #3b82f6; border: 1px solid rgba(59,130,246,0.2); }
+    .demo-tag-ta { background: rgba(168,85,247,0.08); color: #a855f7; border: 1px solid rgba(168,85,247,0.2); }
+    .demo-improved { background: rgba(42,255,214,0.05); border: 1px solid rgba(42,255,214,0.2); border-radius: 10px; padding: 14px 18px; }
+    .demo-feedback-enter { animation: demoFadeUp 0.45s cubic-bezier(0.16,1,0.3,1) both; }
+    .demo-analyse-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 8px; font-size: 0.875rem; font-weight: 500; border: none; cursor: pointer; background: #1B2B4B; color: #EEF4FF; transition: background 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .demo-analyse-btn:hover:not(:disabled) { background: #243d6a; }
+    .demo-analyse-btn:disabled { opacity: 0.7; cursor: default; }
+  </style>
+
+  <section class="py-24 divider" style="background:#F4F1EB">
+    <div class="max-w-3xl mx-auto px-6">
+      <div class="text-center mb-10 reveal">
+        <div class="label mb-4">Try It Free — No Sign-Up Required</div>
+        <h2 class="font-display font-black text-4xl md:text-5xl tracking-tighter leading-tight text-[#1C1C2E] mb-3">
+          See what an examiner<br/>actually notices.
+        </h2>
+        <p class="text-[#3D4451] text-sm max-w-[48ch] mx-auto leading-relaxed">Pick an example below. Our AI flags the exact issues a Band 9 examiner would penalise — and shows you the fix.</p>
+      </div>
+
+      <div class="reveal">
+        <div class="flex flex-wrap gap-2 mb-5" id="demoTabs">
+          <button class="demo-tab active" onclick="demoSelect(0)">Task 2 — argument opener</button>
+          <button class="demo-tab" onclick="demoSelect(1)">Task 2 — conclusion</button>
+          <button class="demo-tab" onclick="demoSelect(2)">Task 1 — trend sentence</button>
+          <button class="demo-tab" onclick="demoSelect(3)">Vocabulary range</button>
+        </div>
+
+        <div class="p-6 rounded-2xl border border-[#DDD8CE]" style="background:#fff">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-xs font-semibold text-[#6B7280] tracking-widest uppercase">Your sentence</span>
+            <span id="demoCharCount" class="text-xs text-[#9CA3AF]">0 chars</span>
+          </div>
+          <textarea id="demoInput" class="demo-input-area" rows="3" oninput="demoCharUpdate()" placeholder="Select an example above or type your own…"></textarea>
+          <div class="flex items-center justify-between mt-4 gap-4">
+            <span class="text-xs text-[#9CA3AF] leading-relaxed">Tip: edit the example to see how changes affect the feedback</span>
+            <button id="demoBtn" class="demo-analyse-btn" onclick="runDemo()">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              Analyse →
+            </button>
+          </div>
+        </div>
+
+        <div id="demoFeedback" style="display:none;margin-top:1.25rem"></div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const DEMO_EXAMPLES = [
+      {
+        text: "Many people believe that the government should spend more money on public transport. I agree with this view because it will help the environment.",
+        issues: [
+          { tag: "lr", label: "Lexical Resource", title: "Flat, high-frequency vocabulary", desc: '"spend more money" and "help the environment" are band 5–6 phrasing. Examiners reward collocations: "allocate funding," "alleviate urban congestion," "reduce carbon emissions."' },
+          { tag: "ta", label: "Task Achievement", title: "No position complexity", desc: 'Stating "I agree" with a single reason doesn\'t address the full task. Band 7+ responses acknowledge the strongest counter-argument before rebutting it.' },
+          { tag: "cc", label: "Coherence & Cohesion", title: "Weak cause-effect link", desc: '"because it will help the environment" is a vague logical connector. A precise progression — "given its capacity to reduce private vehicle dependency" — raises the Coherence band.' }
+        ],
+        improved: "While critics argue that subsidising private enterprise stimulates economic growth more efficiently, I contend that sustained government investment in public transport infrastructure would yield far greater societal benefits, notably in reducing urban congestion and carbon emissions."
+      },
+      {
+        text: "In conclusion, I think that technology is both good and bad. We should use it carefully in the future.",
+        issues: [
+          { tag: "lr", label: "Lexical Resource", title: '"I think" in a conclusion — informal register', desc: "Academic writing penalises personal hedges in conclusions. Examiners expect: \"it can be argued,\" \"the evidence suggests,\" \"it is reasonable to conclude.\"" },
+          { tag: "ta", label: "Task Achievement", title: "Position is not restated", desc: '"Both good and bad" is non-committal and contradicts the requirement to "clearly state a position." The conclusion must echo your thesis — not introduce new vagueness.' },
+          { tag: "cc", label: "Coherence & Cohesion", title: '"In the future" — vague forward reference', desc: "A specific forward-looking statement — referencing policy, regulation, or education — scores far higher. \"In the future\" tells the examiner nothing." }
+        ],
+        improved: "In conclusion, although technology presents inherent risks if left unregulated, the evidence strongly supports the view that responsible governance and digital literacy programmes can maximise its societal benefits while mitigating potential harm."
+      },
+      {
+        text: "The graph shows that the number of people went up a lot from 2010 to 2020.",
+        issues: [
+          { tag: "lr", label: "Lexical Resource", title: '"went up a lot" — informal phrasing', desc: 'Task 1 demands formal, precise trend vocabulary: "increased significantly," "rose sharply," "surged by approximately X%." Informal language creates a band 5 ceiling on Lexical Resource.' },
+          { tag: "ta", label: "Task Achievement", title: "No specific data reference", desc: 'Descriptors require you to "select and report main features." Band 7 means citing actual values from the chart — "from 2.3 million to 5.1 million" — not vague descriptions.' },
+          { tag: "gr", label: "Grammatical Range", title: "One clause — no syntactic variety", desc: 'A single independent clause shows limited range. Task 1 Band 7 uses complex structures: noun phrases ("a sharp upward trend"), passive constructions, and non-finite clauses.' }
+        ],
+        improved: "The data reveals a marked upward trend in the figure, which rose sharply from approximately [X] to [Y] between 2010 and 2020 — a near doubling that represents the most significant change illustrated in the graph."
+      },
+      {
+        text: "The issue of climate change is very important and many people think it is a very big problem.",
+        issues: [
+          { tag: "lr", label: "Lexical Resource", title: '"very" used twice — signals limited range', desc: '"Very important" and "very big" are band 5 intensifiers. Examiners expect precise alternatives: "critically significant," "increasingly alarming," "poses an existential threat."' },
+          { tag: "gr", label: "Grammatical Range", title: "Paratactic structure — no syntactic variety", desc: 'Two independent clauses joined by "and" is the simplest sentence structure. Band 7+ writing uses subordination, relative clauses, and apposition to pack more meaning per sentence.' },
+          { tag: "ta", label: "Task Achievement", title: '"many people" — vague attribution', desc: 'Attributing views to "many people" without hedging weakens the argument. Use: "it is widely acknowledged," "scientific consensus indicates," or "policymakers increasingly recognise."' }
+        ],
+        improved: "Climate change, widely regarded as one of the most pressing crises of the 21st century, has prompted mounting concern among scientists, policymakers, and the general public alike — yet coordinated international responses remain critically inadequate."
+      }
+    ];
+
+    let demoActive = 0;
+
+    function demoSelect(idx) {
+      demoActive = idx;
+      const ex = DEMO_EXAMPLES[idx];
+      document.getElementById('demoInput').value = ex.text;
+      document.getElementById('demoCharCount').textContent = ex.text.length + ' chars';
+      document.getElementById('demoFeedback').style.display = 'none';
+      document.querySelectorAll('.demo-tab').forEach(function(t, i) { t.classList.toggle('active', i === idx); });
+    }
+
+    function demoCharUpdate() {
+      document.getElementById('demoCharCount').textContent = document.getElementById('demoInput').value.length + ' chars';
+    }
+
+    function runDemo() {
+      var btn = document.getElementById('demoBtn');
+      var fb = document.getElementById('demoFeedback');
+      btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="animation:spin 0.9s linear infinite"><path d="M7 1a6 6 0 1 1 0 12A6 6 0 0 1 7 1z" stroke="currentColor" stroke-width="1.5" opacity="0.25"/><path d="M7 1a6 6 0 0 1 6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Analysing…';
+      btn.disabled = true;
+      fb.style.display = 'none';
+
+      setTimeout(function() {
+        var ex = DEMO_EXAMPLES[demoActive];
+        var tagClass = { lr: 'demo-tag-lr', gr: 'demo-tag-gr', cc: 'demo-tag-cc', ta: 'demo-tag-ta' };
+        var tagLabel = { lr: 'Lexical Resource', gr: 'Grammar', cc: 'Coherence', ta: 'Task Achievement' };
+
+        fb.innerHTML = '<div class="demo-feedback-enter" style="display:flex;flex-direction:column;gap:12px">'
+          + '<div style="display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:10px;background:#1B2B4B">'
+          + '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1z" stroke="#C9952E" stroke-width="1.3"/><path d="M8 7v4M8 5.5V5" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round"/></svg>'
+          + '<span style="font-size:0.875rem;font-weight:500;color:rgba(238,244,255,0.85)">3 issues found — each one costs band score. Here\'s exactly what to fix:</span>'
+          + '</div>'
+          + ex.issues.map(function(iss) {
+              return '<div class="demo-issue"><div><span class="demo-issue-tag ' + tagClass[iss.tag] + '">' + tagLabel[iss.tag] + '</span></div>'
+                + '<div><div style="font-size:0.875rem;font-weight:600;color:#1C1C2E;margin-bottom:4px">' + iss.title + '</div>'
+                + '<div style="font-size:0.8125rem;line-height:1.65;color:#3D4451">' + iss.desc + '</div></div></div>';
+            }).join('')
+          + '<div class="demo-improved"><div style="font-size:0.75rem;font-weight:700;color:#2AFFD6;margin-bottom:8px;letter-spacing:0.05em">✓ Band 7+ version</div>'
+          + '<p style="font-size:0.9rem;line-height:1.75;color:#1C1C2E;font-style:italic">' + ex.improved + '</p></div>'
+          + '<div style="text-align:center;padding-top:4px">'
+          + '<a href="login.html" style="display:inline-flex;align-items:center;gap:8px;padding:11px 28px;border-radius:8px;font-size:0.875rem;font-weight:600;background:linear-gradient(135deg,var(--gold),#a8741f);color:#05081A;text-decoration:none">'
+          + 'Get full essay feedback free →</a>'
+          + '<div style="font-size:0.75rem;color:#9CA3AF;margin-top:8px">No credit card required</div></div>'
+          + '</div>';
+
+        fb.style.display = 'block';
+        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Analyse →';
+        btn.disabled = false;
+      }, 1100);
+    }
+
+    demoSelect(0);
+  </script>
+
+  <!-- ╔══════════════════════════════ WRITING CLINIC ══════════════════════╗ -->
+  <style>
+    /* ── Sticky note base ─────────────────────────────────────── */
+    .sn-wrap {
+      position: relative;
+      min-height: 640px;
+      padding: 1rem 0.5rem 3rem;
+    }
+    .sn {
+      position: absolute;
+      width: 46%;
+      padding: 0 0 1.75rem;
+      border-radius: 3px 3px 2px 2px;
+      overflow: visible;
+      opacity: 0;
+      will-change: transform, opacity;
+      cursor: default;
+      /* multi-layer shadow: close sharp + mid soft + far ambient */
+      box-shadow:
+        0 1px 2px rgba(27,43,75,0.18),
+        0 6px 18px rgba(27,43,75,0.16),
+        0 18px 48px rgba(27,43,75,0.13);
+    }
+
+    /* adhesive strip at top */
+    .sn::before {
+      content: '';
+      display: block;
+      height: 10px;
+      border-radius: 3px 3px 0 0;
+      background: rgba(0,0,0,0.12);
+      margin-bottom: 0;
+    }
+
+    /* paper fold at bottom-right */
+    .sn::after {
+      content: '';
+      position: absolute;
+      bottom: 0; right: 0;
+      width: 28px; height: 28px;
+      background: linear-gradient(225deg, rgba(0,0,0,0.18) 50%, transparent 50%);
+      border-radius: 0 0 2px 0;
+      filter: drop-shadow(-2px -2px 3px rgba(0,0,0,0.12));
+    }
+
+    .sn-body { padding: 1.4rem 1.75rem 1.4rem; }
+
+    /* hover: lift and straighten */
+    .sn:hover {
+      transform: rotate(0deg) translateY(-10px) !important;
+      box-shadow:
+        0 2px 4px rgba(27,43,75,0.20),
+        0 12px 32px rgba(27,43,75,0.22),
+        0 28px 64px rgba(27,43,75,0.18);
+      z-index: 20;
+    }
+
+    /* positioning — triangle: 1 top-left, 2 top-right, 3 center-bottom */
+    .sn-1 { top: 0;    left: 0;    z-index: 3; }
+    .sn-2 { top: 0;    right: 0;   z-index: 2; }
+    .sn-3 { top: 270px; left: 27%; width: 46%; z-index: 4; }
+
+    /* transitions — applied after animation so hover works */
+    .sn.sn-done {
+      transition:
+        transform 0.32s cubic-bezier(0.34,1.56,0.64,1),
+        box-shadow 0.32s ease,
+        opacity 0.32s ease;
+    }
+
+    /* spring-in keyframes per card */
+    @keyframes snSpring1 {
+      0%   { opacity:0; transform: translateY(32px) rotate(-10deg); }
+      60%  { opacity:1; transform: translateY(-4px) rotate(-3.5deg); }
+      80%  { transform: translateY(2px) rotate(-2.5deg); }
+      100% { opacity:1; transform: translateY(0)   rotate(-3deg); }
+    }
+    @keyframes snSpring2 {
+      0%   { opacity:0; transform: translateY(32px) rotate(8deg); }
+      60%  { opacity:1; transform: translateY(-4px) rotate(3deg); }
+      80%  { transform: translateY(2px) rotate(2deg); }
+      100% { opacity:1; transform: translateY(0)   rotate(2.5deg); }
+    }
+    @keyframes snSpring3 {
+      0%   { opacity:0; transform: translateY(32px) rotate(6deg); }
+      60%  { opacity:1; transform: translateY(-4px) rotate(-2deg); }
+      80%  { transform: translateY(2px) rotate(-1deg); }
+      100% { opacity:1; transform: translateY(0)   rotate(-1.5deg); }
+    }
+
+    .sn-1.sn-visible { animation: snSpring1 0.65s cubic-bezier(0.22,1,0.36,1) 0.1s both; }
+    .sn-2.sn-visible { animation: snSpring2 0.65s cubic-bezier(0.22,1,0.36,1) 0.3s both; }
+    .sn-3.sn-visible { animation: snSpring3 0.65s cubic-bezier(0.22,1,0.36,1) 0.5s both; }
+
+    /* resting rotations (after animation ends, for transition-based hover) */
+    .sn-1.sn-done { transform: rotate(-3deg); }
+    .sn-2.sn-done { transform: rotate(2.5deg); }
+    .sn-3.sn-done { transform: rotate(-1.5deg); }
+  </style>
+
+  <section id="clinic-details" class="py-24 divider" style="background:#F4F1EB">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+
+      <!-- Two-column layout -->
+      <div class="grid lg:grid-cols-2 gap-12 xl:gap-20 items-center">
+
+        <!-- LEFT COLUMN -->
+        <div class="reveal-l">
+
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-7" style="background:#1B2B4B">
+            <span class="text-white text-xs font-medium tracking-widest uppercase">✦ Members Only</span>
+          </div>
+
+          <h2 class="tracking-tight leading-tight mb-5" style="font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,64px);font-weight:600;color:#1B2B4B">
+            The Writing Clinic
+          </h2>
+
+          <p class="text-base leading-relaxed mb-10 max-w-[46ch]" style="color:#3D4451">
+            Your personal AI-powered IELTS writing expert. Submit any essay and receive an instant band score, line-by-line corrections, and a model answer — scored exactly like a real examiner.
+          </p>
+
+          <div class="flex flex-wrap items-center gap-4">
+            <a href="writing-clinic/corrector.html"
+               class="inline-flex items-center px-7 py-3.5 rounded-md font-medium text-sm hover-lift"
+               style="background:#1B2B4B;color:#F4F1EB;letter-spacing:0.02em">
+              Enter The Writing Clinic →
+            </a>
+            <a href="#clinic-details"
+               class="inline-flex items-center px-7 py-3.5 rounded-md font-medium text-sm transition-colors"
+               style="border:1px solid #1B2B4B;color:#1B2B4B;background:transparent"
+               onclick="event.preventDefault();document.getElementById('clinic-details').scrollIntoView({behavior:'smooth'})">
+              Learn More
+            </a>
+          </div>
+
+        </div>
+
+        <!-- RIGHT COLUMN: sticky notes -->
+        <div class="sn-wrap">
+
+          <!-- Card 1: Gold — top-left, -3deg -->
+          <div class="sn sn-1" style="background:#F5C518">
+            <div class="sn-body">
+              <div style="font-size:2.25rem;margin-bottom:0.8rem;filter:drop-shadow(0 2px 3px rgba(27,43,75,0.18))">💰</div>
+              <div style="font-family:'Caveat',cursive;font-weight:700;font-size:1.65rem;color:#1B2B4B;margin-bottom:0.5rem;line-height:1.2">90% Cheaper</div>
+              <p style="font-family:'Caveat',cursive;font-weight:400;font-size:1.1rem;line-height:1.6;color:#1B2B4B;opacity:0.85">
+                A human IELTS tutor charges $30–60 per essay review. Our AI examiner costs a fraction — unlimited feedback for less than a coffee.
+              </p>
+            </div>
+          </div>
+
+          <!-- Card 2: Mint — top-right, +2.5deg -->
+          <div class="sn sn-2" style="background:#B8F0D8">
+            <div class="sn-body">
+              <div style="font-size:2.25rem;margin-bottom:0.8rem;filter:drop-shadow(0 2px 3px rgba(27,43,75,0.18))">⚡</div>
+              <div style="font-family:'Caveat',cursive;font-weight:700;font-size:1.65rem;color:#1B2B4B;margin-bottom:0.5rem;line-height:1.2">Under 2 Minutes</div>
+              <p style="font-family:'Caveat',cursive;font-weight:400;font-size:1.1rem;line-height:1.6;color:#1B2B4B;opacity:0.85">
+                No waiting days for tutor feedback. Get a full band score, line-by-line corrections, and a model answer in under 2 minutes.
+              </p>
+            </div>
+          </div>
+
+          <!-- Card 3: Sky blue — center-bottom, -1.5deg -->
+          <div class="sn sn-3" style="background:#C5DEFF">
+            <div class="sn-body">
+              <div style="font-size:2.25rem;margin-bottom:0.8rem;filter:drop-shadow(0 2px 3px rgba(27,43,75,0.18))">🎯</div>
+              <div style="font-family:'Caveat',cursive;font-weight:700;font-size:1.65rem;color:#1B2B4B;margin-bottom:0.5rem;line-height:1.2">±0.3 Band Accuracy</div>
+              <p style="font-family:'Caveat',cursive;font-weight:400;font-size:1.1rem;line-height:1.6;color:#1B2B4B;opacity:0.85">
+                Trained on 48,000 real examiner-annotated scripts. Our model scores within 0.3 bands of certified human examiners.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Bottom CTA -->
+      <div class="reveal text-center mt-16 lg:mt-20">
+        <a href="writing-clinic/corrector.html"
+           class="inline-flex items-center px-8 py-4 rounded-md font-medium text-sm hover-lift"
+           style="background:var(--gold);color:#1B2B4B;letter-spacing:0.02em">
+          Start Your Free Essay Review →
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <script>
+    (function() {
+      const notes = document.querySelectorAll('.sn');
+      const snObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (!e.isIntersecting) return;
+          e.target.classList.add('sn-visible');
+          /* after animation finishes, switch to transition-based hover */
+          const delay = e.target.classList.contains('sn-1') ? 750
+                      : e.target.classList.contains('sn-2') ? 950 : 1150;
+          setTimeout(() => e.target.classList.add('sn-done'), delay);
+          snObs.unobserve(e.target);
+        });
+      }, { threshold: 0.15 });
+      notes.forEach(n => snObs.observe(n));
+    })();
+  </script>
+
+  <!-- ╔══════════════════════════════ BEFORE / AFTER ESSAY ════════════════╗ -->
+  <section class="py-24 divider" style="background:#EDE9E0">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+
+      <div class="grid lg:grid-cols-2 gap-6 items-end mb-10 reveal">
+        <div>
+          <div class="label mb-4">Writing Clinic — In Action</div>
+          <h2 class="font-display font-black text-4xl md:text-5xl tracking-tighter leading-tight text-[#1C1C2E]">
+            Watch a Band 5.5 essay<br/>become a Band 7.5.
+          </h2>
+        </div>
+        <div>
+          <p class="text-[#3D4451] leading-relaxed max-w-[48ch] lg:ml-auto">This is a real student essay, anonymised. The AI identified three issues across Lexical Resource, Task Achievement, and Grammatical Range. These are the before and after — after two AI sessions.</p>
+        </div>
+      </div>
+
+      <!-- Task label -->
+      <div class="mb-6 reveal">
+        <div class="inline-flex flex-wrap items-center gap-3 px-5 py-3 rounded-xl border" style="background:#fff;border-color:#DDD8CE">
+          <span class="text-xs font-semibold tracking-widest uppercase" style="color:var(--gold)">Task 2 — Opinion Essay</span>
+          <div class="w-px h-4 hidden sm:block" style="background:#DDD8CE"></div>
+          <span class="text-sm text-[#3D4451]">Some people believe children should spend more time outdoors. Do you agree or disagree?</span>
+        </div>
+      </div>
+
+      <!-- Before / After panels -->
+      <div class="grid lg:grid-cols-2 gap-6 mb-6 reveal">
+
+        <!-- Before -->
+        <div class="rounded-2xl border border-[#DDD8CE] overflow-hidden">
+          <div class="px-6 py-4 flex items-center justify-between border-b" style="background:#fff;border-color:#DDD8CE">
+            <div class="flex items-center gap-3">
+              <div class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold" style="background:rgba(239,68,68,0.1);color:#ef4444;border:1px solid rgba(239,68,68,0.25)">5.5</div>
+              <span class="text-sm font-semibold text-[#1C1C2E]">Original — Band 5.5</span>
+            </div>
+            <span class="text-xs text-[#9CA3AF]">Before IELTS Lab</span>
+          </div>
+          <div class="p-6" style="background:#FFFAF8;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;line-height:1.9;color:#1C1C2E">
+            <p class="mb-4"><mark style="background:rgba(239,68,68,0.11);border-bottom:2px solid #ef4444;padding:0 2px">I think</mark> that children should spend more time outside because it is <mark style="background:rgba(239,68,68,0.11);border-bottom:2px solid #ef4444;padding:0 2px">very good</mark> for their health. Nowadays, <mark style="background:rgba(239,68,68,0.11);border-bottom:2px solid #ef4444;padding:0 2px">many children</mark> stay at home and play video games <mark style="background:rgba(239,68,68,0.11);border-bottom:2px solid #ef4444;padding:0 2px">all the time</mark>. This is a big problem because they <mark style="background:rgba(239,68,68,0.11);border-bottom:2px solid #ef4444;padding:0 2px">do not get</mark> enough exercise.</p>
+            <p>In my opinion, parents <mark style="background:rgba(239,68,68,0.11);border-bottom:2px solid #ef4444;padding:0 2px">should make</mark> their children go outside <mark style="background:rgba(239,68,68,0.11);border-bottom:2px solid #ef4444;padding:0 2px">every day</mark>. If children play outside, <mark style="background:rgba(239,68,68,0.11);border-bottom:2px solid #ef4444;padding:0 2px">they will be happy and healthy</mark>. <mark style="background:rgba(239,68,68,0.11);border-bottom:2px solid #ef4444;padding:0 2px">In conclusion</mark>, I think outdoor activities are <mark style="background:rgba(239,68,68,0.11);border-bottom:2px solid #ef4444;padding:0 2px">very important</mark> for children.</p>
+          </div>
+          <div class="px-6 py-3 border-t flex items-center gap-2" style="background:#fff;border-color:#DDD8CE">
+            <div class="w-2 h-2 rounded-full" style="background:#ef4444"></div>
+            <span class="text-xs text-[#6B7280]">8 phrases flagged by AI examiner</span>
+          </div>
+        </div>
+
+        <!-- After -->
+        <div class="rounded-2xl border overflow-hidden" style="border-color:rgba(42,255,214,0.25)">
+          <div class="px-6 py-4 flex items-center justify-between border-b" style="background:#fff;border-color:#DDD8CE">
+            <div class="flex items-center gap-3">
+              <div class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold" style="background:rgba(42,255,214,0.1);color:#16c79a;border:1px solid rgba(42,255,214,0.3)">7.5</div>
+              <span class="text-sm font-semibold text-[#1C1C2E]">Revised — Band 7.5</span>
+            </div>
+            <span class="text-xs text-[#9CA3AF]">After 2 AI sessions</span>
+          </div>
+          <div class="p-6" style="background:#F5FBF8;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;line-height:1.9;color:#1C1C2E">
+            <p class="mb-4">It is <mark style="background:rgba(42,255,214,0.13);border-bottom:2px solid #2affd6;padding:0 2px">widely argued</mark> that children should dedicate <mark style="background:rgba(42,255,214,0.13);border-bottom:2px solid #2affd6;padding:0 2px">a greater portion of their leisure time</mark> to outdoor pursuits, and I <mark style="background:rgba(42,255,214,0.13);border-bottom:2px solid #2affd6;padding:0 2px">strongly concur</mark> with this view. In an era of <mark style="background:rgba(42,255,214,0.13);border-bottom:2px solid #2affd6;padding:0 2px">pervasive digital entertainment</mark>, sedentary lifestyles among young people have become an <mark style="background:rgba(42,255,214,0.13);border-bottom:2px solid #2affd6;padding:0 2px">increasingly pressing</mark> public health concern.</p>
+            <p><mark style="background:rgba(42,255,214,0.13);border-bottom:2px solid #2affd6;padding:0 2px">Encouraging children to engage in outdoor physical activity</mark> not only promotes cardiovascular health and <mark style="background:rgba(42,255,214,0.13);border-bottom:2px solid #2affd6;padding:0 2px">fosters psychological wellbeing</mark>, but also develops <mark style="background:rgba(42,255,214,0.13);border-bottom:2px solid #2affd6;padding:0 2px">crucial interpersonal skills</mark> through cooperative play. <mark style="background:rgba(42,255,214,0.13);border-bottom:2px solid #2affd6;padding:0 2px">In light of these benefits</mark>, it is imperative that parents and educators <mark style="background:rgba(42,255,214,0.13);border-bottom:2px solid #2affd6;padding:0 2px">prioritise structured outdoor experiences</mark> as an integral component of childhood development.</p>
+          </div>
+          <div class="px-6 py-3 border-t flex items-center gap-2" style="background:#fff;border-color:rgba(42,255,214,0.2)">
+            <div class="w-2 h-2 rounded-full" style="background:#2affd6"></div>
+            <span class="text-xs text-[#6B7280]">8 upgrades applied — every one is learnable</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Key changes row -->
+      <div class="grid md:grid-cols-3 gap-4 reveal d100">
+        <div class="p-5 rounded-xl border" style="background:#fff;border-color:#DDD8CE">
+          <div class="flex items-center gap-2 mb-3">
+            <div class="text-xs font-bold px-2 py-0.5 rounded" style="background:rgba(201,149,46,0.12);color:var(--gold);border:1px solid var(--gold-border)">+1.5</div>
+            <div class="text-xs font-semibold text-[#1C1C2E]">Lexical Resource</div>
+          </div>
+          <div class="text-xs text-[#3D4451] leading-relaxed">"Very good" became "increasingly pressing." "Make children go" became "encourage children to engage." Every swap raises the band ceiling — and each one is a learnable pattern.</div>
+        </div>
+        <div class="p-5 rounded-xl border" style="background:#fff;border-color:#DDD8CE">
+          <div class="flex items-center gap-2 mb-3">
+            <div class="text-xs font-bold px-2 py-0.5 rounded" style="background:rgba(201,149,46,0.12);color:var(--gold);border:1px solid var(--gold-border)">+1.0</div>
+            <div class="text-xs font-semibold text-[#1C1C2E]">Task Achievement</div>
+          </div>
+          <div class="text-xs text-[#3D4451] leading-relaxed">The original stated a position but gave no supporting logic. The revision builds a layered argument — health, psychology, social development — which is what examiners look for at Band 7+.</div>
+        </div>
+        <div class="p-5 rounded-xl border" style="background:#fff;border-color:#DDD8CE">
+          <div class="flex items-center gap-2 mb-3">
+            <div class="text-xs font-bold px-2 py-0.5 rounded" style="background:rgba(201,149,46,0.12);color:var(--gold);border:1px solid var(--gold-border)">+1.0</div>
+            <div class="text-xs font-semibold text-[#1C1C2E]">Grammatical Range</div>
+          </div>
+          <div class="text-xs text-[#3D4451] leading-relaxed">Simple "if-then" sentences replaced with complex noun phrases, non-finite clauses ("to engage in"), and hedged academic structures ("it is imperative that") — all markers of Band 7+ grammar.</div>
+        </div>
+      </div>
+
+      <div class="text-center mt-10 reveal d200">
+        <a href="login.html" class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl text-sm font-semibold hover-lift" style="background:#1B2B4B;color:#EEF4FF;text-decoration:none">
+          Get my essays corrected like this →
+        </a>
+        <div class="text-xs text-[#9CA3AF] mt-3">First essay free · No credit card required</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ╔══════════════════════════════ DIFFERENTIATOR 1 ════════════════════╗ -->
+  <section id="practice" class="py-32 divider">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="grid lg:grid-cols-2 gap-16 xl:gap-24 items-center">
+
+        <div class="reveal-l">
+          <div class="label mb-5">The Engine Behind Your Score</div>
+          <h2 class="font-display font-black text-4xl md:text-5xl tracking-tighter leading-tight text-[#1C1C2E] mb-6">
+            AI that marks like<br />a real examiner.
+          </h2>
+          <p class="text-[#3D4451] leading-relaxed max-w-[52ch] mb-8">
+            Our model was trained on 48,000 annotated scripts from certified IELTS examiners. It reads your essays against the same four criteria examiners use — Task Achievement, Coherence, Lexical Resource, Grammatical Range — and returns a band score with line-level annotations within seconds.
+          </p>
+          <ul class="space-y-3 mb-10">
+            <li class="flex items-start gap-3 text-sm text-[#3D4451]">
+              <div class="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style="background:var(--gold-dim);border:1px solid var(--gold-border)">
+                <svg width="8" height="6" viewBox="0 0 8 6" fill="none"><path d="M1 3l2 2 4-4" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              Annotated feedback on every sentence — not just an overall score
+            </li>
+            <li class="flex items-start gap-3 text-sm text-[#3D4451]">
+              <div class="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style="background:var(--gold-dim);border:1px solid var(--gold-border)">
+                <svg width="8" height="6" viewBox="0 0 8 6" fill="none"><path d="M1 3l2 2 4-4" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              Model accuracy within 0.3 bands of human examiner consensus
+            </li>
+            <li class="flex items-start gap-3 text-sm text-[#3D4451]">
+              <div class="w-4 h-4 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style="background:var(--gold-dim);border:1px solid var(--gold-border)">
+                <svg width="8" height="6" viewBox="0 0 8 6" fill="none"><path d="M1 3l2 2 4-4" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              Speaking analysis: pronunciation, fluency, vocabulary range
+            </li>
+          </ul>
+          <a href="#" class="text-sm font-medium text-gold hover:opacity-80 transition-opacity flex items-center gap-1.5">
+            See how the marking works →
+          </a>
+        </div>
+
+        <div class="reveal-r d200">
+          <!-- Feedback card -->
+          <div class="relative" style="background:#FDFCF9;border-radius:1.5rem;padding:1.75rem;box-shadow:0 2px 8px rgba(27,43,75,0.06),0 8px 28px rgba(27,43,75,0.08),0 20px 56px rgba(27,43,75,0.06)">
+
+            <!-- Top bar -->
+            <div class="flex items-start justify-between mb-5">
+              <div>
+                <div style="font-size:0.6rem;font-weight:600;letter-spacing:0.13em;text-transform:uppercase;color:#1B2B4B;margin-bottom:0.25rem">Writing Task 2 — AI Examiner Feedback</div>
+                <div style="font-size:0.75rem;color:#9CA3AF">Academic · Opinion Essay</div>
+              </div>
+              <div style="font-size:0.72rem;font-weight:600;padding:0.3rem 0.85rem;border-radius:99px;border:1px solid var(--gold);color:var(--gold);white-space:nowrap;flex-shrink:0">
+                7.0 Overall
+              </div>
+            </div>
+
+            <!-- Essay text -->
+            <div style="font-size:0.82rem;line-height:1.8;color:#1C1C2E;margin-bottom:0.75rem">
+              <p style="margin-bottom:0.6rem">
+                Governments should invest more in
+                <span class="relative group" style="cursor:pointer">
+                  <span style="border-bottom:2.5px solid rgba(201,149,46,0.75);padding-bottom:1px">public transportation</span>
+                  <span class="absolute left-0 z-10 hidden group-hover:block" style="bottom:calc(100% + 6px);background:#1B2B4B;color:#fff;font-size:0.7rem;padding:0.3rem 0.6rem;border-radius:6px;white-space:nowrap;box-shadow:0 4px 12px rgba(0,0,0,0.2)">💡 Lexical: Consider "infrastructure"</span>
+                </span>
+                rather than road expansion.
+              </p>
+              <p style="margin-bottom:0.6rem">
+                This
+                <span style="border-bottom:2.5px solid rgba(239,68,68,0.6);padding-bottom:1px"> is a controversial topic that many people disagree on.</span>
+              </p>
+              <p style="margin-bottom:0.6rem">
+                In my opinion, the government
+                <span style="border-bottom:2.5px solid rgba(34,197,94,0.65);padding-bottom:1px"> should allocate a larger proportion of its budget toward</span>
+                transit networks.
+              </p>
+              <p style="color:#9CA3AF;margin-top:0.25rem">…</p>
+            </div>
+
+            <!-- Legend -->
+            <div style="display:flex;align-items:center;gap:1.25rem;margin-bottom:1.25rem;font-size:0.72rem;color:#6B7280">
+              <span style="display:flex;align-items:center;gap:0.4rem">
+                <span style="display:inline-block;width:18px;height:2.5px;border-radius:2px;background:rgba(201,149,46,0.75)"></span>Suggestion
+              </span>
+              <span style="display:flex;align-items:center;gap:0.4rem">
+                <span style="display:inline-block;width:18px;height:2.5px;border-radius:2px;background:rgba(239,68,68,0.6)"></span>Weak phrase
+              </span>
+              <span style="display:flex;align-items:center;gap:0.4rem">
+                <span style="display:inline-block;width:18px;height:2.5px;border-radius:2px;background:rgba(34,197,94,0.65)"></span>Strong
+              </span>
+            </div>
+
+            <!-- Score boxes -->
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.5rem;margin-bottom:1rem">
+              <div style="text-align:center;padding:0.75rem 0.5rem;background:#F4F4F4;border-radius:0.75rem">
+                <div style="font-family:'Satoshi',sans-serif;font-weight:700;font-size:1.25rem;color:#1B2B4B;line-height:1">6.5</div>
+                <div style="font-size:0.68rem;color:#9CA3AF;margin-top:0.3rem">Task</div>
+              </div>
+              <div style="text-align:center;padding:0.75rem 0.5rem;background:#F4F4F4;border-radius:0.75rem">
+                <div style="font-family:'Satoshi',sans-serif;font-weight:700;font-size:1.25rem;color:#1B2B4B;line-height:1">7.0</div>
+                <div style="font-size:0.68rem;color:#9CA3AF;margin-top:0.3rem">Cohesion</div>
+              </div>
+              <div style="text-align:center;padding:0.75rem 0.5rem;background:#F4F4F4;border-radius:0.75rem">
+                <div style="font-family:'Satoshi',sans-serif;font-weight:700;font-size:1.25rem;color:#1B2B4B;line-height:1">6.5</div>
+                <div style="font-size:0.68rem;color:#9CA3AF;margin-top:0.3rem">Lexical</div>
+              </div>
+              <div style="text-align:center;padding:0.75rem 0.5rem;background:#F4F4F4;border-radius:0.75rem">
+                <div style="font-family:'Satoshi',sans-serif;font-weight:700;font-size:1.25rem;color:#C49A2B;line-height:1">7.5</div>
+                <div style="font-size:0.68rem;color:#9CA3AF;margin-top:0.3rem">Grammar</div>
+              </div>
+            </div>
+
+            <!-- Key action box -->
+            <div style="display:flex;align-items:flex-start;gap:0.75rem;padding:0.875rem 1rem;background:#FDF8EC;border-radius:0.75rem;border-left:3px solid var(--gold)">
+              <div style="width:7px;height:7px;border-radius:50%;background:var(--gold);flex-shrink:0;margin-top:0.3rem"></div>
+              <p style="font-size:0.78rem;line-height:1.55;color:#3D4451;margin:0">
+                <strong style="color:#1B2B4B;font-weight:600">Key action:</strong> Task Achievement limited by underdeveloped body paragraphs. Practice PEEL structure to push from 6.5 → 7.0.
+              </p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ╔══════════════════════════════ DIFFERENTIATOR 2 ════════════════════╗ -->
+  <style>
+    .study-plan-link {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.375rem;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--gold);
+      text-decoration: none;
+    }
+    .study-plan-link::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 1.5px;
+      background: var(--gold);
+      transition: width 0.3s cubic-bezier(0.22,1,0.36,1);
+    }
+    .study-plan-link:hover::after { width: 100%; }
+    .step-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #1B2B4B;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-size: 0.7rem;
+      font-weight: 700;
+      font-family: var(--font-display, sans-serif);
+      margin-top: 1px;
+    }
+  </style>
+  <section class="py-32 divider" style="background:radial-gradient(ellipse 60% 50% at 20% 50%, rgba(201,149,46,0.04) 0%, transparent 70%)">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="grid lg:grid-cols-2 gap-16 xl:gap-24 items-center">
+
+        <!-- LEFT: white study plan card -->
+        <div class="reveal-l order-2 lg:order-1">
+          <div class="rounded-3xl p-6" style="background:#FFFFFF;box-shadow:0 1px 3px rgba(27,43,75,0.05),0 6px 20px rgba(27,43,75,0.07),0 24px 64px rgba(27,43,75,0.06)">
+            <div class="flex items-center justify-between mb-5">
+              <div class="label">Week 4 of 8 — Writing Focus</div>
+              <span class="text-xs text-[#6B7280]">Day 22/56</span>
+            </div>
+            <div class="space-y-2">
+              <!-- Row 1: Completed -->
+              <div class="flex items-center gap-3 p-3 rounded-xl" style="background:var(--gold-dim);border:1px solid var(--gold-border)">
+                <div class="w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0" style="background:var(--gold)">
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1 5l3 3 5-5" stroke="#09090b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="text-sm text-[#1C1C2E] font-medium truncate">Task 2: Opinion Essay</div>
+                  <div class="text-xs text-[#3D4451]">Band target: 7.0 · Est. 45 min</div>
+                </div>
+                <span class="text-xs font-medium" style="color:var(--gold)">Done</span>
+              </div>
+              <!-- Row 2: Active (today) -->
+              <div class="flex items-center gap-3 p-3 rounded-xl" style="background:#F4F1EB;border:1.5px solid #1B2B4B">
+                <div class="w-6 h-6 rounded-md border-2 flex-shrink-0 flex items-center justify-center" style="border-color:#1B2B4B">
+                  <div class="w-2 h-2 rounded-sm" style="background:#1B2B4B"></div>
+                </div>
+                <div class="flex-1 min-w-0">
+                  <div class="text-sm text-[#1C1C2E] font-medium truncate">Cohesion Drills — Linking Devices</div>
+                  <div class="text-xs text-[#3D4451]">12 exercises · Est. 20 min</div>
+                </div>
+                <span class="text-xs font-semibold text-[#1B2B4B]">Today</span>
+              </div>
+              <!-- Row 3: Pending -->
+              <div class="flex items-center gap-3 p-3 rounded-xl border border-[#EDE9E0] opacity-50">
+                <div class="w-6 h-6 rounded-md border border-[#DDD8CE] flex-shrink-0" style="background:#F4F1EB"></div>
+                <div class="flex-1 min-w-0">
+                  <div class="text-sm text-[#3D4451] truncate">Task 1: Academic Line Graph</div>
+                  <div class="text-xs text-[#6B7280]">Band target: 7.0 · Est. 40 min</div>
+                </div>
+                <span class="text-xs text-[#6B7280]">Thu</span>
+              </div>
+              <!-- Row 4: Pending -->
+              <div class="flex items-center gap-3 p-3 rounded-xl border border-[#EDE9E0] opacity-50">
+                <div class="w-6 h-6 rounded-md border border-[#DDD8CE] flex-shrink-0" style="background:#F4F1EB"></div>
+                <div class="flex-1 min-w-0">
+                  <div class="text-sm text-[#3D4451] truncate">Full Writing Mock + Review</div>
+                  <div class="text-xs text-[#6B7280]">60 min timed · Est. 90 min total</div>
+                </div>
+                <span class="text-xs text-[#6B7280]">Fri</span>
+              </div>
+            </div>
+            <div class="mt-5 pt-5 border-t border-[#EDE9E0] flex items-center justify-between">
+              <span class="text-xs text-[#3D4451]">Test date: <span class="font-medium text-[#1C1C2E]">Jun 14, 2026</span></span>
+              <span class="text-xs text-[#3D4451]">34 days remaining</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: text + steps + teacher box -->
+        <div class="reveal-r d200 order-1 lg:order-2">
+          <div class="label mb-5">Structured Growth</div>
+          <h2 class="font-display font-black text-4xl md:text-5xl tracking-tighter leading-tight text-[#1C1C2E] mb-6">
+            Eight weeks.<br />One goal.
+          </h2>
+          <p class="text-[#3D4451] leading-relaxed max-w-[52ch] mb-8">
+            Enter your test date and current band score. IELTS Lab builds a day-by-day study plan that adapts as you improve — front-loading your weakest skills, tapering into full mock conditions before exam day.
+          </p>
+          <div class="space-y-5 mb-8">
+            <div class="flex items-start gap-4">
+              <div class="step-circle">1</div>
+              <div>
+                <div class="text-sm font-medium text-[#1C1C2E] mb-0.5">Diagnostic Assessment</div>
+                <div class="text-sm text-[#3D4451]">60-minute test identifies your exact starting point across all four skills.</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="step-circle">2</div>
+              <div>
+                <div class="text-sm font-medium text-[#1C1C2E] mb-0.5">Personalised Study Plan</div>
+                <div class="text-sm text-[#3D4451]">Daily tasks assigned by priority — your weakest areas get the most time.</div>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <div class="step-circle">3</div>
+              <div>
+                <div class="text-sm font-medium text-[#1C1C2E] mb-0.5">Adaptive Re-routing</div>
+                <div class="text-sm text-[#3D4451]">Plan updates weekly based on your mock scores and AI feedback patterns.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Teacher highlight box -->
+          <div class="rounded-2xl p-5 mb-8" style="background:#1B2B4B">
+            <div class="flex items-start gap-3">
+              <div class="flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center mt-0.5" style="background:rgba(201,149,46,0.18)">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2a4 4 0 1 1 0 8 4 4 0 0 1 0-8zm-6 13c0-2.761 2.686-5 6-5s6 2.239 6 5" stroke="#C49A2B" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </div>
+              <div>
+                <div class="text-sm font-semibold mb-1.5" style="color:#C49A2B">A Real Teacher. Not Just an Algorithm.</div>
+                <p class="text-sm leading-relaxed" style="color:rgba(244,241,235,0.82)">After you subscribe, a certified IELTS teacher personally reviews your profile, contacts you directly, identifies your biggest weakness, and builds your first week around fixing it — before the AI takes over.</p>
+              </div>
+            </div>
+          </div>
+
+          <a href="#" class="study-plan-link">
+            View a sample study plan →
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ╔══════════════════════════════ FOUR SKILLS ═════════════════════════╗ -->
+  <section id="skills" class="py-32 divider">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="max-w-xl mb-16 reveal">
+        <div class="label mb-4">Four Skills. Zero Gaps.</div>
+        <h2 class="font-display font-black text-4xl md:text-5xl tracking-tighter leading-tight text-[#1C1C2E]">
+          Full-spectrum preparation, not just practice questions.
+        </h2>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+        <div class="reveal md:col-span-3 p-8 rounded-2xl border border-[#DDD8CE] hover-lift relative overflow-hidden group" style="background:#FFFFFF">
+          <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+               style="background:radial-gradient(ellipse 60% 60% at 20% 80%, rgba(201,149,46,0.06) 0%, transparent 70%)"></div>
+          <div class="relative">
+            <div class="flex items-center justify-between mb-6">
+              <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:var(--gold-dim);border:1px solid var(--gold-border)">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 4h14M2 8h10M2 12h12M2 16h7" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </div>
+              <span class="text-xs text-[#6B7280] font-medium">Skill 01</span>
+            </div>
+            <h3 class="font-display font-bold text-2xl text-[#1C1C2E] tracking-tight mb-3">Reading</h3>
+            <p class="text-[#3D4451] text-sm leading-relaxed max-w-[46ch] mb-6">
+              2,400+ authentic passage questions — Academic and General. Skimming and scanning drills, True/False/Not Given mastery, matching headings at speed. Timed conditions enforced from week three onward.
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-xs px-3 py-1.5 rounded-full border border-[#DDD8CE] text-[#3D4451]">T/F/NG strategies</span>
+              <span class="text-xs px-3 py-1.5 rounded-full border border-[#DDD8CE] text-[#3D4451]">Heading matching</span>
+              <span class="text-xs px-3 py-1.5 rounded-full border border-[#DDD8CE] text-[#3D4451]">Summary completion</span>
+              <span class="text-xs px-3 py-1.5 rounded-full border border-[#DDD8CE] text-[#3D4451]">Speed reading</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal d100 md:col-span-2 p-8 rounded-2xl border border-[#DDD8CE] hover-lift relative overflow-hidden group" style="background:#FFFFFF">
+          <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+               style="background:radial-gradient(ellipse 80% 60% at 80% 20%, rgba(201,149,46,0.06) 0%, transparent 70%)"></div>
+          <div class="relative">
+            <div class="flex items-center justify-between mb-6">
+              <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:var(--gold-dim);border:1px solid var(--gold-border)">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 14l1.5-1.5L13 5l-2-2-7.5 7.5L2 14h2zm9-11l1.5-1.5a1 1 0 0 1 1.5 1.5L14.5 4.5 13 3z" stroke="#C9952E" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 6l1 1" stroke="#C9952E" stroke-width="1.3" stroke-linecap="round"/></svg>
+              </div>
+              <span class="text-xs text-[#6B7280] font-medium">Skill 02</span>
+            </div>
+            <h3 class="font-display font-bold text-2xl text-[#1C1C2E] tracking-tight mb-3">Writing</h3>
+            <p class="text-[#3D4451] text-sm leading-relaxed mb-5">AI-graded essays with examiner-level feedback. Task 1 data interpretation. Task 2 argumentative structures. Vocabulary range enhancement built into every exercise.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-xs px-3 py-1.5 rounded-full border border-[#DDD8CE] text-[#3D4451]">AI marking</span>
+              <span class="text-xs px-3 py-1.5 rounded-full border border-[#DDD8CE] text-[#3D4451]">Task 1 &amp; 2</span>
+              <span class="text-xs px-3 py-1.5 rounded-full border border-[#DDD8CE] text-[#3D4451]">Vocabulary</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal d200 md:col-span-2 p-8 rounded-2xl border border-[#DDD8CE] hover-lift relative overflow-hidden group" style="background:#FFFFFF">
+          <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+               style="background:radial-gradient(ellipse 80% 60% at 20% 80%, rgba(201,149,46,0.06) 0%, transparent 70%)"></div>
+          <div class="relative">
+            <div class="flex items-center justify-between mb-6">
+              <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:var(--gold-dim);border:1px solid var(--gold-border)">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 1a7 7 0 1 0 0 14A7 7 0 0 0 9 1z" stroke="#C9952E" stroke-width="1.4"/><path d="M5.5 8.5c0 1.93 1.57 3.5 3.5 3.5s3.5-1.57 3.5-3.5" stroke="#C9952E" stroke-width="1.4" stroke-linecap="round"/><line x1="6" y1="6.5" x2="6" y2="6.5" stroke="#C9952E" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="6.5" x2="12" y2="6.5" stroke="#C9952E" stroke-width="2" stroke-linecap="round"/></svg>
+              </div>
+              <span class="text-xs text-[#6B7280] font-medium">Skill 03</span>
+            </div>
+            <h3 class="font-display font-bold text-2xl text-[#1C1C2E] tracking-tight mb-3">Listening</h3>
+            <p class="text-[#3D4451] text-sm leading-relaxed mb-5">Native-speaker audio from British, Australian, and American accents. Section 1–4 question formats. Accent adaptation exercises reduce mishearing by an average 34%.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-xs px-3 py-1.5 rounded-full border border-[#DDD8CE] text-[#3D4451]">Multi-accent</span>
+              <span class="text-xs px-3 py-1.5 rounded-full border border-[#DDD8CE] text-[#3D4451]">Sections 1–4</span>
+              <span class="text-xs px-3 py-1.5 rounded-full border border-[#DDD8CE] text-[#3D4451]">Note-taking</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="reveal d300 md:col-span-3 p-8 rounded-2xl border border-[#DDD8CE] hover-lift relative overflow-hidden group" style="background:#FFFFFF">
+          <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+               style="background:radial-gradient(ellipse 60% 80% at 80% 30%, rgba(201,149,46,0.06) 0%, transparent 70%)"></div>
+          <div class="relative">
+            <div class="flex items-center justify-between mb-6">
+              <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:var(--gold-dim);border:1px solid var(--gold-border)">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="6" y="1" width="6" height="9" rx="3" stroke="#C9952E" stroke-width="1.4"/><path d="M3 9c0 3.31 2.69 6 6 6s6-2.69 6-6" stroke="#C9952E" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="15" x2="9" y2="17" stroke="#C9952E" stroke-width="1.4" stroke-linecap="round"/><line x1="6" y1="17" x2="12" y2="17" stroke="#C9952E" stroke-width="1.4" stroke-linecap="round"/></svg>
+              </div>
+              <span class="text-xs text-[#6B7280] font-medium">Skill 04</span>
+            </div>
+            <h3 class="font-display font-bold text-2xl text-[#1C1C2E] tracking-tight mb-3">Speaking</h3>
+            <p class="text-[#3D4451] text-sm leading-relaxed max-w-[46ch] mb-6">Record your response. Receive AI feedback on fluency, pronunciation, vocabulary range, and grammatical accuracy — the same four criteria your examiner will use. Part 1, 2, and 3 formats covered.</p>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-xs px-3 py-1.5 rounded-full border border-[#DDD8CE] text-[#3D4451]">Pronunciation scoring</span>
+              <span class="text-xs px-3 py-1.5 rounded-full border border-[#DDD8CE] text-[#3D4451]">Fluency analysis</span>
+              <span class="text-xs px-3 py-1.5 rounded-full border border-[#DDD8CE] text-[#3D4451]">Parts 1–3</span>
+              <span class="text-xs px-3 py-1.5 rounded-full border border-[#DDD8CE] text-[#3D4451]">Filler word detection</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ╔══════════════════════════════ MOCK TESTS ══════════════════════════╗ -->
+  <section id="mock" class="py-32 divider" style="background:#EDE9E0">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div class="reveal">
+          <div class="label mb-5">Exam-Condition Simulation</div>
+          <h2 class="font-display font-black text-4xl md:text-5xl tracking-tighter leading-tight text-[#1C1C2E] mb-6">
+            Full mock tests.<br />Real pressure.<br />Detailed analysis.
+          </h2>
+          <p class="text-[#3D4451] leading-relaxed max-w-[52ch] mb-8">
+            Timed 3-hour full-length tests using authentic exam question types. Every result includes a percentile rank, per-question accuracy breakdown, and a prioritised action plan for your next session.
+          </p>
+          <div class="grid grid-cols-2 gap-4 mb-10">
+            <div class="p-4 rounded-xl border border-[#DDD8CE]"><div class="font-display font-bold text-3xl text-[#1C1C2E] mb-1">14</div><div class="text-xs text-[#3D4451]">Full-length mock tests included</div></div>
+            <div class="p-4 rounded-xl border border-[#DDD8CE]"><div class="font-display font-bold text-3xl text-[#1C1C2E] mb-1">3h</div><div class="text-xs text-[#3D4451]">Timed exam simulation</div></div>
+            <div class="p-4 rounded-xl border border-[#DDD8CE]"><div class="font-display font-bold text-3xl text-[#1C1C2E] mb-1">4h</div><div class="text-xs text-[#3D4451]">Average AI review turnaround</div></div>
+            <div class="p-4 rounded-xl" style="background:var(--gold);border:1px solid var(--gold)"><div class="font-display font-bold text-3xl text-[#1B2B4B] mb-1">+0.8</div><div class="text-xs font-medium text-[#1B2B4B]">Avg. band gain after 3 mocks</div></div>
+          </div>
+          <a href="#" class="inline-flex items-center gap-2 px-6 py-3 rounded-md font-medium text-sm text-zinc-950 hover-lift" style="background:var(--gold)">
+            Take a Free Mock Test →
+          </a>
+        </div>
+
+        <div class="reveal-r d200">
+          <div class="rounded-2xl p-7" style="background:#FFFFFF;border:1px solid #DDD8CE">
+            <div class="flex items-center justify-between mb-6">
+              <div>
+                <div class="label mb-0.5">Mock Test #6 — Results</div>
+                <div class="text-xs text-[#6B7280]">Academic · Full length · 3h 04m</div>
+              </div>
+              <div class="text-xs text-[#3D4451] border border-[#DDD8CE] px-2.5 py-1 rounded-full">Top 22%</div>
+            </div>
+            <div class="flex items-center gap-4 mb-6 p-4 rounded-xl" style="background:var(--gold-dim);border:1px solid var(--gold-border)">
+              <div class="font-display font-black text-4xl" style="color:var(--gold)">7.0</div>
+              <div>
+                <div class="text-sm font-medium text-[#1C1C2E]">Overall Band Score</div>
+                <div class="text-xs text-[#3D4451]">Previous attempt: 6.5 · <span style="color:var(--gold)">+0.5 improvement</span></div>
+              </div>
+            </div>
+            <div class="space-y-4">
+              <div>
+                <div class="flex justify-between text-sm mb-2"><span class="text-[#3D4451]">Listening</span><div class="flex items-center gap-2"><span class="text-xs text-[#6B7280]">prev 7.0</span><span class="font-medium text-[#1C1C2E]">7.5</span></div></div>
+                <div class="skill-track"><div class="skill-fill" data-w="83" style="background:#2AFFD6"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between text-sm mb-2"><span class="text-[#3D4451]">Reading</span><div class="flex items-center gap-2"><span class="text-xs text-[#6B7280]">prev 6.5</span><span class="font-medium text-[#1C1C2E]">7.0</span></div></div>
+                <div class="skill-track"><div class="skill-fill" data-w="77" style="background:#3A7BF7"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between text-sm mb-2"><span class="text-[#3D4451]">Writing</span><div class="flex items-center gap-2"><span class="text-xs text-[#6B7280]">prev 6.0</span><span class="font-medium text-[#1C1C2E]">6.5</span></div></div>
+                <div class="skill-track"><div class="skill-fill" data-w="72" style="background:#C9952E"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between text-sm mb-2"><span class="text-[#3D4451]">Speaking</span><div class="flex items-center gap-2"><span class="text-xs text-[#6B7280]">prev 7.0</span><span class="font-medium text-[#1C1C2E]">7.0</span></div></div>
+                <div class="skill-track"><div class="skill-fill" data-w="77" style="background:#DDB05A"></div></div>
+              </div>
+            </div>
+            <div class="mt-5 pt-5 border-t border-[#DDD8CE]">
+              <div class="text-xs text-[#3D4451] mb-3">Priority action for next session:</div>
+              <div class="flex items-start gap-2 text-sm text-[#1C1C2E]">
+                <div class="w-1 h-1 rounded-full flex-shrink-0 mt-2" style="background:var(--gold)"></div>
+                Writing Task 2 coherence — 3 targeted exercises assigned
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ╔══════════════════════════════ TESTIMONIALS ════════════════════════╗ -->
+  <section class="py-32" style="background:#1B2B4B;border-top:1px solid rgba(255,255,255,0.06)">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="max-w-xl mb-16 reveal">
+        <div class="label mb-4">Student Results</div>
+        <h2 class="font-display font-black text-4xl md:text-5xl tracking-tighter leading-tight" style="color:var(--white)">
+          Real scores.<br />Real people.
+        </h2>
+      </div>
+
+      <div class="grid lg:grid-cols-[1fr_380px] gap-6">
+        <div class="reveal p-8 md:p-10 rounded-2xl flex flex-col justify-between" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09)">
+          <div>
+            <div class="flex items-center gap-3 mb-8">
+              <div class="w-10 h-10 rounded-full flex items-center justify-center font-display font-bold text-lg" style="background:rgba(201,149,46,0.15);border:1px solid rgba(201,149,46,0.3);color:var(--gold)">N</div>
+              <div>
+                <div class="text-sm font-medium" style="color:var(--white)">Nadia K.</div>
+                <div class="text-xs" style="color:rgba(238,244,255,0.5)">Morocco → University of Edinburgh · Architecture</div>
+              </div>
+              <div class="ml-auto flex items-center gap-2 px-3 py-1.5 rounded-full" style="background:rgba(201,149,46,0.12);border:1px solid rgba(201,149,46,0.28)">
+                <span class="text-xs" style="color:rgba(238,244,255,0.6)">Band</span>
+                <span class="font-display font-bold text-sm" style="color:var(--gold)">7.5</span>
+              </div>
+            </div>
+            <blockquote class="text-lg leading-relaxed" style="color:rgba(238,244,255,0.82)">
+              "I'd taken IELTS twice before IELTS Lab — both times I scored 6.5 and couldn't understand why. The AI feedback on my essays showed me I was losing marks on task achievement, not grammar. Three weeks of targeted practice fixed exactly that. I got 7.5 on my third attempt and had my unconditional offer within two weeks."
+            </blockquote>
+          </div>
+          <div class="mt-8 pt-6 flex items-center gap-4" style="border-top:1px solid rgba(255,255,255,0.08)">
+            <div class="text-xs" style="color:rgba(238,244,255,0.4)">Starting band: <span style="color:rgba(238,244,255,0.7)">6.5</span></div>
+            <div class="w-px h-3" style="background:rgba(255,255,255,0.12)"></div>
+            <div class="text-xs" style="color:rgba(238,244,255,0.4)">Achieved: <span style="color:var(--gold)">7.5</span></div>
+            <div class="w-px h-3" style="background:rgba(255,255,255,0.12)"></div>
+            <div class="text-xs" style="color:rgba(238,244,255,0.4)">Time: <span style="color:rgba(238,244,255,0.7)">5 weeks</span></div>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-6">
+          <div class="reveal d100 p-7 rounded-2xl flex-1" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09)">
+            <div class="flex items-center gap-3 mb-5">
+              <div class="w-9 h-9 rounded-full flex items-center justify-center font-display font-bold" style="background:rgba(201,149,46,0.15);border:1px solid rgba(201,149,46,0.3);color:var(--gold)">O</div>
+              <div>
+                <div class="text-sm font-medium" style="color:var(--white)">Omar F.</div>
+                <div class="text-xs" style="color:rgba(238,244,255,0.5)">Egypt → Melbourne · Software Engineering</div>
+              </div>
+              <div class="ml-auto px-2.5 py-1 rounded-full" style="background:rgba(201,149,46,0.12);border:1px solid rgba(201,149,46,0.28)">
+                <span class="font-display font-bold text-sm" style="color:var(--gold)">8.0</span>
+              </div>
+            </div>
+            <blockquote class="text-sm leading-relaxed" style="color:rgba(238,244,255,0.72)">
+              "The speaking module caught that I was overusing filler words — something no textbook had ever told me. Once I fixed that, my fluency score jumped a full band in two sessions."
+            </blockquote>
+            <div class="mt-4 text-xs" style="color:rgba(238,244,255,0.35)">6.0 → 8.0 · 9 weeks</div>
+          </div>
+
+          <div class="reveal d200 p-7 rounded-2xl flex-1" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09)">
+            <div class="flex items-center gap-3 mb-5">
+              <div class="w-9 h-9 rounded-full flex items-center justify-center font-display font-bold" style="background:rgba(201,149,46,0.15);border:1px solid rgba(201,149,46,0.3);color:var(--gold)">P</div>
+              <div>
+                <div class="text-sm font-medium" style="color:var(--white)">Priya M.</div>
+                <div class="text-xs" style="color:rgba(238,244,255,0.5)">India → London · Nursing</div>
+              </div>
+              <div class="ml-auto px-2.5 py-1 rounded-full" style="background:rgba(201,149,46,0.12);border:1px solid rgba(201,149,46,0.28)">
+                <span class="font-display font-bold text-sm" style="color:var(--gold)">7.0</span>
+              </div>
+            </div>
+            <blockquote class="text-sm leading-relaxed" style="color:rgba(238,244,255,0.72)">
+              "I needed 7.0 in every section for NMC registration. The daily plan kept me on track without burning out. Hit the requirement on my first attempt with IELTS Lab."
+            </blockquote>
+            <div class="mt-4 text-xs" style="color:rgba(238,244,255,0.35)">5.5 → 7.0 · 8 weeks</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ╔══════════════════════════════ MEET OUR TEACHERS ═══════════════════╗ -->
+  <section id="teachers" class="py-32 divider" style="background:#F4F1EB">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+
+      <!-- Header -->
+      <div class="grid lg:grid-cols-2 gap-6 items-end mb-14">
+        <div class="reveal">
+          <div class="label mb-4">Meet Our Teachers</div>
+          <h2 class="font-display font-black text-4xl md:text-5xl tracking-tighter leading-tight text-[#1C1C2E]">
+            Real Humans.<br />Real Guidance.
+          </h2>
+        </div>
+        <div class="reveal d100">
+          <p class="text-[#3D4451] leading-relaxed max-w-[48ch] lg:text-right lg:ml-auto">
+            Every teacher is a certified IELTS specialist<br class="hidden lg:block" />
+            with proven results.
+          </p>
+        </div>
+      </div>
+
+      <!-- Teacher cards — horizontal scroll on mobile, row on desktop -->
+      <div class="reveal">
+        <div class="teachers-scroll lg:grid lg:grid-cols-4 lg:overflow-visible lg:pb-0">
+
+          <!-- Teacher 1 -->
+          <div class="teacher-card">
+            <div class="avatar-ring">AE</div>
+            <div class="font-display font-bold text-[#1C1C2E] text-base mb-0.5">AYOUB ELHEBAZE</div>
+            <div class="text-xs font-medium mb-1" style="color:var(--gold)">CEO &amp; Founder of IELTS Lab</div>
+            <div class="text-xs text-[#6B7280] mb-3">Writing &amp; Coherence</div>
+            <div class="flex items-center gap-1.5 text-xs text-[#3D4451] mb-1.5">
+              <span>🇲🇦</span>
+              <span>Morocco</span>
+            </div>
+            <div class="text-xs text-[#3D4451] mb-3">11 years experience</div>
+            <div class="stars mb-1">★★★★★</div>
+            <div class="text-xs text-[#3D4451] mb-4">4.9 / 5.0</div>
+            <button class="book-btn w-full">Book a Session</button>
+          </div>
+
+          <!-- Teacher 2 -->
+          <div class="teacher-card">
+            <div class="avatar-ring">SM</div>
+            <div class="font-display font-bold text-[#1C1C2E] text-base mb-0.5">Dr. Sarah Mitchell</div>
+            <div class="text-xs font-medium mb-3" style="color:var(--gold)">Listening &amp; Vocabulary</div>
+            <div class="flex items-center gap-1.5 text-xs text-[#3D4451] mb-1.5">
+              <span>🇬🇧</span>
+              <span>United Kingdom</span>
+            </div>
+            <div class="text-xs text-[#3D4451] mb-3">8 years experience</div>
+            <div class="stars mb-1">★★★★★</div>
+            <div class="text-xs text-[#3D4451] mb-4">4.8 / 5.0</div>
+            <button class="book-btn w-full">Book a Session</button>
+          </div>
+
+          <!-- Teacher 3 -->
+          <div class="teacher-card">
+            <div class="avatar-ring">ML</div>
+            <div class="font-display font-bold text-[#1C1C2E] text-base mb-0.5">Dr. Mei Lin Zhao</div>
+            <div class="text-xs font-medium mb-3" style="color:var(--gold)">Reading &amp; Test Strategy</div>
+            <div class="flex items-center gap-1.5 text-xs text-[#3D4451] mb-1.5">
+              <span>🇸🇬</span>
+              <span>Singapore</span>
+            </div>
+            <div class="text-xs text-[#3D4451] mb-3">13 years experience</div>
+            <div class="stars mb-1">★★★★★</div>
+            <div class="text-xs text-[#3D4451] mb-4">4.9 / 5.0</div>
+            <button class="book-btn w-full">Book a Session</button>
+          </div>
+
+          <!-- Teacher 4 -->
+          <div class="teacher-card">
+            <div class="avatar-ring">JO</div>
+            <div class="font-display font-bold text-[#1C1C2E] text-base mb-0.5">James O'Brien</div>
+            <div class="text-xs font-medium mb-3" style="color:var(--gold)">Speaking &amp; Pronunciation</div>
+            <div class="flex items-center gap-1.5 text-xs text-[#3D4451] mb-1.5">
+              <span>🇮🇪</span>
+              <span>Ireland</span>
+            </div>
+            <div class="text-xs text-[#3D4451] mb-3">9 years experience</div>
+            <div class="stars mb-1">★★★★★</div>
+            <div class="text-xs text-[#3D4451] mb-4">4.8 / 5.0</div>
+            <button class="book-btn w-full">Book a Session</button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- View all -->
+      <div class="reveal d200 mt-10 flex justify-center">
+        <a href="#" class="flex items-center gap-2 text-sm font-medium border border-[#1B2B4B] text-[#1B2B4B] hover:bg-[#1B2B4B] hover:text-white transition-colors px-6 py-3 rounded-md">
+          View All Teachers →
+        </a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ╔══════════════════════════════ PRICING ═════════════════════════════╗ -->
+  <section id="pricing" class="py-32 divider" style="background:#F4F1EB">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="max-w-xl mb-16 reveal">
+        <div class="label mb-4">Pricing</div>
+        <h2 class="font-display font-black text-4xl md:text-5xl tracking-tighter leading-tight text-[#1C1C2E]">
+          One score.<br />Two ways in.
+        </h2>
+        <p class="text-[#3D4451] mt-4 text-sm leading-relaxed">Both plans include every skill, every mock test, and full AI feedback. The difference is how fast you want to move.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-5 max-w-3xl">
+        <div class="reveal p-8 rounded-2xl border border-[#DDD8CE] flex flex-col" style="background:#FFFFFF">
+          <div class="mb-8">
+            <div class="text-sm font-medium text-[#3D4451] mb-1">Self-Paced</div>
+            <div class="font-display font-black text-4xl text-[#1C1C2E] tracking-tight">$49<span class="text-lg text-[#6B7280] font-normal">/mo</span></div>
+            <div class="text-xs text-[#6B7280] mt-1">Cancel anytime</div>
+          </div>
+          <ul class="space-y-3 mb-8 flex-1">
+            <li class="flex items-start gap-3 text-sm text-[#3D4451]"><svg class="w-4 h-4 flex-shrink-0 mt-0.5" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="#3D4451" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Full access to all 4 skill modules</li>
+            <li class="flex items-start gap-3 text-sm text-[#3D4451]"><svg class="w-4 h-4 flex-shrink-0 mt-0.5" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="#3D4451" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>14 full-length mock tests</li>
+            <li class="flex items-start gap-3 text-sm text-[#3D4451]"><svg class="w-4 h-4 flex-shrink-0 mt-0.5" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="#3D4451" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>AI writing &amp; speaking feedback</li>
+            <li class="flex items-start gap-3 text-sm text-[#3D4451]"><svg class="w-4 h-4 flex-shrink-0 mt-0.5" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="#3D4451" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Adaptive study plan</li>
+            <li class="flex items-start gap-3 text-sm text-[#6B7280]"><svg class="w-4 h-4 flex-shrink-0 mt-0.5" viewBox="0 0 16 16" fill="none"><path d="M4 4l8 8M12 4l-8 8" stroke="#DDD8CE" stroke-width="1.5" stroke-linecap="round"/></svg><span class="line-through">Human examiner review</span></li>
+          </ul>
+          <a href="#" class="w-full py-3 rounded-md text-sm font-medium text-[#1B2B4B] border border-[#1B2B4B] hover:bg-[#1B2B4B] hover:text-white transition-colors text-center">Start Free Trial</a>
+        </div>
+
+        <div class="reveal d100 p-8 rounded-2xl flex flex-col relative overflow-hidden" style="background:#FFFFFF;border:1px solid var(--gold-border);box-shadow:0 0 60px rgba(201,149,46,0.08)">
+          <div class="absolute top-5 right-5 text-xs font-medium px-2.5 py-1 rounded-full" style="background:var(--gold);color:#09090b">Most popular</div>
+          <div class="mb-8">
+            <div class="text-sm font-medium text-[#3D4451] mb-1">Intensive</div>
+            <div class="font-display font-black text-4xl text-[#1C1C2E] tracking-tight">$129<span class="text-lg text-[#6B7280] font-normal">/mo</span></div>
+            <div class="text-xs text-[#6B7280] mt-1">8-week commitment · Money-back guarantee</div>
+          </div>
+          <ul class="space-y-3 mb-8 flex-1">
+            <li class="flex items-start gap-3 text-sm text-[#3D4451]"><svg class="w-4 h-4 flex-shrink-0 mt-0.5" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Everything in Self-Paced</li>
+            <li class="flex items-start gap-3 text-sm text-[#3D4451]"><svg class="w-4 h-4 flex-shrink-0 mt-0.5" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>2× human examiner essay reviews/week</li>
+            <li class="flex items-start gap-3 text-sm text-[#3D4451]"><svg class="w-4 h-4 flex-shrink-0 mt-0.5" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Weekly 1-on-1 speaking session</li>
+            <li class="flex items-start gap-3 text-sm text-[#3D4451]"><svg class="w-4 h-4 flex-shrink-0 mt-0.5" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Dedicated study coach via chat</li>
+            <li class="flex items-start gap-3 text-sm text-[#3D4451]"><svg class="w-4 h-4 flex-shrink-0 mt-0.5" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Score guarantee or full refund</li>
+          </ul>
+          <a href="#" class="w-full py-3 rounded-md text-sm font-medium text-zinc-950 text-center hover-lift" style="background:var(--gold)">Start Intensive Plan →</a>
+        </div>
+      </div>
+
+      <p class="text-xs text-[#6B7280] mt-6 reveal">Both plans include a 7-day free trial. No credit card required to start.</p>
+    </div>
+  </section>
+
+  <!-- ╔══════════════════════════════ FINAL CTA ═══════════════════════════╗ -->
+  <section class="py-40 divider relative overflow-hidden" style="background:linear-gradient(160deg,#0d1f38 0%,#1B2B4B 55%,#1e3355 100%)">
+    <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 65% 65% at 50% 50%, rgba(201,149,46,0.07) 0%, transparent 65%)"></div>
+    <div class="relative max-w-4xl mx-auto px-6 lg:px-10 text-center">
+      <div class="reveal label mb-6 block">Ready When You Are</div>
+      <h2 class="reveal d100 font-display font-black text-5xl md:text-7xl tracking-tighter leading-tight text-white mb-8">
+        Your target band<br />is closer than<br />you think.
+      </h2>
+      <p class="reveal d200 text-lg leading-relaxed max-w-[48ch] mx-auto mb-12" style="color:rgba(220,230,255,0.75)">
+        Start with a free diagnostic test. No account needed. Discover your current band and see exactly what's standing between you and your target.
+      </p>
+      <div class="reveal d300 flex flex-wrap items-center justify-center gap-4">
+        <a href="#" class="px-8 py-4 rounded-md font-medium text-zinc-950 hover-lift" style="background:var(--gold)">
+          Take the Free Diagnostic →
+        </a>
+        <a href="#" class="px-8 py-4 rounded-md font-medium text-white border border-white hover:bg-white hover:text-[#1B2B4B] transition-colors">
+          Explore the curriculum
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ╔══════════════════════════════ FOOTER ══════════════════════════════╗ -->
+  <footer class="py-16 divider" style="background:#EDE9E0">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
+        <div class="col-span-2 md:col-span-1">
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-6 h-6 rounded-md flex items-center justify-center" style="background:var(--gold)">
+              <span class="font-display font-black text-xs text-zinc-950">IL</span>
+            </div>
+            <span class="font-display font-black text-sm text-[#1C1C2E]">IELTS<span style="color:var(--gold)">Lab</span></span>
+          </div>
+          <p class="text-xs text-[#3D4451] leading-relaxed max-w-[28ch]">IELTS preparation built on AI precision and examiner expertise.</p>
+        </div>
+        <div>
+          <div class="text-xs font-medium text-[#1B2B4B] uppercase tracking-wider mb-4">Product</div>
+          <ul class="space-y-2.5">
+            <li><a href="#" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Practice</a></li>
+            <li><a href="mock-tests/index.html" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Mock Tests</a></li>
+            <li><a href="#" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Score Predictor</a></li>
+            <li><a href="#" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Study Plans</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="text-xs font-medium text-[#1B2B4B] uppercase tracking-wider mb-4">Resources</div>
+          <ul class="space-y-2.5">
+            <li><a href="#" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">IELTS Guide</a></li>
+            <li><a href="#" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Band Descriptors</a></li>
+            <li><a href="#" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Essay Templates</a></li>
+            <li><a href="#" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Blog</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="text-xs font-medium text-[#1B2B4B] uppercase tracking-wider mb-4">Company</div>
+          <ul class="space-y-2.5">
+            <li><a href="/about/index.html" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">About</a></li>
+            <li><a href="#" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Teachers</a></li>
+            <li><a href="/privacy/index.html" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Privacy</a></li>
+            <li><a href="/terms/index.html" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Terms</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="pt-8 border-t border-[#DDD8CE] flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="text-xs text-[#6B7280]">© 2026 IELTS Lab. All rights reserved.</div>
+        <div class="text-xs text-[#6B7280]">Not affiliated with the British Council, IDP, or Cambridge Assessment English.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ╔══════════════════════════════ SCRIPTS ═════════════════════════════╗ -->
+  <script>
+    // ── Scroll reveal ────────────────────────────────────────────────────
+    const revealEls = document.querySelectorAll('.reveal, .reveal-l, .reveal-r');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('visible');
+        entry.target.querySelectorAll('.skill-fill').forEach(bar => {
+          bar.style.width = bar.dataset.w + '%';
+        });
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => observer.observe(el));
+
+    // ── Hero score ring + skill bars (now always visible, not behind scroll reveal) ──
+    const heroRing = document.getElementById('heroRing');
+    if (heroRing) {
+      const C = 2 * Math.PI * 58;
+      setTimeout(() => {
+        heroRing.style.transition = 'stroke-dasharray 1.6s cubic-bezier(0.16,1,0.3,1) 0.4s';
+        heroRing.style.strokeDasharray = `${C * (7.5 / 9)} ${C}`;
+      }, 300);
+    }
+    setTimeout(() => {
+      document.querySelectorAll('.score-card-float .skill-fill').forEach(bar => {
+        bar.style.width = bar.dataset.w + '%';
+      });
+    }, 400);
+
+    // ── Ayoub Lab — 4-layer hero background ─────────────────────────────
+    (function() {
+      const PI2 = Math.PI*2;
+      const rand = (a,b) => a+Math.random()*(b-a);
+      const hero  = document.getElementById('hero-section');
+      const W = () => hero.offsetWidth  || window.innerWidth;
+      const H = () => hero.offsetHeight || window.innerHeight;
+
+      const cvMap      = document.getElementById('cvMap');
+      const cvParticle = document.getElementById('cvParticle');
+      const cvWave     = document.getElementById('cvWave');
+      const cvScript   = document.getElementById('cvScript');
+      const ctxMap = cvMap.getContext('2d');
+      const ctxP   = cvParticle.getContext('2d');
+      const ctxW   = cvWave.getContext('2d');
+      const ctxS   = cvScript.getContext('2d');
+
+      function resizeAll(){
+        [cvMap,cvParticle,cvWave,cvScript].forEach(c=>{ c.width=W(); c.height=H(); });
+      }
+      resizeAll();
+      window.addEventListener('resize', resizeAll, { passive:true });
+
+      // ── LAYER 1: WORLD MAP ──────────────────────────────────────────
+      function generateLandDots(){
+        const pts=[];
+        const regions=[
+          {cx:-100,cy:48,rx:35,ry:18,d:220},{cx:-80,cy:30,rx:18,ry:12,d:100},
+          {cx:-90,cy:20,rx:10,ry:8,d:50},{cx:-58,cy:-15,rx:18,ry:30,d:180},
+          {cx:15,cy:52,rx:18,ry:12,d:160},{cx:30,cy:45,rx:10,ry:8,d:80},
+          {cx:22,cy:5,rx:22,ry:32,d:220},{cx:80,cy:40,rx:40,ry:22,d:320},
+          {cx:110,cy:25,rx:18,ry:18,d:160},{cx:130,cy:35,rx:10,ry:12,d:80},
+          {cx:115,cy:0,rx:18,ry:6,d:80},{cx:134,cy:-25,rx:18,ry:14,d:120},
+          {cx:0,cy:56,rx:5,ry:8,d:40},{cx:80,cy:22,rx:9,ry:12,d:80},
+        ];
+        for(const r of regions){
+          for(let i=0;i<r.d;i++){
+            const a=Math.random()*PI2, rr=Math.sqrt(Math.random());
+            pts.push({lng:r.cx+Math.cos(a)*rr*r.rx, lat:r.cy+Math.sin(a)*rr*r.ry});
+          }
+        }
+        return pts;
+      }
+      const LAND=generateLandDots();
+
+      function lngLatToXY(lng,lat,w,h){ return [(lng+180)/360*w,(90-lat)/180*h]; }
+
+      const CITIES=[
+        {lng:-0.1,lat:51.5,type:'human'},{lng:55.3,lat:25.2,type:'human'},
+        {lng:151.2,lat:-33.9,type:'human'},{lng:-79.4,lat:43.7,type:'human'},
+        {lng:103.8,lat:1.35,type:'human'},{lng:139.7,lat:35.7,type:'ai'},
+        {lng:-74.0,lat:40.7,type:'ai'},{lng:72.8,lat:19.1,type:'ai'},
+        {lng:105.8,lat:21.0,type:'human'},{lng:106.7,lat:10.8,type:'human'},
+        {lng:31.2,lat:30.1,type:'ai'},{lng:3.4,lat:6.5,type:'human'},
+        {lng:13.4,lat:52.5,type:'ai'},
+      ];
+      const CONNECTIONS=[[0,2],[0,3],[0,4],[1,4],[1,7],[2,4],[3,6],[5,6],[4,5],[7,4],[8,5],[9,5],[10,1],[11,10],[12,0],[6,3],[8,9]];
+      const pulses=CONNECTIONS.map(()=>({t:Math.random()}));
+
+      function drawMap(ts){
+        ctxMap.clearRect(0,0,W(),H());
+        const w=W(),h=H();
+        const offX=w*0.02,offY=h*0.05;
+        const scaleX=w*0.88,scaleY=h*0.75;
+        for(const p of LAND){
+          const[x,y]=lngLatToXY(p.lng,p.lat,scaleX,scaleY);
+          ctxMap.beginPath(); ctxMap.arc(offX+x,offY+y,0.8,0,PI2);
+          ctxMap.fillStyle='rgba(80,110,190,0.32)'; ctxMap.fill();
+        }
+        CONNECTIONS.forEach(([ai,bi],idx)=>{
+          const a=CITIES[ai],b=CITIES[bi];
+          const[ax,ay]=lngLatToXY(a.lng,a.lat,scaleX,scaleY);
+          const[bx,by]=lngLatToXY(b.lng,b.lat,scaleX,scaleY);
+          const mx=(ax+bx)/2,my=(ay+by)/2;
+          const curve=-Math.min(Math.hypot(bx-ax,by-ay)*0.3,60);
+          ctxMap.beginPath(); ctxMap.moveTo(offX+ax,offY+ay);
+          ctxMap.quadraticCurveTo(offX+mx,offY+my+curve,offX+bx,offY+by);
+          ctxMap.strokeStyle='rgba(80,140,255,0.10)'; ctxMap.lineWidth=0.8; ctxMap.stroke();
+          const t=(pulses[idx].t+ts*0.0004)%1;
+          const bpx=offX+(1-t)*(1-t)*ax+2*(1-t)*t*mx+t*t*bx;
+          const bpy=offY+(1-t)*(1-t)*ay+2*(1-t)*t*(my+curve)+t*t*by;
+          const isAI=a.type==='ai'||b.type==='ai';
+          ctxMap.beginPath(); ctxMap.arc(bpx,bpy,2.2,0,PI2);
+          ctxMap.fillStyle=isAI?'rgba(42,255,214,0.9)':'rgba(232,184,75,0.9)'; ctxMap.fill();
+        });
+        CITIES.forEach(city=>{
+          const[x,y]=lngLatToXY(city.lng,city.lat,scaleX,scaleY);
+          const cx=offX+x,cy=offY+y;
+          const color=city.type==='ai'?'#2AFFD6':'#E8B84B';
+          const pulse=Math.sin(ts*0.002+x)*0.5+0.5;
+          ctxMap.beginPath(); ctxMap.arc(cx,cy,4+pulse*5,0,PI2);
+          ctxMap.strokeStyle=city.type==='ai'
+            ?`rgba(42,255,214,${0.12+pulse*0.14})`:`rgba(232,184,75,${0.12+pulse*0.14})`;
+          ctxMap.lineWidth=1; ctxMap.stroke();
+          ctxMap.beginPath(); ctxMap.arc(cx,cy,2.8,0,PI2);
+          ctxMap.fillStyle=color; ctxMap.shadowColor=color; ctxMap.shadowBlur=8;
+          ctxMap.fill(); ctxMap.shadowBlur=0;
+        });
+      }
+
+      // ── LAYER 2: PARTICLES ──────────────────────────────────────────
+      const PARTICLES=Array.from({length:100},()=>({
+        x:rand(0,W()),y:rand(0,H()),
+        vx:rand(-0.1,0.1),vy:rand(-0.22,-0.05),
+        size:rand(0.5,2.2),alpha:rand(0.08,0.55),
+        hue:Math.random()>0.5?220:42,
+      }));
+
+      function drawParticles(){
+        ctxP.clearRect(0,0,W(),H());
+        for(const p of PARTICLES){
+          p.x+=p.vx; p.y+=p.vy;
+          if(p.y<-5){p.y=H()+5;p.x=rand(0,W());}
+          if(p.x<-5)p.x=W()+5; if(p.x>W()+5)p.x=-5;
+          ctxP.beginPath(); ctxP.arc(p.x,p.y,p.size,0,PI2);
+          ctxP.fillStyle=p.hue===220
+            ?`rgba(42,255,214,${p.alpha*0.7})`:`rgba(232,184,75,${p.alpha*0.65})`;
+          ctxP.fill();
+        }
+      }
+
+      // ── LAYER 3: SOUND WAVES ────────────────────────────────────────
+      const WAVES=[
+        {freq:0.012,amp:26,speed:0.018,color:'rgba(58,123,247,0.16)',off:0},
+        {freq:0.018,amp:17,speed:0.025,color:'rgba(58,123,247,0.11)',off:2},
+        {freq:0.009,amp:36,speed:0.012,color:'rgba(200,216,255,0.06)',off:4},
+        {freq:0.022,amp:13,speed:0.032,color:'rgba(232,184,75,0.09)',off:6},
+        {freq:0.015,amp:21,speed:0.020,color:'rgba(42,255,214,0.07)',off:8},
+      ];
+
+      function drawWaves(ts){
+        ctxW.clearRect(0,0,W(),H());
+        const w=W(),h=H(),baseY=h*0.78;
+        for(const l of WAVES){
+          ctxW.beginPath(); ctxW.moveTo(0,baseY);
+          for(let x=0;x<=w;x+=3){
+            const y=baseY
+              +Math.sin(x*l.freq+ts*l.speed+l.off)*l.amp
+              +Math.sin(x*l.freq*1.7+ts*l.speed*0.7+l.off)*l.amp*0.4
+              +Math.sin(x*l.freq*0.5+ts*l.speed*1.3+l.off)*l.amp*0.6;
+            ctxW.lineTo(x,y);
+          }
+          ctxW.lineTo(w,h); ctxW.lineTo(0,h); ctxW.closePath();
+          ctxW.fillStyle=l.color; ctxW.fill();
+        }
+        ctxW.beginPath();
+        for(let x=0;x<=w;x+=2){
+          const y=baseY+Math.sin(x*0.014+ts*0.022)*30+Math.sin(x*0.028+ts*0.015)*11;
+          x===0?ctxW.moveTo(x,y):ctxW.lineTo(x,y);
+        }
+        const grad=ctxW.createLinearGradient(0,0,w,0);
+        grad.addColorStop(0,'rgba(58,123,247,0)');
+        grad.addColorStop(0.25,'rgba(58,123,247,0.45)');
+        grad.addColorStop(0.55,'rgba(42,255,214,0.5)');
+        grad.addColorStop(0.8,'rgba(232,184,75,0.4)');
+        grad.addColorStop(1,'rgba(232,184,75,0)');
+        ctxW.strokeStyle=grad; ctxW.lineWidth=1.3; ctxW.stroke();
+      }
+
+      // ── LAYER 4: FLOATING SCRIPT ────────────────────────────────────
+      const PHRASES=[
+        'Band 9','Coherence & Cohesion','Lexical Resource',
+        'Task Achievement','Grammatical Range','Fluency',
+        'Pronunciation','Band Descriptors','IELTS Lab ⚗',
+        'Reading Comprehension','Skimming & Scanning',
+        'Note-taking','Intonation','Discourse Markers',
+        'Complex Sentences','Listening Section 4',
+        'True / False / NG','Academic Writing Task 2',
+        'Human + AI = Band 9','The Experiment Begins',
+      ];
+      const scriptWords=Array.from({length:20},(_,i)=>({
+        text:PHRASES[i%PHRASES.length],
+        x:rand(0.03,0.90),y:rand(0.05,0.68),
+        vy:rand(0.000055,0.00010),
+        alpha:rand(0.06,0.18),targetAlpha:rand(0.07,0.20),
+        size:rand(11,19),life:rand(0,1),lifeSpeed:rand(0.00030,0.00080),
+        gold:Math.random()>0.68,
+      }));
+
+      function drawScript(){
+        ctxS.clearRect(0,0,W(),H());
+        const w=W(),h=H();
+        for(const word of scriptWords){
+          word.life+=word.lifeSpeed; word.y-=word.vy;
+          const phase=(Math.sin(word.life*Math.PI*2)+1)/2;
+          const a=phase*word.targetAlpha;
+          if(word.y<-0.06){
+            word.y=0.76+rand(0,0.14); word.x=rand(0.03,0.90);
+            word.text=PHRASES[Math.floor(Math.random()*PHRASES.length)];
+          }
+          if(a<0.01) continue;
+          ctxS.save(); ctxS.globalAlpha=a;
+          ctxS.font=`300 italic ${word.size}px 'Cormorant Garamond', serif`;
+          ctxS.fillStyle=word.gold?'rgba(232,184,75,1)':'rgba(160,200,255,1)';
+          ctxS.fillText(word.text,word.x*w,word.y*h);
+          ctxS.restore();
+        }
+      }
+
+      // ── MAIN LOOP ───────────────────────────────────────────────────
+      function loop(ts){
+        drawMap(ts);
+        drawParticles();
+        drawWaves(ts);
+        drawScript();
+        requestAnimationFrame(loop);
+      }
+      requestAnimationFrame(loop);
+    })();
+  </script>
+
+  <!-- ── Auth-aware nav ── -->
+  <script>
+    (function() {
+      const session = localStorage.getItem('ielts_session');
+      if (session) {
+        const clinicItem = document.getElementById('clinicNavItem');
+        const mockItem   = document.getElementById('mockNavItem');
+        const cta        = document.getElementById('mainNavCta');
+        if (clinicItem) clinicItem.style.display = 'list-item';
+        if (mockItem)   mockItem.style.display   = 'list-item';
+        if (cta) {
+          cta.textContent = 'My Dashboard';
+          cta.href        = 'writing-clinic/index.html';
+        }
+      }
+    })();
+  </script>
+
+  <!-- ╔══════════════════════════════ GLOBAL FLOATING CTA ═════════════════╗ -->
+  <style>
+    @keyframes clinicGlow {
+      0%, 100% { box-shadow: 0 4px 18px rgba(27,43,75,0.30), 0 0 0 0 rgba(27,43,75,0); }
+      50%       { box-shadow: 0 4px 18px rgba(27,43,75,0.30), 0 0 0 8px rgba(27,43,75,0); }
+    }
+    @keyframes clinicSlideIn {
+      from { transform: translateX(120px); opacity: 0; }
+      to   { transform: translateX(0);     opacity: 1; }
+    }
+    #clinic-fab {
+      position: fixed;
+      bottom: 32px;
+      right: 32px;
+      z-index: 9999;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 14px 24px;
+      border-radius: 999px;
+      background: #1B2B4B;
+      color: #fff;
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      cursor: pointer;
+      border: none;
+      opacity: 0;
+      transform: translateX(120px);
+      transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease, opacity 0.4s ease;
+      animation: clinicGlow 3.5s ease-in-out 3s infinite;
+    }
+    #clinic-fab.fab-visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+    #clinic-fab.fab-dim { opacity: 0.45; }
+    #clinic-fab:hover {
+      background: #C49A2B !important;
+      color: #1B2B4B !important;
+      transform: translateY(-3px) !important;
+      box-shadow: 0 8px 24px rgba(196,154,43,0.40) !important;
+      animation: none;
+    }
+  </style>
+
+  <a id="clinic-fab" href="writing-clinic/corrector.html">✍️ Try The Clinic</a>
+
+  <script>
+    (function() {
+      const fab    = document.getElementById('clinic-fab');
+      const hero   = document.getElementById('hero-section');
+
+      /* slide in after 1.5s */
+      setTimeout(() => fab.classList.add('fab-visible'), 1500);
+
+      /* dim while in hero, full opacity below */
+      const heroObs = new IntersectionObserver((entries) => {
+        fab.classList.toggle('fab-dim', entries[0].isIntersecting);
+      }, { threshold: 0.1 });
+      if (hero) heroObs.observe(hero);
+    })();
+  </script>
+
+</body>
+</html>

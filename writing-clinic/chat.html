@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light" />
+  <title>IELTS Lab — IELTS Expert Chat</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Space+Mono:wght@400;700&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Satoshi', 'Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+            sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --gold:        #C9952E;
+      --gold-light:  #DDB05A;
+      --gold-dim:    rgba(201,149,46,0.10);
+      --gold-border: rgba(201,149,46,0.25);
+      --navy:        #0f1e3c;
+      --navy-light:  #1a2f5a;
+      --cream:       #faf7f2;
+      --border:      #e5e0d8;
+      --muted:       #6b7280;
+      --text:        #1a1a2e;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--cream); color: var(--text); }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    h1, h2, h3, h4, .font-display { font-family: 'Satoshi', 'Plus Jakarta Sans', system-ui, sans-serif; }
+    .divider { border-top: 1px solid var(--border); }
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: #c8c0b4; border-radius: 3px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { animation: spin 0.75s linear infinite; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+    /* Typing dots */
+    @keyframes blink { 0%,80%,100%{opacity:0} 40%{opacity:1} }
+    .dot1 { animation: blink 1.4s infinite 0.0s; }
+    .dot2 { animation: blink 1.4s infinite 0.2s; }
+    .dot3 { animation: blink 1.4s infinite 0.4s; }
+    /* Message bubbles */
+    .msg-user {
+      background: var(--gold-dim);
+      border: 1px solid var(--gold-border);
+      border-radius: 1rem 1rem 0.25rem 1rem;
+    }
+    .msg-agent {
+      background: #ffffff;
+      border: 1.5px solid var(--border);
+      border-radius: 1rem 1rem 1rem 0.25rem;
+      box-shadow: 0 1px 4px rgba(15,30,60,0.06);
+    }
+    /* Suggestion chips */
+    .chip {
+      padding: 7px 16px; border-radius: 9999px; font-size: 0.75rem;
+      border: 1.5px solid var(--border); color: var(--navy);
+      background: #ffffff; cursor: pointer; transition: border-color 0.18s, color 0.18s, box-shadow 0.18s;
+      white-space: nowrap;
+    }
+    .chip:hover { border-color: var(--gold); color: var(--gold); box-shadow: 0 2px 8px rgba(201,149,46,0.12); }
+    /* Input area */
+    .input-wrap {
+      background: #ffffff;
+      border: 1.5px solid var(--border);
+      border-radius: 1rem;
+      transition: border-color 0.18s, box-shadow 0.18s;
+    }
+    .input-wrap:focus-within { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,149,46,0.10); }
+    /* Textarea auto-resize */
+    textarea { field-sizing: content; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col" style="background:var(--cream);color:var(--text);">
+
+  <!-- ── NAV ── -->
+  <div id="header-container"></div>
+
+  <!-- ── INTRO ── -->
+  <section class="relative py-10 px-6 text-center overflow-hidden" style="border-bottom:1px solid var(--border);background:linear-gradient(to bottom,rgba(201,149,46,0.04) 0%,transparent 100%);">
+    <div class="relative z-10 max-w-xl mx-auto">
+      <h1 class="font-display text-3xl md:text-4xl font-black leading-none tracking-tight mb-2" style="color:var(--navy);">
+        IELTS Expert <em style="color:var(--gold);font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;">Chat</em>
+      </h1>
+      <p class="text-sm font-light" style="color:var(--muted);">Ask anything about IELTS — strategy, bands, grammar, exam tips.</p>
+    </div>
+  </section>
+
+  <!-- ── CHAT AREA ── -->
+  <main class="flex-1 max-w-4xl mx-auto w-full px-4 py-6 flex flex-col gap-4">
+
+    <!-- Messages -->
+    <div id="messages" class="flex flex-col gap-4 flex-1 min-h-[320px]">
+
+      <!-- Welcome message -->
+      <div class="flex gap-3 items-start">
+        <div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm"
+             style="background:var(--gold-dim);border:1.5px solid var(--gold-border);">🎓</div>
+        <div class="msg-agent px-5 py-4 max-w-2xl">
+          <p class="text-sm leading-relaxed" style="color:var(--text);" id="welcomeText">
+            Hello! I'm your dedicated IELTS Expert at <span style="color:var(--gold);font-weight:600;">IELTS Lab</span>. I have 15+ years of experience as a certified IELTS trainer. I'm here to help you with exam strategy, band score requirements, writing tips, reading techniques, listening strategies, speaking advice, and everything else IELTS-related. What would you like to improve today?
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Suggestions -->
+    <div id="suggestions" class="flex flex-wrap gap-2">
+      <button onclick="sendSuggestion(this)" class="chip">How do I get Band 7 in Writing?</button>
+      <button onclick="sendSuggestion(this)" class="chip">Task 2 structure tips</button>
+      <button onclick="sendSuggestion(this)" class="chip">How to improve Lexical Resource?</button>
+      <button onclick="sendSuggestion(this)" class="chip">Speaking Part 2 strategy</button>
+    </div>
+
+    <!-- Input -->
+    <div class="input-wrap overflow-hidden">
+      <div class="flex items-end gap-3 p-4">
+        <textarea
+          id="userInput"
+          placeholder="Ask your IELTS question…"
+          rows="1"
+          onkeydown="handleKey(event)"
+          class="flex-1 bg-transparent text-sm outline-none resize-none leading-relaxed max-h-40 overflow-y-auto"
+          style="color:var(--text);"
+        ></textarea>
+        <button id="sendBtn" onclick="sendMessage()"
+          class="flex-shrink-0 flex items-center justify-center w-9 h-9 rounded-xl transition-all"
+          style="background:linear-gradient(135deg,#C9952E 0%,#a8741f 100%);color:#ffffff;"
+          onmouseover="this.style.boxShadow='0 4px 14px rgba(201,149,46,0.35)'"
+          onmouseout="this.style.boxShadow=''">
+          <svg id="sendIcon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+          <svg id="sendSpinner" class="hidden spinner" width="15" height="15" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg>
+        </button>
+      </div>
+      <div class="px-4 pb-3 flex items-center justify-between">
+        <p class="text-xs" style="color:var(--muted);">Focused exclusively on IELTS · Press Enter to send</p>
+        <button onclick="clearChat()" class="text-xs transition-colors" style="color:var(--muted);" onmouseover="this.style.color='var(--navy)'" onmouseout="this.style.color='var(--muted)'">Clear chat</button>
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="divider text-center py-5 px-6">
+    <p class="text-xs tracking-wider" style="color:var(--muted);">IELTS Lab Writing Clinic · Members Only</p>
+  </footer>
+
+  <script>
+    // ── SESSION (soft guard — no redirect, defaults to guest) ──
+    let session = {};
+    try {
+      const raw = localStorage.getItem('ielts_session');
+      if (raw) session = JSON.parse(raw);
+    } catch(_) {}
+    const firstName = (session.name || '').split(' ')[0] || null;
+
+    // ── ESSAY CONTEXT BRIDGE ──
+    let essayContext = null;
+    let lastCorrection = null;
+    try {
+      const raw = localStorage.getItem('ielts_last_correction');
+      if (raw) lastCorrection = JSON.parse(raw);
+    } catch(_) {}
+
+    function buildEssayContext(c) {
+      if (!c || typeof c.overall === 'undefined') return null;
+      const lines = [
+        `[STUDENT'S LAST CORRECTION — ${c.date || 'recent'}]`,
+        `Task: ${c.taskType || 'Writing Task 2'}${c.essayType ? ` · ${c.essayType}` : ''}`,
+        `Overall Band: ${c.overall}`,
+        `Task Achievement: ${c.scores?.taskAchievement ?? '—'} | Coherence & Cohesion: ${c.scores?.coherenceCohesion ?? '—'} | Lexical Resource: ${c.scores?.lexicalResource ?? '—'} | Grammar & Accuracy: ${c.scores?.grammaticalRange ?? '—'}`,
+      ];
+      if (c.weakestCriterion) lines.push(`Weakest criterion: ${c.weakestCriterion}`);
+      if (c.examinerNote)     lines.push(`Examiner note: ${c.examinerNote}`);
+      lines.push('[Use this context to give hyper-specific advice. When the student asks about their essay, refer to these scores and note directly.]');
+      return lines.join('\n');
+    }
+
+    if (lastCorrection) {
+      essayContext = buildEssayContext(lastCorrection);
+    }
+
+    // ── PERSONALISE WELCOME ──
+    (function() {
+      const el = document.getElementById('welcomeText');
+      if (!el) return;
+      const greeting = firstName ? `Hello, ${firstName}!` : 'Hello!';
+      if (lastCorrection) {
+        const overall = lastCorrection.overall;
+        const weak    = lastCorrection.weakestCriterion || null;
+        const weakMap = {
+          taskAchievement:   'Task Achievement',
+          coherenceCohesion: 'Coherence & Cohesion',
+          lexicalResource:   'Lexical Resource',
+          grammaticalRange:  'Grammar & Accuracy',
+        };
+        const weakLabel = weak ? (weakMap[weak] || weak) : null;
+        el.innerHTML = `${greeting} I can see your last essay scored <strong style="color:var(--gold)">Band ${overall}</strong>.`
+          + (weakLabel ? ` Your biggest opportunity right now is <strong style="color:var(--gold)">${weakLabel}</strong>.` : '')
+          + ` I'm ready to go deep on exactly what's holding you back. What would you like to work on?`;
+      } else {
+        el.innerHTML = el.innerHTML.replace('Hello!', greeting);
+      }
+    })();
+
+    // ── CONTEXT BANNER ──
+    if (lastCorrection) {
+      const overall  = lastCorrection.overall;
+      const date     = lastCorrection.date || '';
+      const banner   = document.createElement('div');
+      banner.style.cssText = 'background:rgba(201,149,46,0.07);border:1.5px solid var(--gold-border);border-radius:0.75rem;padding:10px 16px;display:flex;align-items:center;gap:10px;font-size:0.8125rem;color:var(--navy);margin-bottom:0;';
+      banner.innerHTML = `<span style="color:var(--gold);font-size:1rem;">📄</span>`
+        + `<span>Using your last correction as context — <strong style="color:var(--navy);">Band ${overall}</strong>${date ? ` · ${date}` : ''}`
+        + ` · <a href="/writing-clinic/corrector.html" style="color:var(--gold);font-weight:600;text-decoration:underline;text-underline-offset:2px;">Submit new essay</a></span>`;
+      const main = document.querySelector('main');
+      if (main) main.insertBefore(banner, main.firstChild);
+    }
+
+    // ── DYNAMIC SUGGESTIONS ──
+    (function() {
+      const sugEl = document.getElementById('suggestions');
+      if (!sugEl) return;
+      let chips;
+      if (lastCorrection) {
+        const overall = lastCorrection.overall;
+        const next    = (Math.round(overall * 2) / 2 + 0.5).toFixed(1);
+        const weakMap = {
+          taskAchievement:   'Task Achievement',
+          coherenceCohesion: 'Coherence & Cohesion',
+          lexicalResource:   'Lexical Resource',
+          grammaticalRange:  'Grammar & Accuracy',
+        };
+        const weakLabel = lastCorrection.weakestCriterion ? (weakMap[lastCorrection.weakestCriterion] || lastCorrection.weakestCriterion) : 'Lexical Resource';
+        chips = [
+          `Why did I score Band ${overall}?`,
+          `How do I reach Band ${next}?`,
+          `Improve my ${weakLabel}`,
+          `Give me a Band ${next} rewrite tip`,
+        ];
+      } else {
+        chips = [
+          'How do I get Band 7 in Writing?',
+          'Task 2 structure tips',
+          'How to improve Lexical Resource?',
+          'Speaking Part 2 strategy',
+        ];
+      }
+      sugEl.innerHTML = chips.map(c =>
+        `<button onclick="sendSuggestion(this)" class="chip">${escapeHtml(c)}</button>`
+      ).join('');
+    })();
+
+    // ── CONVERSATION HISTORY (with localStorage persistence) ──
+    const HISTORY_KEY = 'ielts_chat_history';
+    const history = [];
+
+    function persistHistory() {
+      try { localStorage.setItem(HISTORY_KEY, JSON.stringify(history.slice(-40))); } catch(_) {}
+    }
+
+    function initChatHistory() {
+      try {
+        const raw = localStorage.getItem(HISTORY_KEY);
+        if (!raw) return;
+        const saved = JSON.parse(raw);
+        if (!Array.isArray(saved) || saved.length === 0) return;
+        saved.forEach(m => history.push(m));
+        // Replay saved messages into the UI
+        const container = document.getElementById('messages');
+        saved.forEach(m => {
+          const div = document.createElement('div');
+          const isUser = m.role === 'user';
+          div.className = `flex gap-3 items-start ${isUser ? 'justify-end' : ''}`;
+          div.innerHTML = isUser
+            ? `<div class="msg-user px-5 py-4 max-w-2xl"><p class="text-sm leading-relaxed" style="color:var(--navy);">${escapeHtml(m.content)}</p></div>`
+            : `<div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm" style="background:var(--gold-dim);border:1.5px solid var(--gold-border);">🎓</div>
+               <div class="msg-agent px-5 py-4 max-w-2xl"><p class="text-sm leading-relaxed whitespace-pre-wrap" style="color:var(--text);">${escapeHtml(m.content)}</p></div>`;
+          container.appendChild(div);
+        });
+        // Hide suggestions since there's already a conversation
+        const sugEl = document.getElementById('suggestions');
+        if (sugEl) sugEl.style.display = 'none';
+      } catch(_) {}
+    }
+
+    initChatHistory();
+
+    // ── HANDLERS ──
+    function handleKey(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    }
+
+    function sendSuggestion(btn) {
+      document.getElementById('userInput').value = btn.textContent;
+      document.getElementById('suggestions').style.display = 'none';
+      sendMessage();
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById('userInput');
+      const text  = input.value.trim();
+      if (!text) return;
+
+      appendMessage('user', text);
+      input.value = '';
+      history.push({ role: 'user', content: text });
+      persistHistory();
+
+      const btn         = document.getElementById('sendBtn');
+      const sendIcon    = document.getElementById('sendIcon');
+      const sendSpinner = document.getElementById('sendSpinner');
+      btn.disabled = true;
+      sendIcon.classList.add('hidden');
+      sendSpinner.classList.remove('hidden');
+
+      const typingId = appendTyping();
+
+      try {
+        const body = { messages: history };
+        if (essayContext) body.essayContext = essayContext;
+
+        const response = await fetch('/api/ielts-expert', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+
+        removeTyping(typingId);
+
+        if (!response.ok) {
+          const err = await response.json().catch(() => ({}));
+          throw new Error(err.error || `Server error ${response.status}`);
+        }
+
+        const { reply } = await response.json();
+        appendMessage('agent', reply);
+        history.push({ role: 'assistant', content: reply });
+        persistHistory();
+
+      } catch (err) {
+        removeTyping(typingId);
+        const msg = err instanceof TypeError && err.message === 'Failed to fetch'
+          ? '⚠️ Cannot reach the server. Open this page via http://localhost:3000/writing-clinic/chat.html — not as a file:// URL — and make sure the server is running (node server.js).'
+          : `⚠️ ${err.message || 'Something went wrong. Please try again.'}`;
+        appendMessage('agent', msg);
+      } finally {
+        btn.disabled = false;
+        sendIcon.classList.remove('hidden');
+        sendSpinner.classList.add('hidden');
+      }
+    }
+
+    function appendMessage(role, text) {
+      const container = document.getElementById('messages');
+      const isUser    = role === 'user';
+      const div       = document.createElement('div');
+      div.className   = `flex gap-3 items-start ${isUser ? 'justify-end' : ''} fade-msg`;
+      div.style.animation = 'fadeUp 0.35s cubic-bezier(0.16,1,0.3,1) both';
+      div.innerHTML = isUser
+        ? `<div class="msg-user px-5 py-4 max-w-2xl"><p class="text-sm leading-relaxed" style="color:var(--navy);">${escapeHtml(text)}</p></div>`
+        : `<div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm" style="background:var(--gold-dim);border:1.5px solid var(--gold-border);">🎓</div>
+           <div class="msg-agent px-5 py-4 max-w-2xl"><p class="text-sm leading-relaxed whitespace-pre-wrap" style="color:var(--text);">${escapeHtml(text)}</p></div>`;
+      container.appendChild(div);
+      div.scrollIntoView({ behavior: 'smooth', block: 'end' });
+    }
+
+    function appendTyping() {
+      const container = document.getElementById('messages');
+      const id        = 'typing-' + Date.now();
+      const div       = document.createElement('div');
+      div.id          = id;
+      div.className   = 'flex gap-3 items-start';
+      div.innerHTML   = `
+        <div class="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm" style="background:var(--gold-dim);border:1.5px solid var(--gold-border);">🎓</div>
+        <div class="msg-agent px-5 py-4">
+          <div class="flex gap-1 items-center h-4">
+            <span class="dot1 w-1.5 h-1.5 rounded-full" style="background:#c8c0b4;"></span>
+            <span class="dot2 w-1.5 h-1.5 rounded-full" style="background:#c8c0b4;"></span>
+            <span class="dot3 w-1.5 h-1.5 rounded-full" style="background:#c8c0b4;"></span>
+          </div>
+        </div>`;
+      container.appendChild(div);
+      div.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      return id;
+    }
+
+    function removeTyping(id) {
+      const el = document.getElementById(id);
+      if (el) el.remove();
+    }
+
+    function clearChat() {
+      history.length = 0;
+      try { localStorage.removeItem(HISTORY_KEY); } catch(_) {}
+      const container = document.getElementById('messages');
+      while (container.children.length > 1) container.removeChild(container.lastChild);
+      const sugEl = document.getElementById('suggestions');
+      if (sugEl) sugEl.style.display = 'flex';
+    }
+
+    function escapeHtml(str) {
+      if (str == null) return '';
+      return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+  </script>
+
+  <script src="/js/components.js"></script>
+  <script>loadHeader();</script>
+</body>
+</html>

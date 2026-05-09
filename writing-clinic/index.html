@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light" />
+  <title>IELTS Lab — The Writing Clinic</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Playfair Display', 'serif'],
+            sans: ['DM Sans', 'system-ui', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --navy:        #0f1e3c;
+      --navy-light:  #1a2f5a;
+      --gold:        #c9a84c;
+      --gold-light:  #e8c97a;
+      --gold-dim:    rgba(201,168,76,0.10);
+      --gold-border: rgba(201,168,76,0.28);
+      --cream:       #faf7f2;
+      --white:       #ffffff;
+      --text:        #1a1a2e;
+      --muted:       #6b7280;
+      --border:      #e5e0d8;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--cream); color: var(--text); }
+    body { font-family: 'DM Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    h1, h2, h3, h4, .font-display { font-family: 'Playfair Display', serif; }
+    .label {
+      font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: var(--gold);
+    }
+    .divider { border-top: 1px solid var(--border); }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+    .reveal { opacity:0; transform:translateY(28px); transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+    .d100 { transition-delay:0.1s; } .d200 { transition-delay:0.2s; }
+    .d300 { transition-delay:0.3s; } .d400 { transition-delay:0.4s; }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--cream); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+
+    /* Tool cards */
+    .tool-card {
+      background: var(--white);
+      border: 1.5px solid var(--border);
+      border-radius: 1.25rem;
+      padding: 28px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.25s cubic-bezier(0.16,1,0.3,1), border-color 0.25s ease, box-shadow 0.25s ease;
+      box-shadow: 0 2px 8px rgba(15,30,60,0.04);
+    }
+    .tool-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--gold);
+      box-shadow: 0 12px 36px rgba(201,168,76,0.12), 0 2px 8px rgba(15,30,60,0.06);
+    }
+    .tool-card.coming-soon { opacity: 0.55; cursor: default; }
+    .tool-card.coming-soon:hover { transform: none; border-color: var(--border); box-shadow: 0 2px 8px rgba(15,30,60,0.04); }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col" style="background:var(--cream);color:var(--text);">
+
+  <!-- ── NAV ── -->
+  <div id="header-container"></div>
+
+  <!-- ── HERO BANNER ── -->
+  <section class="relative overflow-hidden py-20 px-6 text-center"
+           style="background:linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);">
+    <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 60% 50% at 50% 0%, rgba(201,168,76,0.08) 0%, transparent 70%);"></div>
+
+    <div class="max-w-3xl mx-auto relative z-10">
+      <div class="reveal visible">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border text-xs font-medium tracking-widest uppercase mb-6"
+             style="border-color:var(--gold-border);color:var(--gold);background:var(--gold-dim);">
+          ✦ Members Area
+        </div>
+      </div>
+      <h1 class="font-display font-black leading-none tracking-tight mb-4 reveal d100"
+          style="font-size:clamp(2.8rem,6vw,4rem);color:#ffffff;">
+        The Writing
+        <span class="block" style="color:var(--gold);font-style:italic;font-weight:600;font-size:1.05em;">Clinic</span>
+      </h1>
+      <p class="text-base font-light leading-relaxed max-w-lg mx-auto reveal d200"
+         style="color:rgba(255,255,255,0.68);">
+        AI-powered tools to sharpen your writing, correct your essays, and accelerate your path to Band 9.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── TOOLS GRID ── -->
+  <main class="flex-1 max-w-5xl mx-auto w-full px-6 py-16">
+
+    <p class="label mb-8 reveal">Available Tools</p>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+
+      <!-- AI Writing Corrector — ACTIVE -->
+      <a class="tool-card reveal d100" href="corrector.html">
+        <div class="text-3xl mb-5">✍️</div>
+        <h3 class="font-display text-lg font-bold mb-2 leading-snug" style="color:var(--navy);">AI Writing Corrector</h3>
+        <p class="text-sm font-light leading-relaxed flex-1 mb-6" style="color:var(--muted);">
+          Instant band scores, detailed corrections, and a model paragraph rewrite from an AI examiner.
+        </p>
+        <div class="flex items-center gap-2 text-xs font-semibold tracking-widest uppercase mt-auto"
+             style="color:var(--gold);">
+          Open Tool <span>→</span>
+        </div>
+      </a>
+
+      <!-- IELTS Expert Chat — ACTIVE -->
+      <a class="tool-card reveal d200" href="chat.html">
+        <div class="text-3xl mb-5">🎓</div>
+        <h3 class="font-display text-lg font-bold mb-2 leading-snug" style="color:var(--navy);">IELTS Expert Chat</h3>
+        <p class="text-sm font-light leading-relaxed flex-1 mb-6" style="color:var(--muted);">
+          Ask your IELTS expert anything — strategy, vocab, grammar, exam tips. Always focused on your goals.
+        </p>
+        <div class="flex items-center gap-2 text-xs font-semibold tracking-widest uppercase mt-auto"
+             style="color:var(--gold);">
+          Start Chat <span>→</span>
+        </div>
+      </a>
+
+      <!-- Coming Soon -->
+      <div class="tool-card coming-soon reveal d300">
+        <div class="text-3xl mb-5">📖</div>
+        <h3 class="font-display text-lg font-bold mb-2 leading-snug" style="color:var(--navy);">Reading Analyzer</h3>
+        <p class="text-sm font-light leading-relaxed flex-1 mb-6" style="color:var(--muted);">
+          Identify skimming &amp; scanning weaknesses and boost your reading speed.
+        </p>
+        <div class="inline-block px-3 py-1 rounded-full text-xs tracking-widest uppercase mt-auto"
+             style="border:1.5px solid var(--border);color:var(--muted);background:var(--cream);">
+          Coming Soon
+        </div>
+      </div>
+
+      <a class="tool-card reveal d400" href="vocabulary.html">
+        <div class="text-3xl mb-5">📚</div>
+        <h3 class="font-display text-lg font-bold mb-2 leading-snug" style="color:var(--navy);">Vocabulary Builder</h3>
+        <p class="text-sm font-light leading-relaxed flex-1 mb-6" style="color:var(--muted);">
+          Paste any paragraph — get instant Band 7–8 word upgrades, collocations, and topic vocabulary packs.
+        </p>
+        <div class="flex items-center gap-2 text-xs font-semibold tracking-widest uppercase mt-auto"
+             style="color:var(--gold);">
+          Open Tool <span>→</span>
+        </div>
+      </a>
+
+    </div>
+  </main>
+
+  <!-- ── FOOTER ── -->
+  <footer class="divider text-center py-6 px-6">
+    <p class="text-xs tracking-wider" style="color:var(--muted);">
+      IELTS Lab Writing Clinic · <span style="color:var(--gold);">Members Only</span> · For support, contact your tutor
+    </p>
+  </footer>
+
+  <script>
+    // Soft session read — no hard redirect
+    let session = {};
+    try {
+      const raw = localStorage.getItem('ielts_session');
+      if (raw) session = JSON.parse(raw);
+    } catch(_) {}
+
+    // Scroll reveal
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+
+  <script src="/js/components.js"></script>
+  <script>loadHeader();</script>
+</body>
+</html>

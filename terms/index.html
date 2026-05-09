@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Terms &amp; Conditions — IELTS Lab</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Space+Mono:wght@400;700&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Satoshi', 'Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+            sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --gold: #C9952E;
+      --gold-light: #DDB05A;
+      --gold-dim: rgba(201,149,46,0.10);
+      --gold-border: rgba(201,149,46,0.22);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: #F4F1EB; color: #1C1C2E; }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    h1, h2, h3, h4, h5, .font-display { font-family: 'Satoshi', 'Plus Jakarta Sans', system-ui, sans-serif; }
+    .text-gold { color: var(--gold); }
+    .label { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
+    .divider { border-top: 1px solid #DDD8CE; }
+
+    /* Nav */
+    .nav-glass {
+      background: rgba(9,9,11,0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .nav-logo { display:flex; align-items:baseline; gap:0; text-decoration:none; }
+    .nl-ielts { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:600; letter-spacing:1px; color:#EEF4FF; }
+    .nl-lab   { font-family:'Space Mono',monospace; font-size:12px; font-weight:700; letter-spacing:3px; color:var(--gold); margin-left:5px; filter:drop-shadow(0 0 8px rgba(201,149,46,0.5)); }
+    .nl-flask { font-size:15px; margin-left:4px; }
+    .nav-links { display:flex; gap:28px; list-style:none; }
+    .nav-links a { font-family:'DM Sans',sans-serif; font-size:11px; font-weight:300; letter-spacing:2.5px; text-transform:uppercase; color:rgba(200,216,255,0.45); text-decoration:none; transition:color 0.3s; }
+    .nav-links a:hover { color:var(--gold); }
+    .nav-cta { font-family:'DM Sans',sans-serif; font-size:10px; font-weight:400; letter-spacing:2px; text-transform:uppercase; padding:9px 22px; border-radius:2px; border:1px solid rgba(201,149,46,0.4); color:var(--gold); background:rgba(201,149,46,0.07); cursor:pointer; text-decoration:none; transition:all 0.3s; }
+    .nav-cta:hover { background:rgba(201,149,46,0.15); border-color:var(--gold); }
+
+    /* Prose */
+    .prose-section h2 { font-family:'Satoshi',sans-serif; font-size:1.125rem; font-weight:700; color:#1C1C2E; margin-bottom:0.75rem; margin-top:2.5rem; }
+    .prose-section h2:first-child { margin-top:0; }
+    .prose-section p { color:#3D4451; line-height:1.8; font-size:0.9375rem; margin-bottom:0.875rem; }
+    .prose-section ul { color:#3D4451; line-height:1.8; font-size:0.9375rem; padding-left:1.25rem; margin-bottom:0.875rem; list-style:disc; }
+    .prose-section li { margin-bottom:0.35rem; }
+    .prose-section strong { color:#1C1C2E; font-weight:600; }
+    .prose-section a { color:var(--gold); text-decoration:underline; text-underline-offset:3px; }
+    .section-rule { border-top:1px solid #DDD8CE; margin:2rem 0; }
+  </style>
+</head>
+
+<body class="bg-[#F4F1EB] text-[#1C1C2E]">
+
+  <!-- NAV -->
+  <div id="header-container"></div>
+
+  <!-- HERO -->
+  <section class="pt-32 pb-16 px-6 relative overflow-hidden" style="background:linear-gradient(135deg,#0f1b4a 0%,#1a2e6e 45%,#1e4494 75%,#2d5fae 100%)">
+    <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 70% 70% at 50% 50%, rgba(201,149,46,0.08) 0%, transparent 65%)"></div>
+    <div class="relative max-w-3xl mx-auto text-center">
+      <div class="label mb-5">Legal</div>
+      <h1 class="font-display font-black text-[clamp(32px,5vw,52px)] leading-tight mb-3" style="color:#EEF4FF">Terms &amp; Conditions</h1>
+      <p class="text-sm" style="color:rgba(200,216,255,0.35); font-family:'DM Sans',sans-serif; letter-spacing:2px; text-transform:uppercase;">Last updated: April 2026</p>
+    </div>
+  </section>
+
+  <!-- CONTENT -->
+  <main class="py-16 px-6">
+    <div class="max-w-3xl mx-auto bg-white border border-[#DDD8CE] rounded-2xl p-8 md:p-12 prose-section">
+
+      <h2>1. Acceptance of Terms</h2>
+      <p>By accessing or using the IELTS Lab platform (the "Service"), you agree to be bound by these Terms &amp; Conditions ("Terms"). If you do not agree to these Terms, you must not use the Service.</p>
+      <p>These Terms apply to all users of the platform, including visitors, registered users, and subscribers. IELTS Lab reserves the right to update these Terms at any time. Continued use of the Service after changes constitutes acceptance of the revised Terms.</p>
+
+      <hr class="section-rule" />
+
+      <h2>2. Description of Service</h2>
+      <p>IELTS Lab is a premium IELTS preparation platform that combines artificial intelligence technology with certified human tutors to help students prepare for the IELTS examination. The Service covers all four IELTS skills:</p>
+      <ul>
+        <li><strong>Reading</strong> — Comprehension practice and strategy coaching</li>
+        <li><strong>Listening</strong> — Audio-based exercises with tutor guidance</li>
+        <li><strong>Writing</strong> — AI and tutor feedback on Task 1 and Task 2 essays</li>
+        <li><strong>Speaking</strong> — Recording analysis and pronunciation coaching</li>
+      </ul>
+      <p>The Service is provided on a subscription basis following a free trial period as described below.</p>
+
+      <hr class="section-rule" />
+
+      <h2>3. Free Trial &amp; Subscription Terms</h2>
+      <p><strong>Free Trial:</strong> New users are entitled to submit their first <strong>5 essays</strong> at no charge. No credit card is required to begin the free trial. The free trial is limited to one per user and may not be transferred or shared.</p>
+      <p><strong>Subscription:</strong> After exhausting your free submissions, continued access to AI feedback, tutor messaging, and all platform features requires a paid subscription. Subscription tiers, pricing, and billing intervals are displayed at checkout and on our pricing page.</p>
+      <p>IELTS Lab reserves the right to modify pricing with reasonable notice. Your existing subscription rate will not change mid-cycle without prior notification.</p>
+
+      <hr class="section-rule" />
+
+      <h2>4. Payment, Billing &amp; Cancellation</h2>
+      <p><strong>Payment:</strong> Payments are processed securely through our third-party payment provider. By providing payment details, you authorise IELTS Lab to charge your selected payment method for the subscription fee on a recurring basis.</p>
+      <p><strong>Billing Cycle:</strong> Subscriptions are billed on a monthly or annual basis as selected at checkout. Your subscription renews automatically at the end of each billing cycle unless cancelled.</p>
+      <p><strong>Cancellation:</strong> You may cancel your subscription at any time through your account settings or by contacting us at <a href="mailto:ielts.lab26@gmail.com">ielts.lab26@gmail.com</a>. Cancellation takes effect at the end of the current billing period — you will retain access until then. No partial refunds are issued for unused time within a billing cycle.</p>
+      <p><strong>Refunds:</strong> Refunds are handled on a case-by-case basis. If you believe you have been charged in error, contact us within 7 days of the charge.</p>
+
+      <hr class="section-rule" />
+
+      <h2>5. Acceptable Use</h2>
+      <p>By using IELTS Lab, you agree not to:</p>
+      <ul>
+        <li>Submit work that is not your own for the purpose of academic fraud or examination deception.</li>
+        <li>Share your account, login credentials, or subscription access with any other person.</li>
+        <li>Reproduce, distribute, or commercially exploit any AI feedback, tutor advice, or platform content without written permission from IELTS Lab.</li>
+        <li>Use the platform to harass, abuse, or threaten tutors or other users.</li>
+        <li>Attempt to reverse-engineer, scrape, or interfere with the platform's technology or infrastructure.</li>
+        <li>Use the platform in any way that violates applicable local, national, or international laws.</li>
+      </ul>
+      <p>Violation of these terms may result in immediate account suspension or termination without refund.</p>
+
+      <hr class="section-rule" />
+
+      <h2>6. Disclaimer — Band Score Estimates</h2>
+      <p>AI-generated feedback and band score estimates provided by IELTS Lab are based on the official IELTS assessment criteria and are intended as guidance only. They are <strong>not a guarantee of actual examination results</strong>.</p>
+      <p>IELTS Lab makes no representations or warranties that use of our platform will result in achieving any particular band score. Actual examination performance depends on many factors outside our control, including the test-taker's preparation, test conditions, and examiner judgement.</p>
+      <p>The Service is provided "as is" without warranties of any kind, either express or implied, to the fullest extent permitted by law.</p>
+
+      <hr class="section-rule" />
+
+      <h2>7. Intellectual Property</h2>
+      <p>All content on IELTS Lab — including but not limited to platform design, software, AI models, written materials, feedback templates, and branding — is the exclusive intellectual property of IELTS Lab and is protected by applicable copyright, trademark, and intellectual property laws.</p>
+      <p>You retain ownership of the content you submit (your essays, recordings, etc.). By submitting content, you grant IELTS Lab a non-exclusive, royalty-free licence to process and analyse your submissions for the purpose of providing feedback and improving our AI systems.</p>
+      <p>Unauthorised reproduction or distribution of any IELTS Lab content is strictly prohibited.</p>
+
+      <hr class="section-rule" />
+
+      <h2>8. Termination of Accounts</h2>
+      <p>IELTS Lab reserves the right to suspend or terminate your account at any time if you breach these Terms, engage in fraudulent activity, or if continued access poses a risk to the platform or its users.</p>
+      <p>You may close your account at any time by contacting <a href="mailto:ielts.lab26@gmail.com">ielts.lab26@gmail.com</a>. Upon account closure, your data will be handled in accordance with our Privacy Policy.</p>
+      <p>Termination for cause will not entitle you to a refund of any prepaid fees.</p>
+
+      <hr class="section-rule" />
+
+      <h2>9. Governing Law</h2>
+      <p>These Terms are governed by and construed in accordance with the laws of <strong>England and Wales</strong>, as the primary jurisdiction of IELTS Lab. Any disputes arising under or in connection with these Terms shall be subject to the exclusive jurisdiction of the courts of England and Wales, unless otherwise required by local mandatory law in your country of residence.</p>
+
+      <hr class="section-rule" />
+
+      <h2>10. Contact Us</h2>
+      <p>For any questions regarding these Terms &amp; Conditions, please contact us:</p>
+      <p><strong>Email:</strong> <a href="mailto:ielts.lab26@gmail.com">ielts.lab26@gmail.com</a></p>
+      <p>We aim to respond to all enquiries within 5 business days.</p>
+
+    </div>
+  </main>
+
+  <!-- FOOTER (exact copy from IELTS-Lab.html) -->
+  <footer class="py-16 divider" style="background:#EDE9E0">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
+        <div class="col-span-2 md:col-span-1">
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-6 h-6 rounded-md flex items-center justify-center" style="background:var(--gold)">
+              <span class="font-display font-black text-xs text-zinc-950">IL</span>
+            </div>
+            <span class="font-display font-black text-sm text-[#1C1C2E]">IELTS<span style="color:var(--gold)">Lab</span></span>
+          </div>
+          <p class="text-xs text-[#3D4451] leading-relaxed max-w-[28ch]">IELTS preparation built on AI precision and examiner expertise.</p>
+        </div>
+        <div>
+          <div class="text-xs font-medium text-[#1B2B4B] uppercase tracking-wider mb-4">Product</div>
+          <ul class="space-y-2.5">
+            <li><a href="#" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Practice</a></li>
+            <li><a href="#" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Mock Tests</a></li>
+            <li><a href="#" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Score Predictor</a></li>
+            <li><a href="#" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Study Plans</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="text-xs font-medium text-[#1B2B4B] uppercase tracking-wider mb-4">Resources</div>
+          <ul class="space-y-2.5">
+            <li><a href="#" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">IELTS Guide</a></li>
+            <li><a href="#" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Band Descriptors</a></li>
+            <li><a href="#" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Essay Templates</a></li>
+            <li><a href="#" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Blog</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="text-xs font-medium text-[#1B2B4B] uppercase tracking-wider mb-4">Company</div>
+          <ul class="space-y-2.5">
+            <li><a href="/about/index.html" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">About</a></li>
+            <li><a href="#" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Teachers</a></li>
+            <li><a href="/privacy/index.html" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Privacy</a></li>
+            <li><a href="/terms/index.html" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Terms</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="pt-8 border-t border-[#DDD8CE] flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="text-xs text-[#6B7280]">© 2026 IELTS Lab. All rights reserved.</div>
+        <div class="text-xs text-[#6B7280]">Not affiliated with the British Council, IDP, or Cambridge Assessment English.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/js/components.js"></script>
+  <script>loadHeader();</script>
+</body>
+</html>

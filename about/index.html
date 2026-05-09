@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — IELTS Lab</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Space+Mono:wght@400;700&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Satoshi', 'Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+            sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --gold: #C9952E;
+      --gold-light: #DDB05A;
+      --gold-dim: rgba(201,149,46,0.10);
+      --gold-border: rgba(201,149,46,0.22);
+      --blue: #3A7BF7;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: #F4F1EB; color: #1C1C2E; }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    h1, h2, h3, h4, h5, .font-display { font-family: 'Satoshi', 'Plus Jakarta Sans', system-ui, sans-serif; }
+
+    .text-gold { color: var(--gold); }
+    .label {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .divider { border-top: 1px solid #DDD8CE; }
+
+    /* Nav */
+    .nav-glass {
+      background: rgba(9,9,11,0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .nav-logo { display:flex; align-items:baseline; gap:0; text-decoration:none; }
+    .nl-ielts { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:600; letter-spacing:1px; color:#EEF4FF; }
+    .nl-lab   { font-family:'Space Mono',monospace; font-size:12px; font-weight:700; letter-spacing:3px; color:var(--gold); margin-left:5px; filter:drop-shadow(0 0 8px rgba(201,149,46,0.5)); }
+    .nl-flask { font-size:15px; margin-left:4px; }
+    .nav-links { display:flex; gap:28px; list-style:none; }
+    .nav-links a { font-family:'DM Sans',sans-serif; font-size:11px; font-weight:300; letter-spacing:2.5px; text-transform:uppercase; color:rgba(200,216,255,0.45); text-decoration:none; transition:color 0.3s; }
+    .nav-links a:hover { color:var(--gold); }
+    .nav-cta { font-family:'DM Sans',sans-serif; font-size:10px; font-weight:400; letter-spacing:2px; text-transform:uppercase; padding:9px 22px; border-radius:2px; border:1px solid rgba(201,149,46,0.4); color:var(--gold); background:rgba(201,149,46,0.07); cursor:pointer; text-decoration:none; transition:all 0.3s; }
+    .nav-cta:hover { background:rgba(201,149,46,0.15); border-color:var(--gold); }
+
+    /* Hover lift */
+    .hover-lift { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .hover-lift:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
+
+    /* Reveal */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .d100 { transition-delay: 0.1s; }
+    .d200 { transition-delay: 0.2s; }
+    .d300 { transition-delay: 0.3s; }
+  </style>
+</head>
+
+<body class="bg-[#F4F1EB] text-[#1C1C2E]">
+
+  <!-- NAV -->
+  <div id="header-container"></div>
+
+  <!-- HERO -->
+  <section class="pt-32 pb-20 px-6 relative overflow-hidden" style="background:linear-gradient(135deg,#0f1b4a 0%,#1a2e6e 45%,#1e4494 75%,#2d5fae 100%)">
+    <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 70% 70% at 50% 50%, rgba(201,149,46,0.08) 0%, transparent 65%)"></div>
+    <div class="relative">
+    <div class="max-w-3xl mx-auto text-center">
+      <div class="label mb-5">Our Story</div>
+      <h1 class="font-display font-black text-[clamp(36px,6vw,64px)] leading-[1.08] mb-6" style="color:#EEF4FF">
+        About IELTS Lab
+      </h1>
+      <p style="font-family:'Cormorant Garamond',serif; font-size:clamp(18px,2.2vw,24px); font-style:italic; color:rgba(200,216,255,0.7); line-height:1.6;">
+        Empowering students worldwide to achieve their target band score — with AI precision and human expertise.
+      </p>
+    </div>
+    </div>
+  </section>
+
+  <!-- WHO WE ARE -->
+  <section class="py-20 px-6">
+    <div class="max-w-5xl mx-auto">
+      <div class="grid md:grid-cols-2 gap-12 items-center">
+        <div class="reveal">
+          <div class="label mb-4">Who We Are</div>
+          <h2 class="font-display font-black text-[28px] leading-tight text-[#1C1C2E] mb-5">A Premium Platform Built for Results</h2>
+          <p class="text-[#3D4451] text-base leading-relaxed mb-4">
+            IELTS Lab is a premium IELTS preparation platform that combines the power of artificial intelligence with the insight of certified human tutors. We serve students from all corners of the globe — from first-time test-takers to repeat candidates determined to hit their target band score.
+          </p>
+          <p class="text-[#3D4451] text-base leading-relaxed">
+            We cover all four IELTS skills — Reading, Listening, Writing, and Speaking — giving you a complete, structured path to exam success.
+          </p>
+        </div>
+        <div class="reveal d200 grid grid-cols-2 gap-4">
+          <div class="bg-white border border-[#DDD8CE] rounded-2xl p-5 hover-lift">
+            <div class="text-2xl mb-3">✍️</div>
+            <div class="font-display font-bold text-sm text-[#1C1C2E] mb-1">Writing</div>
+            <div class="text-xs text-[#6B7280] leading-relaxed">Task 1 & Task 2 with AI + tutor feedback</div>
+          </div>
+          <div class="bg-white border border-[#DDD8CE] rounded-2xl p-5 hover-lift">
+            <div class="text-2xl mb-3">🎤</div>
+            <div class="font-display font-bold text-sm text-[#1C1C2E] mb-1">Speaking</div>
+            <div class="text-xs text-[#6B7280] leading-relaxed">Recording analysis & pronunciation coaching</div>
+          </div>
+          <div class="bg-white border border-[#DDD8CE] rounded-2xl p-5 hover-lift">
+            <div class="text-2xl mb-3">📖</div>
+            <div class="font-display font-bold text-sm text-[#1C1C2E] mb-1">Reading</div>
+            <div class="text-xs text-[#6B7280] leading-relaxed">Comprehension practice & strategy coaching</div>
+          </div>
+          <div class="bg-white border border-[#DDD8CE] rounded-2xl p-5 hover-lift">
+            <div class="text-2xl mb-3">🎧</div>
+            <div class="font-display font-bold text-sm text-[#1C1C2E] mb-1">Listening</div>
+            <div class="text-xs text-[#6B7280] leading-relaxed">Audio exercises & tutor guidance</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIVIDER -->
+  <div class="max-w-5xl mx-auto px-6"><div class="divider"></div></div>
+
+  <!-- MISSION -->
+  <section class="py-20 px-6">
+    <div class="max-w-3xl mx-auto text-center reveal">
+      <div class="label mb-4">Our Mission</div>
+      <h2 class="font-display font-black text-[clamp(26px,4vw,40px)] leading-tight text-[#1C1C2E] mb-6">
+        Help Every Student Reach Their Target Band
+      </h2>
+      <p class="text-[#3D4451] text-lg leading-relaxed">
+        We believe no one should be limited by access to quality preparation. By combining cutting-edge AI feedback with personalised human mentorship, we make expert-level IELTS coaching <span style="color:var(--gold);font-weight:600">accessible, affordable, and effective</span> — wherever you are in the world.
+      </p>
+    </div>
+  </section>
+
+  <!-- DIVIDER -->
+  <div class="max-w-5xl mx-auto px-6"><div class="divider"></div></div>
+
+  <!-- HOW IT WORKS -->
+  <section class="py-20 px-6 bg-white">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-14 reveal">
+        <div class="label mb-4">How It Works</div>
+        <h2 class="font-display font-black text-[clamp(26px,4vw,40px)] text-[#1C1C2E]">Four Steps to Band Success</h2>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="reveal text-center px-4">
+          <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-5 font-display font-black text-lg" style="background:var(--gold);color:#05081A">1</div>
+          <h3 class="font-display font-bold text-[#1C1C2E] text-base mb-2">Submit Your Work</h3>
+          <p class="text-[#6B7280] text-sm leading-relaxed">Upload your essay, speaking recording, or practice response.</p>
+        </div>
+        <div class="reveal d100 text-center px-4">
+          <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-5 font-display font-black text-lg" style="background:var(--gold);color:#05081A">2</div>
+          <h3 class="font-display font-bold text-[#1C1C2E] text-base mb-2">Get Instant AI Feedback</h3>
+          <p class="text-[#6B7280] text-sm leading-relaxed">Our AI engine scores and annotates your submission against IELTS criteria in seconds.</p>
+        </div>
+        <div class="reveal d200 text-center px-4">
+          <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-5 font-display font-black text-lg" style="background:var(--gold);color:#05081A">3</div>
+          <h3 class="font-display font-bold text-[#1C1C2E] text-base mb-2">Chat With Your Tutor</h3>
+          <p class="text-[#6B7280] text-sm leading-relaxed">Connect directly with a certified IELTS tutor for deeper guidance and personalised advice.</p>
+        </div>
+        <div class="reveal d300 text-center px-4">
+          <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-5 font-display font-black text-lg" style="background:var(--gold);color:#05081A">4</div>
+          <h3 class="font-display font-bold text-[#1C1C2E] text-base mb-2">Track Your Progress</h3>
+          <p class="text-[#6B7280] text-sm leading-relaxed">Monitor improvement with band score estimates and skill-by-skill breakdowns over time.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHAT MAKES US DIFFERENT -->
+  <section class="py-20 px-6">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center mb-14 reveal">
+        <div class="label mb-4">Our Edge</div>
+        <h2 class="font-display font-black text-[clamp(26px,4vw,40px)] text-[#1C1C2E]">What Makes Us Different</h2>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <div class="reveal bg-white border border-[#DDD8CE] rounded-2xl p-7 hover-lift">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-5 text-xl" style="background:var(--gold-dim);border:1px solid var(--gold-border)">🤖</div>
+          <h3 class="font-display font-bold text-[#1C1C2E] text-base mb-3">AI-Powered Instant Feedback</h3>
+          <p class="text-[#6B7280] text-sm leading-relaxed">Band-score-calibrated feedback within seconds of submitting — forensic error analysis mapped to official BC descriptors.</p>
+        </div>
+        <div class="reveal d100 bg-white border border-[#DDD8CE] rounded-2xl p-7 hover-lift">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-5 text-xl" style="background:var(--gold-dim);border:1px solid var(--gold-border)">👩‍🏫</div>
+          <h3 class="font-display font-bold text-[#1C1C2E] text-base mb-3">Certified Human Tutors</h3>
+          <p class="text-[#6B7280] text-sm leading-relaxed">Our tutors are IELTS-certified professionals with years of experience helping students reach band 7, 8, and beyond.</p>
+        </div>
+        <div class="reveal d200 bg-white border border-[#DDD8CE] rounded-2xl p-7 hover-lift">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-5 text-xl" style="background:var(--gold-dim);border:1px solid var(--gold-border)">📚</div>
+          <h3 class="font-display font-bold text-[#1C1C2E] text-base mb-3">All 4 IELTS Skills Covered</h3>
+          <p class="text-[#6B7280] text-sm leading-relaxed">Reading, Listening, Writing, Speaking — we cover the complete exam, not just parts of it.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OUR REACH -->
+  <section class="py-20 px-6" style="background:linear-gradient(135deg,#0f1b4a 0%,#1a2e6e 45%,#1e4494 75%,#2d5fae 100%)">
+    <div class="max-w-4xl mx-auto text-center">
+      <div class="label mb-4" style="color:var(--gold)">Global Reach</div>
+      <h2 class="font-display font-black text-[clamp(26px,4vw,40px)] mb-4" style="color:#EEF4FF">Teams & Students Across Three Countries</h2>
+      <p class="mb-14 text-base" style="color:rgba(200,216,255,0.5); font-family:'DM Sans',sans-serif; font-weight:300;">Wherever you are, our platform is built to serve you.</p>
+      <div class="flex flex-col sm:flex-row justify-center gap-10">
+        <div class="flex flex-col items-center gap-3">
+          <span class="text-4xl">🇬🇧</span>
+          <span class="font-display font-bold text-base" style="color:#EEF4FF">United Kingdom</span>
+          <span class="text-xs" style="color:rgba(200,216,255,0.4); font-family:'DM Sans',sans-serif; letter-spacing:2px; text-transform:uppercase;">Platform headquarters</span>
+        </div>
+        <div class="flex flex-col items-center gap-3">
+          <span class="text-4xl">🇲🇦</span>
+          <span class="font-display font-bold text-base" style="color:#EEF4FF">Morocco</span>
+          <span class="text-xs" style="color:rgba(200,216,255,0.4); font-family:'DM Sans',sans-serif; letter-spacing:2px; text-transform:uppercase;">Tutor team & students</span>
+        </div>
+        <div class="flex flex-col items-center gap-3">
+          <span class="text-4xl">🇻🇳</span>
+          <span class="font-display font-bold text-base" style="color:#EEF4FF">Vietnam</span>
+          <span class="text-xs" style="color:rgba(200,216,255,0.4); font-family:'DM Sans',sans-serif; letter-spacing:2px; text-transform:uppercase;">Growing student community</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-20 px-6 text-center">
+    <div class="max-w-2xl mx-auto reveal">
+      <div class="label mb-4">Get Started</div>
+      <h2 class="font-display font-black text-[clamp(28px,4vw,44px)] text-[#1C1C2E] mb-4">Start Your Free Trial</h2>
+      <p class="text-[#6B7280] text-base mb-8">Your first 5 essays are completely free — no credit card needed.</p>
+      <a href="/IELTS-Lab.html#pricing" style="display:inline-block;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:400;letter-spacing:2.5px;text-transform:uppercase;padding:14px 36px;border-radius:2px;background:linear-gradient(135deg,var(--gold) 0%,#a8741f 100%);color:#05081A;text-decoration:none;box-shadow:0 0 28px rgba(201,149,46,0.3);transition:all 0.3s;">
+        Get Started Free →
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER (exact copy from IELTS-Lab.html) -->
+  <footer class="py-16 divider" style="background:#EDE9E0">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
+        <div class="col-span-2 md:col-span-1">
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-6 h-6 rounded-md flex items-center justify-center" style="background:var(--gold)">
+              <span class="font-display font-black text-xs text-zinc-950">IL</span>
+            </div>
+            <span class="font-display font-black text-sm text-[#1C1C2E]">IELTS<span style="color:var(--gold)">Lab</span></span>
+          </div>
+          <p class="text-xs text-[#3D4451] leading-relaxed max-w-[28ch]">IELTS preparation built on AI precision and examiner expertise.</p>
+        </div>
+        <div>
+          <div class="text-xs font-medium text-[#1B2B4B] uppercase tracking-wider mb-4">Product</div>
+          <ul class="space-y-2.5">
+            <li><a href="#" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Practice</a></li>
+            <li><a href="#" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Mock Tests</a></li>
+            <li><a href="#" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Score Predictor</a></li>
+            <li><a href="#" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Study Plans</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="text-xs font-medium text-[#1B2B4B] uppercase tracking-wider mb-4">Resources</div>
+          <ul class="space-y-2.5">
+            <li><a href="#" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">IELTS Guide</a></li>
+            <li><a href="#" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Band Descriptors</a></li>
+            <li><a href="#" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Essay Templates</a></li>
+            <li><a href="#" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Blog</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="text-xs font-medium text-[#1B2B4B] uppercase tracking-wider mb-4">Company</div>
+          <ul class="space-y-2.5">
+            <li><a href="/about/index.html" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">About</a></li>
+            <li><a href="#" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Teachers</a></li>
+            <li><a href="/privacy/index.html" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Privacy</a></li>
+            <li><a href="/terms/index.html" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Terms</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="pt-8 border-t border-[#DDD8CE] flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="text-xs text-[#6B7280]">© 2026 IELTS Lab. All rights reserved.</div>
+        <div class="text-xs text-[#6B7280]">Not affiliated with the British Council, IDP, or Cambridge Assessment English.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const revealEls = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    revealEls.forEach(el => obs.observe(el));
+  </script>
+
+  <script src="/js/components.js"></script>
+  <script>loadHeader();</script>
+</body>
+</html>

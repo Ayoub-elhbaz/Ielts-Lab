@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IELTS Lab — Test Results</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Space+Mono:wght@400;700&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = { theme: { extend: { fontFamily: { display: ['Satoshi','Plus Jakarta Sans','system-ui','sans-serif'], sans: ['Plus Jakarta Sans','system-ui','sans-serif'] } } } }
+  </script>
+  <style>
+    :root { --gold:#C9952E; --gold-light:#DDB05A; --gold-dim:rgba(201,149,46,0.10); --gold-border:rgba(201,149,46,0.22); --white:#EEF4FF; }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{background:#09090b;color:#fafafa;}
+    body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+    h1,h2,h3,h4,.font-display{font-family:'Satoshi','Plus Jakarta Sans',system-ui,sans-serif;}
+    .text-gold{color:var(--gold);}
+    .nav-glass{background:rgba(9,9,11,0.88);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.04);}
+    .nav-logo{display:flex;align-items:baseline;gap:0;text-decoration:none;}
+    .nl-ielts{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;letter-spacing:1px;color:var(--white);}
+    .nl-lab{font-family:'Space Mono',monospace;font-size:12px;font-weight:700;letter-spacing:3px;color:var(--gold);margin-left:5px;filter:drop-shadow(0 0 6px rgba(201,149,46,0.5));}
+    ::-webkit-scrollbar{width:5px;}
+    ::-webkit-scrollbar-track{background:#09090b;}
+    ::-webkit-scrollbar-thumb{background:#3f3f46;border-radius:3px;}
+    .divider{border-top:1px solid #1c1c1e;}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+    .reveal{opacity:0;transform:translateY(28px);transition:opacity 0.7s cubic-bezier(0.16,1,0.3,1),transform 0.7s cubic-bezier(0.16,1,0.3,1);}
+    .reveal.visible{opacity:1;transform:translateY(0);}
+    .d100{transition-delay:0.1s;}.d200{transition-delay:0.2s;}.d300{transition-delay:0.3s;}.d400{transition-delay:0.4s;}
+
+    .section-card{background:rgba(17,17,19,0.7);border:1px solid #1c1c1e;border-radius:1.25rem;padding:1.75rem;}
+
+    /* Band ring */
+    .ring-track{stroke:#1c1c1e;}
+    .ring-fill{stroke:var(--gold);transform-origin:center;transform:rotate(-90deg);transition:stroke-dasharray 1.5s cubic-bezier(0.16,1,0.3,1) 0.3s;}
+    .ring-fill.teal{stroke:#2AFFD6;}
+
+    /* Skill bar */
+    .skill-bar-track{height:4px;background:#1c1c1e;border-radius:99px;overflow:hidden;}
+    .skill-bar-fill{height:100%;background:linear-gradient(to right,var(--gold),#DDB05A);border-radius:99px;width:0;transition:width 1.2s cubic-bezier(0.16,1,0.3,1) 0.5s;}
+
+    .btn-gold{background:linear-gradient(135deg,var(--gold) 0%,#a8741f 100%);color:#05081A;border:none;border-radius:0.5rem;padding:13px 28px;font-size:0.875rem;font-weight:700;letter-spacing:0.04em;cursor:pointer;transition:all 0.25s ease;box-shadow:0 0 20px rgba(201,149,46,0.25);text-decoration:none;display:inline-block;}
+    .btn-gold:hover{transform:translateY(-2px);box-shadow:0 0 32px rgba(201,149,46,0.45);}
+    .btn-ghost{background:transparent;color:var(--gold);border:1px solid var(--gold-border);border-radius:0.5rem;padding:13px 28px;font-size:0.875rem;font-weight:600;cursor:pointer;transition:all 0.2s;text-decoration:none;display:inline-block;}
+    .btn-ghost:hover{background:var(--gold-dim);}
+
+    /* Criterion block */
+    .criterion-row{display:flex;flex-direction:column;gap:8px;padding:14px;border-radius:0.75rem;background:#0e0e10;border:1px solid #1c1c1e;}
+    .criterion-name{font-size:0.6875rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);}
+    .criterion-score{font-family:'Space Mono',monospace;font-size:1.125rem;font-weight:700;color:#fafafa;}
+    .criterion-label{font-size:0.8125rem;color:#a1a1aa;line-height:1.5;}
+
+    /* Strength/improvement chip */
+    .str-chip{padding:10px 14px;border-radius:0.625rem;font-size:0.8125rem;line-height:1.6;color:#d4d4d8;}
+    .str-chip.green{background:rgba(74,222,128,0.06);border:1px solid rgba(74,222,128,0.15);}
+    .str-chip.amber{background:rgba(251,191,36,0.06);border:1px solid rgba(251,191,36,0.15);}
+
+    /* Band indicator colours */
+    .b-high{color:#2affd6;}
+    .b-mid{color:var(--gold-light);}
+    .b-low{color:#f87171;}
+
+    /* Skill score card */
+    .skill-score-card{background:#0e0e10;border:1px solid #1c1c1e;border-radius:0.875rem;padding:1.25rem;text-align:center;}
+    .skill-icon{font-size:1.5rem;margin-bottom:6px;}
+    .skill-name{font-size:0.6875rem;text-transform:uppercase;letter-spacing:0.1em;color:#71717a;margin-bottom:4px;}
+    .skill-band{font-family:'Space Mono',monospace;font-size:1.5rem;font-weight:700;}
+
+    /* Loading */
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .spinner{width:40px;height:40px;border:3px solid #27272a;border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;}
+
+    /* ── Theme toggle button ── */
+    #themeToggle{background:transparent;border:1px solid rgba(201,149,46,0.25);color:#71717a;border-radius:8px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;font-size:15px;flex-shrink:0;padding:0;}
+    #themeToggle:hover{border-color:var(--gold-border);color:var(--gold);}
+    /* ── Light mode ── */
+    html[data-theme="light"]{background:#F4F1EB !important;color:#1C1C2E !important;}
+    html[data-theme="light"] body{background:#F4F1EB !important;color:#1C1C2E !important;}
+    html[data-theme="light"] .bg-zinc-950{background-color:#F4F1EB !important;}
+    html[data-theme="light"] .text-zinc-50{color:#1C1C2E !important;}
+    html[data-theme="light"] .text-zinc-100{color:#2A2A3A !important;}
+    html[data-theme="light"] .text-zinc-400{color:#585862 !important;}
+    html[data-theme="light"] .text-zinc-500{color:#6B6B7A !important;}
+    html[data-theme="light"] .text-zinc-600{color:#7A7A88 !important;}
+    html[data-theme="light"] ::-webkit-scrollbar-track{background:#F4F1EB !important;}
+    html[data-theme="light"] ::-webkit-scrollbar-thumb{background:#C4B07A !important;}
+    html[data-theme="light"] .nav-glass{background:rgba(244,241,235,0.94) !important;border-bottom-color:rgba(0,0,0,0.08) !important;}
+    html[data-theme="light"] .nl-ielts{color:#1C1C2E !important;}
+    html[data-theme="light"] .divider{border-color:#D4D0C8 !important;}
+    html[data-theme="light"] .section-card{background:rgba(255,255,255,0.95) !important;border-color:#E4E0D6 !important;}
+    html[data-theme="light"] .ring-track{stroke:#D4D0C8 !important;}
+    html[data-theme="light"] .skill-bar-track{background:#D4D0C8 !important;}
+    html[data-theme="light"] .skill-score-card{background:#FFFFFF !important;border-color:#E4E0D6 !important;}
+    html[data-theme="light"] .skill-name{color:#8A8A98 !important;}
+    html[data-theme="light"] .criterion-row{background:#FFFFFF !important;border-color:#E4E0D6 !important;}
+    html[data-theme="light"] .criterion-score{color:#1C1C2E !important;}
+    html[data-theme="light"] .criterion-label{color:#6B6B7A !important;}
+    html[data-theme="light"] .str-chip{color:#3A3A4A !important;}
+    html[data-theme="light"] .str-chip.green{background:rgba(22,163,74,0.06) !important;border-color:rgba(22,163,74,0.18) !important;}
+    html[data-theme="light"] .str-chip.amber{background:rgba(201,149,46,0.07) !important;}
+    html[data-theme="light"] .spinner{border-color:#D4D0C8 !important;border-top-color:var(--gold) !important;}
+  </style>
+  <script>
+    (function(){var t=localStorage.getItem('ieltslab_theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();
+    function toggleTheme(){var c=document.documentElement.getAttribute('data-theme')||'dark',n=c==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('ieltslab_theme',n);var b=document.getElementById('themeToggle');if(b)b.textContent=n==='dark'?'☀':'🌙';}
+    document.addEventListener('DOMContentLoaded',function(){var b=document.getElementById('themeToggle');if(b){var d=(document.documentElement.getAttribute('data-theme')||'dark')==='dark';b.textContent=d?'☀':'🌙';}});
+  </script>
+</head>
+<body class="bg-zinc-950 text-zinc-50 min-h-screen flex flex-col">
+
+  <!-- NAV -->
+  <div id="header-container"></div>
+
+  <!-- PAGE CONTENT (populated by JS) -->
+  <main class="flex-1 max-w-4xl mx-auto px-6 py-12 w-full" id="mainContent">
+    <div class="flex flex-col items-center justify-center min-h-[50vh]">
+      <div class="spinner mb-6"></div>
+      <div class="text-zinc-500 text-sm">Loading your results…</div>
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="divider text-center py-6 px-6">
+    <p class="text-xs text-zinc-700 tracking-wider">IELTS Lab Mock Tests · <span style="color:var(--gold-border)">Members Only</span></p>
+  </footer>
+
+  <script>
+    // ── AUTH ──
+    const rawSession = localStorage.getItem('ielts_session');
+    if (!rawSession) window.location.replace('../login.html');
+    let session;
+    try { session = JSON.parse(rawSession); }
+    catch { localStorage.removeItem('ielts_session'); window.location.replace('../login.html'); }
+
+    // ── LOAD RESULT ──
+    const params = new URLSearchParams(window.location.search);
+    const resultId = params.get('id');
+    const allResults = JSON.parse(localStorage.getItem('ielts_mock_results') || '[]');
+    const result = allResults.find(r => r.id === resultId);
+
+    function getBandClass(b) {
+      if (!b && b !== 0) return 'b-mid';
+      return b >= 7 ? 'b-high' : b >= 5.5 ? 'b-mid' : 'b-low';
+    }
+
+    function bandToPercent(b) {
+      return b ? Math.round((b / 9) * 100) : 0;
+    }
+
+    function renderNotFound() {
+      document.getElementById('mainContent').innerHTML = `
+        <div class="text-center py-20">
+          <div class="text-5xl mb-4">🔍</div>
+          <div class="font-display font-bold text-xl text-zinc-300 mb-2">Result Not Found</div>
+          <p class="text-sm text-zinc-600 mb-6">This result may have been cleared or the link is invalid.</p>
+          <a href="index.html" class="btn-gold">Back to Dashboard</a>
+        </div>`;
+    }
+
+    function renderResults(r) {
+      const isFullTest = r.skill === 'full';
+      const scores = r.scores || {};
+      const fb = r.feedback || {};
+      const testDate = new Date(r.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+      const overall = scores.overall;
+
+      // Skill blocks
+      const skills = [
+        { key: 'listening', icon: '🎧', label: 'Listening' },
+        { key: 'reading', icon: '📖', label: 'Reading' },
+        { key: 'writing', icon: '✍️', label: 'Writing' },
+        { key: 'speaking', icon: '🗣', label: 'Speaking' },
+      ];
+
+      const skillCardsHtml = skills.filter(s => scores[s.key] != null).map(s => {
+        const b = scores[s.key];
+        return `<div class="skill-score-card">
+          <div class="skill-icon">${s.icon}</div>
+          <div class="skill-name">${s.label}</div>
+          <div class="skill-band ${getBandClass(b)}">${b}</div>
+        </div>`;
+      }).join('');
+
+      // Overall ring circumference
+      const circumference = 2 * Math.PI * 58; // r=58
+      const overallPct = overall ? (overall / 9) : 0;
+      const dashArray = overallPct * circumference;
+
+      // Writing feedback
+      let writingFeedbackHtml = '';
+      const wfb = isFullTest ? fb.writing : (r.skill === 'writing' ? fb : null);
+      if (wfb?.writing_feedback || wfb?.skill_scores) {
+        const wf = wfb.writing_feedback || {};
+        const criteria = [
+          { key: 'task_achievement', label: 'Task Achievement' },
+          { key: 'coherence', label: 'Coherence & Cohesion' },
+          { key: 'lexical_resource', label: 'Lexical Resource' },
+          { key: 'grammar', label: 'Grammatical Range & Accuracy' },
+        ];
+        const hasScores = criteria.some(c => wf[c.key] != null);
+        if (hasScores) {
+          writingFeedbackHtml = `
+          <div class="section-card mb-6 reveal d200">
+            <div class="text-xs font-medium tracking-widest uppercase mb-5" style="color:var(--gold);">✍️ Writing — Detailed Feedback</div>
+            <div class="grid sm:grid-cols-2 gap-3 mb-5">
+              ${criteria.map(c => wf[c.key] != null ? `
+                <div class="criterion-row">
+                  <div class="criterion-name">${c.label}</div>
+                  <div class="criterion-score ${getBandClass(wf[c.key])}">${wf[c.key]}</div>
+                  <div class="skill-bar-track"><div class="skill-bar-fill" style="width:${bandToPercent(wf[c.key])}%;"></div></div>
+                </div>` : '').join('')}
+            </div>
+            ${wfb.examiner_note ? `<div class="mt-4 p-4 rounded-xl text-sm text-zinc-400 leading-relaxed" style="background:#0e0e10;border:1px solid #1c1c1e;">${wfb.examiner_note}</div>` : ''}
+          </div>`;
+        }
+      }
+
+      // Speaking feedback
+      let speakingFeedbackHtml = '';
+      const sfb = isFullTest ? fb.speaking : (r.skill === 'speaking' ? fb : null);
+      if (sfb?.speaking_feedback) {
+        const sf = sfb.speaking_feedback || {};
+        const sCriteria = [
+          { key: 'fluency', label: 'Fluency & Coherence' },
+          { key: 'vocabulary', label: 'Lexical Resource' },
+          { key: 'grammar', label: 'Grammar' },
+          { key: 'pronunciation', label: 'Pronunciation' },
+        ];
+        const hasScores = sCriteria.some(c => sf[c.key] != null);
+        if (hasScores) {
+          speakingFeedbackHtml = `
+          <div class="section-card mb-6 reveal d300">
+            <div class="text-xs font-medium tracking-widest uppercase mb-5" style="color:var(--gold);">🗣 Speaking — Detailed Feedback</div>
+            <div class="grid sm:grid-cols-2 gap-3">
+              ${sCriteria.map(c => sf[c.key] != null ? `
+                <div class="criterion-row">
+                  <div class="criterion-name">${c.label}</div>
+                  <div class="criterion-score ${getBandClass(sf[c.key])}">${sf[c.key]}</div>
+                  <div class="skill-bar-track"><div class="skill-bar-fill" style="width:${bandToPercent(sf[c.key])}%;"></div></div>
+                </div>` : '').join('')}
+            </div>
+          </div>`;
+        }
+      }
+
+      // Strengths & improvements
+      const topFb = isFullTest ? (fb.writing || fb.speaking || fb.listening || fb.reading || {}) : fb;
+      const strengths = topFb.strengths || [];
+      const improvements = topFb.improvements || [];
+
+      const strengthsHtml = strengths.length ? `
+        <div class="mb-5">
+          <div class="text-xs font-medium tracking-widest uppercase mb-3" style="color:#4ade80;">✦ Strengths</div>
+          <div class="space-y-2">${Array.isArray(strengths)
+            ? strengths.map(s => `<div class="str-chip green">${s}</div>`).join('')
+            : `<div class="str-chip green">${strengths}</div>`
+          }</div>
+        </div>` : '';
+
+      const improvementsHtml = improvements.length ? `
+        <div>
+          <div class="text-xs font-medium tracking-widest uppercase mb-3" style="color:#fbbf24;">▲ Areas to Improve</div>
+          <div class="space-y-2">${Array.isArray(improvements)
+            ? improvements.map(s => `<div class="str-chip amber">${s}</div>`).join('')
+            : `<div class="str-chip amber">${improvements}</div>`
+          }</div>
+        </div>` : '';
+
+      document.getElementById('mainContent').innerHTML = `
+        <!-- Header -->
+        <div class="text-center mb-12 reveal">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border text-xs font-medium tracking-widest uppercase mb-6" style="border-color:var(--gold-border);color:var(--gold);background:var(--gold-dim);">
+            ✦ Test Complete
+          </div>
+          <h1 class="font-display font-black text-3xl md:text-4xl text-zinc-50 mb-2">${r.testType || 'Mock Test Results'}</h1>
+          <p class="text-xs text-zinc-600">${testDate} · ${r.trainingType === 'academic' ? 'Academic' : 'General Training'}</p>
+        </div>
+
+        <!-- Overall Score -->
+        <div class="section-card mb-8 reveal d100">
+          <div class="flex flex-col md:flex-row items-center gap-8">
+            <!-- Ring -->
+            <div class="relative flex-shrink-0">
+              <svg width="160" height="160" viewBox="0 0 140 140">
+                <circle class="ring-track" cx="70" cy="70" r="58" fill="none" stroke-width="8"/>
+                <circle id="overallRing" class="ring-fill" cx="70" cy="70" r="58" fill="none" stroke-width="8" stroke-linecap="round"
+                  style="stroke-dasharray:0 ${circumference.toFixed(1)};"/>
+              </svg>
+              <div class="absolute inset-0 flex flex-col items-center justify-center">
+                <span class="font-display font-black text-4xl text-zinc-50 leading-none ${getBandClass(overall)}">${overall || '—'}</span>
+                <span class="text-xs text-zinc-500 mt-1">Overall Band</span>
+              </div>
+            </div>
+            <!-- Skill scores -->
+            <div class="flex-1 w-full">
+              <div class="text-xs font-medium tracking-widest uppercase mb-4" style="color:var(--gold);">Score Breakdown</div>
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">${skillCardsHtml || '<div class="col-span-4 text-zinc-600 text-sm">No individual skill scores available.</div>'}</div>
+            </div>
+          </div>
+        </div>
+
+        ${writingFeedbackHtml}
+        ${speakingFeedbackHtml}
+
+        <!-- Strengths & Improvements -->
+        ${(strengthsHtml || improvementsHtml) ? `
+        <div class="section-card mb-8 reveal d400">
+          <div class="text-xs font-medium tracking-widest uppercase mb-5" style="color:var(--gold);">Feedback Summary</div>
+          ${strengthsHtml}
+          ${improvementsHtml}
+        </div>` : ''}
+
+        <!-- Examiner note for non-writing/speaking single tests -->
+        ${!isFullTest && r.skill !== 'writing' && r.skill !== 'speaking' && fb.examiner_note ? `
+        <div class="section-card mb-8 reveal d200">
+          <div class="text-xs font-medium tracking-widest uppercase mb-3" style="color:var(--gold);">Examiner's Note</div>
+          <p class="text-sm text-zinc-400 leading-relaxed">${fb.examiner_note}</p>
+        </div>` : ''}
+
+        <!-- CTAs -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12 reveal d400">
+          <a href="index.html" class="btn-gold">Take Another Test</a>
+          <a href="../writing-clinic/index.html" class="btn-ghost">Book a Tutor Session</a>
+        </div>
+      `;
+
+      // Animate the ring after render
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          const ring = document.getElementById('overallRing');
+          if (ring && overall) {
+            ring.style.strokeDasharray = `${dashArray.toFixed(1)} ${circumference.toFixed(1)}`;
+          }
+        });
+      });
+
+      // Animate skill bars
+      document.querySelectorAll('.skill-bar-fill[style*="width"]').forEach(el => {
+        const w = el.style.width;
+        el.style.width = '0';
+        requestAnimationFrame(() => requestAnimationFrame(() => { el.style.width = w; }));
+      });
+
+      // Scroll reveal
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+      }, { threshold: 0.08 });
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    }
+
+    if (!result) {
+      renderNotFound();
+    } else {
+      renderResults(result);
+    }
+  </script>
+  <script src="/js/components.js"></script>
+  <script>loadHeader();</script>
+</body>
+</html>

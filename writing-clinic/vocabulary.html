@@ -1,0 +1,2407 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light" />
+  <title>IELTS Lab — Vocabulary Builder</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,600&family=DM+Sans:wght@300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: { extend: { fontFamily: {
+        display: ['Playfair Display','serif'],
+        sans:    ['DM Sans','system-ui','sans-serif'],
+        mono:    ['Space Mono','monospace'],
+      }}}
+    }
+  </script>
+  <style>
+    :root {
+      --navy:        #0f1e3c;
+      --navy-light:  #1a2f5a;
+      --gold:        #c9a84c;
+      --gold-light:  #e8c97a;
+      --gold-dim:    rgba(201,168,76,0.10);
+      --gold-border: rgba(201,168,76,0.30);
+      --cream:       #faf7f2;
+      --white:       #ffffff;
+      --text:        #1a1a2e;
+      --muted:       #6b7280;
+      --border:      #e5e0d8;
+      --success:     #16a34a;
+      --success-dim: rgba(22,163,74,0.08);
+      --error:       #dc2626;
+      --error-dim:   rgba(220,38,38,0.07);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--cream); color: var(--text); }
+    body { font-family: 'DM Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; font-size: 16px; line-height: 1.8; }
+    h1,h2,h3,h4 { font-family: 'Playfair Display', serif; }
+    .label { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
+    .divider { border-top: 1px solid var(--border); }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--cream); }
+    ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+    @keyframes spin    { to { transform: rotate(360deg); } }
+    @keyframes fadeUp  { from{opacity:0;transform:translateY(14px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+    .spinner  { animation: spin 0.75s linear infinite; }
+    .fade-up  { animation: fadeUp 0.5s cubic-bezier(0.16,1,0.3,1) both; }
+
+    /* ── INPUT AREA ── */
+    .input-wrap {
+      background: var(--white); border: 1.5px solid var(--border); border-radius: 1rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .input-wrap:focus-within { border-color: var(--navy); box-shadow: 0 0 0 3px rgba(15,30,60,0.06); }
+
+    /* ── HEATMAP ── */
+    .heatmap-panel {
+      background: var(--white); border: 1.5px solid var(--border); border-radius: 1rem;
+      overflow: hidden; margin-bottom: 20px;
+    }
+    .heatmap-body {
+      padding: 20px 22px; font-size: 0.9375rem; line-height: 2;
+      color: var(--text); font-family: 'DM Sans', sans-serif;
+    }
+    mark.weak-word {
+      background: rgba(220,38,38,0.10); color: var(--error);
+      border-bottom: 2px solid var(--error); border-radius: 2px;
+      padding: 0 2px; font-weight: 600; text-decoration: none;
+    }
+    mark.strong-word {
+      background: var(--success-dim); color: var(--success);
+      border-radius: 2px; padding: 0 2px; font-weight: 600;
+    }
+
+    /* ── UPGRADE CARDS ── */
+    .upgrade-card {
+      background: var(--white); border: 1.5px solid var(--border); border-radius: 1rem;
+      padding: 22px 24px; transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .upgrade-card:hover { border-color: var(--gold); box-shadow: 0 4px 18px rgba(201,168,76,0.10); }
+
+    /* ── TOOLTIP ── */
+    .has-tooltip { position: relative; display: inline-flex; align-items: center; gap: 6px; }
+    .has-tooltip .tip {
+      position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%) translateY(4px);
+      background: var(--navy); color: #fff; border-radius: 8px;
+      padding: 7px 12px; font-size: 0.75rem; line-height: 1.5;
+      white-space: normal; text-align: center; width: 200px;
+      pointer-events: none; opacity: 0;
+      transition: opacity 0.18s, transform 0.18s; z-index: 200;
+    }
+    .has-tooltip .tip::after {
+      content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+      border: 5px solid transparent; border-top-color: var(--navy);
+    }
+    .has-tooltip:hover .tip { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ── SPEAKER BUTTON ── */
+    .speak-btn {
+      background: none; border: none; cursor: pointer; padding: 4px;
+      color: var(--muted); border-radius: 6px; display: inline-flex;
+      align-items: center; justify-content: center;
+      transition: color 0.18s, background 0.18s;
+    }
+    .speak-btn:hover { color: var(--navy); background: rgba(15,30,60,0.06); }
+    .speak-btn.speaking { color: var(--gold); }
+
+    /* ── BAND BADGE ── */
+    .band-badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 2px 9px; border-radius: 4px;
+      font-family: 'Space Mono', monospace; font-size: 0.7rem; font-weight: 700;
+    }
+    .band-7 { background: var(--gold-dim); color: var(--gold); border: 1px solid var(--gold-border); }
+    .band-8 { background: rgba(15,30,60,0.07); color: var(--navy); border: 1px solid rgba(15,30,60,0.18); }
+
+    /* ── SAVE BUTTON ── */
+    .save-btn {
+      border: 1.5px solid var(--border); background: var(--cream); color: var(--muted);
+      border-radius: 8px; padding: 5px 12px; font-size: 0.75rem; font-weight: 600;
+      cursor: pointer; font-family: 'DM Sans', sans-serif;
+      transition: border-color 0.18s, color 0.18s, background 0.18s;
+      display: inline-flex; align-items: center; gap: 5px;
+    }
+    .save-btn:hover { border-color: var(--gold); color: var(--gold); background: var(--gold-dim); }
+    .save-btn.saved { border-color: var(--success); color: var(--success); background: var(--success-dim); cursor: default; }
+
+    /* ── LR METER ── */
+    .lr-meter-track { height: 8px; border-radius: 100px; background: var(--border); overflow: hidden; }
+    .lr-meter-fill  {
+      height: 100%; border-radius: 100px;
+      background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 100%);
+      transition: width 1.1s cubic-bezier(0.16,1,0.3,1); width: 0%;
+    }
+
+    /* ── STRONG CHIP ── */
+    .strong-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      background: var(--success-dim); border: 1px solid rgba(22,163,74,0.22);
+      color: var(--success); border-radius: 100px;
+      padding: 4px 12px; font-size: 0.8125rem; font-weight: 600;
+    }
+
+    /* ── VOCAB BANK ── */
+    .bank-card {
+      background: var(--white); border: 1.5px solid var(--border); border-radius: 1rem;
+      overflow: hidden; transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .bank-card:hover { border-color: var(--gold-border); box-shadow: 0 4px 16px rgba(201,168,76,0.08); }
+    .practice-input {
+      width: 100%; background: var(--cream); border: 1.5px solid var(--border); border-radius: 8px;
+      padding: 10px 14px; font-size: 0.875rem; color: var(--text);
+      font-family: 'DM Sans', sans-serif; outline: none; resize: none; line-height: 1.7;
+      transition: border-color 0.2s;
+    }
+    .practice-input:focus { border-color: var(--navy); }
+    .practice-feedback {
+      border-radius: 8px; padding: 10px 14px; font-size: 0.8125rem; line-height: 1.65;
+      margin-top: 8px; animation: fadeUp 0.4s cubic-bezier(0.16,1,0.3,1) both;
+    }
+    .practice-feedback.correct   { background: var(--success-dim); border: 1px solid rgba(22,163,74,0.2); color: #15803d; }
+    .practice-feedback.incorrect { background: var(--error-dim);   border: 1px solid rgba(220,38,38,0.2);  color: var(--error); }
+
+    /* ── TOPIC PACKS ── */
+    .topic-card {
+      background: var(--white); border: 1.5px solid var(--border); border-radius: 1rem;
+      padding: 18px; cursor: pointer; text-align: left;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    }
+    .topic-card:hover { border-color: var(--gold); box-shadow: 0 6px 18px rgba(201,168,76,0.10); transform: translateY(-2px); }
+    .topic-card.active { border-color: var(--navy); box-shadow: 0 4px 14px rgba(15,30,60,0.08); }
+    .collocation-row { display: flex; align-items: flex-start; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--border); }
+    .collocation-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .colloc-word    { font-family: 'Space Mono', monospace; font-size: 0.8rem; font-weight: 700; color: var(--navy); min-width: 160px; flex-shrink: 0; padding-top: 1px; }
+    .colloc-example { font-size: 0.875rem; color: var(--muted); line-height: 1.65; }
+    .colloc-example em { color: var(--navy); font-style: normal; font-weight: 600; }
+
+    /* ── TOPIC TABS ── */
+    .topic-tab {
+      padding: 10px 18px; font-size: 0.8rem; font-weight: 600; white-space: nowrap;
+      background: none; border: none; border-bottom: 2px solid transparent;
+      color: var(--muted); cursor: pointer; font-family: 'DM Sans', sans-serif;
+      transition: color 0.18s, border-color 0.18s;
+    }
+    .topic-tab:hover  { color: var(--navy); }
+    .topic-tab.active { color: var(--navy); border-bottom-color: var(--gold); }
+    .topic-panel.hidden { display: none; }
+
+    /* ── BAND UPGRADE PAIR ── */
+    .upgrade-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+    @media (max-width: 560px) { .upgrade-pair { grid-template-columns: 1fr; } }
+    .band-col {
+      border-radius: 10px; padding: 14px 16px;
+    }
+    .band-col.b6 { background: rgba(239,68,68,0.05); border: 1.5px solid rgba(239,68,68,0.15); }
+    .band-col.b8 { background: var(--gold-dim);       border: 1.5px solid var(--gold-border); }
+    .band-col-label {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+      margin-bottom: 7px;
+    }
+    .band-col.b6 .band-col-label { color: #dc2626; }
+    .band-col.b8 .band-col-label { color: var(--gold); }
+    .band-col p { font-size: 0.875rem; line-height: 1.7; font-style: italic; }
+    .band-col.b6 p { color: #7f1d1d; }
+    .band-col.b8 p { color: var(--navy); font-weight: 500; }
+
+    /* ── DANGER ZONE ── */
+    .danger-zone {
+      background: rgba(239,68,68,0.05); border: 1.5px solid rgba(239,68,68,0.18);
+      border-radius: 8px; padding: 9px 13px; margin-top: 8px;
+      font-size: 0.8rem; color: #b91c1c; line-height: 1.6;
+    }
+    .danger-zone strong { color: #991b1b; }
+
+    /* ── WORD FAMILY ── */
+    .word-family {
+      display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;
+    }
+    .wf-chip {
+      display: inline-flex; flex-direction: column; align-items: center;
+      background: rgba(15,30,60,0.05); border: 1px solid rgba(15,30,60,0.12);
+      border-radius: 7px; padding: 5px 10px;
+    }
+    .wf-type  { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+    .wf-word  { font-size: 0.8rem; font-family: 'Space Mono', monospace; font-weight: 700; color: var(--navy); }
+
+    /* ── ESSAY TEMPLATE ── */
+    .template-box {
+      background: var(--cream); border: 1.5px solid var(--border); border-radius: 10px;
+      padding: 18px 20px; font-size: 0.9375rem; line-height: 2; color: var(--text);
+      font-style: italic; margin-bottom: 12px;
+    }
+    .template-box .slot {
+      display: inline-block; background: var(--gold-dim); border-bottom: 2px solid var(--gold);
+      border-radius: 3px; padding: 0 4px; font-style: normal;
+      font-family: 'Space Mono', monospace; font-size: 0.8rem; font-weight: 700; color: var(--navy);
+    }
+    .copy-btn {
+      background: var(--navy); color: #fff; border: none; border-radius: 8px;
+      padding: 8px 18px; font-size: 0.8rem; font-weight: 600; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; display: inline-flex; align-items: center; gap: 6px;
+      transition: opacity 0.2s;
+    }
+    .copy-btn:hover { opacity: 0.85; }
+
+    /* ── QUIZ ── */
+    .quiz-q {
+      background: var(--white); border: 1.5px solid var(--border); border-radius: 10px;
+      padding: 16px 18px; margin-bottom: 12px;
+    }
+    .quiz-q p.q-text { font-size: 0.9375rem; color: var(--text); margin-bottom: 12px; line-height: 1.7; }
+    .quiz-q p.q-text .blank {
+      display: inline-block; min-width: 120px; border-bottom: 2px solid var(--navy);
+      margin: 0 4px; text-align: center; font-family: 'Space Mono', monospace;
+    }
+    .quiz-options { display: flex; flex-wrap: wrap; gap: 8px; }
+    .quiz-opt {
+      background: var(--cream); border: 1.5px solid var(--border); border-radius: 8px;
+      padding: 7px 14px; font-size: 0.8125rem; color: var(--text); cursor: pointer;
+      font-family: 'DM Sans', sans-serif; font-weight: 500;
+      transition: border-color 0.18s, background 0.18s, color 0.18s;
+    }
+    .quiz-opt:hover:not(:disabled)         { border-color: var(--navy); color: var(--navy); }
+    .quiz-opt.correct  { background: var(--success-dim); border-color: var(--success); color: var(--success); font-weight: 700; cursor: default; }
+    .quiz-opt.wrong    { background: var(--error-dim);   border-color: var(--error);   color: var(--error);   cursor: default; }
+    .quiz-opt:disabled { cursor: default; opacity: 0.6; }
+    .quiz-score {
+      background: var(--navy); color: var(--gold-light); border-radius: 10px;
+      padding: 16px 20px; text-align: center; margin-top: 8px;
+      animation: fadeUp 0.4s cubic-bezier(0.16,1,0.3,1) both;
+    }
+
+    /* ── CHEAT CHIPS (verb-adverb pairs) ── */
+    .cheat-group-title {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; margin-bottom: 8px; margin-top: 0;
+    }
+    .cheat-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+    .cheat-chip {
+      display: inline-flex; align-items: center; gap: 5px;
+      border-radius: 7px; padding: 5px 11px;
+      font-size: 0.78rem; font-weight: 600; font-family: 'Space Mono', monospace;
+    }
+    .cheat-chip.nat  { background: var(--success-dim); border: 1px solid rgba(22,163,74,0.25); color: #166534; }
+    .cheat-chip.warn { background: var(--error-dim); border: 1px solid rgba(220,38,38,0.20); color: #991b1b; }
+    .cheat-chip .cadv     { color: var(--success); }
+    .cheat-chip.warn .cadv { color: var(--error); text-decoration: underline wavy; }
+    .cheat-chip.warn { text-decoration: none; }
+
+    /* ── PATTERN CARD ── */
+    .pattern-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 8px;
+    }
+    @media (max-width: 480px) { .pattern-grid { grid-template-columns: 1fr; } }
+    .pattern-cell {
+      border-radius: 8px; padding: 10px 14px; font-size: 0.8125rem;
+      font-style: italic; color: var(--navy);
+    }
+
+    /* ── REVEAL TOGGLE BUTTON ── */
+    .reveal-toggle-btn {
+      width: 100%; display: flex; align-items: center; gap: 16px;
+      padding: 18px 24px;
+      background: var(--navy); color: #fff;
+      border: none; border-radius: 1rem; cursor: pointer;
+      font-family: 'DM Sans', sans-serif; text-align: left;
+      transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
+    }
+    .reveal-toggle-btn:hover {
+      background: var(--navy-light);
+      box-shadow: 0 6px 22px rgba(15,30,60,0.22);
+      transform: translateY(-1px);
+    }
+    .reveal-toggle-btn .rtb-label { flex: 1; min-width: 0; }
+    .reveal-toggle-btn .rtb-title { font-size: 0.9375rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+    .reveal-toggle-btn .rtb-meta  { font-size: 0.78rem; opacity: 0.6; margin-top: 3px; font-weight: 400; }
+    .reveal-toggle-btn .rtb-chevron {
+      flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%;
+      background: rgba(201,168,76,0.18); border: 1px solid rgba(201,168,76,0.3);
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.3s cubic-bezier(0.16,1,0.3,1), background 0.2s;
+      color: var(--gold-light);
+    }
+    .reveal-toggle-btn.open .rtb-chevron {
+      transform: rotate(180deg); background: rgba(201,168,76,0.3);
+    }
+    .rtb-count {
+      display: inline-flex; align-items: center; justify-content: center;
+      background: var(--gold); color: var(--navy);
+      border-radius: 100px; font-size: 0.68rem; font-weight: 700;
+      padding: 1px 7px; margin-left: 4px; font-family: 'Space Mono', monospace;
+    }
+    .rtb-count.hidden { display: none; }
+
+    /* ── COLLAPSIBLE BODY ── */
+    .collapsible-body { display: none; }
+    .collapsible-body.open {
+      display: block;
+      animation: fadeUp 0.35s cubic-bezier(0.16,1,0.3,1) both;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col" style="background:var(--cream);">
+
+  <div id="header-container"></div>
+
+  <!-- ── HERO ── -->
+  <section class="relative overflow-hidden py-14 px-6 text-center"
+           style="background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);">
+    <div class="absolute inset-0 pointer-events-none"
+         style="background:radial-gradient(ellipse 60% 50% at 50% 0%,rgba(201,168,76,0.08) 0%,transparent 70%);"></div>
+    <div class="relative z-10 max-w-2xl mx-auto">
+      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border text-xs font-medium tracking-widest uppercase mb-5"
+           style="border-color:var(--gold-border);color:var(--gold);background:var(--gold-dim);">
+        ✦ Lexical Resource · Band 7–8
+      </div>
+      <h1 style="color:#ffffff;font-weight:700;line-height:1.15;letter-spacing:-0.01em;margin-bottom:12px;font-size:clamp(2rem,5vw,2.8rem);">
+        Vocabulary <em style="color:var(--gold);font-style:italic;">Builder</em>
+      </h1>
+      <p style="font-size:1rem;color:rgba(255,255,255,0.68);line-height:1.8;max-width:500px;margin:0 auto;">
+        Paste any paragraph. The engine finds every weak word, shows you the Band 7–8 upgrade, plays the pronunciation, and lets you practise it until it sticks.
+      </p>
+    </div>
+  </section>
+
+  <main class="flex-1 max-w-3xl mx-auto w-full px-4 py-10 flex flex-col gap-12">
+
+    <!-- ── CORRECTOR BRIDGE BANNER ── -->
+    <div id="correctorBridge" class="hidden fade-up"
+         style="background:var(--gold-dim);border:1.5px solid var(--gold-border);border-radius:1rem;padding:16px 20px;display:flex;align-items:flex-start;gap:14px;">
+      <span style="font-size:1.4rem;flex-shrink:0;margin-top:1px;">📄</span>
+      <div>
+        <p style="font-size:0.9rem;font-weight:700;color:var(--navy);margin-bottom:3px;">
+          Your essay scored Band <span id="bridgeLrBand" style="color:var(--gold);">—</span> on Lexical Resource
+        </p>
+        <p style="font-size:0.8125rem;color:var(--muted);line-height:1.6;">
+          We pre-loaded a paragraph from that essay below. Hit <strong style="color:var(--navy);">Analyse</strong> to see exactly which words to upgrade.
+        </p>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════════════════
+         SECTION 1 — LEXICAL UPGRADE ENGINE
+    ══════════════════════════════════════════════════════ -->
+    <section>
+      <div class="flex items-end justify-between mb-4">
+        <div>
+          <p class="label mb-1">Lexical Upgrade Engine</p>
+          <h2 style="font-size:1.3rem;color:var(--navy);">Paste Your Text</h2>
+        </div>
+        <span id="charCount" style="font-size:0.78rem;color:var(--muted);">0 / 3000</span>
+      </div>
+
+      <div class="input-wrap mb-4">
+        <textarea id="vocabInput" rows="6"
+          placeholder="Paste a sentence, paragraph, or your essay introduction here…"
+          oninput="updateCharCount()"
+          style="width:100%;padding:18px 20px;background:transparent;border:none;outline:none;resize:vertical;font-size:0.9375rem;color:var(--text);font-family:'DM Sans',sans-serif;line-height:1.85;min-height:140px;"
+        ></textarea>
+        <div style="padding:10px 20px 14px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--border);">
+          <p style="font-size:0.75rem;color:var(--muted);">Up to 3 000 characters · full paragraphs work best</p>
+          <button id="analyseBtn" onclick="analyseVocab()"
+            style="background:linear-gradient(135deg,var(--navy) 0%,var(--navy-light) 100%);color:#fff;border:none;border-radius:10px;padding:10px 24px;font-size:0.875rem;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px;transition:opacity 0.2s,box-shadow 0.2s;font-family:'DM Sans',sans-serif;"
+            onmouseover="this.style.boxShadow='0 4px 16px rgba(15,30,60,0.28)'"
+            onmouseout="this.style.boxShadow=''">
+            <svg id="analyseIcon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <svg id="analyseSpinner" class="hidden spinner" width="14" height="14" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/></svg>
+            Analyse
+          </button>
+        </div>
+      </div>
+
+      <div id="errorMsg" class="hidden mb-4"
+           style="background:#fff5f5;border:1.5px solid rgba(220,38,38,0.25);border-radius:10px;padding:12px 16px;font-size:0.875rem;color:var(--error);"></div>
+
+      <!-- ── RESULTS ── -->
+      <div id="results" class="hidden">
+
+        <!-- HEATMAP -->
+        <div class="heatmap-panel fade-up mb-6">
+          <div style="background:var(--navy);padding:12px 22px;display:flex;align-items:center;justify-content:space-between;">
+            <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);">Heatmap View</p>
+            <div style="display:flex;align-items:center;gap:14px;">
+              <span style="display:flex;align-items:center;gap:5px;font-size:0.72rem;color:rgba(255,255,255,0.55);">
+                <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:rgba(220,38,38,0.25);border-bottom:2px solid #dc2626;"></span> Weak word
+              </span>
+              <span style="display:flex;align-items:center;gap:5px;font-size:0.72rem;color:rgba(255,255,255,0.55);">
+                <span style="display:inline-block;width:10px;height:10px;border-radius:2px;background:rgba(22,163,74,0.18);"></span> Strong word
+              </span>
+            </div>
+          </div>
+          <div class="heatmap-body" id="heatmapBody"></div>
+        </div>
+
+        <!-- LR SCORE -->
+        <div class="fade-up mb-5" style="background:var(--white);border:1.5px solid var(--border);border-radius:1rem;padding:22px 24px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:14px;">
+            <div style="flex:1;">
+              <p class="label mb-1">Lexical Resource Estimate</p>
+              <p id="lrNote" style="font-size:0.9rem;color:var(--text);line-height:1.65;"></p>
+            </div>
+            <div style="text-align:center;flex-shrink:0;">
+              <div id="lrBand" style="width:56px;height:56px;border-radius:50%;background:var(--navy);color:var(--gold-light);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;"></div>
+              <p style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-top:5px;">Band</p>
+            </div>
+          </div>
+          <div class="lr-meter-track">
+            <div class="lr-meter-fill" id="lrMeterFill"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:5px;font-size:0.7rem;color:var(--muted);">
+            <span>5</span><span>6</span><span>7</span><span>8</span><span>9</span>
+          </div>
+        </div>
+
+        <!-- STRONG WORDS -->
+        <div id="strongWordsSection" class="hidden fade-up mb-5">
+          <p class="label mb-3">✅ Already Strong</p>
+          <div id="strongWordsList" class="flex flex-wrap gap-2"></div>
+        </div>
+
+        <!-- UPGRADE CARDS -->
+        <p id="upgradeCountLabel" class="label mb-3 fade-up"></p>
+        <div id="upgradeList" class="flex flex-col gap-4"></div>
+
+        <!-- NO ISSUES -->
+        <div id="noIssues" class="hidden fade-up"
+             style="background:var(--success-dim);border:1.5px solid rgba(22,163,74,0.22);border-radius:1rem;padding:24px;text-align:center;">
+          <div style="font-size:2rem;margin-bottom:8px;">🎉</div>
+          <p style="font-weight:700;color:var(--success);margin-bottom:4px;">Excellent Lexical Resource</p>
+          <p style="font-size:0.875rem;color:var(--muted);">No significant vocabulary weaknesses found. This text demonstrates strong Band 7+ word choice.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         SECTION 2 — TOPIC VOCABULARY PACKS
+    ══════════════════════════════════════════════════════ -->
+    <section>
+      <p class="label mb-1">Topic Vocabulary Packs</p>
+      <h2 style="font-size:1.3rem;color:var(--navy);margin-bottom:4px;">High-Band Collocations by Topic</h2>
+      <p style="font-size:0.875rem;color:var(--muted);margin-bottom:18px;">Click a topic to reveal Band 7–8 collocations and example sentences for that essay theme.</p>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-5">
+        <button class="topic-card" onclick="loadTopic('environment',this)">
+          <div style="font-size:1.4rem;margin-bottom:5px;">🌍</div>
+          <p style="font-size:0.875rem;font-weight:700;color:var(--navy);">Environment</p>
+          <p style="font-size:0.73rem;color:var(--muted);margin-top:2px;">Climate, pollution, sustainability</p>
+        </button>
+        <button class="topic-card" onclick="loadTopic('technology',this)">
+          <div style="font-size:1.4rem;margin-bottom:5px;">💻</div>
+          <p style="font-size:0.875rem;font-weight:700;color:var(--navy);">Technology</p>
+          <p style="font-size:0.73rem;color:var(--muted);margin-top:2px;">AI, social media, automation</p>
+        </button>
+        <button class="topic-card" onclick="loadTopic('education',this)">
+          <div style="font-size:1.4rem;margin-bottom:5px;">🎓</div>
+          <p style="font-size:0.875rem;font-weight:700;color:var(--navy);">Education</p>
+          <p style="font-size:0.73rem;color:var(--muted);margin-top:2px;">Universities, learning, curriculum</p>
+        </button>
+        <button class="topic-card" onclick="loadTopic('health',this)">
+          <div style="font-size:1.4rem;margin-bottom:5px;">🏥</div>
+          <p style="font-size:0.875rem;font-weight:700;color:var(--navy);">Health</p>
+          <p style="font-size:0.73rem;color:var(--muted);margin-top:2px;">Obesity, mental health, healthcare</p>
+        </button>
+        <button class="topic-card" onclick="loadTopic('globalisation',this)">
+          <div style="font-size:1.4rem;margin-bottom:5px;">🌐</div>
+          <p style="font-size:0.875rem;font-weight:700;color:var(--navy);">Globalisation</p>
+          <p style="font-size:0.73rem;color:var(--muted);margin-top:2px;">Trade, culture, migration</p>
+        </button>
+        <button class="topic-card" onclick="loadTopic('crime',this)">
+          <div style="font-size:1.4rem;margin-bottom:5px;">⚖️</div>
+          <p style="font-size:0.875rem;font-weight:700;color:var(--navy);">Crime &amp; Justice</p>
+          <p style="font-size:0.73rem;color:var(--muted);margin-top:2px;">Punishment, prevention, rehabilitation</p>
+        </button>
+      </div>
+
+      <div id="topicContent" class="hidden fade-up"
+           style="background:var(--white);border:1.5px solid var(--border);border-radius:1rem;overflow:hidden;">
+        <!-- Header -->
+        <div style="background:var(--navy);padding:14px 22px;display:flex;align-items:center;justify-content:space-between;">
+          <div>
+            <p id="topicPackLabel" class="label" style="color:var(--gold);margin-bottom:2px;"></p>
+            <p id="topicPackTitle" style="color:#fff;font-family:'Playfair Display',serif;font-size:1rem;font-weight:600;"></p>
+          </div>
+          <button onclick="closeTopic()"
+            style="background:rgba(255,255,255,0.1);border:none;border-radius:8px;padding:5px 10px;color:rgba(255,255,255,0.65);cursor:pointer;font-size:0.75rem;font-family:'DM Sans',sans-serif;">
+            ✕ Close
+          </button>
+        </div>
+        <!-- Tabs -->
+        <div id="topicTabs" style="display:flex;border-bottom:1px solid var(--border);background:var(--cream);overflow-x:auto;">
+          <button class="topic-tab active" data-tab="collocations" onclick="switchTab('collocations',this)">Collocations</button>
+          <button class="topic-tab" data-tab="upgrades"     onclick="switchTab('upgrades',this)">Band 6 → 8</button>
+          <button class="topic-tab" data-tab="template"     onclick="switchTab('template',this)">Essay Template</button>
+          <button class="topic-tab" data-tab="quiz"         onclick="switchTab('quiz',this)">Quick Quiz</button>
+        </div>
+        <!-- Tab panels -->
+        <div id="tabCollocations" class="topic-panel" style="padding:20px 22px;"></div>
+        <div id="tabUpgrades"     class="topic-panel hidden" style="padding:20px 22px;"></div>
+        <div id="tabTemplate"     class="topic-panel hidden" style="padding:20px 22px;"></div>
+        <div id="tabQuiz"         class="topic-panel hidden" style="padding:20px 22px;"></div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         SECTION 4 — TASK 1 CHART TYPE PACKS
+    ══════════════════════════════════════════════════════ -->
+    <section>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
+        <p class="label" style="margin-bottom:0;">Task 1 Vocabulary Packs</p>
+        <span style="background:rgba(15,30,60,0.07);border:1px solid rgba(15,30,60,0.14);border-radius:100px;font-size:0.63rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:2px 8px;color:var(--navy);">Academic</span>
+      </div>
+      <h2 style="font-size:1.3rem;color:var(--navy);margin-bottom:4px;">Chart &amp; Diagram Language</h2>
+      <p style="font-size:0.875rem;color:var(--muted);margin-bottom:18px;">Task 1 has its own vocabulary system — completely different from Task 2. Select a chart type to see the collocations examiners reward, Band 6→8 upgrades, and a drill.</p>
+
+      <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-5">
+        <button class="topic-card" onclick="loadT1Topic('linegraph',this)">
+          <div style="font-size:1.4rem;margin-bottom:5px;">📈</div>
+          <p style="font-size:0.875rem;font-weight:700;color:var(--navy);">Line Graphs</p>
+          <p style="font-size:0.73rem;color:var(--muted);margin-top:2px;">Trends, peaks, troughs</p>
+        </button>
+        <button class="topic-card" onclick="loadT1Topic('piechart',this)">
+          <div style="font-size:1.4rem;margin-bottom:5px;">🥧</div>
+          <p style="font-size:0.875rem;font-weight:700;color:var(--navy);">Pie Charts</p>
+          <p style="font-size:0.73rem;color:var(--muted);margin-top:2px;">Proportions, shares</p>
+        </button>
+        <button class="topic-card" onclick="loadT1Topic('barchart',this)">
+          <div style="font-size:1.4rem;margin-bottom:5px;">📊</div>
+          <p style="font-size:0.875rem;font-weight:700;color:var(--navy);">Bar Charts</p>
+          <p style="font-size:0.73rem;color:var(--muted);margin-top:2px;">Comparisons, rankings</p>
+        </button>
+        <button class="topic-card" onclick="loadT1Topic('process',this)">
+          <div style="font-size:1.4rem;margin-bottom:5px;">⚙️</div>
+          <p style="font-size:0.875rem;font-weight:700;color:var(--navy);">Process Diagrams</p>
+          <p style="font-size:0.73rem;color:var(--muted);margin-top:2px;">Stages, sequences, passive</p>
+        </button>
+        <button class="topic-card" onclick="loadT1Topic('maps',this)">
+          <div style="font-size:1.4rem;margin-bottom:5px;">🗺️</div>
+          <p style="font-size:0.875rem;font-weight:700;color:var(--navy);">Maps</p>
+          <p style="font-size:0.73rem;color:var(--muted);margin-top:2px;">Spatial change, development</p>
+        </button>
+      </div>
+
+      <div id="t1TopicContent" class="hidden fade-up"
+           style="background:var(--white);border:1.5px solid var(--border);border-radius:1rem;overflow:hidden;">
+        <div style="background:var(--navy);padding:14px 22px;display:flex;align-items:center;justify-content:space-between;">
+          <div>
+            <p id="t1PackLabel" class="label" style="color:var(--gold);margin-bottom:2px;"></p>
+            <p id="t1PackTitle" style="color:#fff;font-family:'Playfair Display',serif;font-size:1rem;font-weight:600;"></p>
+          </div>
+          <button onclick="closeT1Topic()"
+            style="background:rgba(255,255,255,0.1);border:none;border-radius:8px;padding:5px 10px;color:rgba(255,255,255,0.65);cursor:pointer;font-size:0.75rem;font-family:'DM Sans',sans-serif;">
+            ✕ Close
+          </button>
+        </div>
+        <div id="t1TopicTabs" style="display:flex;border-bottom:1px solid var(--border);background:var(--cream);overflow-x:auto;">
+          <button class="topic-tab active" onclick="switchT1Tab('collocations',this)">Collocations</button>
+          <button class="topic-tab"        onclick="switchT1Tab('upgrades',this)">Band 6 → 8</button>
+          <button class="topic-tab"        onclick="switchT1Tab('template',this)">Overview Template</button>
+          <button class="topic-tab"        onclick="switchT1Tab('quiz',this)">Quick Quiz</button>
+        </div>
+        <div id="t1TabCollocations" class="topic-panel"        style="padding:20px 22px;"></div>
+        <div id="t1TabUpgrades"     class="topic-panel hidden" style="padding:20px 22px;"></div>
+        <div id="t1TabTemplate"     class="topic-panel hidden" style="padding:20px 22px;"></div>
+        <div id="t1TabQuiz"         class="topic-panel hidden" style="padding:20px 22px;"></div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         SECTION 5 — VERB-ADVERB PAIRING DRILL
+    ══════════════════════════════════════════════════════ -->
+    <section>
+      <p class="label mb-1">Task 1 Precision Drill · 1 of 2</p>
+      <h2 style="font-size:1.3rem;color:var(--navy);margin-bottom:4px;">Verb–Adverb Pairing</h2>
+      <p style="font-size:0.875rem;color:var(--muted);margin-bottom:18px;">The #1 Band 5→6 error in Task 1. Students know the verbs. They break down on the pairing. Study the cheat sheet, then take the drill.</p>
+
+      <button class="reveal-toggle-btn" id="vadToggleBtn" onclick="toggleSection('vadBody','vadToggleBtn')">
+        <div class="rtb-label">
+          <div class="rtb-title">📊 Open Verb–Adverb Drill</div>
+          <div class="rtb-meta">Cheat sheet + 8 questions · no AI needed</div>
+        </div>
+        <div class="rtb-chevron">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </button>
+
+      <div class="collapsible-body" id="vadBody">
+        <div style="padding-top:14px;display:flex;flex-direction:column;gap:16px;">
+          <div style="background:var(--white);border:1.5px solid var(--border);border-radius:1rem;overflow:hidden;">
+            <div style="background:var(--navy);padding:12px 20px;">
+              <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);">Examiner's Cheat Sheet — Natural Pairs</p>
+            </div>
+            <div style="padding:18px 20px;">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+                <div>
+                  <p class="cheat-group-title" style="color:var(--success);">↑ Upward</p>
+                  <div class="cheat-chips">
+                    <span class="cheat-chip nat">rise <span class="cadv">steadily</span></span>
+                    <span class="cheat-chip nat">rise <span class="cadv">sharply</span></span>
+                    <span class="cheat-chip nat">surge <span class="cadv">dramatically</span></span>
+                    <span class="cheat-chip nat">climb <span class="cadv">gradually</span></span>
+                    <span class="cheat-chip nat">increase <span class="cadv">significantly</span></span>
+                    <span class="cheat-chip nat">grow <span class="cadv">steadily</span></span>
+                  </div>
+                </div>
+                <div>
+                  <p class="cheat-group-title" style="color:var(--error);">↓ Downward</p>
+                  <div class="cheat-chips">
+                    <span class="cheat-chip nat">fall <span class="cadv">sharply</span></span>
+                    <span class="cheat-chip nat">decline <span class="cadv">steadily</span></span>
+                    <span class="cheat-chip nat">plummet <span class="cadv">steeply</span></span>
+                    <span class="cheat-chip nat">dip <span class="cadv">slightly</span></span>
+                    <span class="cheat-chip nat">drop <span class="cadv">marginally</span></span>
+                  </div>
+                </div>
+                <div>
+                  <p class="cheat-group-title" style="color:var(--gold);">↔ Volatile / Stable</p>
+                  <div class="cheat-chips">
+                    <span class="cheat-chip nat">fluctuate <span class="cadv">considerably</span></span>
+                    <span class="cheat-chip nat">vary <span class="cadv">widely</span></span>
+                    <span class="cheat-chip nat">level off</span>
+                    <span class="cheat-chip nat">plateau</span>
+                    <span class="cheat-chip nat">remain <span class="cadv">stable</span></span>
+                  </div>
+                </div>
+                <div>
+                  <p class="cheat-group-title" style="color:#991b1b;">⚠ Broken pairs — avoid</p>
+                  <div class="cheat-chips">
+                    <span class="cheat-chip warn">surge <span class="cadv">gradually</span></span>
+                    <span class="cheat-chip warn">plummet <span class="cadv">slowly</span></span>
+                    <span class="cheat-chip warn">increase <span class="cadv">fastly</span></span>
+                    <span class="cheat-chip warn">went up <span class="cadv">dramatically</span></span>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-top:16px;padding:10px 14px;background:rgba(15,30,60,0.04);border-radius:8px;border-left:3px solid var(--navy);">
+                <p style="font-size:0.8rem;font-weight:700;color:var(--navy);margin-bottom:3px;">Word order rule:</p>
+                <p style="font-size:0.8125rem;color:var(--muted);line-height:1.7;">Both <em style="color:var(--navy);font-style:normal;">"fell sharply"</em> and <em style="color:var(--navy);font-style:normal;">"sharply fell"</em> are grammatically correct — but <strong>verb + adverb</strong> is standard Task 1 style. Use <strong>adverb + verb</strong> only for emphasis at the start of a clause.</p>
+              </div>
+            </div>
+          </div>
+
+          <div style="background:var(--white);border:1.5px solid var(--border);border-radius:1rem;overflow:hidden;">
+            <div style="background:var(--navy);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;">
+              <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);">Drill — Pick the Best Band 7+ Pair (8 questions)</p>
+              <button onclick="resetVAD()" style="background:rgba(255,255,255,0.1);border:none;border-radius:6px;padding:4px 10px;color:rgba(255,255,255,0.65);cursor:pointer;font-size:0.72rem;font-family:'DM Sans',sans-serif;">↺ Reset</button>
+            </div>
+            <div id="vadDrill" style="padding:18px 20px;"></div>
+            <div id="vadScore" class="quiz-score" style="display:none;border-radius:0;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         SECTION 6 — NOUN ↔ VERB SWAP DRILL
+    ══════════════════════════════════════════════════════ -->
+    <section>
+      <p class="label mb-1">Task 1 Precision Drill · 2 of 2</p>
+      <h2 style="font-size:1.3rem;color:var(--navy);margin-bottom:4px;">Noun ↔ Verb Swap</h2>
+      <p style="font-size:0.875rem;color:var(--muted);margin-bottom:18px;">Band 7 requires grammatical range — the same observation must be expressible in both noun and verb structures. This is what separates Band 6 from Band 7 in GRA and LR.</p>
+
+      <button class="reveal-toggle-btn" id="nvsToggleBtn" onclick="toggleSection('nvsBody','nvsToggleBtn')">
+        <div class="rtb-label">
+          <div class="rtb-title">🔄 Open Noun ↔ Verb Drill</div>
+          <div class="rtb-meta">Pattern card + 8 questions · no AI needed</div>
+        </div>
+        <div class="rtb-chevron">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </button>
+
+      <div class="collapsible-body" id="nvsBody">
+        <div style="padding-top:14px;display:flex;flex-direction:column;gap:16px;">
+          <div style="background:var(--cream);border:1.5px solid var(--border);border-radius:10px;padding:14px 18px;">
+            <p style="font-size:0.8rem;font-weight:700;color:var(--navy);margin-bottom:8px;">The core pattern:</p>
+            <div class="pattern-grid">
+              <div class="pattern-cell" style="background:rgba(15,30,60,0.05);">
+                <span style="font-size:0.63rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px;">Verb form</span>
+                X <strong>increased significantly</strong> between 2000 and 2010.
+              </div>
+              <div class="pattern-cell" style="background:var(--gold-dim);">
+                <span style="font-size:0.63rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:4px;">Noun form</span>
+                There was a <strong>significant increase</strong> in X between 2000 and 2010.
+              </div>
+            </div>
+            <p style="font-size:0.78rem;color:var(--muted);margin-top:10px;line-height:1.65;">
+              Note: the adverb <em>significantly</em> becomes the adjective <em>significant</em> when you switch to noun form. This is the most common error.
+            </p>
+          </div>
+
+          <div style="background:var(--white);border:1.5px solid var(--border);border-radius:1rem;overflow:hidden;">
+            <div style="background:var(--navy);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;">
+              <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);">Drill — Convert Between Forms (8 questions)</p>
+              <button onclick="resetNVS()" style="background:rgba(255,255,255,0.1);border:none;border-radius:6px;padding:4px 10px;color:rgba(255,255,255,0.65);cursor:pointer;font-size:0.72rem;font-family:'DM Sans',sans-serif;">↺ Reset</button>
+            </div>
+            <div id="nvsDrill" style="padding:18px 20px;"></div>
+            <div id="nvsScore" class="quiz-score" style="display:none;border-radius:0;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         SECTION 7 — BAND 7+ COLLOCATION UPGRADE DRILL
+    ══════════════════════════════════════════════════════ -->
+    <section>
+      <p class="label mb-1">Collocation Upgrade Drill</p>
+      <h2 style="font-size:1.3rem;color:var(--navy);margin-bottom:4px;">Pick the Best Band 7+ Phrase</h2>
+      <p style="font-size:0.875rem;color:var(--muted);margin-bottom:18px;">
+        Each question shows a Band 6 sentence. Your job: pick the single best Band 7+ collocation upgrade. Three options — one winner.
+      </p>
+
+      <button class="reveal-toggle-btn" id="b7DrillBtn" onclick="toggleSection('b7DrillBody','b7DrillBtn')">
+        <div class="rtb-label">
+          <div class="rtb-title">🎯 Start Band 7+ Drill</div>
+          <div class="rtb-meta">8 questions · instant feedback · no AI needed</div>
+        </div>
+        <div class="rtb-chevron">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </button>
+
+      <div class="collapsible-body" id="b7DrillBody">
+        <div style="padding-top:14px;">
+          <div style="background:var(--white);border:1.5px solid var(--border);border-radius:1rem;overflow:hidden;">
+            <div style="background:var(--navy);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;">
+              <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);">8 Questions — Band 6 → Band 7+ Upgrade</p>
+              <button onclick="resetB7Drill()" style="background:rgba(255,255,255,0.1);border:none;border-radius:6px;padding:4px 10px;color:rgba(255,255,255,0.65);cursor:pointer;font-size:0.72rem;font-family:'DM Sans',sans-serif;">↺ Reset</button>
+            </div>
+            <div id="b7Drill" style="padding:18px 20px;"></div>
+            <div id="b7Score" class="quiz-score" style="display:none;border-radius:0;"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════
+         SECTION 8 — PERSONAL VOCABULARY BANK (collapsed)
+    ══════════════════════════════════════════════════════ -->
+    <section>
+      <p class="label mb-1">Personal Vocabulary Bank</p>
+      <h2 style="font-size:1.3rem;color:var(--navy);margin-bottom:4px;">Your Saved Words</h2>
+      <p style="font-size:0.875rem;color:var(--muted);margin-bottom:18px;">
+        Words you've saved from the Lexical Upgrade Engine. Build your personal exam glossary as you practise.
+      </p>
+
+      <button class="reveal-toggle-btn" id="bankToggleBtn" onclick="toggleSection('bankBody','bankToggleBtn')">
+        <div class="rtb-label">
+          <div class="rtb-title">
+            📂 View My Saved Words
+            <span id="bankCountBadge" class="rtb-count hidden">0</span>
+          </div>
+          <div class="rtb-meta">Saved from your vocabulary analysis sessions</div>
+        </div>
+        <div class="rtb-chevron">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </button>
+
+      <div class="collapsible-body" id="bankBody">
+        <div style="padding-top:14px;">
+          <div style="display:flex;justify-content:flex-end;margin-bottom:10px;">
+            <button id="clearBankBtn" onclick="clearBank()" class="hidden"
+              style="font-size:0.75rem;color:var(--muted);background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;padding:4px 0;"
+              onmouseover="this.style.color='var(--error)'" onmouseout="this.style.color='var(--muted)'">
+              Clear all
+            </button>
+          </div>
+          <div id="bankEmpty"
+               style="background:var(--white);border:1.5px dashed var(--border);border-radius:1rem;padding:36px 24px;text-align:center;">
+            <div style="font-size:2rem;margin-bottom:10px;">📖</div>
+            <p style="font-size:0.9rem;font-weight:600;color:var(--navy);margin-bottom:4px;">Your bank is empty</p>
+            <p style="font-size:0.8125rem;color:var(--muted);">Analyse a paragraph above, then click <strong>Save</strong> on any upgrade to add it here.</p>
+          </div>
+          <div id="bankList" class="flex flex-col gap-4"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="divider text-center py-5 px-6">
+    <p style="font-size:0.75rem;color:var(--muted);letter-spacing:0.05em;">IELTS Lab Vocabulary Builder · Lexical Resource Specialist</p>
+  </footer>
+
+  <script>
+    // ══════════════════════════════════════════════════════════
+    //  CORRECTOR BRIDGE — pre-fill from last correction
+    // ══════════════════════════════════════════════════════════
+    (function () {
+      try {
+        const prefill = sessionStorage.getItem('ielts_vocab_prefill');
+        if (prefill) {
+          document.getElementById('vocabInput').value = prefill;
+          sessionStorage.removeItem('ielts_vocab_prefill');
+          updateCharCount();
+        }
+        const raw = localStorage.getItem('ielts_last_correction');
+        if (!raw) return;
+        const c = JSON.parse(raw);
+        const lr = c?.scores?.lexicalResource;
+        if (lr && parseFloat(lr) < 7.0) {
+          document.getElementById('bridgeLrBand').textContent = lr;
+          document.getElementById('correctorBridge').classList.remove('hidden');
+        }
+      } catch (_) {}
+    })();
+
+    // ══════════════════════════════════════════════════════════
+    //  CHAR COUNT
+    // ══════════════════════════════════════════════════════════
+    function updateCharCount() {
+      const len = document.getElementById('vocabInput').value.length;
+      const el  = document.getElementById('charCount');
+      el.textContent = `${len} / 3000`;
+      el.style.color = len > 2800 ? 'var(--error)' : 'var(--muted)';
+    }
+
+    // ══════════════════════════════════════════════════════════
+    //  HEATMAP BUILDER
+    // ══════════════════════════════════════════════════════════
+    function buildHeatmap(text, upgrades, strongWords) {
+      let result = text;
+      // sort longest first to avoid partial-match overlap
+      const sorted = [...upgrades].sort((a, b) => b.original.length - a.original.length);
+      const placeholders = [];
+
+      sorted.forEach((u, i) => {
+        const esc  = u.original.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const re   = new RegExp(`\\b${esc}\\b`, 'gi');
+        const ph   = `\x00W${i}\x00`;
+        result     = result.replace(re, ph);
+        // store original casing via capture
+        placeholders.push({
+          ph,
+          html: match => `<mark class="weak-word" title="Upgrade → ${escHtml(u.replacement)}">${escHtml(match)}</mark>`
+        });
+      });
+
+      // Escape remaining HTML characters
+      result = result
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+
+      // Restore placeholders
+      placeholders.forEach(p => {
+        // We stored placeholder without casing, extract original from source via simple replace
+        result = result.split(p.ph).join(`<mark class="weak-word">${p.ph.replace(/\x00W\d+\x00/, '')}</mark>`);
+      });
+
+      // Re-build: second pass just replaces ph tokens with full marks using original text
+      // Simpler: rebuild from scratch storing original matches
+      result = text;
+      const marks = [];
+      sorted.forEach((u, i) => {
+        const esc = u.original.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const re  = new RegExp(`\\b${esc}\\b`, 'gi');
+        let m;
+        while ((m = re.exec(result)) !== null) {
+          marks.push({ start: m.index, end: m.index + m[0].length, text: m[0], type: 'weak', u });
+        }
+      });
+      (strongWords || []).forEach(w => {
+        const esc = w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const re  = new RegExp(`\\b${esc}\\b`, 'gi');
+        let m;
+        while ((m = re.exec(result)) !== null) {
+          marks.push({ start: m.index, end: m.index + m[0].length, text: m[0], type: 'strong', u: null });
+        }
+      });
+
+      // Sort marks by position, remove overlaps
+      marks.sort((a, b) => a.start - b.start);
+      const clean = [];
+      let cursor = 0;
+      marks.forEach(mk => {
+        if (mk.start >= cursor) { clean.push(mk); cursor = mk.end; }
+      });
+
+      // Build final HTML
+      let html = '';
+      let pos  = 0;
+      clean.forEach(mk => {
+        html += escHtml(result.slice(pos, mk.start));
+        if (mk.type === 'weak') {
+          html += `<mark class="weak-word" title="Upgrade → ${escHtml(mk.u.replacement)}">${escHtml(mk.text)}</mark>`;
+        } else {
+          html += `<mark class="strong-word">${escHtml(mk.text)}</mark>`;
+        }
+        pos = mk.end;
+      });
+      html += escHtml(result.slice(pos));
+      return html.replace(/\n/g, '<br>');
+    }
+
+    // ══════════════════════════════════════════════════════════
+    //  ANALYSE
+    // ══════════════════════════════════════════════════════════
+    async function analyseVocab() {
+      const text    = document.getElementById('vocabInput').value.trim();
+      if (!text) return;
+
+      const btn     = document.getElementById('analyseBtn');
+      const icon    = document.getElementById('analyseIcon');
+      const spin    = document.getElementById('analyseSpinner');
+      const errEl   = document.getElementById('errorMsg');
+      const resEl   = document.getElementById('results');
+
+      btn.disabled = true; icon.classList.add('hidden'); spin.classList.remove('hidden');
+      errEl.classList.add('hidden'); resEl.classList.add('hidden');
+
+      try {
+        const res  = await fetch('/api/vocab/upgrade', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || `Server error ${res.status}`);
+        renderResults(data, text);
+      } catch (err) {
+        errEl.textContent = '⚠️ ' + (err.message || 'Something went wrong. Please try again.');
+        errEl.classList.remove('hidden');
+      } finally {
+        btn.disabled = false; icon.classList.remove('hidden'); spin.classList.add('hidden');
+      }
+    }
+
+    // ══════════════════════════════════════════════════════════
+    //  RENDER RESULTS
+    // ══════════════════════════════════════════════════════════
+    function renderResults(data, originalText) {
+      // Heatmap
+      document.getElementById('heatmapBody').innerHTML =
+        buildHeatmap(originalText, data.upgrades || [], data.strongWords || []);
+
+      // LR meter
+      document.getElementById('lrBand').textContent = data.lrEstimate ?? '—';
+      document.getElementById('lrNote').textContent  = data.overallNote || '';
+      const pct = data.lrEstimate
+        ? Math.min(100, Math.max(0, ((data.lrEstimate - 5) / 4) * 100)) : 0;
+      setTimeout(() => { document.getElementById('lrMeterFill').style.width = pct + '%'; }, 80);
+
+      // Strong words
+      const sw     = data.strongWords || [];
+      const swSec  = document.getElementById('strongWordsSection');
+      const swList = document.getElementById('strongWordsList');
+      if (sw.length > 0) {
+        swList.innerHTML = sw.map(w => `<span class="strong-chip">✓ ${escHtml(w)}</span>`).join('');
+        swSec.classList.remove('hidden');
+      } else {
+        swSec.classList.add('hidden');
+      }
+
+      // Upgrades
+      const upgrades = data.upgrades || [];
+      const countEl  = document.getElementById('upgradeCountLabel');
+      const listEl   = document.getElementById('upgradeList');
+      const noIssues = document.getElementById('noIssues');
+
+      if (upgrades.length === 0) {
+        countEl.textContent = ''; listEl.innerHTML = '';
+        noIssues.classList.remove('hidden');
+      } else {
+        noIssues.classList.add('hidden');
+        countEl.textContent = `${upgrades.length} Upgrade${upgrades.length !== 1 ? 's' : ''} Found`;
+        listEl.innerHTML = upgrades.map((u, i) => {
+          const saved = isSaved(u.replacement);
+          return `
+          <div class="upgrade-card fade-up" style="animation-delay:${i * 0.06}s;">
+            <!-- Header row -->
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px;">
+              <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+                <!-- Weak word -->
+                <span style="font-family:'Space Mono',monospace;font-size:0.9rem;font-weight:700;color:var(--error);text-decoration:line-through;">${escHtml(u.original)}</span>
+                <span style="color:var(--muted);">→</span>
+                <!-- Replacement with tooltip + speaker -->
+                <span class="has-tooltip">
+                  <span style="font-family:'Space Mono',monospace;font-size:0.9rem;font-weight:700;color:var(--gold);">${escHtml(u.replacement)}</span>
+                  <div class="tip">${escHtml(u.definition || 'Band 7–8 replacement')}</div>
+                </span>
+                <button class="speak-btn" onclick="speak('${escAttr(u.replacement)}')" title="Hear pronunciation" aria-label="Pronounce ${escAttr(u.replacement)}">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                  </svg>
+                </button>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;flex-shrink:0;">
+                <span class="band-badge band-${u.band === 8 ? '8' : '7'}">Band ${u.band || 7}</span>
+                <button class="save-btn ${saved ? 'saved' : ''}"
+                  onclick="toggleSave(this, ${i})"
+                  data-idx="${i}"
+                  ${saved ? 'disabled' : ''}>
+                  ${saved
+                    ? `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Saved`
+                    : `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg> Save`}
+                </button>
+              </div>
+            </div>
+
+            <!-- Issue -->
+            <p style="font-size:0.8125rem;color:var(--muted);margin-bottom:10px;line-height:1.65;">
+              <strong style="color:var(--text);">Why it's weak:</strong> ${escHtml(u.issue)}
+            </p>
+
+            <!-- Collocation -->
+            <div style="background:var(--cream);border-radius:8px;padding:10px 14px;margin-bottom:10px;">
+              <p style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:3px;">Collocation</p>
+              <p style="font-size:0.875rem;font-family:'Space Mono',monospace;color:var(--navy);">${escHtml(u.collocation)}</p>
+            </div>
+
+            <!-- Example -->
+            <div style="border-left:3px solid var(--gold);padding-left:12px;">
+              <p style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;">Example</p>
+              <p style="font-size:0.875rem;color:var(--text);font-style:italic;line-height:1.7;">"${escHtml(u.example)}"</p>
+            </div>
+          </div>`;
+        }).join('');
+
+        // Store current upgrades so save-by-index works
+        window._currentUpgrades = upgrades;
+      }
+
+      document.getElementById('results').classList.remove('hidden');
+      document.getElementById('results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // ══════════════════════════════════════════════════════════
+    //  SPEECH — British English TTS with quality prioritisation
+    // ══════════════════════════════════════════════════════════
+    let _selectedVoice = null;   // cached after first resolution
+    let _voicesReady   = false;
+
+    // Priority list: best to acceptable. Matched against voice.name (case-insensitive).
+    const VOICE_PRIORITY = [
+      'google uk english female',
+      'google uk english male',
+      'arthur',          // Apple Neural (macOS 13 / iOS 16+)
+      'daniel',          // Apple (macOS / iOS classic)
+      'serena',          // Apple (UK, older macOS)
+      'oliver',          // Microsoft UK
+      'hazel',           // Microsoft UK
+      'george',          // Microsoft UK
+    ];
+
+    function _resolveVoice() {
+      if (!window.speechSynthesis) return;
+      const all = window.speechSynthesis.getVoices();
+      if (!all.length) return;     // not ready yet — voiceschanged will retry
+
+      // 1. Try priority names in order, restricted to en-GB
+      const gbVoices = all.filter(v => v.lang === 'en-GB' || v.lang.startsWith('en-GB'));
+      for (const name of VOICE_PRIORITY) {
+        const match = gbVoices.find(v => v.name.toLowerCase().includes(name));
+        if (match) { _selectedVoice = match; _voicesReady = true; return; }
+      }
+
+      // 2. Any remaining en-GB voice
+      if (gbVoices.length) { _selectedVoice = gbVoices[0]; _voicesReady = true; return; }
+
+      // 3. Fallback: any English voice
+      const enVoice = all.find(v => v.lang.startsWith('en'));
+      _selectedVoice = enVoice || null;
+      _voicesReady   = true;
+    }
+
+    // Browsers may populate voices asynchronously
+    if (window.speechSynthesis) {
+      _resolveVoice();
+      window.speechSynthesis.addEventListener('voiceschanged', _resolveVoice);
+    }
+
+    function speak(word) {
+      if (!window.speechSynthesis) return;
+      window.speechSynthesis.cancel();
+
+      // If voices haven't loaded yet, try resolving once more before speaking
+      if (!_voicesReady) _resolveVoice();
+
+      const utt   = new SpeechSynthesisUtterance(word);
+      utt.rate    = 0.82;
+      utt.pitch   = 1;
+      utt.lang    = 'en-GB';
+      if (_selectedVoice) utt.voice = _selectedVoice;
+
+      window.speechSynthesis.speak(utt);
+    }
+
+    // ══════════════════════════════════════════════════════════
+    //  VOCABULARY BANK
+    // ══════════════════════════════════════════════════════════
+    const BANK_KEY = 'ielts_vocab_bank';
+
+    function getBank()        { try { return JSON.parse(localStorage.getItem(BANK_KEY) || '[]'); } catch(_) { return []; } }
+    function saveBank(bank)   { localStorage.setItem(BANK_KEY, JSON.stringify(bank)); }
+    function isSaved(word)    { return getBank().some(w => w.replacement === word); }
+
+    function toggleSave(btn, idx) {
+      const u    = (window._currentUpgrades || [])[idx];
+      if (!u) return;
+      const bank = getBank();
+      if (bank.some(w => w.replacement === u.replacement)) return;
+      bank.unshift({ ...u, savedAt: Date.now() });
+      saveBank(bank);
+      btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg> Saved`;
+      btn.classList.add('saved');
+      btn.disabled = true;
+      renderBank();
+    }
+
+    function clearBank() {
+      if (!confirm('Clear your entire Vocabulary Bank? This cannot be undone.')) return;
+      localStorage.removeItem(BANK_KEY);
+      renderBank();
+    }
+
+    function renderBank() {
+      const bank      = getBank();
+      const emptyEl   = document.getElementById('bankEmpty');
+      const listEl    = document.getElementById('bankList');
+      const clearBtn  = document.getElementById('clearBankBtn');
+
+      // Sync badge on toggle button
+      const badge = document.getElementById('bankCountBadge');
+      if (badge) {
+        badge.textContent = bank.length;
+        badge.classList.toggle('hidden', bank.length === 0);
+      }
+
+      if (bank.length === 0) {
+        emptyEl.style.display = ''; listEl.innerHTML = ''; clearBtn.classList.add('hidden');
+        return;
+      }
+      emptyEl.style.display = 'none'; clearBtn.classList.remove('hidden');
+
+      listEl.innerHTML = bank.map((w, i) => `
+        <div class="bank-card" id="bankCard-${i}">
+          <!-- Card header -->
+          <div style="padding:18px 20px;display:flex;align-items:flex-start;justify-content:space-between;gap:12px;border-bottom:1px solid var(--border);">
+            <div>
+              <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:5px;">
+                <span style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;color:var(--navy);">${escHtml(w.replacement)}</span>
+                <span class="band-badge band-${w.band === 8 ? '8' : '7'}">Band ${w.band || 7}</span>
+                <button class="speak-btn" onclick="speak('${escAttr(w.replacement)}')" title="Hear pronunciation">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+                  </svg>
+                </button>
+              </div>
+              <p style="font-size:0.78rem;color:var(--muted);">Replaces: <span style="text-decoration:line-through;">${escHtml(w.original)}</span></p>
+              ${w.definition ? `<p style="font-size:0.8125rem;color:var(--text);margin-top:4px;font-style:italic;">${escHtml(w.definition)}</p>` : ''}
+            </div>
+            <button onclick="removeFromBank(${i})"
+              style="background:none;border:none;cursor:pointer;color:var(--muted);font-size:1rem;padding:2px 6px;border-radius:6px;line-height:1;transition:color 0.18s;"
+              onmouseover="this.style.color='var(--error)'" onmouseout="this.style.color='var(--muted)'"
+              title="Remove">✕</button>
+          </div>
+          <!-- Collocation -->
+          <div style="padding:10px 20px;border-bottom:1px solid var(--border);background:var(--cream);">
+            <span style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-right:8px;">Collocation</span>
+            <span style="font-size:0.8125rem;font-family:'Space Mono',monospace;color:var(--navy);">${escHtml(w.collocation)}</span>
+          </div>
+          <!-- Practice area -->
+          <div style="padding:16px 20px;">
+            <p style="font-size:0.78rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">Practice — write your own sentence</p>
+            <textarea class="practice-input" id="practiceInput-${i}" rows="2"
+              placeholder="Write a sentence using '${escAttr(w.replacement)}'…"></textarea>
+            <div style="display:flex;align-items:center;justify-content:flex-end;margin-top:8px;gap:8px;">
+              <span id="practiceStatus-${i}" style="font-size:0.78rem;color:var(--muted);"></span>
+              <button onclick="checkPractice(${i})"
+                style="background:var(--navy);color:#fff;border:none;border-radius:8px;padding:7px 16px;font-size:0.8rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;display:inline-flex;align-items:center;gap:6px;transition:opacity 0.2s;"
+                onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+                Check
+              </button>
+            </div>
+            <div id="practiceFeedback-${i}"></div>
+          </div>
+        </div>`).join('');
+    }
+
+    function removeFromBank(i) {
+      const bank = getBank();
+      bank.splice(i, 1);
+      saveBank(bank);
+      renderBank();
+    }
+
+    async function checkPractice(i) {
+      const bank     = getBank();
+      const w        = bank[i];
+      if (!w) return;
+
+      const inputEl  = document.getElementById(`practiceInput-${i}`);
+      const statusEl = document.getElementById(`practiceStatus-${i}`);
+      const fbEl     = document.getElementById(`practiceFeedback-${i}`);
+      const sentence = inputEl?.value?.trim();
+      if (!sentence) return;
+
+      statusEl.textContent = 'Checking…';
+      fbEl.innerHTML = '';
+
+      try {
+        const res  = await fetch('/api/vocab/practice-check', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ word: w.replacement, collocation: w.collocation, userSentence: sentence }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Server error');
+
+        statusEl.textContent = '';
+        fbEl.innerHTML = `
+          <div class="practice-feedback ${data.correct ? 'correct' : 'incorrect'}">
+            <strong>${data.correct ? '✅ Correct!' : '✗ Not quite'}</strong> ${escHtml(data.feedback)}
+            ${data.improvedSentence ? `<div style="margin-top:6px;padding-top:6px;border-top:1px solid rgba(220,38,38,0.15);font-style:italic;">"${escHtml(data.improvedSentence)}"</div>` : ''}
+          </div>`;
+      } catch (err) {
+        statusEl.textContent = '';
+        fbEl.innerHTML = `<div class="practice-feedback incorrect">⚠️ ${escHtml(err.message)}</div>`;
+      }
+    }
+
+    // ══════════════════════════════════════════════════════════
+    //  TOPIC PACKS
+    // ══════════════════════════════════════════════════════════
+    const TOPIC_PACKS = {
+      environment: {
+        label: 'Environment', title: 'Climate, Pollution & Sustainability',
+        collocations: [
+          { word: 'exacerbate',              example: 'Industrial emissions <em>exacerbate</em> the already severe air quality crisis in urban areas.',        families: [{t:'verb',w:'exacerbate'},{t:'noun',w:'exacerbation'},{t:'adj',w:'exacerbating'}] },
+          { word: 'mitigate',                example: 'Governments must <em>mitigate</em> the effects of climate change through binding international agreements.', families: [{t:'verb',w:'mitigate'},{t:'noun',w:'mitigation'},{t:'adj',w:'mitigating'}] },
+          { word: 'biodiversity loss',        example: 'Deforestation contributes directly to <em>biodiversity loss</em> on an irreversible scale.',              families: [{t:'noun',w:'biodiversity'},{t:'verb',w:'(bio)diversify'},{t:'adj',w:'biodiverse'}] },
+          { word: 'carbon footprint',         example: 'Individuals can reduce their <em>carbon footprint</em> by switching to renewable energy.',                 families: [{t:'noun',w:'carbon footprint'},{t:'verb',w:'offset (carbon)'},{t:'adj',w:'carbon-neutral'}] },
+          { word: 'unsustainable practices',  example: '<em>Unsustainable practices</em> in agriculture deplete soil fertility and contaminate groundwater.',      families: [{t:'adj',w:'sustainable'},{t:'noun',w:'sustainability'},{t:'adv',w:'sustainably'}] },
+          { word: 'ecological degradation',   example: 'Rapid urbanisation accelerates <em>ecological degradation</em> in coastal regions.',                      families: [{t:'noun',w:'ecology'},{t:'adj',w:'ecological'},{t:'adv',w:'ecologically'}] },
+          { word: 'renewable energy transition', example: 'A swift <em>renewable energy transition</em> is essential to meet 2050 climate targets.',             families: [{t:'adj',w:'renewable'},{t:'noun',w:'renewability'},{t:'opp.',w:'non-renewable'}] },
+          { word: 'alarmingly high levels',   example: 'Plastic waste has reached <em>alarmingly high levels</em> in marine ecosystems.',                         families: [{t:'verb',w:'alarm'},{t:'adj',w:'alarming'},{t:'adv',w:'alarmingly'}] },
+        ],
+        upgrades: [
+          {
+            b6: 'The environment is getting worse because of pollution from factories.',
+            b8: 'Industrial emissions are exacerbating the already severe air quality crisis across urban centres, with measurable consequences for public health.',
+            danger: 'Don\'t write "exacerbates the environment" — exacerbate needs a problem as its object, not a place. ✓ exacerbate the crisis / the situation / the problem.',
+          },
+          {
+            b6: 'We need to do more to stop climate change happening.',
+            b8: 'Governments must implement binding international agreements to mitigate the most catastrophic effects of climate change.',
+            danger: 'Avoid "mitigate climate change" alone — the verb needs a specific object. ✓ mitigate the effects of / the impact of / the consequences of.',
+          },
+          {
+            b6: 'Many animals are losing their homes because forests are being cut down.',
+            b8: 'Deforestation contributes directly to irreversible biodiversity loss, destabilising entire ecosystems and accelerating species extinction.',
+            danger: 'Students write "biodiversity is losing" — incorrect, it\'s a noun phrase. ✓ biodiversity loss is accelerating / biodiversity is declining rapidly.',
+          },
+        ],
+        template: {
+          text: '[TOPIC] has become one of the most pressing concerns of the twenty-first century. The [ecological degradation] caused by industrial activity continues to [exacerbate] existing environmental imbalances, while [renewable energy transition] remains woefully inadequate in most economies. This essay argues that …',
+          slots: ['TOPIC', 'ecological degradation', 'exacerbate', 'renewable energy transition'],
+        },
+        quiz: [
+          { q: 'Industrial emissions ___ the already severe air quality crisis.', blank: 'exacerbate', opts: ['exacerbate','worsen greatly','make bigger','increase levels'] },
+          { q: 'Governments must implement policies to ___ the effects of climate change.', blank: 'mitigate', opts: ['mitigate','stop completely','fight against','reduce slightly'] },
+          { q: 'Deforestation contributes directly to irreversible ___.', blank: 'biodiversity loss', opts: ['biodiversity loss','animal death','nature damage','ecosystem problems'] },
+          { q: 'Individuals can reduce their ___ by switching to renewable energy.', blank: 'carbon footprint', opts: ['carbon footprint','pollution level','energy use','environment impact'] },
+          { q: 'Rapid urbanisation accelerates ___ in coastal regions.', blank: 'ecological degradation', opts: ['ecological degradation','nature damage','animal loss','land use changes'] },
+        ],
+      },
+
+      technology: {
+        label: 'Technology', title: 'AI, Automation & Digital Society',
+        collocations: [
+          { word: 'artificial intelligence',   example: '<em>Artificial intelligence</em> is transforming the labour market at an unprecedented pace.',            families: [{t:'noun',w:'intelligence'},{t:'adj',w:'intelligent'},{t:'adv',w:'intelligently'}] },
+          { word: 'erode privacy',             example: 'Pervasive data collection may <em>erode privacy</em> and undermine civil liberties.',                    families: [{t:'verb',w:'erode'},{t:'noun',w:'erosion'},{t:'adj',w:'eroding'}] },
+          { word: 'digital divide',            example: 'The <em>digital divide</em> deepens inequality between industrialised and developing nations.',           families: [{t:'adj',w:'digital'},{t:'adv',w:'digitally'},{t:'verb',w:'digitise'}] },
+          { word: 'proliferation of',          example: 'The <em>proliferation of</em> social media has fundamentally altered public discourse.',                 families: [{t:'noun',w:'proliferation'},{t:'verb',w:'proliferate'},{t:'adj',w:'proliferating'}] },
+          { word: 'automate repetitive tasks', example: 'Machines now <em>automate repetitive tasks</em>, displacing millions of low-skilled workers.',           families: [{t:'verb',w:'automate'},{t:'noun',w:'automation'},{t:'adj',w:'automated'}] },
+          { word: 'foster innovation',         example: 'Investing in STEM education will <em>foster innovation</em> and economic competitiveness.',               families: [{t:'verb',w:'innovate'},{t:'noun',w:'innovation'},{t:'adj',w:'innovative'}] },
+          { word: 'overreliance on',           example: '<em>Overreliance on</em> technology has diminished face-to-face communication skills.',                  families: [{t:'noun',w:'overreliance'},{t:'verb',w:'rely (on)'},{t:'adj',w:'reliant'}] },
+          { word: 'algorithmic bias',          example: '<em>Algorithmic bias</em> can perpetuate systemic discrimination in hiring decisions.',                  families: [{t:'noun',w:'algorithm'},{t:'adj',w:'algorithmic'},{t:'noun',w:'bias'}] },
+        ],
+        upgrades: [
+          {
+            b6: 'Technology has changed how we work and AI is causing problems for many jobs.',
+            b8: 'The proliferation of artificial intelligence is fundamentally restructuring the labour market, displacing millions of workers in low-skilled employment sectors.',
+            danger: 'Don\'t write "proliferation of AI is increasing" — proliferation already implies rapid increase. ✓ the proliferation of AI / the proliferation of digital tools.',
+          },
+          {
+            b6: 'Using the internet too much can be bad for people in society.',
+            b8: 'Overreliance on digital platforms has measurably eroded face-to-face communication skills, particularly among younger generations.',
+            danger: 'Avoid "overrely" as a verb — it sounds unnatural to examiners. ✓ overreliance on (noun form) is the standard academic usage.',
+          },
+          {
+            b6: 'Computers do many of the jobs that people used to do in factories.',
+            b8: 'Automation is increasingly deployed to perform repetitive tasks, accelerating displacement across low-skilled employment sectors.',
+            danger: 'Don\'t write "automate repetitive tasks repetitively" — that\'s tautological. The adjective "repetitive" already carries the meaning; no adverb needed.',
+          },
+        ],
+        template: {
+          text: 'The rapid [proliferation of] technology in recent decades has fundamentally altered [the labour market / daily life / social interaction]. While proponents argue that these advancements [foster innovation] and economic growth, critics contend that [overreliance on] digital tools [erodes] essential human capacities. This essay will examine both perspectives before concluding that …',
+          slots: ['proliferation of', 'foster innovation', 'overreliance on', 'erodes'],
+        },
+        quiz: [
+          { q: 'The ___ of social media has fundamentally altered public discourse.', blank: 'proliferation', opts: ['proliferation','growth','spread','rise'] },
+          { q: '___ is transforming the labour market at an unprecedented pace.', blank: 'Artificial intelligence', opts: ['Artificial intelligence','Modern technology','Computer systems','Digital tools'] },
+          { q: 'Pervasive data collection may ___ privacy and civil liberties.', blank: 'erode', opts: ['erode','damage','reduce','harm'] },
+          { q: 'The ___ deepens inequality between industrialised and developing nations.', blank: 'digital divide', opts: ['digital divide','technology gap','internet problem','online barrier'] },
+          { q: '___ can perpetuate systemic discrimination in hiring decisions.', blank: 'Algorithmic bias', opts: ['Algorithmic bias','Computer errors','AI mistakes','System faults'] },
+        ],
+      },
+
+      education: {
+        label: 'Education', title: 'Universities, Learning & Curriculum',
+        collocations: [
+          { word: 'equip students with',       example: 'Universities should <em>equip students with</em> critical thinking skills, not merely vocational knowledge.', families: [{t:'verb',w:'equip'},{t:'adj',w:'equipped'},{t:'noun',w:'equipment'}] },
+          { word: 'rote learning',             example: 'An over-emphasis on <em>rote learning</em> suppresses creativity and independent thought.',                  families: [{t:'phrase',w:'learn by rote'},{t:'adj',w:'rote (modifier)'},{t:'opp.',w:'enquiry-based'}] },
+          { word: 'academic rigour',           example: 'Maintaining <em>academic rigour</em> is essential even as universities expand access.',                     families: [{t:'adj',w:'rigorous'},{t:'adv',w:'rigorously'},{t:'noun',w:'rigour'}] },
+          { word: 'critical thinking',         example: 'Employers consistently cite <em>critical thinking</em> as the most valued graduate attribute.',              families: [{t:'verb',w:'criticise'},{t:'noun',w:'criticism'},{t:'adv',w:'critically'}] },
+          { word: 'extracurricular activities',example: '<em>Extracurricular activities</em> develop interpersonal skills formal education neglects.',               families: [{t:'adj',w:'extracurricular'},{t:'noun',w:'curriculum'},{t:'adj',w:'curricular'}] },
+          { word: 'tuition fees',              example: 'Spiralling <em>tuition fees</em> deter talented students from lower-income backgrounds.',                   families: [{t:'noun',w:'tuition'},{t:'verb',w:'tutor'},{t:'noun',w:'tutor'}] },
+          { word: 'holistic development',      example: 'Education must prioritise the <em>holistic development</em> of each child, not exam scores alone.',         families: [{t:'adj',w:'holistic'},{t:'adv',w:'holistically'},{t:'noun',w:'wholeness'}] },
+          { word: 'impart knowledge',          example: 'Teachers do more than <em>impart knowledge</em> — they shape values and behaviour.',                       families: [{t:'verb',w:'impart'},{t:'noun',w:'impartation'},{t:'noun',w:'knowledge'}] },
+        ],
+        upgrades: [
+          {
+            b6: 'Schools make students learn things without really understanding them.',
+            b8: 'An over-emphasis on rote learning systematically suppresses creativity and the capacity for independent critical thinking.',
+            danger: '"Rote learning" is a noun phrase — don\'t use "rote learn" as a verb. ✓ rote learning (noun), learn by rote (phrase), not "students rote learn".',
+          },
+          {
+            b6: 'University is very expensive and many students cannot afford it.',
+            b8: 'Spiralling tuition fees represent a formidable barrier for academically talented students from lower-income backgrounds.',
+            danger: 'Don\'t confuse "tuition fees" (costs) with "tuition" (teaching/instruction). In IELTS essays these have distinct meanings.',
+          },
+          {
+            b6: 'Education should do more than just teach students facts and information.',
+            b8: 'Universities must equip students with the critical thinking skills that enable them to navigate complex, rapidly changing professional environments.',
+            danger: '"Equip students with" must be followed by a skill or quality, never a physical object. ✗ equip students with textbooks. ✓ equip students with skills / competencies.',
+          },
+        ],
+        template: {
+          text: '[Education / Higher education] plays a pivotal role in shaping both individuals and societies. However, a growing number of educationalists argue that the current emphasis on [rote learning] fails to [equip students with] the competencies demanded by the modern workplace. [Academic rigour] remains essential, yet it must be balanced with opportunities for [holistic development]. This essay contends that …',
+          slots: ['Education / Higher education', 'rote learning', 'equip students with', 'academic rigour', 'holistic development'],
+        },
+        quiz: [
+          { q: 'An over-emphasis on ___ suppresses creativity and independent thought.', blank: 'rote learning', opts: ['rote learning','memorisation drills','testing systems','exam practice'] },
+          { q: 'Universities should ___ critical thinking skills, not merely vocational knowledge.', blank: 'equip students with', opts: ['equip students with','teach students','give students','provide students'] },
+          { q: 'Maintaining ___ is essential even as universities expand access.', blank: 'academic rigour', opts: ['academic rigour','high standards','strict rules','hard exams'] },
+          { q: 'Spiralling ___ deter talented students from lower-income backgrounds.', blank: 'tuition fees', opts: ['tuition fees','university costs','education prices','school charges'] },
+          { q: 'Education must prioritise the ___ of each child, not exam scores alone.', blank: 'holistic development', opts: ['holistic development','full growth','complete education','overall learning'] },
+        ],
+      },
+
+      health: {
+        label: 'Health', title: 'Obesity, Mental Health & Healthcare',
+        collocations: [
+          { word: 'sedentary lifestyle',   example: 'A <em>sedentary lifestyle</em> combined with poor diet significantly raises the risk of chronic disease.',    families: [{t:'adj',w:'sedentary'},{t:'adv',w:'sedentarily'},{t:'opp.',w:'active lifestyle'}] },
+          { word: 'mental well-being',     example: 'Employers have a duty to protect the <em>mental well-being</em> of their workforce.',                        families: [{t:'adj',w:'mental'},{t:'noun',w:'well-being'},{t:'adj',w:'psychological'}] },
+          { word: 'alleviate symptoms',    example: 'Regular exercise can <em>alleviate symptoms</em> of depression as effectively as medication.',               families: [{t:'verb',w:'alleviate'},{t:'noun',w:'alleviation'},{t:'adj',w:'alleviating'}] },
+          { word: 'preventive healthcare', example: 'Investment in <em>preventive healthcare</em> reduces long-term costs to the public health system.',          families: [{t:'verb',w:'prevent'},{t:'noun',w:'prevention'},{t:'adj',w:'preventive / preventative'}] },
+          { word: 'obesity epidemic',      example: 'The <em>obesity epidemic</em> places an unsustainable burden on healthcare infrastructure.',                 families: [{t:'noun',w:'obesity'},{t:'adj',w:'obese'},{t:'noun',w:'epidemic'}] },
+          { word: 'accessible treatment',  example: 'Universal healthcare ensures <em>accessible treatment</em> regardless of socioeconomic status.',              families: [{t:'verb',w:'access'},{t:'noun',w:'accessibility'},{t:'adj',w:'inaccessible'}] },
+          { word: 'chronic conditions',    example: 'Sedentary work environments contribute to the rise of <em>chronic conditions</em> such as diabetes.',        families: [{t:'adj',w:'chronic'},{t:'adv',w:'chronically'},{t:'noun',w:'condition'}] },
+          { word: 'stigma surrounding',    example: 'The <em>stigma surrounding</em> mental illness prevents many from seeking help.',                            families: [{t:'noun',w:'stigma'},{t:'verb',w:'stigmatise'},{t:'adj',w:'stigmatised'}] },
+        ],
+        upgrades: [
+          {
+            b6: 'Many people don\'t do enough exercise and this causes serious health problems.',
+            b8: 'A sedentary lifestyle, combined with poor nutritional choices, significantly elevates the risk of chronic conditions such as type-2 diabetes and cardiovascular disease.',
+            danger: '"Sedentary" describes a lifestyle or person — not an activity. ✗ a sedentary behaviour. ✓ a sedentary lifestyle / sedentary work environments / sedentary occupations.',
+          },
+          {
+            b6: 'We should spend more money on stopping people getting sick in the first place.',
+            b8: 'Sustained investment in preventive healthcare would substantially reduce long-term costs to overstretched public health systems.',
+            danger: 'Both "preventive" and "preventative" are acceptable, but avoid "prevention health" (noun stacking). ✓ preventive healthcare / preventive measures.',
+          },
+          {
+            b6: 'Exercise can help people who have depression feel a lot better.',
+            b8: 'Regular physical activity has been shown to alleviate symptoms of depression as effectively as pharmacological intervention.',
+            danger: '"Alleviate" must be followed by a specific problem — symptoms, pain, burden. ✗ alleviate depression (too vague). ✓ alleviate symptoms of / alleviate the burden of.',
+          },
+        ],
+        template: {
+          text: '[Public health / The health of the population] has emerged as a critical policy concern in the twenty-first century. The growing prevalence of [chronic conditions], fuelled in part by increasingly [sedentary lifestyles], places an unsustainable burden on healthcare systems. While investment in [preventive healthcare] offers a long-term solution, the persistent [stigma surrounding] mental illness continues to prevent many from accessing support. This essay argues that …',
+          slots: ['Public health', 'chronic conditions', 'sedentary lifestyles', 'preventive healthcare', 'stigma surrounding'],
+        },
+        quiz: [
+          { q: 'A ___ combined with poor diet significantly raises the risk of chronic disease.', blank: 'sedentary lifestyle', opts: ['sedentary lifestyle','lazy way of living','inactive behaviour','sitting lifestyle'] },
+          { q: 'Employers have a duty to protect the ___ of their workforce.', blank: 'mental well-being', opts: ['mental well-being','mental health status','mind health','psychological state'] },
+          { q: 'Regular exercise can ___ symptoms of depression as effectively as medication.', blank: 'alleviate', opts: ['alleviate','reduce','help with','fix'] },
+          { q: 'The ___ places an unsustainable burden on healthcare infrastructure.', blank: 'obesity epidemic', opts: ['obesity epidemic','overweight problem','fat crisis','weight issue'] },
+          { q: 'Investment in ___ reduces long-term costs to the public health system.', blank: 'preventive healthcare', opts: ['preventive healthcare','early medicine','stopping disease','health prevention'] },
+        ],
+      },
+
+      globalisation: {
+        label: 'Globalisation', title: 'Trade, Culture & Migration',
+        collocations: [
+          { word: 'cultural homogenisation', example: '<em>Cultural homogenisation</em> threatens the linguistic diversity that defines human heritage.',          families: [{t:'verb',w:'homogenise'},{t:'adj',w:'homogeneous'},{t:'noun',w:'homogeneity'}] },
+          { word: 'economic disparity',      example: 'Globalisation has widened <em>economic disparity</em> between the Global North and South.',                families: [{t:'adj',w:'disparate'},{t:'noun',w:'disparity'},{t:'adv',w:'disparately'}] },
+          { word: 'erode cultural identity', example: 'Multinationals can <em>erode cultural identity</em> in smaller, developing nations.',                     families: [{t:'verb',w:'erode'},{t:'noun',w:'erosion'},{t:'adj',w:'eroded'}] },
+          { word: 'facilitate trade',        example: 'International agreements <em>facilitate trade</em> by reducing tariffs and regulatory barriers.',          families: [{t:'verb',w:'facilitate'},{t:'noun',w:'facilitation'},{t:'noun',w:'facilitator'}] },
+          { word: 'cross-cultural exchange', example: '<em>Cross-cultural exchange</em> enriches societies and promotes mutual understanding.',                   families: [{t:'adj',w:'cross-cultural'},{t:'verb',w:'exchange'},{t:'noun',w:'exchange'}] },
+          { word: 'skilled migration',       example: '<em>Skilled migration</em> enables receiving nations to address labour shortages rapidly.',                families: [{t:'verb',w:'migrate'},{t:'noun',w:'migrant'},{t:'adj',w:'migratory'}] },
+          { word: 'protectionist policies',  example: 'Rising <em>protectionist policies</em> threaten decades of carefully negotiated free trade.',              families: [{t:'noun',w:'protectionism'},{t:'adj',w:'protectionist'},{t:'verb',w:'protect'}] },
+          { word: 'interconnected economies',example: '<em>Interconnected economies</em> mean a financial crisis in one nation spreads globally.',               families: [{t:'verb',w:'interconnect'},{t:'noun',w:'interconnection'},{t:'adj',w:'interconnected'}] },
+        ],
+        upgrades: [
+          {
+            b6: 'Globalisation is causing different cultures around the world to become the same.',
+            b8: 'The accelerating pace of globalisation is driving cultural homogenisation, threatening the linguistic and artistic diversity that defines human heritage.',
+            danger: '"Homogenisation" is a noun — keep subject-verb agreement. ✗ cultural homogenisation are threatening. ✓ cultural homogenisation threatens / is accelerating.',
+          },
+          {
+            b6: 'International trade helps different countries to work together more easily.',
+            b8: 'Bilateral and multilateral agreements facilitate trade by dismantling tariff barriers and harmonising regulatory frameworks across member states.',
+            danger: '"Facilitate" should not be followed by a gerund in formal writing. ✗ facilitate trading. ✓ facilitate trade / facilitate the movement of goods / facilitate cooperation.',
+          },
+          {
+            b6: 'Some countries have rules that stop other countries from selling their products there.',
+            b8: 'The resurgence of protectionist policies poses a significant threat to decades of carefully negotiated free-trade agreements.',
+            danger: '"Protectionist" is an adjective — don\'t write "protectionism policies" (noun + noun clash). ✓ protectionist policies / protectionist measures / protectionist stance.',
+          },
+        ],
+        template: {
+          text: 'Globalisation — defined as the increasing [interconnection] of economies, cultures, and political systems — has irrevocably transformed the modern world. While proponents celebrate the [cross-cultural exchange] it enables, critics warn of [cultural homogenisation] and widening [economic disparity] between the Global North and South. This essay examines whether the benefits of globalisation outweigh its costs, ultimately arguing that …',
+          slots: ['interconnection', 'cross-cultural exchange', 'cultural homogenisation', 'economic disparity'],
+        },
+        quiz: [
+          { q: '___ threatens the linguistic diversity that defines human heritage.', blank: 'Cultural homogenisation', opts: ['Cultural homogenisation','Global culture mixing','World sameness','Cultural blending'] },
+          { q: 'International agreements ___ by reducing tariffs and regulatory barriers.', blank: 'facilitate trade', opts: ['facilitate trade','help businesses','support commerce','enable selling'] },
+          { q: 'Globalisation has widened ___ between the Global North and South.', blank: 'economic disparity', opts: ['economic disparity','the money gap','wealth differences','income problems'] },
+          { q: '___ enriches societies and promotes mutual understanding.', blank: 'Cross-cultural exchange', opts: ['Cross-cultural exchange','Cultural sharing','International mixing','World culture'] },
+          { q: 'Rising ___ threatens decades of carefully negotiated free trade.', blank: 'protectionist policies', opts: ['protectionist policies','trade barriers','import restrictions','border controls'] },
+        ],
+      },
+
+      crime: {
+        label: 'Crime & Justice', title: 'Punishment, Prevention & Rehabilitation',
+        collocations: [
+          { word: 'deter offenders',          example: 'Harsher sentencing alone is insufficient to <em>deter offenders</em> from reoffending.',                families: [{t:'verb',w:'deter'},{t:'noun',w:'deterrent'},{t:'noun',w:'deterrence'}] },
+          { word: 'rehabilitate criminals',    example: 'Prison systems must <em>rehabilitate criminals</em> rather than simply punish them.',                   families: [{t:'verb',w:'rehabilitate'},{t:'noun',w:'rehabilitation'},{t:'adj',w:'rehabilitative'}] },
+          { word: 'underlying causes',         example: 'Poverty and inequality are <em>underlying causes</em> of criminal behaviour that policy must address.',  families: [{t:'adj',w:'underlying'},{t:'verb',w:'underlie'},{t:'noun',w:'cause'}] },
+          { word: 'recidivism rates',          example: 'Education programmes in prison reduce <em>recidivism rates</em> significantly.',                        families: [{t:'noun',w:'recidivism'},{t:'noun',w:'recidivist'},{t:'adj',w:'recidivist'}] },
+          { word: 'punitive measures',         example: 'Critics argue that <em>punitive measures</em> fail to address the root causes of crime.',               families: [{t:'adj',w:'punitive'},{t:'adv',w:'punitively'},{t:'verb',w:'punish'},{t:'noun',w:'punishment'}] },
+          { word: 'surveillance technology',   example: '<em>Surveillance technology</em> raises serious questions about civil liberties.',                      families: [{t:'noun',w:'surveillance'},{t:'verb',w:'surveil'},{t:'adj',w:'surveilled'}] },
+          { word: 'custodial sentence',        example: 'For non-violent offenders, a community order may be preferable to a <em>custodial sentence</em>.',     families: [{t:'noun',w:'custody'},{t:'adj',w:'custodial'},{t:'noun',w:'custodian'}] },
+          { word: 'restorative justice',       example: '<em>Restorative justice</em> models prioritise reconciliation between offenders and victims.',          families: [{t:'verb',w:'restore'},{t:'noun',w:'restoration'},{t:'adj',w:'restorative'}] },
+        ],
+        upgrades: [
+          {
+            b6: 'Putting people in prison doesn\'t always stop them from doing crime again.',
+            b8: 'Custodial sentences alone fail to address the underlying causes of criminal behaviour, resulting in persistently high recidivism rates.',
+            danger: '"Recidivism" is a noun — don\'t use it as a verb. ✗ offenders recidivism. ✓ recidivism rates remain high / recidivism is a persistent challenge.',
+          },
+          {
+            b6: 'Governments should try to help criminals become better people rather than just punishing them.',
+            b8: 'Prison systems must prioritise rehabilitation over punitive measures, equipping offenders with the skills necessary to reintegrate productively into society.',
+            danger: '"Rehabilitate" is transitive in formal writing. ✗ criminals should be rehabilitated by punishment (logical contradiction). ✓ rehabilitate offenders / rehabilitation programmes.',
+          },
+          {
+            b6: 'Crime comes from social problems like poverty and a lack of education.',
+            b8: 'Addressing the underlying causes of crime — namely poverty, social exclusion, and inadequate education — is demonstrably more effective than increased policing.',
+            danger: '"Underlying causes" must be followed by "of". ✗ the underlying causes in crime / for crime. ✓ the underlying causes of crime / of criminal behaviour / of violence.',
+          },
+        ],
+        template: {
+          text: 'Crime remains one of the most intractable challenges facing contemporary societies. Although [punitive measures] such as longer prison sentences are frequently proposed, evidence suggests that these approaches fail to [deter offenders] in the long term or reduce [recidivism rates]. A more effective strategy lies in [restorative justice] models and sustained investment in rehabilitation, which target the [underlying causes] of criminal behaviour. This essay argues that …',
+          slots: ['punitive measures', 'deter offenders', 'recidivism rates', 'restorative justice', 'underlying causes'],
+        },
+        quiz: [
+          { q: 'Education programmes in prison significantly reduce ___.', blank: 'recidivism rates', opts: ['recidivism rates','crime statistics','prisoner numbers','reoffending chances'] },
+          { q: 'Prison systems must ___ rather than simply punish offenders.', blank: 'rehabilitate criminals', opts: ['rehabilitate criminals','help prisoners reform','fix criminal minds','improve offenders'] },
+          { q: 'Poverty and inequality are ___ that policy must address.', blank: 'underlying causes', opts: ['underlying causes','main reasons','key factors','root problems'] },
+          { q: 'Harsher sentencing alone is insufficient to ___ from reoffending.', blank: 'deter offenders', opts: ['deter offenders','stop criminals','prevent crime','block reoffending'] },
+          { q: '___ models prioritise reconciliation between offenders and victims.', blank: 'Restorative justice', opts: ['Restorative justice','Criminal courts','Prison systems','Legal frameworks'] },
+        ],
+      },
+    };
+
+    // ── Tab switching ──
+    function switchTab(key, btn) {
+      const panelIds = { collocations: 'tabCollocations', upgrades: 'tabUpgrades', template: 'tabTemplate', quiz: 'tabQuiz' };
+      document.querySelectorAll('.topic-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.topic-panel').forEach(p => p.classList.add('hidden'));
+      const panel = document.getElementById(panelIds[key]);
+      if (panel) panel.classList.remove('hidden');
+    }
+
+    function loadTopic(key, btn) {
+      const pack = TOPIC_PACKS[key];
+      if (!pack) return;
+      document.querySelectorAll('.topic-card').forEach(c => c.classList.remove('active'));
+      btn.classList.add('active');
+
+      document.getElementById('topicPackLabel').textContent = pack.label + ' Vocabulary';
+      document.getElementById('topicPackTitle').textContent = pack.title;
+
+      // Reset to first tab
+      document.querySelectorAll('.topic-tab').forEach((t, i) => t.classList.toggle('active', i === 0));
+      document.querySelectorAll('.topic-panel').forEach((p, i) => p.classList.toggle('hidden', i !== 0));
+
+      // ── Tab 1: Collocations + Word Families ──
+      document.getElementById('tabCollocations').innerHTML = pack.collocations.map(c => `
+        <div class="collocation-row">
+          <div style="min-width:160px;flex-shrink:0;">
+            <span class="colloc-word">${escHtml(c.word)}</span>
+            ${c.families && c.families.length ? `
+              <div class="word-family" style="margin-top:6px;">
+                ${c.families.map(f => `
+                  <div class="wf-chip">
+                    <span class="wf-type">${escHtml(f.t)}</span>
+                    <span class="wf-word">${escHtml(f.w)}</span>
+                  </div>`).join('')}
+              </div>` : ''}
+          </div>
+          <span class="colloc-example">${c.example}</span>
+        </div>`).join('');
+
+      // ── Tab 2: Band 6 → 8 Upgrades ──
+      document.getElementById('tabUpgrades').innerHTML = `
+        <p style="font-size:0.8125rem;color:var(--muted);margin-bottom:18px;line-height:1.65;">
+          The same idea written at <strong style="color:#dc2626;">Band 6</strong> and <strong style="color:var(--gold);">Band 8</strong>. Study the delta — that\'s your upgrade path.
+        </p>
+        ${pack.upgrades.map(u => `
+          <div class="upgrade-pair">
+            <div class="band-col b6">
+              <div class="band-col-label">✗ Band 6</div>
+              <p>${escHtml(u.b6)}</p>
+            </div>
+            <div class="band-col b8">
+              <div class="band-col-label">✓ Band 8</div>
+              <p>${escHtml(u.b8)}</p>
+            </div>
+          </div>
+          <div class="danger-zone" style="margin-bottom:20px;">
+            <strong>⚠ Danger Zone — </strong>${escHtml(u.danger)}
+          </div>`).join('')}`;
+
+      // ── Tab 3: Essay Template ──
+      const slots = pack.template.slots;
+      let templateHtml = escHtml(pack.template.text);
+      slots.forEach(s => {
+        const escaped = escHtml(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        templateHtml = templateHtml.replace(new RegExp(`\\[${escaped}\\]`, 'g'), `<span class="slot">[${escHtml(s)}]</span>`);
+      });
+      document.getElementById('tabTemplate').innerHTML = `
+        <p style="font-size:0.8125rem;color:var(--muted);margin-bottom:16px;line-height:1.65;">
+          Copy this intro. Replace the <span class="slot" style="font-size:0.75rem;">slots</span> with your own argument. The collocations are already placed — you supply the position.
+        </p>
+        <div class="template-box">${templateHtml}</div>
+        <button class="copy-btn" onclick="copyTemplate('${escAttr(pack.template.text)}')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy template
+        </button>`;
+
+      // ── Tab 4: Quick Quiz ──
+      window._quizAnswers = {};
+      document.getElementById('tabQuiz').innerHTML = `
+        <p style="font-size:0.8125rem;color:var(--muted);margin-bottom:18px;line-height:1.65;">
+          Five gap-fills. Click the correct collocation. No AI — instant feedback.
+        </p>
+        ${pack.quiz.map((q, qi) => {
+          const shuffled = [...q.opts].sort(() => Math.random() - 0.5);
+          const [before, after] = q.q.split('___');
+          return `
+          <div class="quiz-q" id="quizQ-${qi}">
+            <p class="q-text">${escHtml(before)}<span class="blank">___</span>${escHtml(after || '')}</p>
+            <div class="quiz-options">
+              ${shuffled.map(opt => `
+                <button class="quiz-opt" onclick="answerQuiz(${qi},'${escAttr(opt)}','${escAttr(q.blank)}')">${escHtml(opt)}</button>
+              `).join('')}
+            </div>
+            <div id="quizFb-${qi}" style="margin-top:8px;font-size:0.8rem;display:none;"></div>
+          </div>`;
+        }).join('')}
+        <div id="quizScore" style="display:none;" class="quiz-score"></div>`;
+
+      const el = document.getElementById('topicContent');
+      el.classList.remove('hidden');
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function answerQuiz(qi, chosen, correct) {
+      const qEl   = document.getElementById(`quizQ-${qi}`);
+      const fbEl  = document.getElementById(`quizFb-${qi}`);
+      if (!qEl || qEl.dataset.answered) return;
+
+      qEl.dataset.answered = '1';
+      qEl.querySelectorAll('.quiz-opt').forEach(btn => {
+        btn.disabled = true;
+        if (btn.textContent.trim() === correct) btn.classList.add('correct');
+        else if (btn.textContent.trim() === chosen && chosen !== correct) btn.classList.add('wrong');
+      });
+
+      const isCorrect = chosen === correct;
+      fbEl.style.display = 'block';
+      fbEl.innerHTML = isCorrect
+        ? `<span style="color:var(--success);font-weight:600;">✓ Correct!</span>`
+        : `<span style="color:var(--error);font-weight:600;">✗ The answer is <em>${escHtml(correct)}</em></span>`;
+
+      window._quizAnswers[qi] = isCorrect;
+
+      // Check if all answered
+      const total     = document.querySelectorAll('[id^="quizQ-"]').length;
+      const answered  = Object.keys(window._quizAnswers).length;
+      if (answered >= total) {
+        const score = Object.values(window._quizAnswers).filter(Boolean).length;
+        const scoreEl = document.getElementById('quizScore');
+        scoreEl.style.display = 'block';
+        scoreEl.innerHTML = `
+          <div style="font-size:1.5rem;margin-bottom:6px;">${score === total ? '🏆' : score >= total * 0.6 ? '📈' : '📖'}</div>
+          <div style="font-size:1rem;font-weight:700;">Score: ${score} / ${total}</div>
+          <div style="font-size:0.8125rem;margin-top:4px;opacity:0.8;">
+            ${score === total ? 'Perfect — you\'re ready to use these in your essay.' : score >= total * 0.6 ? 'Good — review the misses and try again tomorrow.' : 'Study the collocations tab again, then retake.'}
+          </div>`;
+      }
+    }
+
+    function copyTemplate(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = event.target.closest('.copy-btn');
+        const orig = btn.innerHTML;
+        btn.textContent = '✓ Copied!';
+        setTimeout(() => { btn.innerHTML = orig; }, 1800);
+      }).catch(() => {});
+    }
+
+    function closeTopic() {
+      document.getElementById('topicContent').classList.add('hidden');
+      document.querySelectorAll('.topic-card').forEach(c => c.classList.remove('active'));
+    }
+
+    // ══════════════════════════════════════════════════════════
+    //  UTILS
+    // ══════════════════════════════════════════════════════════
+    function escHtml(str) {
+      if (str == null) return '';
+      return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+    function escAttr(str) {
+      if (str == null) return '';
+      return String(str).replace(/'/g,'&#39;').replace(/"/g,'&quot;');
+    }
+
+    // ══════════════════════════════════════════════════════════
+    //  TASK 1 PACKS DATA
+    // ══════════════════════════════════════════════════════════
+    const TASK1_PACKS = {
+      linegraph: {
+        label: 'Line Graphs', title: 'Trends, Peaks & Troughs',
+        collocations: [
+          { word: 'surge',                example: 'The number of users <em>surged</em> dramatically from 20% in 2000 to 45% by 2010.',                   families: [{t:'verb',w:'surge'},{t:'noun',w:'surge'},{t:'adj',w:'surging'}] },
+          { word: 'plummet',              example: 'Sales <em>plummeted</em> steeply in Q3, falling from 80 to just 35 units within weeks.',              families: [{t:'verb',w:'plummet'},{t:'noun',w:'plummet'},{t:'adj',w:'plummeting'}] },
+          { word: 'fluctuate',            example: 'Temperatures <em>fluctuated</em> considerably throughout the year, peaking in July.',                  families: [{t:'verb',w:'fluctuate'},{t:'noun',w:'fluctuation'},{t:'adj',w:'fluctuating'}] },
+          { word: 'level off',            example: 'Growth <em>levelled off</em> after 2015, remaining stable at around 30% for five years.',              families: [{t:'verb',w:'level off'},{t:'noun',w:'plateau'},{t:'adj',w:'stable'}] },
+          { word: 'reach a peak of',      example: 'X <em>reached a peak of</em> 45% in 2008 before undergoing a sharp reversal.',                       families: [{t:'verb',w:'peak'},{t:'noun',w:'peak'},{t:'adj',w:'peak (adj.)'}] },
+          { word: 'bottom out at',        example: 'Unemployment <em>bottomed out at</em> 3% in 2019, the lowest figure in the entire period.',           families: [{t:'verb',w:'bottom out'},{t:'noun',w:'trough'},{t:'adj',w:'lowest'}] },
+          { word: 'remain relatively stable', example: 'The proportion <em>remained relatively stable</em>, hovering around 25% throughout.',             families: [{t:'verb',w:'remain'},{t:'adj',w:'stable'},{t:'noun',w:'stability'}] },
+          { word: 'gradual upward trend', example: 'A <em>gradual upward trend</em> was observed from 2005 to 2015, culminating in a new high.',          families: [{t:'adj',w:'gradual'},{t:'adv',w:'gradually'},{t:'noun',w:'trend'}] },
+        ],
+        upgrades: [
+          {
+            b6: 'The number of cars increased a lot from 2000 to 2010.',
+            b8: 'The number of cars surged dramatically from 2000 to 2010, reaching a peak of 45 million by the end of the period.',
+            danger: '"Increased a lot" is Band 5 — "a lot" is spoken English. ✓ increased substantially / surged dramatically / rose sharply. Also: add the peak figure.',
+          },
+          {
+            b6: 'After going up, the numbers went down again slowly.',
+            b8: 'Having peaked in 2005, the figures subsequently underwent a gradual decline, falling back to their 2000 levels by 2015.',
+            danger: '"Went up / went down" are the two weakest verbs in Task 1. ✓ rose, surged, climbed / declined, fell, plummeted, dipped. Ban them from your Task 1 entirely.',
+          },
+          {
+            b6: 'The numbers stayed the same for most of the time.',
+            b8: 'The figures levelled off between 2010 and 2015, remaining relatively stable at approximately 30% throughout.',
+            danger: '"Stayed the same" is informal. ✓ remained stable / levelled off / plateaued / showed little variation. Always add the approximate figure.',
+          },
+        ],
+        template: {
+          text: 'Overall, [Metric A] experienced [general trend] over the [period], rising from [start figure] to [end figure]. In contrast, [Metric B] [contrasting trend], with a notable [peak/trough] of [figure] in [year]. Both metrics [shared observation] throughout the period.',
+          slots: ['Metric A','general trend','period','start figure','end figure','Metric B','contrasting trend','peak/trough','figure','year','shared observation'],
+        },
+        quiz: [
+          { q: 'X ___ dramatically from 20% in 2000 to 45% by 2010.', blank: 'surged', opts: ['surged','increased a lot','went up fast','rose quickly'] },
+          { q: 'After reaching its highest point, the figure ___ steeply.', blank: 'plummeted', opts: ['plummeted','went down','decreased','fell quickly'] },
+          { q: 'Growth ___ after 2015, remaining constant for several years.', blank: 'levelled off', opts: ['levelled off','stopped','stayed the same','became flat'] },
+          { q: 'X ___ a peak of 45% in 2008 before declining sharply.', blank: 'reached', opts: ['reached','got to','had','went to'] },
+          { q: 'The figures ___ throughout the period, with no consistent direction.', blank: 'fluctuated', opts: ['fluctuated','changed','went up and down','varied randomly'] },
+        ],
+      },
+
+      piechart: {
+        label: 'Pie Charts', title: 'Proportions, Shares & Fractions',
+        collocations: [
+          { word: 'account for',            example: 'Transport <em>accounted for</em> the largest share at 35% of total household expenditure.',              families: [{t:'verb',w:'account for'},{t:'noun',w:'proportion'},{t:'adj',w:'accountable'}] },
+          { word: 'constitute',             example: 'Women <em>constituted</em> the majority of respondents, at nearly 60% of the total.',                   families: [{t:'verb',w:'constitute'},{t:'noun',w:'constituent'},{t:'adj',w:'constituted'}] },
+          { word: 'represent',              example: 'Manufacturing <em>represented</em> just 8% of total output, the smallest category by a wide margin.',    families: [{t:'verb',w:'represent'},{t:'noun',w:'representation'},{t:'adj',w:'representative'}] },
+          { word: 'make up',                example: 'Renewables <em>made up</em> over half of total energy production in the country by 2020.',               families: [{t:'verb',w:'make up'},{t:'noun',w:'composition'},{t:'adj',w:'comprising'}] },
+          { word: 'the largest proportion', example: 'Food expenditure represented <em>the largest proportion</em> of household budgets across all age groups.', families: [{t:'adj',w:'proportional'},{t:'adv',w:'proportionally'},{t:'noun',w:'proportion'}] },
+          { word: 'a negligible share',     example: 'Other categories combined accounted for <em>a negligible share</em> of the total, at just 4%.',          families: [{t:'adj',w:'negligible'},{t:'adv',w:'negligibly'},{t:'noun',w:'share'}] },
+          { word: 'roughly equal',          example: 'The two sectors were <em>roughly equal</em> in size, at 28% and 26% respectively.',                      families: [{t:'adv',w:'roughly'},{t:'adj',w:'equal'},{t:'noun',w:'equality'}] },
+          { word: 'the lion\'s share',      example: 'Housing consumed <em>the lion\'s share</em> of expenditure at 42%, dwarfing all other categories.',       families: [{t:'idiom',w:'the lion\'s share'},{t:'alt.',w:'the dominant share'},{t:'alt.',w:'the majority'}] },
+        ],
+        upgrades: [
+          {
+            b6: 'Transport was the biggest with 35%.',
+            b8: 'Transport accounted for the largest proportion, representing 35% of total expenditure.',
+            danger: '"Transport was 35%" is incomplete — a pie value always needs a linking phrase. ✓ accounted for / represented / constituted / made up [percentage] of the total.',
+          },
+          {
+            b6: 'Housing and food were about the same amount.',
+            b8: 'Housing and food represented roughly equal shares, at 28% and 26% respectively.',
+            danger: '"About the same" is Band 5. ✓ roughly equal / comparable / approximately equivalent. Always add both actual figures and use "respectively".',
+          },
+          {
+            b6: 'Other things were very small and not important.',
+            b8: 'The remaining categories combined constituted a negligible share of total expenditure, amounting to just 4%.',
+            danger: 'Never describe each small slice individually — it wastes words. Group them: "the remaining categories" or "other expenditure". Then use one phrase for all.',
+          },
+        ],
+        template: {
+          text: 'Overall, [largest category] dominated, accounting for [proportion] of the total. This was followed by [second category] at [proportion], while [smallest category] represented a negligible [proportion]. Notably, [two comparable categories] were roughly equal in size, at [figure] and [figure] respectively.',
+          slots: ['largest category','proportion','second category','proportion','smallest category','proportion','two comparable categories','figure','figure'],
+        },
+        quiz: [
+          { q: 'Transport ___ the largest share at 35% of total expenditure.', blank: 'accounted for', opts: ['accounted for','was','had','showed'] },
+          { q: 'Women ___ the majority of survey respondents at nearly 60%.', blank: 'constituted', opts: ['constituted','were','made','formed simply'] },
+          { q: 'Manufacturing ___ just 8% of total output.', blank: 'represented', opts: ['represented','was','had','showed'] },
+          { q: 'The two sectors were ___ in size, at 28% and 26% respectively.', blank: 'roughly equal', opts: ['roughly equal','about same','quite similar','nearly same'] },
+          { q: 'The remaining categories combined ___ a negligible share of 4%.', blank: 'constituted', opts: ['constituted','were just','showed only','made a small'] },
+        ],
+      },
+
+      barchart: {
+        label: 'Bar Charts', title: 'Comparisons, Rankings & Gaps',
+        collocations: [
+          { word: 'significantly higher than', example: 'X was <em>significantly higher than</em> Y across all subcategories measured.',                            families: [{t:'adv',w:'significantly'},{t:'adj',w:'significant'},{t:'noun',w:'significance'}] },
+          { word: 'by a wide margin',           example: 'Country A led <em>by a wide margin</em>, recording the highest score in every indicator.',                 families: [{t:'noun',w:'margin'},{t:'adj',w:'marginal'},{t:'adv',w:'marginally'}] },
+          { word: 'outperform',                 example: 'Developed nations consistently <em>outperformed</em> developing ones across all five indices.',             families: [{t:'verb',w:'outperform'},{t:'noun',w:'outperformance'},{t:'adj',w:'outperforming'}] },
+          { word: 'the most pronounced difference', example: '<em>The most pronounced difference</em> was observed in the 25–34 age group.',                        families: [{t:'adj',w:'pronounced'},{t:'adv',w:'pronouncedly'},{t:'noun',w:'difference'}] },
+          { word: 'in contrast to',             example: '<em>In contrast to</em> urban areas, rural regions recorded far lower participation rates.',               families: [{t:'noun',w:'contrast'},{t:'verb',w:'contrast'},{t:'adj',w:'contrasting'}] },
+          { word: 'a comparable figure',        example: 'Country B recorded <em>a comparable figure</em> of 45%, closely matching Country A.',                     families: [{t:'adj',w:'comparable'},{t:'adv',w:'comparably'},{t:'noun',w:'comparison'}] },
+          { word: 'the gap widened',            example: '<em>The gap</em> between the two groups <em>widened</em> significantly from 2005 to 2015.',               families: [{t:'noun',w:'gap'},{t:'verb',w:'widen'},{t:'adj',w:'widening'}] },
+          { word: 'notably lower than',         example: 'Female participation was <em>notably lower than</em> that of males in every single category.',            families: [{t:'adv',w:'notably'},{t:'adj',w:'notable'},{t:'noun',w:'note'}] },
+        ],
+        upgrades: [
+          {
+            b6: 'Men spent much more money than women on entertainment.',
+            b8: 'Men spent considerably more than women on entertainment, outspending them by a margin of approximately 30%.',
+            danger: '"Much more" is conversational. ✓ considerably more / substantially more / significantly more / far more. Always quantify the gap if the data shows it.',
+          },
+          {
+            b6: 'Country A was the best in every category.',
+            b8: 'Country A led by a wide margin across all categories, significantly outperforming its nearest competitor in every indicator.',
+            danger: 'Avoid repeating "best/highest/most" — vary with ✓ led, dominated, outperformed, surpassed, exceeded. "By a wide margin" specifies how dominant.',
+          },
+          {
+            b6: 'The difference between the two groups was big in some areas.',
+            b8: 'The most pronounced differences were observed in the 25–34 age bracket, where Group A recorded figures nearly double those of Group B.',
+            danger: '"A big difference" → ✓ a pronounced difference / a marked disparity / a striking contrast. Always specify WHERE the gap was biggest and quantify it.',
+          },
+        ],
+        template: {
+          text: 'Overall, [leading category] significantly outperformed [others] across the majority of indicators, leading by a wide margin in [subcategory]. The most notable disparity was observed in [area], where [Group A] recorded figures considerably higher than [Group B]. By contrast, [Category X] and [Category Y] showed comparable figures throughout.',
+          slots: ['leading category','others','subcategory','area','Group A','Group B','Category X','Category Y'],
+        },
+        quiz: [
+          { q: 'Country A led ___, recording the highest score in every category.', blank: 'by a wide margin', opts: ['by a wide margin','by a lot','by much','by a big amount'] },
+          { q: 'Developed nations consistently ___ developing ones across all indices.', blank: 'outperformed', opts: ['outperformed','beat them','did better than','scored more than'] },
+          { q: 'X was ___ higher than Y in every subcategory measured.', blank: 'significantly', opts: ['significantly','a lot','very much','highly'] },
+          { q: 'The gap between the two groups ___ significantly after 2010.', blank: 'widened', opts: ['widened','grew','got bigger','expanded quickly'] },
+          { q: '___ urban areas, rural regions recorded far lower participation rates.', blank: 'In contrast to', opts: ['In contrast to','Different from','Unlike compared to','Compared against'] },
+        ],
+      },
+
+      process: {
+        label: 'Process Diagrams', title: 'Stages, Sequences & Passive Voice',
+        collocations: [
+          { word: 'is fed into',            example: 'Raw material <em>is fed into</em> the processing unit at the initial stage of production.',               families: [{t:'verb',w:'feed into'},{t:'noun',w:'input'},{t:'adj',w:'incoming'}] },
+          { word: 'undergoes',              example: 'The mixture <em>undergoes</em> a rigorous filtration process before being sealed for packaging.',          families: [{t:'verb',w:'undergo'},{t:'noun',w:'process'},{t:'adj',w:'undergoing'}] },
+          { word: 'is converted into',      example: 'Solar energy <em>is converted into</em> electricity through an array of photovoltaic cells.',              families: [{t:'verb',w:'convert'},{t:'noun',w:'conversion'},{t:'adj',w:'converted'}] },
+          { word: 'is transported to',      example: 'The refined product <em>is transported to</em> the central distribution facility via pipeline.',          families: [{t:'verb',w:'transport'},{t:'noun',w:'transportation'},{t:'adj',w:'transported'}] },
+          { word: 'results in',             example: 'This chemical reaction <em>results in</em> a purified compound suitable for commercial use.',              families: [{t:'verb',w:'result in'},{t:'noun',w:'result'},{t:'adj',w:'resulting'}] },
+          { word: 'is treated with',        example: 'The water <em>is treated with</em> chemical agents to eliminate all biological contaminants.',            families: [{t:'verb',w:'treat'},{t:'noun',w:'treatment'},{t:'adj',w:'treated'}] },
+          { word: 'subsequently',           example: '<em>Subsequently</em>, the liquid is heated to 200°C before being rapidly cooled.',                      families: [{t:'adv',w:'subsequently'},{t:'adj',w:'subsequent'},{t:'alt.',w:'thereafter'}] },
+          { word: 'the final stage involves', example: '<em>The final stage involves</em> packaging the product and preparing it for distribution.',           families: [{t:'noun',w:'stage'},{t:'verb',w:'involve'},{t:'adj',w:'final'}] },
+        ],
+        upgrades: [
+          {
+            b6: 'First, they put the raw material into a machine.',
+            b8: 'Initially, the raw material is fed into the processing unit, where it undergoes preliminary sorting and classification.',
+            danger: 'NEVER write "they" in a process diagram — there is no agent visible in the diagram. ✓ Passive voice throughout: is fed into / is added to / is removed. This is non-negotiable.',
+          },
+          {
+            b6: 'Then the water is cleaned using chemicals.',
+            b8: 'Subsequently, the water is treated with chemical agents before being passed through a three-stage filtration system.',
+            danger: '"Then" is acceptable once — but students use it for every step. Vary with ✓ subsequently / following this / at the next stage / thereafter / once this is complete.',
+          },
+          {
+            b6: 'At the end, the finished product comes out.',
+            b8: 'In the final stage, the refined product is extracted, quality-tested, and transported to the distribution facility.',
+            danger: '"Comes out" and "goes to" are too informal. ✓ is extracted / is removed / is transferred to / is dispatched to. List all actions at that stage, not just one.',
+          },
+        ],
+        template: {
+          text: 'Overall, the process involves [number] distinct stages, beginning with [Stage 1 description] and culminating in [final output]. At each stage, [material/substance] is [passive verb phrase] before being [next action]. The most complex phase is [stage name], in which [detailed description of what happens].',
+          slots: ['number','Stage 1 description','final output','material/substance','passive verb phrase','next action','stage name','detailed description'],
+        },
+        quiz: [
+          { q: 'Raw material ___ the processing unit at the first stage.', blank: 'is fed into', opts: ['is fed into','enters','is put in','goes inside'] },
+          { q: 'The mixture ___ a filtration process before packaging.', blank: 'undergoes', opts: ['undergoes','goes through','experiences','has done'] },
+          { q: 'Solar energy ___ electricity through photovoltaic cells.', blank: 'is converted into', opts: ['is converted into','becomes','changes to','turns into'] },
+          { q: '___, the liquid is heated to 80°C before being rapidly cooled.', blank: 'Subsequently', opts: ['Subsequently','Then next','After this done','Followed by'] },
+          { q: 'This chemical reaction ___ a purified compound for commercial use.', blank: 'results in', opts: ['results in','makes','produces also','gives out'] },
+        ],
+      },
+
+      maps: {
+        label: 'Maps', title: 'Spatial Change & Development',
+        collocations: [
+          { word: 'was replaced by',               example: 'The forest <em>was replaced by</em> a residential area between 1990 and 2020.',                     families: [{t:'verb',w:'replace'},{t:'noun',w:'replacement'},{t:'adj',w:'replaced'}] },
+          { word: 'was extended to',               example: 'The road network <em>was extended to</em> the eastern boundary of the town by 2020.',               families: [{t:'verb',w:'extend'},{t:'noun',w:'extension'},{t:'adj',w:'extended'}] },
+          { word: 'was demolished',                example: 'The old factory <em>was demolished</em> and the site redeveloped as a public park.',                 families: [{t:'verb',w:'demolish'},{t:'noun',w:'demolition'},{t:'adj',w:'demolished'}] },
+          { word: 'remained largely unchanged',    example: 'The town centre <em>remained largely unchanged</em> throughout the thirty-year period.',              families: [{t:'verb',w:'remain'},{t:'adj',w:'unchanged'},{t:'alt.',w:'unaltered'}] },
+          { word: 'underwent a significant transformation', example: 'The northern district <em>underwent a significant transformation</em> between 1990 and 2020.', families: [{t:'verb',w:'undergo'},{t:'noun',w:'transformation'},{t:'adj',w:'transformed'}] },
+          { word: 'to the north/south of',         example: 'A new school was constructed <em>to the north of</em> the river, replacing the former wasteland.',   families: [{t:'prep.',w:'to the north of'},{t:'adj.',w:'northern'},{t:'adv.',w:'northward'}] },
+          { word: 'now occupies',                  example: 'A modern shopping centre <em>now occupies</em> the former industrial site on the western edge.',      families: [{t:'verb',w:'occupy'},{t:'noun',w:'occupant'},{t:'adj',w:'occupied'}] },
+          { word: 'was relocated to',              example: 'The car park <em>was relocated to</em> the eastern edge of the development in the later plan.',      families: [{t:'verb',w:'relocate'},{t:'noun',w:'relocation'},{t:'adj',w:'relocated'}] },
+        ],
+        upgrades: [
+          {
+            b6: 'The old factory was removed and they put a park there.',
+            b8: 'The former industrial site was demolished and subsequently replaced by a public park in the northern quarter of the town.',
+            danger: 'Never write "they" in a map task — there is no agent in the diagram. ✓ Passive voice throughout: was demolished / was replaced / was constructed / was converted.',
+          },
+          {
+            b6: 'The road got bigger and went further east.',
+            b8: 'The road network was significantly extended, stretching to the eastern boundary of the town by the later period.',
+            danger: '"Got bigger" is informal. ✓ was extended / was expanded / was widened / was developed. Always specify the direction: "to the east / northward / across the river".',
+          },
+          {
+            b6: 'Some things didn\'t change very much.',
+            b8: 'The town hall and the surrounding residential streets remained largely unchanged throughout the period, preserving the historic character of the central district.',
+            danger: 'Be precise about WHAT remained unchanged. ✗ "some things". ✓ "The [specific feature] remained largely unchanged" — always name the exact feature.',
+          },
+        ],
+        template: {
+          text: 'Overall, the [location] underwent a significant transformation between [year 1] and [year 2]. The most notable change was the [demolition/construction/relocation] of [feature], which was [replaced by / converted into / extended to] [new feature]. In contrast, [feature] remained largely unchanged. To the [direction], a new [development] now occupies the former [land use] site.',
+          slots: ['location','year 1','year 2','demolition/construction/relocation','feature','replaced by / converted into / extended to','new feature','feature','direction','development','land use'],
+        },
+        quiz: [
+          { q: 'The forest was ___ a residential area by 2020.', blank: 'replaced by', opts: ['replaced by','changed to','turned into naturally','converted to be'] },
+          { q: 'The road network was ___ the eastern edge of the town.', blank: 'extended to', opts: ['extended to','made longer to','grown towards','expanded reaching'] },
+          { q: 'A shopping centre now ___ the former industrial site.', blank: 'occupies', opts: ['occupies','is on','stands there at','covers around'] },
+          { q: 'The town hall ___ largely unchanged throughout the entire period.', blank: 'remained', opts: ['remained','stayed','kept being','was kept'] },
+          { q: 'The northern district ___ a significant transformation between 1990 and 2020.', blank: 'underwent', opts: ['underwent','had','experienced change','saw happen'] },
+        ],
+      },
+    };
+
+    // ── T1 tab & topic logic ──
+    function switchT1Tab(key, btn) {
+      const panelIds = { collocations: 't1TabCollocations', upgrades: 't1TabUpgrades', template: 't1TabTemplate', quiz: 't1TabQuiz' };
+      document.querySelectorAll('#t1TopicTabs .topic-tab').forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('#t1TopicContent .topic-panel').forEach(p => p.classList.add('hidden'));
+      const panel = document.getElementById(panelIds[key]);
+      if (panel) panel.classList.remove('hidden');
+    }
+
+    function loadT1Topic(key, btn) {
+      const pack = TASK1_PACKS[key];
+      if (!pack) return;
+      document.querySelectorAll('#t1TopicContent').length; // ensure loaded
+      document.querySelectorAll('.topic-card').forEach(c => {
+        if (c.getAttribute('onclick') && c.getAttribute('onclick').includes('loadT1Topic')) c.classList.remove('active');
+      });
+      btn.classList.add('active');
+      document.getElementById('t1PackLabel').textContent  = pack.label + ' Vocabulary';
+      document.getElementById('t1PackTitle').textContent   = pack.title;
+
+      // Reset tabs
+      document.querySelectorAll('#t1TopicTabs .topic-tab').forEach((t, i) => t.classList.toggle('active', i === 0));
+      document.querySelectorAll('#t1TopicContent .topic-panel').forEach((p, i) => p.classList.toggle('hidden', i !== 0));
+
+      // Collocations tab
+      document.getElementById('t1TabCollocations').innerHTML = pack.collocations.map(c => `
+        <div class="collocation-row">
+          <div style="min-width:160px;flex-shrink:0;">
+            <span class="colloc-word">${escHtml(c.word)}</span>
+            ${c.families && c.families.length ? `
+              <div class="word-family" style="margin-top:6px;">
+                ${c.families.map(f => `
+                  <div class="wf-chip"><span class="wf-type">${escHtml(f.t)}</span><span class="wf-word">${escHtml(f.w)}</span></div>
+                `).join('')}
+              </div>` : ''}
+          </div>
+          <span class="colloc-example">${c.example}</span>
+        </div>`).join('');
+
+      // Upgrades tab
+      document.getElementById('t1TabUpgrades').innerHTML = `
+        <p style="font-size:0.8125rem;color:var(--muted);margin-bottom:18px;line-height:1.65;">
+          The same data observation written at <strong style="color:#dc2626;">Band 6</strong> and <strong style="color:var(--gold);">Band 8</strong>. The gap is always precision + formality.
+        </p>
+        ${pack.upgrades.map(u => `
+          <div class="upgrade-pair">
+            <div class="band-col b6"><div class="band-col-label">✗ Band 6</div><p>${escHtml(u.b6)}</p></div>
+            <div class="band-col b8"><div class="band-col-label">✓ Band 8</div><p>${escHtml(u.b8)}</p></div>
+          </div>
+          <div class="danger-zone" style="margin-bottom:20px;"><strong>⚠ Danger Zone — </strong>${escHtml(u.danger)}</div>
+        `).join('')}`;
+
+      // Template tab
+      const slots = pack.template.slots;
+      let tplHtml = escHtml(pack.template.text);
+      slots.forEach(s => {
+        const esc = escHtml(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        tplHtml = tplHtml.replace(new RegExp(`\\[${esc}\\]`, 'g'), `<span class="slot">[${escHtml(s)}]</span>`);
+      });
+      document.getElementById('t1TabTemplate').innerHTML = `
+        <p style="font-size:0.8125rem;color:var(--muted);margin-bottom:16px;line-height:1.65;">
+          This is your overview sentence structure. Replace the <span class="slot" style="font-size:0.75rem;">slots</span> with data from your specific chart. The language frame is already Band 7.
+        </p>
+        <div class="template-box">${tplHtml}</div>
+        <button class="copy-btn" onclick="copyT1Template('${escAttr(pack.template.text)}')">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy template
+        </button>`;
+
+      // Quiz tab
+      window._t1QuizAnswers = {};
+      document.getElementById('t1TabQuiz').innerHTML = `
+        <p style="font-size:0.8125rem;color:var(--muted);margin-bottom:18px;line-height:1.65;">
+          Five gap-fills testing the key collocations for this chart type.
+        </p>
+        ${pack.quiz.map((q, qi) => {
+          const shuffled = [...q.opts].sort(() => Math.random() - 0.5);
+          const [before, after] = q.q.split('___');
+          return `
+          <div class="quiz-q" id="t1QuizQ-${qi}">
+            <p class="q-text">${escHtml(before)}<span class="blank">___</span>${escHtml(after || '')}</p>
+            <div class="quiz-options">
+              ${shuffled.map(opt => `
+                <button class="quiz-opt" onclick="answerT1Quiz(${qi},'${escAttr(opt)}','${escAttr(q.blank)}')">${escHtml(opt)}</button>
+              `).join('')}
+            </div>
+            <div id="t1QuizFb-${qi}" style="margin-top:8px;font-size:0.8rem;display:none;"></div>
+          </div>`;
+        }).join('')}
+        <div id="t1QuizScore" style="display:none;" class="quiz-score"></div>`;
+
+      const el = document.getElementById('t1TopicContent');
+      el.classList.remove('hidden');
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function answerT1Quiz(qi, chosen, correct) {
+      const qEl = document.getElementById(`t1QuizQ-${qi}`);
+      const fbEl = document.getElementById(`t1QuizFb-${qi}`);
+      if (!qEl || qEl.dataset.answered) return;
+      qEl.dataset.answered = '1';
+      qEl.querySelectorAll('.quiz-opt').forEach(b => {
+        b.disabled = true;
+        if (b.textContent.trim() === correct) b.classList.add('correct');
+        else if (b.textContent.trim() === chosen && chosen !== correct) b.classList.add('wrong');
+      });
+      const ok = chosen === correct;
+      fbEl.style.display = 'block';
+      fbEl.innerHTML = ok
+        ? `<span style="color:var(--success);font-weight:600;">✓ Correct!</span>`
+        : `<span style="color:var(--error);font-weight:600;">✗ Answer: <em>${escHtml(correct)}</em></span>`;
+      window._t1QuizAnswers[qi] = ok;
+      const total    = document.querySelectorAll('[id^="t1QuizQ-"]').length;
+      const answered = Object.keys(window._t1QuizAnswers).length;
+      if (answered >= total) {
+        const score = Object.values(window._t1QuizAnswers).filter(Boolean).length;
+        const el = document.getElementById('t1QuizScore');
+        el.style.display = 'block';
+        el.innerHTML = `<div style="font-size:1.5rem;margin-bottom:6px;">${score === total ? '🏆' : score >= 3 ? '📈' : '📖'}</div>
+          <div style="font-size:1rem;font-weight:700;">Score: ${score} / ${total}</div>
+          <div style="font-size:0.8125rem;margin-top:4px;opacity:0.8;">${score === total ? 'Perfect — these are ready for exam day.' : score >= 3 ? 'Good — review the misses before your next Task 1.' : 'Revisit the collocations tab, then retake.'}</div>`;
+      }
+    }
+
+    function copyT1Template(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = event.target.closest('.copy-btn');
+        const orig = btn.innerHTML;
+        btn.textContent = '✓ Copied!';
+        setTimeout(() => { btn.innerHTML = orig; }, 1800);
+      }).catch(() => {});
+    }
+
+    function closeT1Topic() {
+      document.getElementById('t1TopicContent').classList.add('hidden');
+      document.querySelectorAll('.topic-card').forEach(c => {
+        if (c.getAttribute('onclick') && c.getAttribute('onclick').includes('loadT1Topic')) c.classList.remove('active');
+      });
+    }
+
+    // ══════════════════════════════════════════════════════════
+    //  VERB-ADVERB PAIRING DRILL
+    // ══════════════════════════════════════════════════════════
+    const VAD_QUESTIONS = [
+      { prompt: 'Unemployment fell very quickly after the new policy was introduced.',
+        opts: ['fell very quickly','declined sharply','went down fast','dropped quickly'],
+        blank: 'declined sharply',
+        explain: '"Declined sharply" — formal verb + precise adverb. "Fell quickly" and "dropped quickly" are too colloquial. Never "went down".' },
+      { prompt: 'Prices went up slowly and consistently over the ten-year period.',
+        opts: ['rose steadily','increased slowly','went up consistently','climbed slowly'],
+        blank: 'rose steadily',
+        explain: '"Rose steadily" — "steadily" implies both consistent pace and direction. "Went up" is Band 5.' },
+      { prompt: 'The figures didn\'t really change at all throughout the year.',
+        opts: ['fluctuated marginally','stayed the same','moved a little','changed slightly'],
+        blank: 'fluctuated marginally',
+        explain: '"Fluctuated marginally" — combines the right verb for minor instability with the right degree adverb. "Stayed the same" is conversational.' },
+      { prompt: 'The economy started recovering slowly after the recession ended.',
+        opts: ['recovered gradually','got better slowly','improved a bit','came back slowly'],
+        blank: 'recovered gradually',
+        explain: '"Recovered gradually" — both elements are formal and precise. "Got better" is too colloquial for Task 1.' },
+      { prompt: 'The number of visitors fell a tiny amount in January.',
+        opts: ['dipped slightly','fell a little','decreased a bit','went down marginally'],
+        blank: 'dipped slightly',
+        explain: '"Dipped slightly" — "dip" signals a small, brief fall, and "slightly" provides the degree. This is a complete Band 7 phrase.' },
+      { prompt: 'Population grew enormously over the course of the century.',
+        opts: ['surged dramatically','grew enormously','increased greatly','rose a lot'],
+        blank: 'surged dramatically',
+        explain: '"Surged dramatically" — strongest verb + strongest adverb for large upward movement. "Grew enormously" is acceptable but informal.' },
+      { prompt: 'Which pair is BROKEN — a semantic contradiction?',
+        opts: ['surge gradually','fall sharply','rise steadily','decline marginally'],
+        blank: 'surge gradually',
+        explain: '"Surge gradually" is a contradiction — surge implies speed and intensity, not gradualness. This is the most common broken pair examiners see.' },
+      { prompt: 'Which sentence uses the CORRECT word order for formal Task 1?',
+        opts: ['The figure fell sharply in Q3.','The figure sharply fell in Q3.','The figure sharply has fallen in Q3.','The figure in Q3 fell sharply.'],
+        blank: 'The figure fell sharply in Q3.',
+        explain: '"Fell sharply" (verb + adverb) is standard Task 1 style. "Sharply fell" is emphatic inversion — reserve it for the start of a clause only.' },
+    ];
+
+    let _vadAnswers = {};
+
+    function renderVADDrill() {
+      _vadAnswers = {};
+      document.getElementById('vadScore').style.display = 'none';
+      document.getElementById('vadDrill').innerHTML = VAD_QUESTIONS.map((q, qi) => {
+        const shuffled = [...q.opts].sort(() => Math.random() - 0.5);
+        return `
+          <div class="quiz-q" id="vadQ-${qi}" style="margin-bottom:12px;">
+            <p class="q-text" style="font-style:italic;color:var(--muted);margin-bottom:10px;">"${escHtml(q.prompt)}"</p>
+            <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--navy);margin-bottom:8px;">Best Band 7+ version:</p>
+            <div class="quiz-options">
+              ${shuffled.map(opt => `
+                <button class="quiz-opt" onclick="answerVAD(${qi},'${escAttr(opt)}','${escAttr(q.blank)}')">${escHtml(opt)}</button>
+              `).join('')}
+            </div>
+            <div id="vadFb-${qi}" style="margin-top:8px;font-size:0.8rem;color:var(--muted);display:none;line-height:1.65;"></div>
+          </div>`;
+      }).join('');
+    }
+
+    function answerVAD(qi, chosen, correct) {
+      const qEl = document.getElementById(`vadQ-${qi}`);
+      const fbEl = document.getElementById(`vadFb-${qi}`);
+      if (!qEl || qEl.dataset.answered) return;
+      qEl.dataset.answered = '1';
+      qEl.querySelectorAll('.quiz-opt').forEach(b => {
+        b.disabled = true;
+        if (b.textContent.trim() === correct) b.classList.add('correct');
+        else if (b.textContent.trim() === chosen && chosen !== correct) b.classList.add('wrong');
+      });
+      const ok = chosen === correct;
+      _vadAnswers[qi] = ok;
+      const q = VAD_QUESTIONS[qi];
+      fbEl.style.display = 'block';
+      fbEl.innerHTML = (ok ? `<strong style="color:var(--success);">✓ Correct.</strong> ` : `<strong style="color:var(--error);">✗ Answer: <em>${escHtml(correct)}</em>.</strong> `) + escHtml(q.explain);
+      if (Object.keys(_vadAnswers).length >= VAD_QUESTIONS.length) {
+        const score = Object.values(_vadAnswers).filter(Boolean).length;
+        const el = document.getElementById('vadScore');
+        el.style.display = 'block';
+        el.innerHTML = `<div style="font-size:1.4rem;margin-bottom:5px;">${score >= 7 ? '🏆' : score >= 5 ? '📈' : '📖'}</div>
+          <div style="font-weight:700;">Score: ${score} / ${VAD_QUESTIONS.length}</div>
+          <div style="font-size:0.8125rem;margin-top:4px;opacity:0.8;">${score >= 7 ? 'Excellent pairing instinct — ready for exam conditions.' : score >= 5 ? 'Good foundation. Re-read the broken pair explanations.' : 'Study the cheat sheet above, then reset and retry.'}</div>`;
+      }
+    }
+
+    function resetVAD() { renderVADDrill(); }
+
+    // ══════════════════════════════════════════════════════════
+    //  NOUN ↔ VERB SWAP DRILL
+    // ══════════════════════════════════════════════════════════
+    const NVS_QUESTIONS = [
+      { type: 'v2n',
+        given:   'X increased significantly between 2000 and 2010.',
+        prompt:  'Convert to noun form:',
+        blank:   'There was a significant increase in X between 2000 and 2010.',
+        opts:    ['There was a significant increase in X between 2000 and 2010.','There was a significantly increase in X.','X had an increase significantly.','A significant increasing was seen in X.'],
+        explain: 'The adverb "significantly" becomes the adjective "significant" when you switch to noun form. The noun is "increase", not "increasing".' },
+      { type: 'n2v',
+        given:   'There was a sharp fall in sales in Q3.',
+        prompt:  'Convert to verb form:',
+        blank:   'Sales fell sharply in Q3.',
+        opts:    ['Sales fell sharply in Q3.','Sales felt sharply in Q3.','Sales made a sharp fall in Q3.','Sales have sharp fallen in Q3.'],
+        explain: 'The adjective "sharp" becomes the adverb "sharply". The past tense of "fall" is "fell", not "falled" or "felt".' },
+      { type: 'v2n',
+        given:   'X declined dramatically after 2015.',
+        prompt:  'Convert to noun form:',
+        blank:   'There was a dramatic decline in X after 2015.',
+        opts:    ['There was a dramatic decline in X after 2015.','There was a dramatic declining in X.','X saw a dramatic declination.','A dramatically decline was observed.'],
+        explain: '"Dramatic decline" — the noun is "decline" (not "declining" or "declination"). The adverb "dramatically" becomes the adjective "dramatic".' },
+      { type: 'n2v',
+        given:   'There was a gradual rise in temperatures over the period.',
+        prompt:  'Convert to verb form:',
+        blank:   'Temperatures rose gradually over the period.',
+        opts:    ['Temperatures rose gradually over the period.','Temperatures rised gradually.','Temperatures raised gradually.','Temperatures were risen gradually.'],
+        explain: '"Rose" is the past tense of "rise" (intransitive). Never "rised" or "raised" (raise = to lift something). "Were risen" is passive — wrong here.' },
+      { type: 'v2n',
+        given:   'Prices fluctuated considerably throughout the year.',
+        prompt:  'Convert to noun form:',
+        blank:   'There were considerable fluctuations in prices throughout the year.',
+        opts:    ['There were considerable fluctuations in prices throughout the year.','There was considerable fluctuating in prices.','Prices had a considerable fluctuation throughout.','There was considerably fluctuations in prices.'],
+        explain: '"Fluctuations" is plural here (multiple ups and downs). "Considerably" → "considerable". "Fluctuating" is a gerund, not the correct noun form here.' },
+      { type: 'n2v',
+        given:   'There was a rapid recovery in the housing market.',
+        prompt:  'Convert to verb form:',
+        blank:   'The housing market recovered rapidly.',
+        opts:    ['The housing market recovered rapidly.','The housing market was recovered rapidly.','The housing market had a rapid recovery.','The housing market rapidly had recovered.'],
+        explain: '"Recovered" is intransitive — don\'t use the passive "was recovered". "Had a rapid recovery" is acceptable but weak — direct verb form is stronger for Task 1.' },
+      { type: 'v2n',
+        given:   'Sales surged dramatically in Q4.',
+        prompt:  'Convert to noun form:',
+        blank:   'There was a dramatic surge in sales in Q4.',
+        opts:    ['There was a dramatic surge in sales in Q4.','There was a dramatically surge in sales.','Sales had a surge dramatically in Q4.','A dramatic surging in sales was seen.'],
+        explain: '"Dramatic surge" — "surge" is both noun and verb. The adverb "dramatically" becomes the adjective "dramatic". "Surging" as a noun is unnatural.' },
+      { type: 'n2v',
+        given:   'There was a steady growth in the number of users.',
+        prompt:  'Convert to verb form:',
+        blank:   'The number of users grew steadily.',
+        opts:    ['The number of users grew steadily.','The number of users growed steadily.','The number of users was grown steadily.','The users steadily growth.'],
+        explain: '"Grew" is the past tense of "grow" (irregular). Never "growed". "Was grown" is passive — wrong here (you don\'t grow users, they grow). "Growth" is a noun, not a verb.' },
+    ];
+
+    let _nvsAnswers = {};
+
+    function renderNVSDrill() {
+      _nvsAnswers = {};
+      document.getElementById('nvsScore').style.display = 'none';
+      document.getElementById('nvsDrill').innerHTML = NVS_QUESTIONS.map((q, qi) => {
+        const shuffled = [...q.opts].sort(() => Math.random() - 0.5);
+        const badge = q.type === 'v2n' ? 'Verb → Noun' : 'Noun → Verb';
+        const badgeColor = q.type === 'v2n' ? 'var(--navy)' : 'var(--gold)';
+        return `
+          <div class="quiz-q" id="nvsQ-${qi}" style="margin-bottom:12px;">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+              <span style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;background:${badgeColor};color:#fff;border-radius:4px;padding:2px 7px;">${badge}</span>
+            </div>
+            <p style="font-size:0.875rem;font-style:italic;color:var(--navy);margin-bottom:6px;line-height:1.65;">"${escHtml(q.given)}"</p>
+            <p style="font-size:0.75rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--muted);margin-bottom:8px;">${escHtml(q.prompt)}</p>
+            <div class="quiz-options" style="flex-direction:column;">
+              ${shuffled.map(opt => `
+                <button class="quiz-opt" style="text-align:left;" onclick="answerNVS(${qi},'${escAttr(opt)}','${escAttr(q.blank)}')">${escHtml(opt)}</button>
+              `).join('')}
+            </div>
+            <div id="nvsFb-${qi}" style="margin-top:8px;font-size:0.8rem;color:var(--muted);display:none;line-height:1.65;"></div>
+          </div>`;
+      }).join('');
+    }
+
+    function answerNVS(qi, chosen, correct) {
+      const qEl = document.getElementById(`nvsQ-${qi}`);
+      const fbEl = document.getElementById(`nvsFb-${qi}`);
+      if (!qEl || qEl.dataset.answered) return;
+      qEl.dataset.answered = '1';
+      qEl.querySelectorAll('.quiz-opt').forEach(b => {
+        b.disabled = true;
+        if (b.textContent.trim() === correct) b.classList.add('correct');
+        else if (b.textContent.trim() === chosen && chosen !== correct) b.classList.add('wrong');
+      });
+      const ok = chosen === correct;
+      _nvsAnswers[qi] = ok;
+      const q = NVS_QUESTIONS[qi];
+      fbEl.style.display = 'block';
+      fbEl.innerHTML = (ok ? `<strong style="color:var(--success);">✓ Correct.</strong> ` : `<strong style="color:var(--error);">✗ Answer: </strong><em style="color:var(--error);">"${escHtml(correct)}"</em><br>`) + escHtml(q.explain);
+      if (Object.keys(_nvsAnswers).length >= NVS_QUESTIONS.length) {
+        const score = Object.values(_nvsAnswers).filter(Boolean).length;
+        const el = document.getElementById('nvsScore');
+        el.style.display = 'block';
+        el.innerHTML = `<div style="font-size:1.4rem;margin-bottom:5px;">${score >= 7 ? '🏆' : score >= 5 ? '📈' : '📖'}</div>
+          <div style="font-weight:700;">Score: ${score} / ${NVS_QUESTIONS.length}</div>
+          <div style="font-size:0.8125rem;margin-top:4px;opacity:0.8;">${score >= 7 ? 'Excellent range — you\'ve internalised both structures.' : score >= 5 ? 'Good. Focus on the adverb→adjective switch.' : 'Study the pattern card above, reset, and retry.'}</div>`;
+      }
+    }
+
+    function resetNVS() { renderNVSDrill(); }
+
+    // ══════════════════════════════════════════════════════════
+    //  TOGGLE COLLAPSIBLE SECTIONS
+    // ══════════════════════════════════════════════════════════
+    function toggleSection(bodyId, btnId) {
+      const body = document.getElementById(bodyId);
+      const btn  = document.getElementById(btnId);
+      const isOpen = body.classList.contains('open');
+      body.classList.toggle('open', !isOpen);
+      btn.classList.toggle('open', !isOpen);
+      if (!isOpen) body.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    // ══════════════════════════════════════════════════════════
+    //  BAND 7+ COLLOCATION UPGRADE DRILL
+    // ══════════════════════════════════════════════════════════
+    const B7_QUESTIONS = [
+      {
+        b6: 'The government should try to fix the problems with the environment.',
+        opts: [
+          'The government must address the underlying ecological challenges through binding policy.',
+          'The government should deal with the problems that exist in the environment.',
+          'The government needs to fix the environmental issues that are happening.',
+        ],
+        blank: 'The government must address the underlying ecological challenges through binding policy.',
+        explain: '"Address the underlying ecological challenges" — three Band 7+ moves at once: the formal verb "address", the precision of "underlying", and the academic noun "ecological challenges".',
+      },
+      {
+        b6: 'More and more people are using technology, and this is causing problems.',
+        opts: [
+          'Technology is used more and more by people, which creates many problems today.',
+          'The proliferation of technology has given rise to significant societal concerns.',
+          'People use technology more and more, and this leads to a lot of issues.',
+        ],
+        blank: 'The proliferation of technology has given rise to significant societal concerns.',
+        explain: '"The proliferation of" replaces the clumsy "more and more people are using". "Has given rise to" is a high-band verb phrase. "Societal concerns" is more precise than "problems".',
+      },
+      {
+        b6: 'Schools should make sure students learn important skills.',
+        opts: [
+          'Schools need to ensure that students can learn the skills that are important.',
+          'Educational institutions must ensure students develop the skills they need.',
+          'Educational institutions must equip students with critical thinking skills and transferable competencies.',
+        ],
+        blank: 'Educational institutions must equip students with critical thinking skills and transferable competencies.',
+        explain: '"Equip students with" is the examiner\'s favourite collocation for education essays. "Critical thinking skills" and "transferable competencies" are Band 8 noun phrases. "Educational institutions" avoids the repetition of "schools".',
+      },
+      {
+        b6: 'Many people don\'t exercise and this causes health problems.',
+        opts: [
+          'A sedentary lifestyle significantly elevates the risk of chronic conditions such as cardiovascular disease.',
+          'People who don\'t do enough exercise are more likely to get ill and have health issues.',
+          'Not exercising enough raises the chance of developing serious health problems.',
+        ],
+        blank: 'A sedentary lifestyle significantly elevates the risk of chronic conditions such as cardiovascular disease.',
+        explain: '"Sedentary lifestyle" + "elevates the risk of" + "chronic conditions" — three precise collocations in one sentence. The example "cardiovascular disease" adds specificity that examiners reward.',
+      },
+      {
+        b6: 'Globalisation is making cultures around the world become the same.',
+        opts: [
+          'Globalisation is making all the different cultures around the world become more similar.',
+          'Because of globalisation, cultures are becoming the same thing in every country.',
+          'Globalisation is driving cultural homogenisation, threatening the diversity that defines human heritage.',
+        ],
+        blank: 'Globalisation is driving cultural homogenisation, threatening the diversity that defines human heritage.',
+        explain: '"Driving cultural homogenisation" is the Band 8 phrase for this idea. The second clause adds the examiner\'s preferred structure: a present participle phrase that extends the argument.',
+      },
+      {
+        b6: 'Prison doesn\'t always stop criminals from doing crimes again.',
+        opts: [
+          'Going to prison doesn\'t always prevent criminals from committing crimes in the future.',
+          'Prison is not effective enough in stopping people from reoffending after they are released.',
+          'Custodial sentences alone fail to address the underlying causes of criminal behaviour.',
+        ],
+        blank: 'Custodial sentences alone fail to address the underlying causes of criminal behaviour.',
+        explain: '"Custodial sentences" is the precise legal term for prison. "Underlying causes" is the collocation examiners look for in crime essays. "Criminal behaviour" is more precise than "doing crimes".',
+      },
+      {
+        b6: 'The internet has changed the way people communicate with each other.',
+        opts: [
+          'The internet has changed how people talk and communicate with each other a lot.',
+          'The proliferation of digital platforms has fundamentally transformed interpersonal communication.',
+          'Because of the internet, communication between people has changed in many important ways.',
+        ],
+        blank: 'The proliferation of digital platforms has fundamentally transformed interpersonal communication.',
+        explain: '"The proliferation of digital platforms" avoids the overused noun "internet". "Fundamentally transformed" is a stronger, more academic collocation than "changed". "Interpersonal communication" is the precise term.',
+      },
+      {
+        b6: 'The gap between rich and poor countries has become bigger.',
+        opts: [
+          'The difference between rich countries and poor countries has become much bigger recently.',
+          'Rich countries and poor countries now have a much larger gap between them than before.',
+          'Globalisation has exacerbated economic disparity between developed and developing nations.',
+        ],
+        blank: 'Globalisation has exacerbated economic disparity between developed and developing nations.',
+        explain: '"Exacerbated" (not just "increased"), "economic disparity" (not "gap"), "developed and developing nations" (not "rich and poor countries") — every single word is an upgrade. This sentence scores in all four criteria simultaneously.',
+      },
+    ];
+
+    let _b7Answers = {};
+
+    function renderB7Drill() {
+      _b7Answers = {};
+      document.getElementById('b7Score').style.display = 'none';
+      document.getElementById('b7Drill').innerHTML = B7_QUESTIONS.map((q, qi) => {
+        const shuffled = [...q.opts].sort(() => Math.random() - 0.5);
+        return `
+          <div class="quiz-q" id="b7Q-${qi}" style="margin-bottom:14px;">
+            <p style="font-size:0.68rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--error);margin-bottom:6px;">Band 6 sentence to upgrade:</p>
+            <p style="font-size:0.9rem;font-style:italic;color:#7f1d1d;background:rgba(220,38,38,0.05);border:1px solid rgba(220,38,38,0.12);border-radius:8px;padding:10px 14px;margin-bottom:12px;line-height:1.7;">"${escHtml(q.b6)}"</p>
+            <p style="font-size:0.72rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--navy);margin-bottom:9px;">Which phrase best upgrades this to Band 7+?</p>
+            <div class="quiz-options" style="flex-direction:column;gap:8px;">
+              ${shuffled.map(opt => `
+                <button class="quiz-opt" style="text-align:left;white-space:normal;height:auto;padding:10px 14px;line-height:1.6;" onclick="answerB7(${qi},'${escAttr(opt)}','${escAttr(q.blank)}')">${escHtml(opt)}</button>
+              `).join('')}
+            </div>
+            <div id="b7Fb-${qi}" style="margin-top:10px;font-size:0.8125rem;color:var(--muted);display:none;line-height:1.7;"></div>
+          </div>`;
+      }).join('');
+    }
+
+    function answerB7(qi, chosen, correct) {
+      const qEl = document.getElementById(`b7Q-${qi}`);
+      const fbEl = document.getElementById(`b7Fb-${qi}`);
+      if (!qEl || qEl.dataset.answered) return;
+      qEl.dataset.answered = '1';
+      qEl.querySelectorAll('.quiz-opt').forEach(b => {
+        b.disabled = true;
+        if (b.textContent.trim() === correct) b.classList.add('correct');
+        else if (b.textContent.trim() === chosen && chosen !== correct) b.classList.add('wrong');
+      });
+      const ok = chosen === correct;
+      _b7Answers[qi] = ok;
+      const q = B7_QUESTIONS[qi];
+      fbEl.style.display = 'block';
+      fbEl.innerHTML = ok
+        ? `<strong style="color:var(--success);">✓ Correct.</strong> ${escHtml(q.explain)}`
+        : `<strong style="color:var(--error);">✗ Not quite.</strong> The best upgrade was:<br><em style="color:var(--navy);">"${escHtml(correct)}"</em><br><span style="color:var(--muted);margin-top:4px;display:block;">${escHtml(q.explain)}</span>`;
+      if (Object.keys(_b7Answers).length >= B7_QUESTIONS.length) {
+        const score = Object.values(_b7Answers).filter(Boolean).length;
+        const el = document.getElementById('b7Score');
+        el.style.display = 'block';
+        el.innerHTML = `
+          <div style="font-size:1.5rem;margin-bottom:6px;">${score === 8 ? '🏆' : score >= 6 ? '📈' : '📖'}</div>
+          <div style="font-size:1.1rem;font-weight:700;">Score: ${score} / 8</div>
+          <div style="font-size:0.8125rem;margin-top:5px;opacity:0.82;">
+            ${score === 8 ? 'Perfect — your collocation instinct is at Band 7+ level.' : score >= 6 ? 'Strong. Review the misses — each explanation shows exactly which phrase to memorise.' : 'Go back through the Topic Packs above, then reset and retry.'}
+          </div>`;
+      }
+    }
+
+    function resetB7Drill() { renderB7Drill(); }
+
+    // Init bank + drills on load
+    renderBank();
+    renderVADDrill();
+    renderNVSDrill();
+    renderB7Drill();
+  </script>
+
+  <script src="/js/components.js"></script>
+  <script>loadHeader();</script>
+</body>
+</html>

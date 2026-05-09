@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IELTS Lab — AI Writing Corrector</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Space+Mono:wght@400;700&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Satoshi', 'Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+            sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --gold: #C9952E;
+      --gold-light: #DDB05A;
+      --gold-dim: rgba(201,149,46,0.10);
+      --gold-border: rgba(201,149,46,0.22);
+      --white: #EEF4FF;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: #F4F1EB; color: #1C1C2E; }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    h1, h2, h3, h4, .font-display { font-family: 'Satoshi', 'Plus Jakarta Sans', system-ui, sans-serif; }
+    .text-gold { color: var(--gold); }
+    .nav-glass {
+      background: rgba(9,9,11,0.82);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .nav-logo { display:flex; align-items:baseline; gap:0; text-decoration:none; }
+    .nl-ielts { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:600; letter-spacing:1px; color:var(--white); }
+    .nl-lab   { font-family:'Space Mono',monospace; font-size:12px; font-weight:700; letter-spacing:3px; color:var(--gold); margin-left:5px; filter:drop-shadow(0 0 6px rgba(201,149,46,0.5)); }
+    .label { font-size:0.6875rem; font-weight:600; letter-spacing:0.14em; text-transform:uppercase; color:var(--gold); }
+    .divider { border-top: 1px solid #1c1c1e; }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #09090b; }
+    ::-webkit-scrollbar-thumb { background: #3f3f46; border-radius: 3px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { animation: spin 0.75s linear infinite; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
+    .fade-up { animation: fadeUp 0.6s cubic-bezier(0.16,1,0.3,1) both; }
+    /* Task buttons */
+    .task-btn {
+      border: 1px solid #27272a;
+      background: #111113;
+      border-radius: 0.875rem;
+      padding: 1rem 0.875rem;
+      cursor: pointer;
+      text-align: center;
+      transition: border-color 0.2s, background 0.2s, transform 0.2s;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .task-btn:hover { border-color: var(--gold-border); background: #18170f; transform: translateY(-2px); }
+    .task-btn.active { border-color: var(--gold); background: var(--gold-dim); }
+    .task-btn .task-label { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: #71717a; margin-bottom: 3px; }
+    .task-btn.active .task-label { color: var(--gold-light); }
+    .task-btn .task-name { font-size: 0.875rem; font-weight: 600; color: #e4e4e7; }
+    /* Score ring */
+    .ring-track { stroke: #27272a; }
+    .ring-fill { stroke: var(--gold); transform-origin: center; transform: rotate(-90deg); transition: stroke-dasharray 1.4s cubic-bezier(0.16,1,0.3,1); }
+    /* Skeleton shimmer */
+    @keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+    .skeleton {
+      background: linear-gradient(90deg, #27272a 25%, #3f3f46 50%, #27272a 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s infinite;
+      border-radius: 0.5rem;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col" style="background:#F4F1EB;color:#1C1C2E;">
+
+  <!-- ── NAV ── -->
+  <div id="header-container"></div>
+
+  <!-- ── HERO ── -->
+  <section class="relative overflow-hidden border-b border-zinc-800/60 py-14 px-6 text-center">
+    <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 55% 50% at 50% 0%, rgba(201,149,46,0.06) 0%, transparent 70%);"></div>
+    <div class="relative z-10 max-w-2xl mx-auto">
+      <div class="inline-block px-4 py-1.5 rounded-full border text-xs font-medium tracking-widest uppercase mb-5"
+           style="border-color:var(--gold-border);color:var(--gold);background:var(--gold-dim);">
+        Members · Unlimited Access
+      </div>
+      <h1 class="font-display text-4xl md:text-5xl font-black text-white leading-none tracking-tight mb-3">
+        AI Writing <em class="not-italic" style="color:var(--gold);font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:600;">Corrector</em>
+      </h1>
+      <p class="text-sm text-zinc-400 font-light leading-relaxed">
+        Instant band scores, detailed corrections, and personalised tips — just like a real IELTS tutor.
+      </p>
+    </div>
+  </section>
+
+  <!-- ── MAIN ── -->
+  <main class="flex-1 max-w-3xl mx-auto w-full px-4 py-12">
+
+    <!-- Task selector -->
+    <div class="grid grid-cols-3 gap-3 mb-6 fade-up" id="taskSelector">
+      <button class="task-btn active" data-task="task2" onclick="selectTask(this)">
+        <div class="task-label">Most Common</div>
+        <div class="task-name">📝 Task 2</div>
+      </button>
+      <button class="task-btn" data-task="task1-academic" onclick="selectTask(this)">
+        <div class="task-label">Academic</div>
+        <div class="task-name">📊 Task 1</div>
+      </button>
+      <button class="task-btn" data-task="task1-general" onclick="selectTask(this)">
+        <div class="task-label">General</div>
+        <div class="task-name">✉️ Letter</div>
+      </button>
+    </div>
+
+    <!-- Form card -->
+    <div class="rounded-2xl border border-zinc-800 overflow-hidden fade-up" id="formCard"
+         style="background:rgba(17,17,19,0.85);backdrop-filter:blur(12px);">
+
+      <div class="px-7 py-5 flex items-center justify-between border-b border-zinc-800"
+           style="background:rgba(9,9,11,0.6);">
+        <h2 class="font-display text-base font-bold text-white">Submit Your Writing</h2>
+        <span class="text-xs font-medium text-zinc-600" id="wordCounter">0 words</span>
+      </div>
+
+      <div class="p-7 space-y-5">
+        <div>
+          <label class="block text-xs font-semibold tracking-widest uppercase text-zinc-600 mb-2">
+            Question / Prompt <span class="text-zinc-700 normal-case tracking-normal">(optional)</span>
+          </label>
+          <input type="text" id="questionInput"
+            placeholder="e.g. Some people think that universities should provide…"
+            class="w-full bg-zinc-900 border border-zinc-700 rounded-xl px-4 py-3 text-sm text-white placeholder-zinc-700 outline-none transition-all focus:border-[#C9952E] focus:ring-2 focus:ring-[#C9952E]/10"
+          />
+        </div>
+        <!-- Image upload (Task 1 graphs/charts/maps) -->
+        <div class="space-y-2" id="imageUploadSection">
+          <label class="label">Upload Question Image
+            <span style="font-weight:400;text-transform:none;letter-spacing:0;color:#71717a;font-size:0.75rem;">
+              (optional — for Task 1 graphs, charts, maps, diagrams)
+            </span>
+          </label>
+          <div id="uploadZone"
+            onclick="document.getElementById('imageInput').click()"
+            style="border:1.5px dashed rgba(201,149,46,0.35);border-radius:0.875rem;padding:24px;text-align:center;cursor:pointer;background:rgba(201,149,46,0.04);transition:border-color 0.2s,background 0.2s;">
+            <div style="font-size:1.5rem;margin-bottom:8px;">🖼️</div>
+            <div style="font-size:0.8125rem;color:#71717a;font-weight:500;">Click to upload or drag & drop</div>
+            <div style="font-size:0.75rem;color:#52525b;margin-top:4px;">JPG, PNG, WEBP · Max 5MB</div>
+          </div>
+          <input type="file" id="imageInput" accept="image/*" capture="environment" class="hidden" onchange="handleImageUpload(event)">
+          <div id="imagePreview" class="hidden" style="position:relative;display:inline-block;margin-top:8px;">
+            <img id="previewImg" style="max-height:160px;border-radius:0.75rem;border:1.5px solid rgba(201,149,46,0.3);" />
+            <button onclick="removeImage()" style="position:absolute;top:-8px;right:-8px;background:#ef4444;color:white;border:none;border-radius:50%;width:22px;height:22px;font-size:0.75rem;cursor:pointer;display:flex;align-items:center;justify-content:center;">✕</button>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold tracking-widest uppercase text-zinc-600 mb-2">
+            Your Essay
+          </label>
+          <textarea id="essayInput" rows="10"
+            placeholder="Paste your essay here…"
+            oninput="updateWordCount()"
+            class="w-full bg-zinc-900 border border-zinc-700 rounded-xl px-4 py-3 text-sm text-white placeholder-zinc-700 outline-none transition-all focus:border-[#C9952E] focus:ring-2 focus:ring-[#C9952E]/10 resize-y leading-relaxed"
+          ></textarea>
+        </div>
+
+        <button id="submitBtn" onclick="submitEssay()"
+          class="w-full flex items-center justify-center gap-2 py-4 rounded-xl text-xs font-semibold tracking-widest uppercase transition-all"
+          style="background:linear-gradient(135deg,#C9952E 0%,#a8741f 100%);color:#09090b;box-shadow:0 0 24px rgba(201,149,46,0.22);"
+          onmouseover="this.style.boxShadow='0 0 36px rgba(201,149,46,0.38)';this.style.transform='translateY(-1px)'"
+          onmouseout="this.style.boxShadow='0 0 24px rgba(201,149,46,0.22)';this.style.transform=''"
+        >
+          <svg id="submitSpinner" class="hidden spinner w-4 h-4" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"/>
+          </svg>
+          <span id="submitBtnText">✦ Correct My Essay</span>
+        </button>
+
+        <div id="errorMsg" class="hidden px-4 py-3 rounded-xl text-xs text-red-300 border border-red-500/30 bg-red-500/08"></div>
+      </div>
+    </div>
+
+    <!-- Results -->
+    <div id="results" class="hidden">
+
+      <!-- Info bar (word count + task type) -->
+      <div id="infoBar"></div>
+
+      <!-- Overall band -->
+      <div class="flex items-center justify-between mb-8 flex-wrap gap-4">
+        <h2 class="font-display text-2xl font-bold" style="color:#1B2B4B;">Your Feedback Report</h2>
+        <div class="flex items-center gap-3 px-5 py-2.5 rounded-full"
+             style="background:#1B2B4B;border:1px solid #1B2B4B;">
+          <span class="text-xs font-semibold tracking-widest uppercase" style="color:rgba(255,255,255,0.7);">Overall Band</span>
+          <span class="font-display text-2xl font-black" style="color:#C49A2B;" id="overallBand">—</span>
+        </div>
+      </div>
+
+      <!-- Score grid -->
+      <div class="grid grid-cols-2 gap-3 mb-6" id="scoreGrid"></div>
+
+      <!-- Feedback sections -->
+      <div id="feedbackSections"></div>
+
+      <p id="resultSignature" class="text-center text-xs py-5 mt-6" style="color:#4A5568;border-top:1px solid #DDD8CE;">
+        Corrected by IELTS Lab AI Expert · For personalised coaching, contact your IELTS Lab tutor.
+      </p>
+
+      <div class="flex gap-3 flex-wrap mt-6">
+        <button onclick="resetForm()"
+          class="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-zinc-700 text-zinc-400 text-sm font-medium hover:border-[#C9952E]/40 hover:text-[#C9952E] transition-all">
+          ← Submit Another Essay
+        </button>
+        <a href="index.html"
+          class="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-zinc-700 text-zinc-400 text-sm font-medium hover:border-[#C9952E]/40 hover:text-[#C9952E] transition-all">
+          🩺 Back to Writing Clinic
+        </a>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ── FOOTER ── -->
+  <footer class="divider text-center py-5 px-6">
+    <p class="text-xs text-zinc-700 tracking-wider">IELTS Lab Writing Clinic · Members Only</p>
+  </footer>
+
+  <script>
+    // ── AUTH GUARD ──
+    const rawSession = localStorage.getItem('ielts_session');
+    if (!rawSession) { window.location.replace('../login.html'); }
+    let session;
+    try { session = JSON.parse(rawSession); }
+    catch { localStorage.removeItem('ielts_session'); window.location.replace('../login.html'); }
+    const firstName = (session.name || 'Student').split(' ')[0];
+    const headerEl = document.getElementById('headerUser');
+    if (headerEl) headerEl.innerHTML = `✍️ <span class="text-zinc-400">${firstName}</span>`;
+
+    // ── IMAGE UPLOAD ──
+    let uploadedImageBase64 = null;
+    let uploadedImageType   = null;
+
+    function handleImageUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      if (file.size > 5 * 1024 * 1024) { showError('Image must be under 5MB.'); return; }
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const result = e.target.result;
+        uploadedImageBase64 = result.split(',')[1];
+        uploadedImageType   = file.type;
+        document.getElementById('previewImg').src = result;
+        document.getElementById('imagePreview').classList.remove('hidden');
+        document.getElementById('uploadZone').style.borderColor = 'rgba(201,149,46,0.7)';
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function removeImage() {
+      uploadedImageBase64 = null;
+      uploadedImageType   = null;
+      document.getElementById('imageInput').value = '';
+      document.getElementById('imagePreview').classList.add('hidden');
+      document.getElementById('uploadZone').style.borderColor = 'rgba(201,149,46,0.35)';
+    }
+
+    // Drag and drop
+    (function() {
+      const zone = document.getElementById('uploadZone');
+      zone.addEventListener('dragover', e => {
+        e.preventDefault();
+        zone.style.borderColor = 'rgba(201,149,46,0.8)';
+        zone.style.background  = 'rgba(201,149,46,0.08)';
+      });
+      zone.addEventListener('dragleave', () => {
+        zone.style.borderColor = 'rgba(201,149,46,0.35)';
+        zone.style.background  = 'rgba(201,149,46,0.04)';
+      });
+      zone.addEventListener('drop', e => {
+        e.preventDefault();
+        zone.style.borderColor = 'rgba(201,149,46,0.35)';
+        zone.style.background  = 'rgba(201,149,46,0.04)';
+        const file = e.dataTransfer.files[0];
+        if (file && file.type.startsWith('image/')) {
+          handleImageUpload({ target: { files: [file] } });
+        }
+      });
+    })();
+
+    // ── STATE ──
+    let selectedTask = 'task2';
+
+    function selectTask(btn) {
+      document.querySelectorAll('.task-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      selectedTask = btn.dataset.task;
+      updateWordCount();
+    }
+
+    function updateWordCount() {
+      const text    = document.getElementById('essayInput').value.trim();
+      const words   = text ? text.split(/\s+/).length : 0;
+      const counter = document.getElementById('wordCounter');
+      const min     = selectedTask === 'task2' ? 250 : 150;
+      counter.textContent = `${words} words`;
+      counter.className   = 'text-xs font-medium ';
+      if (words >= min + 20)  counter.className += 'text-emerald-500';
+      else if (words >= min)  counter.className += 'text-amber-400';
+      else if (words > 0)     counter.className += 'text-red-400';
+      else                    counter.className += 'text-zinc-600';
+    }
+
+    async function submitEssay() {
+      const essay    = document.getElementById('essayInput').value.trim();
+      const question = document.getElementById('questionInput').value.trim();
+      const btn      = document.getElementById('submitBtn');
+      const errEl    = document.getElementById('errorMsg');
+      const spinner  = document.getElementById('submitSpinner');
+      const btnText  = document.getElementById('submitBtnText');
+
+      errEl.classList.add('hidden');
+
+      if (!essay || essay.split(/\s+/).length < 30) {
+        showError('Please paste your essay (at least 30 words) before submitting.');
+        return;
+      }
+
+      btn.disabled = true;
+      spinner.classList.remove('hidden');
+      btnText.classList.add('hidden');
+
+      const taskLabel = {
+        'task2':          'Task 2 Essay',
+        'task1-academic': 'Task 1 Academic',
+        'task1-general':  'Task 1 General Training'
+      }[selectedTask];
+
+      try {
+        const response = await fetch('/api/correct-essay', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ taskLabel, essay, question, image: uploadedImageBase64 || null, imageType: uploadedImageType || null })
+        });
+
+        if (!response.ok) {
+          const err = await response.json().catch(() => ({}));
+          throw new Error(err.error || `Server error ${response.status}`);
+        }
+
+        const result = await response.json();
+        renderResults(result);
+
+      } catch (err) {
+        const msg = err instanceof TypeError && err.message === 'Failed to fetch'
+          ? 'Cannot reach the server. Make sure you opened this page via http://localhost:3000 (not as a file://) and the server is running: cd into the project folder and run "npm install" then "node server.js".'
+          : (err.message || 'Something went wrong. Please try again.');
+        showError(msg);
+      } finally {
+        btn.disabled = false;
+        spinner.classList.add('hidden');
+        btnText.classList.remove('hidden');
+      }
+    }
+
+    function renderResults(r) {
+      if (!r || !r.scores || typeof r.scores.overall === 'undefined') {
+        const detail = r?.error || JSON.stringify(r)?.slice(0, 120) || 'no detail';
+        showError('The server returned an unexpected response — ' + detail + '. Please try again.');
+        console.error('[renderResults] Bad response structure:', r);
+        return;
+      }
+      // Guard: fill any missing individual criterion scores so they never render as "undefined"
+      const criteriaKeys = ['taskAchievement','coherenceCohesion','lexicalResource','grammaticalRange'];
+      criteriaKeys.forEach(k => {
+        if (r.scores[k] == null) r.scores[k] = '—';
+        if (!r.scoreLabels) r.scoreLabels = {};
+        if (r.scoreLabels[k] == null) r.scoreLabels[k] = '';
+      });
+
+      document.getElementById('formCard').classList.add('hidden');
+      document.getElementById('taskSelector').classList.add('hidden');
+      const results = document.getElementById('results');
+      results.classList.remove('hidden');
+
+      // ── Info bar ──
+      const taskDisplay = r.taskType || 'Essay';
+      const wordCountOk = r.wordCountStatus && r.wordCountStatus.toLowerCase().startsWith('pass');
+      const wcIcon   = wordCountOk ? '✅' : '⚠️';
+      const wcStatus = r.wordCountStatus || '';
+      document.getElementById('infoBar').innerHTML = `
+        <div style="background:#EEF3FB;border:1.5px solid #2C5FAD;border-radius:12px;padding:14px 20px;margin-bottom:24px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+          <div style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+            <span style="font-size:0.9375rem;font-weight:700;color:#1B2B4B;">📝 ${escapeHtml(taskDisplay)}</span>
+            <span style="color:#2C5FAD;font-size:0.875rem;">│</span>
+            <span style="font-size:0.9375rem;font-weight:600;color:#1B2B4B;">Word Count: ${r.wordCount || '—'}</span>
+          </div>
+          <span style="font-size:0.875rem;font-weight:600;color:${wordCountOk ? '#276749' : '#C49A2B'};">${wcIcon} ${escapeHtml(wcStatus)}</span>
+        </div>
+      `;
+
+      // ── Overall band ──
+      document.getElementById('overallBand').textContent = r.scores.overall;
+
+      // ── Score grid ──
+      const criteria = [
+        { key: 'taskAchievement',  label: 'Task Achievement',     abbr: 'TA'  },
+        { key: 'coherenceCohesion',label: 'Coherence & Cohesion', abbr: 'CC'  },
+        { key: 'lexicalResource',  label: 'Lexical Resource',     abbr: 'LR'  },
+        { key: 'grammaticalRange', label: 'Grammar & Accuracy',   abbr: 'GRA' },
+      ];
+      document.getElementById('scoreGrid').innerHTML = criteria.map(c => `
+        <div style="background:#FFFFFF;border:1.5px solid #DDD8CE;border-radius:16px;padding:20px;display:flex;align-items:center;justify-content:space-between;gap:16px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:0.6875rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#4A5568;margin-bottom:6px;">${c.abbr} — ${c.label}</div>
+            <div style="font-size:0.875rem;color:#3D4451;line-height:1.7;">${escapeHtml(r.scoreLabels?.[c.key] || '')}</div>
+          </div>
+          <div style="flex-shrink:0;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Satoshi','Plus Jakarta Sans',sans-serif;font-size:1.125rem;font-weight:900;background:#EEF3FB;border:2px solid #2C5FAD;color:#2C5FAD;">
+            ${r.scores[c.key]}
+          </div>
+        </div>
+      `).join('');
+
+      // ── Feedback sections ──
+      const feedbackData = [
+        { icon: '✅', title: 'What You Did Well',        key: 'strengths',         leftBorder: '#276749', bg: '#FFFFFF'  },
+        { icon: '🔧', title: 'Key Areas to Improve',     key: 'improvements',      leftBorder: '#C49A2B', bg: '#FFFFFF'  },
+        { icon: '📝', title: 'Annotated Essay',          key: 'annotatedEssay',    leftBorder: '#2C5FAD', bg: '#FFFDF7'  },
+        { icon: '🏆', title: 'Model Paragraph (Band 8)', key: 'modelParagraph',    leftBorder: '#2C5FAD', bg: '#FFFFFF'  },
+        { icon: '📋', title: 'Examiner Note',            key: 'examinerNote',      leftBorder: '#2C5FAD', bg: '#EEF3FB'  },
+        { icon: '🎯', title: 'Your Next Steps',          key: 'nextSteps',         leftBorder: '#276749', bg: '#F0FDF4'  },
+        { icon: '🔄', title: 'Resubmit Challenge',       key: 'resubmitChallenge', leftBorder: '#C49A2B', bg: '#FFF8ED'  },
+      ];
+      document.getElementById('feedbackSections').innerHTML = feedbackData.map(s => {
+        const content = r[s.key];
+        if (!content) return '';
+        return `
+          <div style="background:${s.bg};border:1.5px solid #DDD8CE;border-left:4px solid ${s.leftBorder};border-radius:16px;padding:24px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,0.04);">
+            <h3 style="font-family:'Satoshi','Plus Jakarta Sans',sans-serif;font-size:1rem;font-weight:700;color:#1B2B4B;margin-bottom:16px;display:flex;align-items:center;gap:8px;">${s.icon} ${s.title}</h3>
+            <div style="font-size:0.9375rem;color:#3D4451;line-height:1.85;white-space:pre-wrap;">${escapeHtml(content)}</div>
+          </div>
+        `;
+      }).join('');
+
+      // ── Signature ──
+      const sigEl = document.getElementById('resultSignature');
+      if (sigEl) sigEl.textContent = r.signature || 'Corrected by IELTS Lab AI Expert · For personalised coaching, contact your IELTS Lab tutor.';
+
+      results.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function resetForm() {
+      document.getElementById('results').classList.add('hidden');
+      document.getElementById('formCard').classList.remove('hidden');
+      document.getElementById('taskSelector').classList.remove('hidden');
+      document.getElementById('essayInput').value    = '';
+      document.getElementById('questionInput').value = '';
+      removeImage();
+      updateWordCount();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showError(msg) {
+      const el = document.getElementById('errorMsg');
+      el.textContent = '⚠️ ' + msg;
+      el.classList.remove('hidden');
+    }
+
+    function escapeHtml(str) {
+      if (str == null) return '';
+      if (typeof str !== 'string') str = String(str);
+      return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+  </script>
+
+  <script src="/js/components.js"></script>
+  <script>loadHeader();</script>
+</body>
+</html>
