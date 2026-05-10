@@ -2022,153 +2022,149 @@
       }
 
       function draw(ts) {
-        // Guard: if canvas has no size yet, wait another frame
-        if (canvas.width < 10 || canvas.height < 10) {
-          resize();
-          requestAnimationFrame(draw);
-          return;
-        }
-
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        const angY  = ts * 0.00065;
-        const angX  = ts * 0.00032;
-        const angZ  = ts * 0.00018;
-        const pulse = 1 + Math.sin(ts * 0.0018) * 0.05;
-
-        const mob   = canvas.width < 768;
-        const ocx   = mob ? canvas.width * 0.50 : canvas.width * 0.70;
-        const ocy   = canvas.height * 0.50;
-        const sc    = Math.min(canvas.width, canvas.height) * (mob ? 0.28 : 0.32) * pulse;
-
-        // Aura
-        const g1 = ctx.createRadialGradient(ocx, ocy, 0, ocx, ocy, sc*1.8);
-        g1.addColorStop(0,   'rgba(201,149,46,0.14)');
-        g1.addColorStop(0.4, 'rgba(201,149,46,0.05)');
-        g1.addColorStop(1,   'rgba(201,149,46,0)');
-        ctx.fillStyle = g1;
-        ctx.beginPath(); ctx.arc(ocx, ocy, sc*1.8, 0, Math.PI*2); ctx.fill();
-
-        const g2 = ctx.createRadialGradient(ocx, ocy, 0, ocx, ocy, sc*0.9);
-        g2.addColorStop(0, 'rgba(42,255,214,0.08)');
-        g2.addColorStop(1, 'rgba(42,255,214,0)');
-        ctx.fillStyle = g2;
-        ctx.beginPath(); ctx.arc(ocx, ocy, sc*0.9, 0, Math.PI*2); ctx.fill();
-
-        function tfm(vs, flipY, flipZ) {
-          const aY = flipY ? -angY*1.4 : angY;
-          const aX = flipZ ? -angX*0.8 : angX;
-          return vs.map(v => proj(rx(ry(rz(v, angZ*(flipZ||1)), aY), aX), ocx, ocy, sc));
-        }
-
-        const outerP = tfm(verts,      false, 1);
-        const innerP = tfm(innerVerts, true, -1);
-
-        // Orbital rings
-        function drawRing(pts, rotFn, col, lw, blur) {
-          const rp = pts.map(p => proj(rotFn(p), ocx, ocy, sc));
-          ctx.shadowColor = col; ctx.shadowBlur = blur; ctx.lineWidth = lw;
-          ctx.strokeStyle = col;
-          ctx.beginPath();
-          rp.forEach((p,i) => i===0 ? ctx.moveTo(p[0],p[1]) : ctx.lineTo(p[0],p[1]));
-          ctx.closePath(); ctx.stroke();
-        }
-        const t1=ts*0.00045, t2=ts*0.00030, t3=ts*0.00055;
-        drawRing(ring1, p=>rx(ry(p,t1),angX*0.5), 'rgba(201,149,46,0.25)', 0.9, 7);
-        drawRing(ring2, p=>ry(rz(p,t2),angY*0.5), 'rgba(58,123,247,0.20)',  0.8, 7);
-        drawRing(ring3, p=>rz(rx(p,t3),angZ*2),   'rgba(42,255,214,0.18)',  0.8, 6);
-
-        // Inner edges
-        ctx.shadowColor='rgba(42,255,214,0.5)'; ctx.shadowBlur=8;
-        edges.forEach(([i,j]) => {
-          const a=innerP[i], b=innerP[j], d=(a[2]+b[2])/2;
-          ctx.beginPath(); ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]);
-          ctx.strokeStyle=`rgba(42,255,214,${Math.min(0.10+(d+1)*0.20,0.45)})`;
-          ctx.lineWidth=0.7; ctx.stroke();
-        });
-
-        // Outer edges
-        ctx.shadowColor='rgba(201,149,46,0.8)'; ctx.shadowBlur=14;
-        edges.forEach(([i,j]) => {
-          const a=outerP[i], b=outerP[j], d=(a[2]+b[2])/2;
-          ctx.beginPath(); ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]);
-          ctx.strokeStyle=`rgba(201,149,46,${Math.min(0.22+(d+1)*0.36,0.88)})`;
-          ctx.lineWidth=1.4; ctx.stroke();
-        });
-
-        // Sparks
-        ctx.shadowBlur=0;
-        sparks.forEach(s => {
-          s.angle += s.speed; s.z += s.vz;
-          if (s.z>1.2||s.z<-1.2) s.vz*=-1;
-          const sv=[Math.cos(s.angle)*s.radius, Math.sin(s.angle)*s.radius, s.z];
-          const sp=proj(rx(ry(sv, angY*0.3), angX*0.3), ocx, ocy, sc);
-          const d=(sp[2]+1)*0.4;
-          ctx.beginPath(); ctx.arc(sp[0],sp[1],s.size*d,0,Math.PI*2);
-          ctx.fillStyle=`rgba(201,149,46,${s.alpha*d})`; ctx.fill();
-        });
-
-        // Outer vertex glows
-        ctx.shadowColor='rgba(201,149,46,1)'; ctx.shadowBlur=20;
-        outerP.forEach(p => {
-          const a=0.4+(p[2]+1)*0.38;
-          ctx.beginPath(); ctx.arc(p[0],p[1],3.4,0,Math.PI*2);
-          ctx.fillStyle=`rgba(221,176,90,${Math.min(a,1)})`; ctx.fill();
-        });
-
-        // Inner vertex glows
-        ctx.shadowColor='rgba(42,255,214,0.9)'; ctx.shadowBlur=11;
-        innerP.forEach(p => {
-          const a=0.18+(p[2]+1)*0.26;
-          ctx.beginPath(); ctx.arc(p[0],p[1],2,0,Math.PI*2);
-          ctx.fillStyle=`rgba(42,255,214,${Math.min(a,0.75)})`; ctx.fill();
-        });
-
-        // ── IELTS LAB text — rotates with the shape ──
-        ctx.shadowBlur = 0;
-        const cY     = Math.cos(angY);
-        const xScale = (cY >= 0 ? 1 : -1) * Math.max(0.18, Math.abs(cY));
-        const alpha  = 0.70 + (cY + 1) * 0.15;   // 0.70–1.0
-        const ieltsH = Math.max(12, Math.round(sc * 0.22));
-        const labH   = Math.max(8,  Math.round(sc * 0.09));
-        const yGap   = sc * 0.115;
-
-        ctx.save();
-        ctx.translate(ocx, ocy);
-        ctx.textAlign    = 'center';
-        ctx.textBaseline = 'middle';
-
-        ctx.save();
-        ctx.scale(xScale, 1);
-        ctx.font        = `600 ${ieltsH}px 'Cormorant Garamond', serif`;
-        ctx.shadowColor = 'rgba(201,149,46,0.80)';
-        ctx.shadowBlur  = 24;
-        ctx.fillStyle   = `rgba(238,244,255,${alpha})`;
-        ctx.fillText('IELTS', 0, -yGap);
-        ctx.restore();
-
-        const sepW = sc * 0.24 * Math.abs(xScale);
-        ctx.shadowBlur = 0;
-        ctx.beginPath();
-        ctx.moveTo(-sepW/2, 0); ctx.lineTo(sepW/2, 0);
-        ctx.strokeStyle = `rgba(201,149,46,${alpha * 0.5})`;
-        ctx.lineWidth = 1; ctx.stroke();
-
-        ctx.save();
-        ctx.scale(xScale, 1);
-        ctx.font        = `700 ${labH}px 'Space Mono', monospace`;
-        ctx.shadowColor = 'rgba(201,149,46,1)';
-        ctx.shadowBlur  = 28;
-        ctx.fillStyle   = `rgba(221,176,90,${alpha})`;
-        ctx.fillText('L  A  B', 0, yGap);
-        ctx.restore();
-
-        ctx.restore();
-
+        // always reschedule first — loop never dies
         requestAnimationFrame(draw);
+
+        if (canvas.width < 10 || canvas.height < 10) { resize(); return; }
+
+        try {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+          const angY  = ts * 0.00065;
+          const angX  = ts * 0.00032;
+          const angZ  = ts * 0.00018;
+          const pulse = 1 + Math.sin(ts * 0.0018) * 0.05;
+          const mob   = canvas.width < 768;
+          const ocx   = mob ? canvas.width * 0.50 : canvas.width * 0.70;
+          const ocy   = canvas.height * 0.50;
+          const sc    = Math.min(canvas.width, canvas.height) * (mob ? 0.28 : 0.32) * pulse;
+
+          // Aura
+          const g1 = ctx.createRadialGradient(ocx, ocy, 0, ocx, ocy, sc * 1.8);
+          g1.addColorStop(0,   'rgba(201,149,46,0.14)');
+          g1.addColorStop(0.4, 'rgba(201,149,46,0.05)');
+          g1.addColorStop(1,   'rgba(201,149,46,0)');
+          ctx.fillStyle = g1;
+          ctx.beginPath(); ctx.arc(ocx, ocy, sc * 1.8, 0, Math.PI * 2); ctx.fill();
+
+          const g2 = ctx.createRadialGradient(ocx, ocy, 0, ocx, ocy, sc * 0.9);
+          g2.addColorStop(0, 'rgba(42,255,214,0.08)');
+          g2.addColorStop(1, 'rgba(42,255,214,0)');
+          ctx.fillStyle = g2;
+          ctx.beginPath(); ctx.arc(ocx, ocy, sc * 0.9, 0, Math.PI * 2); ctx.fill();
+
+          // rotate + project helpers
+          const aYo = angY,       aXo = angX;
+          const aYi = -angY*1.4,  aXi = -angX*0.8;
+
+          const outerP = verts.map(v =>
+            proj(rx(ry(rz(v, angZ), aYo), aXo), ocx, ocy, sc));
+          const innerP = innerVerts.map(v =>
+            proj(rx(ry(rz(v, -angZ), aYi), aXi), ocx, ocy, sc));
+
+          // Orbital rings
+          const t1=ts*0.00045, t2=ts*0.00030, t3=ts*0.00055;
+          function drawRing(pts, rotFn, col, lw, blur) {
+            const rp = pts.map(p => proj(rotFn(p), ocx, ocy, sc));
+            ctx.shadowColor = col; ctx.shadowBlur = blur;
+            ctx.strokeStyle = col; ctx.lineWidth = lw;
+            ctx.beginPath();
+            rp.forEach((p,i) => i===0 ? ctx.moveTo(p[0],p[1]) : ctx.lineTo(p[0],p[1]));
+            ctx.closePath(); ctx.stroke();
+          }
+          drawRing(ring1, p=>rx(ry(p,t1),angX*0.5), 'rgba(201,149,46,0.25)', 0.9, 7);
+          drawRing(ring2, p=>ry(rz(p,t2),angY*0.5), 'rgba(58,123,247,0.20)',  0.8, 7);
+          drawRing(ring3, p=>rz(rx(p,t3),angZ*2),   'rgba(42,255,214,0.18)',  0.8, 6);
+
+          // Inner edges
+          ctx.shadowColor='rgba(42,255,214,0.5)'; ctx.shadowBlur=8;
+          edges.forEach(([i,j]) => {
+            const a=innerP[i], b=innerP[j], d=(a[2]+b[2])/2;
+            ctx.beginPath(); ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]);
+            ctx.strokeStyle=`rgba(42,255,214,${Math.min(0.10+(d+1)*0.20,0.45)})`;
+            ctx.lineWidth=0.7; ctx.stroke();
+          });
+
+          // Outer edges
+          ctx.shadowColor='rgba(201,149,46,0.8)'; ctx.shadowBlur=14;
+          edges.forEach(([i,j]) => {
+            const a=outerP[i], b=outerP[j], d=(a[2]+b[2])/2;
+            ctx.beginPath(); ctx.moveTo(a[0],a[1]); ctx.lineTo(b[0],b[1]);
+            ctx.strokeStyle=`rgba(201,149,46,${Math.min(0.22+(d+1)*0.36,0.88)})`;
+            ctx.lineWidth=1.4; ctx.stroke();
+          });
+
+          // Sparks
+          ctx.shadowBlur=0;
+          sparks.forEach(s => {
+            s.angle += s.speed; s.z += s.vz;
+            if (s.z>1.2||s.z<-1.2) s.vz*=-1;
+            const sv=[Math.cos(s.angle)*s.radius, Math.sin(s.angle)*s.radius, s.z];
+            const sp=proj(rx(ry(sv, angY*0.3), angX*0.3), ocx, ocy, sc);
+            const d=(sp[2]+1)*0.4;
+            ctx.beginPath(); ctx.arc(sp[0],sp[1],s.size*d,0,Math.PI*2);
+            ctx.fillStyle=`rgba(201,149,46,${s.alpha*d})`; ctx.fill();
+          });
+
+          // Outer vertex glows
+          ctx.shadowColor='rgba(201,149,46,1)'; ctx.shadowBlur=20;
+          outerP.forEach(p => {
+            const a=0.4+(p[2]+1)*0.38;
+            ctx.beginPath(); ctx.arc(p[0],p[1],3.4,0,Math.PI*2);
+            ctx.fillStyle=`rgba(221,176,90,${Math.min(a,1)})`; ctx.fill();
+          });
+
+          // Inner vertex glows
+          ctx.shadowColor='rgba(42,255,214,0.9)'; ctx.shadowBlur=11;
+          innerP.forEach(p => {
+            const a=0.18+(p[2]+1)*0.26;
+            ctx.beginPath(); ctx.arc(p[0],p[1],2,0,Math.PI*2);
+            ctx.fillStyle=`rgba(42,255,214,${Math.min(a,0.75)})`; ctx.fill();
+          });
+
+          // ── IELTS LAB — co-rotates (squish X by cos of Y-angle) ──
+          const cY     = Math.cos(angY);
+          const xs     = (cY >= 0 ? 1 : -1) * Math.max(0.18, Math.abs(cY));
+          const talpha = 0.72 + (cY + 1) * 0.14;
+          const iH     = Math.max(14, sc * 0.22) | 0;
+          const lH     = Math.max(9,  sc * 0.09) | 0;
+          const yG     = sc * 0.115;
+          const sepW   = sc * 0.24 * Math.abs(xs);
+
+          ctx.shadowBlur = 0;
+          ctx.textAlign    = 'center';
+          ctx.textBaseline = 'middle';
+
+          // IELTS — use setTransform to squish X without touching Y scale
+          ctx.save();
+          ctx.setTransform(xs, 0, 0, 1, ocx, ocy - yG);
+          ctx.font        = 'bold ' + iH + 'px serif';
+          ctx.shadowColor = 'rgba(201,149,46,0.8)';
+          ctx.shadowBlur  = 22;
+          ctx.fillStyle   = 'rgba(238,244,255,' + talpha + ')';
+          ctx.fillText('IELTS', 0, 0);
+          ctx.restore();
+
+          // Separator line
+          ctx.beginPath();
+          ctx.moveTo(ocx - sepW/2, ocy); ctx.lineTo(ocx + sepW/2, ocy);
+          ctx.strokeStyle = 'rgba(201,149,46,' + (talpha * 0.5) + ')';
+          ctx.lineWidth = 1; ctx.shadowBlur = 0; ctx.stroke();
+
+          // LAB
+          ctx.save();
+          ctx.setTransform(xs, 0, 0, 1, ocx, ocy + yG);
+          ctx.font        = 'bold ' + lH + 'px monospace';
+          ctx.shadowColor = 'rgba(201,149,46,1)';
+          ctx.shadowBlur  = 26;
+          ctx.fillStyle   = 'rgba(221,176,90,' + talpha + ')';
+          ctx.fillText('LAB', 0, 0);
+          ctx.restore();
+
+        } catch(e) { /* silently continue */ }
       }
 
-      // Start after layout is ready
+      // Start after layout paint
       requestAnimationFrame(() => { resize(); requestAnimationFrame(draw); });
       window.addEventListener('resize', resize, {passive:true});
     })();
