@@ -2022,22 +2022,22 @@
       }
 
       function draw(ts) {
-        // always reschedule first — loop never dies
         requestAnimationFrame(draw);
 
         if (canvas.width < 10 || canvas.height < 10) { resize(); return; }
 
-        try {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-          const angY  = ts * 0.00065;
-          const angX  = ts * 0.00032;
-          const angZ  = ts * 0.00018;
-          const pulse = 1 + Math.sin(ts * 0.0018) * 0.05;
-          const mob   = canvas.width < 768;
-          const ocx   = mob ? canvas.width * 0.50 : canvas.width * 0.70;
-          const ocy   = canvas.height * 0.50;
-          const sc    = Math.min(canvas.width, canvas.height) * (mob ? 0.28 : 0.32) * pulse;
+        const angY  = ts * 0.00065;
+        const angX  = ts * 0.00032;
+        const angZ  = ts * 0.00018;
+        const pulse = 1 + Math.sin(ts * 0.0018) * 0.05;
+        const mob   = canvas.width < 768;
+        const ocx   = mob ? canvas.width * 0.50 : canvas.width * 0.70;
+        const ocy   = canvas.height * 0.50;
+        const sc    = Math.min(canvas.width, canvas.height) * (mob ? 0.28 : 0.32) * pulse;
+
+        try {
 
           // Aura
           const g1 = ctx.createRadialGradient(ocx, ocy, 0, ocx, ocy, sc * 1.8);
@@ -2122,52 +2122,41 @@
             ctx.fillStyle=`rgba(42,255,214,${Math.min(a,0.75)})`; ctx.fill();
           });
 
-          // ── IELTS LAB — always visible, spins with shape ──
-          const iH = Math.max(16, sc * 0.22) | 0;
-          const lH = Math.max(10, sc * 0.09) | 0;
-          const yG = sc * 0.12;
+        } catch(e) { /* shape drawing error — continue to text */ }
 
-          // X scale: 0.55–1.0, never collapses to zero
-          const xs = 0.55 + 0.45 * Math.abs(Math.cos(angY));
+        // ── IELTS LAB — drawn outside try-catch, always runs ──
+        const iH = Math.max(16, sc * 0.22) | 0;
+        const lH = Math.max(10, sc * 0.09) | 0;
+        const yG = sc * 0.12;
+        const xs = 0.55 + 0.45 * Math.abs(Math.cos(angY));
 
-          ctx.globalAlpha = 1;
-          ctx.globalCompositeOperation = 'source-over';
-          ctx.shadowBlur  = 0;
-          ctx.shadowColor = 'transparent';
-          ctx.textAlign    = 'center';
-          ctx.textBaseline = 'middle';
+        ctx.save();
+        ctx.globalAlpha = 1;
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.shadowBlur  = 0;
+        ctx.shadowColor = 'rgba(0,0,0,0)';
+        ctx.textAlign    = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.translate(ocx, ocy);
+        ctx.rotate(angZ * 0.6);
+        ctx.scale(xs, 1);
 
-          ctx.save();
-          ctx.translate(ocx, ocy);
-          ctx.rotate(angZ * 0.6);   // gentle spin matching shape's Z rotation
+        ctx.font      = 'bold ' + iH + 'px serif';
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillText('IELTS', 0, -yG);
 
-          // IELTS
-          ctx.save();
-          ctx.scale(xs, 1);
-          ctx.font      = 'bold ' + iH + 'px serif';
-          ctx.fillStyle = '#EEF4FF';
-          ctx.fillText('IELTS', 0, -yG);
-          ctx.restore();
+        ctx.beginPath();
+        ctx.moveTo(-sc * 0.13, 0);
+        ctx.lineTo( sc * 0.13, 0);
+        ctx.strokeStyle = '#C9952E';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
 
-          // gold separator
-          ctx.beginPath();
-          ctx.moveTo(-sc * 0.14 * xs, 0);
-          ctx.lineTo( sc * 0.14 * xs, 0);
-          ctx.strokeStyle = '#C9952E';
-          ctx.lineWidth = 1.5;
-          ctx.stroke();
+        ctx.font      = 'bold ' + lH + 'px monospace';
+        ctx.fillStyle = '#DDB05A';
+        ctx.fillText('LAB', 0, yG);
 
-          // LAB
-          ctx.save();
-          ctx.scale(xs, 1);
-          ctx.font      = 'bold ' + lH + 'px monospace';
-          ctx.fillStyle = '#DDB05A';
-          ctx.fillText('LAB', 0, yG);
-          ctx.restore();
-
-          ctx.restore();
-
-        } catch(e) { /* silently continue */ }
+        ctx.restore();
       }
 
       // Start after layout paint
