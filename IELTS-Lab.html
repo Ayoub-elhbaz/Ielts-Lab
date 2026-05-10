@@ -293,6 +293,7 @@
     <canvas id="cvParticle" class="hero-cv" style="z-index:2"></canvas>
     <canvas id="cvWave"     class="hero-cv" style="z-index:3"></canvas>
     <canvas id="cvScript"   class="hero-cv" style="z-index:4"></canvas>
+    <canvas id="cv3d"       class="hero-cv" style="z-index:8"></canvas>
     <div class="hero-grain"></div>
     <div class="hero-vignette"></div>
     <!-- warm gold accent glow over the background -->
@@ -2024,6 +2025,103 @@
         requestAnimationFrame(loop);
       }
       requestAnimationFrame(loop);
+    })();
+  </script>
+
+  <!-- ── 3D Icosahedron ── -->
+  <script>
+    (function () {
+      const canvas = document.getElementById('cv3d');
+      const ctx    = canvas.getContext('2d');
+
+      function resize() { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; }
+      resize();
+      window.addEventListener('resize', resize);
+
+      const phi = (1 + Math.sqrt(5)) / 2;
+
+      // 12 icosahedron vertices (raw, before normalization)
+      const raw = [
+        [0,1,phi],[0,-1,phi],[0,1,-phi],[0,-1,-phi],
+        [1,phi,0],[-1,phi,0],[1,-phi,0],[-1,-phi,0],
+        [phi,0,1],[-phi,0,1],[phi,0,-1],[-phi,0,-1]
+      ];
+      const verts = raw.map(v => {
+        const len = Math.sqrt(v[0]*v[0]+v[1]*v[1]+v[2]*v[2]);
+        return [v[0]/len, v[1]/len, v[2]/len];
+      });
+
+      // Build edges: connect vertices at icosahedron edge-length (~1.051 on unit sphere)
+      const EDGE_LEN = 2 / Math.sqrt(1 + phi * phi);
+      const edges = [];
+      for (let i = 0; i < 12; i++) {
+        for (let j = i+1; j < 12; j++) {
+          const dx=verts[i][0]-verts[j][0], dy=verts[i][1]-verts[j][1], dz=verts[i][2]-verts[j][2];
+          if (Math.abs(Math.sqrt(dx*dx+dy*dy+dz*dz) - EDGE_LEN) < 0.06) edges.push([i,j]);
+        }
+      }
+
+      function rotY(v, a) {
+        return [v[0]*Math.cos(a)+v[2]*Math.sin(a), v[1], -v[0]*Math.sin(a)+v[2]*Math.cos(a)];
+      }
+      function rotX(v, a) {
+        return [v[0], v[1]*Math.cos(a)-v[2]*Math.sin(a), v[1]*Math.sin(a)+v[2]*Math.cos(a)];
+      }
+      function project(v, cx, cy, scale) {
+        const fov = 3.2, z = v[2] + fov;
+        return [v[0]*fov/z*scale + cx, v[1]*fov/z*scale + cy, v[2]];
+      }
+
+      function draw(ts) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        const ry = ts * 0.00022;
+        const rx = ts * 0.00013;
+        const cx = canvas.width  * 0.74;
+        const cy = canvas.height * 0.50;
+        const scale = Math.min(canvas.width, canvas.height) * 0.27;
+
+        // Outer aura
+        const aura = ctx.createRadialGradient(cx, cy, scale*0.1, cx, cy, scale*1.1);
+        aura.addColorStop(0,   'rgba(201,149,46,0.07)');
+        aura.addColorStop(0.6, 'rgba(201,149,46,0.03)');
+        aura.addColorStop(1,   'rgba(201,149,46,0)');
+        ctx.fillStyle = aura;
+        ctx.beginPath();
+        ctx.arc(cx, cy, scale*1.1, 0, Math.PI*2);
+        ctx.fill();
+
+        const projected = verts.map(v => project(rotX(rotY(v, ry), rx), cx, cy, scale));
+
+        // Edges
+        ctx.shadowColor = 'rgba(201,149,46,0.5)';
+        ctx.shadowBlur  = 8;
+        edges.forEach(([i,j]) => {
+          const a = projected[i], b = projected[j];
+          const depth = (a[2]+b[2])/2;
+          const alpha = 0.18 + (depth+1)*0.30;
+          ctx.beginPath();
+          ctx.moveTo(a[0],a[1]);
+          ctx.lineTo(b[0],b[1]);
+          ctx.strokeStyle = `rgba(201,149,46,${Math.min(alpha,0.72)})`;
+          ctx.lineWidth = 1.1;
+          ctx.stroke();
+        });
+
+        // Vertex dots
+        ctx.shadowBlur = 12;
+        projected.forEach(p => {
+          const alpha = 0.25 + (p[2]+1)*0.35;
+          ctx.beginPath();
+          ctx.arc(p[0], p[1], 2.8, 0, Math.PI*2);
+          ctx.fillStyle = `rgba(221,176,90,${Math.min(alpha,0.95)})`;
+          ctx.fill();
+        });
+
+        ctx.shadowBlur = 0;
+        requestAnimationFrame(draw);
+      }
+      requestAnimationFrame(draw);
     })();
   </script>
 
