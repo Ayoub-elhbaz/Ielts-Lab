@@ -2124,11 +2124,15 @@
 
         } catch(e) { /* shape drawing error — continue to text */ }
 
-        // ── IELTS LAB — drawn outside try-catch, always runs ──
-        const iH = Math.max(16, sc * 0.22) | 0;
-        const lH = Math.max(10, sc * 0.09) | 0;
-        const yG = sc * 0.12;
-        const xs = 0.55 + 0.45 * Math.abs(Math.cos(angY));
+        // ── IELTS LAB 3D extruded text — always runs ──
+        const iH   = Math.max(16, sc * 0.22) | 0;
+        const lH   = Math.max(10, sc * 0.09) | 0;
+        const yG   = sc * 0.12;
+        const xs   = 0.55 + 0.45 * Math.abs(Math.cos(angY));
+        const DEPTH = 10; // extrusion layers
+        // extrusion direction follows rotation so depth looks correct from any angle
+        const ex = Math.sin(angY) * 2.2;
+        const ey = Math.sin(angX) * 1.4;
 
         ctx.save();
         ctx.globalAlpha = 1;
@@ -2141,10 +2145,26 @@
         ctx.rotate(angZ * 0.6);
         ctx.scale(xs, 1);
 
-        ctx.font      = 'bold ' + iH + 'px serif';
+        // draw extrusion layers back→front
+        ctx.font = 'bold ' + iH + 'px serif';
+        for (let i = 0; i < DEPTH; i++) {
+          const t  = i / (DEPTH - 1);           // 0=back, 1=front
+          const ox = ex * (DEPTH - 1 - i);
+          const oy = ey * (DEPTH - 1 - i);
+          const r  = Math.round(80  + t * 160);
+          const g  = Math.round(50  + t * 140);
+          const b  = Math.round(10  + t * 50);
+          ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',' + (0.35 + t * 0.65) + ')';
+          ctx.fillText('IELTS', ox, -yG + oy);
+        }
+        // front face — bright white
         ctx.fillStyle = '#FFFFFF';
+        ctx.shadowColor = 'rgba(201,149,46,0.7)';
+        ctx.shadowBlur  = 18;
         ctx.fillText('IELTS', 0, -yG);
+        ctx.shadowBlur = 0;
 
+        // gold separator
         ctx.beginPath();
         ctx.moveTo(-sc * 0.13, 0);
         ctx.lineTo( sc * 0.13, 0);
@@ -2152,9 +2172,24 @@
         ctx.lineWidth = 1.5;
         ctx.stroke();
 
-        ctx.font      = 'bold ' + lH + 'px monospace';
+        // LAB extrusion
+        ctx.font = 'bold ' + lH + 'px monospace';
+        for (let i = 0; i < DEPTH; i++) {
+          const t  = i / (DEPTH - 1);
+          const ox = ex * (DEPTH - 1 - i);
+          const oy = ey * (DEPTH - 1 - i);
+          const r  = Math.round(100 + t * 120);
+          const g  = Math.round(60  + t * 110);
+          const b  = Math.round(5   + t * 30);
+          ctx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',' + (0.35 + t * 0.65) + ')';
+          ctx.fillText('LAB', ox, yG + oy);
+        }
+        // front face — gold
         ctx.fillStyle = '#DDB05A';
+        ctx.shadowColor = 'rgba(201,149,46,0.9)';
+        ctx.shadowBlur  = 22;
         ctx.fillText('LAB', 0, yG);
+        ctx.shadowBlur = 0;
 
         ctx.restore();
       }
