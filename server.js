@@ -1314,7 +1314,7 @@ function buildEmailHtml(r) {
           </td></tr>` : ''}
 
           <tr><td style="padding:28px 36px;text-align:center;background:#faf7f2;">
-            <a href="http://localhost:3000/writing-clinic/corrector.html"
+            <a href="https://ieltslab.io/writing-clinic/corrector.html"
                style="display:inline-block;background:#0f1e3c;color:#ffffff;text-decoration:none;padding:13px 30px;border-radius:12px;font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;">
               Submit Another Essay →
             </a>
