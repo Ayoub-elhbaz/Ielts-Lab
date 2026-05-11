@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expert Human Tutoring — IELTS Lab</title>
+  <meta name="description" content="Get your IELTS essays corrected by certified examiners, book 1-on-1 teaching sessions, or enrol in our Score Guarantee Program." />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet" />
+
+  <script>(function(){ var t=localStorage.getItem('ieltslab_theme')||'light'; document.documentElement.setAttribute('data-theme',t); })();</script>
+
+  <script>
+    tailwind.config = {
+      theme: { extend: { fontFamily: { display: ['Satoshi','Plus Jakarta Sans','system-ui','sans-serif'], sans: ['Plus Jakarta Sans','system-ui','sans-serif'] } } }
+    }
+  </script>
+
+  <style>
+    :root {
+      --gold: #C9952E;
+      --gold-light: #DDB05A;
+      --gold-dim: rgba(201,149,46,0.10);
+      --gold-border: rgba(201,149,46,0.22);
+      --navy: #0d2b4e;
+      --navy-mid: #1a3c6e;
+      --teal: #2AFFD6;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: #F4F1EB; color: #1C1C2E; }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    h1, h2, h3, h4, h5 { font-family: 'Satoshi', 'Plus Jakarta Sans', system-ui, sans-serif; }
+
+    /* Nav */
+    .nav-glass { background: rgba(9,9,11,0.88); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .nav-links { display: flex; gap: 32px; list-style: none; }
+    .nav-links a { font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 300; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(200,216,255,0.45); text-decoration: none; transition: color 0.3s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+    .nav-cta { font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; padding: 9px 22px; border-radius: 2px; border: 1px solid rgba(201,149,46,0.4); color: var(--gold); background: rgba(201,149,46,0.07); cursor: pointer; text-decoration: none; transition: all 0.3s; }
+    .nav-cta:hover { background: rgba(201,149,46,0.15); border-color: var(--gold); }
+    @media (min-width: 768px) { #navLinks { display: flex !important; } }
+
+    /* Scroll reveal */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.75s cubic-bezier(0.16,1,0.3,1), transform 0.75s cubic-bezier(0.16,1,0.3,1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .d100 { transition-delay: 0.1s; } .d200 { transition-delay: 0.2s; } .d300 { transition-delay: 0.3s; }
+
+    /* Labels */
+    .label { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
+
+    /* Service cards */
+    .service-card { background: #fff; border: 1px solid #E8E4DC; border-radius: 1.25rem; padding: 2rem; display: flex; flex-direction: column; transition: border-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s cubic-bezier(0.16,1,0.3,1); }
+    .service-card:hover { border-color: var(--gold-border); box-shadow: 0 12px 40px rgba(201,149,46,0.10); transform: translateY(-4px); }
+    .service-card.featured { background: #1B2B4B; border-color: rgba(201,149,46,0.35); }
+    .service-card.featured:hover { border-color: var(--gold); box-shadow: 0 16px 48px rgba(201,149,46,0.18); }
+
+    /* Price tier rows */
+    .tier-row { padding: 1rem 1.125rem; border-radius: 0.875rem; background: #F9F8F6; border: 1.5px solid #E8E4DC; }
+    .tier-row.highlighted { border-color: var(--gold-border); }
+    .tier-row-dark { padding: 1rem 1.125rem; border-radius: 0.875rem; background: rgba(255,255,255,0.05); border: 1.5px solid rgba(255,255,255,0.1); }
+    .tier-row-dark.highlighted { background: rgba(201,149,46,0.08); border-color: rgba(201,149,46,0.35); }
+
+    /* Buttons */
+    .btn-gold { display: inline-flex; align-items: center; justify-content: center; padding: 0.75rem 1.5rem; background: var(--gold); color: #fff; border: none; border-radius: 0.625rem; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.9375rem; font-weight: 600; cursor: pointer; width: 100%; transition: background 0.2s, transform 0.2s; }
+    .btn-gold:hover { background: var(--gold-light); transform: translateY(-1px); }
+    .btn-gold:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+    .btn-gold-dark { color: #1C1C2E; }
+
+    /* Step */
+    .step-num { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--gold-border); display: flex; align-items: center; justify-content: center; font-family: 'Space Mono', monospace; font-size: 0.75rem; color: var(--gold); flex-shrink: 0; }
+
+    /* FAQ */
+    .faq-item { border-bottom: 1px solid #E8E4DC; }
+    .faq-btn { width: 100%; text-align: left; padding: 1.25rem 0; display: flex; justify-content: space-between; align-items: center; cursor: pointer; background: none; border: none; font-family: 'Satoshi', sans-serif; font-size: 1rem; font-weight: 600; color: #1C1C2E; }
+    .faq-body { overflow: hidden; max-height: 0; transition: max-height 0.35s cubic-bezier(0.16,1,0.3,1); }
+    .faq-body.open { max-height: 400px; }
+    .faq-icon { transition: transform 0.3s; flex-shrink: 0; }
+    .faq-icon.open { transform: rotate(45deg); }
+
+    /* Modal */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 9999; opacity: 0; pointer-events: none; transition: opacity 0.25s; padding: 1rem; }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal-box { background: #fff; border-radius: 1.5rem; padding: 2.5rem; width: 100%; max-width: 480px; max-height: 90vh; overflow-y: auto; transform: translateY(20px); transition: transform 0.3s cubic-bezier(0.16,1,0.3,1); }
+    .modal-overlay.open .modal-box { transform: translateY(0); }
+
+    /* Form */
+    .field { display: flex; flex-direction: column; gap: 0.375rem; }
+    .field label { font-size: 0.8125rem; font-weight: 600; color: #3D4451; }
+    .field input, .field select, .field textarea { padding: 0.625rem 0.875rem; border: 1.5px solid #E8E4DC; border-radius: 0.625rem; font-size: 0.9375rem; font-family: 'Plus Jakarta Sans', sans-serif; color: #1C1C2E; background: #FAFAF8; outline: none; transition: border-color 0.2s; width: 100%; }
+    .field input:focus, .field select:focus, .field textarea:focus { border-color: var(--gold); background: #fff; }
+    .field textarea { resize: vertical; min-height: 90px; }
+
+    /* Guarantee badge */
+    .guarantee-badge { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.375rem 1rem; background: rgba(42,255,214,0.08); border: 1px solid rgba(42,255,214,0.2); border-radius: 999px; font-size: 0.75rem; font-weight: 600; color: #2AFFD6; letter-spacing: 0.05em; }
+
+    /* Check icons */
+    .check { width: 16px; height: 16px; flex-shrink: 0; margin-top: 2px; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: #F4F1EB; }
+    ::-webkit-scrollbar-thumb { background: #C49A2B; border-radius: 3px; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════ NAV ═══════════════════════════ -->
+<header class="nav-glass fixed top-0 left-0 right-0 z-50">
+  <div style="max-width:1280px;margin:0 auto;padding:0 1.5rem;height:56px;display:flex;align-items:center;justify-content:space-between;gap:2rem;">
+    <a href="../IELTS-Lab.html" style="display:flex;align-items:center;gap:0.5rem;text-decoration:none;flex-shrink:0;">
+      <div style="width:22px;height:22px;border-radius:5px;background:var(--gold);display:flex;align-items:center;justify-content:center;">
+        <span style="font-family:'Satoshi',sans-serif;font-weight:900;font-size:10px;color:#09090b;">IL</span>
+      </div>
+      <span style="font-family:'Satoshi',sans-serif;font-weight:900;font-size:13px;color:#fff;">IELTS<span style="color:var(--gold)">Lab</span></span>
+    </a>
+
+    <ul class="nav-links" id="navLinks" style="display:none;">
+      <li><a href="../IELTS-Lab.html#skills">Courses</a></li>
+      <li><a href="../IELTS-Lab.html#teachers">Teachers</a></li>
+      <li><a href="../guide/index.html">IELTS Guide</a></li>
+      <li><a href="../services/index.html" class="active">Expert Services</a></li>
+      <li><a href="../IELTS-Lab.html#pricing">Pricing</a></li>
+    </ul>
+
+    <a href="../login.html" class="nav-cta">Get Started</a>
+  </div>
+</header>
+
+<!-- ═══════════════════════════ HERO ═══════════════════════════ -->
+<section style="background:#09090b;padding:7rem 1.5rem 5rem;text-align:center;position:relative;overflow:hidden;">
+  <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(201,149,46,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(201,149,46,0.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;"></div>
+  <div style="max-width:720px;margin:0 auto;position:relative;">
+    <div class="label" style="margin-bottom:1.25rem;">Expert Human Tutoring</div>
+    <h1 style="font-size:clamp(2.25rem,5vw,3.5rem);font-weight:900;color:#fff;line-height:1.1;letter-spacing:-0.03em;margin-bottom:1.5rem;">
+      Real teachers.<br/>
+      <span style="color:var(--gold);">Real results.</span>
+    </h1>
+    <p style="font-size:1.0625rem;color:rgba(200,216,255,0.6);max-width:52ch;margin:0 auto 2.5rem;line-height:1.75;">
+      Go beyond AI. Get your essays corrected by certified IELTS examiners, book a private teaching session, or enrol in our Score Guarantee Program.
+    </p>
+
+    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:3rem;">
+      <a href="#services" style="padding:0.875rem 2rem;background:var(--gold);color:#fff;border-radius:8px;font-weight:600;font-size:0.9375rem;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.background='#DDB05A'" onmouseout="this.style.background='var(--gold)'">Explore Services</a>
+      <a href="#guarantee" style="padding:0.875rem 2rem;background:rgba(201,149,46,0.1);color:var(--gold);border:1px solid rgba(201,149,46,0.35);border-radius:8px;font-weight:600;font-size:0.9375rem;text-decoration:none;transition:all 0.2s;" onmouseover="this.style.background='rgba(201,149,46,0.18)'" onmouseout="this.style.background='rgba(201,149,46,0.1)'">Score Guarantee →</a>
+    </div>
+
+    <!-- Trust badges -->
+    <div style="display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:0.5rem;color:rgba(200,216,255,0.5);font-size:0.8125rem;">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1l1.8 3.6L14 5.3l-3 2.9.7 4.1L8 10.3l-3.7 1.9.7-4.1-3-2.9 4.2-.7L8 1z" stroke="#C9952E" stroke-width="1.3" stroke-linejoin="round"/></svg>
+        Certified IELTS Examiners
+      </div>
+      <div style="display:flex;align-items:center;gap:0.5rem;color:rgba(200,216,255,0.5);font-size:0.8125rem;">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6.5" stroke="#C9952E" stroke-width="1.3"/><path d="M8 5v3.5l2 1.5" stroke="#C9952E" stroke-width="1.3" stroke-linecap="round"/></svg>
+        6–24h Turnaround
+      </div>
+      <div style="display:flex;align-items:center;gap:0.5rem;color:rgba(200,216,255,0.5);font-size:0.8125rem;">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1.5L10 6h4.5l-3.5 2.8 1.3 4.7L8 11 3.7 13.5 5 8.8 1.5 6H6L8 1.5z" fill="rgba(201,149,46,0.15)" stroke="#C9952E" stroke-width="1.3" stroke-linejoin="round"/></svg>
+        Score Guarantee
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ SERVICES ═══════════════════════════ -->
+<section id="services" style="background:#F4F1EB;padding:5rem 1.5rem;">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:3.5rem;" class="reveal">
+      <div class="label" style="margin-bottom:0.75rem;">Services</div>
+      <h2 style="font-size:clamp(1.75rem,4vw,2.5rem);font-weight:800;color:#1C1C2E;letter-spacing:-0.02em;">Choose your path to Band 7+</h2>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem;align-items:start;">
+
+      <!-- ── ESSAY CORRECTION ── -->
+      <div class="service-card reveal">
+        <div style="width:44px;height:44px;border-radius:12px;background:var(--gold-dim);border:1px solid var(--gold-border);display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 17.5l2.5-1 10-10-1.5-1.5-10 10L4 17.5z" stroke="#C9952E" stroke-width="1.4" stroke-linejoin="round"/><path d="M15 6.5l1.5-1.5 1.5 1.5-1.5 1.5L15 6.5z" stroke="#C9952E" stroke-width="1.4" stroke-linejoin="round"/><path d="M3 20h16" stroke="#C9952E" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </div>
+
+        <div class="label" style="margin-bottom:0.5rem;color:#6B7280;">Essay Correction</div>
+        <h3 style="font-size:1.375rem;font-weight:800;color:#1C1C2E;margin-bottom:0.75rem;">Human Essay Review</h3>
+        <p style="font-size:0.9rem;color:#3D4451;line-height:1.7;margin-bottom:1.5rem;">A certified IELTS instructor corrects your essay with tracked-changes feedback and a criterion-by-criterion band score breakdown.</p>
+
+        <div style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1.75rem;">
+          <div class="tier-row">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.375rem;">
+              <span style="font-weight:700;font-size:0.9375rem;color:#1C1C2E;">Standard</span>
+              <span style="font-family:'Space Mono',monospace;font-weight:700;font-size:1.125rem;color:var(--gold);">$25</span>
+            </div>
+            <span style="font-size:0.8125rem;color:#6B7280;">24h turnaround · Written feedback</span>
+          </div>
+          <div class="tier-row highlighted">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.375rem;">
+              <span style="font-weight:700;font-size:0.9375rem;color:#1C1C2E;">Express + Voice</span>
+              <span style="font-family:'Space Mono',monospace;font-weight:700;font-size:1.125rem;color:var(--gold);">$45</span>
+            </div>
+            <span style="font-size:0.8125rem;color:#6B7280;">6h turnaround · Written + 5-min voice note</span>
+          </div>
+        </div>
+
+        <ul style="display:flex;flex-direction:column;gap:0.625rem;margin-bottom:2rem;flex:1;">
+          <li style="display:flex;gap:0.625rem;font-size:0.875rem;color:#3D4451;align-items:flex-start;"><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Tracked changes on your essay</li>
+          <li style="display:flex;gap:0.625rem;font-size:0.875rem;color:#3D4451;align-items:flex-start;"><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Band score for all 4 criteria</li>
+          <li style="display:flex;gap:0.625rem;font-size:0.875rem;color:#3D4451;align-items:flex-start;"><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Personalised improvement tips</li>
+          <li style="display:flex;gap:0.625rem;font-size:0.875rem;color:#3D4451;align-items:flex-start;"><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Task 1 or Task 2 accepted</li>
+          <li style="display:flex;gap:0.625rem;font-size:0.875rem;color:#3D4451;align-items:flex-start;"><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="#2AFFD6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong>Express only:</strong> 5-min voice note audio</span></li>
+        </ul>
+
+        <button class="btn-gold" onclick="openModal('Essay Correction')">Submit My Essay →</button>
+      </div>
+
+      <!-- ── 1-ON-1 SESSION ── -->
+      <div class="service-card reveal d100">
+        <div style="width:44px;height:44px;border-radius:12px;background:var(--gold-dim);border:1px solid var(--gold-border);display:flex;align-items:center;justify-content:center;margin-bottom:1.5rem;">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><circle cx="9" cy="7" r="3" stroke="#C9952E" stroke-width="1.4"/><path d="M3 17c0-3.31 2.69-6 6-6" stroke="#C9952E" stroke-width="1.4" stroke-linecap="round"/><circle cx="16" cy="14" r="2.5" stroke="#C9952E" stroke-width="1.4"/><path d="M13.5 18.5c0-1.38 1.12-2.5 2.5-2.5s2.5 1.12 2.5 2.5" stroke="#C9952E" stroke-width="1.4" stroke-linecap="round"/></svg>
+        </div>
+
+        <div class="label" style="margin-bottom:0.5rem;color:#6B7280;">Private Tutoring</div>
+        <h3 style="font-size:1.375rem;font-weight:800;color:#1C1C2E;margin-bottom:0.75rem;">1-on-1 Teaching Session</h3>
+        <p style="font-size:0.9rem;color:#3D4451;line-height:1.7;margin-bottom:1.5rem;">Work directly with a certified IELTS instructor on speaking fluency, writing strategy, or any targeted skill — live via video call.</p>
+
+        <div style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1.75rem;">
+          <div class="tier-row">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.375rem;">
+              <span style="font-weight:700;font-size:0.9375rem;color:#1C1C2E;">30-Minute Session</span>
+              <span style="font-family:'Space Mono',monospace;font-weight:700;font-size:1.125rem;color:var(--gold);">$30</span>
+            </div>
+            <span style="font-size:0.8125rem;color:#6B7280;">Focused skill or speaking practice</span>
+          </div>
+          <div class="tier-row highlighted">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.375rem;">
+              <span style="font-weight:700;font-size:0.9375rem;color:#1C1C2E;">60-Minute Session</span>
+              <span style="font-family:'Space Mono',monospace;font-weight:700;font-size:1.125rem;color:var(--gold);">$55</span>
+            </div>
+            <span style="font-size:0.8125rem;color:#6B7280;">Full deep-dive + personalised strategy</span>
+          </div>
+        </div>
+
+        <ul style="display:flex;flex-direction:column;gap:0.625rem;margin-bottom:2rem;flex:1;">
+          <li style="display:flex;gap:0.625rem;font-size:0.875rem;color:#3D4451;align-items:flex-start;"><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Live Zoom video session</li>
+          <li style="display:flex;gap:0.625rem;font-size:0.875rem;color:#3D4451;align-items:flex-start;"><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Speaking, writing, or strategy focus</li>
+          <li style="display:flex;gap:0.625rem;font-size:0.875rem;color:#3D4451;align-items:flex-start;"><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Session notes + personal action plan</li>
+          <li style="display:flex;gap:0.625rem;font-size:0.875rem;color:#3D4451;align-items:flex-start;"><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Flexible scheduling across all timezones</li>
+          <li style="display:flex;gap:0.625rem;font-size:0.875rem;color:#3D4451;align-items:flex-start;"><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Post-session written feedback summary</li>
+        </ul>
+
+        <button class="btn-gold" onclick="openModal('1-on-1 Session')">Book a Session →</button>
+      </div>
+
+      <!-- ── SCORE GUARANTEE ── -->
+      <div class="service-card featured reveal d200" id="guarantee">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.5rem;">
+          <div style="width:44px;height:44px;border-radius:12px;background:rgba(201,149,46,0.15);border:1px solid rgba(201,149,46,0.4);display:flex;align-items:center;justify-content:center;">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 2l2.2 4.5 5 .7-3.6 3.5.85 4.95L11 13.3l-4.45 2.35.85-4.95L3.8 7.2l5-.7L11 2z" stroke="#C9952E" stroke-width="1.4" stroke-linejoin="round"/></svg>
+          </div>
+          <span class="guarantee-badge">Score Guarantee</span>
+        </div>
+
+        <div class="label" style="margin-bottom:0.5rem;color:rgba(201,149,46,0.7);">Premium Program</div>
+        <h3 style="font-size:1.375rem;font-weight:800;color:#fff;margin-bottom:0.75rem;">Score Guarantee Program</h3>
+        <p style="font-size:0.9rem;color:rgba(200,216,255,0.65);line-height:1.7;margin-bottom:1.5rem;">An 8-week intensive program combining AI tools, human corrections, private sessions, and full mock tests. Hit your target band — or get 80% back.</p>
+
+        <div style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1.75rem;">
+          <div class="tier-row-dark">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.375rem;">
+              <span style="font-weight:700;font-size:0.9375rem;color:#fff;">Target Band 6.5</span>
+              <span style="font-family:'Space Mono',monospace;font-weight:700;font-size:1.125rem;color:var(--gold);">$150</span>
+            </div>
+            <span style="font-size:0.8125rem;color:rgba(200,216,255,0.5);">8-week program · Guarantee included</span>
+          </div>
+          <div class="tier-row-dark highlighted">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.375rem;">
+              <div style="display:flex;align-items:center;gap:0.5rem;">
+                <span style="font-weight:700;font-size:0.9375rem;color:#fff;">Target Band 7.0+</span>
+                <span style="font-size:0.6875rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;padding:2px 8px;border-radius:999px;background:rgba(201,149,46,0.2);color:var(--gold);">Popular</span>
+              </div>
+              <span style="font-family:'Space Mono',monospace;font-weight:700;font-size:1.125rem;color:var(--gold);">$239</span>
+            </div>
+            <span style="font-size:0.8125rem;color:rgba(200,216,255,0.5);">8-week program · Priority support</span>
+          </div>
+        </div>
+
+        <ul style="display:flex;flex-direction:column;gap:0.625rem;margin-bottom:2rem;flex:1;">
+          <li style="display:flex;gap:0.625rem;font-size:0.875rem;color:rgba(200,216,255,0.75);align-items:flex-start;"><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="#2AFFD6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>4 human essay corrections</li>
+          <li style="display:flex;gap:0.625rem;font-size:0.875rem;color:rgba(200,216,255,0.75);align-items:flex-start;"><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="#2AFFD6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>3 × 1-on-1 private teaching sessions</li>
+          <li style="display:flex;gap:0.625rem;font-size:0.875rem;color:rgba(200,216,255,0.75);align-items:flex-start;"><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="#2AFFD6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>2 full 4-skill mock tests + expert review</li>
+          <li style="display:flex;gap:0.625rem;font-size:0.875rem;color:rgba(200,216,255,0.75);align-items:flex-start;"><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="#2AFFD6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Personalised 8-week study plan</li>
+          <li style="display:flex;gap:0.625rem;font-size:0.875rem;color:rgba(200,216,255,0.75);align-items:flex-start;"><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="#2AFFD6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Unlimited AI essay corrections</li>
+          <li style="display:flex;gap:0.625rem;font-size:0.875rem;color:rgba(200,216,255,0.75);align-items:flex-start;"><svg class="check" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="#2AFFD6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span><strong style="color:#fff;">80% refund</strong> if you don't reach your band</span></li>
+        </ul>
+
+        <button class="btn-gold btn-gold-dark" onclick="openModal('Score Guarantee Program')">Enrol Now — Score Guaranteed →</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ HOW IT WORKS ═══════════════════════════ -->
+<section style="background:#fff;padding:5rem 1.5rem;">
+  <div style="max-width:760px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:3.5rem;" class="reveal">
+      <div class="label" style="margin-bottom:0.75rem;">Process</div>
+      <h2 style="font-size:clamp(1.625rem,3.5vw,2.25rem);font-weight:800;color:#1C1C2E;letter-spacing:-0.02em;">How it works</h2>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:2rem;">
+      <div style="display:flex;gap:1.5rem;align-items:flex-start;" class="reveal">
+        <div class="step-num">01</div>
+        <div>
+          <h3 style="font-size:1.125rem;font-weight:700;color:#1C1C2E;margin-bottom:0.375rem;">Fill in the booking form</h3>
+          <p style="font-size:0.9rem;color:#3D4451;line-height:1.7;">Choose your service, tell us your target band and exam date, and include anything specific you want to focus on. Takes under 2 minutes.</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:1.5rem;align-items:flex-start;" class="reveal d100">
+        <div class="step-num">02</div>
+        <div>
+          <h3 style="font-size:1.125rem;font-weight:700;color:#1C1C2E;margin-bottom:0.375rem;">Receive confirmation &amp; payment details</h3>
+          <p style="font-size:0.9rem;color:#3D4451;line-height:1.7;">We'll reply within a few hours with payment options (PayPal, card, or bank transfer). Your slot is confirmed once payment clears.</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:1.5rem;align-items:flex-start;" class="reveal d200">
+        <div class="step-num">03</div>
+        <div>
+          <h3 style="font-size:1.125rem;font-weight:700;color:#1C1C2E;margin-bottom:0.375rem;">Get expert feedback &amp; results</h3>
+          <p style="font-size:0.9rem;color:#3D4451;line-height:1.7;">Essay corrections are delivered within your chosen timeframe. Sessions are scheduled at your convenience. Score Guarantee participants receive their 8-week plan on day one.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ WHY HUMAN ═══════════════════════════ -->
+<section style="background:#F4F1EB;padding:5rem 1.5rem;">
+  <div style="max-width:1100px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:3.5rem;" class="reveal">
+      <div class="label" style="margin-bottom:0.75rem;">Why Expert Tutoring</div>
+      <h2 style="font-size:clamp(1.625rem,3.5vw,2.25rem);font-weight:800;color:#1C1C2E;letter-spacing:-0.02em;">AI gets you far. Humans get you there.</h2>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.25rem;">
+      <div style="padding:1.75rem;background:#fff;border-radius:1.25rem;border:1px solid #E8E4DC;" class="reveal">
+        <div style="font-size:1.625rem;margin-bottom:1rem;">🎯</div>
+        <h3 style="font-size:1.0625rem;font-weight:700;color:#1C1C2E;margin-bottom:0.5rem;">Examiner-level insight</h3>
+        <p style="font-size:0.875rem;color:#3D4451;line-height:1.7;">Our instructors are trained on the same BC/IDP band descriptors real examiners use. No guesswork — precise, official-standard feedback every time.</p>
+      </div>
+      <div style="padding:1.75rem;background:#fff;border-radius:1.25rem;border:1px solid #E8E4DC;" class="reveal d100">
+        <div style="font-size:1.625rem;margin-bottom:1rem;">🔊</div>
+        <h3 style="font-size:1.0625rem;font-weight:700;color:#1C1C2E;margin-bottom:0.5rem;">Voice and nuance</h3>
+        <p style="font-size:0.875rem;color:#3D4451;line-height:1.7;">A 5-minute voice note from a real teacher communicates what written feedback can't — tone, emphasis, and encouragement that actually sticks.</p>
+      </div>
+      <div style="padding:1.75rem;background:#fff;border-radius:1.25rem;border:1px solid #E8E4DC;" class="reveal d200">
+        <div style="font-size:1.625rem;margin-bottom:1rem;">📈</div>
+        <h3 style="font-size:1.0625rem;font-weight:700;color:#1C1C2E;margin-bottom:0.5rem;">Accountability that works</h3>
+        <p style="font-size:0.875rem;color:#3D4451;line-height:1.7;">Students who book sessions are 3× more likely to hit their target band. The commitment of a scheduled session changes how seriously you prepare.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ FAQ ═══════════════════════════ -->
+<section style="background:#fff;padding:5rem 1.5rem;">
+  <div style="max-width:700px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:3.5rem;" class="reveal">
+      <div class="label" style="margin-bottom:0.75rem;">FAQ</div>
+      <h2 style="font-size:clamp(1.625rem,3.5vw,2.25rem);font-weight:800;color:#1C1C2E;letter-spacing:-0.02em;">Common questions</h2>
+    </div>
+
+    <div class="reveal">
+      <div class="faq-item">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          How do I submit my essay for correction?
+          <svg class="faq-icon" width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 3v12M3 9h12" stroke="#1C1C2E" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-body"><p style="font-size:0.9rem;color:#3D4451;line-height:1.75;padding-bottom:1.25rem;">Fill in the booking form on this page, select "Essay Correction", and paste your essay in the message field (or mention you'll email it). We'll confirm within a few hours and send payment details. Your essay goes into the correction queue once payment clears.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          What exactly is the Score Guarantee?
+          <svg class="faq-icon" width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 3v12M3 9h12" stroke="#1C1C2E" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-body"><p style="font-size:0.9rem;color:#3D4451;line-height:1.75;padding-bottom:1.25rem;">If you complete the full 8-week program — all sessions attended, all corrections submitted, all assigned exercises completed — and take a real IELTS exam within the program window but don't reach your target band, we refund 80% of the program fee. No questions asked.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          How are 1-on-1 sessions conducted?
+          <svg class="faq-icon" width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 3v12M3 9h12" stroke="#1C1C2E" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-body"><p style="font-size:0.9rem;color:#3D4451;line-height:1.75;padding-bottom:1.25rem;">All sessions are held via Zoom video call. After booking, we agree on a time that works across your timezone. Sessions are not recorded by default — let us know in advance if you'd like a recording sent to you.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          How do I pay?
+          <svg class="faq-icon" width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 3v12M3 9h12" stroke="#1C1C2E" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-body"><p style="font-size:0.9rem;color:#3D4451;line-height:1.75;padding-bottom:1.25rem;">After you submit the booking form, we'll email you payment options including PayPal, bank transfer, and card. Your service is confirmed and scheduled once payment clears.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          Can I buy multiple essay corrections at once?
+          <svg class="faq-icon" width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 3v12M3 9h12" stroke="#1C1C2E" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-body"><p style="font-size:0.9rem;color:#3D4451;line-height:1.75;padding-bottom:1.25rem;">Yes — mention in the message field how many corrections you need and we'll put together a bundle price. Students preparing for an upcoming exam often buy 3–5 corrections spread over several weeks.</p></div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-btn" onclick="toggleFaq(this)">
+          What if I need to reschedule a session?
+          <svg class="faq-icon" width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 3v12M3 9h12" stroke="#1C1C2E" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+        <div class="faq-body"><p style="font-size:0.9rem;color:#3D4451;line-height:1.75;padding-bottom:1.25rem;">No problem — just email us at least 24 hours before your scheduled session and we'll find a new time that works for you. We understand that life happens.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ FINAL CTA ═══════════════════════════ -->
+<section style="background:#1B2B4B;padding:5rem 1.5rem;text-align:center;">
+  <div style="max-width:600px;margin:0 auto;" class="reveal">
+    <div class="label" style="color:rgba(201,149,46,0.7);margin-bottom:1rem;">Ready to start?</div>
+    <h2 style="font-size:clamp(1.75rem,4vw,2.75rem);font-weight:900;color:#fff;letter-spacing:-0.025em;margin-bottom:1.25rem;">Your target band is within reach.</h2>
+    <p style="font-size:1rem;color:rgba(200,216,255,0.6);max-width:46ch;margin:0 auto 2.5rem;line-height:1.75;">Let a real examiner show you exactly what's holding your score back — and how to fix it.</p>
+    <button onclick="openModal('General Inquiry')" style="padding:1rem 2.5rem;background:var(--gold);color:#1C1C2E;border:none;border-radius:8px;font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:1rem;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='#DDB05A';this.style.transform='translateY(-2px)'" onmouseout="this.style.background='var(--gold)';this.style.transform='none'">
+      Book a Service →
+    </button>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ FOOTER ═══════════════════════════ -->
+<footer style="background:#EDE9E0;padding:4rem 1.5rem 2rem;">
+  <div style="max-width:1280px;margin:0 auto;">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:2.5rem;margin-bottom:3rem;">
+      <div>
+        <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:0.875rem;">
+          <div style="width:22px;height:22px;border-radius:5px;background:var(--gold);display:flex;align-items:center;justify-content:center;">
+            <span style="font-family:'Satoshi',sans-serif;font-weight:900;font-size:10px;color:#09090b;">IL</span>
+          </div>
+          <span style="font-family:'Satoshi',sans-serif;font-weight:900;font-size:13px;color:#1C1C2E;">IELTS<span style="color:var(--gold)">Lab</span></span>
+        </div>
+        <p style="font-size:0.8125rem;color:#3D4451;line-height:1.6;max-width:26ch;">IELTS preparation built on AI precision and examiner expertise.</p>
+      </div>
+      <div>
+        <div style="font-size:0.6875rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#1B2B4B;margin-bottom:1rem;">Product</div>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:0.625rem;">
+          <li><a href="../writing-clinic/corrector.html" style="font-size:0.875rem;color:#3D4451;text-decoration:none;" onmouseover="this.style.color='#1C1C2E'" onmouseout="this.style.color='#3D4451'">Writing Clinic</a></li>
+          <li><a href="../mock-tests/index.html" style="font-size:0.875rem;color:#3D4451;text-decoration:none;" onmouseover="this.style.color='#1C1C2E'" onmouseout="this.style.color='#3D4451'">Mock Tests</a></li>
+          <li><a href="../services/index.html" style="font-size:0.875rem;color:#3D4451;text-decoration:none;" onmouseover="this.style.color='#1C1C2E'" onmouseout="this.style.color='#3D4451'">Expert Services</a></li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-size:0.6875rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#1B2B4B;margin-bottom:1rem;">Resources</div>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:0.625rem;">
+          <li><a href="../guide/index.html" style="font-size:0.875rem;color:#3D4451;text-decoration:none;" onmouseover="this.style.color='#1C1C2E'" onmouseout="this.style.color='#3D4451'">IELTS Guide</a></li>
+          <li><a href="../IELTS-Lab.html#pricing" style="font-size:0.875rem;color:#3D4451;text-decoration:none;" onmouseover="this.style.color='#1C1C2E'" onmouseout="this.style.color='#3D4451'">Pricing</a></li>
+        </ul>
+      </div>
+      <div>
+        <div style="font-size:0.6875rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#1B2B4B;margin-bottom:1rem;">Company</div>
+        <ul style="list-style:none;display:flex;flex-direction:column;gap:0.625rem;">
+          <li><a href="../about/index.html" style="font-size:0.875rem;color:#3D4451;text-decoration:none;" onmouseover="this.style.color='#1C1C2E'" onmouseout="this.style.color='#3D4451'">About</a></li>
+          <li><a href="../privacy/index.html" style="font-size:0.875rem;color:#3D4451;text-decoration:none;" onmouseover="this.style.color='#1C1C2E'" onmouseout="this.style.color='#3D4451'">Privacy</a></li>
+          <li><a href="../terms/index.html" style="font-size:0.875rem;color:#3D4451;text-decoration:none;" onmouseover="this.style.color='#1C1C2E'" onmouseout="this.style.color='#3D4451'">Terms</a></li>
+        </ul>
+      </div>
+    </div>
+    <div style="padding-top:1.5rem;border-top:1px solid #DDD8CE;display:flex;flex-wrap:wrap;justify-content:center;gap:0.5rem 2rem;text-align:center;">
+      <div style="font-size:0.75rem;color:#6B7280;">© 2026 IELTS Lab. All rights reserved.</div>
+      <div style="font-size:0.75rem;color:#6B7280;">Not affiliated with the British Council, IDP, or Cambridge Assessment English.</div>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════ BOOKING MODAL ═══════════════════════════ -->
+<div class="modal-overlay" id="bookingModal" onclick="closeModalOutside(event)">
+  <div class="modal-box">
+
+    <!-- Step 1: Form -->
+    <div id="modalStep1">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.75rem;">
+        <h3 style="font-size:1.25rem;font-weight:800;color:#1C1C2E;">Book a Service</h3>
+        <button onclick="closeModal()" style="background:none;border:none;cursor:pointer;padding:4px;color:#6B7280;">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 4l12 12M16 4L4 16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:1.125rem;">
+        <div class="field">
+          <label>Full name</label>
+          <input type="text" id="fpName" placeholder="Your full name" />
+        </div>
+        <div class="field">
+          <label>Email address</label>
+          <input type="email" id="fpEmail" placeholder="you@example.com" />
+        </div>
+        <div class="field">
+          <label>WhatsApp / Phone <span style="font-weight:400;color:#9CA3AF;">(optional)</span></label>
+          <input type="tel" id="fpPhone" placeholder="+1 234 567 8900" />
+        </div>
+        <div class="field">
+          <label>Service</label>
+          <select id="fpService">
+            <option value="Essay Correction — Standard ($25)">Essay Correction — Standard ($25)</option>
+            <option value="Essay Correction — Express + Voice ($45)">Essay Correction — Express + Voice ($45)</option>
+            <option value="1-on-1 Session — 30 min ($30)">1-on-1 Session — 30 min ($30)</option>
+            <option value="1-on-1 Session — 60 min ($55)">1-on-1 Session — 60 min ($55)</option>
+            <option value="Score Guarantee — Band 6.5 ($150)">Score Guarantee — Band 6.5 ($150)</option>
+            <option value="Score Guarantee — Band 7.0+ ($239)">Score Guarantee — Band 7.0+ ($239)</option>
+            <option value="General Inquiry">General Inquiry / Question</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Target band &amp; exam date</label>
+          <input type="text" id="fpTarget" placeholder="e.g. Band 7.0, exam on 15 June 2026" />
+        </div>
+        <div class="field">
+          <label>Message</label>
+          <textarea id="fpMessage" placeholder="Tell us what you need help with, or paste your essay directly…"></textarea>
+        </div>
+        <button class="btn-gold" id="submitBtn" onclick="submitBooking()">Send Booking Request →</button>
+        <p style="font-size:0.75rem;color:#9CA3AF;text-align:center;line-height:1.6;">We reply within a few hours with confirmation and payment details.</p>
+      </div>
+      <div id="modalError" style="display:none;margin-top:0.875rem;padding:0.75rem 1rem;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:0.625rem;font-size:0.8125rem;color:#ef4444;"></div>
+    </div>
+
+    <!-- Step 2: Loading -->
+    <div id="modalStep2" style="display:none;text-align:center;padding:3rem 0;">
+      <div style="width:48px;height:48px;border:3px solid var(--gold-border);border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 1.5rem;"></div>
+      <p style="color:#3D4451;font-size:0.9rem;">Sending your request…</p>
+    </div>
+
+    <!-- Step 3: Success -->
+    <div id="modalStep3" style="display:none;text-align:center;padding:1.5rem 0;">
+      <div style="width:56px;height:56px;background:rgba(42,255,214,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;">
+        <svg width="26" height="26" viewBox="0 0 26 26" fill="none"><path d="M4 13l6 6 12-12" stroke="#2AFFD6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <h3 style="font-size:1.25rem;font-weight:800;color:#1C1C2E;margin-bottom:0.75rem;">Request sent!</h3>
+      <p style="font-size:0.9rem;color:#3D4451;line-height:1.7;max-width:34ch;margin:0 auto 2rem;">We've received your booking. Expect a reply at your email address within a few hours with next steps.</p>
+      <button onclick="closeModal()" style="padding:0.625rem 1.75rem;background:var(--gold);color:#fff;border:none;border-radius:0.625rem;font-weight:600;font-size:0.875rem;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;">Done</button>
+    </div>
+
+  </div>
+</div>
+
+<!-- ═══════════════════════════ SCRIPTS ═══════════════════════════ -->
+<script>
+  // Scroll reveal
+  const revObs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revObs.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => revObs.observe(el));
+
+  // FAQ accordion
+  function toggleFaq(btn) {
+    const body = btn.nextElementSibling;
+    const icon = btn.querySelector('.faq-icon');
+    const isOpen = body.classList.contains('open');
+    document.querySelectorAll('.faq-body').forEach(b => b.classList.remove('open'));
+    document.querySelectorAll('.faq-icon').forEach(i => i.classList.remove('open'));
+    if (!isOpen) { body.classList.add('open'); icon.classList.add('open'); }
+  }
+
+  // Modal helpers
+  function openModal(service) {
+    const sel = document.getElementById('fpService');
+    if (service === 'Essay Correction') sel.value = 'Essay Correction — Standard ($25)';
+    else if (service === '1-on-1 Session') sel.value = '1-on-1 Session — 30 min ($30)';
+    else if (service === 'Score Guarantee Program') sel.value = 'Score Guarantee — Band 7.0+ ($239)';
+    else sel.value = 'General Inquiry';
+    document.getElementById('bookingModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('bookingModal').classList.remove('open');
+    document.body.style.overflow = '';
+    setTimeout(() => {
+      document.getElementById('modalStep1').style.display = 'block';
+      document.getElementById('modalStep2').style.display = 'none';
+      document.getElementById('modalStep3').style.display = 'none';
+      document.getElementById('modalError').style.display = 'none';
+      document.getElementById('submitBtn').disabled = false;
+    }, 300);
+  }
+
+  function closeModalOutside(e) {
+    if (e.target === document.getElementById('bookingModal')) closeModal();
+  }
+
+  async function submitBooking() {
+    const name    = document.getElementById('fpName').value.trim();
+    const email   = document.getElementById('fpEmail').value.trim();
+    const phone   = document.getElementById('fpPhone').value.trim();
+    const service = document.getElementById('fpService').value;
+    const target  = document.getElementById('fpTarget').value.trim();
+    const message = document.getElementById('fpMessage').value.trim();
+    const errEl   = document.getElementById('modalError');
+
+    errEl.style.display = 'none';
+
+    if (!name || !email) {
+      errEl.textContent = 'Please enter your name and email address.';
+      errEl.style.display = 'block';
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errEl.textContent = 'Please enter a valid email address.';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    document.getElementById('submitBtn').disabled = true;
+    document.getElementById('modalStep1').style.display = 'none';
+    document.getElementById('modalStep2').style.display = 'block';
+
+    try {
+      const res = await fetch('/api/book-service', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, phone, service, target, message })
+      });
+      const data = await res.json();
+      if (!res.ok || !data.ok) throw new Error(data.error || 'Something went wrong');
+      document.getElementById('modalStep2').style.display = 'none';
+      document.getElementById('modalStep3').style.display = 'block';
+    } catch (err) {
+      document.getElementById('modalStep2').style.display = 'none';
+      document.getElementById('modalStep1').style.display = 'block';
+      errEl.textContent = err.message || 'Failed to send. Please try again.';
+      errEl.style.display = 'block';
+      document.getElementById('submitBtn').disabled = false;
+    }
+  }
+</script>
+
+</body>
+</html>

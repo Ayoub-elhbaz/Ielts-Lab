@@ -1481,6 +1481,52 @@ Check the student's use of this word and return your JSON assessment.`;
 });
 
 
+// ── POST /api/book-service ────────────────────────────────────────────────────
+app.post('/api/book-service', async (req, res) => {
+  const { name, email, phone, service, target, message } = req.body;
+  if (!name || !email) return res.status(400).json({ error: 'Name and email are required.' });
+
+  const adminEmail = process.env.ADMIN_EMAIL || 'ayoub.elhebaze@gmail.com';
+
+  const adminHtml = `
+    <div style="font-family:sans-serif;max-width:560px;margin:0 auto;padding:32px;background:#f9f9f9;border-radius:12px;">
+      <h2 style="color:#1B2B4B;margin-bottom:8px;">New Booking Request</h2>
+      <p style="color:#C9952E;font-size:1.1rem;font-weight:700;margin-bottom:24px;">${service}</p>
+      <table style="width:100%;border-collapse:collapse;">
+        <tr><td style="padding:8px 0;color:#6B7280;font-size:14px;width:120px;">Name</td><td style="padding:8px 0;color:#1C1C2E;font-size:14px;font-weight:600;">${name}</td></tr>
+        <tr><td style="padding:8px 0;color:#6B7280;font-size:14px;">Email</td><td style="padding:8px 0;color:#1C1C2E;font-size:14px;"><a href="mailto:${email}">${email}</a></td></tr>
+        <tr><td style="padding:8px 0;color:#6B7280;font-size:14px;">Phone</td><td style="padding:8px 0;color:#1C1C2E;font-size:14px;">${phone || '—'}</td></tr>
+        <tr><td style="padding:8px 0;color:#6B7280;font-size:14px;">Target</td><td style="padding:8px 0;color:#1C1C2E;font-size:14px;">${target || '—'}</td></tr>
+      </table>
+      ${message ? `<div style="margin-top:20px;padding:16px;background:#fff;border-radius:8px;border:1px solid #E8E4DC;"><p style="color:#6B7280;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.1em;">Message</p><p style="color:#1C1C2E;font-size:14px;line-height:1.7;white-space:pre-wrap;">${message}</p></div>` : ''}
+      <p style="margin-top:24px;font-size:13px;color:#9CA3AF;">Reply to <a href="mailto:${email}">${email}</a> to confirm booking and send payment details.</p>
+    </div>`;
+
+  const studentHtml = `
+    <div style="font-family:sans-serif;max-width:560px;margin:0 auto;padding:32px;background:#f9f9f9;border-radius:12px;">
+      <div style="margin-bottom:24px;"><span style="font-family:sans-serif;font-weight:900;font-size:16px;color:#1C1C2E;">IELTS<span style="color:#C9952E;">Lab</span></span></div>
+      <h2 style="color:#1B2B4B;margin-bottom:8px;">We've received your booking!</h2>
+      <p style="color:#3D4451;line-height:1.7;margin-bottom:20px;">Hi ${name}, thanks for reaching out. We've received your request for <strong>${service}</strong> and will get back to you within a few hours with confirmation and payment details.</p>
+      <div style="padding:16px;background:#fff;border-radius:8px;border:1px solid #E8E4DC;margin-bottom:24px;">
+        <p style="color:#6B7280;font-size:12px;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.1em;">Your booking</p>
+        <p style="color:#1C1C2E;font-weight:700;font-size:15px;">${service}</p>
+        ${target ? `<p style="color:#6B7280;font-size:13px;margin-top:4px;">Target: ${target}</p>` : ''}
+      </div>
+      <p style="font-size:13px;color:#9CA3AF;line-height:1.6;">Questions? Just reply to this email. We're here to help.<br/>— The IELTS Lab Team</p>
+    </div>`;
+
+  try {
+    await Promise.all([
+      sendEmail(adminEmail, `New Booking: ${service} — ${name}`, adminHtml),
+      sendEmail(email, 'Booking received — IELTS Lab', studentHtml),
+    ]);
+    res.json({ ok: true });
+  } catch (err) {
+    console.error('[book-service]', err.message);
+    res.status(502).json({ error: err.message });
+  }
+});
+
 // ── Start ─────────────────────────────────────────────────────────────────────
 app.listen(PORT, () => {
   const keyOk = !!process.env.ANTHROPIC_API_KEY;
