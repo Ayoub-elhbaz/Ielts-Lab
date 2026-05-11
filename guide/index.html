@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IELTS Guide — Complete Reference | IELTS Lab</title>
+  <meta name="description" content="The complete IELTS reference guide. Exam structure, band scoring, Writing criteria, skill-by-skill breakdowns, and common mistakes — all in one place." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Space+Mono:wght@400;700&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Satoshi', 'Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+            sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+          },
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --gold: #C9952E;
+      --gold-light: #DDB05A;
+      --gold-dim: rgba(201,149,46,0.10);
+      --gold-border: rgba(201,149,46,0.22);
+      --navy: #0d2b4e;
+      --navy-mid: #1a3c6e;
+      --blue: #3A7BF7;
+      --teal: #2AFFD6;
+      --white: #EEF4FF;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: #F4F1EB; color: #1C1C2E; }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    h1, h2, h3, h4, h5 { font-family: 'Satoshi', 'Plus Jakarta Sans', system-ui, sans-serif; }
+
+    .label {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .divider { border-top: 1px solid #DDD8CE; }
+    .text-gold { color: var(--gold); }
+
+    /* Nav */
+    .nav-glass {
+      background: rgba(9,9,11,0.88);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .nav-logo { display:flex; align-items:baseline; gap:0; text-decoration:none; }
+    .nl-ielts { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:600; letter-spacing:1px; color:#EEF4FF; }
+    .nl-lab   { font-family:'Space Mono',monospace; font-size:12px; font-weight:700; letter-spacing:3px; color:var(--gold); margin-left:5px; filter:drop-shadow(0 0 8px rgba(201,149,46,0.5)); }
+    .nl-flask { font-size:15px; margin-left:4px; }
+    .nav-links { display:flex; gap:28px; list-style:none; }
+    .nav-links a { font-family:'DM Sans',sans-serif; font-size:11px; font-weight:300; letter-spacing:2.5px; text-transform:uppercase; color:rgba(200,216,255,0.45); text-decoration:none; transition:color 0.3s; }
+    .nav-links a:hover { color:var(--gold); }
+    .nav-cta { font-family:'DM Sans',sans-serif; font-size:10px; font-weight:400; letter-spacing:2px; text-transform:uppercase; padding:9px 22px; border-radius:2px; border:1px solid rgba(201,149,46,0.4); color:var(--gold); background:rgba(201,149,46,0.07); cursor:pointer; text-decoration:none; transition:all 0.3s; }
+    .nav-cta:hover { background:rgba(201,149,46,0.15); border-color:var(--gold); }
+
+    /* Reveal */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1), transform 0.7s cubic-bezier(0.16,1,0.3,1); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .d100 { transition-delay: 0.1s; }
+    .d200 { transition-delay: 0.2s; }
+    .d300 { transition-delay: 0.3s; }
+    .d400 { transition-delay: 0.4s; }
+
+    /* Hover lift */
+    .hover-lift { transition: transform 0.22s ease, box-shadow 0.22s ease; }
+    .hover-lift:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(0,0,0,0.08), 0 0 0 1px var(--gold-border); }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #F4F1EB; }
+    ::-webkit-scrollbar-thumb { background: #C49A2B; border-radius: 3px; }
+
+    /* TOC sidebar */
+    .toc-link {
+      display: block;
+      font-size: 0.8rem;
+      color: #6B7280;
+      text-decoration: none;
+      padding: 5px 0 5px 12px;
+      border-left: 2px solid #DDD8CE;
+      transition: color 0.2s, border-color 0.2s;
+      line-height: 1.4;
+    }
+    .toc-link:hover,
+    .toc-link.active { color: var(--gold); border-left-color: var(--gold); }
+
+    /* Band chips */
+    .band-chip {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-width: 40px; padding: 3px 10px; border-radius: 5px;
+      font-size: 0.8rem; font-weight: 700; font-family: 'Space Mono', monospace;
+    }
+    .band-high { background: rgba(42,255,214,0.10); color: #1db89e; border: 1px solid rgba(42,255,214,0.25); }
+    .band-mid  { background: var(--gold-dim); color: var(--gold); border: 1px solid var(--gold-border); }
+    .band-low  { background: rgba(239,68,68,0.08); color: #dc2626; border: 1px solid rgba(239,68,68,0.18); }
+
+    /* Exam table */
+    .exam-table { width: 100%; border-collapse: collapse; }
+    .exam-table th { font-family: 'Satoshi', sans-serif; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #6B7280; padding: 10px 16px; text-align: left; border-bottom: 1px solid #DDD8CE; background: #F4F1EB; }
+    .exam-table td { font-size: 0.875rem; color: #3D4451; padding: 14px 16px; border-bottom: 1px solid #EDE9E0; vertical-align: top; line-height: 1.55; }
+    .exam-table tr:last-child td { border-bottom: none; }
+    .exam-table tr:hover td { background: rgba(201,149,46,0.03); }
+    .exam-table td:first-child { font-weight: 600; color: #1C1C2E; font-family: 'Satoshi', sans-serif; }
+
+    /* Criteria cards */
+    .criteria-card {
+      background: #fff;
+      border: 1px solid #DDD8CE;
+      border-radius: 1.25rem;
+      padding: 1.75rem;
+      transition: border-color 0.22s, box-shadow 0.22s, transform 0.22s;
+    }
+    .criteria-card:hover {
+      border-color: var(--gold-border);
+      box-shadow: 0 8px 32px rgba(201,149,46,0.09);
+      transform: translateY(-2px);
+    }
+    .criteria-icon {
+      width: 40px; height: 40px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      background: var(--gold-dim); border: 1px solid var(--gold-border);
+      margin-bottom: 1rem;
+    }
+
+    /* Progress bar */
+    .band-bar-track { height: 6px; background: #EDE9E0; border-radius: 99px; overflow: hidden; margin-top: 6px; }
+    .band-bar-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--gold-light), var(--gold)); width: 0; transition: width 1.3s cubic-bezier(0.16,1,0.3,1); }
+
+    /* Mistake rows */
+    .mistake-row { display: flex; gap: 12px; padding: 14px 0; border-bottom: 1px solid #EDE9E0; align-items: flex-start; }
+    .mistake-row:last-child { border-bottom: none; }
+    .mistake-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+
+    /* Section anchor offset (for sticky nav) */
+    section[id] { scroll-margin-top: 80px; }
+
+    /* Sticky CTA */
+    .sticky-cta-bar {
+      position: sticky;
+      top: 72px;
+      z-index: 40;
+      background: rgba(244,241,235,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #DDD8CE;
+      padding: 10px 0;
+    }
+  </style>
+</head>
+
+<body class="bg-[#F4F1EB] text-[#1C1C2E]">
+
+  <!-- ╔══════════════════════════════ NAV ═════════════════════════════════╗ -->
+  <header class="fixed top-0 left-0 right-0 z-50 nav-glass">
+    <nav class="max-w-7xl mx-auto px-6 lg:px-10 h-[64px] flex items-center justify-between">
+      <a href="../IELTS-Lab.html" class="nav-logo">
+        <span class="nl-ielts">IELTS</span>
+        <span class="nl-lab">LAB</span>
+        <span class="nl-flask">⚗️</span>
+      </a>
+      <ul class="nav-links hidden md:flex">
+        <li><a href="../IELTS-Lab.html#skills">Skills</a></li>
+        <li><a href="../mock-tests/index.html">Mock Tests</a></li>
+        <li><a href="../writing-clinic/index.html">Writing Clinic</a></li>
+        <li><a href="index.html" style="color:var(--gold)">Guide</a></li>
+      </ul>
+      <a href="../login.html" class="nav-cta">Start Free Trial</a>
+    </nav>
+  </header>
+
+  <!-- ╔══════════════════════════════ HERO ════════════════════════════════╗ -->
+  <section class="pt-28 pb-20 px-6 relative overflow-hidden" style="background:linear-gradient(140deg,#0a1628 0%,#0d2b4e 50%,#1a3c6e 100%)">
+    <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 60% 80% at 80% 20%, rgba(201,149,46,0.07) 0%, transparent 60%)"></div>
+    <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(ellipse 50% 60% at 10% 80%, rgba(58,123,247,0.06) 0%, transparent 60%)"></div>
+    <div class="max-w-4xl mx-auto relative">
+      <div class="label mb-5" style="color:var(--gold)">Free Reference</div>
+      <h1 class="font-display font-black leading-[1.06] mb-6" style="font-size:clamp(38px,6vw,72px);color:#EEF4FF">
+        The Complete<br><span style="color:var(--gold)">IELTS Guide</span>
+      </h1>
+      <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(18px,2.2vw,24px);font-style:italic;color:rgba(200,216,255,0.7);line-height:1.6;max-width:52ch;">
+        Everything you need to understand the exam — structure, scoring, Writing criteria, skill strategies, and the mistakes that hold students back at every band level.
+      </p>
+      <div class="flex flex-wrap gap-3 mt-8">
+        <a href="#structure" class="text-xs px-4 py-2 rounded-full border border-[rgba(200,216,255,0.18)] text-[rgba(200,216,255,0.6)] hover:border-[var(--gold-border)] hover:text-[var(--gold)] transition-colors">Exam Structure</a>
+        <a href="#scoring" class="text-xs px-4 py-2 rounded-full border border-[rgba(200,216,255,0.18)] text-[rgba(200,216,255,0.6)] hover:border-[var(--gold-border)] hover:text-[var(--gold)] transition-colors">Scoring</a>
+        <a href="#writing" class="text-xs px-4 py-2 rounded-full border border-[rgba(200,216,255,0.18)] text-[rgba(200,216,255,0.6)] hover:border-[var(--gold-border)] hover:text-[var(--gold)] transition-colors">Writing Criteria</a>
+        <a href="#skills" class="text-xs px-4 py-2 rounded-full border border-[rgba(200,216,255,0.18)] text-[rgba(200,216,255,0.6)] hover:border-[var(--gold-border)] hover:text-[var(--gold)] transition-colors">All Four Skills</a>
+        <a href="#mistakes" class="text-xs px-4 py-2 rounded-full border border-[rgba(200,216,255,0.18)] text-[rgba(200,216,255,0.6)] hover:border-[var(--gold-border)] hover:text-[var(--gold)] transition-colors">Common Mistakes</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ╔══════════════════════════════ MAIN CONTENT ════════════════════════╗ -->
+  <div class="max-w-7xl mx-auto px-6 lg:px-10 py-16">
+    <div class="flex gap-12 items-start">
+
+      <!-- ── TOC sidebar (desktop only) ── -->
+      <aside class="hidden lg:block w-52 flex-shrink-0 sticky top-24 self-start">
+        <div class="text-xs font-semibold text-[#1B2B4B] uppercase tracking-wider mb-4">On this page</div>
+        <nav class="flex flex-col gap-1" id="tocNav">
+          <a href="#structure" class="toc-link">Exam Structure</a>
+          <a href="#scoring" class="toc-link">Band Scoring</a>
+          <a href="#targets" class="toc-link">Band Targets</a>
+          <a href="#writing" class="toc-link">Writing Criteria</a>
+          <a href="#task1" class="toc-link" style="padding-left:24px">Task 1</a>
+          <a href="#task2" class="toc-link" style="padding-left:24px">Task 2</a>
+          <a href="#skills" class="toc-link">All Four Skills</a>
+          <a href="#reading" class="toc-link" style="padding-left:24px">Reading</a>
+          <a href="#listening" class="toc-link" style="padding-left:24px">Listening</a>
+          <a href="#speaking" class="toc-link" style="padding-left:24px">Speaking</a>
+          <a href="#mistakes" class="toc-link">Common Mistakes</a>
+        </nav>
+
+        <div class="mt-8 p-4 rounded-xl border border-[#DDD8CE] bg-white">
+          <div class="text-xs font-semibold text-[#1C1C2E] mb-2">Test your Writing now</div>
+          <p class="text-xs text-[#6B7280] leading-relaxed mb-3">Get AI feedback using the exact 4 criteria from this guide.</p>
+          <a href="../writing-clinic/corrector.html" class="block text-center text-xs font-medium py-2 px-3 rounded-lg transition-colors" style="background:var(--gold-dim);border:1px solid var(--gold-border);color:var(--gold);">Try Writing Clinic →</a>
+        </div>
+      </aside>
+
+      <!-- ── Article ── -->
+      <article class="flex-1 min-w-0">
+
+        <!-- ══ EXAM STRUCTURE ══ -->
+        <section id="structure" class="mb-16">
+          <div class="label mb-3">Section 01</div>
+          <h2 class="font-display font-black text-[clamp(26px,3.5vw,40px)] text-[#1C1C2E] tracking-tight mb-4 reveal">Exam Structure</h2>
+          <p class="text-[#3D4451] text-base leading-relaxed mb-8 max-w-[60ch] reveal">
+            IELTS is divided into four skills tested over roughly 2 hours 45 minutes. There are two versions — Academic (for university and professional registration) and General Training (for migration and work experience). Listening and Speaking are identical in both.
+          </p>
+
+          <!-- Academic vs General pill -->
+          <div class="flex gap-3 mb-6 flex-wrap reveal">
+            <div class="flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-medium" style="background:var(--gold-dim);border-color:var(--gold-border);color:var(--gold)">Academic</div>
+            <div class="flex items-center gap-2 px-4 py-2 rounded-full border text-sm font-medium text-[#3A7BF7]" style="background:rgba(58,123,247,0.08);border-color:rgba(58,123,247,0.25)">General Training</div>
+          </div>
+
+          <div class="reveal overflow-x-auto rounded-2xl border border-[#DDD8CE]">
+            <table class="exam-table">
+              <thead>
+                <tr>
+                  <th>Skill</th>
+                  <th>Time</th>
+                  <th>Questions / Tasks</th>
+                  <th>Format</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Listening</td>
+                  <td>30 min + 10 min transfer</td>
+                  <td>40 questions / 4 sections</td>
+                  <td>Multiple choice, form completion, matching, map labelling, short answers</td>
+                </tr>
+                <tr>
+                  <td>Reading</td>
+                  <td>60 min</td>
+                  <td>40 questions / 3 passages</td>
+                  <td><span style="color:var(--gold);font-weight:600">Academic:</span> long academic texts (700–900 words each) · <span style="color:#3A7BF7;font-weight:600">General:</span> shorter everyday texts + one long passage</td>
+                </tr>
+                <tr>
+                  <td>Writing</td>
+                  <td>60 min</td>
+                  <td>2 tasks</td>
+                  <td><span style="color:var(--gold);font-weight:600">Academic:</span> Task 1 — data/graph description (150+ words) · Task 2 — discursive essay (250+ words) · <span style="color:#3A7BF7;font-weight:600">General:</span> Task 1 — letter</td>
+                </tr>
+                <tr>
+                  <td>Speaking</td>
+                  <td>11–14 min</td>
+                  <td>3 parts (face-to-face)</td>
+                  <td>Part 1: Introduction & interview · Part 2: Individual long turn (cue card) · Part 3: Two-way discussion</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <div class="divider mb-16"></div>
+
+        <!-- ══ BAND SCORING ══ -->
+        <section id="scoring" class="mb-16">
+          <div class="label mb-3">Section 02</div>
+          <h2 class="font-display font-black text-[clamp(26px,3.5vw,40px)] text-[#1C1C2E] tracking-tight mb-4 reveal">Band Scoring</h2>
+          <p class="text-[#3D4451] text-base leading-relaxed mb-8 max-w-[60ch] reveal">
+            IELTS uses a 9-band scale in 0.5 increments. Each skill receives an individual band, and the Overall band is the average of all four, rounded to the nearest 0.5.
+          </p>
+
+          <!-- Scoring formula card -->
+          <div class="reveal p-6 rounded-2xl border border-[#DDD8CE] bg-white mb-8" style="border-left: 3px solid var(--gold)">
+            <div class="text-xs font-semibold text-[#6B7280] uppercase tracking-wider mb-3">Overall Band Formula</div>
+            <div class="font-display font-black text-[#1C1C2E] text-lg mb-2">
+              (Listening + Reading + Writing + Speaking) ÷ 4 → Round to nearest 0.5
+            </div>
+            <p class="text-sm text-[#6B7280] mt-2">Example: 7.0 + 6.5 + 6.0 + 6.5 = 26.0 ÷ 4 = <strong class="text-[#1C1C2E]">6.5 Overall</strong></p>
+            <p class="text-xs text-[#9CA3AF] mt-1">Rounding rule: .25 rounds up to .5 · .75 rounds up to next full band</p>
+          </div>
+
+          <!-- Band scale -->
+          <div class="reveal grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+            <div>
+              <div class="text-xs font-semibold text-[#6B7280] uppercase tracking-wider mb-4">Band Scale</div>
+              <div class="flex flex-col gap-3">
+                <div>
+                  <div class="flex justify-between items-center mb-1">
+                    <span class="text-sm font-medium text-[#1C1C2E]">Expert User</span>
+                    <span class="band-chip band-high">8.5–9</span>
+                  </div>
+                  <div class="band-bar-track"><div class="band-bar-fill" data-w="100" style="background:linear-gradient(90deg,#2AFFD6,#1db89e)"></div></div>
+                </div>
+                <div>
+                  <div class="flex justify-between items-center mb-1">
+                    <span class="text-sm font-medium text-[#1C1C2E]">Very Good User</span>
+                    <span class="band-chip band-high">8.0</span>
+                  </div>
+                  <div class="band-bar-track"><div class="band-bar-fill" data-w="87" style="background:linear-gradient(90deg,#2AFFD6,#1db89e)"></div></div>
+                </div>
+                <div>
+                  <div class="flex justify-between items-center mb-1">
+                    <span class="text-sm font-medium text-[#1C1C2E]">Good User</span>
+                    <span class="band-chip band-high">7.0–7.5</span>
+                  </div>
+                  <div class="band-bar-track"><div class="band-bar-fill" data-w="78" style="background:linear-gradient(90deg,#DDB05A,#C9952E)"></div></div>
+                </div>
+                <div>
+                  <div class="flex justify-between items-center mb-1">
+                    <span class="text-sm font-medium text-[#1C1C2E]">Competent User</span>
+                    <span class="band-chip band-mid">6.0–6.5</span>
+                  </div>
+                  <div class="band-bar-track"><div class="band-bar-fill" data-w="67" style="background:linear-gradient(90deg,#DDB05A,#C9952E)"></div></div>
+                </div>
+                <div>
+                  <div class="flex justify-between items-center mb-1">
+                    <span class="text-sm font-medium text-[#1C1C2E]">Modest User</span>
+                    <span class="band-chip band-low">5.0–5.5</span>
+                  </div>
+                  <div class="band-bar-track"><div class="band-bar-fill" data-w="55" style="background:linear-gradient(90deg,#f87171,#dc2626)"></div></div>
+                </div>
+                <div>
+                  <div class="flex justify-between items-center mb-1">
+                    <span class="text-sm font-medium text-[#1C1C2E]">Limited User</span>
+                    <span class="band-chip band-low">4.0–4.5</span>
+                  </div>
+                  <div class="band-bar-track"><div class="band-bar-fill" data-w="44" style="background:linear-gradient(90deg,#f87171,#dc2626)"></div></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-5 rounded-2xl border border-[#DDD8CE] bg-white self-start">
+              <div class="text-xs font-semibold text-[#6B7280] uppercase tracking-wider mb-4">Important rules</div>
+              <ul class="flex flex-col gap-3 text-sm text-[#3D4451]">
+                <li class="flex gap-2"><span style="color:var(--gold);font-weight:700">→</span> Each skill is scored independently — a weak Writing score cannot be offset by Reading.</li>
+                <li class="flex gap-2"><span style="color:var(--gold);font-weight:700">→</span> Half bands exist (6.5, 7.5) — most universities and visa bodies specify minimum bands per skill.</li>
+                <li class="flex gap-2"><span style="color:var(--gold);font-weight:700">→</span> Results are valid for 2 years from the test date.</li>
+                <li class="flex gap-2"><span style="color:var(--gold);font-weight:700">→</span> You can retake IELTS as many times as needed — there is no waiting period.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <div class="divider mb-16"></div>
+
+        <!-- ══ BAND TARGETS ══ -->
+        <section id="targets" class="mb-16">
+          <div class="label mb-3">Section 03</div>
+          <h2 class="font-display font-black text-[clamp(26px,3.5vw,40px)] text-[#1C1C2E] tracking-tight mb-4 reveal">Band Targets by Goal</h2>
+          <p class="text-[#3D4451] text-base leading-relaxed mb-8 max-w-[60ch] reveal">
+            Different institutions set different thresholds. This is a general reference — always verify requirements directly with your target institution or authority.
+          </p>
+
+          <div class="reveal grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div class="p-5 rounded-2xl border border-[#DDD8CE] bg-white hover-lift">
+              <div class="flex items-start justify-between mb-3">
+                <div>
+                  <div class="font-display font-bold text-[#1C1C2E] text-base mb-0.5">UK University (UG)</div>
+                  <div class="text-xs text-[#6B7280]">Undergraduate admission</div>
+                </div>
+                <span class="band-chip band-mid">6.0–6.5</span>
+              </div>
+              <p class="text-xs text-[#6B7280] leading-relaxed">Most UK universities require Overall 6.0–6.5, often with no individual skill below 5.5–6.0.</p>
+            </div>
+
+            <div class="p-5 rounded-2xl border border-[#DDD8CE] bg-white hover-lift">
+              <div class="flex items-start justify-between mb-3">
+                <div>
+                  <div class="font-display font-bold text-[#1C1C2E] text-base mb-0.5">UK University (PG)</div>
+                  <div class="text-xs text-[#6B7280]">Postgraduate / Master's</div>
+                </div>
+                <span class="band-chip band-mid">6.5–7.0</span>
+              </div>
+              <p class="text-xs text-[#6B7280] leading-relaxed">Russell Group institutions typically require Overall 7.0 with no skill below 6.5.</p>
+            </div>
+
+            <div class="p-5 rounded-2xl border border-[#DDD8CE] bg-white hover-lift">
+              <div class="flex items-start justify-between mb-3">
+                <div>
+                  <div class="font-display font-bold text-[#1C1C2E] text-base mb-0.5">NMC Nursing Registration</div>
+                  <div class="text-xs text-[#6B7280]">UK Nursing & Midwifery Council</div>
+                </div>
+                <span class="band-chip band-high">7.0 each</span>
+              </div>
+              <p class="text-xs text-[#6B7280] leading-relaxed">Minimum 7.0 in all four skills individually — Overall is not enough on its own.</p>
+            </div>
+
+            <div class="p-5 rounded-2xl border border-[#DDD8CE] bg-white hover-lift">
+              <div class="flex items-start justify-between mb-3">
+                <div>
+                  <div class="font-display font-bold text-[#1C1C2E] text-base mb-0.5">UK Skilled Worker Visa</div>
+                  <div class="text-xs text-[#6B7280]">General Training (IELTS for UKVI)</div>
+                </div>
+                <span class="band-chip band-mid">4.0–6.0</span>
+              </div>
+              <p class="text-xs text-[#6B7280] leading-relaxed">Depends on role — minimum B1 (CEFR) in speaking & listening. Must use IELTS for UKVI version.</p>
+            </div>
+
+            <div class="p-5 rounded-2xl border border-[#DDD8CE] bg-white hover-lift">
+              <div class="flex items-start justify-between mb-3">
+                <div>
+                  <div class="font-display font-bold text-[#1C1C2E] text-base mb-0.5">Australian Migration</div>
+                  <div class="text-xs text-[#6B7280]">General Skilled Migration</div>
+                </div>
+                <span class="band-chip band-high">7.0–8.0</span>
+              </div>
+              <p class="text-xs text-[#6B7280] leading-relaxed">Points-based — higher bands earn more points. Competent English = 6.0 each; Proficient = 7.0 each.</p>
+            </div>
+
+            <div class="p-5 rounded-2xl border border-[#DDD8CE] bg-white hover-lift">
+              <div class="flex items-start justify-between mb-3">
+                <div>
+                  <div class="font-display font-bold text-[#1C1C2E] text-base mb-0.5">Canadian Immigration</div>
+                  <div class="text-xs text-[#6B7280]">Express Entry / PNP</div>
+                </div>
+                <span class="band-chip band-mid">6.0–7.0</span>
+              </div>
+              <p class="text-xs text-[#6B7280] leading-relaxed">CLB 7 = roughly IELTS 6.0 per skill. Higher CLB improves CRS score for Express Entry draws.</p>
+            </div>
+          </div>
+        </section>
+
+        <div class="divider mb-16"></div>
+
+        <!-- ══ WRITING CRITERIA ══ -->
+        <section id="writing" class="mb-12">
+          <div class="label mb-3">Section 04</div>
+          <h2 class="font-display font-black text-[clamp(26px,3.5vw,40px)] text-[#1C1C2E] tracking-tight mb-4 reveal">Writing: The Four Criteria</h2>
+          <p class="text-[#3D4451] text-base leading-relaxed mb-8 max-w-[62ch] reveal">
+            IELTS Writing is marked against four equally-weighted criteria. Each contributes 25% of the total Writing band. Understanding them precisely is the single fastest route to a higher score.
+          </p>
+
+          <div class="reveal grid grid-cols-1 sm:grid-cols-2 gap-5 mb-10">
+
+            <div class="criteria-card">
+              <div class="criteria-icon">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 4h12M3 7h9M3 10h11M3 13h7" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </div>
+              <div class="text-xs font-semibold text-[#6B7280] uppercase tracking-wider mb-1">Criterion 01 · 25%</div>
+              <h3 class="font-display font-bold text-lg text-[#1C1C2E] mb-3">Task Achievement / Response</h3>
+              <p class="text-sm text-[#3D4451] leading-relaxed mb-4">How fully and accurately you address all parts of the task. Task 2 measures argument development, position clarity, and the relevance of ideas. Task 1 measures how completely you describe the data or fulfil the letter purpose.</p>
+              <div class="flex flex-col gap-2">
+                <div class="flex gap-2 text-xs text-[#6B7280]"><span class="text-[#dc2626] font-medium">Band 5:</span> Only partially addresses the task; ideas underdeveloped or off-topic.</div>
+                <div class="flex gap-2 text-xs text-[#6B7280]"><span style="color:var(--gold)" class="font-medium">Band 7:</span> Main parts addressed; position clear; main ideas developed with relevant support.</div>
+                <div class="flex gap-2 text-xs text-[#6B7280]"><span class="text-[#1db89e] font-medium">Band 9:</span> Fully addresses all requirements; ideas fully developed; position sophisticated.</div>
+              </div>
+            </div>
+
+            <div class="criteria-card">
+              <div class="criteria-icon">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M3 3h5v5H3zM10 3h5v5h-5zM3 10h5v5H3zM10 10h5v5h-5z" stroke="#C9952E" stroke-width="1.4" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="text-xs font-semibold text-[#6B7280] uppercase tracking-wider mb-1">Criterion 02 · 25%</div>
+              <h3 class="font-display font-bold text-lg text-[#1C1C2E] mb-3">Coherence & Cohesion</h3>
+              <p class="text-sm text-[#3D4451] leading-relaxed mb-4">The logical flow and organisation of your writing. This covers paragraph structure, the sequencing of ideas, and the appropriate use of cohesive devices (linking words, referencing, substitution). Over-use of connectives is penalised as heavily as under-use.</p>
+              <div class="flex flex-col gap-2">
+                <div class="flex gap-2 text-xs text-[#6B7280]"><span class="text-[#dc2626] font-medium">Band 5:</span> Inconsistent paragraphing; mechanical or overuse of cohesive devices.</div>
+                <div class="flex gap-2 text-xs text-[#6B7280]"><span style="color:var(--gold)" class="font-medium">Band 7:</span> Clear progression; cohesive devices used flexibly; occasional lapses.</div>
+                <div class="flex gap-2 text-xs text-[#6B7280]"><span class="text-[#1db89e] font-medium">Band 9:</span> Seamless cohesion; no sense of effort; paragraphing used skilfully throughout.</div>
+              </div>
+            </div>
+
+            <div class="criteria-card">
+              <div class="criteria-icon">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2l1.5 4.5H15l-3.7 2.7 1.4 4.3L9 11l-3.7 2.5 1.4-4.3L3 6.5h4.5L9 2z" stroke="#C9952E" stroke-width="1.4" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="text-xs font-semibold text-[#6B7280] uppercase tracking-wider mb-1">Criterion 03 · 25%</div>
+              <h3 class="font-display font-bold text-lg text-[#1C1C2E] mb-3">Lexical Resource</h3>
+              <p class="text-sm text-[#3D4451] leading-relaxed mb-4">The range, accuracy, and appropriacy of your vocabulary. Examiners look for precise word choice, awareness of collocation, and the ability to paraphrase without distorting meaning. Repetition and over-reliance on basic words limits this score.</p>
+              <div class="flex flex-col gap-2">
+                <div class="flex gap-2 text-xs text-[#6B7280]"><span class="text-[#dc2626] font-medium">Band 5:</span> Limited range; errors in word form; noticeable repetition.</div>
+                <div class="flex gap-2 text-xs text-[#6B7280]"><span style="color:var(--gold)" class="font-medium">Band 7:</span> Sufficient range; some less common vocabulary; occasional errors in collocation.</div>
+                <div class="flex gap-2 text-xs text-[#6B7280]"><span class="text-[#1db89e] font-medium">Band 9:</span> Full flexibility; natural idiomatic use; rare minor errors only.</div>
+              </div>
+            </div>
+
+            <div class="criteria-card">
+              <div class="criteria-icon">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="2" y="4" width="14" height="11" rx="2" stroke="#C9952E" stroke-width="1.4"/><path d="M6 4V3a3 3 0 0 1 6 0v1" stroke="#C9952E" stroke-width="1.4" stroke-linecap="round"/></svg>
+              </div>
+              <div class="text-xs font-semibold text-[#6B7280] uppercase tracking-wider mb-1">Criterion 04 · 25%</div>
+              <h3 class="font-display font-bold text-lg text-[#1C1C2E] mb-3">Grammatical Range & Accuracy</h3>
+              <p class="text-sm text-[#3D4451] leading-relaxed mb-4">Both the variety of sentence structures you use and how correctly you use them. A band 7+ essay mixes complex and simple structures deliberately — overusing complex grammar with frequent errors is worse than writing simpler sentences accurately.</p>
+              <div class="flex flex-col gap-2">
+                <div class="flex gap-2 text-xs text-[#6B7280]"><span class="text-[#dc2626] font-medium">Band 5:</span> Limited range; frequent errors; meaning sometimes unclear.</div>
+                <div class="flex gap-2 text-xs text-[#6B7280]"><span style="color:var(--gold)" class="font-medium">Band 7:</span> Variety of structures; majority error-free; some errors do not impede communication.</div>
+                <div class="flex gap-2 text-xs text-[#6B7280]"><span class="text-[#1db89e] font-medium">Band 9:</span> Wide range; full flexibility; virtually error-free throughout.</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Task 1 -->
+          <section id="task1" class="mb-10">
+            <h3 class="font-display font-bold text-xl text-[#1C1C2E] mb-3 reveal">Task 1 — Data Description (Academic)</h3>
+            <p class="text-sm text-[#3D4451] leading-relaxed mb-4 max-w-[60ch] reveal">You have 20 minutes to write at least 150 words describing a visual (graph, chart, table, diagram, map, or process). You must select and report the key features — not interpret, not opinion.</p>
+            <div class="reveal grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div class="p-4 rounded-xl border border-[#DDD8CE] bg-white">
+                <div class="text-xs font-semibold text-[#6B7280] uppercase tracking-wider mb-2">Structure</div>
+                <ol class="flex flex-col gap-1.5 text-xs text-[#3D4451] list-decimal list-inside">
+                  <li>Paraphrase the question (1–2 sentences)</li>
+                  <li>Overview: 2 main trends, no data figures</li>
+                  <li>Body 1: Highest / most notable group</li>
+                  <li>Body 2: Comparisons / contrasts</li>
+                </ol>
+              </div>
+              <div class="p-4 rounded-xl border border-[#DDD8CE] bg-white">
+                <div class="text-xs font-semibold text-[#6B7280] uppercase tracking-wider mb-2">Key rules</div>
+                <ul class="flex flex-col gap-1.5 text-xs text-[#3D4451]">
+                  <li>→ Never give your opinion</li>
+                  <li>→ Include an overview (no overview = capped at Band 5)</li>
+                  <li>→ Use precise data: "rose by 15%" not "increased a lot"</li>
+                  <li>→ Use past tense for historical data, present for diagrams</li>
+                </ul>
+              </div>
+              <div class="p-4 rounded-xl border border-[#DDD8CE] bg-white">
+                <div class="text-xs font-semibold text-[#6B7280] uppercase tracking-wider mb-2">Useful language</div>
+                <div class="text-xs text-[#3D4451] leading-relaxed">rose sharply · declined gradually · remained stable · accounted for · peaked at · fluctuated between · a significant proportion · in contrast to</div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Task 2 -->
+          <section id="task2">
+            <h3 class="font-display font-bold text-xl text-[#1C1C2E] mb-3 reveal">Task 2 — Essay (Academic & General)</h3>
+            <p class="text-sm text-[#3D4451] leading-relaxed mb-4 max-w-[60ch] reveal">You have 40 minutes to write at least 250 words. Task 2 carries more weight than Task 1. There are five question types — each requires a different approach.</p>
+            <div class="reveal overflow-x-auto rounded-2xl border border-[#DDD8CE] mb-2">
+              <table class="exam-table">
+                <thead>
+                  <tr>
+                    <th>Question Type</th>
+                    <th>What it asks</th>
+                    <th>Recommended structure</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Opinion / Agree-Disagree</td>
+                    <td>"To what extent do you agree or disagree?"</td>
+                    <td>Clear position intro → 2 body paragraphs supporting your view → conclusion restating position</td>
+                  </tr>
+                  <tr>
+                    <td>Discussion</td>
+                    <td>"Discuss both views and give your opinion."</td>
+                    <td>Intro with balanced preview → View A body → View B body → Opinion in conclusion</td>
+                  </tr>
+                  <tr>
+                    <td>Problem–Solution</td>
+                    <td>"What are the problems? What are the solutions?"</td>
+                    <td>Intro → Problems body → Solutions body → Conclusion</td>
+                  </tr>
+                  <tr>
+                    <td>Advantages–Disadvantages</td>
+                    <td>"Do the advantages outweigh the disadvantages?"</td>
+                    <td>Position clear in intro → Advantages body → Disadvantages body → Conclusion with judgement</td>
+                  </tr>
+                  <tr>
+                    <td>Two-Part Question</td>
+                    <td>"Why is X? What can be done about it?"</td>
+                    <td>Each question gets its own body paragraph — address both fully</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="text-xs text-[#9CA3AF] mt-2">Task 2 contributes approximately two-thirds of the total Writing band score.</p>
+          </section>
+
+          <!-- CTA -->
+          <div class="mt-10 reveal p-6 rounded-2xl flex flex-col sm:flex-row items-center gap-5 justify-between" style="background:linear-gradient(135deg,#0d2b4e,#1a3c6e);border:1px solid rgba(201,149,46,0.18)">
+            <div>
+              <div class="font-display font-bold text-white text-base mb-1">See these criteria applied to your essay</div>
+              <p class="text-sm text-[rgba(200,216,255,0.6)]">Submit any Task 1 or Task 2 and get instant band scores across all four criteria.</p>
+            </div>
+            <a href="../writing-clinic/corrector.html" class="flex-shrink-0 px-6 py-3 rounded-lg text-sm font-semibold text-[#05081A] transition-all hover:opacity-90" style="background:linear-gradient(135deg,var(--gold),#a8741f)">Try Writing Clinic →</a>
+          </div>
+        </section>
+
+        <div class="divider mb-16 mt-10"></div>
+
+        <!-- ══ ALL FOUR SKILLS ══ -->
+        <section id="skills" class="mb-16">
+          <div class="label mb-3">Section 05</div>
+          <h2 class="font-display font-black text-[clamp(26px,3.5vw,40px)] text-[#1C1C2E] tracking-tight mb-10 reveal">All Four Skills</h2>
+
+          <!-- Reading -->
+          <section id="reading" class="mb-10">
+            <div class="flex items-center gap-3 mb-4 reveal">
+              <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style="background:var(--gold-dim);border:1px solid var(--gold-border)">
+                <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M2 4h14M2 8h10M2 12h12M2 16h7" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </div>
+              <h3 class="font-display font-bold text-xl text-[#1C1C2E]">Reading</h3>
+            </div>
+            <p class="text-sm text-[#3D4451] leading-relaxed mb-5 max-w-[60ch] reveal">60 minutes · 40 questions · 3 passages. Academic texts are drawn from books, journals, and magazines — written for a non-specialist educated audience. No specialist knowledge is required. All answers are in the text.</p>
+            <div class="reveal grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="p-5 rounded-xl border border-[#DDD8CE] bg-white">
+                <div class="text-xs font-semibold text-[#6B7280] uppercase tracking-wider mb-3">Question Types</div>
+                <ul class="flex flex-col gap-1.5 text-xs text-[#3D4451]">
+                  <li>True / False / Not Given</li>
+                  <li>Yes / No / Not Given (for opinions)</li>
+                  <li>Matching headings to paragraphs</li>
+                  <li>Matching information / features / sentence endings</li>
+                  <li>Summary / note / table / diagram completion</li>
+                  <li>Multiple choice</li>
+                  <li>Short-answer questions</li>
+                </ul>
+              </div>
+              <div class="p-5 rounded-xl border border-[#DDD8CE] bg-white">
+                <div class="text-xs font-semibold text-[#6B7280] uppercase tracking-wider mb-3">Strategy essentials</div>
+                <ul class="flex flex-col gap-2 text-xs text-[#3D4451]">
+                  <li class="flex gap-2"><span style="color:var(--gold);font-weight:700">→</span> Read the questions before the passage — know what you're hunting.</li>
+                  <li class="flex gap-2"><span style="color:var(--gold);font-weight:700">→</span> T/F/NG: "Not Given" means the text is simply silent — not contradicting.</li>
+                  <li class="flex gap-2"><span style="color:var(--gold);font-weight:700">→</span> Matching headings: cover the options, find the main idea of each paragraph first.</li>
+                  <li class="flex gap-2"><span style="color:var(--gold);font-weight:700">→</span> Write answers directly on the answer sheet — there is no transfer time.</li>
+                  <li class="flex gap-2"><span style="color:var(--gold);font-weight:700">→</span> Allow ~20 minutes per passage; passage 3 is always hardest.</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <!-- Listening -->
+          <section id="listening" class="mb-10">
+            <div class="flex items-center gap-3 mb-4 reveal">
+              <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style="background:var(--gold-dim);border:1px solid var(--gold-border)">
+                <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><path d="M9 1a7 7 0 1 0 0 14A7 7 0 0 0 9 1z" stroke="#C9952E" stroke-width="1.4"/><path d="M5.5 8.5c0 1.93 1.57 3.5 3.5 3.5s3.5-1.57 3.5-3.5" stroke="#C9952E" stroke-width="1.4" stroke-linecap="round"/><line x1="6" y1="6.5" x2="6" y2="6.5" stroke="#C9952E" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="6.5" x2="12" y2="6.5" stroke="#C9952E" stroke-width="2" stroke-linecap="round"/></svg>
+              </div>
+              <h3 class="font-display font-bold text-xl text-[#1C1C2E]">Listening</h3>
+            </div>
+            <p class="text-sm text-[#3D4451] leading-relaxed mb-5 max-w-[60ch] reveal">30 minutes of audio + 10 minutes to transfer answers. Four sections increasing in difficulty: social conversation → monologue → educational discussion → academic lecture.</p>
+            <div class="reveal grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="p-5 rounded-xl border border-[#DDD8CE] bg-white">
+                <div class="text-xs font-semibold text-[#6B7280] uppercase tracking-wider mb-3">Section structure</div>
+                <div class="flex flex-col gap-2 text-xs text-[#3D4451]">
+                  <div class="flex justify-between"><span class="font-medium">Section 1</span><span class="text-[#9CA3AF]">Social conversation · 2 speakers</span></div>
+                  <div class="flex justify-between"><span class="font-medium">Section 2</span><span class="text-[#9CA3AF]">Monologue · everyday context</span></div>
+                  <div class="flex justify-between"><span class="font-medium">Section 3</span><span class="text-[#9CA3AF]">Up to 4 speakers · educational</span></div>
+                  <div class="flex justify-between"><span class="font-medium">Section 4</span><span class="text-[#9CA3AF]">Academic lecture · no conversation</span></div>
+                </div>
+              </div>
+              <div class="p-5 rounded-xl border border-[#DDD8CE] bg-white">
+                <div class="text-xs font-semibold text-[#6B7280] uppercase tracking-wider mb-3">Key tips</div>
+                <ul class="flex flex-col gap-2 text-xs text-[#3D4451]">
+                  <li class="flex gap-2"><span style="color:var(--gold);font-weight:700">→</span> Use the reading time before each section to predict answers.</li>
+                  <li class="flex gap-2"><span style="color:var(--gold);font-weight:700">→</span> Answers follow the order of the audio — do not skip ahead.</li>
+                  <li class="flex gap-2"><span style="color:var(--gold);font-weight:700">→</span> Spelling must be correct. "Fourty" for "Forty" is wrong.</li>
+                  <li class="flex gap-2"><span style="color:var(--gold);font-weight:700">→</span> Numbers, dates, and proper nouns are common trap items in Sections 1 & 2.</li>
+                </ul>
+              </div>
+            </div>
+          </section>
+
+          <!-- Speaking -->
+          <section id="speaking">
+            <div class="flex items-center gap-3 mb-4 reveal">
+              <div class="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0" style="background:var(--gold-dim);border:1px solid var(--gold-border)">
+                <svg width="16" height="16" viewBox="0 0 18 18" fill="none"><rect x="6" y="1" width="6" height="9" rx="3" stroke="#C9952E" stroke-width="1.4"/><path d="M3 9c0 3.31 2.69 6 6 6s6-2.69 6-6" stroke="#C9952E" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="15" x2="9" y2="17" stroke="#C9952E" stroke-width="1.4" stroke-linecap="round"/><line x1="6" y1="17" x2="12" y2="17" stroke="#C9952E" stroke-width="1.4" stroke-linecap="round"/></svg>
+              </div>
+              <h3 class="font-display font-bold text-xl text-[#1C1C2E]">Speaking</h3>
+            </div>
+            <p class="text-sm text-[#3D4451] leading-relaxed mb-5 max-w-[60ch] reveal">11–14 minutes with a trained examiner. Marked on the same four criteria as Writing (Fluency & Coherence, Lexical Resource, Grammatical Range & Accuracy, Pronunciation). It is conducted on a different day to the other skills.</p>
+            <div class="reveal grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div class="p-5 rounded-xl border border-[#DDD8CE] bg-white">
+                <div class="text-xs font-semibold text-[#6B7280] uppercase tracking-wider mb-2">Part 1 · 4–5 min</div>
+                <div class="font-display font-bold text-sm text-[#1C1C2E] mb-2">Introduction & Interview</div>
+                <p class="text-xs text-[#6B7280] leading-relaxed">Familiar topics: family, hobbies, work, hometown. Aim for extended answers (2–4 sentences) not one-word replies.</p>
+              </div>
+              <div class="p-5 rounded-xl border border-[#DDD8CE] bg-white">
+                <div class="text-xs font-semibold text-[#6B7280] uppercase tracking-wider mb-2">Part 2 · 3–4 min</div>
+                <div class="font-display font-bold text-sm text-[#1C1C2E] mb-2">Long Turn (Cue Card)</div>
+                <p class="text-xs text-[#6B7280] leading-relaxed">1 minute to prepare, 2 minutes to speak. Use the 4 bullet points on the card. Running out of things to say = fluency penalty.</p>
+              </div>
+              <div class="p-5 rounded-xl border border-[#DDD8CE] bg-white">
+                <div class="text-xs font-semibold text-[#6B7280] uppercase tracking-wider mb-2">Part 3 · 4–5 min</div>
+                <div class="font-display font-bold text-sm text-[#1C1C2E] mb-2">Two-Way Discussion</div>
+                <p class="text-xs text-[#6B7280] leading-relaxed">Abstract, society-level questions linked to Part 2 topic. Here you're expected to speculate, analyse, and justify — this separates band 6 from band 7+.</p>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <div class="divider mb-16"></div>
+
+        <!-- ══ COMMON MISTAKES ══ -->
+        <section id="mistakes" class="mb-16">
+          <div class="label mb-3">Section 06</div>
+          <h2 class="font-display font-black text-[clamp(26px,3.5vw,40px)] text-[#1C1C2E] tracking-tight mb-4 reveal">Common Mistakes by Band Level</h2>
+          <p class="text-[#3D4451] text-base leading-relaxed mb-8 max-w-[60ch] reveal">
+            Most students plateau because they repeat the same errors. These are the patterns that separate each band level — based on real examiner feedback.
+          </p>
+
+          <div class="reveal grid grid-cols-1 md:grid-cols-3 gap-5">
+            <!-- Band 5 -->
+            <div class="p-6 rounded-2xl border border-[rgba(239,68,68,0.2)] bg-white">
+              <div class="flex items-center gap-2 mb-5">
+                <span class="band-chip band-low">5.0–5.5</span>
+                <span class="text-sm font-semibold text-[#1C1C2E]">Stuck here</span>
+              </div>
+              <div class="mistake-row">
+                <div class="mistake-dot" style="background:#dc2626"></div>
+                <p class="text-xs text-[#3D4451] leading-relaxed">Writing Task 2 without a clear position — sitting on the fence when the question asks for your view.</p>
+              </div>
+              <div class="mistake-row">
+                <div class="mistake-dot" style="background:#dc2626"></div>
+                <p class="text-xs text-[#3D4451] leading-relaxed">Omitting the overview in Task 1. This hard-caps Task Achievement at Band 5.</p>
+              </div>
+              <div class="mistake-row">
+                <div class="mistake-dot" style="background:#dc2626"></div>
+                <p class="text-xs text-[#3D4451] leading-relaxed">Writing under 250 words in Task 2 — automatic penalty regardless of quality.</p>
+              </div>
+              <div class="mistake-row">
+                <div class="mistake-dot" style="background:#dc2626"></div>
+                <p class="text-xs text-[#3D4451] leading-relaxed">Reading answers: confusing "False" and "Not Given" — the most common single-point loss.</p>
+              </div>
+              <div class="mistake-row">
+                <div class="mistake-dot" style="background:#dc2626"></div>
+                <p class="text-xs text-[#3D4451] leading-relaxed">Speaking Part 2: stopping before the 2 minutes, or reading notes rather than speaking naturally.</p>
+              </div>
+            </div>
+
+            <!-- Band 6 -->
+            <div class="p-6 rounded-2xl border border-[var(--gold-border)] bg-white">
+              <div class="flex items-center gap-2 mb-5">
+                <span class="band-chip band-mid">6.0–6.5</span>
+                <span class="text-sm font-semibold text-[#1C1C2E]">Stuck here</span>
+              </div>
+              <div class="mistake-row">
+                <div class="mistake-dot" style="background:var(--gold)"></div>
+                <p class="text-xs text-[#3D4451] leading-relaxed">Over-using connectives ("Furthermore, Moreover, In addition, Additionally" — all in one essay).</p>
+              </div>
+              <div class="mistake-row">
+                <div class="mistake-dot" style="background:var(--gold)"></div>
+                <p class="text-xs text-[#3D4451] leading-relaxed">Vocabulary: relying on the same high-frequency words (important, significant, many, a lot of).</p>
+              </div>
+              <div class="mistake-row">
+                <div class="mistake-dot" style="background:var(--gold)"></div>
+                <p class="text-xs text-[#3D4451] leading-relaxed">Attempting complex grammar but making errors that impede meaning — safer to use accurate simple structures.</p>
+              </div>
+              <div class="mistake-row">
+                <div class="mistake-dot" style="background:var(--gold)"></div>
+                <p class="text-xs text-[#3D4451] leading-relaxed">Listening: missing Section 3 & 4 because the accent or academic vocabulary is unfamiliar.</p>
+              </div>
+              <div class="mistake-row">
+                <div class="mistake-dot" style="background:var(--gold)"></div>
+                <p class="text-xs text-[#3D4451] leading-relaxed">Speaking: using filler phrases ("you know", "like") too frequently — flags as low fluency.</p>
+              </div>
+            </div>
+
+            <!-- Band 7 -->
+            <div class="p-6 rounded-2xl border border-[rgba(42,255,214,0.2)] bg-white">
+              <div class="flex items-center gap-2 mb-5">
+                <span class="band-chip band-high">7.0–7.5</span>
+                <span class="text-sm font-semibold text-[#1C1C2E]">Stuck here</span>
+              </div>
+              <div class="mistake-row">
+                <div class="mistake-dot" style="background:#1db89e"></div>
+                <p class="text-xs text-[#3D4451] leading-relaxed">Writing essays that are "competent but safe" — no sophisticated argument development, just making points.</p>
+              </div>
+              <div class="mistake-row">
+                <div class="mistake-dot" style="background:#1db89e"></div>
+                <p class="text-xs text-[#3D4451] leading-relaxed">Lexical Resource: near-misses in collocation (e.g. "make a crime" instead of "commit a crime").</p>
+              </div>
+              <div class="mistake-row">
+                <div class="mistake-dot" style="background:#1db89e"></div>
+                <p class="text-xs text-[#3D4451] leading-relaxed">Reading: spending too long on one difficult question instead of moving on and returning.</p>
+              </div>
+              <div class="mistake-row">
+                <div class="mistake-dot" style="background:#1db89e"></div>
+                <p class="text-xs text-[#3D4451] leading-relaxed">Speaking Part 3: giving short answers to abstract questions instead of developing a full analytical response.</p>
+              </div>
+              <div class="mistake-row">
+                <div class="mistake-dot" style="background:#1db89e"></div>
+                <p class="text-xs text-[#3D4451] leading-relaxed">Pronunciation: stress patterns — misplacing stress on multi-syllable words reduces intelligibility even at high fluency.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="divider mb-16"></div>
+
+        <!-- ══ FINAL CTA ══ -->
+        <section class="mb-8 reveal">
+          <div class="rounded-2xl overflow-hidden" style="background:linear-gradient(140deg,#0a1628 0%,#0d2b4e 55%,#1a3c6e 100%);border:1px solid rgba(201,149,46,0.18)">
+            <div class="p-10 md:p-14 text-center">
+              <div class="label mb-4" style="color:var(--gold)">Ready to improve?</div>
+              <h2 class="font-display font-black text-[clamp(26px,4vw,44px)] leading-tight mb-4" style="color:#EEF4FF">
+                Put this guide into practice
+              </h2>
+              <p style="font-family:'Cormorant Garamond',serif;font-size:clamp(16px,2vw,21px);font-style:italic;color:rgba(200,216,255,0.6);line-height:1.6;max-width:46ch;margin:0 auto 2rem">
+                Submit an essay and see your band across all four criteria, or take a full timed mock test — free to start.
+              </p>
+              <div class="flex flex-wrap gap-4 justify-center">
+                <a href="../writing-clinic/corrector.html" class="px-7 py-3 rounded-lg text-sm font-semibold text-[#05081A] transition-all hover:opacity-90" style="background:linear-gradient(135deg,var(--gold),#a8741f);box-shadow:0 0 28px rgba(201,149,46,0.3)">
+                  ✍️ Submit an Essay
+                </a>
+                <a href="../mock-tests/index.html" class="px-7 py-3 rounded-lg text-sm font-semibold transition-all" style="border:1px solid rgba(200,216,255,0.2);color:rgba(200,216,255,0.8)">
+                  🧪 Take a Mock Test
+                </a>
+              </div>
+            </div>
+          </div>
+        </section>
+
+      </article>
+    </div>
+  </div>
+
+  <!-- ╔══════════════════════════════ FOOTER ══════════════════════════════╗ -->
+  <footer class="py-16 divider" style="background:#EDE9E0">
+    <div class="max-w-7xl mx-auto px-6 lg:px-10">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
+        <div class="col-span-2 md:col-span-1">
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-6 h-6 rounded-md flex items-center justify-center" style="background:var(--gold)">
+              <span class="font-display font-black text-xs text-zinc-950">IL</span>
+            </div>
+            <span class="font-display font-black text-sm text-[#1C1C2E]">IELTS<span style="color:var(--gold)">Lab</span></span>
+          </div>
+          <p class="text-xs text-[#3D4451] leading-relaxed max-w-[28ch]">IELTS preparation built on AI precision and examiner expertise.</p>
+        </div>
+        <div>
+          <div class="text-xs font-medium text-[#1B2B4B] uppercase tracking-wider mb-4">Product</div>
+          <ul class="space-y-2.5">
+            <li><a href="../IELTS-Lab.html#skills" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Practice</a></li>
+            <li><a href="../mock-tests/index.html" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Mock Tests</a></li>
+            <li><a href="../writing-clinic/corrector.html" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Writing Clinic</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="text-xs font-medium text-[#1B2B4B] uppercase tracking-wider mb-4">Resources</div>
+          <ul class="space-y-2.5">
+            <li><a href="index.html" class="text-sm text-[#1C1C2E] font-medium transition-colors">IELTS Guide</a></li>
+            <li><a href="../IELTS-Lab.html" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Band Descriptors</a></li>
+            <li><a href="../writing-clinic/corrector.html" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Essay Templates</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="text-xs font-medium text-[#1B2B4B] uppercase tracking-wider mb-4">Company</div>
+          <ul class="space-y-2.5">
+            <li><a href="../about/index.html" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">About</a></li>
+            <li><a href="../privacy/index.html" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Privacy</a></li>
+            <li><a href="../terms/index.html" class="text-sm text-[#3D4451] hover:text-[#1C1C2E] transition-colors">Terms</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="pt-8 border-t border-[#DDD8CE] flex flex-col md:flex-row items-center justify-between gap-4">
+        <div class="text-xs text-[#6B7280]">© 2026 IELTS Lab. All rights reserved.</div>
+        <div class="text-xs text-[#6B7280]">Not affiliated with the British Council, IDP, or Cambridge Assessment English.</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        e.target.classList.add('visible');
+        e.target.querySelectorAll('.band-bar-fill').forEach(bar => {
+          bar.style.width = bar.dataset.w + '%';
+        });
+        observer.unobserve(e.target);
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // TOC active state
+    const sections = document.querySelectorAll('section[id]');
+    const tocLinks = document.querySelectorAll('#tocNav .toc-link');
+    const tocObs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          tocLinks.forEach(l => l.classList.remove('active'));
+          const active = document.querySelector(`#tocNav a[href="#${e.target.id}"]`);
+          if (active) active.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-20% 0px -70% 0px' });
+    sections.forEach(s => tocObs.observe(s));
+  </script>
+
+</body>
+</html>
