@@ -541,28 +541,53 @@
     <!-- Step 1: Enter email -->
     <div id="fpStep1">
       <div class="modal-title">Reset your password</div>
-      <p class="modal-subtitle">Enter your email address and we'll send you a link to reset your password.</p>
+      <p class="modal-subtitle">Enter your email and we'll send you a 6-digit verification code.</p>
       <div class="field">
         <label for="fpEmail">Email address</label>
-        <input type="email" id="fpEmail" placeholder="you@example.com" />
+        <input type="email" id="fpEmail" placeholder="you@example.com" autocomplete="email" />
       </div>
       <span class="form-error" id="fpError"></span>
-      <button class="btn-submit" onclick="sendResetEmail()" style="margin-top:0.5rem;">Send Reset Link</button>
+      <button class="btn-submit" id="fpSendBtn" onclick="sendResetCode()" style="margin-top:0.5rem;">Send Code</button>
     </div>
 
-    <!-- Step 2: Confirmation -->
+    <!-- Step 2: Enter code -->
     <div id="fpStep2" style="display:none;">
+      <div class="modal-title">Check your inbox</div>
+      <p class="modal-subtitle">We sent a 6-digit code to <strong id="fpSentEmail" style="color:var(--primary-text)"></strong></p>
+      <div class="field">
+        <label for="fpCode">Verification code</label>
+        <input type="text" id="fpCode" placeholder="000000" maxlength="6" autocomplete="one-time-code" style="letter-spacing:0.3em;font-size:1.2rem;text-align:center;" />
+      </div>
+      <span class="form-error" id="fpCodeError"></span>
+      <button class="btn-submit" id="fpVerifyBtn" onclick="verifyResetCode()" style="margin-top:0.5rem;">Verify Code</button>
+      <p style="text-align:center;font-size:0.8rem;margin-top:0.75rem;color:var(--muted-text);">
+        Didn't receive it? <a onclick="fpBackToStep1()" style="color:var(--royal-blue);cursor:pointer;">Try again</a>
+      </p>
+    </div>
+
+    <!-- Step 3: New password -->
+    <div id="fpStep3" style="display:none;">
+      <div class="modal-title">Set new password</div>
+      <p class="modal-subtitle">Choose a new password for your account.</p>
+      <div class="field">
+        <label for="fpNewPassword">New password</label>
+        <input type="password" id="fpNewPassword" placeholder="Min. 8 characters" autocomplete="new-password" />
+      </div>
+      <div class="field">
+        <label for="fpConfirmPassword">Confirm password</label>
+        <input type="password" id="fpConfirmPassword" placeholder="Repeat your password" autocomplete="new-password" />
+      </div>
+      <span class="form-error" id="fpPasswordError"></span>
+      <button class="btn-submit" onclick="submitNewPassword()" style="margin-top:0.5rem;">Update Password</button>
+    </div>
+
+    <!-- Step 4: Success -->
+    <div id="fpStep4" style="display:none;">
       <div class="modal-success">
-        <div class="modal-success-icon">✉️</div>
-        <div class="modal-success-title">Check your inbox</div>
-        <p class="modal-success-text">
-          We sent a password reset link to<br/>
-          <span class="modal-success-email" id="fpSentEmail"></span>
-        </p>
-        <p class="modal-success-text" style="margin-top:0.75rem; font-size:0.8125rem;">
-          Didn't receive it? Check your spam folder or
-          <a onclick="fpTryAgain()" style="color:var(--royal-blue);cursor:pointer;">try again</a>.
-        </p>
+        <div class="modal-success-icon">✅</div>
+        <div class="modal-success-title">Password updated!</div>
+        <p class="modal-success-text">Your password has been changed. You can now sign in with your new password.</p>
+        <button class="btn-submit" onclick="closeForgotModal()" style="margin-top:1.25rem;">Back to Sign In</button>
       </div>
     </div>
   </div>
@@ -755,28 +780,103 @@
   }
 
   // ── Forgot Password Modal ──
+  let fpEmail = '';
+
+  function fpShowStep(n) {
+    [1,2,3,4].forEach(i => document.getElementById('fpStep'+i).style.display = i === n ? 'block' : 'none');
+  }
+
   function openForgotModal() {
+    fpEmail = '';
     document.getElementById('fpEmail').value = document.getElementById('loginEmail').value;
     document.getElementById('fpError').textContent = '';
-    document.getElementById('fpStep1').style.display = 'block';
-    document.getElementById('fpStep2').style.display = 'none';
+    fpShowStep(1);
     document.getElementById('forgotModal').classList.add('open');
+    setTimeout(() => document.getElementById('fpEmail').focus(), 100);
   }
-  function closeForgotModal() { document.getElementById('forgotModal').classList.remove('open'); }
-  function sendResetEmail() {
+
+  function closeForgotModal() {
+    document.getElementById('forgotModal').classList.remove('open');
+  }
+
+  function fpBackToStep1() {
+    document.getElementById('fpError').textContent = '';
+    fpShowStep(1);
+  }
+
+  async function sendResetCode() {
     const email = document.getElementById('fpEmail').value.trim();
     const errEl = document.getElementById('fpError');
     errEl.textContent = '';
     if (!email) { errEl.textContent = 'Please enter your email address.'; return; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errEl.textContent = 'Please enter a valid email address.'; return; }
-    document.getElementById('fpSentEmail').textContent = email;
-    document.getElementById('fpStep1').style.display = 'none';
-    document.getElementById('fpStep2').style.display = 'block';
+
+    const user = getUsers().find(u => u.email === email);
+    if (!user) { errEl.textContent = 'No account found with this email address.'; return; }
+
+    const btn = document.getElementById('fpSendBtn');
+    btn.disabled = true; btn.textContent = 'Sending…';
+    try {
+      const res = await fetch('/api/auth/send-verification', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to send code.');
+      fpEmail = email;
+      document.getElementById('fpSentEmail').textContent = email;
+      document.getElementById('fpCode').value = '';
+      document.getElementById('fpCodeError').textContent = '';
+      fpShowStep(2);
+      setTimeout(() => document.getElementById('fpCode').focus(), 100);
+    } catch (err) {
+      errEl.textContent = err.message;
+    } finally {
+      btn.disabled = false; btn.textContent = 'Send Code';
+    }
   }
-  function fpTryAgain() {
-    document.getElementById('fpStep1').style.display = 'block';
-    document.getElementById('fpStep2').style.display = 'none';
-    document.getElementById('fpError').textContent = '';
+
+  async function verifyResetCode() {
+    const code  = document.getElementById('fpCode').value.trim();
+    const errEl = document.getElementById('fpCodeError');
+    errEl.textContent = '';
+    if (!code || code.length !== 6) { errEl.textContent = 'Please enter the 6-digit code.'; return; }
+
+    const btn = document.getElementById('fpVerifyBtn');
+    btn.disabled = true; btn.textContent = 'Verifying…';
+    try {
+      const res = await fetch('/api/auth/verify-code', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: fpEmail, code }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Incorrect code.');
+      document.getElementById('fpNewPassword').value = '';
+      document.getElementById('fpConfirmPassword').value = '';
+      document.getElementById('fpPasswordError').textContent = '';
+      fpShowStep(3);
+      setTimeout(() => document.getElementById('fpNewPassword').focus(), 100);
+    } catch (err) {
+      errEl.textContent = err.message;
+    } finally {
+      btn.disabled = false; btn.textContent = 'Verify Code';
+    }
+  }
+
+  function submitNewPassword() {
+    const pw1   = document.getElementById('fpNewPassword').value;
+    const pw2   = document.getElementById('fpConfirmPassword').value;
+    const errEl = document.getElementById('fpPasswordError');
+    errEl.textContent = '';
+    if (pw1.length < 8) { errEl.textContent = 'Password must be at least 8 characters.'; return; }
+    if (pw1 !== pw2)    { errEl.textContent = 'Passwords do not match.'; return; }
+
+    const users = getUsers();
+    const idx   = users.findIndex(u => u.email === fpEmail);
+    if (idx === -1) { errEl.textContent = 'Account not found. Please try again.'; return; }
+    users[idx].password = pw1;
+    saveUsers(users);
+    fpShowStep(4);
   }
   document.getElementById('forgotModal').addEventListener('click', function(e) { if (e.target === this) closeForgotModal(); });
   window.addEventListener('load', initGoogle);
