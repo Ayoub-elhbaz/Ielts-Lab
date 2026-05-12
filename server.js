@@ -1509,7 +1509,7 @@ For each question, determine if the student is correct (case-insensitive compari
 For INCORRECT answers only, provide:
 - explanation: one clear sentence explaining why they're wrong${hasPassage ? ', referencing the specific part of the passage' : ''}
 - keyPassagePhrase: the exact quote from the passage that gives the answer${hasPassage ? '' : ' (omit if no passage)'}
-- trap: the specific trap or misconception (e.g. "paraphrase trap", "not given ≠ false", "distractor keyword", "word limit exceeded")
+- trap: the specific trap or misconception (e.g. "paraphrase trap", "not given != false", "distractor keyword", "word limit exceeded")
 
 Also provide:
 - errorPatterns: group wrong answers by question type — only include types that appear in the questions
