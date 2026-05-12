@@ -45,7 +45,7 @@ app.get('/api/health', (_req, res) => {
   const keyOk = !!process.env.ANTHROPIC_API_KEY;
   res.json({
     status:  'ok',
-    server:  'IELTS Lab API',
+    server:  'IELTS Lab API v1.1',
     apiKey:  keyOk ? 'loaded ✓' : '⚠️  MISSING — set ANTHROPIC_API_KEY in .env',
     keyOk,
   });
