@@ -281,6 +281,17 @@
       z-index: 6; pointer-events: none;
       background: radial-gradient(ellipse 85% 75% at 50% 50%, transparent 30%, rgba(5,8,26,0.92) 100%);
     }
+
+    /* ── Mobile responsiveness ──────────────────────────────────── */
+    @media (max-width: 768px) {
+      .ui nav { padding: 18px 20px; }
+      .nav-links { display: none; }
+      .score-card-float { display: none; }
+      .pills { flex-wrap: wrap; justify-content: center; }
+      .ctas { flex-wrap: wrap; justify-content: center; }
+      .hero-stats { padding: 20px 16px; flex-wrap: wrap; }
+      .ui .hero { padding: 0 16px; }
+    }
   </style>
 </head>
 
