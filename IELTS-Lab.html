@@ -284,13 +284,34 @@
 
     /* ── Mobile responsiveness ──────────────────────────────────── */
     @media (max-width: 768px) {
-      .ui nav { padding: 18px 20px; }
+      /* Nav */
+      .ui nav { padding: 16px 20px; }
       .nav-links { display: none; }
+      .nav-cta { padding: 8px 16px; font-size: 9px; }
+      /* Hero layout */
+      .ui .hero { padding: 0 16px; margin-top: 8px; }
       .score-card-float { display: none; }
-      .pills { flex-wrap: wrap; justify-content: center; }
-      .ctas { flex-wrap: wrap; justify-content: center; }
-      .hero-stats { padding: 20px 16px; flex-wrap: wrap; }
-      .ui .hero { padding: 0 16px; }
+      .scroll-hint { display: none; }
+      /* Logo badge overflows with letter-spacing:5px on narrow screens */
+      .logo-badge { letter-spacing: 2px; font-size: 8px; }
+      /* Sub-heading overflows with letter-spacing:3px */
+      .sub { letter-spacing: 1.5px; font-size: 11px; }
+      /* Pills wrap into 2×2 grid */
+      .pills { flex-wrap: wrap; justify-content: center; gap: 8px; }
+      /* Buttons stack full-width */
+      .ctas { flex-wrap: wrap; justify-content: center; width: 100%; gap: 10px; }
+      .btn-main, .btn-ghost { width: 100%; max-width: 300px; text-align: center; justify-content: center; }
+      /* Stats bar wraps into 2×2 */
+      .hero-stats { padding: 16px; flex-wrap: wrap; justify-content: space-around; gap: 16px; }
+    }
+
+    /* Extra-small phones: iPhone SE (375px), Galaxy A (360px), older Androids (320px) */
+    @media (max-width: 390px) {
+      .logo-badge { display: none; }
+      .logo-line  { width: 20px; }
+      .sub { letter-spacing: 1px; font-size: 10px; }
+      .quote { font-size: 15px; }
+      .hero-stat-label { letter-spacing: 1.5px; }
     }
   </style>
 </head>
