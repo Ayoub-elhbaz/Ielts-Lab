@@ -18,6 +18,13 @@
       }}}
     }
   </script>
+  <script>
+    (function(){
+      var raw = localStorage.getItem('ielts_session');
+      if (!raw) { window.location.replace('../login.html'); return; }
+      try { JSON.parse(raw); } catch(e) { localStorage.removeItem('ielts_session'); window.location.replace('../login.html'); }
+    })();
+  </script>
   <style>
     :root {
       --navy:        #0f1e3c;

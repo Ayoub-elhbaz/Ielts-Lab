@@ -141,6 +141,11 @@
     html[data-theme="light"] .spinner{border-color:#D4D0C8 !important;border-top-color:var(--gold) !important;}
   </style>
   <script>
+    (function(){
+      var raw = localStorage.getItem('ielts_session');
+      if (!raw) { window.location.replace('../login.html'); return; }
+      try { JSON.parse(raw); } catch(e) { localStorage.removeItem('ielts_session'); window.location.replace('../login.html'); }
+    })();
     (function(){var t=localStorage.getItem('ieltslab_theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();
     function toggleTheme(){var c=document.documentElement.getAttribute('data-theme')||'dark',n=c==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('ieltslab_theme',n);var b=document.getElementById('themeToggle');if(b)b.textContent=n==='dark'?'☀':'🌙';}
     document.addEventListener('DOMContentLoaded',function(){var b=document.getElementById('themeToggle');if(b){var d=(document.documentElement.getAttribute('data-theme')||'dark')==='dark';b.textContent=d?'☀':'🌙';}});
