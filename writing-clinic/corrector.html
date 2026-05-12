@@ -664,7 +664,7 @@
 
       } catch (err) {
         const msg = err instanceof TypeError && err.message === 'Failed to fetch'
-          ? 'Cannot reach the server. Make sure you opened this page via http://localhost:3000 (not as a file://) and the server is running: cd into the project folder and run "npm install" then "node server.js".'
+          ? 'Cannot reach the server. Please check your connection and try again.'
           : (err.message || 'Something went wrong. Please try again.');
         showError(msg);
       } finally {

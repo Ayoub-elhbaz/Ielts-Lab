@@ -358,7 +358,7 @@
       } catch (err) {
         removeTyping(typingId);
         const msg = err instanceof TypeError && err.message === 'Failed to fetch'
-          ? '⚠️ Cannot reach the server. Open this page via http://localhost:3000/writing-clinic/chat.html — not as a file:// URL — and make sure the server is running (node server.js).'
+          ? '⚠️ Cannot reach the server. Please check your connection and try again.'
           : `⚠️ ${err.message || 'Something went wrong. Please try again.'}`;
         appendMessage('agent', msg);
       } finally {
