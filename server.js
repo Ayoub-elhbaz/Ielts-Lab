@@ -1481,6 +1481,69 @@ Check the student's use of this word and return your JSON assessment.`;
 });
 
 
+// ── POST /api/reading/analyze ─────────────────────────────────────────────────
+app.post('/api/reading/analyze', async (req, res) => {
+  const { passage, questions } = req.body;
+
+  if (!Array.isArray(questions) || questions.length === 0) {
+    return res.status(400).json({ error: 'questions array is required.' });
+  }
+
+  const hasPassage = typeof passage === 'string' && passage.trim().length > 50;
+
+  const questionList = questions.map(q =>
+    `Q${q.number} | Type: ${q.type} | Student: "${q.studentAnswer}" | Correct: "${q.correctAnswer}"`
+  ).join('\n');
+
+  const system = `You are an expert IELTS examiner with 15 years of experience marking Reading papers. You give precise, concise analysis that directly helps students understand their mistakes. Your feedback is specific, not generic.`;
+
+  const prompt = `Analyze this student's IELTS Reading performance.
+
+${hasPassage ? `READING PASSAGE:\n"""\n${passage.trim()}\n"""\n` : 'NOTE: No passage provided. Analyze based on question types and answer patterns only.\n'}
+
+QUESTIONS AND ANSWERS:
+${questionList}
+
+For each question, determine if the student is correct (case-insensitive comparison, accept abbreviations: T=True, F=False, NG=Not Given, Y=Yes, N=No).
+
+For INCORRECT answers only, provide:
+- explanation: one clear sentence explaining why they're wrong${hasPassage ? ', referencing the specific part of the passage' : ''}
+- keyPassagePhrase: the exact quote from the passage that gives the answer${hasPassage ? '' : ' (omit if no passage)'}
+- trap: the specific trap or misconception (e.g. "paraphrase trap", "not given ≠ false", "distractor keyword", "word limit exceeded")
+
+Also provide:
+- errorPatterns: group wrong answers by question type — only include types that appear in the questions
+- overallAnalysis: 2 sentences summarising performance
+- recommendations: exactly 3 specific, actionable tips based on THIS student's actual mistakes
+
+Return ONLY valid JSON:
+{
+  "analysis": [
+    { "number": 1, "isCorrect": true },
+    { "number": 2, "isCorrect": false, "explanation": "...", "keyPassagePhrase": "...", "trap": "..." }
+  ],
+  "errorPatterns": [
+    { "type": "True / False / Not Given", "wrong": 3, "total": 6 }
+  ],
+  "overallAnalysis": "...",
+  "recommendations": ["...", "...", "..."]
+}`;
+
+  try {
+    const raw = await callAnthropic({
+      system,
+      messages: [{ role: 'user', content: prompt }],
+      maxTokens: 3000,
+      temperature: 0.2,
+    });
+    const result = extractJSON(raw, 'reading-analyze');
+    res.json(result);
+  } catch (err) {
+    console.error('[reading-analyze]', err.message);
+    res.status(502).json({ error: err.message });
+  }
+});
+
 // ── POST /api/book-service ────────────────────────────────────────────────────
 app.post('/api/book-service', async (req, res) => {
   const { name, email, phone, service, target, message } = req.body;

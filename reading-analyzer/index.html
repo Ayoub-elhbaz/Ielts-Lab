@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reading Analyzer — IELTS Lab</title>
+  <meta name="description" content="Paste your answers, get AI examiner-level analysis of every wrong answer, your error patterns, and targeted recommendations." />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet" />
+
+  <script>(function(){ var t=localStorage.getItem('ieltslab_theme')||'dark'; document.documentElement.setAttribute('data-theme',t); })();</script>
+
+  <script>
+    tailwind.config = {
+      theme: { extend: { fontFamily: { display: ['Satoshi','Plus Jakarta Sans','system-ui','sans-serif'], sans: ['Plus Jakarta Sans','system-ui','sans-serif'] } } }
+    }
+  </script>
+
+  <style>
+    :root {
+      --gold: #C9952E;
+      --gold-light: #DDB05A;
+      --gold-dim: rgba(201,149,46,0.10);
+      --gold-border: rgba(201,149,46,0.22);
+      --navy: #0d2b4e;
+      --teal: #2AFFD6;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: #0e0e12; color: #EEF4FF; }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; min-height: 100vh; }
+    h1, h2, h3, h4 { font-family: 'Satoshi', 'Plus Jakarta Sans', system-ui, sans-serif; }
+
+    /* Nav */
+    .nav-glass { background: rgba(9,9,11,0.92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .nav-links { display: flex; gap: 28px; list-style: none; }
+    .nav-links a { font-family: 'DM Sans', sans-serif; font-size: 11px; font-weight: 300; letter-spacing: 2.5px; text-transform: uppercase; color: rgba(200,216,255,0.4); text-decoration: none; transition: color 0.3s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--gold); }
+    .nav-cta { font-family: 'DM Sans', sans-serif; font-size: 10px; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; padding: 8px 18px; border-radius: 2px; border: 1px solid rgba(201,149,46,0.4); color: var(--gold); background: rgba(201,149,46,0.07); cursor: pointer; text-decoration: none; transition: all 0.3s; white-space: nowrap; }
+    .nav-cta:hover { background: rgba(201,149,46,0.15); border-color: var(--gold); }
+    @media (min-width: 768px) { #navLinks { display: flex !important; } }
+
+    /* Labels */
+    .label { font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold); }
+
+    /* Cards */
+    .glass-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 1.25rem; }
+
+    /* Form inputs */
+    .field-label { font-size: 0.8125rem; font-weight: 600; color: rgba(200,216,255,0.6); margin-bottom: 0.375rem; display: block; }
+    textarea.field-input, input.field-input, select.field-input {
+      width: 100%; padding: 0.75rem 1rem;
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(255,255,255,0.1);
+      border-radius: 0.625rem;
+      color: #EEF4FF;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.9375rem;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    textarea.field-input:focus, input.field-input:focus, select.field-input:focus {
+      border-color: var(--gold-border);
+      background: rgba(255,255,255,0.07);
+    }
+    textarea.field-input { resize: vertical; min-height: 180px; line-height: 1.65; }
+    select.field-input option { background: #1a1a2e; color: #EEF4FF; }
+
+    /* Question row */
+    .q-row {
+      display: grid;
+      grid-template-columns: 36px 1fr 1fr 1fr 28px;
+      gap: 0.5rem;
+      align-items: center;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .q-row:last-child { border-bottom: none; }
+    .q-num-badge {
+      width: 28px; height: 28px;
+      border-radius: 6px;
+      background: var(--gold-dim);
+      border: 1px solid var(--gold-border);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.625rem;
+      font-weight: 700;
+      color: var(--gold);
+      flex-shrink: 0;
+    }
+    .q-input {
+      padding: 0.4375rem 0.625rem;
+      background: rgba(255,255,255,0.05);
+      border: 1.5px solid rgba(255,255,255,0.08);
+      border-radius: 0.5rem;
+      color: #EEF4FF;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      font-size: 0.8125rem;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+    .q-input:focus { border-color: var(--gold-border); background: rgba(255,255,255,0.08); }
+    select.q-input option { background: #1a1a2e; color: #EEF4FF; }
+    .q-remove { background: none; border: none; cursor: pointer; color: rgba(200,216,255,0.25); padding: 4px; border-radius: 4px; transition: color 0.2s; line-height: 1; }
+    .q-remove:hover { color: #f87171; }
+
+    /* Mobile q-row */
+    @media (max-width: 640px) {
+      .q-row { grid-template-columns: 28px 1fr 28px; grid-template-rows: auto auto; }
+      .q-type-cell { grid-column: 2; }
+      .q-answers-row { grid-column: 1/-1; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+    }
+
+    /* Buttons */
+    .btn-primary {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+      padding: 0.875rem 2rem;
+      background: var(--gold); color: #09090b;
+      border: none; border-radius: 0.625rem;
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1rem; font-weight: 700;
+      cursor: pointer; transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+    .btn-primary:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+    .btn-ghost {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background: none; color: rgba(200,216,255,0.5);
+      border: 1px solid rgba(255,255,255,0.1); border-radius: 0.5rem;
+      font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.875rem;
+      cursor: pointer; transition: all 0.2s; text-decoration: none;
+    }
+    .btn-ghost:hover { color: #EEF4FF; border-color: rgba(255,255,255,0.25); }
+
+    /* Quick setup pills */
+    .quick-pill {
+      padding: 0.3125rem 0.875rem;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 999px;
+      background: none;
+      color: rgba(200,216,255,0.5);
+      font-size: 0.8125rem; font-weight: 600;
+      cursor: pointer; transition: all 0.2s;
+      font-family: 'Space Mono', monospace;
+    }
+    .quick-pill:hover { border-color: var(--gold-border); color: var(--gold); }
+
+    /* Results */
+    .result-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 1.25rem; padding: 1.75rem; }
+
+    /* Score ring */
+    .score-ring-track { stroke: rgba(255,255,255,0.08); }
+    .score-ring-fill { stroke: var(--gold); stroke-linecap: round; transform-origin: center; transform: rotate(-90deg); transition: stroke-dashoffset 1.2s cubic-bezier(0.16,1,0.3,1); }
+
+    /* Band chip */
+    .band-chip {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 3px 10px; border-radius: 4px;
+      font-family: 'Space Mono', monospace; font-size: 0.75rem; font-weight: 700;
+    }
+    .band-high { background: rgba(42,255,214,0.12); color: #2affd6; border: 1px solid rgba(42,255,214,0.2); }
+    .band-mid  { background: var(--gold-dim); color: var(--gold-light); border: 1px solid var(--gold-border); }
+    .band-low  { background: rgba(239,68,68,0.1); color: #f87171; border: 1px solid rgba(239,68,68,0.2); }
+
+    /* Question type chip */
+    .type-chip {
+      display: inline-block;
+      padding: 2px 8px; border-radius: 4px;
+      font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.04em;
+      background: rgba(255,255,255,0.07);
+      color: rgba(200,216,255,0.6);
+      white-space: nowrap;
+    }
+
+    /* Analysis item */
+    .analysis-item { border-bottom: 1px solid rgba(255,255,255,0.06); padding: 1.25rem 0; }
+    .analysis-item:last-child { border-bottom: none; }
+    .analysis-item.wrong { background: rgba(239,68,68,0.03); border-radius: 0.75rem; padding: 1.25rem; margin: 0 -1.25rem; border-bottom: none; border: 1px solid rgba(239,68,68,0.1); margin-bottom: 0.5rem; }
+    .analysis-item.correct { padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
+
+    /* Key phrase quote */
+    .key-phrase {
+      border-left: 2px solid var(--gold-border);
+      padding: 0.5rem 0.75rem;
+      background: var(--gold-dim);
+      border-radius: 0 0.375rem 0.375rem 0;
+      font-size: 0.8125rem;
+      color: rgba(200,216,255,0.7);
+      font-style: italic;
+      line-height: 1.6;
+      margin-top: 0.625rem;
+    }
+
+    /* Pattern bar */
+    .pattern-track { height: 6px; background: rgba(255,255,255,0.08); border-radius: 99px; overflow: hidden; }
+    .pattern-fill { height: 100%; border-radius: 99px; transition: width 1s cubic-bezier(0.16,1,0.3,1); }
+
+    /* Recommendation card */
+    .rec-card { padding: 1.25rem; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 1rem; }
+
+    /* Loading spinner */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { width: 48px; height: 48px; border: 3px solid rgba(201,149,46,0.2); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.9s linear infinite; }
+
+    /* Error */
+    .error-box { padding: 0.875rem 1rem; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); border-radius: 0.625rem; font-size: 0.875rem; color: #f87171; }
+
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: #0e0e12; }
+    ::-webkit-scrollbar-thumb { background: #C49A2B; border-radius: 3px; }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════ NAV ══════════════ -->
+<header class="nav-glass fixed top-0 left-0 right-0 z-50">
+  <div style="max-width:1280px;margin:0 auto;padding:0 1.5rem;height:56px;display:flex;align-items:center;justify-content:space-between;gap:2rem;">
+    <a href="../IELTS-Lab.html" style="display:flex;align-items:center;gap:0.5rem;text-decoration:none;flex-shrink:0;">
+      <div style="width:22px;height:22px;border-radius:5px;background:var(--gold);display:flex;align-items:center;justify-content:center;">
+        <span style="font-family:'Satoshi',sans-serif;font-weight:900;font-size:10px;color:#09090b;">IL</span>
+      </div>
+      <span style="font-family:'Satoshi',sans-serif;font-weight:900;font-size:13px;color:#fff;">IELTS<span style="color:var(--gold)">Lab</span></span>
+    </a>
+
+    <ul class="nav-links" id="navLinks" style="display:none;">
+      <li><a href="../writing-clinic/corrector.html">Writing Clinic</a></li>
+      <li><a href="../mock-tests/index.html">Mock Tests</a></li>
+      <li><a href="../reading-analyzer/index.html" class="active">Reading Analyzer</a></li>
+      <li><a href="../guide/index.html">IELTS Guide</a></li>
+    </ul>
+
+    <div style="display:flex;align-items:center;gap:0.75rem;">
+      <span id="greetingEl" style="font-size:0.8125rem;color:rgba(200,216,255,0.4);display:none;"></span>
+      <button onclick="doLogout()" class="nav-cta">Sign Out</button>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════════ HERO ══════════════ -->
+<section style="background:#09090b;padding:6rem 1.5rem 3.5rem;border-bottom:1px solid rgba(255,255,255,0.06);">
+  <div style="max-width:700px;margin:0 auto;text-align:center;">
+    <div class="label" style="margin-bottom:1rem;">Reading Analyzer</div>
+    <h1 style="font-size:clamp(2rem,4.5vw,3rem);font-weight:900;color:#fff;line-height:1.1;letter-spacing:-0.03em;margin-bottom:1rem;">
+      Find out exactly why<br/><span style="color:var(--gold);">you got it wrong.</span>
+    </h1>
+    <p style="font-size:1rem;color:rgba(200,216,255,0.55);max-width:54ch;margin:0 auto;line-height:1.75;">
+      Paste your passage and answers. Get AI examiner-level analysis of every mistake, your error patterns by question type, and 3 targeted recommendations.
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════ MAIN ══════════════ -->
+<main style="max-width:900px;margin:0 auto;padding:2.5rem 1.5rem 4rem;">
+
+  <!-- ── INPUT PHASE ── -->
+  <div id="inputPhase">
+
+    <!-- Passage -->
+    <div class="glass-card" style="padding:1.75rem;margin-bottom:1.5rem;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem;">
+        <div>
+          <div class="label" style="margin-bottom:0.25rem;">Step 1</div>
+          <h2 style="font-size:1.125rem;font-weight:700;color:#EEF4FF;">Reading Passage</h2>
+        </div>
+        <label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;font-size:0.875rem;color:rgba(200,216,255,0.5);">
+          <input type="checkbox" id="skipPassage" onchange="togglePassage()" style="accent-color:var(--gold);width:14px;height:14px;" />
+          I don't have the passage
+        </label>
+      </div>
+      <div id="passageArea">
+        <textarea class="field-input" id="passageInput" placeholder="Paste the full reading passage here for the most accurate analysis. The AI will reference specific lines to explain your mistakes." style="min-height:220px;"></textarea>
+        <div style="margin-top:0.5rem;display:flex;justify-content:flex-end;">
+          <span id="charCount" style="font-size:0.75rem;color:rgba(200,216,255,0.3);font-family:'Space Mono',monospace;">0 chars</span>
+        </div>
+      </div>
+      <div id="noPassageNote" style="display:none;padding:0.875rem 1rem;background:rgba(201,149,46,0.06);border:1px solid var(--gold-border);border-radius:0.625rem;font-size:0.875rem;color:rgba(200,216,255,0.6);line-height:1.6;">
+        No passage provided. The AI will still analyze your error patterns by question type and give general recommendations — but explanations will be less specific.
+      </div>
+    </div>
+
+    <!-- Questions -->
+    <div class="glass-card" style="padding:1.75rem;margin-bottom:1.5rem;">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;flex-wrap:wrap;gap:0.75rem;">
+        <div>
+          <div class="label" style="margin-bottom:0.25rem;">Step 2</div>
+          <h2 style="font-size:1.125rem;font-weight:700;color:#EEF4FF;">Your Answers</h2>
+        </div>
+        <div style="display:flex;align-items:center;gap:0.5rem;flex-wrap:wrap;">
+          <span style="font-size:0.75rem;color:rgba(200,216,255,0.4);">Quick setup:</span>
+          <button class="quick-pill" onclick="setupQuestions(13)">13</button>
+          <button class="quick-pill" onclick="setupQuestions(20)">20</button>
+          <button class="quick-pill" onclick="setupQuestions(40)">40</button>
+        </div>
+      </div>
+
+      <!-- Column headers (desktop) -->
+      <div style="display:grid;grid-template-columns:36px 1fr 1fr 1fr 28px;gap:0.5rem;padding:0 0 0.5rem;border-bottom:1px solid rgba(255,255,255,0.08);margin-bottom:0.5rem;" id="qHeaders">
+        <div></div>
+        <div style="font-size:0.6875rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(200,216,255,0.35);">Question Type</div>
+        <div style="font-size:0.6875rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(200,216,255,0.35);">Your Answer</div>
+        <div style="font-size:0.6875rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(200,216,255,0.35);">Correct Answer</div>
+        <div></div>
+      </div>
+      <div id="questionsContainer"></div>
+
+      <div style="display:flex;gap:0.75rem;margin-top:1rem;flex-wrap:wrap;">
+        <button onclick="addQuestion()" style="display:inline-flex;align-items:center;gap:0.4rem;padding:0.5rem 1rem;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:0.5rem;color:rgba(200,216,255,0.6);font-size:0.8125rem;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(201,149,46,0.35)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.1)';this.style.color='rgba(200,216,255,0.6)'">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v12M1 7h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          Add Question
+        </button>
+        <span style="font-size:0.8125rem;color:rgba(200,216,255,0.3);padding:0.5rem 0;align-self:center;" id="questionCount">0 questions</span>
+      </div>
+    </div>
+
+    <div id="inputError" style="display:none;margin-bottom:1rem;" class="error-box"></div>
+
+    <div style="display:flex;justify-content:center;">
+      <button class="btn-primary" onclick="analyzeAnswers()" id="analyzeBtn" style="min-width:220px;">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="7.5" stroke="currentColor" stroke-width="1.5"/><path d="M6 9l2 2 4-4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Analyze My Answers →
+      </button>
+    </div>
+  </div>
+
+  <!-- ── LOADING STATE ── -->
+  <div id="loadingPhase" style="display:none;text-align:center;padding:5rem 1rem;">
+    <div class="spinner" style="margin:0 auto 1.5rem;"></div>
+    <h3 style="font-size:1.125rem;font-weight:700;color:#EEF4FF;margin-bottom:0.5rem;">Analyzing your answers…</h3>
+    <p style="font-size:0.875rem;color:rgba(200,216,255,0.45);">Our AI examiner is checking each question against the passage.</p>
+  </div>
+
+  <!-- ── RESULTS PHASE ── -->
+  <div id="resultsPhase" style="display:none;">
+
+    <!-- Back button -->
+    <button onclick="resetAnalyzer()" class="btn-ghost" style="margin-bottom:1.5rem;">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 3L5 8l5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Analyze Another Test
+    </button>
+
+    <!-- Score card -->
+    <div class="result-card" style="margin-bottom:1.5rem;">
+      <div style="display:flex;align-items:center;gap:2rem;flex-wrap:wrap;">
+        <!-- Score ring -->
+        <div style="position:relative;flex-shrink:0;">
+          <svg width="110" height="110" viewBox="0 0 110 110">
+            <circle class="score-ring-track" cx="55" cy="55" r="46" fill="none" stroke-width="8"/>
+            <circle class="score-ring-fill" id="scoreRing" cx="55" cy="55" r="46" fill="none" stroke-width="8" stroke-dasharray="289.03" stroke-dashoffset="289.03"/>
+          </svg>
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+            <span id="scoreDisplay" style="font-family:'Space Mono',monospace;font-size:1.5rem;font-weight:700;color:#EEF4FF;line-height:1;">—</span>
+            <span style="font-size:0.6875rem;color:rgba(200,216,255,0.4);margin-top:2px;">score</span>
+          </div>
+        </div>
+
+        <div style="flex:1;min-width:200px;">
+          <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.5rem;flex-wrap:wrap;">
+            <h2 style="font-size:1.5rem;font-weight:900;color:#EEF4FF;" id="scoreHeading">—</h2>
+            <span id="bandChip" class="band-chip band-mid">—</span>
+          </div>
+          <div style="margin-bottom:0.875rem;">
+            <div style="display:flex;justify-content:space-between;margin-bottom:0.375rem;">
+              <span style="font-size:0.8125rem;color:rgba(200,216,255,0.45);">Accuracy</span>
+              <span id="accuracyPct" style="font-family:'Space Mono',monospace;font-size:0.8125rem;color:var(--gold);">—</span>
+            </div>
+            <div class="pattern-track">
+              <div class="pattern-fill" id="accuracyBar" style="background:var(--gold);width:0%;"></div>
+            </div>
+          </div>
+          <p id="overallAnalysis" style="font-size:0.875rem;color:rgba(200,216,255,0.6);line-height:1.7;"></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error patterns -->
+    <div class="result-card" style="margin-bottom:1.5rem;" id="patternsCard">
+      <div style="margin-bottom:1.25rem;">
+        <div class="label" style="margin-bottom:0.25rem;">Error Patterns</div>
+        <h3 style="font-size:1rem;font-weight:700;color:#EEF4FF;">Accuracy by question type</h3>
+      </div>
+      <div id="patternsContainer" style="display:flex;flex-direction:column;gap:1rem;"></div>
+    </div>
+
+    <!-- Question analysis -->
+    <div class="result-card" style="margin-bottom:1.5rem;">
+      <div style="margin-bottom:1.25rem;">
+        <div class="label" style="margin-bottom:0.25rem;">Question Analysis</div>
+        <h3 style="font-size:1rem;font-weight:700;color:#EEF4FF;">Every answer, explained</h3>
+      </div>
+      <div id="analysisContainer"></div>
+    </div>
+
+    <!-- Recommendations -->
+    <div class="result-card" style="margin-bottom:2rem;">
+      <div style="margin-bottom:1.25rem;">
+        <div class="label" style="margin-bottom:0.25rem;">Recommendations</div>
+        <h3 style="font-size:1rem;font-weight:700;color:#EEF4FF;">What to work on next</h3>
+      </div>
+      <div id="recommendationsContainer" style="display:flex;flex-direction:column;gap:0.875rem;"></div>
+    </div>
+
+    <!-- Bottom actions -->
+    <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;">
+      <button onclick="resetAnalyzer()" class="btn-primary" style="min-width:200px;">Analyze Another Test →</button>
+      <a href="../writing-clinic/corrector.html" class="btn-ghost">Try Writing Clinic</a>
+      <a href="../guide/index.html" class="btn-ghost">IELTS Guide</a>
+    </div>
+
+  </div>
+
+</main>
+
+<!-- ══════════════ SCRIPTS ══════════════ -->
+<script>
+  // ── Auth guard ──────────────────────────────────────────────────────────
+  (function() {
+    const raw = localStorage.getItem('ielts_session');
+    if (!raw) { window.location.replace('../login.html'); return; }
+    let session;
+    try { session = JSON.parse(raw); } catch { localStorage.removeItem('ielts_session'); window.location.replace('../login.html'); return; }
+    const firstName = (session.name || 'Student').split(' ')[0];
+    const el = document.getElementById('greetingEl');
+    if (el) { el.textContent = firstName; el.style.display = 'block'; }
+  })();
+
+  function doLogout() {
+    localStorage.removeItem('ielts_session');
+    window.location.replace('../login.html');
+  }
+
+  // ── Question types ──────────────────────────────────────────────────────
+  const QUESTION_TYPES = [
+    'True / False / Not Given',
+    'Yes / No / Not Given',
+    'Multiple Choice',
+    'Matching Headings',
+    'Matching Information',
+    'Matching Features',
+    'Sentence Completion',
+    'Summary Completion',
+    'Short Answer',
+    'Note Completion',
+    'Diagram Label',
+  ];
+
+  // ── State ───────────────────────────────────────────────────────────────
+  let questionCounter = 0;
+
+  // ── Passage char counter ────────────────────────────────────────────────
+  document.getElementById('passageInput').addEventListener('input', function() {
+    document.getElementById('charCount').textContent = this.value.length.toLocaleString() + ' chars';
+  });
+
+  function togglePassage() {
+    const skip = document.getElementById('skipPassage').checked;
+    document.getElementById('passageArea').style.display = skip ? 'none' : 'block';
+    document.getElementById('noPassageNote').style.display = skip ? 'block' : 'none';
+  }
+
+  // ── Question builder ────────────────────────────────────────────────────
+  function buildTypeOptions(selected) {
+    return QUESTION_TYPES.map(t =>
+      `<option value="${t}" ${selected === t ? 'selected' : ''}>${t}</option>`
+    ).join('');
+  }
+
+  function addQuestion(type, studentAns, correctAns) {
+    questionCounter++;
+    const n = questionCounter;
+    const container = document.getElementById('questionsContainer');
+    const row = document.createElement('div');
+    row.className = 'q-row';
+    row.id = `qrow-${n}`;
+    row.innerHTML = `
+      <div class="q-num-badge">${n}</div>
+      <select class="q-input" id="qtype-${n}" aria-label="Q${n} type">
+        ${buildTypeOptions(type || QUESTION_TYPES[0])}
+      </select>
+      <input class="q-input" id="qstudent-${n}" placeholder="e.g. True, A, rivers" value="${studentAns || ''}" aria-label="Q${n} your answer" />
+      <input class="q-input" id="qcorrect-${n}" placeholder="e.g. False, C, lakes" value="${correctAns || ''}" aria-label="Q${n} correct answer" />
+      <button class="q-remove" onclick="removeQuestion(${n})" title="Remove Q${n}" aria-label="Remove Q${n}">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </button>`;
+    container.appendChild(row);
+    updateQuestionCount();
+  }
+
+  function removeQuestion(n) {
+    const el = document.getElementById(`qrow-${n}`);
+    if (el) el.remove();
+    updateQuestionCount();
+  }
+
+  function updateQuestionCount() {
+    const count = document.querySelectorAll('#questionsContainer .q-row').length;
+    document.getElementById('questionCount').textContent = `${count} question${count !== 1 ? 's' : ''}`;
+  }
+
+  function setupQuestions(count) {
+    document.getElementById('questionsContainer').innerHTML = '';
+    questionCounter = 0;
+    for (let i = 0; i < count; i++) addQuestion();
+  }
+
+  // Default: start with 13 questions (one IELTS section)
+  setupQuestions(13);
+
+  // ── Collect questions from DOM ──────────────────────────────────────────
+  function collectQuestions() {
+    const rows = document.querySelectorAll('#questionsContainer .q-row');
+    const questions = [];
+    let num = 1;
+    rows.forEach(row => {
+      const idMatch = row.id.match(/qrow-(\d+)/);
+      if (!idMatch) return;
+      const n = idMatch[1];
+      questions.push({
+        number: num++,
+        type: document.getElementById(`qtype-${n}`)?.value || '',
+        studentAnswer: (document.getElementById(`qstudent-${n}`)?.value || '').trim(),
+        correctAnswer: (document.getElementById(`qcorrect-${n}`)?.value || '').trim(),
+      });
+    });
+    return questions;
+  }
+
+  // ── Band score estimate ─────────────────────────────────────────────────
+  function estimateBand(correct, total) {
+    const scaled = Math.round((correct / total) * 40);
+    const map = {40:9.0,39:9.0,38:8.5,37:8.5,36:8.0,35:8.0,34:7.5,33:7.5,
+                 32:7.0,31:7.0,30:7.0,29:6.5,28:6.5,27:6.5,26:6.0,25:6.0,
+                 24:6.0,23:6.0,22:5.5,21:5.5,20:5.5,19:5.5,18:5.0,17:5.0,
+                 16:5.0,15:5.0,14:4.5,13:4.5,12:4.0,11:4.0,10:4.0};
+    return map[Math.max(0, Math.min(40, scaled))] ?? 3.0;
+  }
+
+  function bandClass(b) {
+    if (b >= 7.0) return 'band-high';
+    if (b >= 5.5) return 'band-mid';
+    return 'band-low';
+  }
+
+  // ── Analyze ─────────────────────────────────────────────────────────────
+  async function analyzeAnswers() {
+    const errEl = document.getElementById('inputError');
+    errEl.style.display = 'none';
+
+    const passage = document.getElementById('passageInput').value.trim();
+    const skipPassage = document.getElementById('skipPassage').checked;
+    const questions = collectQuestions();
+
+    if (questions.length === 0) {
+      errEl.textContent = 'Please add at least one question before analyzing.';
+      errEl.style.display = 'block';
+      return;
+    }
+
+    const missing = questions.filter(q => !q.studentAnswer || !q.correctAnswer);
+    if (missing.length > 0) {
+      errEl.textContent = `Please fill in both "Your Answer" and "Correct Answer" for all questions (${missing.length} incomplete).`;
+      errEl.style.display = 'block';
+      return;
+    }
+
+    document.getElementById('inputPhase').style.display = 'none';
+    document.getElementById('loadingPhase').style.display = 'block';
+    document.getElementById('resultsPhase').style.display = 'none';
+
+    try {
+      const res = await fetch('/api/reading/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ passage: skipPassage ? '' : passage, questions }),
+      });
+      const data = await res.json();
+      if (!res.ok || data.error) throw new Error(data.error || 'Analysis failed');
+      renderResults(data, questions);
+    } catch (err) {
+      document.getElementById('inputPhase').style.display = 'block';
+      document.getElementById('loadingPhase').style.display = 'none';
+      errEl.textContent = err.message || 'Something went wrong. Please try again.';
+      errEl.style.display = 'block';
+    }
+  }
+
+  // ── Render results ──────────────────────────────────────────────────────
+  function renderResults(data, questions) {
+    document.getElementById('loadingPhase').style.display = 'none';
+    document.getElementById('resultsPhase').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    const analysis = data.analysis || [];
+    const total = questions.length;
+    const correct = analysis.filter(a => a.isCorrect).length;
+    const pct = Math.round((correct / total) * 100);
+    const band = estimateBand(correct, total);
+
+    // Score ring animation
+    const circumference = 289.03;
+    const offset = circumference * (1 - pct / 100);
+    setTimeout(() => {
+      document.getElementById('scoreRing').style.strokeDashoffset = offset;
+      document.getElementById('accuracyBar').style.width = pct + '%';
+    }, 100);
+
+    document.getElementById('scoreDisplay').textContent = `${correct}/${total}`;
+    document.getElementById('scoreHeading').textContent = `${correct} / ${total} correct`;
+    document.getElementById('accuracyPct').textContent = pct + '%';
+    document.getElementById('overallAnalysis').textContent = data.overallAnalysis || '';
+
+    const chip = document.getElementById('bandChip');
+    chip.textContent = `Band ~${band.toFixed(1)}`;
+    chip.className = `band-chip ${bandClass(band)}`;
+
+    // Error patterns
+    const patterns = data.errorPatterns || [];
+    const pc = document.getElementById('patternsContainer');
+    if (patterns.length === 0) {
+      document.getElementById('patternsCard').style.display = 'none';
+    } else {
+      pc.innerHTML = patterns.map(p => {
+        const acc = Math.round(((p.total - p.wrong) / p.total) * 100);
+        const fillColor = acc >= 70 ? '#2AFFD6' : acc >= 50 ? 'var(--gold)' : '#f87171';
+        return `
+          <div>
+            <div style="display:flex;justify-content:space-between;margin-bottom:0.375rem;">
+              <span style="font-size:0.875rem;color:#EEF4FF;font-weight:600;">${p.type}</span>
+              <span style="font-family:'Space Mono',monospace;font-size:0.8125rem;color:${fillColor};">${p.total - p.wrong}/${p.total} correct</span>
+            </div>
+            <div class="pattern-track"><div class="pattern-fill" style="background:${fillColor};width:${acc}%;"></div></div>
+          </div>`;
+      }).join('');
+    }
+
+    // Question analysis
+    const ac = document.getElementById('analysisContainer');
+    // Wrong first, then correct
+    const wrongItems = analysis.filter(a => !a.isCorrect);
+    const rightItems = analysis.filter(a => a.isCorrect);
+    const sorted = [...wrongItems, ...rightItems];
+
+    ac.innerHTML = sorted.map(item => {
+      const q = questions.find(q => q.number === item.number) || {};
+      if (item.isCorrect) {
+        return `
+          <div class="analysis-item correct" style="display:flex;align-items:center;gap:0.75rem;">
+            <div style="width:24px;height:24px;border-radius:50%;background:rgba(42,255,214,0.1);border:1px solid rgba(42,255,214,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1.5 6l3 3 6-6" stroke="#2AFFD6" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div style="display:flex;align-items:center;gap:0.625rem;flex-wrap:wrap;flex:1;">
+              <span style="font-family:'Space Mono',monospace;font-size:0.75rem;font-weight:700;color:rgba(200,216,255,0.5);">Q${item.number}</span>
+              <span class="type-chip">${q.type || ''}</span>
+              <span style="font-size:0.875rem;color:rgba(200,216,255,0.5);">Correct — <strong style="color:rgba(200,216,255,0.7);">${q.correctAnswer}</strong></span>
+            </div>
+          </div>`;
+      }
+      return `
+        <div class="analysis-item wrong">
+          <div style="display:flex;align-items:flex-start;gap:0.75rem;margin-bottom:0.875rem;">
+            <div style="width:24px;height:24px;border-radius:50%;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 2l8 8M10 2L2 10" stroke="#f87171" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </div>
+            <div style="flex:1;">
+              <div style="display:flex;align-items:center;gap:0.625rem;flex-wrap:wrap;margin-bottom:0.5rem;">
+                <span style="font-family:'Space Mono',monospace;font-size:0.8125rem;font-weight:700;color:#EEF4FF;">Q${item.number}</span>
+                <span class="type-chip">${q.type || ''}</span>
+                <span style="font-size:0.8125rem;color:#f87171;">You: <strong>${q.studentAnswer}</strong></span>
+                <span style="font-size:0.8125rem;color:rgba(200,216,255,0.4);">→</span>
+                <span style="font-size:0.8125rem;color:#2AFFD6;">Answer: <strong>${q.correctAnswer}</strong></span>
+              </div>
+              ${item.explanation ? `<p style="font-size:0.875rem;color:rgba(200,216,255,0.75);line-height:1.7;margin-bottom:${item.keyPassagePhrase ? '0.5rem' : '0'};">${item.explanation}</p>` : ''}
+              ${item.keyPassagePhrase ? `<div class="key-phrase">"${item.keyPassagePhrase}"</div>` : ''}
+              ${item.trap ? `<p style="font-size:0.8125rem;color:var(--gold);margin-top:0.5rem;font-weight:600;">⚠ Trap: ${item.trap}</p>` : ''}
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+
+    // Recommendations
+    const recs = data.recommendations || [];
+    const icons = ['🎯', '📖', '⏱'];
+    document.getElementById('recommendationsContainer').innerHTML = recs.map((rec, i) => `
+      <div class="rec-card" style="display:flex;gap:1rem;align-items:flex-start;">
+        <div style="font-size:1.25rem;flex-shrink:0;">${icons[i] || '→'}</div>
+        <p style="font-size:0.9rem;color:rgba(200,216,255,0.75);line-height:1.7;">${rec}</p>
+      </div>`).join('');
+  }
+
+  // ── Reset ───────────────────────────────────────────────────────────────
+  function resetAnalyzer() {
+    document.getElementById('resultsPhase').style.display = 'none';
+    document.getElementById('loadingPhase').style.display = 'none';
+    document.getElementById('inputPhase').style.display = 'block';
+    document.getElementById('inputError').style.display = 'none';
+    document.getElementById('passageInput').value = '';
+    document.getElementById('charCount').textContent = '0 chars';
+    document.getElementById('questionsContainer').innerHTML = '';
+    questionCounter = 0;
+    setupQuestions(13);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+
+</body>
+</html>
