@@ -1495,39 +1495,32 @@ app.post('/api/reading/analyze', async (req, res) => {
     `Q${q.number} | Type: ${q.type} | Student: "${q.studentAnswer}" | Correct: "${q.correctAnswer}"`
   ).join('\n');
 
-  const system = `You are an expert IELTS examiner with 15 years of experience marking Reading papers. You give precise, concise analysis that directly helps students understand their mistakes. Your feedback is specific, not generic.`;
+  const passageSection = hasPassage
+    ? 'READING PASSAGE:\n"""\n' + passage.trim() + '\n"""\n'
+    : 'NOTE: No passage provided. Analyze based on question types and answer patterns only.\n';
 
-  const prompt = `Analyze this student's IELTS Reading performance.
+  const explanationNote = hasPassage ? ', referencing the specific part of the passage' : '';
+  const keyPhraseNote   = hasPassage ? '' : ' (omit if no passage)';
 
-${hasPassage ? `READING PASSAGE:\n"""\n${passage.trim()}\n"""\n` : 'NOTE: No passage provided. Analyze based on question types and answer patterns only.\n'}
+  const system = 'You are an expert IELTS examiner with 15 years of experience marking Reading papers. You give precise, concise analysis that directly helps students understand their mistakes. Your feedback is specific, not generic.';
 
-QUESTIONS AND ANSWERS:
-${questionList}
-
-For each question, determine if the student is correct (case-insensitive comparison, accept abbreviations: T=True, F=False, NG=Not Given, Y=Yes, N=No).
-
-For INCORRECT answers only, provide:
-- explanation: one clear sentence explaining why they're wrong${hasPassage ? ', referencing the specific part of the passage' : ''}
-- keyPassagePhrase: the exact quote from the passage that gives the answer${hasPassage ? '' : ' (omit if no passage)'}
-- trap: the specific trap or misconception (e.g. "paraphrase trap", "not given != false", "distractor keyword", "word limit exceeded")
-
-Also provide:
-- errorPatterns: group wrong answers by question type — only include types that appear in the questions
-- overallAnalysis: 2 sentences summarising performance
-- recommendations: exactly 3 specific, actionable tips based on THIS student's actual mistakes
-
-Return ONLY valid JSON:
-{
-  "analysis": [
-    { "number": 1, "isCorrect": true },
-    { "number": 2, "isCorrect": false, "explanation": "...", "keyPassagePhrase": "...", "trap": "..." }
-  ],
-  "errorPatterns": [
-    { "type": "True / False / Not Given", "wrong": 3, "total": 6 }
-  ],
-  "overallAnalysis": "...",
-  "recommendations": ["...", "...", "..."]
-}`;
+  const prompt = 'Analyze this student\'s IELTS Reading performance.\n\n'
+    + passageSection + '\n'
+    + 'QUESTIONS AND ANSWERS:\n'
+    + questionList + '\n\n'
+    + 'For each question, determine if the student is correct (case-insensitive; T=True, F=False, NG=Not Given, Y=Yes, N=No).\n\n'
+    + 'For INCORRECT answers only, provide:\n'
+    + '- explanation: one clear sentence explaining why they are wrong' + explanationNote + '\n'
+    + '- keyPassagePhrase: the exact quote from the passage that gives the answer' + keyPhraseNote + '\n'
+    + '- trap: the specific trap (e.g. paraphrase trap, not given != false, distractor keyword, word limit exceeded)\n\n'
+    + 'Also provide:\n'
+    + '- errorPatterns: group wrong answers by question type (only types that appear in the test)\n'
+    + '- overallAnalysis: 2 sentences summarising performance\n'
+    + '- recommendations: exactly 3 specific actionable tips based on THIS student\'s actual mistakes\n\n'
+    + 'Return ONLY valid JSON:\n'
+    + '{"analysis":[{"number":1,"isCorrect":true},{"number":2,"isCorrect":false,"explanation":"...","keyPassagePhrase":"...","trap":"..."}],'
+    + '"errorPatterns":[{"type":"True / False / Not Given","wrong":3,"total":6}],'
+    + '"overallAnalysis":"...","recommendations":["...","...","..."]}' ;
 
   try {
     const raw = await callAnthropic({
