@@ -20,3 +20,7 @@ token.json
 
 # Editor
 .vscode/
+
+# Lead scraper — secrets and local exports
+google_creds.json
+exports/*.csv
