@@ -51,12 +51,47 @@ app.use(cors({
   credentials: true,
 }));
 
-// ── Security headers (helmet) ─────────────────────────────────────────────────
-// CSP disabled here because pages load Tailwind/Fonts/Google GSI from CDNs;
-// a proper per-page CSP should be added once a bundler is in place.
+// ── Security headers (helmet + strict CSP) ───────────────────────────────────
+// Origin allowlist covers every CDN and third-party service the HTML pages load.
+// 'unsafe-inline' for script-src is required because the static HTML pages
+// contain inline <script> blocks. Without a server-side template engine or a
+// bundler that injects nonces, this is unavoidable — but the allowlist still
+// blocks scripts from any unknown origin.
 app.use(helmet({
-  contentSecurityPolicy:     false,
-  crossOriginEmbedderPolicy: false, // would block CDN resources
+  crossOriginEmbedderPolicy: false, // CDN resources would be blocked otherwise
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc:     ["'self'"],
+      scriptSrc: [
+        "'self'",
+        "'unsafe-inline'",            // required for inline <script> blocks in static HTML
+        'https://cdn.tailwindcss.com',
+        'https://accounts.google.com',
+        'https://apis.google.com',
+      ],
+      styleSrc: [
+        "'self'",
+        "'unsafe-inline'",            // Tailwind CDN and inline <style> blocks
+        'https://cdn.tailwindcss.com',
+        'https://fonts.googleapis.com',
+        'https://api.fontshare.com',
+      ],
+      fontSrc: [
+        "'self'",
+        'https://fonts.gstatic.com',
+        'https://cdn.fontshare.com',
+        'https://api.fontshare.com',
+        'data:',
+      ],
+      imgSrc:      ["'self'", 'data:', 'blob:', 'https:'],
+      connectSrc:  ["'self'", 'https://accounts.google.com'],
+      frameSrc:    ['https://accounts.google.com'],  // Google Sign-In popup
+      objectSrc:   ["'none'"],
+      baseUri:     ["'self'"],
+      formAction:  ["'self'"],
+      upgradeInsecureRequests: [],
+    },
+  },
 }));
 
 // ── Body parsing ──────────────────────────────────────────────────────────────
@@ -73,6 +108,20 @@ function sanitizeInput(value, maxLen = 12000) {
     .replace(/<[^>]{0,500}>/g, '')
     .replace(/\0/g, '')
     .trim();
+}
+
+// ── Production-safe error helper ─────────────────────────────────────────────
+// In production, all unhandled catch blocks return a generic message so that
+// internal stack traces, file paths, and Anthropic API details are never sent
+// to the client. The real error is always logged on the server console.
+const IS_PROD = process.env.NODE_ENV === 'production';
+
+function safeErr(res, err, context, httpStatus = 502) {
+  console.error(`[${context}]`, err);
+  const clientMessage = IS_PROD
+    ? 'Something went wrong. Please try again.'
+    : (err.message || String(err));
+  res.status(httpStatus).json({ error: clientMessage });
 }
 
 // ── Rate limiters ─────────────────────────────────────────────────────────────
@@ -262,8 +311,15 @@ app.post('/api/auth/send-verification', async (req, res) => {
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return res.status(400).json({ error: 'A valid email address is required.' });
   }
-  const code = String(Math.floor(100000 + Math.random() * 900000));
-  verificationStore.set(email.toLowerCase(), { code, expiresAt: Date.now() + 10 * 60 * 1000 });
+  const code      = String(Math.floor(100000 + Math.random() * 900000));
+  const requestIp = req.ip || req.socket?.remoteAddress || 'unknown';
+  // Store code with IP binding — the same IP must verify it (replay guard).
+  verificationStore.set(email.toLowerCase(), {
+    code,
+    expiresAt: Date.now() + 10 * 60 * 1000,
+    issuedTo:  requestIp,
+    used:      false,
+  });
   try {
     await sendEmail(email, 'Your IELTS Lab Verification Code', buildVerificationEmail(code));
     console.log(`[send-verification] Code sent to ${email}`);
@@ -271,7 +327,7 @@ app.post('/api/auth/send-verification', async (req, res) => {
   } catch (err) {
     console.error('[send-verification]', err.message);
     const status = err.code === 'NO_EMAIL_CONFIG' ? 503 : 502;
-    res.status(status).json({ error: err.message });
+    res.status(status).json({ error: IS_PROD ? 'Email delivery failed. Please try again.' : err.message });
   }
 });
 
@@ -283,8 +339,9 @@ app.post('/api/auth/verify-code', (req, res) => {
   const { email, code } = req.body;
   if (!email || !code) return res.status(400).json({ error: 'Email and code are required.' });
 
-  const emailKey = email.toLowerCase();
-  const now      = Date.now();
+  const emailKey  = email.toLowerCase();
+  const requestIp = req.ip || req.socket?.remoteAddress || 'unknown';
+  const now       = Date.now();
 
   // Brute-force guard: max 5 wrong attempts per 30-min window
   let attempts = codeAttempts.get(emailKey) || { count: 0, resetAt: now + 30 * 60 * 1000 };
@@ -295,20 +352,40 @@ app.post('/api/auth/verify-code', (req, res) => {
 
   const record = verificationStore.get(emailKey);
   if (!record) return res.status(400).json({ error: 'No verification code found. Please request a new one.' });
+
+  // Expiry check
   if (now > record.expiresAt) {
     verificationStore.delete(emailKey);
     return res.status(400).json({ error: 'Code has expired. Please request a new one.' });
   }
+
+  // Replay guard — code was already consumed
+  if (record.used) {
+    console.warn(`[verify-code] Replay attempt for ${emailKey} from ${requestIp}`);
+    verificationStore.delete(emailKey);
+    return res.status(400).json({ error: 'This code has already been used. Please request a new one.' });
+  }
+
+  // IP binding — must be the same IP that requested the code
+  if (record.issuedTo && record.issuedTo !== 'unknown' && record.issuedTo !== requestIp) {
+    console.warn(`[verify-code] IP mismatch for ${emailKey}: issued to ${record.issuedTo}, used from ${requestIp}`);
+    attempts.count++;
+    codeAttempts.set(emailKey, attempts);
+    return res.status(403).json({ error: 'Verification must be completed from the same device that requested the code.' });
+  }
+
+  // Wrong code
   if (record.code !== String(code).trim()) {
     attempts.count++;
     codeAttempts.set(emailKey, attempts);
     return res.status(400).json({ error: 'Incorrect code. Please check and try again.' });
   }
 
-  // Success — clear attempt and verification records
+  // Success — mark as used first (prevents concurrent replay), then clean up
+  record.used = true;
   verificationStore.delete(emailKey);
   codeAttempts.delete(emailKey);
-  console.log(`[verify-code] Verified: ${email}`);
+  console.log(`[verify-code] Verified: ${emailKey} from ${requestIp}`);
   res.json({ success: true });
 });
 
@@ -505,8 +582,7 @@ app.post('/api/correct-essay', async (req, res) => {
     result.scores = snapScores(result.scores);
     res.json(result);
   } catch (err) {
-    console.error('[correct-essay]', err.message);
-    res.status(502).json({ error: err.message });
+    safeErr(res, err, 'correct-essay');
   }
 });
 
@@ -1097,8 +1173,7 @@ app.post('/api/correct-essay-v2', async (req, res) => {
     res.json(result);
 
   } catch (err) {
-    console.error('[correct-essay-v2]', err.message);
-    res.status(502).json({ error: err.message });
+    safeErr(res, err, 'correct-essay-v2');
   }
 });
 
@@ -1173,8 +1248,7 @@ app.post('/api/ielts-expert', async (req, res) => {
     });
     res.json({ reply });
   } catch (err) {
-    console.error('[ielts-expert]', err.message);
-    res.status(502).json({ error: err.message });
+    safeErr(res, err, 'ielts-expert');
   }
 });
 
@@ -1279,8 +1353,7 @@ app.post('/api/mock/generate-question', async (req, res) => {
     const question = extractJSON(rawText, `mock-question-${skill}`);
     res.json(question);
   } catch (err) {
-    console.error('[mock/generate-question]', err.message);
-    res.status(502).json({ error: err.message });
+    safeErr(res, err, 'mock/generate-question');
   }
 });
 
@@ -1369,8 +1442,7 @@ app.post('/api/mock/grade', async (req, res) => {
     const result = extractJSON(rawText, `mock-grade-${skill}`);
     res.json(result);
   } catch (err) {
-    console.error('[mock/grade]', err.message);
-    res.status(502).json({ error: err.message });
+    safeErr(res, err, 'mock/grade');
   }
 });
 
@@ -1458,9 +1530,9 @@ app.post('/api/send-report', async (req, res) => {
     console.log(`[send-report] Sent to ${email} — Resend ID: ${result.id}`);
     res.json({ success: true, id: result.id });
   } catch (err) {
-    console.error('[send-report]', err.message);
+    console.error('[send-report]', err);
     const status = err.code === 'NO_EMAIL_CONFIG' ? 503 : 502;
-    res.status(status).json({ error: err.message });
+    res.status(status).json({ error: IS_PROD ? 'Failed to send report email.' : err.message });
   }
 });
 
@@ -1554,8 +1626,7 @@ app.post('/api/vocab/upgrade', async (req, res) => {
     console.log(`[vocab-upgrade] ${result.upgrades.length} upgrades found, LR estimate: ${result.lrEstimate}`);
     res.json(result);
   } catch (err) {
-    console.error('[vocab-upgrade]', err.message);
-    res.status(502).json({ error: err.message });
+    safeErr(res, err, 'vocab-upgrade');
   }
 });
 
@@ -1595,8 +1666,7 @@ Check the student's use of this word and return your JSON assessment.`;
     }
     res.json(result);
   } catch (err) {
-    console.error('[vocab-practice]', err.message);
-    res.status(502).json({ error: err.message });
+    safeErr(res, err, 'vocab-practice');
   }
 });
 
@@ -1660,8 +1730,7 @@ app.post('/api/reading/analyze', async (req, res) => {
     const result = extractJSON(raw, 'reading-analyze');
     res.json(result);
   } catch (err) {
-    console.error('[reading-analyze]', err.message);
-    res.status(502).json({ error: err.message });
+    safeErr(res, err, 'reading-analyze');
   }
 });
 
@@ -1670,45 +1739,64 @@ app.post('/api/book-service', async (req, res) => {
   const { name, email, phone, service, target, message } = req.body;
   if (!name || !email) return res.status(400).json({ error: 'Name and email are required.' });
 
+  // Sanitize all fields before interpolating into HTML email templates
+  const safeName    = sanitizeInput(String(name),    100);
+  const safeEmail   = sanitizeInput(String(email),   200);
+  const safePhone   = sanitizeInput(String(phone   || ''), 30);
+  const safeService = sanitizeInput(String(service || ''), 200);
+  const safeTarget  = sanitizeInput(String(target  || ''), 100);
+  const safeMessage = sanitizeInput(String(message || ''), 2000);
+
   const adminEmail = process.env.ADMIN_EMAIL || 'ayoub.elhebaze@gmail.com';
 
   const adminHtml = `
     <div style="font-family:sans-serif;max-width:560px;margin:0 auto;padding:32px;background:#f9f9f9;border-radius:12px;">
       <h2 style="color:#1B2B4B;margin-bottom:8px;">New Booking Request</h2>
-      <p style="color:#C9952E;font-size:1.1rem;font-weight:700;margin-bottom:24px;">${service}</p>
+      <p style="color:#C9952E;font-size:1.1rem;font-weight:700;margin-bottom:24px;">${safeService}</p>
       <table style="width:100%;border-collapse:collapse;">
-        <tr><td style="padding:8px 0;color:#6B7280;font-size:14px;width:120px;">Name</td><td style="padding:8px 0;color:#1C1C2E;font-size:14px;font-weight:600;">${name}</td></tr>
-        <tr><td style="padding:8px 0;color:#6B7280;font-size:14px;">Email</td><td style="padding:8px 0;color:#1C1C2E;font-size:14px;"><a href="mailto:${email}">${email}</a></td></tr>
-        <tr><td style="padding:8px 0;color:#6B7280;font-size:14px;">Phone</td><td style="padding:8px 0;color:#1C1C2E;font-size:14px;">${phone || '—'}</td></tr>
-        <tr><td style="padding:8px 0;color:#6B7280;font-size:14px;">Target</td><td style="padding:8px 0;color:#1C1C2E;font-size:14px;">${target || '—'}</td></tr>
+        <tr><td style="padding:8px 0;color:#6B7280;font-size:14px;width:120px;">Name</td><td style="padding:8px 0;color:#1C1C2E;font-size:14px;font-weight:600;">${safeName}</td></tr>
+        <tr><td style="padding:8px 0;color:#6B7280;font-size:14px;">Email</td><td style="padding:8px 0;color:#1C1C2E;font-size:14px;"><a href="mailto:${safeEmail}">${safeEmail}</a></td></tr>
+        <tr><td style="padding:8px 0;color:#6B7280;font-size:14px;">Phone</td><td style="padding:8px 0;color:#1C1C2E;font-size:14px;">${safePhone || '—'}</td></tr>
+        <tr><td style="padding:8px 0;color:#6B7280;font-size:14px;">Target</td><td style="padding:8px 0;color:#1C1C2E;font-size:14px;">${safeTarget || '—'}</td></tr>
       </table>
-      ${message ? `<div style="margin-top:20px;padding:16px;background:#fff;border-radius:8px;border:1px solid #E8E4DC;"><p style="color:#6B7280;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.1em;">Message</p><p style="color:#1C1C2E;font-size:14px;line-height:1.7;white-space:pre-wrap;">${message}</p></div>` : ''}
-      <p style="margin-top:24px;font-size:13px;color:#9CA3AF;">Reply to <a href="mailto:${email}">${email}</a> to confirm booking and send payment details.</p>
+      ${safeMessage ? `<div style="margin-top:20px;padding:16px;background:#fff;border-radius:8px;border:1px solid #E8E4DC;"><p style="color:#6B7280;font-size:12px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.1em;">Message</p><p style="color:#1C1C2E;font-size:14px;line-height:1.7;white-space:pre-wrap;">${safeMessage}</p></div>` : ''}
+      <p style="margin-top:24px;font-size:13px;color:#9CA3AF;">Reply to <a href="mailto:${safeEmail}">${safeEmail}</a> to confirm booking and send payment details.</p>
     </div>`;
 
   const studentHtml = `
     <div style="font-family:sans-serif;max-width:560px;margin:0 auto;padding:32px;background:#f9f9f9;border-radius:12px;">
       <div style="margin-bottom:24px;"><span style="font-family:sans-serif;font-weight:900;font-size:16px;color:#1C1C2E;">IELTS<span style="color:#C9952E;">Lab</span></span></div>
       <h2 style="color:#1B2B4B;margin-bottom:8px;">We've received your booking!</h2>
-      <p style="color:#3D4451;line-height:1.7;margin-bottom:20px;">Hi ${name}, thanks for reaching out. We've received your request for <strong>${service}</strong> and will get back to you within a few hours with confirmation and payment details.</p>
+      <p style="color:#3D4451;line-height:1.7;margin-bottom:20px;">Hi ${safeName}, thanks for reaching out. We've received your request for <strong>${safeService}</strong> and will get back to you within a few hours with confirmation and payment details.</p>
       <div style="padding:16px;background:#fff;border-radius:8px;border:1px solid #E8E4DC;margin-bottom:24px;">
         <p style="color:#6B7280;font-size:12px;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.1em;">Your booking</p>
-        <p style="color:#1C1C2E;font-weight:700;font-size:15px;">${service}</p>
-        ${target ? `<p style="color:#6B7280;font-size:13px;margin-top:4px;">Target: ${target}</p>` : ''}
+        <p style="color:#1C1C2E;font-weight:700;font-size:15px;">${safeService}</p>
+        ${safeTarget ? `<p style="color:#6B7280;font-size:13px;margin-top:4px;">Target: ${safeTarget}</p>` : ''}
       </div>
       <p style="font-size:13px;color:#9CA3AF;line-height:1.6;">Questions? Just reply to this email. We're here to help.<br/>— The IELTS Lab Team</p>
     </div>`;
 
   try {
     await Promise.all([
-      sendEmail(adminEmail, `New Booking: ${service} — ${name}`, adminHtml),
-      sendEmail(email, 'Booking received — IELTS Lab', studentHtml),
+      sendEmail(adminEmail, `New Booking: ${safeService} — ${safeName}`, adminHtml),
+      sendEmail(safeEmail, 'Booking received — IELTS Lab', studentHtml),
     ]);
     res.json({ ok: true });
   } catch (err) {
-    console.error('[book-service]', err.message);
-    res.status(502).json({ error: err.message });
+    safeErr(res, err, 'book-service');
   }
+});
+
+// ── Global error handler ──────────────────────────────────────────────────────
+// Catches any error passed to next(err) or thrown in sync middleware.
+// Never leaks stack traces or internal paths to the client in production.
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, _next) => {
+  console.error('[unhandled]', err);
+  if (res.headersSent) return;
+  const status  = typeof err.status === 'number' ? err.status : 500;
+  const message = IS_PROD ? 'An unexpected error occurred.' : (err.message || String(err));
+  res.status(status).json({ error: message });
 });
 
 // ── Start ─────────────────────────────────────────────────────────────────────
