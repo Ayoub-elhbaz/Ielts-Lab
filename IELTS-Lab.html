@@ -218,7 +218,7 @@
     .nl-lab   { font-family:'Space Mono',monospace; font-size:13px; font-weight:700; letter-spacing:3px; color:var(--gold); margin-left:5px; padding-bottom:1px; filter:drop-shadow(0 0 8px rgba(201,149,46,0.5)); }
     .nl-flask { font-size:16px; margin-left:4px; }
     .nav-links { display:flex; gap:32px; list-style:none; }
-    .nav-links a { font-family:'DM Sans',sans-serif; font-size:11px; font-weight:300; letter-spacing:2.5px; text-transform:uppercase; color:rgba(200,216,255,0.45); text-decoration:none; transition:color 0.3s; }
+    .nav-links a { font-family:'DM Sans',sans-serif; font-size:11px; font-weight:400; letter-spacing:2.5px; text-transform:uppercase; color:rgba(238,244,255,0.90); text-decoration:none; transition:color 0.3s; }
     .nav-links a:hover { color:var(--gold); }
     .nav-cta { font-family:'DM Sans',sans-serif; font-size:10px; font-weight:400; letter-spacing:2px; text-transform:uppercase; padding:9px 22px; border-radius:2px; border:1px solid rgba(201,149,46,0.4); color:var(--gold); background:rgba(201,149,46,0.07); cursor:pointer; text-decoration:none; transition:all 0.3s; }
     .nav-cta:hover { background:rgba(201,149,46,0.15); border-color:var(--gold); }
@@ -2023,9 +2023,9 @@
       ];
       const scriptWords=Array.from({length:20},(_,i)=>({
         text:PHRASES[i%PHRASES.length],
-        x:rand(0.03,0.90),y:rand(0.05,0.68),
+        x:rand(0.03,0.90),y:rand(0.22,0.75),
         vy:rand(0.000055,0.00010),
-        alpha:rand(0.06,0.18),targetAlpha:rand(0.07,0.20),
+        alpha:rand(0.03,0.07),targetAlpha:rand(0.04,0.08),
         size:rand(11,19),life:rand(0,1),lifeSpeed:rand(0.00030,0.00080),
         gold:Math.random()>0.68,
       }));
@@ -2037,8 +2037,8 @@
           word.life+=word.lifeSpeed; word.y-=word.vy;
           const phase=(Math.sin(word.life*Math.PI*2)+1)/2;
           const a=phase*word.targetAlpha;
-          if(word.y<-0.06){
-            word.y=0.76+rand(0,0.14); word.x=rand(0.03,0.90);
+          if(word.y<0.18){
+            word.y=0.78+rand(0,0.12); word.x=rand(0.03,0.90);
             word.text=PHRASES[Math.floor(Math.random()*PHRASES.length)];
           }
           if(a<0.01) continue;
