@@ -291,18 +291,44 @@ function buildVerificationEmail(code) {
 }
 
 async function sendEmail(to, subject, html) {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) throw Object.assign(new Error('Email service not configured.'), { code: 'NO_EMAIL_CONFIG' });
-  const from    = `IELTS Lab <${process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev'}>`;
-  const replyTo = process.env.GMAIL_USER || undefined;
-  const r = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ from, to: [to], subject, html, ...(replyTo && { reply_to: replyTo }) }),
-  });
-  const body = await r.json().catch(() => ({}));
-  if (!r.ok) throw new Error(body.message || `Email error ${r.status}`);
-  return body;
+  const resendKey = process.env.RESEND_API_KEY;
+  const gmailUser = process.env.GMAIL_USER;
+  const gmailPass = process.env.GMAIL_PASS;
+
+  // Primary: Resend
+  if (resendKey) {
+    const from    = `IELTS Lab <${process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev'}>`;
+    const replyTo = gmailUser || undefined;
+    const r = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { 'Authorization': `Bearer ${resendKey}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ from, to: [to], subject, html, ...(replyTo && { reply_to: replyTo }) }),
+    });
+    const body = await r.json().catch(() => ({}));
+    if (!r.ok) throw new Error(body.message || `Resend error ${r.status}`);
+    return body;
+  }
+
+  // Fallback: Gmail SMTP via nodemailer
+  if (gmailUser && gmailPass) {
+    const nodemailer = await import('nodemailer');
+    const transporter = nodemailer.default.createTransport({
+      service: 'gmail',
+      auth: { user: gmailUser, pass: gmailPass },
+    });
+    const info = await transporter.sendMail({
+      from: `IELTS Lab <${gmailUser}>`,
+      to,
+      subject,
+      html,
+    });
+    return { id: info.messageId };
+  }
+
+  throw Object.assign(
+    new Error('Email service not configured. Set RESEND_API_KEY or GMAIL_USER + GMAIL_PASS in .env'),
+    { code: 'NO_EMAIL_CONFIG' }
+  );
 }
 
 // POST /api/auth/send-verification ───────────────────────────────────────────

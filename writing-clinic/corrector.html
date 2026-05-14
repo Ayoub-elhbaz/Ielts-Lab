@@ -683,150 +683,253 @@
       }
       const r   = lastResult;
       const doc = new window.jspdf.jsPDF({ unit: 'mm', format: 'a4' });
-      const PW  = 210, PH = 297, M = 18, CW = 210 - 18 * 2;
+
+      const PW = 210, PH = 297, ML = 18, MR = 18;
+      const CW = PW - ML - MR;
       let y = 0;
 
-      const NAVY  = [15, 30, 60];
-      const GOLD  = [201, 168, 76];
-      const TEXT  = [26, 26, 46];
-      const MUTED = [107, 114, 128];
-      const CREAM = [250, 247, 242];
+      // Palette — matches the site's navy/gold theme
+      const NAVY   = [13, 27, 62];
+      const GOLD   = [201, 149, 46];
+      const WHITE  = [255, 255, 255];
+      const TEXT   = [26, 26, 46];
+      const MUTED  = [100, 112, 132];
+      const LIGHT  = [240, 244, 252];
+      const CREAM  = [250, 247, 242];
+      const GREEN  = [16, 140, 90];
+      const AMBER  = [180, 120, 20];
 
-      function sf(style, size, color = TEXT) {
+      function sf(style, size, color) {
         doc.setFont('helvetica', style);
         doc.setFontSize(size);
-        doc.setTextColor(...color);
+        doc.setTextColor(...(color || TEXT));
       }
-      function chk(needed = 20) {
-        if (y + needed > PH - 14) { doc.addPage(); y = M; }
+      function chk(needed) {
+        if (y + (needed || 20) > PH - 18) { doc.addPage(); y = 28; }
       }
-      function wrap(text, x, maxW, lineH = 5.5, style = 'normal', size = 9.5, color = TEXT) {
-        sf(style, size, color);
+      function wrap(text, x, maxW, lineH, style, size, color) {
+        lineH = lineH || 5.2; style = style || 'normal'; size = size || 9.5;
+        sf(style, size, color || TEXT);
         const lines = doc.splitTextToSize(String(text || ''), maxW);
-        chk(lines.length * lineH + 4);
+        chk(lines.length * lineH + 2);
         doc.text(lines, x, y);
         y += lines.length * lineH;
       }
-      function secHead(title) {
+      function secLabel(title) {
         chk(14);
-        y += 3;
-        doc.setFillColor(240, 244, 255);
-        doc.rect(M - 2, y - 5, CW + 4, 8, 'F');
-        sf('bold', 8, NAVY);
-        doc.text(title.toUpperCase(), M, y);
-        y += 6;
+        y += 5;
+        sf('bold', 7, MUTED);
+        doc.text(title, ML, y);
+        y += 2.5;
+        doc.setDrawColor(...GOLD);
+        doc.setLineWidth(0.7);
+        doc.line(ML, y, ML + doc.getTextWidth(title) + 6, y);
+        y += 5;
       }
 
-      // ── Header bar ──
+      // ── HEADER ──────────────────────────────────────────────────────────────
       doc.setFillColor(...NAVY);
-      doc.rect(0, 0, PW, 26, 'F');
-      sf('bold', 17, GOLD);
-      doc.text('IELTS Lab', M, 12);
-      sf('normal', 8, [200, 210, 230]);
-      doc.text('AI Writing Corrector — Feedback Report', M, 19);
-      sf('normal', 7.5, [170, 185, 210]);
-      doc.text(`${r.taskType || 'Essay'} · ${r.essayType || ''}`, PW - M, 19, { align: 'right' });
-      y = 34;
+      doc.rect(0, 0, PW, 32, 'F');
+      // Gold rule under header
+      doc.setFillColor(...GOLD);
+      doc.rect(0, 32, PW, 1, 'F');
+      sf('bold', 18, WHITE);
+      doc.text('IELTS Lab', ML, 13);
+      sf('normal', 7.5, [190, 210, 240]);
+      doc.text('AI Writing Corrector — Feedback Report', ML, 21);
+      const taskStr = [r.taskType, r.essayType].filter(Boolean).join(' — ');
+      sf('normal', 7, [160, 185, 220]);
+      doc.text(taskStr, PW - MR, 21, { align: 'right' });
+      sf('normal', 6.5, [130, 160, 200]);
+      doc.text(new Date().toLocaleDateString('en-GB', { day:'2-digit', month:'long', year:'numeric' }), PW - MR, 28, { align: 'right' });
+      y = 44;
 
-      // ── Overall band ──
-      doc.setFillColor(240, 244, 255);
-      doc.roundedRect(M, y, CW, 20, 3, 3, 'F');
-      sf('bold', 7.5, MUTED);
-      doc.text('OVERALL BAND', M + 6, y + 5);
-      sf('bold', 26, NAVY);
-      doc.text(String(r.scores?.overall || '—'), M + 6, y + 16);
-      sf('normal', 8, MUTED);
-      const wcTxt = `${r.wordCount || '—'} words  ·  ${r.wordCountStatus?.includes('PASS') ? '✓ Meets minimum' : '⚠ Under minimum'}`;
-      doc.text(wcTxt, PW - M, y + 16, { align: 'right' });
-      y += 28;
+      // ── OVERALL BAND PANEL ───────────────────────────────────────────────────
+      doc.setFillColor(...LIGHT);
+      doc.setDrawColor(210, 220, 242);
+      doc.setLineWidth(0.3);
+      doc.roundedRect(ML, y, CW, 26, 3, 3, 'FD');
+      // Left gold bar
+      doc.setFillColor(...GOLD);
+      doc.roundedRect(ML, y, 3, 26, 1.5, 1.5, 'F');
+      sf('bold', 7, MUTED);
+      doc.text('OVERALL BAND SCORE', ML + 8, y + 7);
+      sf('bold', 28, NAVY);
+      doc.text(String(r.scores?.overall || '--'), ML + 8, y + 20);
+      const wcOk = !r.underMinimum;
+      sf('normal', 8, wcOk ? GREEN : AMBER);
+      doc.text(
+        `${r.wordCount || '--'} words  |  ${wcOk ? 'Meets word count' : `${r.minWords - r.wordCount} words short`}`,
+        PW - MR, y + 13, { align: 'right' }
+      );
+      sf('normal', 7.5, MUTED);
+      doc.text(taskStr, PW - MR, y + 21, { align: 'right' });
+      y += 36;
 
-      // ── Criteria grid ──
+      // ── CRITERIA BREAKDOWN ───────────────────────────────────────────────────
+      sf('bold', 7, MUTED);
+      doc.text('BAND BREAKDOWN BY CRITERION', ML, y);
+      y += 5;
+
       const ckeys = [
         { key: 'taskAchievement',   abbr: 'TA',  label: 'Task Achievement'     },
         { key: 'coherenceCohesion', abbr: 'CC',  label: 'Coherence & Cohesion' },
         { key: 'lexicalResource',   abbr: 'LR',  label: 'Lexical Resource'     },
         { key: 'grammaticalRange',  abbr: 'GRA', label: 'Grammar & Accuracy'   },
       ];
-      const cW2 = CW / 2 - 3;
+      const cW2 = (CW - 6) / 2;
+      const cH  = 22;
+
       ckeys.forEach((c, i) => {
-        const sv   = r.scores?.[c.key];
-        const band = (sv && typeof sv === 'object') ? sv.band : (sv ?? '—');
-        const lbl  = (r.scoreLabels?.[c.key] || '').slice(0, 44);
-        const cx   = M + (i % 2) * (cW2 + 6);
-        const cy   = y + Math.floor(i / 2) * 20;
+        const sv    = r.scores?.[c.key];
+        const band  = (sv && typeof sv === 'object') ? sv.band : (sv ?? '--');
+        const lbl   = (r.scoreLabels?.[c.key] || '').slice(0, 38);
+        const cx    = ML + (i % 2) * (cW2 + 6);
+        const cy    = y + Math.floor(i / 2) * (cH + 4);
+
         doc.setFillColor(...CREAM);
-        doc.setDrawColor(229, 224, 216);
-        doc.roundedRect(cx, cy, cW2, 17, 2, 2, 'FD');
-        sf('bold', 7.5, MUTED);
-        doc.text(`${c.abbr} — ${c.label}`, cx + 4, cy + 5);
-        sf('bold', 13, NAVY);
-        doc.text(String(band), cx + 4, cy + 13);
-        if (lbl) { sf('normal', 6.5, MUTED); doc.text(lbl + (r.scoreLabels?.[c.key]?.length > 44 ? '…' : ''), cx + 14, cy + 13); }
+        doc.setDrawColor(220, 215, 205);
+        doc.setLineWidth(0.25);
+        doc.roundedRect(cx, cy, cW2, cH, 2, 2, 'FD');
+        // Gold left accent
+        doc.setFillColor(...GOLD);
+        doc.rect(cx, cy, 2.5, cH, 'F');
+
+        sf('bold', 6.5, MUTED);
+        doc.text(`${c.abbr}  ${c.label.toUpperCase()}`, cx + 7, cy + 6);
+        sf('bold', 14, NAVY);
+        doc.text(String(band), cx + 7, cy + 16);
+        if (lbl) {
+          sf('normal', 6, MUTED);
+          doc.text(lbl + (r.scoreLabels?.[c.key]?.length > 38 ? '...' : ''), cx + 18, cy + 16);
+        }
+
+        // v2 evidence bullets
+        if (sv && typeof sv === 'object') {
+          const pos = (sv.positiveEvidence || []).slice(0, 1);
+          const neg = (sv.negativeEvidence || []).slice(0, 1);
+          let ey = cy + cH + 2;
+          pos.forEach(q => {
+            const ql = doc.splitTextToSize(`+ "${q}"`, cW2 - 4);
+            sf('normal', 6, GREEN);
+            doc.text(ql, cx + 4, ey);
+            ey += ql.length * 3.8;
+          });
+          neg.forEach(q => {
+            const ql = doc.splitTextToSize(`- "${q}"`, cW2 - 4);
+            sf('normal', 6, [180, 60, 60]);
+            doc.text(ql, cx + 4, ey);
+          });
+        }
       });
-      y += 45;
+      y += (cH + 4) * 2 + 8;
 
-      // ── Strengths ──
-      if (r.strengths) { secHead('✅ What You Did Well'); wrap(r.strengths, M, CW); y += 5; }
-
-      // ── Examiner Note ──
-      if (r.examinerNote) {
-        secHead('📋 Examiner Note');
-        const lines = doc.splitTextToSize(r.examinerNote, CW - 10);
-        const bH    = lines.length * 5.5 + 10;
-        chk(bH + 4);
-        doc.setFillColor(240, 244, 255);
-        doc.rect(M, y, 3, bH, 'F');
-        doc.setFillColor(245, 247, 255);
-        doc.rect(M + 3, y, CW - 3, bH, 'F');
-        sf('normal', 9.5, TEXT);
-        doc.text(lines, M + 7, y + 6);
-        y += bH + 5;
+      // ── STRENGTHS ────────────────────────────────────────────────────────────
+      if (r.strengths) {
+        secLabel('WHAT YOU DID WELL');
+        wrap(r.strengths, ML, CW);
+        y += 4;
       }
 
-      // ── Next Steps ──
+      // ── AREAS FOR IMPROVEMENT ─────────────────────────────────────────────────
+      if (r.improvements) {
+        secLabel('AREAS FOR IMPROVEMENT');
+        wrap(r.improvements, ML, CW);
+        y += 4;
+      }
+
+      // ── EXAMINER NOTE ─────────────────────────────────────────────────────────
+      if (r.examinerNote) {
+        secLabel('EXAMINER\'S NOTE');
+        const lines = doc.splitTextToSize(String(r.examinerNote), CW - 12);
+        const bH    = lines.length * 5.2 + 12;
+        chk(bH + 4);
+        doc.setFillColor(...LIGHT);
+        doc.rect(ML, y, CW, bH, 'F');
+        doc.setFillColor(...NAVY);
+        doc.rect(ML, y, 3, bH, 'F');
+        sf('normal', 9.5, TEXT);
+        doc.text(lines, ML + 8, y + 7);
+        y += bH + 6;
+      }
+
+      // ── NEXT STEPS ────────────────────────────────────────────────────────────
       if (r.nextSteps) {
-        secHead('🎯 Your Next Steps');
-        const steps = Array.isArray(r.nextSteps) ? r.nextSteps : [];
-        steps.forEach((s, i) => {
-          const task = s.task || String(s);
-          chk(10);
-          sf('bold', 9.5, NAVY);
-          doc.text(`${i + 1}.`, M, y);
-          wrap(task, M + 6, CW - 6);
-          if (s.descriptorTarget) {
-            const dt = s.descriptorTarget.slice(0, 90);
-            chk(6);
-            sf('italic', 7.5, MUTED);
-            doc.text(`"${dt}${s.descriptorTarget.length > 90 ? '…' : ''}"`, M + 6, y);
-            y += 4.5;
-          }
-          y += 2;
-        });
+        secLabel('YOUR NEXT STEPS');
+        // nextSteps may be a string ("1. ... 2. ... 3. ...") or an array
+        const stepsRaw = r.nextSteps;
+        if (Array.isArray(stepsRaw)) {
+          stepsRaw.forEach((s, i) => {
+            const task = s.task || String(s);
+            chk(14);
+            doc.setFillColor(...NAVY);
+            doc.circle(ML + 3.5, y - 1.2, 3.2, 'F');
+            sf('bold', 7.5, WHITE);
+            doc.text(String(i + 1), ML + 3.5, y - 0.5, { align: 'center' });
+            wrap(task, ML + 10, CW - 10);
+            if (s.descriptorTarget) {
+              chk(6);
+              sf('italic', 7.5, MUTED);
+              const dl = doc.splitTextToSize(`"${s.descriptorTarget.slice(0, 100)}${s.descriptorTarget.length > 100 ? '...' : ''}"`, CW - 10);
+              doc.text(dl, ML + 10, y);
+              y += dl.length * 4.5;
+            }
+            y += 3;
+          });
+        } else {
+          // String format — render as wrapped paragraph
+          wrap(String(stepsRaw), ML, CW);
+        }
         y += 3;
       }
 
-      // ── Resubmit Challenge ──
+      // ── RESUBMIT CHALLENGE ────────────────────────────────────────────────────
       if (r.resubmitChallenge) {
-        secHead('🔄 Resubmit Challenge');
-        const lines = doc.splitTextToSize(r.resubmitChallenge, CW - 10);
-        const bH    = lines.length * 5.5 + 10;
-        chk(bH + 4);
-        doc.setFillColor(255, 248, 237);
+        secLabel('RESUBMIT CHALLENGE');
+        const lines = doc.splitTextToSize(String(r.resubmitChallenge), CW - 12);
+        const bH    = lines.length * 5.2 + 14;
+        chk(bH + 6);
+        doc.setFillColor(255, 249, 235);
         doc.setDrawColor(...GOLD);
-        doc.setLineWidth(0.4);
-        doc.roundedRect(M, y, CW, bH, 2, 2, 'FD');
+        doc.setLineWidth(0.5);
+        doc.roundedRect(ML, y, CW, bH, 2, 2, 'FD');
+        sf('bold', 6.5, GOLD);
+        doc.text('CHALLENGE', ML + 6, y + 7);
         sf('normal', 9.5, TEXT);
-        doc.text(lines, M + 5, y + 6);
-        y += bH + 5;
+        doc.text(lines, ML + 6, y + 12);
+        y += bH + 6;
       }
 
-      // ── Footer on every page ──
+      // ── ANNOTATED ESSAY (stripped of emoji markers) ───────────────────────────
+      if (r.annotatedEssay) {
+        chk(20);
+        secLabel('YOUR ESSAY WITH CORRECTIONS');
+        // Strip emoji markers and replace with text tags
+        const cleaned = String(r.annotatedEssay)
+          .replace(/⚠️/g, '[G]')
+          .replace(/💡/g, '[V]')
+          .replace(/🔗/g, '[C]')
+          .replace(/[^\x00-\x7F]/g, '');
+        wrap(cleaned, ML, CW, 5.0, 'normal', 8.5, [50, 55, 75]);
+        y += 4;
+        // Legend
+        chk(10);
+        sf('normal', 6.5, MUTED);
+        doc.text('[G] = Grammar   [V] = Vocabulary   [C] = Coherence/Cohesion', ML, y);
+        y += 5;
+      }
+
+      // ── FOOTER on every page ──────────────────────────────────────────────────
       const total = doc.getNumberOfPages();
       for (let p = 1; p <= total; p++) {
         doc.setPage(p);
-        sf('normal', 7, MUTED);
-        doc.text(`IELTS Lab AI Report  ·  Page ${p} of ${total}`, PW / 2, PH - 8, { align: 'center' });
-        doc.text(new Date().toLocaleDateString('en-GB'), M, PH - 8);
+        doc.setDrawColor(...GOLD);
+        doc.setLineWidth(0.3);
+        doc.line(ML, PH - 14, PW - MR, PH - 14);
+        sf('normal', 6.5, MUTED);
+        doc.text('IELTS Lab — AI Writing Corrector', ML, PH - 9);
+        doc.text(`Page ${p} of ${total}`, PW / 2, PH - 9, { align: 'center' });
+        doc.text(new Date().toLocaleDateString('en-GB'), PW - MR, PH - 9, { align: 'right' });
       }
 
       doc.save(`IELTS-Lab-Report-Band-${r.scores?.overall ?? 'X'}.pdf`);
