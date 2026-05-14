@@ -501,7 +501,7 @@ app.post('/api/auth/send-verification', async (req, res) => {
 const codeAttempts = new Map(); // email → { count, resetAt }
 
 // POST /api/auth/verify-code ─────────────────────────────────────────────────
-app.post('/api/auth/verify-code', (req, res) => {
+app.post('/api/auth/verify-code', async (req, res) => {
   const { email, code } = req.body;
   if (!email || !code) return res.status(400).json({ error: 'Email and code are required.' });
 
