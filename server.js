@@ -68,7 +68,9 @@ app.use(helmet({
         'https://cdn.tailwindcss.com',
         'https://accounts.google.com',
         'https://apis.google.com',
+        'https://cdnjs.cloudflare.com',
       ],
+      scriptSrcAttr: ["'unsafe-inline'"], // required for onclick= and other inline handlers
       styleSrc: [
         "'self'",
         "'unsafe-inline'",            // Tailwind CDN and inline <style> blocks
