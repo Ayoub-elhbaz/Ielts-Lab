@@ -23,6 +23,69 @@ import rateLimit     from 'express-rate-limit';
 import path          from 'path';
 import { fileURLToPath } from 'url';
 import { jsonrepair } from 'jsonrepair';
+import pkg           from 'pg';
+import Stripe        from 'stripe';
+
+const { Pool } = pkg;
+
+// ── Database ──────────────────────────────────────────────────────────────────
+const db = process.env.DATABASE_URL ? new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { rejectUnauthorized: false },
+}) : null;
+
+async function initDB() {
+  if (!db) return;
+  await db.query(`
+    CREATE TABLE IF NOT EXISTS users (
+      id SERIAL PRIMARY KEY,
+      email TEXT UNIQUE NOT NULL,
+      name TEXT,
+      created_at TIMESTAMPTZ DEFAULT NOW()
+    );
+    CREATE TABLE IF NOT EXISTS subscriptions (
+      id SERIAL PRIMARY KEY,
+      user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+      stripe_customer_id TEXT,
+      stripe_subscription_id TEXT,
+      plan TEXT DEFAULT 'free',
+      status TEXT DEFAULT 'active',
+      current_period_end TIMESTAMPTZ,
+      created_at TIMESTAMPTZ DEFAULT NOW()
+    );
+    CREATE TABLE IF NOT EXISTS credits (
+      id SERIAL PRIMARY KEY,
+      user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+      balance INTEGER DEFAULT 0,
+      updated_at TIMESTAMPTZ DEFAULT NOW()
+    );
+    CREATE TABLE IF NOT EXISTS free_usage (
+      id SERIAL PRIMARY KEY,
+      user_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
+      month TEXT NOT NULL,
+      corrections_used INTEGER DEFAULT 0,
+      UNIQUE(user_id, month)
+    );
+  `);
+  console.log('[db] Schema ready');
+}
+initDB().catch(err => console.error('[db] Init failed:', err.message));
+
+// ── Stripe ────────────────────────────────────────────────────────────────────
+const stripe = process.env.STRIPE_SECRET_KEY
+  ? new Stripe(process.env.STRIPE_SECRET_KEY)
+  : null;
+
+// Price IDs — set these after creating products in Stripe dashboard
+const STRIPE_PRICES = {
+  pro_monthly:  process.env.STRIPE_PRICE_PRO_MONTHLY,   // $19/month subscription
+  credits_10:   process.env.STRIPE_PRICE_CREDITS_10,    // $12 one-time
+  credits_25:   process.env.STRIPE_PRICE_CREDITS_25,    // $25 one-time
+  credits_50:   process.env.STRIPE_PRICE_CREDITS_50,    // $45 one-time
+};
+
+const CREDIT_AMOUNTS = { credits_10: 10, credits_25: 25, credits_50: 50 };
+const FREE_CORRECTIONS_PER_MONTH = 3;
 
 const MAX_TOKENS_PASS1 = 8000;
 const MAX_TOKENS_PASS2 = 5000;  // P1-B: raised from 3000 — prevents evidence truncation
@@ -257,6 +320,80 @@ function snapScores(scores) {
   return scores;
 }
 
+// ── DB helpers ────────────────────────────────────────────────────────────────
+async function getOrCreateUser(email, name) {
+  if (!db) return null;
+  const norm = email.toLowerCase().trim();
+  let res = await db.query('SELECT id, email, name FROM users WHERE email=$1', [norm]);
+  if (res.rows.length === 0) {
+    res = await db.query(
+      'INSERT INTO users (email, name) VALUES ($1,$2) ON CONFLICT (email) DO UPDATE SET name=COALESCE(EXCLUDED.name,users.name) RETURNING id,email,name',
+      [norm, name || null]
+    );
+    // Create default free subscription + credits row
+    const uid = res.rows[0].id;
+    await db.query(
+      'INSERT INTO subscriptions (user_id,plan,status) VALUES ($1,\'free\',\'active\') ON CONFLICT DO NOTHING',
+      [uid]
+    );
+    await db.query(
+      'INSERT INTO credits (user_id,balance) VALUES ($1,0) ON CONFLICT DO NOTHING',
+      [uid]
+    );
+  }
+  return res.rows[0];
+}
+
+async function getUserPlan(email) {
+  if (!db) return { plan: 'free', credits: 0, corrections_used: 0 };
+  const norm = email.toLowerCase().trim();
+  const res = await db.query(`
+    SELECT u.id, s.plan, s.status, s.current_period_end,
+           COALESCE(c.balance,0) AS credits,
+           COALESCE(fu.corrections_used,0) AS corrections_used
+    FROM users u
+    LEFT JOIN subscriptions s ON s.user_id=u.id
+    LEFT JOIN credits c ON c.user_id=u.id
+    LEFT JOIN free_usage fu ON fu.user_id=u.id AND fu.month=to_char(NOW(),'YYYY-MM')
+    WHERE u.email=$1
+    ORDER BY s.id DESC LIMIT 1
+  `, [norm]);
+  if (res.rows.length === 0) return { plan: 'free', credits: 0, corrections_used: 0 };
+  const row = res.rows[0];
+  const active = row.plan === 'pro' && row.status === 'active' &&
+    (!row.current_period_end || new Date(row.current_period_end) > new Date());
+  return {
+    plan: active ? 'pro' : 'free',
+    credits: Number(row.credits),
+    corrections_used: Number(row.corrections_used),
+    user_id: row.id,
+  };
+}
+
+async function checkCorrectionAccess(email) {
+  const p = await getUserPlan(email);
+  if (p.plan === 'pro') return { allowed: true, reason: 'pro' };
+  if (p.credits > 0)    return { allowed: true, reason: 'credits', ...p };
+  if (p.corrections_used < FREE_CORRECTIONS_PER_MONTH)
+                         return { allowed: true, reason: 'free', ...p };
+  return { allowed: false, plan: p.plan, credits: p.credits, corrections_used: p.corrections_used };
+}
+
+async function consumeCorrection(email) {
+  if (!db) return;
+  const p = await getUserPlan(email);
+  if (p.plan === 'pro') return;
+  if (p.credits > 0) {
+    await db.query('UPDATE credits SET balance=balance-1,updated_at=NOW() WHERE user_id=$1', [p.user_id]);
+    return;
+  }
+  const month = new Date().toISOString().slice(0, 7);
+  await db.query(`
+    INSERT INTO free_usage (user_id,month,corrections_used) VALUES ($1,$2,1)
+    ON CONFLICT (user_id,month) DO UPDATE SET corrections_used=free_usage.corrections_used+1
+  `, [p.user_id, month]);
+}
+
 // ── Email verification store (in-memory, 10-min TTL) ─────────────────────────
 const verificationStore = new Map(); // email → { code, expiresAt }
 setInterval(() => {
@@ -335,7 +472,7 @@ async function sendEmail(to, subject, html) {
 
 // POST /api/auth/send-verification ───────────────────────────────────────────
 app.post('/api/auth/send-verification', async (req, res) => {
-  const { email } = req.body;
+  const { email, name } = req.body;
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return res.status(400).json({ error: 'A valid email address is required.' });
   }
@@ -344,6 +481,7 @@ app.post('/api/auth/send-verification', async (req, res) => {
   // Store code with IP binding — the same IP must verify it (replay guard).
   verificationStore.set(email.toLowerCase(), {
     code,
+    name: name || null,
     expiresAt: Date.now() + 10 * 60 * 1000,
     issuedTo:  requestIp,
     used:      false,
@@ -414,8 +552,117 @@ app.post('/api/auth/verify-code', (req, res) => {
   verificationStore.delete(emailKey);
   codeAttempts.delete(emailKey);
   console.log(`[verify-code] Verified: ${emailKey} from ${requestIp}`);
-  res.json({ success: true });
+
+  // Upsert user in DB and return plan info
+  const name = record.name || null;
+  const user = await getOrCreateUser(emailKey, name).catch(() => null);
+  const planInfo = user ? await getUserPlan(emailKey).catch(() => null) : null;
+  res.json({ success: true, plan: planInfo?.plan || 'free', credits: planInfo?.credits || 0 });
 });
+
+// ════════════════════════════════════════════════════════════════════════════
+//  PLAN & BILLING ROUTES
+// ════════════════════════════════════════════════════════════════════════════
+
+// GET /api/billing/plan — returns current user's plan, credits, usage
+app.get('/api/billing/plan', async (req, res) => {
+  const email = req.query.email;
+  if (!email) return res.status(400).json({ error: 'email required' });
+  try {
+    const info = await getUserPlan(email);
+    res.json(info);
+  } catch (err) {
+    res.status(500).json({ error: 'Could not fetch plan info' });
+  }
+});
+
+// POST /api/billing/checkout — create Stripe Checkout session
+app.post('/api/billing/checkout', async (req, res) => {
+  if (!stripe) return res.status(503).json({ error: 'Payments not configured.' });
+  const { email, price_key } = req.body; // price_key: 'pro_monthly' | 'credits_10' | 'credits_25' | 'credits_50'
+  if (!email || !price_key || !STRIPE_PRICES[price_key]) {
+    return res.status(400).json({ error: 'email and valid price_key required' });
+  }
+  const isSubscription = price_key === 'pro_monthly';
+  try {
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      customer_email: email,
+      line_items: [{ price: STRIPE_PRICES[price_key], quantity: 1 }],
+      mode: isSubscription ? 'subscription' : 'payment',
+      success_url: `${process.env.APP_URL || 'https://ieltslab.io'}/billing-success.html?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url:  `${process.env.APP_URL || 'https://ieltslab.io'}/pricing.html`,
+      metadata: { email, price_key },
+      allow_promotion_codes: true,
+    });
+    res.json({ url: session.url });
+  } catch (err) {
+    console.error('[checkout]', err.message);
+    res.status(500).json({ error: 'Could not create checkout session.' });
+  }
+});
+
+// POST /api/billing/webhook — Stripe webhook (raw body required)
+app.post('/api/billing/webhook',
+  express.raw({ type: 'application/json' }),
+  async (req, res) => {
+    if (!stripe) return res.sendStatus(400);
+    const sig = req.headers['stripe-signature'];
+    let event;
+    try {
+      event = stripe.webhooks.constructEvent(req.body, sig, process.env.STRIPE_WEBHOOK_SECRET);
+    } catch (err) {
+      console.error('[webhook] Signature verify failed:', err.message);
+      return res.status(400).send(`Webhook Error: ${err.message}`);
+    }
+
+    const session = event.data.object;
+
+    if (event.type === 'checkout.session.completed') {
+      const email    = session.metadata?.email;
+      const priceKey = session.metadata?.price_key;
+      if (!email || !db) return res.sendStatus(200);
+
+      const user = await getOrCreateUser(email).catch(() => null);
+      if (!user) return res.sendStatus(200);
+
+      if (priceKey === 'pro_monthly') {
+        // Subscription — update or insert subscription row
+        await db.query(`
+          INSERT INTO subscriptions (user_id, stripe_customer_id, stripe_subscription_id, plan, status, current_period_end)
+          VALUES ($1,$2,$3,'pro','active', NOW() + INTERVAL '1 month')
+          ON CONFLICT DO NOTHING
+        `, [user.id, session.customer, session.subscription]);
+        await db.query(
+          `UPDATE subscriptions SET plan='pro', status='active', stripe_customer_id=$2,
+           stripe_subscription_id=$3, current_period_end=NOW()+INTERVAL '1 month'
+           WHERE user_id=$1`,
+          [user.id, session.customer, session.subscription]
+        );
+        console.log(`[webhook] Pro activated for ${email}`);
+      } else if (CREDIT_AMOUNTS[priceKey]) {
+        // Credits — top up balance
+        const amount = CREDIT_AMOUNTS[priceKey];
+        await db.query(
+          `INSERT INTO credits (user_id, balance) VALUES ($1,$2)
+           ON CONFLICT (user_id) DO UPDATE SET balance=credits.balance+$2, updated_at=NOW()`,
+          [user.id, amount]
+        );
+        console.log(`[webhook] +${amount} credits for ${email}`);
+      }
+    }
+
+    if (event.type === 'customer.subscription.deleted' || event.type === 'customer.subscription.updated') {
+      const sub = event.data.object;
+      await db?.query(
+        `UPDATE subscriptions SET status=$1, current_period_end=$2 WHERE stripe_subscription_id=$3`,
+        [sub.status, new Date(sub.current_period_end * 1000), sub.id]
+      );
+    }
+
+    res.sendStatus(200);
+  }
+);
 
 // ── Shared: safely extract + parse JSON from AI response ─────────────────────
 function extractJSON(rawText, passLabel) {
@@ -989,10 +1236,23 @@ function detectEssayTypeFromPrompt(taskLabel, question) {
 
 // ── POST /api/correct-essay-v2 ────────────────────────────────────────────────
 app.post('/api/correct-essay-v2', async (req, res) => {
-  const { taskLabel, essay, question, image, imageType } = req.body;
+  const { taskLabel, essay, question, image, imageType, email } = req.body;
 
   if (!essay || typeof essay !== 'string' || !essay.trim()) {
     return res.status(400).json({ error: 'Essay text is required.' });
+  }
+
+  // Access control — check plan/credits/free quota
+  if (db && email) {
+    const access = await checkCorrectionAccess(email).catch(() => null);
+    if (access && !access.allowed) {
+      return res.status(402).json({
+        error: 'upgrade_required',
+        message: `You've used all ${FREE_CORRECTIONS_PER_MONTH} free corrections this month. Upgrade to continue.`,
+        corrections_used: access.corrections_used,
+        credits: access.credits,
+      });
+    }
   }
 
   const essayTrimmed  = sanitizeInput(essay, 12000);
@@ -1197,6 +1457,11 @@ app.post('/api/correct-essay-v2', async (req, res) => {
       resubmitChallenge:  pass3.resubmitChallenge,
       signature:          pass3.signature,
     };
+
+    // Deduct credit / increment free usage after successful correction
+    if (db && email) {
+      await consumeCorrection(email).catch(e => console.error('[consume]', e.message));
+    }
 
     res.json(result);
 

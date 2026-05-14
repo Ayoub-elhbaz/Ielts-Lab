@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pricing — IELTS Lab</title>
+  <script>(function(){ var t=localStorage.getItem('ieltslab_theme')||'dark'; document.documentElement.setAttribute('data-theme',t); })();</script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@700,500&f[]=plus-jakarta-sans@400,500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #C9952E; --gold-light: #DDB05A; --gold-dim: rgba(201,149,46,0.10);
+      --gold-border: rgba(201,149,46,0.22); --navy: #0d2b4e; --white: #EEF4FF;
+      --bg: #0d1117; --card: #161b22; --border: rgba(255,255,255,0.07);
+    }
+    html[data-theme="light"] { --bg:#f5f7fa; --card:#fff; --border:rgba(0,0,0,0.08); }
+    body { background:var(--bg); color:var(--white); font-family:'Plus Jakarta Sans',sans-serif; }
+    html[data-theme="light"] body { color:#1a1a2e; }
+    .plan-card { background:var(--card); border:1px solid var(--border); border-radius:1.25rem; padding:2rem; transition:.2s; }
+    .plan-card:hover { border-color:var(--gold-border); box-shadow:0 0 32px rgba(201,149,46,0.08); }
+    .plan-card.featured { border-color:var(--gold-border); box-shadow:0 0 40px rgba(201,149,46,0.12); }
+    .gold { color:var(--gold-light); }
+    .btn-gold { background:linear-gradient(135deg,var(--gold),var(--gold-light)); color:#0d0f14; font-weight:700; border-radius:.75rem; padding:.75rem 1.5rem; transition:.2s; cursor:pointer; border:none; width:100%; font-size:.95rem; }
+    .btn-gold:hover { transform:translateY(-1px); box-shadow:0 8px 24px rgba(201,149,46,0.3); }
+    .btn-outline { background:transparent; color:var(--gold-light); font-weight:600; border-radius:.75rem; padding:.75rem 1.5rem; border:1.5px solid var(--gold-border); transition:.2s; cursor:pointer; width:100%; font-size:.95rem; }
+    .btn-outline:hover { background:var(--gold-dim); }
+    .badge { background:linear-gradient(135deg,var(--gold),var(--gold-light)); color:#0d0f14; font-size:.7rem; font-weight:700; padding:.2rem .6rem; border-radius:999px; text-transform:uppercase; letter-spacing:.04em; }
+    .check { color:#2affd6; margin-right:.5rem; }
+    .muted { opacity:.55; }
+    .divider { border:none; border-top:1px solid var(--border); margin:2rem 0; }
+  </style>
+</head>
+<body>
+  <div id="header-container"></div>
+
+  <main class="max-w-6xl mx-auto px-6 py-16">
+
+    <!-- Hero -->
+    <div class="text-center mb-14">
+      <h1 class="text-4xl font-bold mb-4" style="font-family:Satoshi,sans-serif">Simple, Honest Pricing</h1>
+      <p class="muted text-lg">Start free. Upgrade when you need more.</p>
+    </div>
+
+    <!-- Plans grid -->
+    <div class="grid md:grid-cols-3 gap-6 mb-16">
+
+      <!-- Free -->
+      <div class="plan-card">
+        <div class="mb-6">
+          <p class="text-sm font-semibold muted uppercase tracking-widest mb-2">Free</p>
+          <div class="flex items-end gap-1 mb-1">
+            <span class="text-4xl font-bold" style="font-family:Satoshi,sans-serif">$0</span>
+          </div>
+          <p class="muted text-sm">Forever free</p>
+        </div>
+        <ul class="space-y-3 text-sm mb-8">
+          <li><span class="check">✓</span>3 essay corrections / month</li>
+          <li><span class="check">✓</span>AI band score + feedback</li>
+          <li><span class="check">✓</span>Mock tests (listening, reading)</li>
+          <li class="muted"><span style="margin-right:.5rem">✗</span>PDF & email reports</li>
+          <li class="muted"><span style="margin-right:.5rem">✗</span>AI chat coach</li>
+          <li class="muted"><span style="margin-right:.5rem">✗</span>Priority corrections</li>
+        </ul>
+        <button class="btn-outline" onclick="window.location.href='login.html'">Get Started Free</button>
+      </div>
+
+      <!-- Pro -->
+      <div class="plan-card featured relative">
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2">
+          <span class="badge">Most Popular</span>
+        </div>
+        <div class="mb-6">
+          <p class="text-sm font-semibold muted uppercase tracking-widest mb-2">Pro</p>
+          <div class="flex items-end gap-1 mb-1">
+            <span class="text-4xl font-bold gold" style="font-family:Satoshi,sans-serif">$19</span>
+            <span class="muted text-sm mb-1">/month</span>
+          </div>
+          <p class="muted text-sm">Cancel anytime</p>
+        </div>
+        <ul class="space-y-3 text-sm mb-8">
+          <li><span class="check">✓</span><strong>Unlimited</strong> essay corrections</li>
+          <li><span class="check">✓</span>PDF download + email reports</li>
+          <li><span class="check">✓</span>AI chat coach (IELTS expert)</li>
+          <li><span class="check">✓</span>Full mock tests suite</li>
+          <li><span class="check">✓</span>Vocabulary builder</li>
+          <li><span class="check">✓</span>Priority AI processing</li>
+        </ul>
+        <button class="btn-gold" onclick="checkout('pro_monthly')">Subscribe — $19/mo</button>
+      </div>
+
+      <!-- Credits -->
+      <div class="plan-card">
+        <div class="mb-6">
+          <p class="text-sm font-semibold muted uppercase tracking-widest mb-2">Credits</p>
+          <div class="flex items-end gap-1 mb-1">
+            <span class="text-4xl font-bold" style="font-family:Satoshi,sans-serif">$12</span>
+            <span class="muted text-sm mb-1">/ 10 corrections</span>
+          </div>
+          <p class="muted text-sm">Pay as you go, never expires</p>
+        </div>
+        <ul class="space-y-3 text-sm mb-6">
+          <li><span class="check">✓</span>Same quality as Pro</li>
+          <li><span class="check">✓</span>PDF + email reports</li>
+          <li><span class="check">✓</span>No subscription needed</li>
+          <li><span class="check">✓</span>Credits never expire</li>
+        </ul>
+        <hr class="divider">
+        <div class="space-y-3">
+          <button class="btn-outline text-sm" onclick="checkout('credits_10')">10 corrections — $12</button>
+          <button class="btn-outline text-sm" onclick="checkout('credits_25')">25 corrections — $25 <span class="badge ml-2">Save 17%</span></button>
+          <button class="btn-outline text-sm" onclick="checkout('credits_50')">50 corrections — $45 <span class="badge ml-2">Save 25%</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="max-w-2xl mx-auto">
+      <h2 class="text-xl font-bold mb-6 text-center" style="font-family:Satoshi,sans-serif">Common Questions</h2>
+      <div class="space-y-4 text-sm">
+        <details class="plan-card cursor-pointer">
+          <summary class="font-semibold">What counts as one correction?</summary>
+          <p class="mt-3 muted">Each essay submission that receives AI feedback counts as one correction, regardless of essay length or task type.</p>
+        </details>
+        <details class="plan-card cursor-pointer">
+          <summary class="font-semibold">Can I pay in my local currency?</summary>
+          <p class="mt-3 muted">Yes. Stripe automatically converts to your local currency at checkout — you'll see the exact amount before paying.</p>
+        </details>
+        <details class="plan-card cursor-pointer">
+          <summary class="font-semibold">How do credits work?</summary>
+          <p class="mt-3 muted">Credits are deducted one per essay correction. They never expire, so you can use them at any pace.</p>
+        </details>
+        <details class="plan-card cursor-pointer">
+          <summary class="font-semibold">Can I cancel my subscription?</summary>
+          <p class="mt-3 muted">Yes, any time. You keep Pro access until the end of your billing period.</p>
+        </details>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="js/components.js"></script>
+  <script>
+    IELTSLab.loadNav({ basePath: '', authenticated: false, themeDefault: 'dark' });
+
+    async function checkout(priceKey) {
+      const raw = localStorage.getItem('ielts_session');
+      if (!raw) { window.location.href = 'login.html?next=pricing.html'; return; }
+      let session;
+      try { session = JSON.parse(raw); } catch { window.location.href = 'login.html'; return; }
+
+      const btn = event.target;
+      btn.disabled = true;
+      btn.textContent = 'Redirecting…';
+
+      try {
+        const res  = await fetch('/api/billing/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: session.email, price_key: priceKey }),
+        });
+        const data = await res.json();
+        if (data.url) {
+          window.location.href = data.url;
+        } else {
+          alert(data.error || 'Could not start checkout. Please try again.');
+          btn.disabled = false;
+          btn.textContent = btn.dataset.label;
+        }
+      } catch {
+        alert('Network error. Please try again.');
+        btn.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>
