@@ -780,49 +780,60 @@
       const cW2 = (CW - 6) / 2;
       const cH  = 22;
 
-      ckeys.forEach((c, i) => {
-        const sv    = r.scores?.[c.key];
-        const band  = (sv && typeof sv === 'object') ? sv.band : (sv ?? '--');
-        const lbl   = (r.scoreLabels?.[c.key] || '').slice(0, 38);
-        const cx    = ML + (i % 2) * (cW2 + 6);
-        const cy    = y + Math.floor(i / 2) * (cH + 4);
+      // Render 2 rows of 2 cards, tracking evidence height per row
+      for (let row = 0; row < 2; row++) {
+        chk(cH + 28);
+        const rowY = y;
+        let maxEvidH = 0;
 
-        doc.setFillColor(...CREAM);
-        doc.setDrawColor(220, 215, 205);
-        doc.setLineWidth(0.25);
-        doc.roundedRect(cx, cy, cW2, cH, 2, 2, 'FD');
-        // Gold left accent
-        doc.setFillColor(...GOLD);
-        doc.rect(cx, cy, 2.5, cH, 'F');
+        ckeys.slice(row * 2, row * 2 + 2).forEach((c, col) => {
+          const sv   = r.scores?.[c.key];
+          const band = (sv && typeof sv === 'object') ? sv.band : (sv ?? '--');
+          const lbl  = (r.scoreLabels?.[c.key] || '').slice(0, 38);
+          const cx   = ML + col * (cW2 + 6);
 
-        sf('bold', 6.5, MUTED);
-        doc.text(`${c.abbr}  ${c.label.toUpperCase()}`, cx + 7, cy + 6);
-        sf('bold', 14, NAVY);
-        doc.text(String(band), cx + 7, cy + 16);
-        if (lbl) {
-          sf('normal', 6, MUTED);
-          doc.text(lbl + (r.scoreLabels?.[c.key]?.length > 38 ? '...' : ''), cx + 18, cy + 16);
-        }
+          doc.setFillColor(...CREAM);
+          doc.setDrawColor(220, 215, 205);
+          doc.setLineWidth(0.25);
+          doc.roundedRect(cx, rowY, cW2, cH, 2, 2, 'FD');
+          doc.setFillColor(...GOLD);
+          doc.rect(cx, rowY, 2.5, cH, 'F');
 
-        // v2 evidence bullets
-        if (sv && typeof sv === 'object') {
-          const pos = (sv.positiveEvidence || []).slice(0, 1);
-          const neg = (sv.negativeEvidence || []).slice(0, 1);
-          let ey = cy + cH + 2;
-          pos.forEach(q => {
-            const ql = doc.splitTextToSize(`+ "${q}"`, cW2 - 4);
-            sf('normal', 6, GREEN);
-            doc.text(ql, cx + 4, ey);
-            ey += ql.length * 3.8;
-          });
-          neg.forEach(q => {
-            const ql = doc.splitTextToSize(`- "${q}"`, cW2 - 4);
-            sf('normal', 6, [180, 60, 60]);
-            doc.text(ql, cx + 4, ey);
-          });
-        }
-      });
-      y += (cH + 4) * 2 + 8;
+          sf('bold', 6.5, MUTED);
+          doc.text(`${c.abbr}  ${c.label.toUpperCase()}`, cx + 7, rowY + 6);
+          sf('bold', 14, NAVY);
+          doc.text(String(band), cx + 7, rowY + 16);
+          if (lbl) {
+            sf('normal', 6, MUTED);
+            doc.text(lbl + (r.scoreLabels?.[c.key]?.length > 38 ? '...' : ''), cx + 18, rowY + 16);
+          }
+
+          // Evidence bullets — track height so y advances correctly
+          if (sv && typeof sv === 'object') {
+            const pos = (sv.positiveEvidence || []).slice(0, 1);
+            const neg = (sv.negativeEvidence || []).slice(0, 1);
+            let ey = rowY + cH + 3;
+            let colH = 0;
+            pos.forEach(q => {
+              const ql = doc.splitTextToSize(`+ "${q}"`, cW2 - 4);
+              sf('normal', 6, GREEN);
+              doc.text(ql, cx + 4, ey);
+              const h = ql.length * 3.8;
+              ey += h; colH += h;
+            });
+            neg.forEach(q => {
+              const ql = doc.splitTextToSize(`- "${q}"`, cW2 - 4);
+              sf('normal', 6, [180, 60, 60]);
+              doc.text(ql, cx + 4, ey);
+              colH += ql.length * 3.8;
+            });
+            maxEvidH = Math.max(maxEvidH, colH);
+          }
+        });
+
+        y = rowY + cH + maxEvidH + 7;
+      }
+      y += 4;
 
       // ── STRENGTHS ────────────────────────────────────────────────────────────
       if (r.strengths) {
