@@ -62,7 +62,7 @@
           <li class="muted"><span style="margin-right:.5rem">✗</span>AI chat coach</li>
           <li class="muted"><span style="margin-right:.5rem">✗</span>Priority corrections</li>
         </ul>
-        <button class="btn-outline" onclick="window.location.href='login.html?next=pricing.html'">Get Started Free</button>
+        <button class="btn-outline" onclick="startFree()">Get Started Free</button>
       </div>
 
       <!-- Pro -->
@@ -86,7 +86,7 @@
           <li><span class="check">✓</span>Vocabulary builder</li>
           <li><span class="check">✓</span>Priority AI processing</li>
         </ul>
-        <button class="btn-gold" onclick="checkout('pro_monthly')">Subscribe — $19/mo</button>
+        <button class="btn-gold" onclick="checkout('pro_monthly', this)">Subscribe — $19/mo</button>
       </div>
 
       <!-- Credits -->
@@ -107,9 +107,9 @@
         </ul>
         <hr class="divider">
         <div class="space-y-3">
-          <button class="btn-outline text-sm" onclick="checkout('credits_10')">10 corrections — $12</button>
-          <button class="btn-outline text-sm" onclick="checkout('credits_25')">25 corrections — $25 <span class="badge ml-2">Save 17%</span></button>
-          <button class="btn-outline text-sm" onclick="checkout('credits_50')">50 corrections — $45 <span class="badge ml-2">Save 25%</span></button>
+          <button class="btn-outline text-sm" onclick="checkout('credits_10', this)">10 corrections — $12</button>
+          <button class="btn-outline text-sm" onclick="checkout('credits_25', this)">25 corrections — $25 <span class="badge ml-2">Save 17%</span></button>
+          <button class="btn-outline text-sm" onclick="checkout('credits_50', this)">50 corrections — $45 <span class="badge ml-2">Save 25%</span></button>
         </div>
       </div>
     </div>
@@ -143,14 +143,24 @@
   <script>
     IELTSLab.loadNav({ basePath: '', authenticated: false, themeDefault: 'dark' });
 
-    async function checkout(priceKey) {
-      const raw = localStorage.getItem('ielts_session');
-      if (!raw) { window.location.href = 'login.html?next=pricing.html'; return; }
-      let session;
-      try { session = JSON.parse(raw); } catch { window.location.href = 'login.html'; return; }
+    function getSession() {
+      try { return JSON.parse(localStorage.getItem('ielts_session') || ''); } catch { return null; }
+    }
 
-      const btn = event.target;
+    function startFree() {
+      const session = getSession();
+      window.location.href = session ? 'writing-clinic/corrector.html' : 'login.html?next=pricing.html';
+    }
+
+    async function checkout(priceKey, btn) {
+      const session = getSession();
+      if (!session || !session.email) {
+        window.location.href = 'login.html?next=pricing.html';
+        return;
+      }
+
       btn.disabled = true;
+      const original = btn.textContent;
       btn.textContent = 'Redirecting…';
 
       try {
@@ -165,11 +175,12 @@
         } else {
           alert(data.error || 'Could not start checkout. Please try again.');
           btn.disabled = false;
-          btn.textContent = btn.dataset.label;
+          btn.textContent = original;
         }
       } catch {
         alert('Network error. Please try again.');
         btn.disabled = false;
+        btn.textContent = original;
       }
     }
   </script>
