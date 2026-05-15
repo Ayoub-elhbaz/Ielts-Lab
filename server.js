@@ -86,6 +86,7 @@ const STRIPE_PRICES = {
 
 const CREDIT_AMOUNTS = { credits_10: 10, credits_25: 25, credits_50: 50 };
 const FREE_CORRECTIONS_PER_MONTH = 3;
+const PRO_CORRECTIONS_PER_MONTH  = 30;
 
 const MAX_TOKENS_PASS1 = 8000;
 const MAX_TOKENS_PASS2 = 5000;  // P1-B: raised from 3000 — prevents evidence truncation
@@ -372,7 +373,11 @@ async function getUserPlan(email) {
 
 async function checkCorrectionAccess(email) {
   const p = await getUserPlan(email);
-  if (p.plan === 'pro') return { allowed: true, reason: 'pro' };
+  if (p.plan === 'pro') {
+    if (p.corrections_used < PRO_CORRECTIONS_PER_MONTH)
+      return { allowed: true, reason: 'pro', ...p };
+    return { allowed: false, plan: 'pro', limit: PRO_CORRECTIONS_PER_MONTH, corrections_used: p.corrections_used };
+  }
   if (p.credits > 0)    return { allowed: true, reason: 'credits', ...p };
   if (p.corrections_used < FREE_CORRECTIONS_PER_MONTH)
                          return { allowed: true, reason: 'free', ...p };
@@ -382,7 +387,14 @@ async function checkCorrectionAccess(email) {
 async function consumeCorrection(email) {
   if (!db) return;
   const p = await getUserPlan(email);
-  if (p.plan === 'pro') return;
+  if (p.plan === 'pro') {
+    const month = new Date().toISOString().slice(0, 7);
+    await db.query(`
+      INSERT INTO free_usage (user_id,month,corrections_used) VALUES ($1,$2,1)
+      ON CONFLICT (user_id,month) DO UPDATE SET corrections_used=free_usage.corrections_used+1
+    `, [p.user_id, month]);
+    return;
+  }
   if (p.credits > 0) {
     await db.query('UPDATE credits SET balance=balance-1,updated_at=NOW() WHERE user_id=$1', [p.user_id]);
     return;
