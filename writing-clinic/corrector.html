@@ -640,11 +640,17 @@
       currentTaskLabel = taskLabel;
 
       try {
+        const userEmail = session?.email || localStorage.getItem('ielts_email') || null;
         const response = await fetch('/api/correct-essay-v2', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ taskLabel, essay, question, image: uploadedImageBase64 || null, imageType: uploadedImageType || null })
+          body: JSON.stringify({ taskLabel, essay, question, image: uploadedImageBase64 || null, imageType: uploadedImageType || null, email: userEmail })
         });
+
+        if (response.status === 402) {
+          window.location.href = '../pricing.html';
+          return;
+        }
 
         if (!response.ok) {
           const err = await response.json().catch(() => ({}));
