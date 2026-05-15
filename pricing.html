@@ -143,6 +143,19 @@
   <script>
     IELTSLab.loadNav({ basePath: '', authenticated: false, themeDefault: 'dark' });
 
+    // ── Stripe Price IDs (copy from Stripe Dashboard → Products → Pricing) ──
+    const PRICE_PRO_MONTHLY = '';   // price_xxx  ($19/month subscription)
+    const PRICE_CREDITS_10  = '';   // price_xxx  ($12 / 10 corrections)
+    const PRICE_CREDITS_25  = '';   // price_xxx  ($25 / 25 corrections)
+    const PRICE_CREDITS_50  = '';   // price_xxx  ($45 / 50 corrections)
+
+    const PRICE_MAP = {
+      pro_monthly: PRICE_PRO_MONTHLY,
+      credits_10:  PRICE_CREDITS_10,
+      credits_25:  PRICE_CREDITS_25,
+      credits_50:  PRICE_CREDITS_50,
+    };
+
     function getSession() {
       try { return JSON.parse(localStorage.getItem('ielts_session') || ''); } catch { return null; }
     }
@@ -167,7 +180,7 @@
         const res  = await fetch('/api/billing/checkout', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: session.email, price_key: priceKey }),
+          body: JSON.stringify({ email: session.email, price_key: priceKey, price_id: PRICE_MAP[priceKey] }),
         });
         const data = await res.json();
         if (data.url) {

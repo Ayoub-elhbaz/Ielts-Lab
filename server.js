@@ -579,8 +579,10 @@ app.get('/api/billing/plan', async (req, res) => {
 // POST /api/billing/checkout — create Stripe Checkout session
 app.post('/api/billing/checkout', async (req, res) => {
   if (!stripe) return res.status(503).json({ error: 'Payments not configured.' });
-  const { email, price_key } = req.body; // price_key: 'pro_monthly' | 'credits_10' | 'credits_25' | 'credits_50'
-  if (!email || !price_key || !STRIPE_PRICES[price_key]) {
+  const { email, price_key, price_id } = req.body;
+  // Resolve price ID: prefer env var, fall back to value sent from frontend
+  const resolvedPriceId = STRIPE_PRICES[price_key] || price_id;
+  if (!email || !price_key || !resolvedPriceId) {
     return res.status(400).json({ error: 'email and valid price_key required' });
   }
   const isSubscription = price_key === 'pro_monthly';
@@ -588,7 +590,7 @@ app.post('/api/billing/checkout', async (req, res) => {
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       customer_email: email,
-      line_items: [{ price: STRIPE_PRICES[price_key], quantity: 1 }],
+      line_items: [{ price: resolvedPriceId, quantity: 1 }],
       mode: isSubscription ? 'subscription' : 'payment',
       success_url: `${process.env.APP_URL || 'https://ieltslab.io'}/billing-success.html?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url:  `${process.env.APP_URL || 'https://ieltslab.io'}/pricing.html`,
