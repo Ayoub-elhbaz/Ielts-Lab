@@ -599,15 +599,20 @@
 <script>
   // ── Config ──
   const GOOGLE_CLIENT_ID = '328632045409-usg6nlk5g9ig89pcj2rlujet7kmjrltt.apps.googleusercontent.com';
-  const REDIRECT  = './IELTS-Lab.html';
+  const DEFAULT_REDIRECT = './IELTS-Lab.html';
   const USERS_KEY = 'ielts_users';
+
+  function getRedirect() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('next') || DEFAULT_REDIRECT;
+  }
 
   // ── User storage helpers ──
   function getUsers() { try { return JSON.parse(localStorage.getItem(USERS_KEY)) || []; } catch { return []; } }
   function saveUsers(u) { localStorage.setItem(USERS_KEY, JSON.stringify(u)); }
   function setSession(name, email) {
     localStorage.setItem('ielts_session', JSON.stringify({ name, email }));
-    window.location.replace(REDIRECT);
+    window.location.replace(getRedirect());
   }
   function setLoading(btnId, loading) {
     const btn = document.getElementById(btnId);
