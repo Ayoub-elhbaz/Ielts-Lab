@@ -119,6 +119,7 @@
     if (href === '/IELTS-Lab.html' && (p === '/' || p.endsWith('IELTS-Lab.html'))) return 'ielts-active';
     if (href.includes('writing-clinic') && p.includes('writing-clinic')) return 'ielts-active';
     if (href.includes('mock-tests') && p.includes('mock-tests')) return 'ielts-active';
+    if (href.includes('book-session') && p.includes('book-session')) return 'ielts-active';
     return '';
   }
 
@@ -126,6 +127,7 @@
     const home    = getActiveClass('/IELTS-Lab.html');
     const clinic  = getActiveClass('/writing-clinic/');
     const mocks   = getActiveClass('/mock-tests/');
+    const session = getActiveClass('/book-session/');
 
     return `
       ${NAV_CSS}
@@ -140,6 +142,7 @@
             <a href="/IELTS-Lab.html"                   class="ielts-nav-link ${home}">Home</a>
             <a href="/writing-clinic/corrector.html"    class="ielts-nav-link ${clinic}">Writing Clinic</a>
             <a href="/mock-tests/index.html"            class="ielts-nav-link ${mocks}">Mock Tests</a>
+            <a href="/book-session/index.html"          class="ielts-nav-link ${session}">Book a Session</a>
           </div>
 
           <div class="ielts-nav-right">
@@ -167,9 +170,10 @@
         </div>
 
         <div class="ielts-drawer" id="ieltsDrawer" role="menu">
-          <a href="/IELTS-Lab.html"                class="ielts-nav-link ${home}"   role="menuitem">🏠 Home</a>
-          <a href="/writing-clinic/corrector.html" class="ielts-nav-link ${clinic}" role="menuitem">✍️ Writing Clinic</a>
-          <a href="/mock-tests/index.html"         class="ielts-nav-link ${mocks}"  role="menuitem">📝 Mock Tests</a>
+          <a href="/IELTS-Lab.html"                class="ielts-nav-link ${home}"    role="menuitem">🏠 Home</a>
+          <a href="/writing-clinic/corrector.html" class="ielts-nav-link ${clinic}"  role="menuitem">✍️ Writing Clinic</a>
+          <a href="/mock-tests/index.html"         class="ielts-nav-link ${mocks}"   role="menuitem">📝 Mock Tests</a>
+          <a href="/book-session/index.html"       class="ielts-nav-link ${session}" role="menuitem">🎓 Book a Session</a>
           <div class="ielts-drawer-divider"></div>
           <a href="/writing-clinic/corrector.html" class="ielts-nav-cta" role="menuitem">Correct My Essay →</a>
         </div>

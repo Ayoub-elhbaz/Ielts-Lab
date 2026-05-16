@@ -2169,6 +2169,110 @@ app.post('/api/book-service', async (req, res) => {
   }
 });
 
+// ── POST /api/book-session — 1-on-1 expert session booking ───────────────────
+app.use('/api/book-session', emailLimiter);
+app.post('/api/book-session', async (req, res) => {
+  const { name, email, currentBand, targetBand, focus, notes } = req.body;
+  if (!name || !email) return res.status(400).json({ error: 'Name and email are required.' });
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(400).json({ error: 'Valid email required.' });
+  if (!focus) return res.status(400).json({ error: 'Focus area is required.' });
+
+  const safeName    = sanitizeInput(String(name),              100);
+  const safeEmail   = sanitizeInput(String(email),             200);
+  const safeCurrent = sanitizeInput(String(currentBand || ''), 20);
+  const safeTarget  = sanitizeInput(String(targetBand  || ''), 20);
+  const safeFocus   = sanitizeInput(String(focus),             100);
+  const safeNotes   = sanitizeInput(String(notes || ''),       2000);
+
+  const SESSIONS_INBOX = 'ielts.lab26@gmail.com';
+
+  const adminHtml = `
+    <div style="font-family:sans-serif;max-width:560px;margin:0 auto;padding:32px;background:#f9f9f9;border-radius:12px;">
+      <div style="margin-bottom:20px;">
+        <span style="font-family:sans-serif;font-weight:900;font-size:15px;color:#1C1C2E;">IELTS<span style="color:#C9952E;">Lab</span></span>
+        <span style="margin-left:10px;font-size:12px;color:#6B7280;">New Session Request</span>
+      </div>
+      <h2 style="color:#1B2B4B;margin-bottom:4px;font-size:1.3rem;">1-on-1 Session Request</h2>
+      <p style="color:#C9952E;font-weight:700;font-size:1rem;margin-bottom:24px;">Focus: ${safeFocus}</p>
+      <table style="width:100%;border-collapse:collapse;margin-bottom:20px;">
+        <tr style="border-bottom:1px solid #E8E4DC;">
+          <td style="padding:10px 0;color:#6B7280;font-size:13px;width:130px;">Name</td>
+          <td style="padding:10px 0;color:#1C1C2E;font-size:13px;font-weight:600;">${safeName}</td>
+        </tr>
+        <tr style="border-bottom:1px solid #E8E4DC;">
+          <td style="padding:10px 0;color:#6B7280;font-size:13px;">Email</td>
+          <td style="padding:10px 0;font-size:13px;"><a href="mailto:${safeEmail}" style="color:#1B2B4B;">${safeEmail}</a></td>
+        </tr>
+        <tr style="border-bottom:1px solid #E8E4DC;">
+          <td style="padding:10px 0;color:#6B7280;font-size:13px;">Current band</td>
+          <td style="padding:10px 0;color:#1C1C2E;font-size:13px;">${safeCurrent || '—'}</td>
+        </tr>
+        <tr style="border-bottom:1px solid #E8E4DC;">
+          <td style="padding:10px 0;color:#6B7280;font-size:13px;">Target band</td>
+          <td style="padding:10px 0;color:#1C1C2E;font-size:13px;">${safeTarget || '—'}</td>
+        </tr>
+        <tr>
+          <td style="padding:10px 0;color:#6B7280;font-size:13px;">Focus area</td>
+          <td style="padding:10px 0;font-size:13px;">
+            <span style="background:#C9952E;color:#fff;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:700;">${safeFocus}</span>
+          </td>
+        </tr>
+      </table>
+      ${safeNotes ? `
+      <div style="padding:16px;background:#fff;border-radius:8px;border:1px solid #E8E4DC;">
+        <p style="color:#6B7280;font-size:11px;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.08em;">Notes</p>
+        <p style="color:#1C1C2E;font-size:13px;line-height:1.7;white-space:pre-wrap;">${safeNotes}</p>
+      </div>` : ''}
+      <p style="margin-top:24px;font-size:12px;color:#9CA3AF;">
+        Reply to <a href="mailto:${safeEmail}" style="color:#C9952E;">${safeEmail}</a> to confirm the time slot and send payment details.
+      </p>
+    </div>`;
+
+  const studentHtml = `
+    <div style="font-family:sans-serif;max-width:560px;margin:0 auto;padding:32px;background:#f9f9f9;border-radius:12px;">
+      <div style="margin-bottom:24px;">
+        <span style="font-family:sans-serif;font-weight:900;font-size:16px;color:#1C1C2E;">IELTS<span style="color:#C9952E;">Lab</span></span>
+      </div>
+      <h2 style="color:#1B2B4B;margin-bottom:8px;">We've received your session request!</h2>
+      <p style="color:#3D4451;line-height:1.7;margin-bottom:20px;">
+        Hi ${safeName}, thanks for reaching out. Your request for a <strong>${safeFocus}</strong> session
+        has been logged and one of our experts will be in touch within a few hours to confirm your
+        time slot and share payment details.
+      </p>
+      <div style="padding:18px;background:#fff;border-radius:10px;border:1px solid #E8E4DC;margin-bottom:20px;">
+        <p style="color:#6B7280;font-size:11px;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.08em;">Your request summary</p>
+        <table style="width:100%;border-collapse:collapse;">
+          <tr>
+            <td style="padding:6px 0;color:#6B7280;font-size:13px;width:120px;">Focus</td>
+            <td style="padding:6px 0;color:#1C1C2E;font-size:13px;font-weight:600;">${safeFocus}</td>
+          </tr>
+          <tr>
+            <td style="padding:6px 0;color:#6B7280;font-size:13px;">Current band</td>
+            <td style="padding:6px 0;color:#1C1C2E;font-size:13px;">${safeCurrent || '—'}</td>
+          </tr>
+          <tr>
+            <td style="padding:6px 0;color:#6B7280;font-size:13px;">Target band</td>
+            <td style="padding:6px 0;color:#1C1C2E;font-size:13px;">${safeTarget || '—'}</td>
+          </tr>
+        </table>
+      </div>
+      <p style="font-size:13px;color:#9CA3AF;line-height:1.6;">
+        Questions? Reply to this email and we'll help you out.<br/>— The IELTS Lab Team
+      </p>
+    </div>`;
+
+  try {
+    await Promise.all([
+      sendEmail(SESSIONS_INBOX, `New Session Request: ${safeFocus} — ${safeName}`, adminHtml),
+      sendEmail(safeEmail, 'Your IELTS Lab session request is confirmed — we\'ll be in touch!', studentHtml, SESSIONS_INBOX),
+    ]);
+    console.log(`[book-session] Request from ${safeEmail} — focus: ${safeFocus}`);
+    res.json({ ok: true });
+  } catch (err) {
+    safeErr(res, err, 'book-session');
+  }
+});
+
 // ── POST /api/b2b-inquiry — B2B Partnership Pack lead form ────────────────────
 app.post('/api/b2b-inquiry', async (req, res) => {
   const { name, email, institution, volume, interests, goals } = req.body;

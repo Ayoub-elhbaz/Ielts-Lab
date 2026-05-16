@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book a 1-on-1 Session — IELTS Lab</title>
+  <script>(function(){ var t=localStorage.getItem('ieltslab_theme')||'dark'; document.documentElement.setAttribute('data-theme',t); })();</script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://api.fontshare.com">
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@700,500,900&f[]=plus-jakarta-sans@400,500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --gold: #C9952E; --gold-light: #DDB05A; --gold-dim: rgba(201,149,46,0.10);
+      --gold-border: rgba(201,149,46,0.22); --white: #EEF4FF;
+      --bg: #0d1117; --card: #161b22; --border: rgba(255,255,255,0.07);
+    }
+    body { background: var(--bg); color: var(--white); font-family: 'Plus Jakarta Sans', sans-serif; }
+
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 16px; border-radius: 999px;
+      background: var(--gold-dim); border: 1px solid var(--gold-border);
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--gold-light);
+    }
+
+    .vp-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 1rem; padding: 1.5rem; transition: border-color 0.2s;
+    }
+    .vp-card:hover { border-color: var(--gold-border); }
+    .vp-icon {
+      width: 46px; height: 46px; border-radius: 10px;
+      background: var(--gold-dim); border: 1px solid var(--gold-border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.3rem; margin-bottom: 1rem; flex-shrink: 0;
+    }
+
+    .tab-row { display: flex; align-items: center; gap: 0.5rem; }
+    .tab-btn {
+      padding: 0.6rem 1.4rem; border-radius: 0.6rem; font-size: 0.875rem;
+      font-weight: 600; cursor: pointer; border: 1.5px solid var(--border);
+      background: transparent; color: rgba(238,244,255,0.45);
+      transition: 0.2s; font-family: inherit;
+    }
+    .tab-btn.active {
+      background: var(--gold-dim); border-color: var(--gold-border);
+      color: var(--gold-light);
+    }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    .form-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 1.25rem; padding: 2rem 2.25rem;
+    }
+    .field-label {
+      display: block; font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      color: rgba(238,244,255,0.4); margin-bottom: 0.4rem;
+    }
+    .field-input {
+      width: 100%; background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border); border-radius: 0.6rem;
+      padding: 0.72rem 1rem; color: var(--white); font-family: inherit;
+      font-size: 0.9rem; outline: none; transition: border-color 0.2s;
+    }
+    .field-input:focus { border-color: var(--gold-border); }
+    .field-input::placeholder { color: rgba(238,244,255,0.2); }
+    select.field-input {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%23C9952E' stroke-width='1.5' stroke-linecap='round' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 1rem center;
+      padding-right: 2.5rem; cursor: pointer;
+    }
+    select.field-input option { background: #161b22; }
+
+    .btn-gold {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: #0d0f14; font-weight: 700; border-radius: 0.75rem;
+      padding: 0.9rem 2rem; transition: 0.2s; cursor: pointer;
+      border: none; font-family: inherit; font-size: 0.95rem;
+    }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,149,46,0.3); }
+    .btn-gold:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    .calendly-wrap {
+      background: var(--card); border: 1px dashed var(--gold-border);
+      border-radius: 1.25rem; min-height: 480px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center; padding: 3rem;
+    }
+    .calendly-wrap.has-embed {
+      background: transparent; border: none; min-height: auto; padding: 0;
+    }
+
+    .success-box {
+      background: rgba(42,255,214,0.06); border: 1px solid rgba(42,255,214,0.2);
+      border-radius: 1.25rem; padding: 2.5rem; text-align: center;
+    }
+    .muted { opacity: 0.5; }
+    .divider-line { border: none; border-top: 1px solid var(--border); margin: 3rem 0; }
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.65s, transform 0.65s; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .d100 { transition-delay: 0.1s; }
+    .d200 { transition-delay: 0.2s; }
+  </style>
+</head>
+<body>
+  <div id="header-container"></div>
+
+  <main class="max-w-3xl mx-auto px-6 py-16">
+
+    <!-- Hero -->
+    <div class="text-center mb-12 reveal">
+      <div class="hero-badge mb-6">🎓 1-on-1 Expert Sessions</div>
+      <h1 class="font-bold leading-tight mb-5" style="font-family:Satoshi,sans-serif;font-size:clamp(2rem,5vw,3rem)">
+        Accelerate Your Score: Book a<br class="hidden md:block" />
+        1-on-1 with an IELTS Expert
+      </h1>
+      <p class="muted text-base leading-relaxed max-w-[50ch] mx-auto">
+        Live sessions tailored to your exact weaknesses. Most students improve
+        0.5–1.0 band after a single diagnostic.
+      </p>
+    </div>
+
+    <!-- Value props -->
+    <div class="grid md:grid-cols-3 gap-4 mb-12">
+      <div class="vp-card reveal">
+        <div class="vp-icon">🎯</div>
+        <h3 class="font-bold text-sm mb-1.5" style="font-family:Satoshi,sans-serif">Personal Diagnostic</h3>
+        <p class="text-sm muted leading-relaxed">Pinpoint exactly where you're losing marks across all four skills.</p>
+      </div>
+      <div class="vp-card reveal d100">
+        <div class="vp-icon">📈</div>
+        <h3 class="font-bold text-sm mb-1.5" style="font-family:Satoshi,sans-serif">Custom Study Plan</h3>
+        <p class="text-sm muted leading-relaxed">A step-by-step roadmap built around your target band and exam date.</p>
+      </div>
+      <div class="vp-card reveal d200">
+        <div class="vp-icon">💬</div>
+        <h3 class="font-bold text-sm mb-1.5" style="font-family:Satoshi,sans-serif">Live Feedback</h3>
+        <p class="text-sm muted leading-relaxed">Real-time coaching on speaking or writing pain points — no guesswork.</p>
+      </div>
+    </div>
+
+    <!-- Tab switcher -->
+    <div class="tab-row justify-center mb-8 reveal">
+      <button class="tab-btn active" data-tab="schedule" onclick="switchTab('schedule', this)">📅 Schedule via Calendly</button>
+      <button class="tab-btn" data-tab="form" onclick="switchTab('form', this)">✍️ Booking Form</button>
+    </div>
+
+    <!-- Tab A: Calendly -->
+    <div id="tab-schedule" class="tab-panel active">
+      <div id="calendlyContainer" class="reveal"></div>
+    </div>
+
+    <!-- Tab B: Custom form -->
+    <div id="tab-form" class="tab-panel">
+      <div class="form-card reveal">
+        <h2 class="font-bold text-lg mb-6" style="font-family:Satoshi,sans-serif">Request Your Session</h2>
+
+        <div id="formSuccess" class="success-box" style="display:none">
+          <div style="font-size:2.25rem;margin-bottom:0.75rem">✅</div>
+          <h3 class="font-bold text-base mb-2" style="font-family:Satoshi,sans-serif">Request sent!</h3>
+          <p class="muted text-sm leading-relaxed">
+            Check your inbox — we'll confirm your time slot within a few hours and share payment details.
+          </p>
+        </div>
+
+        <div id="formError" style="display:none;margin-bottom:1rem;padding:0.75rem 1rem;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);border-radius:0.6rem;font-size:0.8rem;color:#f87171;"></div>
+
+        <form id="sessionForm" onsubmit="submitSession(event)" novalidate>
+          <div class="grid md:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label class="field-label" for="sName">Full Name</label>
+              <input id="sName" type="text" class="field-input" placeholder="Your full name" />
+            </div>
+            <div>
+              <label class="field-label" for="sEmail">Email Address</label>
+              <input id="sEmail" type="email" class="field-input" placeholder="you@example.com" />
+            </div>
+          </div>
+
+          <div class="grid md:grid-cols-2 gap-4 mb-4">
+            <div>
+              <label class="field-label" for="sCurrent">Current Band Score</label>
+              <select id="sCurrent" class="field-input">
+                <option value="">Not sure yet</option>
+                <option>3.0</option><option>3.5</option><option>4.0</option><option>4.5</option>
+                <option>5.0</option><option>5.5</option><option>6.0</option><option>6.5</option>
+                <option>7.0</option><option>7.5</option><option>8.0</option><option>8.5</option>
+              </select>
+            </div>
+            <div>
+              <label class="field-label" for="sTarget">Target Band Score</label>
+              <select id="sTarget" class="field-input">
+                <option value="">Choose target</option>
+                <option>5.0</option><option>5.5</option><option>6.0</option><option>6.5</option>
+                <option>7.0</option><option>7.5</option><option>8.0</option><option>8.5</option>
+                <option>9.0</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="mb-4">
+            <label class="field-label" for="sFocus">What do you need help with most?</label>
+            <select id="sFocus" class="field-input">
+              <option value="">Select a focus area</option>
+              <option>Speaking</option>
+              <option>Writing</option>
+              <option>Reading</option>
+              <option>Listening</option>
+              <option>General Strategy</option>
+            </select>
+          </div>
+
+          <div class="mb-6">
+            <label class="field-label" for="sNotes">Anything else to know? <span style="opacity:0.5;font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
+            <textarea id="sNotes" class="field-input" rows="3"
+              placeholder="Your exam date, specific struggles, questions for the expert…"
+              style="resize:vertical;line-height:1.6;"></textarea>
+          </div>
+
+          <button type="submit" id="sessionSubmitBtn" class="btn-gold" style="width:100%">Book My Session →</button>
+          <p class="text-xs text-center muted mt-3">We reply within a few hours with time slot options and payment details.</p>
+        </form>
+      </div>
+    </div>
+
+    <!-- Social proof -->
+    <hr class="divider-line reveal">
+    <div class="flex flex-wrap justify-center gap-6 text-sm muted reveal">
+      <span>⭐ 4.9 / 5.0 average rating</span>
+      <span>🎓 18,000+ students helped</span>
+      <span>🌍 Experts from UK · Ireland · Singapore · Morocco</span>
+    </div>
+
+  </main>
+
+  <script src="../js/components.js"></script>
+  <script>
+    IELTSLab.loadNav({ basePath: '../', authenticated: false, themeDefault: 'dark' });
+
+    // ── Set your Calendly URL here to activate embedded scheduling ──
+    // Leave empty ('') to show the "use form instead" placeholder.
+    const CALENDLY_URL = '';  // e.g. 'https://calendly.com/your-name/ielts-session'
+
+    // Scroll reveal
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    // Tab switcher
+    function switchTab(tab, btn) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById('tab-' + tab).classList.add('active');
+      if (btn) btn.classList.add('active');
+    }
+
+    // Calendly embed or placeholder
+    (function initCalendly() {
+      const container = document.getElementById('calendlyContainer');
+      if (CALENDLY_URL) {
+        container.classList.add('has-embed');
+        container.innerHTML = `
+          <iframe
+            src="${CALENDLY_URL}?hide_landing_page_details=1&hide_gdpr_banner=1&background_color=0d1117&text_color=EEF4FF&primary_color=C9952E"
+            width="100%" height="650" frameborder="0" scrolling="no"
+            style="border-radius:1.25rem;border:1px solid rgba(255,255,255,0.07);display:block;">
+          </iframe>`;
+      } else {
+        container.innerHTML = `
+          <div class="calendly-wrap">
+            <div style="font-size:2.5rem;margin-bottom:1rem">📅</div>
+            <h3 style="font-family:Satoshi,sans-serif;font-weight:700;font-size:1.1rem;margin-bottom:0.6rem">Calendly scheduling</h3>
+            <p style="opacity:0.45;font-size:0.85rem;line-height:1.7;max-width:36ch;margin-bottom:1.5rem">
+              Create a free <a href="https://calendly.com" target="_blank" style="color:var(--gold-light)">Calendly</a> event,
+              then paste your booking URL into the
+              <code style="background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;font-size:0.8rem">CALENDLY_URL</code>
+              constant at the top of this page's script.
+            </p>
+            <button id="useFormBtn" class="btn-gold" style="font-size:0.85rem;padding:0.7rem 1.4rem">
+              Use Booking Form Instead →
+            </button>
+          </div>`;
+        document.getElementById('useFormBtn').addEventListener('click', () => {
+          switchTab('form', document.querySelector('[data-tab="form"]'));
+        });
+      }
+    })();
+
+    // Form submit
+    async function submitSession(e) {
+      e.preventDefault();
+      const name    = document.getElementById('sName').value.trim();
+      const email   = document.getElementById('sEmail').value.trim();
+      const current = document.getElementById('sCurrent').value;
+      const target  = document.getElementById('sTarget').value;
+      const focus   = document.getElementById('sFocus').value;
+      const notes   = document.getElementById('sNotes').value.trim();
+      const errEl   = document.getElementById('formError');
+      errEl.style.display = 'none';
+
+      if (!name || !email) {
+        errEl.textContent = 'Please enter your full name and email.';
+        errEl.style.display = 'block'; return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        errEl.textContent = 'Please enter a valid email address.';
+        errEl.style.display = 'block'; return;
+      }
+      if (!focus) {
+        errEl.textContent = 'Please select a focus area.';
+        errEl.style.display = 'block'; return;
+      }
+
+      const btn = document.getElementById('sessionSubmitBtn');
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+
+      try {
+        const res  = await fetch('/api/book-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, currentBand: current, targetBand: target, focus, notes }),
+        });
+        const data = await res.json();
+        if (!res.ok || !data.ok) throw new Error(data.error || 'Something went wrong.');
+        document.getElementById('sessionForm').style.display = 'none';
+        document.getElementById('formSuccess').style.display = 'block';
+      } catch (err) {
+        errEl.textContent = err.message || 'Network error. Please try again.';
+        errEl.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Book My Session →';
+      }
+    }
+  </script>
+</body>
+</html>
