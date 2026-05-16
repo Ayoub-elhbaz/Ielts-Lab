@@ -604,14 +604,19 @@
 
   function getRedirect() {
     const params = new URLSearchParams(window.location.search);
-    return params.get('next') || DEFAULT_REDIRECT;
+    const next = params.get('next');
+    // Only allow same-origin relative paths — block open redirects
+    if (next && !next.includes('://') && !next.startsWith('//') && next.startsWith('.')) return next;
+    if (next && !next.includes('://') && !next.startsWith('//') && next.startsWith('/')) return next;
+    return DEFAULT_REDIRECT;
   }
 
   // ── User storage helpers ──
   function getUsers() { try { return JSON.parse(localStorage.getItem(USERS_KEY)) || []; } catch { return []; } }
   function saveUsers(u) { localStorage.setItem(USERS_KEY, JSON.stringify(u)); }
-  function setSession(name, email) {
+  function setSession(name, email, token) {
     localStorage.setItem('ielts_session', JSON.stringify({ name, email }));
+    if (token) localStorage.setItem('ielts_auth_token', token);
     window.location.replace(getRedirect());
   }
   function setLoading(btnId, loading) {
@@ -640,7 +645,7 @@
   }
 
   // ── Sign In ──
-  function doLogin() {
+  async function doLogin() {
     const email    = document.getElementById('loginEmail').value.trim();
     const password = document.getElementById('loginPassword').value;
     const errEl    = document.getElementById('loginError');
@@ -649,7 +654,16 @@
     setLoading('loginBtn', true);
     const user = getUsers().find(u => u.email === email && u.password === password);
     if (!user) { errEl.textContent = 'Incorrect email or password. Please try again.'; setLoading('loginBtn', false); return; }
-    setSession(user.name, user.email);
+    try {
+      const r = await fetch('/api/auth/login', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: user.email }),
+      });
+      const d = await r.json();
+      setSession(user.name, user.email, d.token || null);
+    } catch {
+      setSession(user.name, user.email, null);
+    }
   }
 
   // ── Register — sends verification code ──
@@ -738,7 +752,7 @@
       const users = getUsers();
       users.push(pendingRegistration);
       saveUsers(users);
-      setSession(pendingRegistration.name, pendingRegistration.email);
+      setSession(pendingRegistration.name, pendingRegistration.email, data.token || null);
     } catch (err) {
       errEl.textContent = err.message;
       setLoading('verifyBtn', false);
@@ -770,14 +784,23 @@
     if (!window.google || GOOGLE_CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com') return;
     google.accounts.id.initialize({ client_id: GOOGLE_CLIENT_ID, callback: handleGoogleCredential, auto_select: false });
   }
-  function handleGoogleCredential(response) {
+  async function handleGoogleCredential(response) {
     const payload = JSON.parse(atob(response.credential.split('.')[1]));
     const users   = getUsers();
     if (!users.find(u => u.email === payload.email)) {
       users.push({ name: payload.name, email: payload.email, password: null, provider: 'google' });
       saveUsers(users);
     }
-    setSession(payload.name, payload.email);
+    try {
+      const r = await fetch('/api/auth/login', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: payload.email }),
+      });
+      const d = await r.json();
+      setSession(payload.name, payload.email, d.token || null);
+    } catch {
+      setSession(payload.name, payload.email, null);
+    }
   }
   function signInWithGoogle() {
     if (!window.google || GOOGLE_CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com') {

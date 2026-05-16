@@ -640,13 +640,19 @@
       currentTaskLabel = taskLabel;
 
       try {
-        const userEmail = session?.email || localStorage.getItem('ielts_email') || null;
+        const _authToken = localStorage.getItem('ielts_auth_token');
+        const _reqHeaders = { 'Content-Type': 'application/json' };
+        if (_authToken) _reqHeaders['Authorization'] = `Bearer ${_authToken}`;
         const response = await fetch('/api/correct-essay-v2', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ taskLabel, essay, question, image: uploadedImageBase64 || null, imageType: uploadedImageType || null, email: userEmail })
+          headers: _reqHeaders,
+          body: JSON.stringify({ taskLabel, essay, question, image: uploadedImageBase64 || null, imageType: uploadedImageType || null })
         });
 
+        if (response.status === 401) {
+          window.location.href = '../login.html?next=' + encodeURIComponent(window.location.pathname);
+          return;
+        }
         if (response.status === 402) {
           window.location.href = '../pricing.html';
           return;

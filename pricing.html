@@ -177,12 +177,19 @@
       btn.textContent = 'Redirecting…';
 
       try {
+        const _tok = localStorage.getItem('ielts_auth_token');
+        const _hdrs = { 'Content-Type': 'application/json' };
+        if (_tok) _hdrs['Authorization'] = `Bearer ${_tok}`;
         const res  = await fetch('/api/billing/checkout', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: session.email, price_key: priceKey, price_id: PRICE_MAP[priceKey] }),
+          headers: _hdrs,
+          body: JSON.stringify({ price_key: priceKey }),
         });
         const data = await res.json();
+        if (res.status === 401) {
+          window.location.href = 'login.html?next=pricing.html';
+          return;
+        }
         if (data.url) {
           window.location.href = data.url;
         } else {
