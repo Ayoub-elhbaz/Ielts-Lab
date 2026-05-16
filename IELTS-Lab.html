@@ -1728,23 +1728,125 @@
       <p class="text-xs text-[#6B7280] mt-6 reveal">No credit card required to start. Upgrade or cancel anytime.</p>
 
       <!-- B2B / Language Centres -->
-      <div class="reveal mt-12 max-w-3xl rounded-2xl p-8 flex flex-col md:flex-row items-center gap-8" style="background:#1B2B4B;border:1px solid rgba(201,149,46,0.22)">
-        <div class="flex-1">
-          <div class="text-xs font-semibold uppercase tracking-widest mb-3" style="color:var(--gold)">For Language Centres &amp; Schools</div>
-          <h3 class="font-display font-black text-2xl md:text-3xl tracking-tight text-white mb-3">B2B Partnership Pack</h3>
-          <p class="text-sm leading-relaxed mb-5" style="color:rgba(220,230,255,0.65)">Give your students access to IELTS Lab under your institution's brand. Bulk seats, usage dashboard, white-label options, and a dedicated account manager. Pricing is negotiated based on your student volume.</p>
-          <ul class="space-y-2 mb-0">
-            <li class="flex items-center gap-2 text-sm" style="color:rgba(220,230,255,0.80)"><svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Bulk student seats — minimum 10</li>
-            <li class="flex items-center gap-2 text-sm" style="color:rgba(220,230,255,0.80)"><svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Admin dashboard to track student progress</li>
-            <li class="flex items-center gap-2 text-sm" style="color:rgba(220,230,255,0.80)"><svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Priority support &amp; onboarding</li>
-            <li class="flex items-center gap-2 text-sm" style="color:rgba(220,230,255,0.80)"><svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Custom pricing based on volume</li>
-          </ul>
+      <div id="b2bCard" class="reveal mt-12 max-w-3xl rounded-2xl overflow-hidden" style="background:#1B2B4B;border:1px solid rgba(201,149,46,0.22);transition:border-color 0.3s;">
+
+        <!-- ── Summary row (always visible) ── -->
+        <div class="p-8 flex flex-col md:flex-row items-center gap-8">
+          <div class="flex-1">
+            <div class="text-xs font-semibold uppercase tracking-widest mb-3" style="color:var(--gold)">For Language Centres &amp; Schools</div>
+            <h3 class="font-display font-black text-2xl md:text-3xl tracking-tight text-white mb-3">B2B Partnership Pack</h3>
+            <p class="text-sm leading-relaxed mb-5" style="color:rgba(220,230,255,0.65)">Give your students access to IELTS Lab under your institution's brand. Bulk seats, usage dashboard, white-label options, and a dedicated account manager. Pricing is negotiated based on your student volume.</p>
+            <ul class="space-y-2 mb-0">
+              <li class="flex items-center gap-2 text-sm" style="color:rgba(220,230,255,0.80)"><svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Bulk student seats — minimum 10</li>
+              <li class="flex items-center gap-2 text-sm" style="color:rgba(220,230,255,0.80)"><svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Admin dashboard to track student progress</li>
+              <li class="flex items-center gap-2 text-sm" style="color:rgba(220,230,255,0.80)"><svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Priority support &amp; onboarding</li>
+              <li class="flex items-center gap-2 text-sm" style="color:rgba(220,230,255,0.80)"><svg class="w-4 h-4 flex-shrink-0" viewBox="0 0 16 16" fill="none"><path d="M2 8l4 4 8-8" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>Custom pricing based on volume</li>
+            </ul>
+          </div>
+          <div id="b2bPricePanel" class="flex-shrink-0 text-center" style="transition:opacity 0.2s,transform 0.2s;">
+            <div class="font-display font-black text-3xl text-white mb-1">Custom</div>
+            <div class="text-xs mb-6" style="color:rgba(220,230,255,0.50)">Price negotiable</div>
+            <button onclick="expandB2BForm()" class="inline-block px-7 py-3 rounded-md text-sm font-medium text-zinc-950 hover-lift" style="background:var(--gold);border:none;cursor:pointer;font-family:inherit;font-size:0.875rem;">Contact Us →</button>
+          </div>
         </div>
-        <div class="flex-shrink-0 text-center">
-          <div class="font-display font-black text-3xl text-white mb-1">Custom</div>
-          <div class="text-xs mb-6" style="color:rgba(220,230,255,0.50)">Price negotiable</div>
-          <button onclick="openB2BModal()" class="inline-block px-7 py-3 rounded-md text-sm font-medium text-zinc-950 hover-lift" style="background:var(--gold);border:none;cursor:pointer;font-family:inherit;font-size:0.875rem;">Contact Us →</button>
+
+        <!-- ── Inline form panel (slides open on click) ── -->
+        <div id="b2bInlinePanel" style="max-height:0;overflow:hidden;transition:max-height 0.5s cubic-bezier(0.4,0,0.2,1);">
+          <div style="padding:0 2rem 2rem;">
+            <div style="border-top:1px solid rgba(255,255,255,0.1);padding-top:1.75rem;">
+
+              <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#C9952E;margin-bottom:0.35rem;">Request a Quote</div>
+              <p style="font-size:0.85rem;color:rgba(220,230,255,0.5);margin:0 0 1.5rem;">Fill in the details below — we'll reply with a custom proposal within 24 hours.</p>
+
+              <form id="b2bInlineForm" onsubmit="submitB2BInline(event)" novalidate>
+                <style>
+                  #b2bInlineForm .ib-row { display:grid; grid-template-columns:1fr 1fr; gap:0.875rem; margin-bottom:0.875rem; }
+                  @media(max-width:560px){ #b2bInlineForm .ib-row { grid-template-columns:1fr; } }
+                  #b2bInlineForm .ib-group { margin-bottom:0.875rem; }
+                  #b2bInlineForm .ib-label { display:block; font-size:0.72rem; font-weight:700; letter-spacing:0.07em; text-transform:uppercase; color:rgba(238,244,255,0.45); margin-bottom:0.35rem; }
+                  #b2bInlineForm input[type="text"],
+                  #b2bInlineForm input[type="email"],
+                  #b2bInlineForm select,
+                  #b2bInlineForm textarea {
+                    width:100%; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.13);
+                    border-radius:0.5rem; padding:0.6rem 0.8rem; font-size:0.875rem;
+                    color:#EEF4FF; font-family:inherit; box-sizing:border-box;
+                    transition:border-color .15s,background .15s; outline:none;
+                  }
+                  #b2bInlineForm input::placeholder, #b2bInlineForm textarea::placeholder { color:rgba(238,244,255,0.22); }
+                  #b2bInlineForm input:focus, #b2bInlineForm select:focus, #b2bInlineForm textarea:focus {
+                    border-color:rgba(201,149,46,0.55); background:rgba(255,255,255,0.09);
+                  }
+                  #b2bInlineForm select { appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%23C9952E' stroke-width='1.5' stroke-linecap='round' fill='none'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 0.8rem center; padding-right:2.2rem; cursor:pointer; }
+                  #b2bInlineForm select option { background:#1B2B4B; }
+                  #b2bInlineForm textarea { resize:vertical; min-height:80px; line-height:1.6; }
+                  #b2bInlineForm .ib-checks { display:flex; flex-wrap:wrap; gap:0.6rem 1.25rem; }
+                  #b2bInlineForm .ib-check { display:flex; align-items:center; gap:0.45rem; cursor:pointer; }
+                  #b2bInlineForm .ib-check input { width:15px; height:15px; accent-color:#C9952E; cursor:pointer; flex-shrink:0; }
+                  #b2bInlineForm .ib-check span { font-size:0.83rem; color:rgba(238,244,255,0.7); }
+                  #b2bInlineForm .ib-error { display:none; color:#f87171; font-size:0.8rem; margin-bottom:0.6rem; }
+                  #b2bInlineForm .ib-btn { width:100%; padding:0.8rem; background:linear-gradient(135deg,#C9952E,#DDB05A); color:#0d0f14; font-weight:700; border:none; border-radius:0.65rem; font-size:0.9rem; cursor:pointer; font-family:inherit; transition:transform .2s,box-shadow .2s; }
+                  #b2bInlineForm .ib-btn:hover:not(:disabled) { transform:translateY(-1px); box-shadow:0 8px 20px rgba(201,149,46,0.3); }
+                  #b2bInlineForm .ib-btn:disabled { opacity:0.6; cursor:not-allowed; }
+                </style>
+
+                <div class="ib-row">
+                  <div>
+                    <label class="ib-label" for="ibName">Full Name</label>
+                    <input type="text" id="ibName" placeholder="Dr. Sarah Al-Rashid" required autocomplete="name">
+                  </div>
+                  <div>
+                    <label class="ib-label" for="ibEmail">Work Email</label>
+                    <input type="email" id="ibEmail" placeholder="s.alrashid@school.edu" required autocomplete="email">
+                  </div>
+                </div>
+
+                <div class="ib-row">
+                  <div>
+                    <label class="ib-label" for="ibInstitution">Institution / School Name</label>
+                    <input type="text" id="ibInstitution" placeholder="Al Noor International Academy" required>
+                  </div>
+                  <div>
+                    <label class="ib-label" for="ibVolume">Estimated Student Volume</label>
+                    <select id="ibVolume" required>
+                      <option value="" disabled selected>Select seat range…</option>
+                      <option value="10–50 seats">10–50 seats</option>
+                      <option value="51–200 seats">51–200 seats</option>
+                      <option value="200+ seats">200+ seats</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="ib-group">
+                  <span class="ib-label">Primary Interests</span>
+                  <div class="ib-checks">
+                    <label class="ib-check"><input type="checkbox" name="ibInterest" value="Unlimited Student Access"><span>Unlimited Student Access</span></label>
+                    <label class="ib-check"><input type="checkbox" name="ibInterest" value="Teacher Training Support"><span>Teacher Training Support</span></label>
+                    <label class="ib-check"><input type="checkbox" name="ibInterest" value="Custom Branding / White-Labeling"><span>Custom Branding / White-Labeling</span></label>
+                  </div>
+                </div>
+
+                <div class="ib-group">
+                  <label class="ib-label" for="ibGoals">Tell us about your school's specific goals</label>
+                  <textarea id="ibGoals" placeholder="e.g. We need Year 3 students at Band 6.5 by June — Writing Task 2 is our main gap…"></textarea>
+                </div>
+
+                <div class="ib-error" id="ibError"></div>
+                <button type="submit" class="ib-btn" id="ibSubmitBtn">Send Partnership Request →</button>
+
+              </form>
+
+              <!-- Success state -->
+              <div id="ibSuccess" style="display:none;text-align:center;padding:1.5rem 0;">
+                <div style="font-size:2.5rem;margin-bottom:0.75rem;">✅</div>
+                <div style="font-size:1.05rem;font-weight:700;color:#EEF4FF;margin-bottom:0.45rem;">Request received!</div>
+                <div style="font-size:0.85rem;color:rgba(220,230,255,0.5);line-height:1.7;">Check your inbox — a confirmation is on its way.<br>An account manager will follow up within 24 business hours.</div>
+              </div>
+
+            </div>
+          </div>
         </div>
+
       </div>
     </div>
   </section>
@@ -2293,6 +2395,66 @@
   </div>
 
   <script>
+    // ── Inline B2B form (expands inside the card) ─────────────────────────────
+    function expandB2BForm() {
+      const panel = document.getElementById('b2bInlinePanel');
+      const price = document.getElementById('b2bPricePanel');
+      const card  = document.getElementById('b2bCard');
+      price.style.opacity = '0';
+      price.style.transform = 'scale(0.92)';
+      setTimeout(() => { price.style.display = 'none'; }, 180);
+      panel.style.maxHeight = '1400px';
+      card.style.borderColor = 'rgba(201,149,46,0.45)';
+      card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      setTimeout(() => document.getElementById('ibName').focus(), 520);
+    }
+
+    async function submitB2BInline(e) {
+      e.preventDefault();
+      const errEl = document.getElementById('ibError');
+      errEl.style.display = 'none';
+
+      const name        = document.getElementById('ibName').value.trim();
+      const email       = document.getElementById('ibEmail').value.trim();
+      const institution = document.getElementById('ibInstitution').value.trim();
+      const volume      = document.getElementById('ibVolume').value;
+      const goals       = document.getElementById('ibGoals').value.trim();
+      const interests   = [...document.querySelectorAll('input[name="ibInterest"]:checked')].map(el => el.value);
+
+      if (!name || !email || !institution || !volume) {
+        errEl.textContent = 'Please fill in all required fields.';
+        errEl.style.display = 'block';
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        errEl.textContent = 'Please enter a valid work email address.';
+        errEl.style.display = 'block';
+        return;
+      }
+
+      const btn = document.getElementById('ibSubmitBtn');
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+
+      try {
+        const res = await fetch('/api/b2b-inquiry', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, institution, volume, interests, goals }),
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'Something went wrong. Please try again.');
+        document.getElementById('b2bInlineForm').style.display = 'none';
+        document.getElementById('ibSuccess').style.display = 'block';
+      } catch (err) {
+        errEl.textContent = err.message;
+        errEl.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Send Partnership Request →';
+      }
+    }
+
+    // ── Overlay modal helpers (kept for other uses) ────────────────────────────
     function openB2BModal() {
       document.getElementById('b2bModal').style.display = 'block';
       document.body.style.overflow = 'hidden';
