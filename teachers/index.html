@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meet Our IELTS Experts — IELTS Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold: #C9952E;
+      --gold-light: #DDB05A;
+      --gold-border: rgba(201,149,46,0.25);
+      --gold-dim: rgba(201,149,46,0.08);
+      --navy: #1B2B4B;
+      --cream: #F4F1EB;
+      --card-bg: #fff;
+      --text: #1C1C2E;
+      --muted: #6B7280;
+      --border: #E8E4DC;
+    }
+
+    body {
+      background: var(--cream);
+      color: var(--text);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      line-height: 1.6;
+    }
+
+    /* ── NAV ── */
+    .site-nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(244,241,235,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 2rem;
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px; gap: 1rem;
+    }
+    .nav-logo {
+      font-family: 'Satoshi', sans-serif; font-weight: 900; font-size: 1.15rem;
+      text-decoration: none; color: var(--navy); letter-spacing: -0.02em;
+    }
+    .nav-logo span { color: var(--gold); }
+    .nav-links { display: flex; gap: 1.5rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.8rem; font-weight: 500; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--muted); text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover, .nav-links a.active { color: var(--navy); }
+    .nav-cta {
+      background: var(--navy); color: #F4F1EB; font-size: 0.8rem;
+      font-weight: 600; padding: 0.5rem 1.25rem; border-radius: 6px;
+      text-decoration: none; transition: background 0.2s; white-space: nowrap;
+    }
+    .nav-cta:hover { background: #0d1f38; }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+    }
+
+    /* ── HERO ── */
+    .hero {
+      text-align: center;
+      padding: 5rem 1.5rem 3rem;
+      max-width: 700px; margin: 0 auto;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 5px 14px; border-radius: 999px;
+      background: var(--gold-dim); border: 1px solid var(--gold-border);
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 1.25rem;
+    }
+    .hero h1 {
+      font-family: 'Satoshi', sans-serif; font-weight: 900;
+      font-size: clamp(2rem, 5vw, 3.25rem);
+      color: var(--navy); letter-spacing: -0.03em; line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+    .hero p { color: var(--muted); font-size: 1rem; max-width: 46ch; margin: 0 auto; }
+
+    /* ── TEACHER GRID ── */
+    .teachers-section { max-width: 1100px; margin: 0 auto; padding: 3rem 1.5rem 0; }
+    .teachers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .teacher-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 1.25rem;
+      padding: 2rem 1.5rem;
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    }
+    .teacher-card:hover {
+      border-color: var(--gold-border);
+      box-shadow: 0 8px 32px rgba(27,43,75,0.08);
+      transform: translateY(-2px);
+    }
+    .avatar {
+      width: 72px; height: 72px; border-radius: 50%;
+      background: var(--navy); color: #F4F1EB;
+      font-family: 'Satoshi', sans-serif; font-weight: 900;
+      font-size: 1.4rem; display: flex; align-items: center;
+      justify-content: center; margin-bottom: 1rem;
+      border: 3px solid var(--gold-border);
+    }
+    .teacher-name {
+      font-family: 'Satoshi', sans-serif; font-weight: 700;
+      font-size: 1rem; color: var(--navy); margin-bottom: 0.2rem;
+    }
+    .teacher-specialty {
+      font-size: 0.75rem; font-weight: 600; color: var(--gold);
+      margin-bottom: 0.75rem;
+    }
+    .teacher-meta {
+      display: flex; flex-direction: column; gap: 0.3rem;
+      margin-bottom: 0.75rem; width: 100%;
+    }
+    .teacher-meta-row {
+      display: flex; align-items: center; justify-content: center;
+      gap: 0.4rem; font-size: 0.78rem; color: var(--muted);
+    }
+    .stars { color: var(--gold); font-size: 0.8rem; margin-bottom: 0.2rem; }
+    .rating { font-size: 0.75rem; color: var(--muted); margin-bottom: 1.25rem; }
+    .tag {
+      display: inline-block; font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+      padding: 3px 10px; border-radius: 999px;
+      background: rgba(27,43,75,0.07); color: var(--navy);
+      margin-bottom: 1.25rem;
+    }
+    .book-card-btn {
+      width: 100%; padding: 0.7rem 1rem;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: #0d0f14; font-weight: 700; font-size: 0.85rem;
+      border: none; border-radius: 0.6rem; cursor: pointer;
+      font-family: inherit; transition: 0.2s;
+    }
+    .book-card-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(201,149,46,0.3);
+    }
+
+    /* ── BOOKING SECTION ── */
+    .booking-section {
+      max-width: 720px; margin: 5rem auto 0; padding: 0 1.5rem 6rem;
+    }
+    .booking-header {
+      text-align: center; margin-bottom: 2.5rem;
+    }
+    .booking-header h2 {
+      font-family: 'Satoshi', sans-serif; font-weight: 900;
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      color: var(--navy); letter-spacing: -0.02em; margin-bottom: 0.5rem;
+    }
+    .booking-header p { color: var(--muted); font-size: 0.9rem; }
+
+    .form-wrap {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 1.25rem;
+      padding: 2.25rem;
+    }
+
+    .field-row {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+      margin-bottom: 1rem;
+    }
+    @media (max-width: 560px) { .field-row { grid-template-columns: 1fr; } }
+
+    .field-group { margin-bottom: 1rem; }
+    .field-label {
+      display: block; font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 0.35rem;
+    }
+    .field-input {
+      width: 100%; background: var(--cream); border: 1px solid var(--border);
+      border-radius: 0.6rem; padding: 0.72rem 1rem;
+      color: var(--text); font-family: inherit; font-size: 0.9rem;
+      outline: none; transition: border-color 0.2s;
+    }
+    .field-input:focus { border-color: var(--gold); background: #fff; }
+    .field-input::placeholder { color: #B0AAA0; }
+    select.field-input {
+      appearance: none; cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%23C9952E' stroke-width='1.5' stroke-linecap='round' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 1rem center;
+      padding-right: 2.5rem; background-color: var(--cream);
+    }
+    select.field-input:focus { background-color: #fff; }
+
+    .btn-submit {
+      width: 100%; background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      color: #0d0f14; font-weight: 700; border-radius: 0.75rem;
+      padding: 0.9rem 2rem; border: none; font-family: inherit;
+      font-size: 0.95rem; cursor: pointer; transition: 0.2s;
+    }
+    .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(201,149,46,0.3); }
+    .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+    .form-note {
+      text-align: center; font-size: 0.75rem; color: var(--muted);
+      margin-top: 0.75rem;
+    }
+
+    .error-box {
+      display: none; margin-bottom: 1rem; padding: 0.75rem 1rem;
+      background: rgba(239,68,68,0.07); border: 1px solid rgba(239,68,68,0.2);
+      border-radius: 0.6rem; font-size: 0.8rem; color: #dc2626;
+    }
+    .success-box {
+      display: none; text-align: center; padding: 2.5rem 1rem;
+    }
+    .success-box .check {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: rgba(42,255,214,0.1); border: 1px solid rgba(42,255,214,0.2);
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.25rem; font-size: 1.5rem;
+    }
+    .success-box h3 {
+      font-family: 'Satoshi', sans-serif; font-weight: 800;
+      font-size: 1.3rem; color: var(--navy); margin-bottom: 0.5rem;
+    }
+    .success-box p { color: var(--muted); font-size: 0.9rem; line-height: 1.7; }
+
+    /* ── FOOTER ── */
+    .footer {
+      text-align: center; padding: 2rem;
+      border-top: 1px solid var(--border);
+      font-size: 0.75rem; color: var(--muted);
+    }
+
+    /* ── REVEAL ── */
+    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.6s, transform 0.6s; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .d1 { transition-delay: 0.05s; }
+    .d2 { transition-delay: 0.1s; }
+    .d3 { transition-delay: 0.15s; }
+    .d4 { transition-delay: 0.2s; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="site-nav">
+    <div class="nav-inner">
+      <a href="../IELTS-Lab.html" class="nav-logo">IELTS<span>Lab</span></a>
+      <ul class="nav-links">
+        <li><a href="../IELTS-Lab.html">Home</a></li>
+        <li><a href="../IELTS-Lab.html#skills">Courses</a></li>
+        <li><a href="../services/index.html">Expert Services</a></li>
+        <li><a href="../pricing.html">Pricing</a></li>
+      </ul>
+      <a href="../login.html" class="nav-cta">Get Started</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero reveal">
+    <div class="hero-badge">🎓 Certified IELTS Specialists</div>
+    <h1>Meet Our Experts</h1>
+    <p>Every teacher is certified, experienced, and results-driven. Choose your expert and book a live 1-on-1 session below.</p>
+  </div>
+
+  <!-- TEACHER GRID -->
+  <section class="teachers-section">
+    <div class="teachers-grid">
+
+      <!-- Teacher 1 -->
+      <div class="teacher-card reveal d1">
+        <div class="avatar">AE</div>
+        <div class="teacher-name">Ayoub Elhebaze</div>
+        <div class="teacher-specialty">Writing &amp; Coherence</div>
+        <div class="teacher-meta">
+          <div class="teacher-meta-row"><span>🇲🇦</span><span>Morocco</span></div>
+          <div class="teacher-meta-row">11 years experience</div>
+        </div>
+        <div class="tag">CEO &amp; Founder</div>
+        <div class="stars">★★★★★</div>
+        <div class="rating">4.9 / 5.0</div>
+        <button class="book-card-btn" onclick="openBooking('Ayoub Elhebaze')">Book a Session →</button>
+      </div>
+
+      <!-- Teacher 2 -->
+      <div class="teacher-card reveal d2">
+        <div class="avatar">SM</div>
+        <div class="teacher-name">Dr. Sarah Mitchell</div>
+        <div class="teacher-specialty">Listening &amp; Vocabulary</div>
+        <div class="teacher-meta">
+          <div class="teacher-meta-row"><span>🇬🇧</span><span>United Kingdom</span></div>
+          <div class="teacher-meta-row">8 years experience</div>
+        </div>
+        <div class="tag">IELTS Examiner</div>
+        <div class="stars">★★★★★</div>
+        <div class="rating">4.8 / 5.0</div>
+        <button class="book-card-btn" onclick="openBooking('Dr. Sarah Mitchell')">Book a Session →</button>
+      </div>
+
+      <!-- Teacher 3 -->
+      <div class="teacher-card reveal d3">
+        <div class="avatar">ML</div>
+        <div class="teacher-name">Dr. Mei Lin Zhao</div>
+        <div class="teacher-specialty">Reading &amp; Test Strategy</div>
+        <div class="teacher-meta">
+          <div class="teacher-meta-row"><span>🇸🇬</span><span>Singapore</span></div>
+          <div class="teacher-meta-row">13 years experience</div>
+        </div>
+        <div class="tag">Strategy Expert</div>
+        <div class="stars">★★★★★</div>
+        <div class="rating">4.9 / 5.0</div>
+        <button class="book-card-btn" onclick="openBooking('Dr. Mei Lin Zhao')">Book a Session →</button>
+      </div>
+
+      <!-- Teacher 4 -->
+      <div class="teacher-card reveal d4">
+        <div class="avatar">JO</div>
+        <div class="teacher-name">James O'Brien</div>
+        <div class="teacher-specialty">Speaking &amp; Pronunciation</div>
+        <div class="teacher-meta">
+          <div class="teacher-meta-row"><span>🇮🇪</span><span>Ireland</span></div>
+          <div class="teacher-meta-row">9 years experience</div>
+        </div>
+        <div class="tag">Native Speaker</div>
+        <div class="stars">★★★★★</div>
+        <div class="rating">4.8 / 5.0</div>
+        <button class="book-card-btn" onclick="openBooking('James O\'Brien')">Book a Session →</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- BOOKING FORM -->
+  <section class="booking-section" id="booking-form">
+    <div class="booking-header reveal">
+      <h2>Book Your 1-on-1 Session</h2>
+      <p>Fill in your details — we'll confirm your time slot and payment within a few hours.</p>
+    </div>
+
+    <div class="form-wrap reveal">
+
+      <div class="success-box" id="formSuccess">
+        <div class="check">✅</div>
+        <h3>Request sent!</h3>
+        <p>Check your inbox — we'll confirm your time slot<br>and share payment details within a few hours.</p>
+      </div>
+
+      <div class="error-box" id="formError"></div>
+
+      <form id="bookForm" onsubmit="submitBook(event)" novalidate>
+
+        <div class="field-row">
+          <div>
+            <label class="field-label" for="bName">Full Name</label>
+            <input id="bName" type="text" class="field-input" placeholder="Your full name" />
+          </div>
+          <div>
+            <label class="field-label" for="bEmail">Email Address</label>
+            <input id="bEmail" type="email" class="field-input" placeholder="you@example.com" />
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="bTeacher">Preferred Expert</label>
+          <select id="bTeacher" class="field-input">
+            <option value="">No preference — assign best match</option>
+            <option>Ayoub Elhebaze — Writing &amp; Coherence</option>
+            <option>Dr. Sarah Mitchell — Listening &amp; Vocabulary</option>
+            <option>Dr. Mei Lin Zhao — Reading &amp; Test Strategy</option>
+            <option>James O'Brien — Speaking &amp; Pronunciation</option>
+          </select>
+        </div>
+
+        <div class="field-row">
+          <div>
+            <label class="field-label" for="bCurrent">Current Band Score</label>
+            <select id="bCurrent" class="field-input">
+              <option value="">Not sure yet</option>
+              <option>3.0</option><option>3.5</option><option>4.0</option><option>4.5</option>
+              <option>5.0</option><option>5.5</option><option>6.0</option><option>6.5</option>
+              <option>7.0</option><option>7.5</option><option>8.0</option><option>8.5</option>
+            </select>
+          </div>
+          <div>
+            <label class="field-label" for="bTarget">Target Band Score</label>
+            <select id="bTarget" class="field-input">
+              <option value="">Choose target</option>
+              <option>5.0</option><option>5.5</option><option>6.0</option><option>6.5</option>
+              <option>7.0</option><option>7.5</option><option>8.0</option><option>8.5</option>
+              <option>9.0</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="bFocus">What do you need help with most?</label>
+          <select id="bFocus" class="field-input">
+            <option value="">Select a focus area</option>
+            <option>Speaking</option>
+            <option>Writing</option>
+            <option>Reading</option>
+            <option>Listening</option>
+            <option>General Strategy</option>
+          </select>
+        </div>
+
+        <div class="field-group" style="margin-bottom:1.5rem;">
+          <label class="field-label" for="bNotes">
+            Anything else? <span style="font-weight:400;text-transform:none;letter-spacing:0;opacity:0.6">(optional)</span>
+          </label>
+          <textarea id="bNotes" class="field-input" rows="3"
+            placeholder="Your exam date, specific struggles, questions for the expert…"
+            style="resize:vertical;line-height:1.6;"></textarea>
+        </div>
+
+        <button type="submit" id="bSubmitBtn" class="btn-submit">Book My Session →</button>
+        <p class="form-note">We reply within a few hours with available time slots and payment details.</p>
+
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>© 2026 IELTS Lab · <a href="../about/index.html" style="color:var(--muted);text-decoration:none;">About</a> · <a href="../privacy/index.html" style="color:var(--muted);text-decoration:none;">Privacy</a></p>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+    // Pre-fill teacher and scroll to form when a card button is clicked
+    function openBooking(teacherName) {
+      const sel = document.getElementById('bTeacher');
+      for (let opt of sel.options) {
+        if (opt.value.startsWith(teacherName)) { sel.value = opt.value; break; }
+      }
+      document.getElementById('booking-form').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setTimeout(() => document.getElementById('bName').focus(), 600);
+    }
+
+    // Form submit
+    async function submitBook(e) {
+      e.preventDefault();
+      const name    = document.getElementById('bName').value.trim();
+      const email   = document.getElementById('bEmail').value.trim();
+      const teacher = document.getElementById('bTeacher').value;
+      const current = document.getElementById('bCurrent').value;
+      const target  = document.getElementById('bTarget').value;
+      const focus   = document.getElementById('bFocus').value;
+      const notes   = document.getElementById('bNotes').value.trim();
+      const errEl   = document.getElementById('formError');
+      errEl.style.display = 'none';
+
+      if (!name || !email) {
+        errEl.textContent = 'Please enter your full name and email.';
+        errEl.style.display = 'block'; return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        errEl.textContent = 'Please enter a valid email address.';
+        errEl.style.display = 'block'; return;
+      }
+      if (!focus) {
+        errEl.textContent = 'Please select a focus area.';
+        errEl.style.display = 'block'; return;
+      }
+
+      const btn = document.getElementById('bSubmitBtn');
+      btn.disabled = true; btn.textContent = 'Sending…';
+
+      try {
+        const res  = await fetch('/api/book-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, teacher, currentBand: current, targetBand: target, focus, notes }),
+        });
+        const data = await res.json();
+        if (!res.ok || !data.ok) throw new Error(data.error || 'Something went wrong.');
+        document.getElementById('bookForm').style.display = 'none';
+        document.getElementById('formSuccess').style.display = 'block';
+      } catch (err) {
+        errEl.textContent = err.message || 'Network error. Please try again.';
+        errEl.style.display = 'block';
+        btn.disabled = false; btn.textContent = 'Book My Session →';
+      }
+    }
+  </script>
+</body>
+</html>

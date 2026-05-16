@@ -2172,13 +2172,14 @@ app.post('/api/book-service', async (req, res) => {
 // ── POST /api/book-session — 1-on-1 expert session booking ───────────────────
 app.use('/api/book-session', emailLimiter);
 app.post('/api/book-session', async (req, res) => {
-  const { name, email, currentBand, targetBand, focus, notes } = req.body;
+  const { name, email, teacher, currentBand, targetBand, focus, notes } = req.body;
   if (!name || !email) return res.status(400).json({ error: 'Name and email are required.' });
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return res.status(400).json({ error: 'Valid email required.' });
   if (!focus) return res.status(400).json({ error: 'Focus area is required.' });
 
   const safeName    = sanitizeInput(String(name),              100);
   const safeEmail   = sanitizeInput(String(email),             200);
+  const safeTeacher = sanitizeInput(String(teacher || ''),     150);
   const safeCurrent = sanitizeInput(String(currentBand || ''), 20);
   const safeTarget  = sanitizeInput(String(targetBand  || ''), 20);
   const safeFocus   = sanitizeInput(String(focus),             100);
@@ -2199,6 +2200,10 @@ app.post('/api/book-session', async (req, res) => {
           <td style="padding:10px 0;color:#6B7280;font-size:13px;width:130px;">Name</td>
           <td style="padding:10px 0;color:#1C1C2E;font-size:13px;font-weight:600;">${safeName}</td>
         </tr>
+        ${safeTeacher ? `<tr style="border-bottom:1px solid #E8E4DC;">
+          <td style="padding:10px 0;color:#6B7280;font-size:13px;">Expert</td>
+          <td style="padding:10px 0;color:#1C1C2E;font-size:13px;">${safeTeacher}</td>
+        </tr>` : ''}
         <tr style="border-bottom:1px solid #E8E4DC;">
           <td style="padding:10px 0;color:#6B7280;font-size:13px;">Email</td>
           <td style="padding:10px 0;font-size:13px;"><a href="mailto:${safeEmail}" style="color:#1B2B4B;">${safeEmail}</a></td>
