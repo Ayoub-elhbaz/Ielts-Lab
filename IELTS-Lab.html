@@ -346,7 +346,7 @@
           <li><a href="#teachers">Teachers</a></li>
           <li><a href="guide/index.html">IELTS Guide</a></li>
           <li><a href="services/index.html">Expert Services</a></li>
-          <li><a href="book-session/index.html">Book a Session</a></li>
+          <li><a href="#book-session">Book a Session</a></li>
           <li><a href="pricing.html">Pricing</a></li>
           <li id="clinicNavItem" style="display:none"><a href="writing-clinic/index.html" style="color:var(--gold);opacity:1;font-weight:400;">✍️ Writing Clinic</a></li>
           <li id="mockNavItem" style="display:none"><a href="mock-tests/index.html" style="color:var(--gold);opacity:1;font-weight:400;">🧪 Mock Tests</a></li>
@@ -1617,7 +1617,7 @@
             <div class="text-xs text-[#3D4451] mb-3">11 years experience</div>
             <div class="stars mb-1">★★★★★</div>
             <div class="text-xs text-[#3D4451] mb-4">4.9 / 5.0</div>
-            <button class="book-btn w-full" onclick="location.href='book-session/index.html'">Book a Session</button>
+            <button class="book-btn w-full" onclick="document.getElementById('book-session').scrollIntoView({behavior:'smooth'})">Book a Session</button>
           </div>
 
           <!-- Teacher 2 -->
@@ -1632,7 +1632,7 @@
             <div class="text-xs text-[#3D4451] mb-3">8 years experience</div>
             <div class="stars mb-1">★★★★★</div>
             <div class="text-xs text-[#3D4451] mb-4">4.8 / 5.0</div>
-            <button class="book-btn w-full" onclick="location.href='book-session/index.html'">Book a Session</button>
+            <button class="book-btn w-full" onclick="document.getElementById('book-session').scrollIntoView({behavior:'smooth'})">Book a Session</button>
           </div>
 
           <!-- Teacher 3 -->
@@ -1647,7 +1647,7 @@
             <div class="text-xs text-[#3D4451] mb-3">13 years experience</div>
             <div class="stars mb-1">★★★★★</div>
             <div class="text-xs text-[#3D4451] mb-4">4.9 / 5.0</div>
-            <button class="book-btn w-full" onclick="location.href='book-session/index.html'">Book a Session</button>
+            <button class="book-btn w-full" onclick="document.getElementById('book-session').scrollIntoView({behavior:'smooth'})">Book a Session</button>
           </div>
 
           <!-- Teacher 4 -->
@@ -1662,21 +1662,148 @@
             <div class="text-xs text-[#3D4451] mb-3">9 years experience</div>
             <div class="stars mb-1">★★★★★</div>
             <div class="text-xs text-[#3D4451] mb-4">4.8 / 5.0</div>
-            <button class="book-btn w-full" onclick="location.href='book-session/index.html'">Book a Session</button>
+            <button class="book-btn w-full" onclick="document.getElementById('book-session').scrollIntoView({behavior:'smooth'})">Book a Session</button>
           </div>
 
         </div>
       </div>
 
-      <!-- View all -->
+      <!-- Scroll CTA -->
       <div class="reveal d200 mt-10 flex justify-center">
-        <a href="book-session/index.html" class="flex items-center gap-2 text-sm font-medium border border-[#1B2B4B] text-[#1B2B4B] hover:bg-[#1B2B4B] hover:text-white transition-colors px-6 py-3 rounded-md">
+        <button onclick="document.getElementById('book-session').scrollIntoView({behavior:'smooth'})"
+          class="flex items-center gap-2 text-sm font-medium border border-[#1B2B4B] text-[#1B2B4B] hover:bg-[#1B2B4B] hover:text-white transition-colors px-6 py-3 rounded-md" style="background:transparent;cursor:pointer;font-family:inherit;">
           Book an Expert Session →
-        </a>
+        </button>
       </div>
 
     </div>
   </section>
+
+  <!-- ╔══════════════════════════════ BOOK A SESSION ════════════════════════╗ -->
+  <section id="book-session" class="py-24 divider" style="background:#fff">
+    <div class="max-w-2xl mx-auto px-6">
+
+      <div class="text-center mb-10 reveal">
+        <div class="label mb-4" style="color:var(--gold)">Book a Session</div>
+        <h2 class="font-display font-black text-4xl md:text-5xl tracking-tighter leading-tight text-[#1C1C2E] mb-4">
+          1-on-1 with an IELTS Expert
+        </h2>
+        <p class="text-[#3D4451] leading-relaxed max-w-[44ch] mx-auto">
+          Fill in your details and one of our certified experts will confirm your time slot within a few hours.
+        </p>
+      </div>
+
+      <!-- Form card -->
+      <div class="reveal" style="background:#F4F1EB;border:1px solid #E8E4DC;border-radius:1.25rem;padding:2rem 2.25rem;">
+
+        <!-- Success state -->
+        <div id="bsSuccess" style="display:none;text-align:center;padding:1.5rem 0;">
+          <div style="font-size:2.5rem;margin-bottom:0.75rem">✅</div>
+          <h3 class="font-display font-bold text-xl text-[#1C1C2E] mb-2">Request sent!</h3>
+          <p class="text-[#3D4451] text-sm leading-relaxed">
+            Check your inbox — we'll confirm your time slot and share payment details within a few hours.
+          </p>
+        </div>
+
+        <!-- Error banner -->
+        <div id="bsError" style="display:none;margin-bottom:1rem;padding:0.75rem 1rem;background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:0.6rem;font-size:0.8rem;color:#dc2626;"></div>
+
+        <form id="bsForm" onsubmit="submitBookSession(event)" novalidate>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
+            <div>
+              <label class="bs-label" for="bsName">Full Name</label>
+              <input id="bsName" type="text" class="bs-input" placeholder="Your full name" />
+            </div>
+            <div>
+              <label class="bs-label" for="bsEmail">Email Address</label>
+              <input id="bsEmail" type="email" class="bs-input" placeholder="you@example.com" />
+            </div>
+          </div>
+
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
+            <div>
+              <label class="bs-label" for="bsCurrent">Current Band Score</label>
+              <select id="bsCurrent" class="bs-input bs-select">
+                <option value="">Not sure yet</option>
+                <option>3.0</option><option>3.5</option><option>4.0</option><option>4.5</option>
+                <option>5.0</option><option>5.5</option><option>6.0</option><option>6.5</option>
+                <option>7.0</option><option>7.5</option><option>8.0</option><option>8.5</option>
+              </select>
+            </div>
+            <div>
+              <label class="bs-label" for="bsTarget">Target Band Score</label>
+              <select id="bsTarget" class="bs-input bs-select">
+                <option value="">Choose target</option>
+                <option>5.0</option><option>5.5</option><option>6.0</option><option>6.5</option>
+                <option>7.0</option><option>7.5</option><option>8.0</option><option>8.5</option>
+                <option>9.0</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-bottom:1rem;">
+            <label class="bs-label" for="bsFocus">What do you need help with most?</label>
+            <select id="bsFocus" class="bs-input bs-select">
+              <option value="">Select a focus area</option>
+              <option>Speaking</option>
+              <option>Writing</option>
+              <option>Reading</option>
+              <option>Listening</option>
+              <option>General Strategy</option>
+            </select>
+          </div>
+
+          <div style="margin-bottom:1.5rem;">
+            <label class="bs-label" for="bsNotes">Anything else? <span style="opacity:0.5;font-weight:400;font-size:0.75rem;">(optional)</span></label>
+            <textarea id="bsNotes" class="bs-input" rows="3"
+              placeholder="Exam date, specific struggles, questions for the expert…"
+              style="resize:vertical;line-height:1.6;"></textarea>
+          </div>
+
+          <button type="submit" id="bsSubmitBtn"
+            style="width:100%;background:linear-gradient(135deg,var(--gold),#DDB05A);color:#0d0f14;font-weight:700;border-radius:0.75rem;padding:0.9rem 2rem;border:none;font-family:inherit;font-size:0.95rem;cursor:pointer;transition:0.2s;"
+            onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(201,149,46,0.3)'"
+            onmouseout="this.style.transform='';this.style.boxShadow=''">
+            Book My Session →
+          </button>
+          <p style="text-align:center;font-size:0.75rem;color:#9CA3AF;margin-top:0.75rem;">
+            We reply within a few hours with time slot options and payment details.
+          </p>
+
+        </form>
+      </div>
+
+    </div>
+  </section>
+
+  <style>
+    .bs-label {
+      display: block; font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.07em; text-transform: uppercase;
+      color: #6B7280; margin-bottom: 0.35rem;
+    }
+    .bs-input {
+      width: 100%; background: #fff; border: 1px solid #DDD8CE;
+      border-radius: 0.6rem; padding: 0.7rem 1rem;
+      color: #1C1C2E; font-family: inherit; font-size: 0.9rem;
+      outline: none; transition: border-color 0.2s;
+      box-sizing: border-box;
+    }
+    .bs-input:focus { border-color: var(--gold); }
+    .bs-input::placeholder { color: #9CA3AF; }
+    .bs-select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%23C9952E' stroke-width='1.5' stroke-linecap='round' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 1rem center;
+      padding-right: 2.5rem; cursor: pointer;
+    }
+    @media (max-width: 560px) {
+      #bsForm > div[style*="grid-template-columns:1fr 1fr"] {
+        grid-template-columns: 1fr !important;
+      }
+    }
+  </style>
 
   <!-- ╔══════════════════════════════ PRICING ═════════════════════════════╗ -->
   <section id="pricing" class="py-32 divider" style="background:#F4F1EB">
@@ -2516,6 +2643,52 @@
         errEl.style.display = 'block';
         btn.disabled = false;
         btn.textContent = 'Send Partnership Request →';
+      }
+    }
+
+    async function submitBookSession(e) {
+      e.preventDefault();
+      const name    = document.getElementById('bsName').value.trim();
+      const email   = document.getElementById('bsEmail').value.trim();
+      const current = document.getElementById('bsCurrent').value;
+      const target  = document.getElementById('bsTarget').value;
+      const focus   = document.getElementById('bsFocus').value;
+      const notes   = document.getElementById('bsNotes').value.trim();
+      const errEl   = document.getElementById('bsError');
+      errEl.style.display = 'none';
+
+      if (!name || !email) {
+        errEl.textContent = 'Please enter your full name and email.';
+        errEl.style.display = 'block'; return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        errEl.textContent = 'Please enter a valid email address.';
+        errEl.style.display = 'block'; return;
+      }
+      if (!focus) {
+        errEl.textContent = 'Please select a focus area.';
+        errEl.style.display = 'block'; return;
+      }
+
+      const btn = document.getElementById('bsSubmitBtn');
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+
+      try {
+        const res  = await fetch('/api/book-session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, currentBand: current, targetBand: target, focus, notes }),
+        });
+        const data = await res.json();
+        if (!res.ok || !data.ok) throw new Error(data.error || 'Something went wrong.');
+        document.getElementById('bsForm').style.display = 'none';
+        document.getElementById('bsSuccess').style.display = 'block';
+      } catch (err) {
+        errEl.textContent = err.message || 'Network error. Please try again.';
+        errEl.style.display = 'block';
+        btn.disabled = false;
+        btn.textContent = 'Book My Session →';
       }
     }
   </script>
