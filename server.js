@@ -286,6 +286,7 @@ app.use([
 ], aiLimiter);
 app.use('/api/auth/send-verification', emailLimiter);
 app.use('/api/auth/verify-code',       authLimiter);
+app.use('/api/b2b-inquiry',            emailLimiter);
 
 // ── Static files ──────────────────────────────────────────────────────────────
 app.use(express.static(__dirname));
@@ -486,7 +487,7 @@ function buildVerificationEmail(code) {
   </body></html>`;
 }
 
-async function sendEmail(to, subject, html) {
+async function sendEmail(to, subject, html, replyToOverride) {
   const resendKey = process.env.RESEND_API_KEY;
   const gmailUser = process.env.GMAIL_USER;
   const gmailPass = process.env.GMAIL_PASS;
@@ -494,7 +495,7 @@ async function sendEmail(to, subject, html) {
   // Primary: Resend
   if (resendKey) {
     const from    = `IELTS Lab <${process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev'}>`;
-    const replyTo = gmailUser || undefined;
+    const replyTo = replyToOverride || gmailUser || undefined;
     const r = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: { 'Authorization': `Bearer ${resendKey}`, 'Content-Type': 'application/json' },
@@ -2165,6 +2166,180 @@ app.post('/api/book-service', async (req, res) => {
     res.json({ ok: true });
   } catch (err) {
     safeErr(res, err, 'book-service');
+  }
+});
+
+// ── POST /api/b2b-inquiry — B2B Partnership Pack lead form ────────────────────
+app.post('/api/b2b-inquiry', async (req, res) => {
+  const { name, email, institution, volume, interests, goals } = req.body;
+
+  if (!name || !email || !institution || !volume) {
+    return res.status(400).json({ error: 'Name, email, institution, and student volume are required.' });
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    return res.status(400).json({ error: 'Please provide a valid email address.' });
+  }
+
+  const safeName        = sanitizeInput(String(name),        100);
+  const safeEmail       = sanitizeInput(String(email),       200);
+  const safeInstitution = sanitizeInput(String(institution), 200);
+  const safeVolume      = sanitizeInput(String(volume),      50);
+  const safeGoals       = sanitizeInput(String(goals  || ''), 2000);
+  const safeInterests   = Array.isArray(interests)
+    ? interests.map(i => sanitizeInput(String(i), 100)).filter(Boolean)
+    : [];
+
+  const PARTNER_INBOX = 'ielts.lab26@gmail.com';
+
+  // ── Admin notification email ──────────────────────────────────────────────
+  const interestsRows = safeInterests.length
+    ? safeInterests.map(i => `
+          <tr>
+            <td style="padding:5px 0 5px 0;font-size:13px;color:rgba(238,244,255,0.85);">
+              <span style="color:#C9952E;margin-right:6px;">✓</span>${i}
+            </td>
+          </tr>`).join('')
+    : `<tr><td style="padding:5px 0;font-size:13px;color:rgba(238,244,255,0.4);font-style:italic;">None selected</td></tr>`;
+
+  const adminHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"></head>
+  <body style="margin:0;padding:0;background:#090d14;font-family:'Helvetica Neue',Arial,sans-serif;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background:#090d14;padding:32px 16px;">
+      <tr><td align="center">
+        <table width="580" cellpadding="0" cellspacing="0" style="max-width:580px;width:100%;background:#0d1117;border:1px solid rgba(201,149,46,0.22);border-radius:16px;overflow:hidden;">
+
+          <tr><td style="background:#1B2B4B;padding:24px 32px;border-bottom:2px solid #C9952E;">
+            <div style="font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:#C9952E;margin-bottom:6px;">New Lead · B2B Partnership</div>
+            <div style="font-family:Georgia,serif;font-size:20px;font-weight:700;color:#EEF4FF;">${safeInstitution}</div>
+            <div style="font-size:12px;color:rgba(238,244,255,0.45);margin-top:3px;">Submitted via ieltslab.io partnership form</div>
+          </td></tr>
+
+          <tr><td style="padding:28px 32px;">
+            <table width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+                <td style="padding:12px 0;width:130px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(238,244,255,0.35);vertical-align:top;">Full Name</td>
+                <td style="padding:12px 0;font-size:15px;color:#EEF4FF;font-weight:600;">${safeName}</td>
+              </tr>
+
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+                <td style="padding:12px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(238,244,255,0.35);vertical-align:top;">Work Email</td>
+                <td style="padding:12px 0;font-size:15px;">
+                  <a href="mailto:${safeEmail}" style="color:#DDB05A;text-decoration:none;">${safeEmail}</a>
+                </td>
+              </tr>
+
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+                <td style="padding:12px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(238,244,255,0.35);vertical-align:top;">Institution</td>
+                <td style="padding:12px 0;font-size:15px;color:#EEF4FF;font-weight:600;">${safeInstitution}</td>
+              </tr>
+
+              <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+                <td style="padding:12px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(238,244,255,0.35);vertical-align:top;">Student Volume</td>
+                <td style="padding:12px 0;">
+                  <span style="display:inline-block;background:rgba(201,149,46,0.15);color:#DDB05A;border:1px solid rgba(201,149,46,0.35);border-radius:6px;padding:4px 12px;font-size:13px;font-weight:700;letter-spacing:0.02em;">${safeVolume}</span>
+                </td>
+              </tr>
+
+              <tr style="border-bottom:${safeGoals ? '1px solid rgba(255,255,255,0.07)' : 'none'};">
+                <td style="padding:14px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(238,244,255,0.35);vertical-align:top;">Interests</td>
+                <td style="padding:12px 0;">
+                  <table cellpadding="0" cellspacing="0">${interestsRows}</table>
+                </td>
+              </tr>
+
+              ${safeGoals ? `
+              <tr>
+                <td style="padding:14px 0;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:rgba(238,244,255,0.35);vertical-align:top;">Goals</td>
+                <td style="padding:12px 0;">
+                  <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;padding:14px 16px;font-size:14px;color:rgba(238,244,255,0.75);line-height:1.75;white-space:pre-wrap;">${safeGoals}</div>
+                </td>
+              </tr>` : ''}
+
+            </table>
+
+            <div style="margin-top:24px;padding:16px 18px;background:rgba(201,149,46,0.08);border:1px solid rgba(201,149,46,0.2);border-radius:8px;">
+              <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#C9952E;margin-bottom:5px;">Next Step</div>
+              <div style="font-size:13px;color:rgba(238,244,255,0.7);line-height:1.6;">
+                Reply to <a href="mailto:${safeEmail}" style="color:#DDB05A;">${safeEmail}</a> within 24 business hours with a formal proposal tailored to the <strong style="color:#EEF4FF;">${safeVolume}</strong> tier.
+              </div>
+            </div>
+          </td></tr>
+
+          <tr><td style="padding:16px 32px;background:#090d14;border-top:1px solid rgba(255,255,255,0.06);text-align:center;">
+            <div style="font-size:11px;color:rgba(238,244,255,0.2);">IELTS Lab · ieltslab.io</div>
+          </td></tr>
+
+        </table>
+      </td></tr>
+    </table>
+  </body></html>`;
+
+  // ── Confirmation email to school director ────────────────────────────────
+  const confirmHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"></head>
+  <body style="margin:0;padding:0;background:#f8f6f1;font-family:'Helvetica Neue',Arial,sans-serif;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="background:#f8f6f1;padding:40px 16px;">
+      <tr><td align="center">
+        <table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;background:#ffffff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
+
+          <tr><td style="background:#1C1C2E;padding:28px 36px;">
+            <div style="font-family:Georgia,serif;font-size:22px;font-weight:700;color:#F8F6F1;">IELTS <span style="color:#B8860B;">Lab</span></div>
+            <div style="font-size:11px;color:rgba(255,255,255,0.4);margin-top:4px;letter-spacing:0.12em;text-transform:uppercase;">Institutional Partnerships</div>
+          </td></tr>
+
+          <tr><td style="padding:40px 36px;">
+            <p style="font-size:15px;color:#1C1C2E;font-weight:600;margin:0 0 20px;">Dear ${safeName},</p>
+
+            <p style="font-size:15px;color:#4A5568;line-height:1.85;margin:0 0 22px;">
+              Thank you for reaching out to explore an institutional partnership with IELTS Lab.
+            </p>
+
+            <p style="font-size:15px;color:#4A5568;line-height:1.85;margin:0 0 20px;">
+              Our academic relations team is currently reviewing your estimated student volume to calculate a custom bulk tier rate. Please note that all of our enterprise partnership packages standardly include:
+            </p>
+
+            <table cellpadding="0" cellspacing="0" style="margin:0 0 24px;">
+              <tr><td style="padding:7px 0;vertical-align:top;">
+                <span style="color:#B8860B;font-size:16px;font-weight:700;margin-right:10px;line-height:1;">—</span>
+              </td><td style="padding:7px 0;font-size:14px;color:#4A5568;line-height:1.7;">Unlimited platform usage for your registered students.</td></tr>
+              <tr><td style="padding:7px 0;vertical-align:top;">
+                <span style="color:#B8860B;font-size:16px;font-weight:700;margin-right:10px;line-height:1;">—</span>
+              </td><td style="padding:7px 0;font-size:14px;color:#4A5568;line-height:1.7;">Tailored consultation to align the platform with your current curriculum.</td></tr>
+              <tr><td style="padding:7px 0;vertical-align:top;">
+                <span style="color:#B8860B;font-size:16px;font-weight:700;margin-right:10px;line-height:1;">—</span>
+              </td><td style="padding:7px 0;font-size:14px;color:#4A5568;line-height:1.7;">Complete onboarding and training sessions for your teaching staff.</td></tr>
+            </table>
+
+            <p style="font-size:15px;color:#4A5568;line-height:1.85;margin:0 0 32px;">
+              A dedicated account manager will follow up with you within 24 business hours with a formal proposal and to schedule a brief walkthrough of the teacher dashboard. If you need immediate assistance, feel free to reply directly to this email at
+              <a href="mailto:ielts.lab26@gmail.com" style="color:#B8860B;text-decoration:none;">ielts.lab26@gmail.com</a>.
+            </p>
+
+            <div style="border-top:1px solid #E2DDD5;padding-top:22px;">
+              <p style="font-size:13px;color:#9CA3AF;margin:0;line-height:1.7;">
+                Warm regards,<br/>
+                <strong style="color:#1C1C2E;font-size:14px;">The IELTS Lab Partnership Team</strong>
+              </p>
+            </div>
+          </td></tr>
+
+          <tr><td style="padding:16px 36px;background:#f0ede6;text-align:center;border-top:1px solid #E2DDD5;">
+            <div style="font-size:11px;color:#A0AEC0;">IELTS Lab · Band 9 is the destination</div>
+          </td></tr>
+
+        </table>
+      </td></tr>
+    </table>
+  </body></html>`;
+
+  try {
+    await Promise.all([
+      sendEmail(PARTNER_INBOX, `New B2B Inquiry: ${safeInstitution} (${safeVolume}) — ${safeName}`, adminHtml),
+      sendEmail(safeEmail, 'Documenting your IELTS Lab Partnership Request', confirmHtml, PARTNER_INBOX),
+    ]);
+    console.log(`[b2b-inquiry] Lead from ${safeEmail} (${safeInstitution}, ${safeVolume})`);
+    res.json({ ok: true });
+  } catch (err) {
+    safeErr(res, err, 'b2b-inquiry');
   }
 });
 
