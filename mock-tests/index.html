@@ -388,7 +388,8 @@
 
     // DATA
     const CAMBRIDGE_BOOKS = [
-      { num: 20, year: '2025', academic: true, general: true },
+      { num: 20, year: '2025', academic: true, general: true,
+        staticLinks: { '1-reading-academic': 'cam20-t1-reading.html' } },
       { num: 19, year: '2024', academic: true, general: true },
       { num: 18, year: '2023', academic: true, general: true },
       { num: 17, year: '2022', academic: true, general: true },
@@ -454,7 +455,7 @@
 
       const timeStr  = skillMode ? `${SKILL_ICONS[skillMode]} ${SKILL_TIMES[skillMode]}` : '⏱ ~3 hours';
       const btnLabel = skillMode ? `Start ${SKILL_LABELS[skillMode]} →` : 'Start Test →';
-      const onclickFn = skillMode ? `openSetup('single','${skillMode}')` : `openSetup('full',null)`;
+      const onclickFn = skillMode ? `openSetup('single','${skillMode}',${book.num},${testNum})` : `openSetup('full',null,${book.num},${testNum})`;
 
       return `
         <div class="test-card">
@@ -516,10 +517,13 @@
 
     // SETUP MODAL
     let pendingMode = null, pendingSkill = null, selectedType = null;
+    let pendingBook = null, pendingTestNum = null;
 
-    function openSetup(mode, skill) {
-      pendingMode  = mode;
-      pendingSkill = skill;
+    function openSetup(mode, skill, bookNum, testNum) {
+      pendingMode    = mode;
+      pendingSkill   = skill;
+      pendingBook    = bookNum || null;
+      pendingTestNum = testNum || null;
       selectedType = null;
       ['typeAcademic','typeGeneral'].forEach(id => document.getElementById(id).classList.remove('selected'));
       ['checkAcademic','checkGeneral'].forEach(id => document.getElementById(id).style.opacity = '0');
@@ -553,8 +557,15 @@
 
     function startTest() {
       if (!selectedType) return;
-      const setup = { mode: pendingMode, skill: pendingSkill, type: selectedType, startedAt: Date.now(), completedSkills: [] };
+      const setup = { mode: pendingMode, skill: pendingSkill, type: selectedType, book: pendingBook, testNum: pendingTestNum, startedAt: Date.now(), completedSkills: [] };
       sessionStorage.setItem('mockTestSetup', JSON.stringify(setup));
+      // Check for a dedicated static test page
+      if (pendingBook && pendingTestNum && pendingSkill) {
+        const book = CAMBRIDGE_BOOKS.find(b => b.num === pendingBook);
+        const staticKey = `${pendingTestNum}-${pendingSkill}-${selectedType}`;
+        const staticUrl = book?.staticLinks?.[staticKey];
+        if (staticUrl) { window.location.href = staticUrl; return; }
+      }
       const firstSkill = pendingMode === 'full' ? 'listening' : pendingSkill;
       window.location.href = `${firstSkill}.html`;
     }
