@@ -119,15 +119,17 @@
     if (href === '/IELTS-Lab.html' && (p === '/' || p.endsWith('IELTS-Lab.html'))) return 'ielts-active';
     if (href.includes('writing-clinic') && p.includes('writing-clinic')) return 'ielts-active';
     if (href.includes('mock-tests') && p.includes('mock-tests')) return 'ielts-active';
-    if (href.includes('book-session') && p.includes('book-session')) return 'ielts-active';
+    if (href.includes('guide') && p.includes('guide')) return 'ielts-active';
+    if (href.includes('pricing') && p.includes('pricing')) return 'ielts-active';
     return '';
   }
 
   function buildNav() {
-    const home    = getActiveClass('/IELTS-Lab.html');
-    const clinic  = getActiveClass('/writing-clinic/');
-    const mocks   = getActiveClass('/mock-tests/');
-    const session = getActiveClass('/book-session/');
+    const home   = getActiveClass('/IELTS-Lab.html');
+    const clinic = getActiveClass('/writing-clinic/');
+    const mocks  = getActiveClass('/mock-tests/');
+    const guide  = getActiveClass('/guide/');
+    const price  = getActiveClass('/pricing.html');
 
     return `
       ${NAV_CSS}
@@ -140,14 +142,15 @@
 
           <div class="ielts-nav-links">
             <a href="/IELTS-Lab.html"                   class="ielts-nav-link ${home}">Home</a>
+            <a href="/guide/index.html"                 class="ielts-nav-link ${guide}">IELTS Guide</a>
+            <a href="/pricing.html"                     class="ielts-nav-link ${price}">Pricing</a>
             <a href="/writing-clinic/corrector.html"    class="ielts-nav-link ${clinic}">Writing Clinic</a>
             <a href="/mock-tests/index.html"            class="ielts-nav-link ${mocks}">Mock Tests</a>
-            <a href="/book-session/index.html"          class="ielts-nav-link ${session}">Book a Session</a>
           </div>
 
           <div class="ielts-nav-right">
             <a href="/writing-clinic/corrector.html" class="ielts-nav-cta">
-              Correct My Essay
+              My Dashboard
             </a>
             <button class="ielts-hamburger" id="ieltsHamburger"
               aria-label="Open menu" aria-expanded="false" aria-controls="ieltsDrawer">
@@ -170,12 +173,13 @@
         </div>
 
         <div class="ielts-drawer" id="ieltsDrawer" role="menu">
-          <a href="/IELTS-Lab.html"                class="ielts-nav-link ${home}"    role="menuitem">🏠 Home</a>
-          <a href="/writing-clinic/corrector.html" class="ielts-nav-link ${clinic}"  role="menuitem">✍️ Writing Clinic</a>
-          <a href="/mock-tests/index.html"         class="ielts-nav-link ${mocks}"   role="menuitem">📝 Mock Tests</a>
-          <a href="/book-session/index.html"       class="ielts-nav-link ${session}" role="menuitem">🎓 Book a Session</a>
+          <a href="/IELTS-Lab.html"                class="ielts-nav-link ${home}"   role="menuitem">🏠 Home</a>
+          <a href="/guide/index.html"              class="ielts-nav-link ${guide}"  role="menuitem">📖 IELTS Guide</a>
+          <a href="/pricing.html"                  class="ielts-nav-link ${price}"  role="menuitem">💳 Pricing</a>
+          <a href="/writing-clinic/corrector.html" class="ielts-nav-link ${clinic}" role="menuitem">✍️ Writing Clinic</a>
+          <a href="/mock-tests/index.html"         class="ielts-nav-link ${mocks}"  role="menuitem">📝 Mock Tests</a>
           <div class="ielts-drawer-divider"></div>
-          <a href="/writing-clinic/corrector.html" class="ielts-nav-cta" role="menuitem">Correct My Essay →</a>
+          <a href="/writing-clinic/corrector.html" class="ielts-nav-cta" role="menuitem">My Dashboard →</a>
         </div>
       </nav>`;
   }

@@ -115,7 +115,7 @@
     </div>
 
     <!-- FAQ -->
-    <div class="max-w-2xl mx-auto">
+    <div class="max-w-2xl mx-auto mb-24">
       <h2 class="text-xl font-bold mb-6 text-center" style="font-family:Satoshi,sans-serif">Common Questions</h2>
       <div class="space-y-4 text-sm">
         <details class="plan-card cursor-pointer">
@@ -134,6 +134,265 @@
           <summary class="font-semibold">Can I cancel my subscription?</summary>
           <p class="mt-3 muted">Yes, any time. You keep Pro access until the end of your billing period.</p>
         </details>
+      </div>
+    </div>
+
+    <!-- ─── EXPERT SERVICES ──────────────────────────────────────────── -->
+    <style>
+      .section-rule { border: none; border-top: 1px solid var(--border); margin: 0 0 4rem; }
+      .premium-card {
+        background: linear-gradient(135deg, #161b22 0%, #1a2233 100%);
+        border: 1px solid var(--gold-border);
+        border-radius: 1.25rem;
+        padding: 2.5rem;
+        box-shadow: 0 0 48px rgba(201,149,46,0.08);
+      }
+      .feat-row { display: flex; align-items: flex-start; gap: .625rem; font-size: .875rem; }
+      .feat-check { color: #2affd6; flex-shrink: 0; margin-top: 2px; }
+      .tag-pill {
+        display: inline-block; padding: .15rem .6rem; border-radius: 999px;
+        font-size: .65rem; font-weight: 700; letter-spacing: .05em; text-transform: uppercase;
+      }
+      .tag-gold { background: var(--gold-dim); color: var(--gold-light); border: 1px solid var(--gold-border); }
+      .tag-teal { background: rgba(42,255,214,0.08); color: #2affd6; border: 1px solid rgba(42,255,214,0.2); }
+      .input-dark {
+        width: 100%; background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+        border-radius: .625rem; padding: .65rem 1rem; color: var(--white);
+        font-family: 'Plus Jakarta Sans', sans-serif; font-size: .9rem;
+        transition: border-color .2s; outline: none;
+      }
+      .input-dark:focus { border-color: var(--gold-border); }
+      .input-dark::placeholder { color: rgba(238,244,255,0.3); }
+      .session-card {
+        background: var(--card); border: 1px solid var(--border);
+        border-radius: 1.25rem; padding: 2rem;
+        transition: border-color .2s, box-shadow .2s;
+      }
+      .session-card:hover { border-color: var(--gold-border); box-shadow: 0 0 32px rgba(201,149,46,0.07); }
+      .teacher-chip {
+        display: flex; align-items: center; gap: .75rem;
+        background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+        border-radius: .875rem; padding: .75rem 1rem; cursor: pointer;
+        transition: border-color .2s, background .2s; font-size: .875rem;
+      }
+      .teacher-chip:hover, .teacher-chip.selected {
+        border-color: var(--gold-border); background: var(--gold-dim);
+      }
+      .avatar-sm {
+        width: 40px; height: 40px; border-radius: 50%;
+        background: #1a2233; border: 1.5px solid var(--gold-border);
+        display: flex; align-items: center; justify-content: center;
+        font-weight: 700; font-size: .8rem; color: var(--gold-light);
+        font-family: 'Plus Jakarta Sans', sans-serif; flex-shrink: 0;
+      }
+    </style>
+
+    <hr class="section-rule">
+
+    <div class="mb-14 text-center">
+      <span class="tag-pill tag-gold mb-3 inline-block">For Institutions</span>
+      <h2 class="text-3xl font-bold mb-3" style="font-family:Satoshi,sans-serif">Expert Services</h2>
+      <p class="muted">Premium packages for language centres, universities, and corporate training teams.</p>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-6 mb-24">
+
+      <!-- Tier 1: Human Correction -->
+      <div class="plan-card">
+        <div class="mb-1"><span class="tag-pill tag-teal">Tier 1</span></div>
+        <h3 class="text-lg font-bold mt-3 mb-1" style="font-family:Satoshi,sans-serif">Human Essay Correction</h3>
+        <p class="muted text-sm mb-5">Certified IELTS examiner reviews your student's essay with annotated feedback.</p>
+        <div class="flex items-end gap-1 mb-6">
+          <span class="text-3xl font-bold gold" style="font-family:Satoshi,sans-serif">$29</span>
+          <span class="muted text-sm mb-1">/ essay</span>
+        </div>
+        <ul class="space-y-3 text-sm mb-8 flex-1">
+          <li class="feat-row"><span class="feat-check">✓</span>Certified Band 8–9 examiner</li>
+          <li class="feat-row"><span class="feat-check">✓</span>Annotated PDF with inline comments</li>
+          <li class="feat-row"><span class="feat-check">✓</span>Band score per criterion + overall</li>
+          <li class="feat-row"><span class="feat-check">✓</span>48 h turnaround guaranteed</li>
+          <li class="feat-row"><span class="feat-check">✓</span>Rewrite guidance included</li>
+        </ul>
+        <button class="btn-outline" onclick="openB2BModal('Human Essay Correction')">Request a Quote</button>
+      </div>
+
+      <!-- Tier 2: 1-on-1 Sessions (featured) -->
+      <div class="plan-card featured relative">
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2">
+          <span class="badge">Most Requested</span>
+        </div>
+        <div class="mb-1"><span class="tag-pill tag-gold">Tier 2</span></div>
+        <h3 class="text-lg font-bold mt-3 mb-1" style="font-family:Satoshi,sans-serif">1-on-1 Expert Sessions</h3>
+        <p class="muted text-sm mb-5">Live video tutoring with an IELTS specialist — diagnostic, coaching, or mock interview.</p>
+        <div class="flex items-end gap-1 mb-6">
+          <span class="text-3xl font-bold gold" style="font-family:Satoshi,sans-serif">$79</span>
+          <span class="muted text-sm mb-1">/ 60 min</span>
+        </div>
+        <ul class="space-y-3 text-sm mb-8 flex-1">
+          <li class="feat-row"><span class="feat-check">✓</span>Personal band-score diagnostic</li>
+          <li class="feat-row"><span class="feat-check">✓</span>Custom study plan delivered same day</li>
+          <li class="feat-row"><span class="feat-check">✓</span>Live speaking / writing feedback</li>
+          <li class="feat-row"><span class="feat-check">✓</span>Session recording provided</li>
+          <li class="feat-row"><span class="feat-check">✓</span>Follow-up Q&A window (48 h)</li>
+        </ul>
+        <button class="btn-gold" onclick="scrollToBooking()">Book a Session ↓</button>
+      </div>
+
+      <!-- Tier 3: B2B Partnership -->
+      <div class="plan-card" style="border-color:rgba(58,123,247,0.2);">
+        <div class="mb-1"><span class="tag-pill" style="background:rgba(58,123,247,0.1);color:#7aaeff;border:1px solid rgba(58,123,247,0.25);">Tier 3</span></div>
+        <h3 class="text-lg font-bold mt-3 mb-1" style="font-family:Satoshi,sans-serif">B2B Partnership Pack</h3>
+        <p class="muted text-sm mb-5">Unlimited platform access + teacher training + white-label options for your institution.</p>
+        <div class="flex items-end gap-1 mb-6">
+          <span class="text-3xl font-bold" style="font-family:Satoshi,sans-serif;color:#7aaeff;">Custom</span>
+        </div>
+        <ul class="space-y-3 text-sm mb-8 flex-1">
+          <li class="feat-row"><span class="feat-check">✓</span>Unlimited student seats</li>
+          <li class="feat-row"><span class="feat-check">✓</span>Admin dashboard + progress tracking</li>
+          <li class="feat-row"><span class="feat-check">✓</span>White-label branding options</li>
+          <li class="feat-row"><span class="feat-check">✓</span>Dedicated account manager</li>
+          <li class="feat-row"><span class="feat-check">✓</span>Teacher training workshop included</li>
+        </ul>
+        <button class="btn-outline" style="border-color:rgba(58,123,247,0.3);color:#7aaeff;" onclick="openB2BModal('B2B Partnership Pack')">Get in Touch</button>
+      </div>
+    </div>
+
+    <!-- B2B / Expert Services Contact Modal -->
+    <div id="b2bModal" style="display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,0.65);backdrop-filter:blur(4px);padding:1rem;overflow-y:auto;" onclick="closeB2BModal(event)">
+      <div style="max-width:520px;margin:3rem auto;background:#161b22;border:1px solid var(--gold-border);border-radius:1.25rem;padding:2rem;" onclick="event.stopPropagation()">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem;">
+          <h3 style="font-family:Satoshi,sans-serif;font-size:1.25rem;font-weight:700;" id="b2bModalTitle">Contact Us</h3>
+          <button onclick="closeB2BModal()" style="background:none;border:none;color:rgba(238,244,255,0.4);cursor:pointer;font-size:1.25rem;line-height:1;">✕</button>
+        </div>
+        <form id="b2bForm" onsubmit="submitB2B(event)" class="space-y-4">
+          <input type="hidden" id="b2bService" name="service" value="">
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label style="font-size:.75rem;color:rgba(238,244,255,0.5);display:block;margin-bottom:.35rem;">Your Name</label>
+              <input class="input-dark" type="text" id="b2bName" required placeholder="Jane Smith">
+            </div>
+            <div>
+              <label style="font-size:.75rem;color:rgba(238,244,255,0.5);display:block;margin-bottom:.35rem;">Work Email</label>
+              <input class="input-dark" type="email" id="b2bEmail" required placeholder="jane@school.edu">
+            </div>
+          </div>
+          <div>
+            <label style="font-size:.75rem;color:rgba(238,244,255,0.5);display:block;margin-bottom:.35rem;">Institution / Company</label>
+            <input class="input-dark" type="text" id="b2bOrg" required placeholder="Oxford Language Centre">
+          </div>
+          <div>
+            <label style="font-size:.75rem;color:rgba(238,244,255,0.5);display:block;margin-bottom:.35rem;">Message</label>
+            <textarea class="input-dark" id="b2bMessage" rows="4" placeholder="Tell us about your team size, goals, or timeline…" style="resize:vertical;"></textarea>
+          </div>
+          <div id="b2bFeedback" style="font-size:.85rem;display:none;padding:.6rem 1rem;border-radius:.5rem;"></div>
+          <button type="submit" class="btn-gold" id="b2bSubmitBtn">Send Inquiry →</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- ─── BOOK A SESSION ───────────────────────────────────────────── -->
+    <hr class="section-rule">
+
+    <div id="book-session-section" class="mb-14 text-center">
+      <span class="tag-pill tag-gold mb-3 inline-block">1-on-1 Tutoring</span>
+      <h2 class="text-3xl font-bold mb-3" style="font-family:Satoshi,sans-serif">Book a Session</h2>
+      <p class="muted">Select an expert and fill in your details — we'll confirm your slot within 24 hours.</p>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-10 mb-24 items-start">
+
+      <!-- Teacher picker -->
+      <div>
+        <p class="text-sm font-semibold mb-4" style="color:rgba(238,244,255,0.5);letter-spacing:.06em;text-transform:uppercase;">Choose your expert</p>
+        <div class="space-y-3" id="teacherPicker">
+          <div class="teacher-chip" onclick="selectTeacher(this,'Dr. Sarah Mitchell')" data-teacher="Dr. Sarah Mitchell">
+            <div class="avatar-sm">SM</div>
+            <div>
+              <div class="font-semibold" style="font-size:.9rem;">Dr. Sarah Mitchell</div>
+              <div style="font-size:.75rem;color:rgba(238,244,255,0.4);">Speaking &amp; Pronunciation · 🇬🇧 UK</div>
+            </div>
+            <div style="margin-left:auto;font-size:.75rem;color:var(--gold-light);">★ 4.9</div>
+          </div>
+          <div class="teacher-chip" onclick="selectTeacher(this,'Prof. James Okafor')" data-teacher="Prof. James Okafor">
+            <div class="avatar-sm">JO</div>
+            <div>
+              <div class="font-semibold" style="font-size:.9rem;">Prof. James Okafor</div>
+              <div style="font-size:.75rem;color:rgba(238,244,255,0.4);">Academic Writing · 🇨🇦 Canada</div>
+            </div>
+            <div style="margin-left:auto;font-size:.75rem;color:var(--gold-light);">★ 4.8</div>
+          </div>
+          <div class="teacher-chip" onclick="selectTeacher(this,'Ms. Priya Sharma')" data-teacher="Ms. Priya Sharma">
+            <div class="avatar-sm">PS</div>
+            <div>
+              <div class="font-semibold" style="font-size:.9rem;">Ms. Priya Sharma</div>
+              <div style="font-size:.75rem;color:rgba(238,244,255,0.4);">Reading &amp; Listening · 🇦🇺 Australia</div>
+            </div>
+            <div style="margin-left:auto;font-size:.75rem;color:var(--gold-light);">★ 4.9</div>
+          </div>
+          <div class="teacher-chip" onclick="selectTeacher(this,'Mr. Ali Hassan')" data-teacher="Mr. Ali Hassan">
+            <div class="avatar-sm">AH</div>
+            <div>
+              <div class="font-semibold" style="font-size:.9rem;">Mr. Ali Hassan</div>
+              <div style="font-size:.75rem;color:rgba(238,244,255,0.4);">General &amp; Task 1 · 🇮🇪 Ireland</div>
+            </div>
+            <div style="margin-left:auto;font-size:.75rem;color:var(--gold-light);">★ 4.7</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Booking form -->
+      <div class="session-card">
+        <form id="sessionForm" onsubmit="submitSession(event)" class="space-y-4">
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label style="font-size:.75rem;color:rgba(238,244,255,0.5);display:block;margin-bottom:.35rem;">Full Name</label>
+              <input class="input-dark" type="text" id="sName" required placeholder="Your name">
+            </div>
+            <div>
+              <label style="font-size:.75rem;color:rgba(238,244,255,0.5);display:block;margin-bottom:.35rem;">Email</label>
+              <input class="input-dark" type="email" id="sEmail" required placeholder="you@email.com">
+            </div>
+          </div>
+          <div>
+            <label style="font-size:.75rem;color:rgba(238,244,255,0.5);display:block;margin-bottom:.35rem;">Selected Expert</label>
+            <input class="input-dark" type="text" id="sTeacherDisplay" readonly placeholder="← Pick an expert on the left" style="cursor:default;">
+            <input type="hidden" id="sTeacher" value="">
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label style="font-size:.75rem;color:rgba(238,244,255,0.5);display:block;margin-bottom:.35rem;">Current Band</label>
+              <select class="input-dark" id="sCurrentBand">
+                <option value="">Not sure</option>
+                <option>Below 5.0</option><option>5.0</option><option>5.5</option>
+                <option>6.0</option><option>6.5</option><option>7.0</option>
+                <option>7.5</option><option>8.0+</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:.75rem;color:rgba(238,244,255,0.5);display:block;margin-bottom:.35rem;">Target Band</label>
+              <select class="input-dark" id="sTargetBand">
+                <option value="">Select</option>
+                <option>5.5</option><option>6.0</option><option>6.5</option>
+                <option>7.0</option><option>7.5</option><option>8.0</option><option>8.5+</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label style="font-size:.75rem;color:rgba(238,244,255,0.5);display:block;margin-bottom:.35rem;">Focus Area</label>
+            <select class="input-dark" id="sFocus" required>
+              <option value="">Choose a skill</option>
+              <option>Speaking</option><option>Writing</option>
+              <option>Reading</option><option>Listening</option>
+              <option>General Strategy</option>
+            </select>
+          </div>
+          <div>
+            <label style="font-size:.75rem;color:rgba(238,244,255,0.5);display:block;margin-bottom:.35rem;">Additional Notes <span style="opacity:.5">(optional)</span></label>
+            <textarea class="input-dark" id="sNotes" rows="3" placeholder="Exam date, specific weaknesses, availability…" style="resize:vertical;"></textarea>
+          </div>
+          <div id="sessionFeedback" style="font-size:.85rem;display:none;padding:.6rem 1rem;border-radius:.5rem;"></div>
+          <button type="submit" class="btn-gold" id="sessionSubmitBtn">Request This Session →</button>
+        </form>
       </div>
     </div>
 
@@ -163,6 +422,113 @@
     function startFree() {
       const session = getSession();
       window.location.href = session ? 'writing-clinic/corrector.html' : 'login.html?next=pricing.html';
+    }
+
+    // ── Expert Services modal ──
+    function openB2BModal(service) {
+      document.getElementById('b2bService').value = service;
+      document.getElementById('b2bModalTitle').textContent = service + ' — Contact Us';
+      document.getElementById('b2bFeedback').style.display = 'none';
+      document.getElementById('b2bForm').reset();
+      document.getElementById('b2bService').value = service;
+      document.getElementById('b2bModal').style.display = 'block';
+    }
+    function closeB2BModal(e) {
+      if (!e || e.target === document.getElementById('b2bModal')) {
+        document.getElementById('b2bModal').style.display = 'none';
+      }
+    }
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeB2BModal(); });
+
+    async function submitB2B(e) {
+      e.preventDefault();
+      const btn = document.getElementById('b2bSubmitBtn');
+      const fb  = document.getElementById('b2bFeedback');
+      btn.disabled = true; btn.textContent = 'Sending…';
+      try {
+        const res = await fetch('/api/b2b-inquiry', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name:    document.getElementById('b2bName').value,
+            email:   document.getElementById('b2bEmail').value,
+            company: document.getElementById('b2bOrg').value,
+            service: document.getElementById('b2bService').value,
+            message: document.getElementById('b2bMessage').value,
+          }),
+        });
+        const data = await res.json();
+        if (data.ok) {
+          fb.style.display = 'block';
+          fb.style.background = 'rgba(42,255,214,0.08)';
+          fb.style.color = '#2affd6';
+          fb.style.border = '1px solid rgba(42,255,214,0.2)';
+          fb.textContent = '✓ Inquiry sent! We\'ll reply within 1 business day.';
+          document.getElementById('b2bForm').reset();
+          btn.textContent = 'Sent ✓';
+        } else {
+          throw new Error(data.error || 'Error');
+        }
+      } catch (err) {
+        fb.style.display = 'block';
+        fb.style.background = 'rgba(239,68,68,0.08)';
+        fb.style.color = '#f87171';
+        fb.style.border = '1px solid rgba(239,68,68,0.2)';
+        fb.textContent = err.message || 'Something went wrong. Please try again.';
+        btn.disabled = false; btn.textContent = 'Send Inquiry →';
+      }
+    }
+
+    // ── Book a Session ──
+    function scrollToBooking() {
+      document.getElementById('book-session-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function selectTeacher(chip, name) {
+      document.querySelectorAll('.teacher-chip').forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+      document.getElementById('sTeacher').value = name;
+      document.getElementById('sTeacherDisplay').value = name;
+    }
+
+    async function submitSession(e) {
+      e.preventDefault();
+      const btn = document.getElementById('sessionSubmitBtn');
+      const fb  = document.getElementById('sessionFeedback');
+      btn.disabled = true; btn.textContent = 'Sending…';
+      try {
+        const res = await fetch('/api/book-session', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name:        document.getElementById('sName').value,
+            email:       document.getElementById('sEmail').value,
+            teacher:     document.getElementById('sTeacher').value,
+            currentBand: document.getElementById('sCurrentBand').value,
+            targetBand:  document.getElementById('sTargetBand').value,
+            focus:       document.getElementById('sFocus').value,
+            notes:       document.getElementById('sNotes').value,
+          }),
+        });
+        const data = await res.json();
+        if (data.ok) {
+          fb.style.display = 'block';
+          fb.style.background = 'rgba(42,255,214,0.08)';
+          fb.style.color = '#2affd6';
+          fb.style.border = '1px solid rgba(42,255,214,0.2)';
+          fb.textContent = '✓ Request received! Check your inbox — we\'ll confirm within 24 hours.';
+          document.getElementById('sessionForm').reset();
+          document.querySelectorAll('.teacher-chip').forEach(c => c.classList.remove('selected'));
+          btn.textContent = 'Sent ✓';
+        } else {
+          throw new Error(data.error || 'Error');
+        }
+      } catch (err) {
+        fb.style.display = 'block';
+        fb.style.background = 'rgba(239,68,68,0.08)';
+        fb.style.color = '#f87171';
+        fb.style.border = '1px solid rgba(239,68,68,0.2)';
+        fb.textContent = err.message || 'Something went wrong. Please try again.';
+        btn.disabled = false; btn.textContent = 'Request This Session →';
+      }
     }
 
     async function checkout(priceKey, btn) {
