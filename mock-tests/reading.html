@@ -182,6 +182,13 @@
     try { setup = JSON.parse(rawSetup); }
     catch { window.location.replace('index.html'); }
 
+    // Static test redirects — check before doing anything else
+    const STATIC_TESTS = {
+      '20-1-reading-academic': 'cam20-t1-reading.html',
+    };
+    const staticKey = `${setup.book}-${setup.testNum}-reading-${setup.type}`;
+    if (STATIC_TESTS[staticKey]) { window.location.replace(STATIC_TESTS[staticKey]); }
+
     const isAcademic = setup.type === 'academic';
     const isFullTest = setup.mode === 'full';
     document.getElementById('testHeading').textContent = `IELTS Reading Test — ${isAcademic ? 'Academic' : 'General Training'}`;
