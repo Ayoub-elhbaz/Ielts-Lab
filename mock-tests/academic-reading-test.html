@@ -160,6 +160,21 @@
     /* ── SPINNER ── */
     @keyframes spin { to { transform: rotate(360deg); } }
     .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; }
+
+    /* ── SPLIT LAYOUT ── */
+    .split-container { display: flex; height: calc(100vh - 310px); min-height: 560px; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+    .reading-pane { width: 52%; min-width: 25%; max-width: 75%; overflow-y: auto; padding: 1.75rem; background: var(--card-bg); flex-shrink: 0; }
+    .question-pane { flex: 1; overflow-y: auto; padding: 1.75rem; background: var(--qpanel-bg); min-width: 25%; }
+    .resizer-bar { width: 16px; background: #F1F5F9; cursor: col-resize; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; border-left: 1px solid var(--border); border-right: 1px solid var(--border); transition: background 0.15s; user-select: none; -webkit-user-select: none; }
+    .resizer-bar:hover, .resizer-bar.active { background: var(--gold-dim); border-left-color: var(--gold-border); border-right-color: var(--gold-border); }
+    .resizer-btn { background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 8px; padding: 10px 4px; cursor: col-resize; display: flex; flex-direction: column; align-items: center; gap: 5px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); transition: border-color 0.15s, box-shadow 0.15s; pointer-events: none; }
+    .resizer-bar:hover .resizer-btn { border-color: var(--gold-border); box-shadow: 0 2px 8px rgba(201,149,46,0.15); }
+    @media (max-width: 1023px) {
+      .split-container { flex-direction: column; height: auto; overflow: visible; border: none; border-radius: 0; box-shadow: none; gap: 1rem; }
+      .reading-pane { width: 100% !important; min-width: 100%; max-width: 100%; overflow-y: visible; border: 1px solid var(--border); border-radius: 16px; }
+      .resizer-bar { display: none; }
+      .question-pane { min-width: 100%; overflow-y: visible; border: 1px solid var(--border); border-radius: 16px; }
+    }
   </style>
   <script>
     (function(){
@@ -223,10 +238,12 @@
     <button class="tab-btn" onclick="switchTab(3)">Passage 3 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q27–40)</span></button>
   </div>
 
-  <!-- ═══════════════ PASSAGE 1 — The Permafrost Carbon Paradox ═══════════════ -->
-  <div id="panel1">
-    <div class="grid lg:grid-cols-2 gap-6">
-      <div class="section-card lg:sticky lg:top-[105px] lg:max-h-[calc(100vh-120px)] lg:overflow-y-auto">
+  <!-- ══ SPLIT VIEW ══ -->
+  <div class="split-container" id="splitContainer">
+    <div class="reading-pane" id="readingPane">
+
+      <!-- Passage 1 -->
+      <div id="passageContent1">
         <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 1</div>
         <div class="text-base font-bold mb-4" style="color:var(--navy);">The Permafrost Carbon Paradox</div>
         <div class="passage-text">
@@ -245,16 +262,9 @@
           <p><span class="para-label">G</span>The scientific consensus holds that permafrost thaw represents a committed feedback rather than a contingent risk: even if global mean temperature increases are held to 1.5°C above pre-industrial levels, an estimated 10 percent of near-surface permafrost will thaw irreversibly. At 2°C, that figure rises to approximately 40 percent. The carbon release associated with these losses will not be offset by increased plant growth in newly thawed Arctic soils, as some earlier models predicted; more recent analyses indicate that the decomposition signal substantially outpaces any gains from enhanced photosynthetic uptake in the short to medium term. The permafrost carbon feedback consequently operates on a timeline that sits uncomfortably outside the planning horizons of most climate policy frameworks, demanding forms of institutional response for which current governance structures remain largely unprepared.</p>
         </div>
       </div>
-      <div>
-        <div class="section-card" style="background:var(--qpanel-bg);" id="qPanel1"></div>
-      </div>
-    </div>
-  </div>
 
-  <!-- ═══════════════ PASSAGE 2 — The Trebuchet ═══════════════ -->
-  <div id="panel2" style="display:none;">
-    <div class="grid lg:grid-cols-2 gap-6">
-      <div class="section-card lg:sticky lg:top-[105px] lg:max-h-[calc(100vh-120px)] lg:overflow-y-auto">
+      <!-- Passage 2 -->
+      <div id="passageContent2" style="display:none;">
         <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 2</div>
         <div class="text-base font-bold mb-4" style="color:var(--navy);">The Trebuchet</div>
         <div class="passage-text">
@@ -265,16 +275,9 @@
           <p>Despite its effectiveness, the trebuchet had significant limitations. It was slow to reload, typically requiring a crew of many people several minutes to prepare each shot. It was also extremely difficult to transport due to its size and weight, and was generally assembled on site from pre-cut timber components rather than transported as a complete unit. The development of effective gunpowder artillery in the 14th and 15th centuries rapidly made the trebuchet obsolete, as cannons could fire faster, were far more portable, and became increasingly accurate. Nevertheless, modern engineering researchers have found considerable value in studying trebuchet mechanics, using computer modelling and physical reconstructions to investigate principles of energy transfer and structural optimisation that remain relevant to contemporary engineering education.</p>
         </div>
       </div>
-      <div>
-        <div class="section-card" style="background:var(--qpanel-bg);" id="qPanel2"></div>
-      </div>
-    </div>
-  </div>
 
-  <!-- ═══════════════ PASSAGE 3 — Pioneers of Deep Ocean Exploration ═══════════════ -->
-  <div id="panel3" style="display:none;">
-    <div class="grid lg:grid-cols-2 gap-6">
-      <div class="section-card lg:sticky lg:top-[105px] lg:max-h-[calc(100vh-120px)] lg:overflow-y-auto">
+      <!-- Passage 3 -->
+      <div id="passageContent3" style="display:none;">
         <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 3</div>
         <div class="text-base font-bold mb-4" style="color:var(--navy);">Pioneers of Deep Ocean Exploration</div>
         <div class="passage-text">
@@ -288,11 +291,26 @@
           <p><span class="para-label">H</span>The future of deep-ocean exploration lies increasingly with autonomous systems. Advances in artificial intelligence, battery technology, and acoustic communication are enabling a new generation of autonomous underwater vehicles capable of operating independently for days or weeks, mapping the seafloor, collecting water and sediment samples, and transmitting data to surface vessels in near-real time. Several research institutions have deployed these systems to survey areas of the deep ocean that would be impractical to reach using crewed submersibles. While human presence retains a symbolic value, most researchers now agree that the systematic exploration of the abyssal environment will ultimately be accomplished by machines rather than by people.</p>
         </div>
       </div>
-      <div>
-        <div class="section-card" style="background:var(--qpanel-bg);" id="qPanel3"></div>
-      </div>
+
+    </div><!-- /reading-pane -->
+
+    <!-- RESIZER BAR -->
+    <div class="resizer-bar" id="resizerBar">
+      <button class="resizer-btn" aria-label="Drag to resize panels">
+        <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M3.5 2L1 6L3.5 10" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span style="display:block;width:2px;height:14px;background:var(--border);border-radius:1px;"></span>
+        <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M6.5 2L9 6L6.5 10" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
     </div>
-  </div>
+
+    <!-- QUESTION PANE -->
+    <div class="question-pane" id="questionPane">
+      <div id="qPanel1"></div>
+      <div id="qPanel2" style="display:none;"></div>
+      <div id="qPanel3" style="display:none;"></div>
+    </div>
+
+  </div><!-- /split-container -->
 
   <!-- SUBMIT -->
   <div class="flex justify-center mt-10 mb-16">
@@ -633,6 +651,56 @@ function adjustFontSize(delta) {
 }
 
 // ─────────────────────────────────────────
+//  SPLIT-PANE RESIZER
+// ─────────────────────────────────────────
+(function initResizer() {
+  const container = document.getElementById('splitContainer');
+  const leftPane  = document.getElementById('readingPane');
+  const resizer   = document.getElementById('resizerBar');
+  if (!container || !leftPane || !resizer) return;
+
+  let isDragging = false;
+  let startX     = 0;
+  let startW     = 0;
+
+  function onStart(clientX) {
+    isDragging = true;
+    startX     = clientX;
+    startW     = leftPane.getBoundingClientRect().width;
+    resizer.classList.add('active');
+    document.body.style.cursor     = 'col-resize';
+    document.body.style.userSelect = 'none';
+  }
+
+  function onMove(clientX) {
+    if (!isDragging) return;
+    const cW   = container.getBoundingClientRect().width;
+    const rW   = resizer.getBoundingClientRect().width;
+    const avail = cW - rW;
+    const minW = avail * 0.25;
+    const maxW = avail * 0.75;
+    const newW = Math.max(minW, Math.min(maxW, startW + (clientX - startX)));
+    leftPane.style.width = ((newW / cW) * 100).toFixed(2) + '%';
+  }
+
+  function onEnd() {
+    if (!isDragging) return;
+    isDragging = false;
+    resizer.classList.remove('active');
+    document.body.style.cursor     = '';
+    document.body.style.userSelect = '';
+  }
+
+  resizer.addEventListener('mousedown',  e => { e.preventDefault(); onStart(e.clientX); });
+  document.addEventListener('mousemove', e => onMove(e.clientX));
+  document.addEventListener('mouseup',   onEnd);
+
+  resizer.addEventListener('touchstart',  e => { e.preventDefault(); onStart(e.touches[0].clientX); }, { passive: false });
+  document.addEventListener('touchmove',  e => { if (isDragging) { e.preventDefault(); onMove(e.touches[0].clientX); } }, { passive: false });
+  document.addEventListener('touchend',   onEnd);
+})();
+
+// ─────────────────────────────────────────
 //  TIMER
 // ─────────────────────────────────────────
 function formatTime(s) {
@@ -656,9 +724,12 @@ function startTimer() {
 // ─────────────────────────────────────────
 function switchTab(n) {
   [1,2,3].forEach(i => {
-    document.getElementById('panel' + i).style.display = i === n ? 'block' : 'none';
+    document.getElementById('passageContent' + i).style.display = i === n ? 'block' : 'none';
+    document.getElementById('qPanel' + i).style.display         = i === n ? 'block' : 'none';
     document.getElementById('tabNav').querySelectorAll('.tab-btn')[i-1].classList.toggle('active', i === n);
   });
+  document.getElementById('readingPane').scrollTop  = 0;
+  document.getElementById('questionPane').scrollTop = 0;
 }
 
 // ─────────────────────────────────────────
