@@ -9,136 +9,157 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
   <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Space+Mono:wght@400;700&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
   <script>tailwind.config={theme:{extend:{fontFamily:{display:['Satoshi','Plus Jakarta Sans','system-ui','sans-serif'],sans:['Plus Jakarta Sans','system-ui','sans-serif']}}}}</script>
   <style>
-    :root{--gold:#C9952E;--gold-light:#DDB05A;--gold-dim:rgba(201,149,46,0.10);--gold-border:rgba(201,149,46,0.22);--white:#EEF4FF;}
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    html{background:#09090b;color:#fafafa;}
-    body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
-    h1,h2,h3,h4,.font-display{font-family:'Satoshi','Plus Jakarta Sans',system-ui,sans-serif;}
-    .nav-glass{background:rgba(9,9,11,0.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.04);}
-    .nav-logo{display:flex;align-items:baseline;gap:0;text-decoration:none;}
-    .nl-ielts{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;letter-spacing:1px;color:var(--white);}
-    .nl-lab{font-family:'Space Mono',monospace;font-size:12px;font-weight:700;letter-spacing:3px;color:var(--gold);margin-left:5px;filter:drop-shadow(0 0 6px rgba(201,149,46,0.5));}
-    ::-webkit-scrollbar{width:5px;}
-    ::-webkit-scrollbar-track{background:#09090b;}
-    ::-webkit-scrollbar-thumb{background:#3f3f46;border-radius:3px;}
-    .progress-bar{height:3px;background:#18181b;position:fixed;top:64px;left:0;right:0;z-index:40;}
-    .progress-fill{height:100%;background:linear-gradient(to right,var(--gold),#DDB05A);transition:width 1s linear;width:0%;}
-    .timer-box{background:rgba(17,17,19,0.95);border:1px solid #1c1c1e;border-radius:0.75rem;padding:10px 18px;font-family:'Space Mono',monospace;font-size:1.25rem;font-weight:700;color:#fafafa;letter-spacing:2px;box-shadow:0 4px 20px rgba(0,0,0,0.4);}
-    .timer-box.warning{color:#fbbf24;border-color:rgba(251,191,36,0.3);}
-    .timer-box.critical{color:#f87171;border-color:rgba(248,113,113,0.3);animation:pulse 1s ease-in-out infinite;}
-    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.7}}
-    .section-card{background:rgba(17,17,19,0.7);border:1px solid #1c1c1e;border-radius:1.25rem;padding:1.75rem;}
-    .passage-text{font-size:0.9375rem;line-height:1.9;color:#d4d4d8;}
-    .passage-text p{margin-bottom:1.1rem;}
-    .para-label{display:inline-block;font-family:'Space Mono',monospace;font-size:0.6875rem;font-weight:700;color:var(--gold);background:rgba(201,149,46,0.1);border:1px solid rgba(201,149,46,0.2);border-radius:4px;padding:1px 6px;margin-right:8px;letter-spacing:0.05em;}
-    .btn-gold{background:linear-gradient(135deg,var(--gold) 0%,#a8741f 100%);color:#05081A;border:none;border-radius:0.5rem;padding:12px 32px;font-size:0.875rem;font-weight:700;letter-spacing:0.04em;cursor:pointer;transition:all 0.25s ease;box-shadow:0 0 20px rgba(201,149,46,0.25);}
-    .btn-gold:hover{transform:translateY(-2px);box-shadow:0 0 32px rgba(201,149,46,0.45);}
-    .q-block{margin-bottom:1.25rem;padding:1rem;border-radius:0.75rem;background:#0e0e10;border:1px solid #1c1c1e;}
-    .q-num{font-size:0.6875rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
-    .q-text{font-size:0.875rem;color:#d4d4d8;margin-bottom:10px;line-height:1.6;}
-    .q-input{width:100%;background:#111113;border:1px solid #27272a;border-radius:0.5rem;padding:8px 12px;color:#e4e4e7;font-size:0.875rem;transition:border-color 0.2s;}
-    .q-input:focus{outline:none;border-color:var(--gold-border);}
-    .q-options{display:flex;flex-direction:column;gap:8px;margin-top:8px;}
-    .q-option{display:flex;align-items:flex-start;gap:10px;cursor:pointer;padding:8px 10px;border-radius:0.5rem;border:1px solid transparent;transition:all 0.2s;}
-    .q-option:hover{background:#18181b;border-color:#27272a;}
-    .q-option input[type=radio]{accent-color:var(--gold);margin-top:3px;flex-shrink:0;}
-    .q-option label{font-size:0.875rem;color:#d4d4d8;cursor:pointer;line-height:1.5;}
-    .q-tfng{display:flex;gap:8px;}
-    .q-tfng-btn{flex:1;padding:8px;border:1px solid #27272a;border-radius:0.5rem;font-size:0.75rem;font-weight:600;cursor:pointer;background:transparent;color:#71717a;transition:all 0.2s;letter-spacing:0.05em;}
-    .q-tfng-btn.sel-t{border-color:rgba(74,222,128,0.4);background:rgba(74,222,128,0.08);color:#4ade80;}
-    .q-tfng-btn.sel-f{border-color:rgba(248,113,113,0.4);background:rgba(248,113,113,0.08);color:#f87171;}
-    .q-tfng-btn.sel-ng{border-color:rgba(251,191,36,0.4);background:rgba(251,191,36,0.08);color:#fbbf24;}
-    .q-select{width:100%;background:#111113;border:1px solid #27272a;border-radius:0.5rem;padding:8px 12px;color:#e4e4e7;font-size:0.875rem;cursor:pointer;}
-    .q-select:focus{outline:none;border-color:var(--gold-border);}
-    .group-header{margin-bottom:1.25rem;padding:0.875rem 1rem;border-radius:0.75rem;background:rgba(201,149,46,0.05);border:1px solid rgba(201,149,46,0.15);}
-    .group-header p{font-size:0.8125rem;color:#a1a1aa;line-height:1.6;margin-top:6px;}
-    .headings-list{margin:0.75rem 0;padding:0.75rem 1rem;background:#0e0e10;border-radius:0.5rem;border:1px solid #1c1c1e;}
-    .headings-list li{font-size:0.8125rem;color:#d4d4d8;line-height:1.7;padding:2px 0;}
-    .headings-list li span{font-family:'Space Mono',monospace;font-size:0.75rem;color:var(--gold);margin-right:6px;}
-    .tab-nav{display:flex;gap:4px;margin-bottom:1.5rem;background:#0e0e10;padding:4px;border-radius:0.75rem;border:1px solid #1c1c1e;}
-    .tab-btn{flex:1;padding:10px 16px;border:none;background:transparent;color:#71717a;font-size:0.8125rem;font-weight:600;cursor:pointer;border-radius:0.5rem;transition:all 0.2s;font-family:'Plus Jakarta Sans',system-ui,sans-serif;}
-    .tab-btn.active{background:#18181b;color:#e4e4e7;border:1px solid #27272a;}
-    .tab-btn:hover:not(.active){color:#a1a1aa;}
-    .timing-strip{background:rgba(201,149,46,0.05);border-bottom:1px solid rgba(201,149,46,0.12);padding:8px 0;}
-    .timing-item{display:flex;flex-direction:column;align-items:center;gap:1px;}
-    .timing-label{font-size:0.6875rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);}
-    .timing-val{font-size:0.75rem;color:#71717a;}
-    /* Correction styles */
-    .corr-block{margin-bottom:1rem;padding:1rem 1.25rem;border-radius:0.75rem;border:1px solid;}
-    .corr-correct{background:rgba(74,222,128,0.04);border-color:rgba(74,222,128,0.2);}
-    .corr-wrong{background:rgba(248,113,113,0.04);border-color:rgba(248,113,113,0.2);}
-    .corr-qnum{font-size:0.6875rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;margin-bottom:4px;}
-    .corr-qnum.ok{color:#4ade80;}
-    .corr-qnum.bad{color:#f87171;}
-    .corr-qtext{font-size:0.875rem;color:#d4d4d8;line-height:1.6;margin-bottom:8px;}
-    .corr-row{display:flex;gap:8px;align-items:flex-start;font-size:0.8125rem;margin-bottom:4px;}
-    .corr-tag{flex-shrink:0;padding:2px 8px;border-radius:4px;font-size:0.6875rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;}
-    .corr-tag.your{background:rgba(248,113,113,0.12);color:#f87171;}
-    .corr-tag.correct{background:rgba(74,222,128,0.12);color:#4ade80;}
-    .corr-tag.reinforce{background:rgba(74,222,128,0.08);color:#4ade80;}
-    .corr-val{color:#e4e4e7;line-height:1.5;}
-    .corr-expl{margin-top:8px;padding:8px 10px;background:#0e0e10;border-radius:0.5rem;border-left:2px solid rgba(201,149,46,0.4);font-size:0.8125rem;color:#a1a1aa;line-height:1.6;}
-    .corr-expl strong{color:#d4d4d8;}
-    .score-ring-wrap{display:flex;flex-direction:column;align-items:center;gap:8px;}
-    .band-feedback{padding:1.25rem;border-radius:0.875rem;background:rgba(201,149,46,0.06);border:1px solid rgba(201,149,46,0.2);font-size:0.9rem;color:#d4d4d8;line-height:1.75;}
-    .band-feedback strong{color:var(--gold-light);}
-    .passage-corr-header{font-size:0.6875rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:var(--gold);padding:10px 0 8px;border-bottom:1px solid #1c1c1e;margin-bottom:1rem;}
-    /* Diagram labelling */
-    .diagram-wrap{margin:1rem 0;padding:0.75rem;background:#0a0a0b;border-radius:0.75rem;border:1px solid #1c1c1e;overflow-x:auto;}
-    .diagram-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;}
-    .diagram-item{display:flex;align-items:center;gap:8px;}
-    .diagram-num{font-family:'Space Mono',monospace;font-size:0.75rem;font-weight:700;color:var(--gold);min-width:22px;flex-shrink:0;}
-    @keyframes spin{to{transform:rotate(360deg)}}
-    .spinner{width:36px;height:36px;border:3px solid #27272a;border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;}
+    /* ── DESIGN TOKENS ── */
+    :root {
+      --gold: #C9952E;
+      --gold-light: #DDB05A;
+      --gold-dim: rgba(201,149,46,0.10);
+      --gold-border: rgba(201,149,46,0.30);
+      --navy: #1a3c6e;
+      --navy-mid: #2a4f8a;
+      --page-bg: #F7F8FA;
+      --card-bg: #FFFFFF;
+      --qpanel-bg: #EFF3F9;
+      --border: #E2E8F0;
+      --border-soft: #EEF1F6;
+      --text-primary: #1E2A3A;
+      --text-body: #374151;
+      --text-muted: #64748B;
+      --text-faint: #94A3B8;
+      --passage-font-size: 15px;
+    }
 
-    /* ── Theme toggle button ── */
-    #themeToggle{background:transparent;border:1px solid rgba(201,149,46,0.25);color:#71717a;border-radius:8px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;font-size:15px;flex-shrink:0;padding:0;}
-    #themeToggle:hover{border-color:var(--gold-border);color:var(--gold);}
-    /* ── Light mode ── */
-    html[data-theme="light"]{background:#F4F1EB !important;color:#1C1C2E !important;}
-    html[data-theme="light"] body{background:#F4F1EB !important;color:#1C1C2E !important;}
-    html[data-theme="light"] .bg-zinc-950{background-color:#F4F1EB !important;}
-    html[data-theme="light"] .text-zinc-50{color:#1C1C2E !important;}
-    html[data-theme="light"] .text-zinc-400{color:#585862 !important;}
-    html[data-theme="light"] .text-zinc-500{color:#6B6B7A !important;}
-    html[data-theme="light"] .text-zinc-600{color:#7A7A88 !important;}
-    html[data-theme="light"] ::-webkit-scrollbar-track{background:#F4F1EB !important;}
-    html[data-theme="light"] ::-webkit-scrollbar-thumb{background:#C4B07A !important;}
-    html[data-theme="light"] .nav-glass{background:rgba(244,241,235,0.94) !important;border-bottom-color:rgba(0,0,0,0.08) !important;}
-    html[data-theme="light"] .nl-ielts{color:#1C1C2E !important;}
-    html[data-theme="light"] .section-card{background:rgba(255,255,255,0.95) !important;border-color:#E4E0D6 !important;}
-    html[data-theme="light"] .timer-box{background:#FFFFFF !important;border-color:#D4D0C8 !important;color:#1C1C2E !important;box-shadow:0 2px 10px rgba(0,0,0,0.08) !important;}
-    html[data-theme="light"] .timer-box.warning{color:#b45309 !important;}
-    html[data-theme="light"] .timer-box.critical{color:#dc2626 !important;}
-    html[data-theme="light"] .progress-bar{background:#E4E0D6 !important;}
-    html[data-theme="light"] .passage-text{color:#3A3A4A !important;}
-    html[data-theme="light"] .q-block{background:#FFFFFF !important;border-color:#E4E0D6 !important;}
-    html[data-theme="light"] .q-text{color:#3A3A4A !important;}
-    html[data-theme="light"] .q-input{background:#F9F6F0 !important;border-color:#D4D0C8 !important;color:#1C1C2E !important;}
-    html[data-theme="light"] .q-option:hover{background:#F4F0E8 !important;border-color:#D4D0C8 !important;}
-    html[data-theme="light"] .q-option label{color:#3A3A4A !important;}
-    html[data-theme="light"] .q-tfng-btn{border-color:#D4D0C8 !important;color:#6B6B7A !important;background:#F9F6F0 !important;}
-    html[data-theme="light"] .q-select{background:#F9F6F0 !important;border-color:#D4D0C8 !important;color:#1C1C2E !important;}
-    html[data-theme="light"] .group-header{background:rgba(201,149,46,0.04) !important;border-color:rgba(201,149,46,0.15) !important;}
-    html[data-theme="light"] .group-header p{color:#6B6B7A !important;}
-    html[data-theme="light"] .headings-list{background:#FFFFFF !important;border-color:#E4E0D6 !important;}
-    html[data-theme="light"] .headings-list li{color:#3A3A4A !important;}
-    html[data-theme="light"] .tab-nav{background:#EDE9E0 !important;border-color:#D4D0C8 !important;}
-    html[data-theme="light"] .tab-btn{color:#6B6B7A !important;}
-    html[data-theme="light"] .tab-btn.active{background:#FFFFFF !important;color:#1C1C2E !important;border-color:#D4D0C8 !important;}
-    html[data-theme="light"] .timing-strip{background:rgba(201,149,46,0.04) !important;border-bottom-color:rgba(201,149,46,0.1) !important;}
-    html[data-theme="light"] .timing-val{color:#8A8A98 !important;}
-    html[data-theme="light"] .corr-qtext{color:#3A3A4A !important;}
-    html[data-theme="light"] .corr-val{color:#3A3A4A !important;}
-    html[data-theme="light"] .corr-expl{background:#F4F0E8 !important;color:#6B6B7A !important;border-left-color:rgba(201,149,46,0.35) !important;}
-    html[data-theme="light"] .corr-expl strong{color:#3A3A4A !important;}
-    html[data-theme="light"] .band-feedback{color:#3A3A4A !important;}
-    html[data-theme="light"] .passage-corr-header{border-bottom-color:#D4D0C8 !important;}
-    html[data-theme="light"] .score-ring-wrap .text-zinc-400{color:#585862 !important;}
-    html[data-theme="light"] .spinner{border-color:#D4D0C8 !important;border-top-color:var(--gold) !important;}
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--page-bg); color: var(--text-primary); }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    h1, h2, h3, h4, .font-display { font-family: 'Satoshi', 'Plus Jakarta Sans', system-ui, sans-serif; }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #EFF2F7; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 3px; }
+
+    /* ── PROGRESS ── */
+    .progress-bar { height: 3px; background: #E2E8F0; position: fixed; top: 64px; left: 0; right: 0; z-index: 40; }
+    .progress-fill { height: 100%; background: linear-gradient(to right, var(--gold), #DDB05A); transition: width 1s linear; width: 0%; }
+
+    /* ── NAV ── */
+    .nav-glass { background: rgba(255,255,255,0.97); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .nav-logo { display: flex; align-items: baseline; gap: 0; text-decoration: none; }
+    .nl-ielts { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; letter-spacing: 1px; color: var(--text-primary); }
+    .nl-lab { font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: 3px; color: var(--gold); margin-left: 5px; }
+    #themeToggle { background: transparent; border: 1.5px solid var(--border); color: var(--text-muted); border-radius: 8px; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; font-size: 15px; flex-shrink: 0; padding: 0; }
+    #themeToggle:hover { border-color: var(--gold-border); color: var(--gold); }
+
+    /* ── TIMER ── */
+    .timer-box { background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 10px; padding: 8px 16px; font-family: 'Space Mono', monospace; font-size: 1.125rem; font-weight: 700; color: var(--text-primary); letter-spacing: 2px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+    .timer-box.warning { color: #b45309; border-color: rgba(180,83,9,0.3); background: #fffbeb; }
+    .timer-box.critical { color: #dc2626; border-color: rgba(220,38,38,0.3); background: #fef2f2; animation: pulse 1s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
+
+    /* ── TIMING STRIP ── */
+    .timing-strip { background: #FAFBFD; border-bottom: 1px solid var(--border); padding: 8px 0; }
+    .timing-item { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+    .timing-label { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
+    .timing-val { font-size: 0.75rem; color: var(--text-muted); }
+
+    /* ── FONT SIZE CONTROLLER ── */
+    .font-ctrl { display: inline-flex; align-items: center; gap: 0; background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 9px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .font-ctrl-btn { padding: 6px 12px; border: none; background: transparent; cursor: pointer; color: var(--text-muted); font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.15s; line-height: 1; border-right: 1px solid var(--border); }
+    .font-ctrl-btn:last-child { border-right: none; }
+    .font-ctrl-btn:hover { background: var(--gold-dim); color: var(--gold); }
+    .font-ctrl-btn.a-small { font-size: 11px; }
+    .font-ctrl-btn.a-mid   { font-size: 13px; }
+    .font-ctrl-btn.a-large { font-size: 16px; }
+    .font-ctrl-label { font-size: 0.625rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); padding: 0 8px; }
+
+    /* ── ACCESSIBILITY TOOLBAR ── */
+    .a11y-bar { display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: #FFFFFF; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 1.25rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .a11y-bar-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); }
+
+    /* ── SECTION CARDS ── */
+    .section-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 1.75rem; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+
+    /* ── PASSAGE ── */
+    .passage-text { font-size: var(--passage-font-size); line-height: 2.0; color: var(--text-body); transition: font-size 0.2s ease; }
+    .passage-text p { margin-bottom: 1.2rem; }
+    .para-label { display: inline-block; font-family: 'Space Mono', monospace; font-size: 0.6875rem; font-weight: 700; color: var(--navy); background: rgba(26,60,110,0.08); border: 1px solid rgba(26,60,110,0.18); border-radius: 4px; padding: 1px 6px; margin-right: 8px; letter-spacing: 0.05em; }
+
+    /* ── TABS ── */
+    .tab-nav { display: flex; gap: 4px; margin-bottom: 1.5rem; background: #E8EDF5; padding: 4px; border-radius: 12px; border: 1px solid var(--border); }
+    .tab-btn { flex: 1; padding: 10px 16px; border: none; background: transparent; color: var(--text-muted); font-size: 0.8125rem; font-weight: 600; cursor: pointer; border-radius: 9px; transition: all 0.2s; font-family: 'Plus Jakarta Sans', system-ui, sans-serif; }
+    .tab-btn.active { background: #FFFFFF; color: var(--text-primary); border: 1px solid var(--border); box-shadow: 0 1px 4px rgba(0,0,0,0.09); }
+    .tab-btn:hover:not(.active) { color: var(--text-primary); background: rgba(255,255,255,0.5); }
+
+    /* ── QUESTION BLOCKS ── */
+    .q-block { margin-bottom: 1.25rem; padding: 1rem 1.15rem; border-radius: 12px; background: #FFFFFF; border: 1px solid var(--border); }
+    .q-num { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+    .q-text { font-size: 0.9rem; color: var(--text-body); margin-bottom: 10px; line-height: 1.65; }
+    .q-input { width: 100%; background: #F8FAFC; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text-primary); font-size: 0.9rem; transition: border-color 0.2s, box-shadow 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,149,46,0.12); }
+    .q-select { width: 100%; background: #F8FAFC; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text-primary); font-size: 0.9rem; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-select:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,149,46,0.12); }
+    .q-options { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+    .q-option { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; padding: 9px 12px; border-radius: 8px; border: 1.5px solid var(--border); transition: all 0.2s; background: #F8FAFC; }
+    .q-option:hover { background: var(--gold-dim); border-color: var(--gold-border); }
+    .q-option input[type=radio] { accent-color: var(--gold); margin-top: 3px; flex-shrink: 0; }
+    .q-option label { font-size: 0.9rem; color: var(--text-body); cursor: pointer; line-height: 1.55; }
+
+    /* ── T/F/NG ── */
+    .q-tfng { display: flex; gap: 8px; }
+    .q-tfng-btn { flex: 1; padding: 9px 6px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer; background: #F8FAFC; color: var(--text-muted); transition: all 0.2s; letter-spacing: 0.05em; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-tfng-btn:hover { border-color: var(--gold-border); color: var(--gold); background: var(--gold-dim); }
+    .q-tfng-btn.sel-t { border-color: #16a34a; background: #f0fdf4; color: #16a34a; }
+    .q-tfng-btn.sel-f { border-color: #dc2626; background: #fef2f2; color: #dc2626; }
+    .q-tfng-btn.sel-ng { border-color: #d97706; background: #fffbeb; color: #d97706; }
+
+    /* ── GROUP HEADER ── */
+    .group-header { margin-bottom: 1.25rem; padding: 0.875rem 1rem; border-radius: 12px; background: rgba(26,60,110,0.04); border: 1px solid rgba(26,60,110,0.12); }
+    .group-header p { font-size: 0.8125rem; color: var(--text-muted); line-height: 1.65; margin-top: 6px; }
+
+    /* ── HEADINGS LIST ── */
+    .headings-list { margin: 0.75rem 0; padding: 0.875rem 1rem; background: #FFFFFF; border-radius: 10px; border: 1px solid var(--border); }
+    .headings-list li { font-size: 0.8125rem; color: var(--text-body); line-height: 1.8; padding: 2px 0; }
+    .headings-list li span { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--gold); margin-right: 6px; font-weight: 700; }
+
+    /* ── BUTTONS ── */
+    .btn-gold { background: linear-gradient(135deg, var(--gold) 0%, #a8741f 100%); color: #FFFFFF; border: none; border-radius: 10px; padding: 12px 32px; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.04em; cursor: pointer; transition: all 0.25s ease; box-shadow: 0 2px 12px rgba(201,149,46,0.30); }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 6px 22px rgba(201,149,46,0.42); }
+
+    /* ── DIAGRAM LABELLING ── */
+    .diagram-wrap { margin: 1rem 0; padding: 1rem; background: #F8FAFC; border-radius: 12px; border: 1px solid var(--border); overflow-x: auto; }
+    .diagram-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; }
+    .diagram-item { display: flex; align-items: center; gap: 8px; }
+    .diagram-num { font-family: 'Space Mono', monospace; font-size: 0.75rem; font-weight: 700; color: var(--gold); min-width: 22px; flex-shrink: 0; }
+
+    /* ── CORRECTION REPORT ── */
+    .corr-block { margin-bottom: 1rem; padding: 1rem 1.25rem; border-radius: 12px; border: 1.5px solid; }
+    .corr-correct { background: #f0fdf4; border-color: #bbf7d0; }
+    .corr-wrong { background: #fef2f2; border-color: #fecaca; }
+    .corr-qnum { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+    .corr-qnum.ok { color: #16a34a; }
+    .corr-qnum.bad { color: #dc2626; }
+    .corr-qtext { font-size: 0.875rem; color: var(--text-body); line-height: 1.65; margin-bottom: 8px; }
+    .corr-row { display: flex; gap: 8px; align-items: flex-start; font-size: 0.8125rem; margin-bottom: 4px; }
+    .corr-tag { flex-shrink: 0; padding: 2px 8px; border-radius: 4px; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+    .corr-tag.your { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+    .corr-tag.correct { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .corr-tag.reinforce { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .corr-val { color: var(--text-primary); line-height: 1.5; }
+    .corr-expl { margin-top: 8px; padding: 9px 12px; background: #FFFFFF; border-radius: 8px; border-left: 3px solid var(--gold-border); font-size: 0.8125rem; color: var(--text-muted); line-height: 1.65; }
+    .corr-expl strong { color: var(--text-primary); }
+
+    /* ── RESULTS ── */
+    .score-ring-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .band-feedback { padding: 1.25rem; border-radius: 12px; background: rgba(26,60,110,0.04); border: 1px solid rgba(26,60,110,0.12); font-size: 0.9rem; color: var(--text-body); line-height: 1.8; }
+    .band-feedback strong { color: var(--navy); }
+    .passage-corr-header { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); padding: 10px 0 8px; border-bottom: 1px solid var(--border); margin-bottom: 1rem; }
+
+    /* ── SPINNER ── */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; }
   </style>
   <script>
     (function(){
@@ -146,82 +167,96 @@
       if (!raw) { window.location.replace('../login.html'); return; }
       try { JSON.parse(raw); } catch(e) { localStorage.removeItem('ielts_session'); window.location.replace('../login.html'); }
     })();
-    (function(){var t=localStorage.getItem('ieltslab_theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();
-    function toggleTheme(){var c=document.documentElement.getAttribute('data-theme')||'dark',n=c==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);localStorage.setItem('ieltslab_theme',n);var b=document.getElementById('themeToggle');if(b)b.textContent=n==='dark'?'☀':'🌙';}
-    document.addEventListener('DOMContentLoaded',function(){var b=document.getElementById('themeToggle');if(b){var d=(document.documentElement.getAttribute('data-theme')||'dark')==='dark';b.textContent=d?'☀':'🌙';}});
+    (function(){ var t = localStorage.getItem('ieltslab_theme') || 'light'; document.documentElement.setAttribute('data-theme', t); })();
+    function toggleTheme(){ var c = document.documentElement.getAttribute('data-theme') || 'light', n = c === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', n); localStorage.setItem('ieltslab_theme', n); var b = document.getElementById('themeToggle'); if(b) b.textContent = n === 'dark' ? '☀' : '🌙'; }
+    document.addEventListener('DOMContentLoaded', function(){ var b = document.getElementById('themeToggle'); if(b){ var d = (document.documentElement.getAttribute('data-theme') || 'light') === 'dark'; b.textContent = d ? '☀' : '🌙'; } });
   </script>
 </head>
-<body class="bg-zinc-950 text-zinc-50 min-h-screen flex flex-col">
+<body class="min-h-screen flex flex-col" style="background:var(--page-bg);color:var(--text-primary);">
 
 <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
 
-<!-- NAV -->
 <div id="header-container"></div>
 
 <!-- TIMING STRIP -->
 <div class="timing-strip" id="timingStrip">
   <div class="max-w-6xl mx-auto px-6 flex items-center justify-center gap-10">
-    <div class="timing-item">
-      <span class="timing-label">Passage 1</span>
-      <span class="timing-val">15–17 minutes</span>
-    </div>
-    <div class="w-px h-6 bg-zinc-800"></div>
-    <div class="timing-item">
-      <span class="timing-label">Passage 2</span>
-      <span class="timing-val">20 minutes</span>
-    </div>
-    <div class="w-px h-6 bg-zinc-800"></div>
-    <div class="timing-item">
-      <span class="timing-label">Passage 3</span>
-      <span class="timing-val">23–25 minutes</span>
-    </div>
+    <div class="timing-item"><span class="timing-label">Passage 1</span><span class="timing-val">15–17 min</span></div>
+    <div style="width:1px;height:24px;background:var(--border);"></div>
+    <div class="timing-item"><span class="timing-label">Passage 2</span><span class="timing-val">20 min</span></div>
+    <div style="width:1px;height:24px;background:var(--border);"></div>
+    <div class="timing-item"><span class="timing-label">Passage 3</span><span class="timing-val">23–25 min</span></div>
   </div>
 </div>
 
 <!-- TEST MAIN -->
 <main class="flex-1 max-w-6xl mx-auto px-6 py-10 w-full" id="testMain">
-  <div class="flex items-center justify-between mb-6">
+
+  <!-- HEADER ROW -->
+  <div class="flex items-start justify-between mb-5 gap-4">
     <div>
-      <div class="text-xs font-medium tracking-widest uppercase mb-1" style="color:var(--gold);">📖 Reading — Academic</div>
-      <h1 class="font-display font-black text-2xl text-zinc-100">IELTS Academic Reading Test</h1>
+      <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Reading — Academic</div>
+      <h1 class="font-display font-black text-2xl" style="color:var(--text-primary);">IELTS Academic Reading Test</h1>
     </div>
-    <div class="text-xs text-zinc-600 hidden md:block">60 minutes · 40 questions</div>
+    <div class="flex items-center gap-3 flex-shrink-0">
+      <div id="timerDisplay" class="timer-box">60:00</div>
+    </div>
+  </div>
+
+  <!-- ACCESSIBILITY TOOLBAR -->
+  <div class="a11y-bar">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-muted);flex-shrink:0;"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+    <span class="a11y-bar-label">Text Size</span>
+    <div class="font-ctrl" role="toolbar" aria-label="Adjust passage text size">
+      <button class="font-ctrl-btn a-small" onclick="adjustFontSize(-1)" title="Decrease text size">A−</button>
+      <button class="font-ctrl-btn a-mid"   onclick="adjustFontSize(0)"  title="Reset text size">A</button>
+      <button class="font-ctrl-btn a-large" onclick="adjustFontSize(1)"  title="Increase text size">A+</button>
+    </div>
+    <span style="font-size:0.75rem;color:var(--text-faint);">Adjust the reading passage font size</span>
+    <div class="ml-auto text-xs hidden md:block" style="color:var(--text-muted);">60 minutes · 40 questions · 3 passages</div>
   </div>
 
   <!-- TABS -->
   <div class="tab-nav" id="tabNav">
-    <button class="tab-btn active" onclick="switchTab(1)">📄 Passage 1 <span class="text-zinc-600 font-normal ml-1">(Q1–13)</span></button>
-    <button class="tab-btn" onclick="switchTab(2)">📄 Passage 2 <span class="text-zinc-600 font-normal ml-1">(Q14–26)</span></button>
-    <button class="tab-btn" onclick="switchTab(3)">📄 Passage 3 <span class="text-zinc-600 font-normal ml-1">(Q27–40)</span></button>
+    <button class="tab-btn active" onclick="switchTab(1)">Passage 1 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q1–13)</span></button>
+    <button class="tab-btn" onclick="switchTab(2)">Passage 2 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q14–26)</span></button>
+    <button class="tab-btn" onclick="switchTab(3)">Passage 3 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q27–40)</span></button>
   </div>
 
-  <!-- ═══════════════ PASSAGE 1 ═══════════════ -->
+  <!-- ═══════════════ PASSAGE 1 — The Permafrost Carbon Paradox ═══════════════ -->
   <div id="panel1">
     <div class="grid lg:grid-cols-2 gap-6">
       <div class="section-card lg:sticky lg:top-[105px] lg:max-h-[calc(100vh-120px)] lg:overflow-y-auto">
-        <div class="text-xs font-medium tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 1</div>
-        <div class="text-sm font-semibold text-zinc-200 mb-4">The Salar de Uyuni</div>
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 1</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">The Permafrost Carbon Paradox</div>
         <div class="passage-text">
-          <p>The Salar de Uyuni in south-western Bolivia is the world's largest salt flat, covering an area of approximately 10,582 square kilometres at an altitude of 3,656 metres above sea level. Formed over tens of thousands of years by the repeated evaporation of prehistoric lakes that once filled the Altiplano basin, the Salar is now a vast expanse of crystallised sodium chloride — a crust of salt that can reach a depth of ten metres in some areas. Beneath this crust lies a dense, mineral-rich brine that continuously replenishes the surface, ensuring that the flat remains remarkably uniform and stable year after year.</p>
-          <p>Beneath the surface brine lie extraordinary mineral reserves. Geologists estimate that the Salar contains more than half of the world's known reserves of lithium, a lightweight metal that has become strategically vital to the global economy because of its central role in the manufacture of rechargeable batteries for electric vehicles and portable electronics. Bolivia has moved cautiously to develop these reserves, seeking to balance the economic potential of extraction against concerns about environmental degradation and the rights of indigenous communities who have inhabited the region for millennia.</p>
-          <p>The Salar supports a remarkable ecosystem despite its apparent barrenness. Three species of flamingo — the Andean, James's, and Chilean — breed on the flat and in the surrounding lakes, their distinctive pink plumage derived from the algae and crustaceans they consume in the mineral-rich waters. The shallow lagoons at the edges of the Salar, coloured vivid shades of red, green, and turquoise by different mineral concentrations and microorganisms, provide important nesting grounds that attract wildlife researchers from around the world.</p>
-          <p>The surface of the Salar presents a striking visual phenomenon. During the wet season, rainfall creates a thin, perfectly still layer of water over the salt crust. This shallow film acts as an almost flawless mirror, reflecting the sky so precisely that the horizon disappears entirely, creating a disorienting effect that draws hundreds of thousands of tourists each year. Photographers and travellers exploit the absence of visual reference points to produce images of apparently impossible scale. During the dry season, the evaporation of this water leaves behind intricate hexagonal patterns in the salt crust, formed by natural crystallisation processes, which have become one of the Salar's most recognisable features.</p>
-          <p>Human use of the Salar has a long history. Salt extraction has been practised in the region for at least five centuries, and llama caravans once transported the mineral along established trading paths connecting highland and lowland communities across the Andes. A small hotel constructed entirely from blocks of salt, opened in the 1990s, drew considerable media attention and spurred the development of tourism infrastructure in the region. Today, adapted four-wheel-drive vehicles navigate the flat in convoys, and a network of service stops has been established to support the growing visitor trade.</p>
-          <p>Despite its remote location, the Salar de Uyuni has attracted significant international scientific interest. Its remarkably flat and reflective surface — with elevation variations of less than one metre across its entire expanse — has been used by NASA to calibrate the altitude sensors of Earth-observation satellites. The region's geological record also provides valuable data for climate scientists studying long-term patterns of precipitation and evaporation across the Andean plateau. Several research stations have been established in the vicinity, and collaborative projects between Bolivian and international institutions continue to expand our understanding of this unique environment.</p>
+          <p><span class="para-label">A</span>Locked beneath 23 million square kilometres of permanently frozen ground in the Arctic, sub-Arctic, and high-altitude regions lies approximately 1,500 billion tonnes of organic carbon — nearly double the quantity currently held in Earth's atmosphere. This vast reservoir, accumulated over millennia as partially decomposed plant and animal matter, remained effectively inert so long as soil temperatures stayed consistently below zero degrees Celsius. Since 1980, however, mean annual temperatures across the Arctic have risen at roughly four times the global average, and the boundary between frozen and thawed ground has begun to shift with measurable consequences for the global carbon cycle.</p>
+
+          <p><span class="para-label">B</span>Permafrost is defined not by ice content but by temperature: ground that has remained at or below 0°C for a minimum of two consecutive years qualifies, regardless of whether water is present in solid or liquid form. Continuous permafrost — where frozen ground underlies more than 90 percent of the land surface — extends across much of northern Siberia, Alaska, and Canada. South of this zone lies discontinuous permafrost, characterised by patches of frozen ground interspersed with thawed areas, typically at depths ranging from a few centimetres to several hundred metres. The distinction carries practical significance because discontinuous permafrost is thermally closer to the thaw threshold and therefore more immediately susceptible to temperature-driven destabilisation than its continuous counterpart.</p>
+
+          <p><span class="para-label">C</span>When permafrost thaws, the organic material it contains becomes accessible to microbial communities that were previously dormant. Bacteria and archaea metabolise the formerly frozen carbon through aerobic and anaerobic pathways, releasing it as carbon dioxide and methane respectively. The ratio of these two gases in the resulting emissions depends largely on drainage conditions: well-drained soils favour aerobic decomposition and CO₂ production, while waterlogged or flooded surfaces generate methane at substantially higher rates. Since methane carries a global warming potential approximately 86 times greater than CO₂ over a 20-year horizon, the hydrology of a thawing landscape determines not merely the volume but the climatic potency of its emissions — a distinction with profound implications for how researchers model permafrost's contribution to warming.</p>
+
+          <p><span class="para-label">D</span>One mechanism that has attracted increasing attention from climate scientists is the formation of thermokarst lakes. As ice-rich permafrost thaws unevenly, the ground surface subsides and depression pools accumulate meltwater, creating shallow lakes that absorb solar radiation and accelerate localised warming. A 2021 study published in <em>Nature Communications</em> reported that thermokarst lakes in Siberia had expanded in surface area by an average of 14 percent between 1999 and 2019, emitting methane at concentrations up to 50 times higher than surrounding dry tundra. Once established, these lakes can trigger self-reinforcing thaw cycles that persist independently of broader surface air temperature trends, effectively decoupling local warming from the global climate signal.</p>
+
+          <p><span class="para-label">E</span>Modelling studies project a wide range of outcomes depending on assumptions about future emissions trajectories and the fraction of soil carbon that will ultimately be mobilised. Under a high-emissions scenario, permafrost thaw could release between 68 and 508 billion tonnes of CO₂-equivalent by 2100 — a range that reflects deep uncertainty in both the rate of thaw and soil carbon availability. Crucially, none of these projected emissions are currently incorporated into the baseline climate models used by the Intergovernmental Panel on Climate Change for its headline temperature projections, meaning that official forecasts may systematically underestimate the scale of warming by failing to account for what some researchers have termed a hidden multiplier in the Earth's climate system.</p>
+
+          <p><span class="para-label">F</span>Several mitigation strategies have been proposed, though each faces significant practical constraints. Reflective surface treatments — scattering light-coloured materials such as crushed limestone across tundra areas — could theoretically reduce localised heat absorption, but the scale required renders field application logistically implausible across millions of hectares. A more ecologically grounded intervention is the Pleistocene Park project in north-eastern Siberia, where researchers have re-introduced large herbivores — including bison, musk oxen, and horses — with the aim of compacting snow through trampling. Compacted snow conducts heat less efficiently than loose snow, thereby maintaining lower ground temperatures through winter months. Preliminary data from a 25-square-kilometre trial plot indicated that ground temperatures were approximately 2°C lower in areas grazed by large animals than in adjacent ungrazed areas, though scaling this approach beyond pilot conditions remains undemonstrated.</p>
+
+          <p><span class="para-label">G</span>The scientific consensus holds that permafrost thaw represents a committed feedback rather than a contingent risk: even if global mean temperature increases are held to 1.5°C above pre-industrial levels, an estimated 10 percent of near-surface permafrost will thaw irreversibly. At 2°C, that figure rises to approximately 40 percent. The carbon release associated with these losses will not be offset by increased plant growth in newly thawed Arctic soils, as some earlier models predicted; more recent analyses indicate that the decomposition signal substantially outpaces any gains from enhanced photosynthetic uptake in the short to medium term. The permafrost carbon feedback consequently operates on a timeline that sits uncomfortably outside the planning horizons of most climate policy frameworks, demanding forms of institutional response for which current governance structures remain largely unprepared.</p>
         </div>
       </div>
       <div>
-        <div class="section-card" id="qPanel1"></div>
+        <div class="section-card" style="background:var(--qpanel-bg);" id="qPanel1"></div>
       </div>
     </div>
   </div>
 
-  <!-- ═══════════════ PASSAGE 2 ═══════════════ -->
+  <!-- ═══════════════ PASSAGE 2 — The Trebuchet ═══════════════ -->
   <div id="panel2" style="display:none;">
     <div class="grid lg:grid-cols-2 gap-6">
       <div class="section-card lg:sticky lg:top-[105px] lg:max-h-[calc(100vh-120px)] lg:overflow-y-auto">
-        <div class="text-xs font-medium tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 2</div>
-        <div class="text-sm font-semibold text-zinc-200 mb-4">The Trebuchet</div>
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 2</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">The Trebuchet</div>
         <div class="passage-text">
           <p>The trebuchet was a siege weapon of extraordinary power, used primarily in medieval Europe and the Middle East between the 11th and 15th centuries. Unlike earlier catapult designs that relied on twisted rope or bent wood to store energy, the trebuchet operated on the principle of gravitational potential energy: a large counterweight, typically consisting of a wooden box filled with stones, earth, or lead, was raised to its maximum height and then released, causing a long throwing arm to rotate rapidly around a fixed axle. This rotation transferred energy through a flexible sling attached to the end of the arm, propelling a projectile along a precisely controlled trajectory. The largest trebuchets were capable of hurling stones weighing 100 kilograms or more over distances exceeding 300 metres.</p>
           <p>The key structural component of a trebuchet was its frame, a robust base structure constructed from heavy timber beams that supported the entire mechanism and absorbed the enormous forces generated during each firing cycle. The frame was typically wheeled to allow repositioning and was often several metres tall to provide sufficient clearance for the rotating arm. The axle, a horizontal shaft mounted at or near the top of the frame, served as the pivot point around which the arm rotated; its position was not always at the midpoint of the arm, but rather closer to the end bearing the counterweight, ensuring that the long throwing portion of the arm travelled a much greater distance than the short counterweight end.</p>
@@ -231,22 +266,22 @@
         </div>
       </div>
       <div>
-        <div class="section-card" id="qPanel2"></div>
+        <div class="section-card" style="background:var(--qpanel-bg);" id="qPanel2"></div>
       </div>
     </div>
   </div>
 
-  <!-- ═══════════════ PASSAGE 3 ═══════════════ -->
+  <!-- ═══════════════ PASSAGE 3 — Pioneers of Deep Ocean Exploration ═══════════════ -->
   <div id="panel3" style="display:none;">
     <div class="grid lg:grid-cols-2 gap-6">
       <div class="section-card lg:sticky lg:top-[105px] lg:max-h-[calc(100vh-120px)] lg:overflow-y-auto">
-        <div class="text-xs font-medium tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 3</div>
-        <div class="text-sm font-semibold text-zinc-200 mb-4">Pioneers of Deep Ocean Exploration</div>
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 3</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">Pioneers of Deep Ocean Exploration</div>
         <div class="passage-text">
           <p><span class="para-label">A</span>The deep ocean — broadly defined as water below 200 metres, where sunlight cannot penetrate — covers more than half the surface of the Earth, yet remains the least explored environment on the planet. For most of human history, the seafloor was presumed to be a featureless, lifeless desert, too cold, dark, and pressured to support biology of any kind. The twentieth century dismantled this assumption almost completely, as a series of pioneering explorers descended into the abyss and returned with evidence of ecosystems and geological features that continue to reshape our understanding of the Earth.</p>
           <p><span class="para-label">B</span>The first humans to reach the deepest point of the ocean descended not in search of scientific discovery, but to determine whether survival was physically possible. On 23 January 1960, Swiss engineer Jacques Piccard and US Navy Lieutenant Don Walsh sealed themselves inside the bathyscaphe Trieste — a deep-diving vessel designed by Piccard's father Auguste — and sank for nearly five hours until they touched the floor of the Challenger Deep in the Mariana Trench, at a depth of 10,916 metres. There, to their astonishment, they observed a flatfish resting on the sediment below them, confirming for the first time that complex vertebrate life could exist at the very deepest point of the ocean.</p>
           <p><span class="para-label">C</span>The development of remotely operated vehicles fundamentally changed the nature of deep-sea exploration by eliminating the physical risk to human researchers. Robert Ballard, an oceanographer at the Woods Hole Oceanographic Institution, was instrumental in pioneering the use of tethered ROVs linked to surface ships by fibre-optic cables. In 1985, Ballard used an early prototype of this system — a camera sled named Argo — to locate the wreck of the RMS Titanic on the floor of the North Atlantic, at a depth of 3,800 metres. The mission demonstrated that ROV technology could achieve what crewed submersibles could not: sustained, stable observation over large areas of the seafloor without the time constraints imposed by human life-support systems.</p>
-          <p><span class="para-label">D</span>Where Ballard advanced through technology, Sylvia Earle advanced through personal endurance. A marine biologist and former chief scientist at the National Oceanic and Atmospheric Administration, Earle holds the record for the deepest solo walk ever made beneath the sea — descending to 381 metres off the coast of Hawaii in 1979 wearing a rigid JIM atmospheric diving suit that maintained breathable air pressure while she walked along the seafloor. Her sustained campaigning for ocean conservation, rooted in more than 7,000 hours of diving experience accumulated over six decades, has been credited with influencing the designation of marine protected areas in the United States and internationally. She has consistently argued that legal protection of ocean ecosystems is a prerequisite for their survival.</p>
+          <p><span class="para-label">D</span>Where Ballard advanced through technology, Sylvia Earle advanced through personal endurance. A marine biologist and former chief scientist at the National Oceanic and Atmospheric Administration, Earle holds the record for the deepest solo walk ever made beneath the sea — descending to 381 metres off the coast of Hawaii in 1979 wearing a rigid JIM atmospheric diving suit that maintained breathable air pressure while she walked along the seafloor. Her sustained campaigning for ocean conservation, rooted in more than 7,000 hours of diving experience accumulated over six decades, has been credited with influencing the designation of marine protected areas in the United States and internationally.</p>
           <p><span class="para-label">E</span>The early decades of deep-ocean exploration were characterised as much by institutional resistance as by scientific ambition. Funding was inconsistent, and military priorities — particularly the development of submarine warfare — tended to absorb resources that might otherwise have supported civilian research. Several proposals for sustained investigation of the mid-ocean ridge system were rejected or delayed by government agencies in the 1960s and 1970s, and researchers frequently had to justify the practical value of their work in terms that did not come naturally to those interested purely in scientific discovery. The breakthrough discovery of hydrothermal vents in 1977 — communities of organisms thriving in superheated water without any dependence on sunlight — forced a re-evaluation of the relationship between oceanographic research and broader scientific priorities.</p>
           <p><span class="para-label">F</span>More than fifty years after Piccard and Walsh, James Cameron became the first person to reach the bottom of the Challenger Deep alone. On 26 March 2012, the filmmaker descended in the Deepsea Challenger — a torpedo-shaped submersible he had co-designed and funded personally — and spent three hours on the seafloor collecting sediment samples and filming for a National Geographic documentary. Cameron had previously explored the Titanic wreck multiple times for research and film production purposes, combining his careers as a scientist-collaborator and popular filmmaker in a way that brought deep-sea exploration to a mass audience that academic institutions had never reached.</p>
           <p><span class="para-label">G</span>The same physical characteristics that make the deep ocean scientifically significant also make it potentially valuable for industrial extraction. Large nodule-like deposits of manganese, copper, cobalt, and nickel are distributed across wide areas of the abyssal plain, and hydrothermal vents are associated with concentrated sulphide deposits rich in precious metals. Several commercial consortia have sought permits from the International Seabed Authority to begin extraction, provoking strong opposition from marine biologists, environmental groups, and some national governments concerned that mining would irreversibly damage ecosystems that have developed over millions of years in isolation.</p>
@@ -254,7 +289,7 @@
         </div>
       </div>
       <div>
-        <div class="section-card" id="qPanel3"></div>
+        <div class="section-card" style="background:var(--qpanel-bg);" id="qPanel3"></div>
       </div>
     </div>
   </div>
@@ -269,20 +304,14 @@
 <div id="resultsMain" style="display:none;" class="flex-1 max-w-5xl mx-auto px-6 py-10 w-full">
   <div class="flex items-center gap-3 mb-8">
     <div>
-      <div class="text-xs font-medium tracking-widest uppercase mb-1" style="color:var(--gold);">✅ Results</div>
-      <h1 class="font-display font-black text-2xl text-zinc-100">Academic Reading — Score Report</h1>
+      <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Results</div>
+      <h1 class="font-display font-black text-2xl" style="color:var(--text-primary);">Academic Reading — Score Report</h1>
     </div>
   </div>
-
-  <!-- SCORE CARD -->
   <div class="section-card mb-6" id="scoreCard"></div>
-
-  <!-- BAND FEEDBACK -->
   <div class="section-card mb-8" id="feedbackCard"></div>
-
-  <!-- CORRECTIONS PER PASSAGE -->
   <div class="section-card mb-6">
-    <div class="passage-corr-header">Passage 1 — The Salar de Uyuni</div>
+    <div class="passage-corr-header">Passage 1 — The Permafrost Carbon Paradox</div>
     <div id="corrPassage1"></div>
   </div>
   <div class="section-card mb-6">
@@ -293,209 +322,229 @@
     <div class="passage-corr-header">Passage 3 — Pioneers of Deep Ocean Exploration</div>
     <div id="corrPassage3"></div>
   </div>
-
   <div class="flex gap-4 justify-center mb-16">
     <a href="index.html" class="btn-gold">← Back to Tests</a>
   </div>
 </div>
 
 <!-- SUBMITTING OVERLAY -->
-<div id="submittingOverlay" style="display:none;position:fixed;inset:0;z-index:300;background:rgba(9,9,11,0.97);flex-direction:column;align-items:center;justify-content:center;" class="flex">
+<div id="submittingOverlay" style="display:none;position:fixed;inset:0;z-index:300;background:rgba(247,248,250,0.97);flex-direction:column;align-items:center;justify-content:center;" class="flex">
   <div class="spinner mb-6"></div>
-  <div class="font-display font-bold text-zinc-200 text-xl mb-2">Scoring Your Answers</div>
-  <p class="text-sm text-zinc-500">Analysing your responses…</p>
+  <div class="font-display font-bold text-xl mb-2" style="color:var(--text-primary);">Scoring Your Answers</div>
+  <p class="text-sm" style="color:var(--text-muted);">Analysing your responses…</p>
 </div>
 
 <script>
 // ─────────────────────────────────────────
-//  TEST DATA
+//  TREBUCHET SVG (light theme)
 // ─────────────────────────────────────────
-// Trebuchet SVG diagram (inline, no external file needed)
 const TREBUCHET_SVG = `<svg viewBox="0 0 420 300" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:420px;display:block;margin:0 auto;font-family:monospace;">
-  <rect width="420" height="300" fill="#0a0a0b" rx="8"/>
+  <rect width="420" height="300" fill="#F0F4F8" rx="8"/>
   <!-- Frame base -->
-  <rect x="110" y="210" width="190" height="14" fill="none" stroke="#52525b" stroke-width="2.5" rx="2"/>
+  <rect x="110" y="210" width="190" height="14" fill="none" stroke="#64748B" stroke-width="2.5" rx="2"/>
   <!-- Frame verticals -->
-  <rect x="138" y="148" width="11" height="62" fill="none" stroke="#52525b" stroke-width="2"/>
-  <rect x="261" y="148" width="11" height="62" fill="none" stroke="#52525b" stroke-width="2"/>
+  <rect x="138" y="148" width="11" height="62" fill="none" stroke="#64748B" stroke-width="2"/>
+  <rect x="261" y="148" width="11" height="62" fill="none" stroke="#64748B" stroke-width="2"/>
   <!-- Axle -->
-  <line x1="136" y1="155" x2="274" y2="155" stroke="#a1a1aa" stroke-width="3"/>
+  <line x1="136" y1="155" x2="274" y2="155" stroke="#475569" stroke-width="3"/>
   <circle cx="205" cy="155" r="5" fill="#C9952E"/>
-  <!-- Arm: short end (left, up) -->
-  <line x1="205" y1="155" x2="148" y2="82" stroke="#a1a1aa" stroke-width="3.5"/>
-  <!-- Arm: long end (right, down-right) -->
-  <line x1="205" y1="155" x2="318" y2="200" stroke="#a1a1aa" stroke-width="3.5"/>
+  <!-- Arm: short end (counterweight side) -->
+  <line x1="205" y1="155" x2="148" y2="82" stroke="#475569" stroke-width="3.5"/>
+  <!-- Arm: long end (throwing side) -->
+  <line x1="205" y1="155" x2="318" y2="200" stroke="#475569" stroke-width="3.5"/>
   <!-- Counterweight box -->
-  <rect x="127" y="55" width="34" height="28" fill="#1c1c1e" stroke="#71717a" stroke-width="2" rx="2"/>
-  <line x1="130" y1="63" x2="158" y2="63" stroke="#3f3f46" stroke-width="1"/><line x1="130" y1="70" x2="158" y2="70" stroke="#3f3f46" stroke-width="1"/><line x1="130" y1="77" x2="158" y2="77" stroke="#3f3f46" stroke-width="1"/>
+  <rect x="127" y="55" width="34" height="28" fill="#E2E8F0" stroke="#94A3B8" stroke-width="2" rx="2"/>
+  <line x1="130" y1="63" x2="158" y2="63" stroke="#CBD5E1" stroke-width="1"/>
+  <line x1="130" y1="70" x2="158" y2="70" stroke="#CBD5E1" stroke-width="1"/>
+  <line x1="130" y1="77" x2="158" y2="77" stroke="#CBD5E1" stroke-width="1"/>
   <!-- Sling lines -->
-  <line x1="318" y1="200" x2="306" y2="238" stroke="#71717a" stroke-width="1.5" stroke-dasharray="5,3"/>
-  <line x1="318" y1="200" x2="322" y2="238" stroke="#71717a" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="318" y1="200" x2="306" y2="238" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <line x1="318" y1="200" x2="322" y2="238" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="5,3"/>
   <!-- Projectile -->
-  <circle cx="314" cy="248" r="11" fill="#1c1c1e" stroke="#a1a1aa" stroke-width="2"/>
-  <!-- Pin diamond at sling attach -->
+  <circle cx="314" cy="248" r="11" fill="#E2E8F0" stroke="#64748B" stroke-width="2"/>
+  <!-- Pin diamond -->
   <polygon points="318,197 323,202 318,207 313,202" fill="#C9952E" opacity="0.9"/>
-  <!-- CALLOUT LINES & LABELS -->
-  <!-- 20: frame -->
+  <!-- CALLOUT CIRCLES -->
   <line x1="205" y1="224" x2="205" y2="244" stroke="#C9952E" stroke-width="1" stroke-dasharray="3,2"/>
-  <circle cx="205" cy="254" r="11" fill="#C9952E"/><text x="205" y="258" text-anchor="middle" fill="#09090b" font-size="11" font-weight="bold">20</text>
-  <!-- 21: axle -->
+  <circle cx="205" cy="254" r="11" fill="#C9952E"/><text x="205" y="258" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="bold">20</text>
   <line x1="274" y1="155" x2="310" y2="130" stroke="#C9952E" stroke-width="1" stroke-dasharray="3,2"/>
-  <circle cx="320" cy="120" r="11" fill="#C9952E"/><text x="320" y="124" text-anchor="middle" fill="#09090b" font-size="11" font-weight="bold">21</text>
-  <!-- 22: arm -->
+  <circle cx="320" cy="120" r="11" fill="#C9952E"/><text x="320" y="124" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="bold">21</text>
   <line x1="270" y1="173" x2="305" y2="173" stroke="#C9952E" stroke-width="1" stroke-dasharray="3,2"/>
-  <circle cx="316" cy="173" r="11" fill="#C9952E"/><text x="316" y="177" text-anchor="middle" fill="#09090b" font-size="11" font-weight="bold">22</text>
-  <!-- 23: counterweight -->
+  <circle cx="316" cy="173" r="11" fill="#C9952E"/><text x="316" y="177" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="bold">22</text>
   <line x1="127" y1="69" x2="95" y2="60" stroke="#C9952E" stroke-width="1" stroke-dasharray="3,2"/>
-  <circle cx="84" cy="52" r="11" fill="#C9952E"/><text x="84" y="56" text-anchor="middle" fill="#09090b" font-size="11" font-weight="bold">23</text>
-  <!-- 24: sling -->
+  <circle cx="84" cy="52" r="11" fill="#C9952E"/><text x="84" y="56" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="bold">23</text>
   <line x1="307" y1="225" x2="352" y2="220" stroke="#C9952E" stroke-width="1" stroke-dasharray="3,2"/>
-  <circle cx="363" cy="220" r="11" fill="#C9952E"/><text x="363" y="224" text-anchor="middle" fill="#09090b" font-size="11" font-weight="bold">24</text>
-  <!-- 25: projectile -->
+  <circle cx="363" cy="220" r="11" fill="#C9952E"/><text x="363" y="224" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="bold">24</text>
   <line x1="325" y1="248" x2="358" y2="248" stroke="#C9952E" stroke-width="1" stroke-dasharray="3,2"/>
-  <circle cx="369" cy="248" r="11" fill="#C9952E"/><text x="369" y="252" text-anchor="middle" fill="#09090b" font-size="11" font-weight="bold">25</text>
-  <!-- 26: pin -->
+  <circle cx="369" cy="248" r="11" fill="#C9952E"/><text x="369" y="252" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="bold">25</text>
   <line x1="313" y1="202" x2="280" y2="200" stroke="#C9952E" stroke-width="1" stroke-dasharray="3,2"/>
-  <circle cx="269" cy="200" r="11" fill="#C9952E"/><text x="269" y="204" text-anchor="middle" fill="#09090b" font-size="11" font-weight="bold">26</text>
-  <!-- Part labels (small text) -->
-  <text x="205" y="272" text-anchor="middle" fill="#52525b" font-size="9">frame</text>
-  <text x="144" y="50" text-anchor="middle" fill="#52525b" font-size="9">counterweight</text>
-  <text x="314" y="272" text-anchor="middle" fill="#52525b" font-size="9">projectile</text>
+  <circle cx="269" cy="200" r="11" fill="#C9952E"/><text x="269" y="204" text-anchor="middle" fill="#ffffff" font-size="11" font-weight="bold">26</text>
+  <text x="205" y="272" text-anchor="middle" fill="#64748B" font-size="9">frame</text>
+  <text x="144" y="50" text-anchor="middle" fill="#64748B" font-size="9">counterweight</text>
+  <text x="314" y="272" text-anchor="middle" fill="#64748B" font-size="9">projectile</text>
 </svg>`;
 
+// ─────────────────────────────────────────
+//  TEST DATA
+// ─────────────────────────────────────────
 const GROUPS = [
-  // ── PASSAGE 1 ──
+  // ── PASSAGE 1 — The Permafrost Carbon Paradox ──
   {
     passageId: 1,
-    type: 'sentence_completion',
-    label: 'Questions 1–7',
-    instructions: 'Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.',
+    type: 'matching_headings',
+    label: 'Questions 1–5',
+    instructions: 'The reading passage has seven paragraphs, <strong>A–G</strong>. Choose the correct heading for paragraphs <strong>B–F</strong> from the list of headings below. Write the correct Roman numeral in the box.',
+    headings: [
+      { key: 'i',   text: 'The constraints facing proposed countermeasures' },
+      { key: 'ii',  text: 'How temperature dictates soil classification' },
+      { key: 'iii', text: 'A self-sustaining cycle of warming driven by water accumulation' },
+      { key: 'iv',  text: 'The potential underrepresentation of permafrost data in climate projections' },
+      { key: 'v',   text: 'The chemical processes that determine the type of gas released' },
+      { key: 'vi',  text: 'The irreversible nature of projected thaw across warming thresholds' },
+      { key: 'vii', text: 'Early evidence of a surface cooling technique using animal behaviour' },
+    ],
     questions: [
-      { id: 1, text: 'The salt crust of the Salar can reach a depth of ten _______.', answer: 'metres', answerDisplay: 'metres', acceptable: ['metres', 'meters'],
-        explanation: 'The passage states: <strong>"a crust of salt that can reach a depth of ten metres in some areas."</strong> The answer is taken directly from the passage.',
-        reinforcement: 'Correct — "metres" appears directly in the passage as the unit of depth.' },
-      { id: 2, text: 'The Salar is estimated to contain the majority of the world\'s known reserves of _______.', answer: 'lithium', answerDisplay: 'lithium',
-        explanation: 'The passage states: <strong>"Geologists estimate that the Salar contains more than half of the world\'s known reserves of lithium."</strong>',
-        reinforcement: 'Correct — "lithium" is taken directly from paragraph 2.' },
-      { id: 3, text: 'The pink colouring of flamingos is derived from the _______ and crustaceans they consume.', answer: 'algae', answerDisplay: 'algae',
-        explanation: 'Paragraph 3 states: <strong>"their distinctive pink plumage derived from the algae and crustaceans they consume."</strong> The missing word is the first item in the list.',
-        reinforcement: 'Correct — "algae" is the first food source named in paragraph 3.' },
-      { id: 4, text: 'A thin layer of _______ covering the salt crust creates a near-perfect mirror effect.', answer: 'water', answerDisplay: 'water',
-        explanation: 'Paragraph 4 states: <strong>"rainfall creates a thin, perfectly still layer of water over the salt crust. This shallow film acts as an almost flawless mirror."</strong>',
-        reinforcement: 'Correct — "water" is the substance that forms the mirror surface, as stated in paragraph 4.' },
-      { id: 5, text: 'The absence of _______ reference points makes accurate perspective impossible to judge.', answer: 'visual', answerDisplay: 'visual',
-        explanation: 'Paragraph 4 states: <strong>"Photographers and travellers exploit the absence of visual reference points to produce images of apparently impossible scale."</strong>',
-        reinforcement: 'Correct — "visual" is taken directly from paragraph 4.' },
-      { id: 6, text: 'Salt was historically transported by _______ caravans across the Andes.', answer: 'llama', answerDisplay: 'llama',
-        explanation: 'Paragraph 5 states: <strong>"llama caravans once transported the mineral along established trading paths connecting highland and lowland communities across the Andes."</strong>',
-        reinforcement: 'Correct — "llama" is the exact word used in paragraph 5.' },
-      { id: 7, text: 'NASA used the Salar\'s surface to calibrate the _______ sensors of orbiting satellites.', answer: 'altitude', answerDisplay: 'altitude',
-        explanation: 'Paragraph 6 states: <strong>"used by NASA to calibrate the altitude sensors of Earth-observation satellites."</strong>',
-        reinforcement: 'Correct — "altitude" is taken directly from paragraph 6.' },
+      { id: 1, paraLabel: 'B', text: 'Paragraph B', answer: 'ii', answerDisplay: 'ii — How temperature dictates soil classification',
+        explanation: 'Paragraph B defines permafrost exclusively through temperature (at or below 0°C for two consecutive years), explicitly noting that ice content is irrelevant. The heading captures the paragraph\'s sole organising logic.',
+        reinforcement: 'Correct — paragraph B is structured around the temperature-based definition of permafrost, matching "How temperature dictates soil classification."' },
+      { id: 2, paraLabel: 'C', text: 'Paragraph C', answer: 'v', answerDisplay: 'v — The chemical processes that determine the type of gas released',
+        explanation: 'Paragraph C identifies bacteria and archaea, names their metabolic pathways (aerobic/anaerobic), and specifies the resulting gases (CO₂/methane). Heading iii is wrong — thermokarst lakes appear only in paragraph D.',
+        reinforcement: 'Correct — paragraph C focuses on the biochemical mechanism of decomposition and its gaseous outputs.' },
+      { id: 3, paraLabel: 'D', text: 'Paragraph D', answer: 'iii', answerDisplay: 'iii — A self-sustaining cycle of warming driven by water accumulation',
+        explanation: '"Self-reinforcing thaw cycles that persist independently of broader surface air temperature trends" maps directly to the heading. Water accumulation paraphrases meltwater pooling in thermokarst depressions.',
+        reinforcement: 'Correct — paragraph D describes thermokarst lakes as self-reinforcing, water-driven warming cycles.' },
+      { id: 4, paraLabel: 'E', text: 'Paragraph E', answer: 'iv', answerDisplay: 'iv — The potential underrepresentation of permafrost data in climate projections',
+        explanation: '"None of these projected emissions are currently incorporated into the baseline climate models used by the IPCC" directly matches "underrepresentation in climate projections." The qualifier "potential" mirrors "may systematically underestimate."',
+        reinforcement: 'Correct — paragraph E is the IPCC modelling gap paragraph.' },
+      { id: 5, paraLabel: 'F', text: 'Paragraph F', answer: 'i', answerDisplay: 'i — The constraints facing proposed countermeasures',
+        explanation: 'Both interventions in paragraph F (reflective surface treatments; Pleistocene Park) are immediately qualified with feasibility limitations ("logistically implausible"; "remains undemonstrated"). The paragraph\'s function is critique of scalability, not advocacy.',
+        reinforcement: 'Correct — paragraph F introduces mitigation ideas only to expose their practical limitations.' },
     ]
   },
   {
     passageId: 1,
     type: 'tfng',
-    label: 'Questions 8–13',
-    instructions: 'Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, or NOT GIVEN if there is no information on this.',
+    label: 'Questions 6–10',
+    instructions: 'Do the following statements agree with the information given in the reading passage? Write <strong>TRUE</strong> if the statement agrees, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
     questions: [
-      { id: 8, text: 'The Salar de Uyuni was created by volcanic eruptions.', answer: 'FALSE',
-        explanation: 'Paragraph 1 states it was <strong>"Formed over tens of thousands of years by the repeated evaporation of prehistoric lakes."</strong> Volcanic activity is not mentioned as a cause.',
-        reinforcement: 'Correct — the passage attributes the Salar\'s formation to evaporation of prehistoric lakes, not volcanism.' },
-      { id: 9, text: 'Bolivia has proceeded cautiously with the development of its lithium deposits.', answer: 'TRUE',
-        explanation: 'Paragraph 2 states: <strong>"Bolivia has moved cautiously to develop these reserves, seeking to balance the economic potential of extraction against concerns about environmental degradation."</strong>',
-        reinforcement: 'Correct — "moved cautiously" directly confirms this statement.' },
-      { id: 10, text: 'The tourist industry on the Salar has had a negative impact on flamingo populations.', answer: 'NOT GIVEN',
-        explanation: 'The passage describes both tourism and flamingos, but <strong>makes no connection between them</strong>. No information is given about whether tourism has affected flamingo numbers.',
-        reinforcement: 'Correct — the passage discusses tourism and flamingos separately but never links them causally.' },
-      { id: 11, text: 'The hexagonal patterns on the Salar\'s surface appear during the wet season.', answer: 'FALSE',
-        explanation: 'Paragraph 4 states the patterns form <strong>"During the dry season, the evaporation of this water leaves behind intricate hexagonal patterns."</strong> The wet season creates the mirror effect, not the patterns.',
-        reinforcement: 'Correct — the passage explicitly links hexagonal patterns to the dry season, not the wet season.' },
-      { id: 12, text: 'The Salar\'s surface has been used to calibrate instruments that measure height.', answer: 'TRUE',
-        explanation: 'Paragraph 6 states NASA used the surface to <strong>"calibrate the altitude sensors of Earth-observation satellites."</strong> Altitude sensors measure height.',
-        reinforcement: 'Correct — altitude sensors measure height, and the passage confirms NASA used the Salar to calibrate them.' },
-      { id: 13, text: 'Bolivia holds the only significant lithium deposits in the world.', answer: 'NOT GIVEN',
-        explanation: 'The passage states the Salar contains <strong>"more than half of the world\'s known reserves"</strong> — implying other reserves exist elsewhere — but <strong>never claims Bolivia is the only source</strong>.',
-        reinforcement: 'Correct — "more than half" implies other deposits exist, but the passage makes no claim about uniqueness.' },
+      { id: 6, text: 'The amount of carbon stored in permafrost is greater than the total carbon currently present in the atmosphere.',
+        answer: 'TRUE',
+        explanation: 'Paragraph A: <strong>"approximately 1,500 billion tonnes of organic carbon — nearly double the quantity currently held in Earth\'s atmosphere."</strong> 1,500 billion tonnes is nearly twice the atmospheric figure, directly confirming the statement.',
+        reinforcement: 'Correct — "nearly double the quantity currently held in the atmosphere" confirms permafrost carbon exceeds total atmospheric carbon.' },
+      { id: 7, text: 'Arctic temperatures have increased at approximately four times the global average rate since 1970.',
+        answer: 'FALSE',
+        explanation: 'Paragraph A states the accelerated warming has been measured <strong>"since 1980,"</strong> not 1970. The rate figure is accurate but the date is explicitly contradicted — this is a classic false-date substitution trap.',
+        reinforcement: 'Correct — the passage states "since 1980," which directly contradicts the date 1970 in the statement.' },
+      { id: 8, text: 'Methane is released at higher rates from well-drained permafrost soils than from waterlogged ones.',
+        answer: 'FALSE',
+        explanation: 'Paragraph C states the opposite: <strong>"well-drained soils favour aerobic decomposition and CO₂ production, while waterlogged or flooded surfaces generate methane at substantially higher rates."</strong> The statement reverses the relationship.',
+        reinforcement: 'Correct — the passage explicitly links high methane output to waterlogged conditions, not well-drained ones.' },
+      { id: 9, text: 'The Pleistocene Park project has received government approval for full-scale expansion across Arctic tundra regions.',
+        answer: 'NOT GIVEN',
+        explanation: 'Paragraph F confirms the project exists and reports temperature data, but makes no mention of government approval, rejection, or application for full-scale expansion. "Remains undemonstrated" refers to scientific scaling, not institutional authorisation.',
+        reinforcement: 'Correct — the passage is entirely silent on funding approval for expansion; only scientific scale-up is addressed.' },
+      { id: 10, text: 'Increased plant growth in newly thawed Arctic soils cannot compensate for the carbon released through decomposition.',
+        answer: 'TRUE',
+        explanation: 'Paragraph G: <strong>"the decomposition signal substantially outpaces any gains from enhanced photosynthetic uptake in the short to medium term."</strong> "Cannot compensate" is a direct paraphrase of "outpaces any gains."',
+        reinforcement: 'Correct — paragraph G explicitly states decomposition outpaces photosynthetic gains, confirming the statement.' },
+    ]
+  },
+  {
+    passageId: 1,
+    type: 'sentence_completion',
+    label: 'Questions 11–13',
+    instructions: 'Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS AND/OR A NUMBER</strong> from the passage for each answer.',
+    questions: [
+      { id: 11, text: 'Permafrost that underlies more than 90 percent of the land surface in a given area is described as _______ permafrost.',
+        answer: 'continuous', answerDisplay: 'continuous', acceptable: ['continuous'],
+        explanation: 'Paragraph B: <strong>"Continuous permafrost — where frozen ground underlies more than 90 percent of the land surface."</strong> The sentence frame paraphrases the definition, requiring retrieval of the precise technical term.',
+        reinforcement: 'Correct — "continuous" is the classification term in paragraph B for permafrost covering more than 90% of a land surface.' },
+      { id: 12, text: 'Data from the Pleistocene Park trial showed ground temperatures in grazed areas were approximately _______ lower than in adjacent ungrazed zones.',
+        answer: '2°c', answerDisplay: '2°C', acceptable: ['2°c', '2 degrees', 'two degrees', '2 °c'],
+        explanation: 'Paragraph F: <strong>"ground temperatures were approximately 2°C lower in areas grazed by large animals than in adjacent ungrazed areas."</strong> The sentence frame mirrors the passage closely.',
+        reinforcement: 'Correct — paragraph F reports the 2°C temperature differential between grazed and ungrazed areas.' },
+      { id: 13, text: 'The scientific community classifies permafrost thaw as a _______ feedback because some degree of thaw will occur regardless of the emissions pathway followed.',
+        answer: 'committed', answerDisplay: 'committed', acceptable: ['committed'],
+        explanation: 'Paragraph G: <strong>"permafrost thaw represents a committed feedback rather than a contingent risk."</strong> The sentence frame provides the antonym ("regardless of the emissions pathway") as a contextual cue. "Contingent" is the high-plausibility wrong answer.',
+        reinforcement: 'Correct — "committed" is the precise academic term used in paragraph G, contrasted with "contingent."' },
     ]
   },
 
-  // ── PASSAGE 2 ──
+  // ── PASSAGE 2 — The Trebuchet ──
   {
     passageId: 2,
     type: 'tfng',
     label: 'Questions 14–19',
-    instructions: 'Do the following statements agree with the information given in the reading passage? Write TRUE if the statement agrees with the information, FALSE if the statement contradicts the information, or NOT GIVEN if there is no information on this.',
+    instructions: 'Do the following statements agree with the information given in the reading passage? Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong>.',
     questions: [
       { id: 14, text: 'The trebuchet stored energy in a different way from earlier siege weapons.', answer: 'TRUE',
         explanation: 'Paragraph 1 states: <strong>"Unlike earlier catapult designs that relied on twisted rope or bent wood to store energy, the trebuchet operated on the principle of gravitational potential energy."</strong>',
-        reinforcement: 'Correct — the passage explicitly contrasts the trebuchet\'s energy storage with earlier designs.' },
+        reinforcement: 'Correct — the passage explicitly contrasts the trebuchet\'s energy storage method with earlier designs.' },
       { id: 15, text: 'The axle of a trebuchet was always positioned at the midpoint of the throwing arm.', answer: 'FALSE',
         explanation: 'Paragraph 2 states the axle\'s position was <strong>"not always at the midpoint of the arm, but rather closer to the end bearing the counterweight."</strong>',
-        reinforcement: 'Correct — the passage directly contradicts this with "not always at the midpoint."' },
+        reinforcement: 'Correct — "not always at the midpoint" directly contradicts the claim of a fixed midpoint position.' },
       { id: 16, text: 'The most powerful trebuchets could launch a projectile over 300 metres.', answer: 'TRUE',
-        explanation: 'Paragraph 1 states: <strong>"The largest trebuchets were capable of hurling stones weighing 100 kilograms or more over distances exceeding 300 metres."</strong>',
+        explanation: 'Paragraph 1: <strong>"The largest trebuchets were capable of hurling stones weighing 100 kilograms or more over distances exceeding 300 metres."</strong>',
         reinforcement: 'Correct — "exceeding 300 metres" confirms this statement.' },
       { id: 17, text: 'The two cords connecting the sling to the throwing arm were of equal length.', answer: 'FALSE',
-        explanation: 'Paragraph 4 states the sling was <strong>"Attached to the tip of the throwing arm by two cords of unequal length."</strong> The statement says equal; the passage says unequal.',
-        reinforcement: 'Correct — "unequal length" in the passage directly contradicts "equal length" in the statement.' },
+        explanation: 'Paragraph 4 states the sling was <strong>"Attached to the tip of the throwing arm by two cords of unequal length."</strong>',
+        reinforcement: 'Correct — "unequal length" directly contradicts "equal length" in the statement.' },
       { id: 18, text: 'Trebuchets were transported to battle sites as fully assembled units.', answer: 'FALSE',
         explanation: 'Paragraph 5 states trebuchets were <strong>"generally assembled on site from pre-cut timber components rather than transported as a complete unit."</strong>',
-        reinforcement: 'Correct — the passage explicitly says they were assembled on site, not transported complete.' },
+        reinforcement: 'Correct — the passage explicitly says assembled on site, not transported complete.' },
       { id: 19, text: 'Modern engineers have built working models of trebuchets.', answer: 'TRUE',
-        explanation: 'Paragraph 5 refers to <strong>"physical reconstructions"</strong> used by modern engineering researchers to investigate principles of energy transfer.',
-        reinforcement: 'Correct — "physical reconstructions" confirms that working models have been built.' },
+        explanation: 'Paragraph 5 refers to <strong>"physical reconstructions"</strong> used by modern engineering researchers to investigate energy transfer principles.',
+        reinforcement: 'Correct — "physical reconstructions" confirms working models have been built.' },
     ]
   },
   {
     passageId: 2,
     type: 'diagram_labelling',
     label: 'Questions 20–26',
-    instructions: 'Label the diagram below. Choose <strong>ONE WORD</strong> from the passage for each answer.',
+    instructions: 'Label the diagram below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.',
     diagramTitle: 'The Trebuchet — main components',
     diagramSVG: TREBUCHET_SVG,
     questions: [
-      { id: 20, text: 'Base structure that supports the whole mechanism', answer: 'frame', answerDisplay: 'frame',
+      { id: 20, text: 'Base structure supporting the whole mechanism', answer: 'frame', answerDisplay: 'frame',
         explanation: 'Paragraph 2: <strong>"its frame, a robust base structure constructed from heavy timber beams that supported the entire mechanism."</strong>',
-        reinforcement: 'Correct — "frame" is the term used in paragraph 2 for the base support structure.' },
-      { id: 21, text: 'Horizontal shaft that acts as the pivot point', answer: 'axle', answerDisplay: 'axle',
+        reinforcement: 'Correct — "frame" is the technical term for the base support structure in paragraph 2.' },
+      { id: 21, text: 'Horizontal shaft acting as the pivot point', answer: 'axle', answerDisplay: 'axle',
         explanation: 'Paragraph 2: <strong>"The axle, a horizontal shaft mounted at or near the top of the frame, served as the pivot point."</strong>',
-        reinforcement: 'Correct — "axle" is defined explicitly as the horizontal shaft / pivot point in paragraph 2.' },
+        reinforcement: 'Correct — "axle" is explicitly defined as the horizontal shaft / pivot point.' },
       { id: 22, text: 'The long lever that rotates on the pivot', answer: 'arm', answerDisplay: 'arm',
-        explanation: 'Paragraph 1 refers to <strong>"a long throwing arm"</strong> that rotates around the fixed axle to propel the projectile.',
-        reinforcement: 'Correct — "arm" is the repeated term for the lever throughout the passage.' },
-      { id: 23, text: 'Heavy mass that provides the driving force', answer: 'counterweight', answerDisplay: 'counterweight',
+        explanation: 'Paragraph 1 refers to <strong>"a long throwing arm"</strong> that rotates around the fixed axle.',
+        reinforcement: 'Correct — "arm" is used throughout the passage for the rotating lever.' },
+      { id: 23, text: 'Heavy mass providing the driving force', answer: 'counterweight', answerDisplay: 'counterweight',
         explanation: 'Paragraph 1: <strong>"a large counterweight, typically consisting of a wooden box filled with stones, earth, or lead."</strong>',
-        reinforcement: 'Correct — "counterweight" is the term used for the heavy mass in both paragraphs 1 and 3.' },
-      { id: 24, text: 'Flexible pouch that extends the effective arm length', answer: 'sling', answerDisplay: 'sling',
-        explanation: 'Paragraph 1 mentions <strong>"a flexible sling attached to the end of the arm."</strong> Paragraph 4 explains its role in extending the effective arm length.',
-        reinforcement: 'Correct — "sling" is defined in paragraph 4 as the flexible component that holds the projectile.' },
+        reinforcement: 'Correct — "counterweight" names the heavy mass in paragraphs 1 and 3.' },
+      { id: 24, text: 'Flexible pouch extending the effective arm length', answer: 'sling', answerDisplay: 'sling',
+        explanation: 'Paragraph 1: <strong>"a flexible sling attached to the end of the arm."</strong> Paragraph 4 explains its role in extending effective arm length.',
+        reinforcement: 'Correct — "sling" is the flexible component that holds the projectile.' },
       { id: 25, text: 'The object hurled towards the target', answer: 'projectile', answerDisplay: 'projectile',
-        explanation: 'Paragraph 1: <strong>"propelling a projectile along a precisely controlled trajectory."</strong> Paragraph 4 describes it as "typically a roughly spherical stone."',
-        reinforcement: 'Correct — "projectile" is the term used throughout the passage for the object being launched.' },
+        explanation: 'Paragraph 1: <strong>"propelling a projectile along a precisely controlled trajectory."</strong>',
+        reinforcement: 'Correct — "projectile" is used throughout as the term for the launched object.' },
       { id: 26, text: 'Small metal component that triggers the release', answer: 'pin', answerDisplay: 'pin',
         explanation: 'Paragraph 4: <strong>"The moment of release was controlled by a simple metal pin that held one end of the sling; when the tension reached a critical point, the pin disengaged."</strong>',
-        reinforcement: 'Correct — "pin" is the exact word used for the release trigger in paragraph 4.' },
+        reinforcement: 'Correct — "pin" is the exact word for the release trigger in paragraph 4.' },
     ]
   },
 
-  // ── PASSAGE 3 ──
+  // ── PASSAGE 3 — Pioneers of Deep Ocean Exploration ──
   {
     passageId: 3,
     type: 'matching_info',
     label: 'Questions 27–29',
-    instructions: 'Reading Passage 3 has eight paragraphs, <strong>A–H</strong>. Which paragraph contains the following information? Write the correct letter A–H.',
+    instructions: 'Reading Passage 3 has eight paragraphs, <strong>A–H</strong>. Which paragraph contains the following information? Write the correct letter <strong>A–H</strong>.',
     paraOptions: ['A','B','C','D','E','F','G','H'],
     questions: [
       { id: 27, text: 'A reference to the use of machines to explore the deep ocean without risking human lives.', answer: 'C',
-        explanation: 'Paragraph C discusses <strong>remotely operated vehicles (ROVs)</strong> that eliminated "the physical risk to human researchers" — machines exploring without human presence.',
+        explanation: 'Paragraph C discusses remotely operated vehicles that eliminated <strong>"the physical risk to human researchers"</strong> — machines exploring without human presence.',
         reinforcement: 'Correct — paragraph C is the ROV / unmanned exploration paragraph.' },
       { id: 28, text: 'A description of opposition to proposals for industrial activity in the deep ocean.', answer: 'G',
-        explanation: 'Paragraph G describes commercial mining proposals and the <strong>"strong opposition from marine biologists, environmental groups, and some national governments"</strong> that resulted.',
-        reinforcement: 'Correct — paragraph G covers the opposition to deep-sea mining.' },
+        explanation: 'Paragraph G describes commercial mining proposals and the <strong>"strong opposition from marine biologists, environmental groups, and some national governments."</strong>',
+        reinforcement: 'Correct — paragraph G covers opposition to deep-sea mining.' },
       { id: 29, text: 'An account of the financial and institutional obstacles that hindered ocean research.', answer: 'E',
-        explanation: 'Paragraph E describes how <strong>"Funding was inconsistent"</strong> and that proposals were "rejected or delayed by government agencies" — institutional and financial obstacles.',
+        explanation: 'Paragraph E describes how <strong>"Funding was inconsistent"</strong> and proposals were "rejected or delayed by government agencies" — institutional and financial obstacles.',
         reinforcement: 'Correct — paragraph E is the funding and institutional resistance paragraph.' },
     ]
   },
@@ -503,11 +552,11 @@ const GROUPS = [
     passageId: 3,
     type: 'sentence_completion',
     label: 'Questions 30–36',
-    instructions: 'Complete the table below. Choose <strong>ONE WORD</strong> from the passage for each answer.<br><br><div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:0.8rem;color:#d4d4d8;"><thead><tr style="border-bottom:1px solid #27272a;"><th style="text-align:left;padding:6px 8px;color:var(--gold);font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;">Explorer</th><th style="text-align:left;padding:6px 8px;color:var(--gold);font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;">Vessel / Equipment</th><th style="text-align:left;padding:6px 8px;color:var(--gold);font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;">Depth</th><th style="text-align:left;padding:6px 8px;color:var(--gold);font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;">Achievement</th></tr></thead><tbody><tr style="border-bottom:1px solid #18181b;"><td style="padding:6px 8px;">Piccard &amp; Walsh</td><td style="padding:6px 8px;">bathyscaphe <strong>30</strong></td><td style="padding:6px 8px;">10,916 m</td><td style="padding:6px 8px;">first manned descent to Challenger Deep</td></tr><tr style="border-bottom:1px solid #18181b;"><td style="padding:6px 8px;">Sylvia Earle</td><td style="padding:6px 8px;">JIM <strong>31</strong></td><td style="padding:6px 8px;">381 m</td><td style="padding:6px 8px;">deepest solo <strong>32</strong> on record</td></tr><tr style="border-bottom:1px solid #18181b;"><td style="padding:6px 8px;">Robert Ballard</td><td style="padding:6px 8px;">ROV <strong>33</strong></td><td style="padding:6px 8px;">3,800 m</td><td style="padding:6px 8px;">located the Titanic <strong>34</strong></td></tr><tr style="border-bottom:1px solid #18181b;"><td style="padding:6px 8px;">James Cameron</td><td style="padding:6px 8px;"><strong>35</strong> Challenger</td><td style="padding:6px 8px;">10,908 m</td><td style="padding:6px 8px;">first <strong>36</strong> descent to Challenger Deep</td></tr></tbody></table></div>',
+    instructions: 'Complete the table below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.<br><br><div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:0.8rem;color:var(--text-body);"><thead><tr style="border-bottom:2px solid var(--border);"><th style="text-align:left;padding:6px 8px;color:var(--gold);font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;">Explorer</th><th style="text-align:left;padding:6px 8px;color:var(--gold);font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;">Vessel / Equipment</th><th style="text-align:left;padding:6px 8px;color:var(--gold);font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;">Depth</th><th style="text-align:left;padding:6px 8px;color:var(--gold);font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;">Achievement</th></tr></thead><tbody><tr style="border-bottom:1px solid var(--border-soft);"><td style="padding:6px 8px;">Piccard &amp; Walsh</td><td style="padding:6px 8px;">bathyscaphe <strong>30</strong></td><td style="padding:6px 8px;">10,916 m</td><td style="padding:6px 8px;">first manned descent to Challenger Deep</td></tr><tr style="border-bottom:1px solid var(--border-soft);"><td style="padding:6px 8px;">Sylvia Earle</td><td style="padding:6px 8px;">JIM <strong>31</strong></td><td style="padding:6px 8px;">381 m</td><td style="padding:6px 8px;">deepest solo <strong>32</strong> on record</td></tr><tr style="border-bottom:1px solid var(--border-soft);"><td style="padding:6px 8px;">Robert Ballard</td><td style="padding:6px 8px;">ROV <strong>33</strong></td><td style="padding:6px 8px;">3,800 m</td><td style="padding:6px 8px;">located the Titanic <strong>34</strong></td></tr><tr style="border-bottom:1px solid var(--border-soft);"><td style="padding:6px 8px;">James Cameron</td><td style="padding:6px 8px;"><strong>35</strong> Challenger</td><td style="padding:6px 8px;">10,908 m</td><td style="padding:6px 8px;">first <strong>36</strong> descent to Challenger Deep</td></tr></tbody></table></div>',
     questions: [
-      { id: 30, text: 'Piccard &amp; Walsh — bathyscaphe _______ — 10,916 m', answer: 'trieste', answerDisplay: 'Trieste',
+      { id: 30, text: 'Piccard &amp; Walsh — bathyscaphe _______', answer: 'trieste', answerDisplay: 'Trieste',
         explanation: 'Paragraph B: <strong>"sealed themselves inside the bathyscaphe Trieste."</strong>',
-        reinforcement: 'Correct — "Trieste" is the name of the vessel in paragraph B.' },
+        reinforcement: 'Correct — "Trieste" is the vessel name in paragraph B.' },
       { id: 31, text: 'Sylvia Earle — JIM _______ — 381 m', answer: 'suit', answerDisplay: 'suit',
         explanation: 'Paragraph D: <strong>"wearing a rigid JIM atmospheric diving suit."</strong>',
         reinforcement: 'Correct — "suit" completes "JIM atmospheric diving suit" from paragraph D.' },
@@ -515,24 +564,24 @@ const GROUPS = [
         explanation: 'Paragraph D: <strong>"Earle holds the record for the deepest solo walk ever made beneath the sea."</strong>',
         reinforcement: 'Correct — "walk" is the exact word used in paragraph D.' },
       { id: 33, text: 'Robert Ballard — ROV _______ — 3,800 m', answer: 'argo', answerDisplay: 'Argo',
-        explanation: 'Paragraph C: <strong>"a camera sled named Argo"</strong> was used to locate the Titanic wreck.',
-        reinforcement: 'Correct — "Argo" is the name of the ROV prototype in paragraph C.' },
+        explanation: 'Paragraph C: <strong>"a camera sled named Argo"</strong> was used to locate the Titanic.',
+        reinforcement: 'Correct — "Argo" is the ROV name in paragraph C.' },
       { id: 34, text: 'Robert Ballard — located the Titanic _______', answer: 'wreck', answerDisplay: 'wreck',
         explanation: 'Paragraph C: <strong>"to locate the wreck of the RMS Titanic."</strong>',
         reinforcement: 'Correct — "wreck" is the word used in paragraph C.' },
       { id: 35, text: 'James Cameron — _______ Challenger — 10,908 m', answer: 'deepsea', answerDisplay: 'Deepsea',
-        explanation: 'Paragraph F: <strong>"descended in the Deepsea Challenger — a torpedo-shaped submersible."</strong>',
-        reinforcement: 'Correct — "Deepsea" is the first word of the vessel\'s name in paragraph F.' },
+        explanation: 'Paragraph F: <strong>"descended in the Deepsea Challenger."</strong>',
+        reinforcement: 'Correct — "Deepsea" is the first word of the vessel name in paragraph F.' },
       { id: 36, text: 'James Cameron — first _______ descent to Challenger Deep', answer: 'solo', answerDisplay: 'solo',
         explanation: 'Paragraph F: <strong>"James Cameron became the first person to reach the bottom of the Challenger Deep alone"</strong> — a solo descent.',
-        reinforcement: 'Correct — "solo" describes Cameron\'s descent as stated in paragraph F.' },
+        reinforcement: 'Correct — "solo" describes Cameron\'s unaccompanied descent.' },
     ]
   },
   {
     passageId: 3,
     type: 'matching_feature',
     label: 'Questions 37–40',
-    instructions: 'Look at the following statements and the list of scientists below. Match each statement with the correct scientist <strong>A–D</strong>. Write the correct letter in the box.',
+    instructions: 'Look at the following statements and the list of scientists below. Match each statement with the correct scientist <strong>A–D</strong>.',
     featureOptions: [
       { key: 'A', label: 'Robert Ballard' },
       { key: 'B', label: 'Sylvia Earle' },
@@ -541,17 +590,17 @@ const GROUPS = [
     ],
     questions: [
       { id: 37, text: 'This scientist observed living creatures at the greatest ocean depth ever reached by humans.', answer: 'C', answerDisplay: 'C — Jacques Piccard',
-        explanation: 'Paragraph B: Piccard and Walsh, at the Challenger Deep, <strong>"observed a flatfish resting on the sediment below them, confirming that complex vertebrate life could exist at the very deepest point of the ocean."</strong>',
-        reinforcement: 'Correct — Piccard (C) is the scientist who observed life at the deepest point.' },
+        explanation: 'Paragraph B: Piccard and Walsh <strong>"observed a flatfish resting on the sediment below them, confirming for the first time that complex vertebrate life could exist at the very deepest point of the ocean."</strong>',
+        reinforcement: 'Correct — Piccard (C) observed life at the Challenger Deep, the deepest point.' },
       { id: 38, text: 'This person\'s work has contributed to the legal protection of marine environments.', answer: 'B', answerDisplay: 'B — Sylvia Earle',
         explanation: 'Paragraph D: Earle\'s campaigning <strong>"has been credited with influencing the designation of marine protected areas in the United States and internationally."</strong>',
-        reinforcement: 'Correct — Earle (B) is the person credited with influencing marine protection legislation.' },
+        reinforcement: 'Correct — Earle (B) is credited with influencing marine protection law.' },
       { id: 39, text: 'This person brought deep-sea exploration to a mass audience through popular entertainment.', answer: 'D', answerDisplay: 'D — James Cameron',
-        explanation: 'Paragraph F: Cameron brought exploration <strong>"to a mass audience that academic institutions had never reached"</strong> through his work as a filmmaker and National Geographic documentary.',
-        reinforcement: 'Correct — Cameron (D) is the filmmaker who made deep-sea work accessible to a mass audience.' },
+        explanation: 'Paragraph F: Cameron brought exploration <strong>"to a mass audience that academic institutions had never reached"</strong> through his work as a filmmaker.',
+        reinforcement: 'Correct — Cameron (D) is the filmmaker who reached a mass audience.' },
       { id: 40, text: 'This person developed technology that allowed the seafloor to be studied without sending humans down.', answer: 'A', answerDisplay: 'A — Robert Ballard',
         explanation: 'Paragraph C: Ballard pioneered <strong>"tethered ROVs"</strong> that allowed exploration by <strong>"eliminating the physical risk to human researchers."</strong>',
-        reinforcement: 'Correct — Ballard (A) developed the ROV technology that removed the need for human presence.' },
+        reinforcement: 'Correct — Ballard (A) developed ROV technology removing the need for human presence.' },
     ]
   },
 ];
@@ -566,6 +615,24 @@ let timerInterval = null;
 let submitted = false;
 
 // ─────────────────────────────────────────
+//  FONT SIZE CONTROLLER
+// ─────────────────────────────────────────
+const FONT_SIZES = [13, 15, 17, 19];
+let fontSizeIdx = parseInt(localStorage.getItem('ielts_font_size_idx') || '1');
+function initFontSize() {
+  document.documentElement.style.setProperty('--passage-font-size', FONT_SIZES[fontSizeIdx] + 'px');
+}
+function adjustFontSize(delta) {
+  if (delta === 0) {
+    fontSizeIdx = 1;
+  } else {
+    fontSizeIdx = Math.max(0, Math.min(FONT_SIZES.length - 1, fontSizeIdx + delta));
+  }
+  document.documentElement.style.setProperty('--passage-font-size', FONT_SIZES[fontSizeIdx] + 'px');
+  localStorage.setItem('ielts_font_size_idx', fontSizeIdx);
+}
+
+// ─────────────────────────────────────────
 //  TIMER
 // ─────────────────────────────────────────
 function formatTime(s) {
@@ -574,7 +641,7 @@ function formatTime(s) {
 function startTimer() {
   timerInterval = setInterval(() => {
     secondsLeft--;
-    const pct = ((TOTAL_SECONDS - secondsLeft) / TOTAL_SECONDS * 100);
+    const pct = (TOTAL_SECONDS - secondsLeft) / TOTAL_SECONDS * 100;
     document.getElementById('progressFill').style.width = pct + '%';
     const el = document.getElementById('timerDisplay');
     el.textContent = formatTime(secondsLeft);
@@ -587,14 +654,11 @@ function startTimer() {
 // ─────────────────────────────────────────
 //  TABS
 // ─────────────────────────────────────────
-let currentTab = 1;
 function switchTab(n) {
   [1,2,3].forEach(i => {
     document.getElementById('panel' + i).style.display = i === n ? 'block' : 'none';
-    const btn = document.getElementById('tabNav').querySelectorAll('.tab-btn')[i-1];
-    btn.classList.toggle('active', i === n);
+    document.getElementById('tabNav').querySelectorAll('.tab-btn')[i-1].classList.toggle('active', i === n);
   });
-  currentTab = n;
 }
 
 // ─────────────────────────────────────────
@@ -659,7 +723,7 @@ function renderAll() {
             const letter = ['A','B','C','D'][idx];
             html += `<label class="q-option">
               <input type="radio" name="q${q.id}" value="${letter}" onchange="recordAnswer(${q.id},'${letter}')">
-              <label style="pointer-events:none;"><strong style="color:var(--gold);margin-right:4px;">${letter}.</strong> ${opt}</label>
+              <label style="pointer-events:none;"><strong style="color:var(--gold);margin-right:4px;">${letter}.</strong>${opt}</label>
             </label>`;
           });
           html += `</div></div>`;
@@ -674,7 +738,7 @@ function renderAll() {
         });
       } else if (group.type === 'diagram_labelling') {
         html += `<div class="diagram-wrap">
-          <div class="text-xs font-bold tracking-widest uppercase mb-2" style="color:var(--gold);">${group.diagramTitle || 'Diagram'}</div>
+          <div class="text-xs font-bold tracking-widest uppercase mb-2" style="color:var(--navy);">${group.diagramTitle || 'Diagram'}</div>
           ${group.diagramSVG}
           <div class="diagram-grid" style="margin-top:14px;">`;
         group.questions.forEach(q => {
@@ -687,7 +751,7 @@ function renderAll() {
       } else if (group.type === 'matching_feature') {
         html += `<div class="headings-list mb-4"><ul style="list-style:none;">`;
         group.featureOptions.forEach(f => {
-          html += `<li><span style="font-family:'Space Mono',monospace;font-size:0.75rem;color:var(--gold);margin-right:6px;">${f.key}</span>${f.label}</li>`;
+          html += `<li><span>${f.key}</span>${f.label}</li>`;
         });
         html += `</ul></div>`;
         group.questions.forEach(q => {
@@ -707,13 +771,10 @@ function renderAll() {
 }
 
 function selectTFNG(qId, val, btn) {
-  const group = btn.parentElement;
-  group.querySelectorAll('.q-tfng-btn').forEach(b => { b.className = 'q-tfng-btn'; });
-  const cls = val === 'TRUE' ? 'sel-t' : val === 'FALSE' ? 'sel-f' : 'sel-ng';
-  btn.classList.add(cls);
+  btn.parentElement.querySelectorAll('.q-tfng-btn').forEach(b => { b.className = 'q-tfng-btn'; });
+  btn.classList.add(val === 'TRUE' ? 'sel-t' : val === 'FALSE' ? 'sel-f' : 'sel-ng');
   recordAnswer(qId, val);
 }
-
 function recordAnswer(qId, val) { answers[qId] = val; }
 
 // ─────────────────────────────────────────
@@ -725,51 +786,30 @@ function scoreAnswer(q, studentRaw) {
   if (q.acceptable) return q.acceptable.map(a => a.toLowerCase()).includes(student);
   return student === q.answer.toLowerCase();
 }
-
 function bandFromScore(n) {
-  if (n >= 39) return 9.0;
-  if (n >= 37) return 8.5;
-  if (n >= 35) return 8.0;
-  if (n >= 33) return 7.5;
-  if (n >= 30) return 7.0;
-  if (n >= 27) return 6.5;
-  if (n >= 23) return 6.0;
-  if (n >= 19) return 5.5;
-  if (n >= 15) return 5.0;
-  if (n >= 13) return 4.5;
-  if (n >= 10) return 4.0;
-  if (n >= 8)  return 3.5;
-  if (n >= 6)  return 3.0;
-  return 2.5;
+  if (n >= 39) return 9.0; if (n >= 37) return 8.5; if (n >= 35) return 8.0;
+  if (n >= 33) return 7.5; if (n >= 30) return 7.0; if (n >= 27) return 6.5;
+  if (n >= 23) return 6.0; if (n >= 19) return 5.5; if (n >= 15) return 5.0;
+  if (n >= 13) return 4.5; if (n >= 10) return 4.0; if (n >= 8)  return 3.5;
+  if (n >= 6)  return 3.0; return 2.5;
 }
-
 function bandColour(b) {
-  if (b >= 7) return '#2affd6';
-  if (b >= 5.5) return 'var(--gold-light)';
-  return '#f87171';
+  if (b >= 7) return '#0D9488'; if (b >= 5.5) return '#C9952E'; return '#dc2626';
 }
-
 function bandAdvice(band, score) {
   const pct = Math.round(score/40*100);
-  if (band >= 8.5) return `Outstanding performance! You answered ${score}/40 (${pct}%), achieving an estimated <strong>Band ${band}</strong>. Your reading comprehension is at a near-native level. Focus on maintaining accuracy on NOT GIVEN questions and paraphrasing in sentence completion to secure Band 9.`;
-  if (band >= 7.5) return `Excellent work — ${score}/40 (${pct}%) places you at estimated <strong>Band ${band}</strong>. You are demonstrating strong academic reading ability. To push towards Band 8+, work on distinguishing NOT GIVEN from FALSE, and practise identifying paraphrased answers in matching and sentence completion tasks.`;
-  if (band >= 6.5) return `Good result — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. You show solid comprehension but likely lost marks on more nuanced question types. Focus on: (1) True/False/Not Given — be strict about what the text explicitly states, (2) Matching Headings — read the entire paragraph before choosing, (3) time management to ensure you reach all 40 questions.`;
-  if (band >= 5.5) return `You scored ${score}/40 (${pct}%), giving an estimated <strong>Band ${band}</strong>. There is clear potential here, but accuracy needs to improve. Key areas to work on: reading for detail (not just gist), learning to identify paraphrases and synonyms, and practising NOT GIVEN — students at this level often confuse it with FALSE. Aim for at least 2 full reading tests per week.`;
-  return `You scored ${score}/40 (${pct}%), giving an estimated <strong>Band ${band}</strong>. At this stage, the priority is building vocabulary and practising scanning and skimming techniques. Work on shorter passages first, then progress to full tests. Focus on True/False/Not Given accuracy — these questions test your ability to be precise about what the text says. Consistent daily reading of academic texts will help significantly.`;
+  if (band >= 8.5) return `Outstanding performance. ${score}/40 (${pct}%) yields an estimated <strong>Band ${band}</strong>. Your comprehension is at a near-native level. Consolidate accuracy on NOT GIVEN items and paraphrased sentence completions to target Band 9.`;
+  if (band >= 7.5) return `Excellent result — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Strong academic reading ability is evident. To push towards Band 8+, focus on NOT GIVEN vs FALSE precision and identifying deeply paraphrased answers in sentence completion.`;
+  if (band >= 6.5) return `Good performance — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Solid comprehension, but marks were likely lost on nuanced question types. Work on: (1) TRUE/FALSE/NOT GIVEN — be strict about what the text explicitly states; (2) Matching Headings — read the entire paragraph before selecting; (3) time allocation across all three passages.`;
+  if (band >= 5.5) return `You scored ${score}/40 (${pct}%), giving an estimated <strong>Band ${band}</strong>. Clear potential, but accuracy needs to improve. Priorities: mastering synonym recognition, developing precision with NOT GIVEN, and building academic vocabulary. Aim for two full reading tests per week.`;
+  return `You scored ${score}/40 (${pct}%), giving an estimated <strong>Band ${band}</strong>. The priority at this stage is building vocabulary and practising scanning techniques on shorter passages before progressing to full 40-question tests. Daily reading of academic texts will accelerate improvement significantly.`;
 }
 
 // ─────────────────────────────────────────
 //  SUBMIT
 // ─────────────────────────────────────────
-function confirmSubmit() {
-  if (!confirm('Submit your reading test now?')) return;
-  doSubmit();
-}
-function autoSubmit() {
-  if (submitted) return;
-  doSubmit();
-}
-
+function confirmSubmit() { if (!confirm('Submit your reading test now?')) return; doSubmit(); }
+function autoSubmit() { if (submitted) return; doSubmit(); }
 function doSubmit() {
   if (submitted) return;
   submitted = true;
@@ -778,95 +818,78 @@ function doSubmit() {
   setTimeout(showResults, 800);
 }
 
+// ─────────────────────────────────────────
+//  RESULTS
+// ─────────────────────────────────────────
 function showResults() {
   document.getElementById('submittingOverlay').style.display = 'none';
   document.getElementById('testMain').style.display = 'none';
   document.getElementById('timingStrip').style.display = 'none';
   document.getElementById('resultsMain').style.display = 'block';
 
-  // Score
   let correct = 0;
   const allQs = GROUPS.flatMap(g => g.questions);
   allQs.forEach(q => { if (scoreAnswer(q, answers[q.id])) correct++; });
   const band = bandFromScore(correct);
   const bCol = bandColour(band);
 
-  // Score card
   document.getElementById('scoreCard').innerHTML = `
     <div class="flex flex-col md:flex-row gap-6 items-center">
       <div class="score-ring-wrap">
         <svg width="120" height="120" viewBox="0 0 120 120">
-          <circle cx="60" cy="60" r="50" fill="none" stroke="#1c1c1e" stroke-width="8"/>
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#E2E8F0" stroke-width="8"/>
           <circle cx="60" cy="60" r="50" fill="none" stroke="${bCol}" stroke-width="8"
-            stroke-dasharray="${Math.round(correct/40*314)} 314"
-            stroke-linecap="round"
-            transform="rotate(-90 60 60)"
-            style="transition:stroke-dasharray 1.2s cubic-bezier(.16,1,.3,1)"/>
+            stroke-dasharray="${Math.round(correct/40*314)} 314" stroke-linecap="round"
+            transform="rotate(-90 60 60)" style="transition:stroke-dasharray 1.2s cubic-bezier(.16,1,.3,1)"/>
         </svg>
         <div style="margin-top:-70px;text-align:center;pointer-events:none;">
           <div style="font-family:'Space Mono',monospace;font-size:1.75rem;font-weight:700;color:${bCol};">${correct}</div>
-          <div style="font-size:0.75rem;color:#71717a;">out of 40</div>
+          <div style="font-size:0.75rem;color:var(--text-muted);">out of 40</div>
         </div>
         <div style="margin-top:16px;"></div>
       </div>
       <div class="flex-1">
         <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Your Score</div>
         <div class="font-display font-black text-4xl mb-1" style="color:${bCol};">Band ${band}</div>
-        <div class="text-sm text-zinc-400 mb-4">${correct} correct answers out of 40</div>
+        <div class="text-sm mb-4" style="color:var(--text-muted);">${correct} correct answers out of 40</div>
         <div class="flex gap-3 flex-wrap">
           ${[1,2,3].map(p => {
-            const pGroups = GROUPS.filter(g => g.passageId === p);
-            const pQs = pGroups.flatMap(g => g.questions);
-            const pCorrect = pQs.filter(q => scoreAnswer(q, answers[q.id])).length;
-            return `<div style="background:#0e0e10;border:1px solid #1c1c1e;border-radius:0.625rem;padding:10px 14px;text-align:center;min-width:80px;">
-              <div class="text-xs text-zinc-500 uppercase tracking-wider mb-1">Passage ${p}</div>
-              <div style="font-family:'Space Mono',monospace;font-size:1.125rem;font-weight:700;color:${bandColour(bandFromScore(pCorrect/(pQs.length)*40))};">${pCorrect}/${pQs.length}</div>
+            const pQs = GROUPS.filter(g => g.passageId === p).flatMap(g => g.questions);
+            const pC = pQs.filter(q => scoreAnswer(q, answers[q.id])).length;
+            const pCol = bandColour(bandFromScore(Math.round(pC/pQs.length*40)));
+            return `<div style="background:#EFF3F9;border:1px solid var(--border);border-radius:10px;padding:10px 14px;text-align:center;min-width:80px;">
+              <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px;">Passage ${p}</div>
+              <div style="font-family:'Space Mono',monospace;font-size:1.125rem;font-weight:700;color:${pCol};">${pC}/${pQs.length}</div>
             </div>`;
           }).join('')}
         </div>
       </div>
     </div>`;
 
-  // Feedback
   document.getElementById('feedbackCard').innerHTML = `
     <div class="text-xs font-bold tracking-widest uppercase mb-3" style="color:var(--gold);">Overall Feedback</div>
     <div class="band-feedback">${bandAdvice(band, correct)}</div>`;
 
-  // Corrections per passage
   [1,2,3].forEach(pid => {
-    const pGroups = GROUPS.filter(g => g.passageId === pid);
     let html = '';
-    pGroups.forEach(group => {
-      html += `<div style="margin-bottom:0.5rem;padding:6px 0 8px;border-bottom:1px solid #18181b;">
-        <span class="text-xs font-bold tracking-widest uppercase" style="color:#52525b;">${group.label} — ${labelType(group.type)}</span>
+    GROUPS.filter(g => g.passageId === pid).forEach(group => {
+      html += `<div style="margin-bottom:0.5rem;padding:6px 0 8px;border-bottom:1px solid var(--border-soft);">
+        <span style="font-size:0.6875rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-faint);">${group.label} — ${labelType(group.type)}</span>
       </div>`;
       group.questions.forEach(q => {
         const isCorrect = scoreAnswer(q, answers[q.id]);
         const studentAns = answers[q.id] ? answers[q.id].toString() : '(no answer)';
         const correctAns = q.answerDisplay || q.answer;
-
         html += `<div class="corr-block ${isCorrect ? 'corr-correct' : 'corr-wrong'}">
-          <div class="corr-qnum ${isCorrect ? 'ok' : 'bad'}">
-            ${isCorrect ? '✓' : '✗'} Question ${q.id}
-          </div>
+          <div class="corr-qnum ${isCorrect ? 'ok' : 'bad'}">${isCorrect ? '✓' : '✗'} Question ${q.id}</div>
           <div class="corr-qtext">${q.text}</div>`;
-
         if (isCorrect) {
-          html += `<div class="corr-row">
-            <span class="corr-tag reinforce">✓ Correct</span>
-            <span class="corr-val">${studentAns}</span>
-          </div>
-          <div class="corr-expl">${q.reinforcement}</div>`;
+          html += `<div class="corr-row"><span class="corr-tag reinforce">✓ Correct</span><span class="corr-val">${studentAns}</span></div>
+            <div class="corr-expl">${q.reinforcement || ''}</div>`;
         } else {
-          html += `<div class="corr-row">
-            <span class="corr-tag your">Your answer</span>
-            <span class="corr-val">${studentAns}</span>
-          </div>
-          <div class="corr-row">
-            <span class="corr-tag correct">Correct answer</span>
-            <span class="corr-val">${correctAns}${q.acceptable && q.acceptable.length > 1 ? ' <span style="color:#52525b;font-size:0.75rem;">(also accepted: ' + q.acceptable.filter(a=>a!==q.answer).join(', ') + ')</span>' : ''}</span>
-          </div>
-          <div class="corr-expl">${q.explanation}</div>`;
+          html += `<div class="corr-row"><span class="corr-tag your">Your answer</span><span class="corr-val">${studentAns}</span></div>
+            <div class="corr-row"><span class="corr-tag correct">Correct answer</span><span class="corr-val">${correctAns}${q.acceptable && q.acceptable.length > 1 ? ' <span style="font-size:0.75rem;color:var(--text-faint);">(also: ' + q.acceptable.filter(a=>a!==q.answer).join(', ') + ')</span>' : ''}</span></div>
+            <div class="corr-expl">${q.explanation || ''}</div>`;
         }
         html += `</div>`;
       });
@@ -884,10 +907,11 @@ function labelType(t) {
 // ─────────────────────────────────────────
 //  INIT
 // ─────────────────────────────────────────
+initFontSize();
 renderAll();
 startTimer();
 </script>
-  <script src="/js/components.js"></script>
-  <script>loadHeader();</script>
+<script src="/js/components.js"></script>
+<script>loadHeader();</script>
 </body>
 </html>
