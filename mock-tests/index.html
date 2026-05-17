@@ -454,8 +454,14 @@
       }).join('');
 
       const timeStr  = skillMode ? `${SKILL_ICONS[skillMode]} ${SKILL_TIMES[skillMode]}` : '⏱ ~3 hours';
-      const btnLabel = skillMode ? `Start ${SKILL_LABELS[skillMode]} →` : 'Start Test →';
       const onclickFn = skillMode ? `openSetup('single','${skillMode}',${book.num},${testNum})` : `openSetup('full',null,${book.num},${testNum})`;
+
+      // Direct-link button for any static reading test on this card
+      const staticReadingUrl = book.staticLinks?.[`${testNum}-reading-academic`];
+      const showDirectRead = staticReadingUrl && (!skillMode || skillMode === 'reading');
+      const directBtn = showDirectRead
+        ? `<a href="${staticReadingUrl}" class="btn-gold" style="display:block;text-align:center;text-decoration:none;width:100%;font-size:0.8rem;padding:8px 0;">Start Reading →</a>`
+        : `<button onclick="${onclickFn}" class="btn-gold" style="width:100%;font-size:0.8rem;padding:8px 0;">${skillMode ? `Start ${SKILL_LABELS[skillMode]} →` : 'Start Test →'}</button>`;
 
       return `
         <div class="test-card">
@@ -464,11 +470,14 @@
               <div class="card-book-label" style="font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);margin-bottom:3px;">Cambridge ${book.num}</div>
               <div class="font-display font-bold card-test-title" style="font-size:0.9375rem;color:var(--navy);">Full Test ${testNum}</div>
             </div>
-            <div class="card-taken" style="font-size:0.7rem;color:#9ca3af;display:flex;align-items:center;gap:3px;white-space:nowrap;">⚡ ${taken} taken</div>
+            <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
+              <div class="card-taken" style="font-size:0.7rem;color:#9ca3af;display:flex;align-items:center;gap:3px;white-space:nowrap;">⚡ ${taken} taken</div>
+              ${showDirectRead ? `<span style="font-size:0.6rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;background:rgba(16,185,129,0.1);color:#059669;border:1px solid rgba(16,185,129,0.25);border-radius:4px;padding:2px 6px;">✅ Instant Results</span>` : ''}
+            </div>
           </div>
           <div style="display:flex;gap:4px;margin-bottom:10px;">${skillBadges}</div>
           <div class="card-time" style="font-size:0.75rem;color:#9ca3af;margin-bottom:14px;">${timeStr}</div>
-          <button onclick="${onclickFn}" class="btn-gold" style="width:100%;font-size:0.8rem;padding:8px 0;">${btnLabel}</button>
+          ${directBtn}
         </div>`;
     }
 
