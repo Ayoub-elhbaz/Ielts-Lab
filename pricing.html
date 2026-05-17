@@ -414,37 +414,6 @@
         </div>
       </div>
 
-      <!-- FAQ -->
-      <div style="max-width:660px;margin:0 auto;">
-        <h3 style="font-size:1.1rem;font-weight:700;text-align:center;margin-bottom:1.25rem;">Common Questions</h3>
-        <div style="display:flex;flex-direction:column;gap:.75rem;">
-          <div class="faq-item">
-            <details>
-              <summary class="faq-summary">What counts as one correction? <span class="faq-arrow">▼</span></summary>
-              <p class="faq-body">Each essay submission that receives AI feedback counts as one correction, regardless of length or task type.</p>
-            </details>
-          </div>
-          <div class="faq-item">
-            <details>
-              <summary class="faq-summary">Can I pay in my local currency? <span class="faq-arrow">▼</span></summary>
-              <p class="faq-body">Yes. Stripe automatically converts to your local currency at checkout — you'll see the exact amount before paying.</p>
-            </details>
-          </div>
-          <div class="faq-item">
-            <details>
-              <summary class="faq-summary">How do credits work? <span class="faq-arrow">▼</span></summary>
-              <p class="faq-body">Credits are deducted one per essay correction. They never expire, so you can use them at any pace.</p>
-            </details>
-          </div>
-          <div class="faq-item">
-            <details>
-              <summary class="faq-summary">Can I cancel my subscription? <span class="faq-arrow">▼</span></summary>
-              <p class="faq-body">Yes, any time. You keep Pro access until the end of your billing period.</p>
-            </details>
-          </div>
-        </div>
-      </div>
-
     </div>
   </section>
 
@@ -488,6 +457,18 @@
         <div>
           <p style="font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#4B5280;margin-bottom:.875rem;">Choose your expert</p>
           <div style="display:flex;flex-direction:column;gap:.75rem;" id="teacherPicker">
+
+            <div class="teacher-chip" onclick="selectTeacher(this,'Ayoub Elhebaze')" style="border-color:var(--gold);background:rgba(201,149,46,0.05);">
+              <div class="avatar-sm av-gold">AE</div>
+              <div style="flex:1;min-width:0;">
+                <div style="font-weight:700;font-size:.875rem;color:#1E1B4B;display:flex;align-items:center;gap:.4rem;">
+                  Ayoub Elhebaze
+                  <span style="font-size:.6rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;background:var(--gold);color:#fff;padding:1px 5px;border-radius:4px;line-height:1.6;">Founder</span>
+                </div>
+                <div style="font-size:.73rem;color:#6B7280;">Writing &amp; Coherence · 🇲🇦 Morocco · 11 yrs exp.</div>
+              </div>
+              <div style="font-size:.75rem;font-weight:700;color:var(--gold);flex-shrink:0;">★ 4.9</div>
+            </div>
 
             <div class="teacher-chip" onclick="selectTeacher(this,'Dr. Sarah Mitchell')">
               <div class="avatar-sm av-sm">SM</div>
@@ -690,6 +671,41 @@
         </div>
       </div>
 
+    </div>
+  </section>
+
+  <!-- ╔══════════════════════════════ FAQ ═════════════════════════════════╗ -->
+  <section style="background:#FFFFFF;border-top:1px solid #E8E4DC;padding:4.5rem 0;">
+    <div class="container">
+      <div style="max-width:660px;margin:0 auto;">
+        <h3 style="font-size:1.4rem;font-weight:700;text-align:center;margin-bottom:1.5rem;color:var(--text);">Common Questions</h3>
+        <div style="display:flex;flex-direction:column;gap:.75rem;">
+          <div class="faq-item">
+            <details>
+              <summary class="faq-summary">What counts as one correction? <span class="faq-arrow">▼</span></summary>
+              <p class="faq-body">Each essay submission that receives AI feedback counts as one correction, regardless of length or task type.</p>
+            </details>
+          </div>
+          <div class="faq-item">
+            <details>
+              <summary class="faq-summary">Can I pay in my local currency? <span class="faq-arrow">▼</span></summary>
+              <p class="faq-body">Yes. Stripe automatically converts to your local currency at checkout — you'll see the exact amount before paying.</p>
+            </details>
+          </div>
+          <div class="faq-item">
+            <details>
+              <summary class="faq-summary">How do credits work? <span class="faq-arrow">▼</span></summary>
+              <p class="faq-body">Credits are deducted one per essay correction. They never expire, so you can use them at any pace.</p>
+            </details>
+          </div>
+          <div class="faq-item">
+            <details>
+              <summary class="faq-summary">Can I cancel my subscription? <span class="faq-arrow">▼</span></summary>
+              <p class="faq-body">Yes, any time. You keep Pro access until the end of your billing period.</p>
+            </details>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
