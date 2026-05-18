@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IELTS Lab — Cambridge 20 Full Test 2 · Academic Reading</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <script>tailwind.config={theme:{extend:{fontFamily:{display:['Satoshi','Plus Jakarta Sans','system-ui','sans-serif'],sans:['Plus Jakarta Sans','system-ui','sans-serif']}}}}</script>
+  <style>
+    /* ── DESIGN TOKENS ── */
+    :root {
+      --gold: #C9952E;
+      --gold-light: #DDB05A;
+      --gold-dim: rgba(201,149,46,0.10);
+      --gold-border: rgba(201,149,46,0.30);
+      --navy: #1a3c6e;
+      --navy-mid: #2a4f8a;
+      --page-bg: #F7F8FA;
+      --card-bg: #FFFFFF;
+      --qpanel-bg: #EFF3F9;
+      --border: #E2E8F0;
+      --border-soft: #EEF1F6;
+      --text-primary: #1E2A3A;
+      --text-body: #374151;
+      --text-muted: #64748B;
+      --text-faint: #94A3B8;
+      --passage-font-size: 15px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--page-bg); color: var(--text-primary); }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    h1, h2, h3, h4, .font-display { font-family: 'Satoshi', 'Plus Jakarta Sans', system-ui, sans-serif; }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #EFF2F7; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 3px; }
+
+    /* ── PROGRESS ── */
+    .progress-bar { height: 3px; background: #E2E8F0; position: fixed; top: 64px; left: 0; right: 0; z-index: 40; }
+    .progress-fill { height: 100%; background: linear-gradient(to right, var(--gold), #DDB05A); transition: width 1s linear; width: 0%; }
+
+    /* ── NAV ── */
+    .nav-glass { background: rgba(255,255,255,0.97); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .nav-logo { display: flex; align-items: baseline; gap: 0; text-decoration: none; }
+    .nl-ielts { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; letter-spacing: 1px; color: var(--text-primary); }
+    .nl-lab { font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: 3px; color: var(--gold); margin-left: 5px; }
+    #themeToggle { background: transparent; border: 1.5px solid var(--border); color: var(--text-muted); border-radius: 8px; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; font-size: 15px; flex-shrink: 0; padding: 0; }
+    #themeToggle:hover { border-color: var(--gold-border); color: var(--gold); }
+
+    /* ── TIMER ── */
+    .timer-box { background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 10px; padding: 8px 16px; font-family: 'Space Mono', monospace; font-size: 1.125rem; font-weight: 700; color: var(--text-primary); letter-spacing: 2px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+    .timer-box.warning { color: #b45309; border-color: rgba(180,83,9,0.3); background: #fffbeb; }
+    .timer-box.critical { color: #dc2626; border-color: rgba(220,38,38,0.3); background: #fef2f2; animation: pulse 1s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
+
+    /* ── TIMING STRIP ── */
+    .timing-strip { background: #FAFBFD; border-bottom: 1px solid var(--border); padding: 8px 0; }
+    .timing-item { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+    .timing-label { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
+    .timing-val { font-size: 0.75rem; color: var(--text-muted); }
+
+    /* ── FONT SIZE CONTROLLER ── */
+    .font-ctrl { display: inline-flex; align-items: center; gap: 0; background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 9px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .font-ctrl-btn { padding: 6px 12px; border: none; background: transparent; cursor: pointer; color: var(--text-muted); font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.15s; line-height: 1; border-right: 1px solid var(--border); }
+    .font-ctrl-btn:last-child { border-right: none; }
+    .font-ctrl-btn:hover { background: var(--gold-dim); color: var(--gold); }
+    .font-ctrl-btn.a-small { font-size: 11px; }
+    .font-ctrl-btn.a-mid   { font-size: 13px; }
+    .font-ctrl-btn.a-large { font-size: 16px; }
+    .font-ctrl-label { font-size: 0.625rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); padding: 0 8px; }
+
+    /* ── ACCESSIBILITY TOOLBAR ── */
+    .a11y-bar { display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: #FFFFFF; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .a11y-bar-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); }
+
+    /* ── TAB NAV ── */
+    .tab-nav { display: flex; gap: 4px; margin-bottom: 1rem; background: #EFF3F9; border-radius: 12px; padding: 4px; }
+    .tab-btn { flex: 1; padding: 8px 12px; border: none; border-radius: 9px; background: transparent; color: var(--text-muted); font-size: 0.8125rem; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .tab-btn:hover { background: rgba(255,255,255,0.6); color: var(--text-primary); }
+    .tab-btn.active { background: #FFFFFF; color: var(--navy); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+
+    /* ── SECTION CARDS ── */
+    .section-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 1.75rem; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+
+    /* ── PASSAGE ── */
+    .passage-text { font-size: var(--passage-font-size); line-height: 2.0; color: var(--text-body); transition: font-size 0.2s ease; }
+    .passage-text p { margin-bottom: 1.2rem; }
+    .para-label { display: inline-block; font-family: 'Space Mono', monospace; font-size: 0.6875rem; font-weight: 700; color: var(--navy); background: rgba(26,60,110,0.08); border: 1px solid rgba(26,60,110,0.18); border-radius: 4px; padding: 1px 6px; margin-right: 8px; letter-spacing: 0.05em; }
+
+    /* ── QUESTION BLOCKS ── */
+    .q-block { margin-bottom: 1.25rem; padding: 1rem 1.15rem; border-radius: 12px; background: #FFFFFF; border: 1px solid var(--border); }
+    .q-num { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+    .q-text { font-size: 0.9rem; color: var(--text-body); margin-bottom: 10px; line-height: 1.65; }
+    .q-input { width: 100%; background: #F8FAFC; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text-primary); font-size: 0.9rem; transition: border-color 0.2s, box-shadow 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,149,46,0.12); }
+    .q-select { width: 100%; background: #F8FAFC; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text-primary); font-size: 0.9rem; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-select:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,149,46,0.12); }
+    .q-options { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+    .q-option { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; padding: 9px 12px; border-radius: 8px; border: 1.5px solid var(--border); transition: all 0.2s; background: #F8FAFC; }
+    .q-option:hover { background: var(--gold-dim); border-color: var(--gold-border); }
+    .q-option input[type=radio] { accent-color: var(--gold); margin-top: 3px; flex-shrink: 0; }
+    .q-option label { font-size: 0.9rem; color: var(--text-body); cursor: pointer; line-height: 1.55; }
+
+    /* ── T/F/NG ── */
+    .q-tfng { display: flex; gap: 8px; }
+    .q-tfng-btn { flex: 1; padding: 9px 6px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer; background: #F8FAFC; color: var(--text-muted); transition: all 0.2s; letter-spacing: 0.05em; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-tfng-btn:hover { border-color: var(--gold-border); color: var(--gold); background: var(--gold-dim); }
+    .q-tfng-btn.sel-t { border-color: #16a34a; background: #f0fdf4; color: #16a34a; }
+    .q-tfng-btn.sel-f { border-color: #dc2626; background: #fef2f2; color: #dc2626; }
+    .q-tfng-btn.sel-ng { border-color: #d97706; background: #fffbeb; color: #d97706; }
+
+    /* ── GROUP HEADER ── */
+    .group-header { margin-bottom: 1.25rem; padding: 0.875rem 1rem; border-radius: 12px; background: rgba(26,60,110,0.04); border: 1px solid rgba(26,60,110,0.12); }
+    .group-header p { font-size: 0.8125rem; color: var(--text-muted); line-height: 1.65; margin-top: 6px; }
+
+    /* ── HEADINGS LIST ── */
+    .headings-list { margin: 0.75rem 0; padding: 0.875rem 1rem; background: #FFFFFF; border-radius: 10px; border: 1px solid var(--border); }
+    .headings-list li { font-size: 0.8125rem; color: var(--text-body); line-height: 1.8; padding: 2px 0; }
+    .headings-list li span { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--gold); margin-right: 6px; font-weight: 700; }
+
+    /* ── BUTTONS ── */
+    .btn-gold { background: linear-gradient(135deg, var(--gold) 0%, #a8741f 100%); color: #FFFFFF; border: none; border-radius: 10px; padding: 12px 32px; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.04em; cursor: pointer; transition: all 0.25s ease; box-shadow: 0 2px 12px rgba(201,149,46,0.30); }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 6px 22px rgba(201,149,46,0.42); }
+
+    /* ── CORRECTION REPORT ── */
+    .corr-block { margin-bottom: 1rem; padding: 1rem 1.25rem; border-radius: 12px; border: 1.5px solid; }
+    .corr-correct { background: #f0fdf4; border-color: #bbf7d0; }
+    .corr-wrong { background: #fef2f2; border-color: #fecaca; }
+    .corr-qnum { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+    .corr-qnum.ok { color: #16a34a; }
+    .corr-qnum.bad { color: #dc2626; }
+    .corr-qtext { font-size: 0.875rem; color: var(--text-body); line-height: 1.65; margin-bottom: 8px; }
+    .corr-row { display: flex; gap: 8px; align-items: flex-start; font-size: 0.8125rem; margin-bottom: 4px; }
+    .corr-tag { flex-shrink: 0; padding: 2px 8px; border-radius: 4px; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+    .corr-tag.your { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+    .corr-tag.correct { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .corr-tag.reinforce { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .corr-val { color: var(--text-primary); line-height: 1.5; }
+    .corr-expl { margin-top: 8px; padding: 9px 12px; background: #FFFFFF; border-radius: 8px; border-left: 3px solid var(--gold-border); font-size: 0.8125rem; color: var(--text-muted); line-height: 1.65; }
+    .corr-expl strong { color: var(--text-primary); }
+
+    /* ── RESULTS ── */
+    .score-ring-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .band-feedback { padding: 1.25rem; border-radius: 12px; background: rgba(26,60,110,0.04); border: 1px solid rgba(26,60,110,0.12); font-size: 0.9rem; color: var(--text-body); line-height: 1.8; }
+    .band-feedback strong { color: var(--navy); }
+    .passage-corr-header { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); padding: 10px 0 8px; border-bottom: 1px solid var(--border); margin-bottom: 1rem; }
+
+    /* ── SPINNER ── */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; }
+
+    /* ── SPLIT LAYOUT ── */
+    .split-container { display: flex; height: calc(100vh - 268px); min-height: 560px; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+    .reading-pane { width: 52%; min-width: 25%; max-width: 75%; overflow-y: auto; padding: 1.75rem; background: var(--card-bg); flex-shrink: 0; }
+    .question-pane { flex: 1; overflow-y: auto; padding: 1.75rem; background: var(--qpanel-bg); min-width: 25%; }
+    .resizer-bar { width: 16px; background: #F1F5F9; cursor: col-resize; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; border-left: 1px solid var(--border); border-right: 1px solid var(--border); transition: background 0.15s; user-select: none; -webkit-user-select: none; }
+    .resizer-bar:hover, .resizer-bar.active { background: var(--gold-dim); border-left-color: var(--gold-border); border-right-color: var(--gold-border); }
+    .resizer-btn { background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 8px; padding: 10px 4px; cursor: col-resize; display: flex; flex-direction: column; align-items: center; gap: 5px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); transition: border-color 0.15s, box-shadow 0.15s; pointer-events: none; }
+    .resizer-bar:hover .resizer-btn { border-color: var(--gold-border); box-shadow: 0 2px 8px rgba(201,149,46,0.15); }
+    @media (max-width: 1023px) {
+      .split-container { flex-direction: column; height: auto; overflow: visible; border: none; border-radius: 0; box-shadow: none; gap: 1rem; }
+      .reading-pane { width: 100% !important; min-width: 100%; max-width: 100%; overflow-y: visible; border: 1px solid var(--border); border-radius: 16px; }
+      .resizer-bar { display: none; }
+      .question-pane { min-width: 100%; overflow-y: visible; border: 1px solid var(--border); border-radius: 16px; }
+    }
+  </style>
+  <script>
+    (function(){
+      var raw = localStorage.getItem('ielts_session');
+      if (!raw) { window.location.replace('../login.html'); return; }
+      try { JSON.parse(raw); } catch(e) { localStorage.removeItem('ielts_session'); window.location.replace('../login.html'); }
+    })();
+    (function(){ var t = localStorage.getItem('ieltslab_theme') || 'light'; document.documentElement.setAttribute('data-theme', t); })();
+    function toggleTheme(){ var c = document.documentElement.getAttribute('data-theme') || 'light', n = c === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', n); localStorage.setItem('ieltslab_theme', n); var b = document.getElementById('themeToggle'); if(b) b.textContent = n === 'dark' ? '☀' : '🌙'; }
+    document.addEventListener('DOMContentLoaded', function(){ var b = document.getElementById('themeToggle'); if(b){ var d = (document.documentElement.getAttribute('data-theme') || 'light') === 'dark'; b.textContent = d ? '☀' : '🌙'; } });
+  </script>
+</head>
+<body class="min-h-screen flex flex-col" style="background:var(--page-bg);color:var(--text-primary);">
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<div id="header-container"></div>
+
+<!-- TIMING STRIP -->
+<div class="timing-strip" id="timingStrip">
+  <div class="px-4 flex items-center justify-center gap-10">
+    <div class="timing-item"><span class="timing-label">Passage 1</span><span class="timing-val">15–17 min</span></div>
+    <div style="width:1px;height:24px;background:var(--border);"></div>
+    <div class="timing-item"><span class="timing-label">Passage 2</span><span class="timing-val">20 min</span></div>
+    <div style="width:1px;height:24px;background:var(--border);"></div>
+    <div class="timing-item"><span class="timing-label">Passage 3</span><span class="timing-val">23–25 min</span></div>
+  </div>
+</div>
+
+<!-- TEST MAIN -->
+<main class="flex-1 w-full px-4 py-6" id="testMain">
+
+  <!-- HEADER ROW -->
+  <div class="flex items-start justify-between mb-5 gap-4">
+    <div>
+      <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Cambridge 20 · Full Test 2</div>
+      <h1 class="font-display font-black text-2xl" style="color:var(--text-primary);">Academic Reading — Full Test 2</h1>
+    </div>
+    <div class="flex items-center gap-3 flex-shrink-0">
+      <div id="timerDisplay" class="timer-box">60:00</div>
+    </div>
+  </div>
+
+  <!-- ACCESSIBILITY TOOLBAR -->
+  <div class="a11y-bar">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-muted);flex-shrink:0;"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+    <span class="a11y-bar-label">Text Size</span>
+    <div class="font-ctrl" role="toolbar" aria-label="Adjust passage text size">
+      <button class="font-ctrl-btn a-small" onclick="adjustFontSize(-1)" title="Decrease text size">A−</button>
+      <button class="font-ctrl-btn a-mid"   onclick="adjustFontSize(0)"  title="Reset text size">A</button>
+      <button class="font-ctrl-btn a-large" onclick="adjustFontSize(1)"  title="Increase text size">A+</button>
+    </div>
+    <span style="font-size:0.75rem;color:var(--text-faint);">Adjust the reading passage font size</span>
+    <div class="ml-auto text-xs hidden md:block" style="color:var(--text-muted);">60 minutes · 40 questions · 3 passages</div>
+  </div>
+
+  <!-- TAB NAV -->
+  <div class="tab-nav" id="tabNav">
+    <button class="tab-btn active" onclick="switchTab(1)">Passage 1 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q1–13)</span></button>
+    <button class="tab-btn" onclick="switchTab(2)">Passage 2 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q14–26)</span></button>
+    <button class="tab-btn" onclick="switchTab(3)">Passage 3 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q27–40)</span></button>
+  </div>
+
+  <!-- ══ SPLIT VIEW ══ -->
+  <div class="split-container" id="splitContainer">
+    <div class="reading-pane" id="readingPane">
+
+      <!-- Passage 1 -->
+      <div id="passageContent1">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 1</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">The Memory Palace: Spatial Cognition and Mnemonic Technique</div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>At the 2017 World Memory Championships, a twenty-three-year-old student memorised the exact sequence of a shuffled deck of fifty-two playing cards in under twenty seconds and recalled it without error. Observers unfamiliar with competitive memory sport might reasonably assume such a feat reflects a rare neurological gift. They would be mistaken. The competitor, like virtually every elite memory athlete, had no clinically exceptional memory before beginning to train. What set this individual apart was mastery of a systematic encoding technique whose origins predate the printing press by more than two thousand years — a method so reliable that its practitioners describe it not as a talent but as a learnable skill, available to anyone willing to invest the required practice.</p>
+
+          <p><span class="para-label">B</span>The technique in question is the method of loci, known colloquially as the memory palace, and its documented origins lie in classical antiquity. The Roman orator Cicero, drawing on an earlier Greek account, attributed its invention to the poet Simonides of Ceos, who according to legend identified the victims of a collapsed banquet hall by recalling where each guest had been seated before the roof fell. Whether apocryphal or not, the anecdote captures the method's essential logic: spatial position provides a reliable retrieval cue for associated information. In practice, a memory palace is a familiar building or route — one's childhood home, a frequently walked street — traversed in imagination. At each location along this mental walk, the practitioner deposits a vivid, interactive image encoding the item to be remembered. A telephone number might become a clown juggling flaming swords on a front doorstep; a foreign vocabulary word might be an absurd scene unfolding in a hallway. Retrieval involves reimagining the walk and reading off the images encountered at each station.</p>
+
+          <p><span class="para-label">C</span>Cognitive science has provided a compelling mechanistic explanation for why this spatial anchoring works. Human memory is not a unitary system; it consists of multiple functionally distinct subsystems, and these subsystems are not equally efficient. Episodic memory — the system that encodes personally experienced events in their spatial and temporal context — is exceptionally robust and is among the last memory systems to be compromised in neurodegenerative diseases such as Alzheimer's. It is processed primarily in the hippocampus, a seahorse-shaped structure in the medial temporal lobe. Crucially, the hippocampus also houses the grid cells and place cells that constitute the brain's spatial navigation system — the same neural hardware that allows an animal to construct an internal map of its environment. The method of loci exploits this architecture directly: by attaching arbitrary information to spatial positions within a familiar mental route, the practitioner recruits the episodic and spatial memory systems simultaneously, greatly increasing the probability of successful retrieval.</p>
+
+          <p><span class="para-label">D</span>Neuroimaging studies have confirmed that trained memory athletes engage the hippocampal-entorhinal network in qualitatively different ways from untrained controls when memorising equivalent material. A particularly influential study published in Neuron in 2017 recruited seventy-two individuals with average memory scores and randomly assigned them to one of three conditions: six weeks of method-of-loci training, six weeks of training in a different mnemonic strategy, or no training at all. At the end of the intervention, the method-of-loci group showed a mean improvement of thirty-five words on a standardised memory list test — roughly doubling their initial score — and produced brain activation patterns during memory tasks that closely resembled those of world-class memory athletes. These changes persisted in follow-up assessments four months after training had concluded, suggesting that systematic mnemonic practice does not merely confer a temporary performance boost but may induce lasting reorganisation of memory networks.</p>
+
+          <p><span class="para-label">E</span>Despite these impressive results, the method of loci is not a universal solution to the challenges of human memory. Its advantages are most pronounced when the information to be learned is sequential, concrete, and amenable to vivid visualisation. A list of historical dates, a series of vocabulary words in a foreign language, or the order of a card deck are ideal candidates. The technique struggles considerably when applied to abstract conceptual relationships, mathematical proofs, or procedural knowledge — domains where the item to be encoded does not lend itself naturally to an imageable, spatially anchored representation. There is also a ceiling imposed by working memory: constructing and encoding each loci image in real time is itself a cognitively demanding process, and practitioners who attempt to encode information faster than their working memory can comfortably manage report disproportionate errors at retrieval. Elite memory athletes invest considerable effort in building familiar, richly detailed palace routes precisely to reduce this encoding bottleneck.</p>
+
+          <p><span class="para-label">F</span>Recognition of the method's practical value has prompted its adoption across a range of professional and educational contexts. Medical schools in several countries have piloted structured method-of-loci curricula for first-year students facing the daunting task of memorising anatomical nomenclature and pharmacological classifications — domains in which the quantity of vocabulary is large, the individual items are concrete enough to be visualised, and sequence matters. Language educators have integrated spatial mnemonic techniques into vocabulary acquisition programmes, reporting measurable gains in long-term retention compared to rote repetition alone. Perhaps most intriguingly, dementia researchers are investigating whether sustained practice of the method of loci in older adults can serve a neuroprotective function, on the hypothesis that regularly recruiting the hippocampal-entorhinal network through structured mnemonic activity might slow age-related atrophy in precisely the structures most vulnerable to early Alzheimer's pathology. Commercially, a number of smartphone applications have attempted to gamify the technique, embedding spatial memory training within game-like interfaces to lower the barrier to entry for non-specialist users.</p>
+
+          <p><span class="para-label">G</span>One question that remains unresolved in the cognitive science literature is whether the benefits of memory palace training are domain-specific or transfer broadly to untrained memory tasks. Some studies report that trained practitioners show improved performance on novel memory challenges that bear no structural resemblance to the loci method, suggesting genuine enhancement of underlying memory capacity. Others find that gains are tightly bounded — practitioners who can recite a thousand digits of pi from memory perform no better than average on face recognition or incidental everyday memory tasks. This transfer debate has significant implications for how the technique should be marketed to the public and for whether investment in mnemonic training constitutes a scalable approach to cognitive enhancement at a societal level. Resolving it will require longitudinal studies with large samples, standardised outcome measures across multiple memory domains, and careful distinction between performance improvements driven by general strategy adoption and those reflecting genuine change in the underlying neural substrate.</p>
+        </div>
+      </div>
+
+      <!-- Passage 2 -->
+      <div id="passageContent2" style="display:none;">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 2</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">Deep-Sea Mining: Resources, Risks, and Regulation</div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>On the floor of the Pacific Ocean, spread across vast abyssal plains at depths exceeding four kilometres, lie an estimated twenty-one billion tonnes of polymetallic nodules — potato-sized concretions of manganese, cobalt, nickel, and copper that have been accumulating at rates of a few millimetres per million years. The minerals they contain are not geological curiosities: cobalt and nickel are essential components of lithium-ion batteries, and demand for both has accelerated sharply in the wake of the global electric vehicle transition. Copper, indispensable for electrical conductors and motors, faces a projected supply deficit of four million tonnes annually by 2030 as existing terrestrial deposits are progressively depleted. To a mining industry confronting tightening grades on land and increasingly resistant local communities around existing mines, the seabed has come to represent a prospective new frontier — one that promises vast mineral wealth but whose exploitation carries environmental and regulatory complexities of an order that the industry has not previously encountered.</p>
+
+          <p><span class="para-label">B</span>Three distinct types of deep-sea mineral deposit have attracted commercial interest. Polymetallic nodules, the most extensively studied, rest freely on sediment surfaces in abyssal plains — principally in the Clarion-Clipperton Zone of the eastern Pacific, an area roughly the size of the continental United States — and can theoretically be harvested by seabed crawlers that collect them like a mechanical vacuum cleaner. Seafloor massive sulphides, by contrast, form at hydrothermal vent fields where superheated, mineral-rich water vents through the ocean floor, precipitating concentrations of copper, zinc, gold, and silver whose grades rival the richest terrestrial ore bodies. A third category, cobalt-rich ferromanganese crusts, accumulates on the flanks of seamounts at intermediate depths and contains high concentrations of cobalt, titanium, and rare earth elements. Each deposit type presents distinct mining challenges and ecological sensitivities, but all share one characteristic that distinguishes them fundamentally from terrestrial mining targets: extreme difficulty of access and correspondingly high operational cost.</p>
+
+          <p><span class="para-label">C</span>The environmental arguments against deep-sea mining are formidable and rest on several converging lines of evidence. The nodule fields of the Clarion-Clipperton Zone support ecosystems of remarkable, if poorly understood, biodiversity: surveys have consistently recovered previously unknown species of sponge, polychaete worm, and crustacean from nodule habitats, and researchers estimate that the proportion of species in these ecosystems that remain undescribed by science may exceed ninety percent. More troubling still is the timescale question: the nodules themselves form at rates so slow that a single nodule the size of a tangerine may have been growing for ten million years. Seabed disturbance experiments conducted in the 1970s and 1980s — in which researchers deliberately ploughed sections of the seafloor and then monitored recovery — found that sediment disturbance in some areas persisted for decades with no measurable biological recovery. Mining operations would generate extensive sediment plumes, potentially dispersed by deep-sea currents across hundreds of kilometres, smothering filter-feeding communities and altering the chemistry of the water column over vast areas. The scientific consensus, articulated in a 2020 review in the journal Science, is that deep-sea mining would cause serious and potentially irreversible harm to ecosystems about which humanity remains profoundly ignorant.</p>
+
+          <p><span class="para-label">D</span>The governance of deep-sea mineral extraction in international waters falls under the jurisdiction of the International Seabed Authority (ISA), a body established under the United Nations Convention on the Law of the Sea and based in Kingston, Jamaica. The ISA has issued thirty-one exploration contracts to a range of state-sponsored and private entities, but as of 2024 no commercial deep-sea mining operation had commenced under its regulatory framework. A pivotal moment arrived in 2021 when the small island nation of Nauru, acting on behalf of a Canadian-backed mining company, invoked a provision in the ISA's founding convention that obliged the Authority to complete a mining code within two years — the so-called "two-year rule" that set a deadline of June 2023. That deadline passed without a finalised code, plunging the regulatory process into uncertainty. Under the terms of the convention, sponsoring states — the nations that formally endorse mining applications and bear legal responsibility for ensuring operator compliance — face financial liability for environmental damage caused by their sponsored entities, a provision that has made several smaller nations cautious about the extent of their commercial commitments.</p>
+
+          <p><span class="para-label">E</span>The debate between industry proponents and environmental advocates has been conducted with unusual intensity. Proponents of deep-sea mining argue that the environmental record of terrestrial mining — which has produced acid mine drainage, deforestation, and toxic tailings across multiple continents — is considerably worse than critics acknowledge, and that the concentrated, accessible nature of seabed deposits would enable extraction with a smaller surface footprint per unit of metal recovered than equivalent land-based operations. They further contend that the metals recovered are not optional luxuries but essential components of the renewable energy infrastructure required to decarbonise the global economy: the green transition cannot be achieved, on this argument, without the materials that the seabed uniquely provides in sufficient concentrations. Environmental organisations, led by groups such as the Deep Sea Conservation Coalition, invoke the precautionary principle — the ethical and legal norm that potentially irreversible harm to ecosystems should not be permitted in the absence of certainty about consequences — and argue that once a deep-sea ecosystem has been destroyed, it cannot be restored on any timescale relevant to human civilisation.</p>
+
+          <p><span class="para-label">F</span>Technological development in the sector has accelerated steadily since the 1990s, driven both by improvements in offshore oil and gas engineering and by dedicated investment from mining companies and state agencies. Remotely operated vehicles capable of operating at depths of six thousand metres can now conduct detailed geological surveys and biological sampling that would have been impossible a generation ago. Autonomous underwater vehicles equipped with multibeam sonar and high-resolution cameras have dramatically reduced the cost of pre-mining environmental assessments. Riser and lift systems — essentially giant underwater vacuum cleaners that transport nodules from the seabed to a surface vessel through a pipe several kilometres long — have been tested in pilot operations, with one trial by the Belgian company DEME in 2022 successfully lifting nodules from four thousand five hundred metres. Despite these advances, the economics of deep-sea mining remain challenging: operating costs at these depths are still substantially higher than those of equivalent terrestrial operations for most deposit types, and no deep-sea mining project had achieved commercial-scale production by the mid-2020s.</p>
+
+          <p><span class="para-label">G</span>Several nations have concluded that the risks of proceeding with deep-sea mining outweigh the potential benefits and have called for a formal moratorium on commercial operations. France announced its opposition to deep-sea mining in 2023 and pledged to advocate for a global ban within international forums; Germany and Chile have expressed support for precautionary pauses pending more comprehensive environmental assessment. Meanwhile, a parallel debate has emerged about whether improvements in battery recycling technology and the development of alternative cathode chemistries that reduce or eliminate cobalt and nickel requirements could reduce demand for virgin seabed material to the point where extraction becomes commercially unnecessary. Analysts at the Rocky Mountain Institute estimated in 2023 that an aggressive global battery recycling regime, combined with the adoption of lithium-iron-phosphate battery chemistry — which requires neither cobalt nor nickel — in the majority of new electric vehicles, could reduce demand for the specific minerals targeted by deep-sea mining by more than sixty percent by 2040. Whether this trajectory materialises in time to forestall the opening of the deep seabed to commercial mining remains one of the most consequential environmental questions of the coming decade.</p>
+        </div>
+      </div>
+
+      <!-- Passage 3 -->
+      <div id="passageContent3" style="display:none;">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 3</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">The Urban Heat Island Effect: Causes, Consequences, and Mitigation</div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>On the night of 10 August 2003, as a catastrophic heat wave gripped western Europe, meteorological stations in central Paris recorded temperatures nine degrees Celsius higher than those measured at the city's rural periphery. The disparity was not anomalous: it was a particularly severe manifestation of a phenomenon that climatologists had been measuring and theorising since the English chemist Luke Howard published his systematic comparison of London and rural temperatures in 1818. Howard observed that the capital was consistently warmer than its surroundings across all seasons and times of day, and he attributed the difference to the density of buildings and human activity concentrated within the city's boundaries. The phenomenon he identified — now universally termed the urban heat island effect — has since been measured in cities on every inhabited continent, with typical urban-rural temperature differentials of between one and seven degrees Celsius, rising to as much as twelve degrees under conditions of light wind and clear skies that minimise convective mixing between the urban and rural boundary layers.</p>
+
+          <p><span class="para-label">B</span>The physical mechanisms underlying urban heat islands are well understood and operate simultaneously through several pathways. Dark, impervious surfaces — the asphalt of roads and the concrete of pavements and rooftops — absorb a far greater proportion of incoming solar radiation than the vegetated soils and water bodies they replace, converting it to sensible heat that warms both the surface and the overlying air. The replacement of vegetation with impervious cover simultaneously eliminates evapotranspiration — the process by which plants and moist soils release latent heat to the atmosphere through water evaporation — which represents the primary natural cooling mechanism of vegetated land surfaces. Waste heat discharged directly into the atmosphere from motor vehicles, air conditioning units, industrial processes, and residential heating systems adds a further anthropogenic heat source that has no natural analogue. Finally, the three-dimensional geometry of the urban canopy — the canyon-like configuration of tall buildings flanking narrow streets — traps outgoing longwave radiation that would otherwise escape to the atmosphere at night, substantially reducing the nocturnal cooling that rural landscapes experience through radiative heat loss to a clear sky.</p>
+
+          <p><span class="para-label">C</span>The health consequences of urban heat islands are severe and have been quantified with uncomfortable precision by epidemiologists studying excess mortality in urban populations during heat wave events. The European heat wave of 2003, which coincided with an already exceptional regional warming episode, caused an estimated seventy thousand deaths across the continent, with mortality rates highest in dense urban cores. Research published in The Lancet found that urban residents faced a significantly elevated risk of cardiovascular collapse and acute respiratory failure during prolonged heat episodes compared to inhabitants of rural and suburban areas at equivalent distances from the epicentre of the thermal anomaly. The physiological mechanism is straightforward: elevated ambient temperatures increase the metabolic demand on the cardiovascular system as the body attempts to maintain core temperature through cutaneous vasodilation and perspiration, straining hearts already compromised by pre-existing disease. The burden falls disproportionately on elderly urban residents, outdoor workers — particularly in construction, agriculture, and delivery services — and low-income households that lack access to air conditioning, creating a distributional dimension to urban heat risk that maps closely onto existing patterns of socioeconomic inequality.</p>
+
+          <p><span class="para-label">D</span>Beyond direct health effects, urban heat islands interact with local hydrology and air quality in ways that compound the environmental burden on city populations. Elevated urban temperatures accelerate the chemical reactions that produce ground-level ozone from vehicle-emitted precursor gases — principally nitrogen oxides and volatile organic compounds — intensifying photochemical smog on warm, sunny days and increasing the frequency with which air quality thresholds are breached. Temperature inversions, in which a layer of warm air traps cooler, pollutant-laden air near the surface, occur more frequently and persist longer in urban environments, effectively concentrating particulate matter and gaseous pollutants in the breathing zone of street-level pedestrians. Urban heat also modifies local precipitation patterns: the thermal buoyancy generated by warm urban surfaces can trigger enhanced convective activity, sometimes producing more intense but geographically confined rainfall events within city boundaries than would occur under equivalent meteorological conditions in the absence of urban heating. Because urban surfaces are predominantly impervious, this intensified rainfall generates rapid, high-volume surface runoff that overwhelms stormwater drainage infrastructure designed for lower-intensity precipitation, producing flash flooding with increasing frequency.</p>
+
+          <p><span class="para-label">E</span>A range of mitigation strategies have been identified, tested, and in some cases deployed at scale, with quantified evidence of their effectiveness accumulating in the peer-reviewed literature. Green roofs — planted with sedum, grasses, or other low-maintenance vegetation — reduce rooftop surface temperatures by up to forty degrees Celsius compared to conventional black membrane roofing, simultaneously reducing the conductive heat transfer into the building below and contributing a small but measurable evapotranspiration cooling effect at the neighbourhood scale. Urban tree canopy expansion, perhaps the most extensively studied intervention, provides shade that reduces surface temperatures on streets and pavements by fifteen to twenty degrees Celsius during peak summer afternoon hours, with mature trees producing a cooling radius that extends several metres beyond the edge of the canopy through the combined effects of shade and transpirational cooling. Cool pavements — surfaces engineered with high solar reflectance through the incorporation of light-coloured aggregates or reflective coatings — reduce pavement surface temperatures by up to ten degrees Celsius and have measurable effects on near-surface air temperatures in dense urban canyons. Cool roofs, which apply similar high-albedo principles to building envelopes, have been shown in modelling studies to reduce peak urban temperatures by between zero point three and three degrees Celsius across entire metropolitan areas when deployed at sufficient scale.</p>
+
+          <p><span class="para-label">F</span>The implementation of these strategies at a meaningful scale confronts a set of structural challenges that explain the gap between demonstrated effectiveness and actual deployment. Green roofs require structural reinforcement of existing buildings to bear the additional load of growing substrate and vegetation, impose ongoing maintenance obligations, and are economically viable only when building ownership is sufficiently concentrated to make retrofitting programmes administratively manageable — conditions rarely met in the fragmented property markets of older European or North American city centres. Urban tree planting, though comparatively inexpensive per unit, is constrained by the availability of suitable planting sites in dense urban environments where subsurface infrastructure — gas mains, water pipes, telecommunications cables, and metro tunnels — occupies much of the ground beneath paved surfaces. A tension exists, moreover, between urban densification — widely advocated as a strategy for reducing per-capita transport emissions and land consumption — and green space preservation: the same pressures that drive cities to build upward and inward tend to reduce the surface area available for parks, street trees, and garden plots. Infrastructure costs are substantial: one comprehensive study of an urban greening programme in three European cities estimated implementation costs of between forty and eighty euros per square metre of green infrastructure installed, with payback periods of fifteen to thirty years when monetised co-benefits including energy savings, stormwater management, and health improvements were taken into account.</p>
+
+          <p><span class="para-label">G</span>Emerging approaches to urban cooling draw on advances in systems thinking, data science, and materials science to move beyond individual interventions towards integrated city-scale strategies. The sponge city concept, pioneered in China and embedded in the urban planning frameworks of more than thirty Chinese cities since 2015, treats urban water management and heat mitigation as inseparable challenges, designing urban drainage systems, green corridors, and permeable surface networks as integrated cooling and flood-control infrastructure. Singapore has developed an Urban Heat Island Effect Mitigation Master Plan that uses computational fluid dynamics modelling to identify the precise locations and configurations of green and blue infrastructure that would generate the greatest cooling benefits for the city's densely built equatorial environment. Researchers at several institutions are exploring the application of machine learning algorithms to optimise urban greening decisions across entire metropolitan areas, balancing competing objectives of cooling, biodiversity enhancement, stormwater management, and carbon sequestration. An underlying debate in all of these efforts concerns whether the primary strategic focus of city governments should be on mitigation — reducing the urban heat island intensity through landscape and surface interventions — or on adaptation: accepting that urban areas will be warmer than their surroundings and investing instead in the social and medical infrastructure needed to protect vulnerable populations during heat events. Most urban climate scientists regard the framing as a false dichotomy, arguing that both approaches are necessary and that the urgency of action on adaptation should not be used to defer investment in mitigation.</p>
+        </div>
+      </div>
+
+    </div><!-- /reading-pane -->
+
+    <!-- RESIZER BAR -->
+    <div class="resizer-bar" id="resizerBar">
+      <button class="resizer-btn" aria-label="Drag to resize panels">
+        <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M3.5 2L1 6L3.5 10" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span style="display:block;width:2px;height:14px;background:var(--border);border-radius:1px;"></span>
+        <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M6.5 2L9 6L6.5 10" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+
+    <!-- QUESTION PANE -->
+    <div class="question-pane" id="questionPane">
+      <div id="qPanel1"></div>
+      <div id="qPanel2" style="display:none;"></div>
+      <div id="qPanel3" style="display:none;"></div>
+    </div>
+
+  </div><!-- /split-container -->
+
+  <!-- SUBMIT -->
+  <div class="flex justify-center mt-10 mb-16">
+    <button onclick="confirmSubmit()" class="btn-gold px-10 py-4 text-base">Submit Reading Test</button>
+  </div>
+</main>
+
+<!-- RESULTS -->
+<div id="resultsMain" style="display:none;" class="flex-1 max-w-5xl mx-auto px-6 py-10 w-full">
+  <div class="flex items-center gap-3 mb-8">
+    <div>
+      <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Results</div>
+      <h1 class="font-display font-black text-2xl" style="color:var(--text-primary);">Academic Reading — Score Report</h1>
+    </div>
+  </div>
+  <div class="section-card mb-6" id="scoreCard"></div>
+  <div class="section-card mb-8" id="feedbackCard"></div>
+  <div class="section-card mb-6">
+    <div class="passage-corr-header">Passage 1 — The Memory Palace</div>
+    <div id="corrPassage1"></div>
+  </div>
+  <div class="section-card mb-6">
+    <div class="passage-corr-header">Passage 2 — Deep-Sea Mining</div>
+    <div id="corrPassage2"></div>
+  </div>
+  <div class="section-card mb-10">
+    <div class="passage-corr-header">Passage 3 — The Urban Heat Island Effect</div>
+    <div id="corrPassage3"></div>
+  </div>
+  <div class="flex gap-4 justify-center mb-16">
+    <a href="index.html" class="btn-gold">← Back to Tests</a>
+  </div>
+</div>
+
+<!-- SUBMITTING OVERLAY -->
+<div id="submittingOverlay" style="display:none;position:fixed;inset:0;z-index:300;background:rgba(247,248,250,0.97);flex-direction:column;align-items:center;justify-content:center;" class="flex">
+  <div class="spinner mb-6"></div>
+  <div class="font-display font-bold text-xl mb-2" style="color:var(--text-primary);">Scoring Your Answers</div>
+  <p class="text-sm" style="color:var(--text-muted);">Analysing your responses…</p>
+</div>
+
+<script>
+
+// ─────────────────────────────────────────
+//  TEST DATA
+// ─────────────────────────────────────────
+const GROUPS = [
+
+  // ── PASSAGE 1 — Matching Headings Q1–5 ──
+  {
+    passageId: 1,
+    type: 'matching_headings',
+    label: 'Questions 1–5',
+    instructions: 'The reading passage has seven paragraphs, <strong>A–G</strong>. Choose the correct heading for paragraphs <strong>B–F</strong> from the list of headings below. Paragraphs A and G are not included. Write the correct Roman numeral in the box.',
+    headings: [
+      { key: 'i',    text: 'The ancient origins and practical mechanics of spatial memory encoding' },
+      { key: 'ii',   text: 'Neuroscientific evidence showing how training reshapes memory network activation' },
+      { key: 'iii',  text: 'Economic investment and corporate involvement in developing mnemonic technology' },
+      { key: 'iv',   text: 'The biological basis of why locations aid memory retention' },
+      { key: 'v',    text: 'Specific contexts where the technique fails to deliver consistent results' },
+      { key: 'vi',   text: 'A range of practical modern uses and ongoing therapeutic research' },
+      { key: 'vii',  text: 'The method\'s historical connections to political rhetoric in classical antiquity' },
+      { key: 'viii', text: 'Unresolved questions about skill transfer and the boundaries of mnemonic benefit' },
+    ],
+    questions: [
+      { id: 1, paraLabel: 'B', text: 'Paragraph B', answer: 'i', answerDisplay: 'i — The ancient origins and practical mechanics of spatial memory encoding',
+        explanation: 'Paragraph B describes the method\'s origins with Simonides of Ceos and Cicero in classical antiquity, then explains the practical mechanics: a familiar mental walk, vivid images deposited at locations, and retrieval by reimagining the route. Heading vii (political rhetoric) is a distractor — while Cicero is mentioned as a Roman orator, the paragraph focuses on the memory technique\'s origins and mechanics, not on rhetoric or politics. Heading iii (economic/corporate involvement) belongs nowhere in the passage.',
+        reinforcement: 'Correct — paragraph B covers both the ancient Greek/Roman origins of the method and its step-by-step practical mechanics, matching heading i exactly.' },
+      { id: 2, paraLabel: 'C', text: 'Paragraph C', answer: 'iv', answerDisplay: 'iv — The biological basis of why locations aid memory retention',
+        explanation: 'Paragraph C explains why spatial anchoring works by describing episodic memory, hippocampal processing, grid cells, and place cells — the biological architecture that makes spatial position a powerful retrieval cue. "Biological basis" = hippocampus, grid cells, place cells; "why locations aid retention" = recruiting the spatial navigation system simultaneously with episodic memory. Heading i belongs to B (origins and mechanics, not biology); heading ii (neuroimaging evidence) maps to D.',
+        reinforcement: 'Correct — paragraph C is entirely devoted to the neuroscientific explanation of why the brain responds well to spatial encoding, matching "biological basis" in heading iv.' },
+      { id: 3, paraLabel: 'D', text: 'Paragraph D', answer: 'ii', answerDisplay: 'ii — Neuroscientific evidence showing how training reshapes memory network activation',
+        explanation: 'Paragraph D describes a 2017 Neuron study that used neuroimaging to show method-of-loci trainees developed brain activation patterns resembling those of world-class memory athletes. "Neuroscientific evidence" = neuroimaging study; "reshapes memory network activation" = hippocampal-entorhinal network engagement changes that persisted four months after training. Heading iv (biological basis) belongs to C and explains the mechanism in principle, not the experimental evidence from training studies.',
+        reinforcement: 'Correct — paragraph D presents empirical neuroimaging study findings showing training induces lasting changes in memory network activation, precisely matching heading ii.' },
+      { id: 4, paraLabel: 'E', text: 'Paragraph E', answer: 'v', answerDisplay: 'v — Specific contexts where the technique fails to deliver consistent results',
+        explanation: 'Paragraph E identifies the conditions under which the method of loci underperforms: abstract conceptual relationships, mathematical proofs, procedural knowledge, and situations where encoding speed exceeds working memory capacity. "Specific contexts where the technique fails" = abstract material, maths, procedural domains, and working memory ceiling situations. Heading vi (modern practical uses) maps to F.',
+        reinforcement: 'Correct — paragraph E is structured around the limitations of the method, listing the precise contexts where it struggles, which matches heading v directly.' },
+      { id: 5, paraLabel: 'F', text: 'Paragraph F', answer: 'vi', answerDisplay: 'vi — A range of practical modern uses and ongoing therapeutic research',
+        explanation: 'Paragraph F describes adoption in medical schools, language education, dementia prevention research, and smartphone app development. "A range of practical modern uses" = medical schools, language programmes, apps; "ongoing therapeutic research" = dementia prevention hypothesis. Heading iii (economic/corporate involvement) is a distractor — apps are mentioned but the focus is on educational and therapeutic applications, not corporate investment strategy.',
+        reinforcement: 'Correct — paragraph F surveys the method\'s real-world applications across education, medicine, and technology, matching the "practical modern uses and therapeutic research" framing of heading vi.' },
+    ]
+  },
+
+  // ── PASSAGE 1 — T/F/NG Q6–9 ──
+  {
+    passageId: 1,
+    type: 'tfng',
+    label: 'Questions 6–9',
+    instructions: 'Do the following statements agree with the information given in the reading passage? Write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      { id: 6, text: 'The memory competitor described in paragraph A had no clinically exceptional memory before beginning to train.',
+        answer: 'TRUE',
+        explanation: 'Paragraph A states explicitly: <strong>"The competitor, like virtually every elite memory athlete, had no clinically exceptional memory before beginning to train."</strong> The statement is an accurate paraphrase of this claim.',
+        reinforcement: 'Correct — paragraph A directly confirms that the competitor had no exceptional memory prior to training.' },
+      { id: 7, text: 'The anecdote about Simonides of Ceos is confirmed as historically accurate by ancient Greek records.',
+        answer: 'NOT GIVEN',
+        explanation: 'Paragraph B describes the Simonides anecdote but labels it "according to legend" and uses the qualifier "whether apocryphal or not." No ancient Greek records are mentioned. The passage takes no position on the historical accuracy of the account beyond calling it legendary.',
+        reinforcement: 'Correct — the passage explicitly calls the Simonides story a legend and neither confirms nor denies its historical accuracy from ancient records.' },
+      { id: 8, text: 'In the 2017 Neuron study, participants who received no training showed no change in their memory scores.',
+        answer: 'NOT GIVEN',
+        explanation: 'Paragraph D describes the three conditions — method-of-loci training, alternative mnemonic training, and no training — and reports the method-of-loci group\'s improvement of thirty-five words. However, the passage does not state what the no-training group\'s scores did or did not change. This information is absent from the passage.',
+        reinforcement: 'Correct — paragraph D only reports the method-of-loci group\'s results; the performance of the no-training control group is not described.' },
+      { id: 9, text: 'The method of loci is more effective for memorising sequences of vocabulary words than for learning mathematical proofs.',
+        answer: 'TRUE',
+        explanation: 'Paragraph E states that the technique\'s advantages are most pronounced for "sequential, concrete" material and that vocabulary words in a foreign language are "ideal candidates," while the technique "struggles considerably" with "mathematical proofs." The statement accurately captures this contrast.',
+        reinforcement: 'Correct — paragraph E explicitly identifies vocabulary as an ideal application and mathematical proofs as a domain where the method struggles, confirming the statement.' },
+    ]
+  },
+
+  // ── PASSAGE 1 — Sentence Completion Q10–13 ──
+  {
+    passageId: 1,
+    type: 'sentence_completion',
+    label: 'Questions 10–13',
+    instructions: 'Complete the sentences below. Choose <strong>NO MORE THAN THREE WORDS</strong> from the passage for each answer.',
+    questions: [
+      { id: 10, text: 'In the method of loci, a practitioner deposits a vivid image at each location along a familiar _______ traversed in imagination.',
+        answer: 'mental walk', answerDisplay: 'mental walk', acceptable: ['mental walk'],
+        explanation: 'Paragraph B: <strong>"traversed in imagination. At each location along this mental walk, the practitioner deposits a vivid, interactive image encoding the item to be remembered."</strong> "Mental walk" is the two-word passage-exact phrase describing the imagined route traversal.',
+        reinforcement: 'Correct — "mental walk" is the exact phrase in paragraph B describing the imagined route through the memory palace.' },
+      { id: 11, text: 'Episodic memory is processed primarily in the hippocampus, which also houses the _______ and place cells that form the brain\'s spatial navigation system.',
+        answer: 'grid cells', answerDisplay: 'grid cells', acceptable: ['grid cells'],
+        explanation: 'Paragraph C: <strong>"the hippocampus also houses the grid cells and place cells that constitute the brain\'s spatial navigation system."</strong> The sentence frame quotes the passage closely; "grid cells" is the two-word answer bridging hippocampus and place cells.',
+        reinforcement: 'Correct — "grid cells" is retrieved directly from paragraph C\'s description of the hippocampus\'s spatial navigation components.' },
+      { id: 12, text: 'The improvements in memory performance recorded in the 2017 Neuron study persisted in follow-up assessments _______ after training had concluded.',
+        answer: 'four months', answerDisplay: 'four months', acceptable: ['four months'],
+        explanation: 'Paragraph D: <strong>"These changes persisted in follow-up assessments four months after training had concluded."</strong> "Four months" is the exact two-word time frame from the passage.',
+        reinforcement: 'Correct — "four months" is the passage-exact duration in paragraph D describing how long the training improvements lasted.' },
+      { id: 13, text: 'Dementia researchers are investigating whether sustained method-of-loci practice might slow age-related _______ in hippocampal structures vulnerable to early Alzheimer\'s pathology.',
+        answer: 'atrophy', answerDisplay: 'atrophy', acceptable: ['atrophy'],
+        explanation: 'Paragraph F: <strong>"might slow age-related atrophy in precisely the structures most vulnerable to early Alzheimer\'s pathology."</strong> "Atrophy" is the one-word passage-exact noun completing the sentence.',
+        reinforcement: 'Correct — "atrophy" is the precise term in paragraph F describing the hippocampal deterioration that mnemonic practice might slow.' },
+    ]
+  },
+
+  // ── PASSAGE 2 — Matching Headings Q14–17 ──
+  {
+    passageId: 2,
+    type: 'matching_headings',
+    label: 'Questions 14–17',
+    instructions: 'The reading passage has seven paragraphs, <strong>A–G</strong>. Choose the correct heading for paragraphs <strong>B–E</strong> from the list of headings below. Paragraphs A, F, and G are not included. Write the correct Roman numeral in the box.',
+    headings: [
+      { key: 'i',    text: 'The three categories of seabed mineral deposit and their distinguishing characteristics' },
+      { key: 'ii',   text: 'Arguments for and against extraction, centred on environmental responsibility and supply necessity' },
+      { key: 'iii',  text: 'The international legal framework governing seabed resources and its current limitations' },
+      { key: 'iv',   text: 'The scientific case for why seabed ecosystems are uniquely vulnerable to mining disturbance' },
+      { key: 'v',    text: 'Historical trade agreements that determine which nations can access deep-sea mineral rights' },
+      { key: 'vi',   text: 'The commercial potential of seabed minerals compared with land-based investment returns' },
+    ],
+    questions: [
+      { id: 14, paraLabel: 'B', text: 'Paragraph B', answer: 'i', answerDisplay: 'i — The three categories of seabed mineral deposit and their distinguishing characteristics',
+        explanation: 'Paragraph B introduces and describes the three deposit types — polymetallic nodules, seafloor massive sulphides, and cobalt-rich ferromanganese crusts — explaining where each forms, what minerals it contains, and its distinctive characteristics. "Three categories… distinguishing characteristics" is a direct structural match. Heading vi (commercial potential) belongs to passage A; heading v (historical trade agreements) is a distractor not present in the passage.',
+        reinforcement: 'Correct — paragraph B is a typology of three distinct seabed deposit categories, matching heading i precisely.' },
+      { id: 15, paraLabel: 'C', text: 'Paragraph C', answer: 'iv', answerDisplay: 'iv — The scientific case for why seabed ecosystems are uniquely vulnerable to mining disturbance',
+        explanation: 'Paragraph C builds a scientific argument for vulnerability: undescribed biodiversity exceeding ninety percent of species, nodule formation timescales of millions of years, disturbance experiments showing no recovery after decades, and sediment plume dispersal modelling. "Scientific case" = peer-reviewed evidence and experiments; "uniquely vulnerable" = the slow-formation timescale and non-recovery evidence. Heading ii (arguments for and against) maps to E.',
+        reinforcement: 'Correct — paragraph C marshals scientific evidence to demonstrate the particular vulnerability of deep-sea ecosystems, matching heading iv.' },
+      { id: 16, paraLabel: 'D', text: 'Paragraph D', answer: 'iii', answerDisplay: 'iii — The international legal framework governing seabed resources and its current limitations',
+        explanation: 'Paragraph D describes the ISA, its mandate under UNCLOS, the thirty-one exploration contracts, the two-year rule invoked by Nauru, the failure to finalise a mining code by June 2023, and the liability obligations of sponsoring states. "International legal framework" = ISA/UNCLOS; "current limitations" = no finalised mining code, regulatory uncertainty, liability uncertainty for sponsoring states. Heading i (three deposit types) belongs to B.',
+        reinforcement: 'Correct — paragraph D is entirely about the ISA regulatory structure and the gaps and uncertainties within it, matching heading iii.' },
+      { id: 17, paraLabel: 'E', text: 'Paragraph E', answer: 'ii', answerDisplay: 'ii — Arguments for and against extraction, centred on environmental responsibility and supply necessity',
+        explanation: 'Paragraph E presents the industry case (smaller footprint than terrestrial mining, essential for green transition) and the conservationist case (precautionary principle, irreversibility). "Arguments for and against" = the pro-industry and pro-conservation positions; "environmental responsibility and supply necessity" = precautionary principle vs green transition materials need. Heading iv (scientific case for vulnerability) belongs to C.',
+        reinforcement: 'Correct — paragraph E is structured as a direct debate between industry proponents and environmental advocates, matching the "arguments for and against" framing of heading ii.' },
+    ]
+  },
+
+  // ── PASSAGE 2 — T/F/NG Q18–22 ──
+  {
+    passageId: 2,
+    type: 'tfng',
+    label: 'Questions 18–22',
+    instructions: 'Do the following statements agree with the information given in the reading passage? Write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      { id: 18, text: 'The Clarion-Clipperton Zone is located in the eastern Pacific Ocean.',
+        answer: 'TRUE',
+        explanation: 'Paragraph B: <strong>"principally in the Clarion-Clipperton Zone of the eastern Pacific."</strong> The statement is an accurate and direct paraphrase of this geographical identification.',
+        reinforcement: 'Correct — paragraph B explicitly places the Clarion-Clipperton Zone in the eastern Pacific.' },
+      { id: 19, text: 'Seabed disturbance experiments conducted in the 1970s and 1980s showed full biological recovery within ten years.',
+        answer: 'FALSE',
+        explanation: 'Paragraph C states: <strong>"sediment disturbance in some areas persisted for decades with no measurable biological recovery."</strong> "Full recovery within ten years" directly contradicts "no measurable biological recovery" after decades.',
+        reinforcement: 'Correct — paragraph C says there was no measurable biological recovery after decades, directly contradicting "full recovery within ten years."' },
+      { id: 20, text: 'The ISA had issued more than thirty exploration contracts to various entities by 2024.',
+        answer: 'TRUE',
+        explanation: 'Paragraph D: <strong>"The ISA has issued thirty-one exploration contracts to a range of state-sponsored and private entities."</strong> Thirty-one is "more than thirty," making the statement true.',
+        reinforcement: 'Correct — paragraph D states thirty-one contracts had been issued, which is indeed more than thirty.' },
+      { id: 21, text: 'France, Germany, and Chile have all formally declared their complete opposition to any future deep-sea mining activity.',
+        answer: 'FALSE',
+        explanation: 'Paragraph G states France <strong>"announced its opposition to deep-sea mining"</strong> and Germany and Chile <strong>"expressed support for precautionary pauses pending more comprehensive environmental assessment."</strong> Germany and Chile called for pauses for further study, not complete opposition to any future mining — the statement overstates their position.',
+        reinforcement: 'Correct — Germany and Chile called for precautionary pauses, not complete opposition, making the "complete opposition" claim FALSE.' },
+      { id: 22, text: 'Lithium-iron-phosphate batteries require smaller quantities of cobalt and nickel than conventional lithium-ion batteries.',
+        answer: 'NOT GIVEN',
+        explanation: 'Paragraph G states that lithium-iron-phosphate battery chemistry "requires neither cobalt nor nickel," but does not compare quantities between LFP and conventional lithium-ion batteries — it states LFP requires none at all. The statement\'s comparative framing ("smaller quantities") is not addressed; the passage says zero, not less.',
+        reinforcement: 'Correct — the passage says LFP requires neither cobalt nor nickel (zero), not merely smaller quantities; the comparative framing in the question is not directly addressed.' },
+    ]
+  },
+
+  // ── PASSAGE 2 — Sentence Completion Q23–26 ──
+  {
+    passageId: 2,
+    type: 'sentence_completion',
+    label: 'Questions 23–26',
+    instructions: 'Complete the sentences below. Choose <strong>NO MORE THAN THREE WORDS</strong> from the passage for each answer.',
+    questions: [
+      { id: 23, text: 'Seafloor massive sulphides form at _______ where superheated, mineral-rich water vents through the ocean floor.',
+        answer: 'hydrothermal vent fields', answerDisplay: 'hydrothermal vent fields', acceptable: ['hydrothermal vent fields', 'hydrothermal vents'],
+        explanation: 'Paragraph B: <strong>"Seafloor massive sulphides, by contrast, form at hydrothermal vent fields where superheated, mineral-rich water vents through the ocean floor."</strong> "Hydrothermal vent fields" is the three-word passage-exact answer; accept "hydrothermal vents" as a two-word alternative.',
+        reinforcement: 'Correct — "hydrothermal vent fields" is taken directly from paragraph B\'s description of seafloor massive sulphide formation.' },
+      { id: 24, text: 'The 2020 review published in the journal Science concluded that deep-sea mining would cause serious and potentially _______ harm to deep-sea ecosystems.',
+        answer: 'irreversible', answerDisplay: 'irreversible', acceptable: ['irreversible'],
+        explanation: 'Paragraph C: <strong>"The scientific consensus, articulated in a 2020 review in the journal Science, is that deep-sea mining would cause serious and potentially irreversible harm to ecosystems."</strong> "Irreversible" is the exact adjective completing the passage phrase.',
+        reinforcement: 'Correct — "irreversible" is retrieved directly from paragraph C\'s summary of the 2020 Science review conclusion.' },
+      { id: 25, text: 'Nauru invoked a provision in the ISA\'s founding convention that required the Authority to complete a _______ within two years.',
+        answer: 'mining code', answerDisplay: 'mining code', acceptable: ['mining code'],
+        explanation: 'Paragraph D: <strong>"obliged the Authority to complete a mining code within two years."</strong> "Mining code" is the two-word passage-exact phrase describing what the ISA was required to produce.',
+        reinforcement: 'Correct — "mining code" is the exact term in paragraph D for the regulatory document the two-year rule required the ISA to finalise.' },
+      { id: 26, text: 'According to Rocky Mountain Institute analysts, an aggressive battery recycling regime combined with new battery chemistries could reduce demand for targeted seabed minerals by more than _______ by 2040.',
+        answer: 'sixty percent', answerDisplay: 'sixty percent', acceptable: ['sixty percent', '60 percent', '60%'],
+        explanation: 'Paragraph G: <strong>"could reduce demand for the specific minerals targeted by deep-sea mining by more than sixty percent by 2040."</strong> "Sixty percent" is the exact quantitative figure from the passage.',
+        reinforcement: 'Correct — "sixty percent" is the passage-exact reduction estimate cited from the Rocky Mountain Institute analysis in paragraph G.' },
+    ]
+  },
+
+  // ── PASSAGE 3 — Matching Information Q27–31 ──
+  {
+    passageId: 3,
+    type: 'matching_info',
+    label: 'Questions 27–31',
+    instructions: 'The reading passage has seven paragraphs, <strong>A–G</strong>. Which paragraph contains the following information? Write the correct letter, <strong>A–G</strong>, in the box. You may use any letter more than once.',
+    paraOptions: ['A','B','C','D','E','F','G'],
+    questions: [
+      { id: 27, text: 'A description of how urban geometry reduces the amount of heat that escapes from city surfaces at night.',
+        answer: 'B', answerDisplay: 'B',
+        explanation: 'Paragraph B: <strong>"the three-dimensional geometry of the urban canopy — the canyon-like configuration of tall buildings flanking narrow streets — traps outgoing longwave radiation that would otherwise escape to the atmosphere at night, substantially reducing the nocturnal cooling that rural landscapes experience."</strong>',
+        reinforcement: 'Correct — the trapping of nocturnal longwave radiation by urban canyon geometry is described in paragraph B.' },
+      { id: 28, text: 'A reference to research quantifying the financial costs and payback periods of urban greening programmes.',
+        answer: 'F', answerDisplay: 'F',
+        explanation: 'Paragraph F: <strong>"one comprehensive study of an urban greening programme in three European cities estimated implementation costs of between forty and eighty euros per square metre… with payback periods of fifteen to thirty years."</strong>',
+        reinforcement: 'Correct — specific cost and payback period figures for urban greening are provided in paragraph F.' },
+      { id: 29, text: 'An account of how elevated urban temperatures worsen air pollution by speeding up chemical reactions in the atmosphere.',
+        answer: 'D', answerDisplay: 'D',
+        explanation: 'Paragraph D: <strong>"Elevated urban temperatures accelerate the chemical reactions that produce ground-level ozone from vehicle-emitted precursor gases… intensifying photochemical smog on warm, sunny days."</strong>',
+        reinforcement: 'Correct — the acceleration of ozone-forming chemical reactions by urban heat is described in paragraph D.' },
+      { id: 30, text: 'An identification of the year in which systematic comparison of urban and rural temperatures was first published.',
+        answer: 'A', answerDisplay: 'A',
+        explanation: 'Paragraph A: <strong>"the English chemist Luke Howard published his systematic comparison of London and rural temperatures in 1818."</strong> The year 1818 is the first published systematic urban-rural temperature comparison.',
+        reinforcement: 'Correct — the year 1818 and Luke Howard\'s publication are mentioned in paragraph A as the first systematic measurement of the phenomenon.' },
+      { id: 31, text: 'A mention of a national programme that treats urban water management and heat mitigation as a single integrated challenge.',
+        answer: 'G', answerDisplay: 'G',
+        explanation: 'Paragraph G: <strong>"The sponge city concept, pioneered in China… treats urban water management and heat mitigation as inseparable challenges, designing urban drainage systems, green corridors, and permeable surface networks as integrated cooling and flood-control infrastructure."</strong>',
+        reinforcement: 'Correct — the sponge city concept integrating water management and heat mitigation is described in paragraph G.' },
+    ]
+  },
+
+  // ── PASSAGE 3 — T/F/NG Q32–36 ──
+  {
+    passageId: 3,
+    type: 'tfng',
+    label: 'Questions 32–36',
+    instructions: 'Do the following statements agree with the information given in the reading passage? Write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      { id: 32, text: 'Luke Howard attributed the higher temperatures he measured in London to the concentration of buildings and human activity.',
+        answer: 'TRUE',
+        explanation: 'Paragraph A: <strong>"he attributed the difference to the density of buildings and human activity concentrated within the city\'s boundaries."</strong> The statement accurately paraphrases this attribution.',
+        reinforcement: 'Correct — paragraph A explicitly states Howard attributed urban warmth to building density and human activity.' },
+      { id: 33, text: 'The European heat wave of 2003 caused more deaths in rural areas than in urban city centres.',
+        answer: 'FALSE',
+        explanation: 'Paragraph C states <strong>"mortality rates highest in dense urban cores"</strong> during the 2003 heat wave. The statement reverses this finding — more deaths were concentrated in urban areas, not rural ones.',
+        reinforcement: 'Correct — paragraph C specifies that mortality was highest in dense urban cores, making "more deaths in rural areas" FALSE.' },
+      { id: 34, text: 'Green roofs can reduce rooftop surface temperatures by up to forty degrees Celsius compared to conventional black membrane roofing.',
+        answer: 'TRUE',
+        explanation: 'Paragraph E: <strong>"Green roofs… reduce rooftop surface temperatures by up to forty degrees Celsius compared to conventional black membrane roofing."</strong> The statement is a direct and accurate paraphrase.',
+        reinforcement: 'Correct — paragraph E provides the forty degrees Celsius figure for green roof temperature reduction explicitly.' },
+      { id: 35, text: 'Urban densification is universally regarded by urban planners as incompatible with any form of urban green space.',
+        answer: 'NOT GIVEN',
+        explanation: 'Paragraph F notes a tension between densification goals and green space preservation, but does not state that urban planners universally regard the two as incompatible. The word "universally" is key: the passage identifies a tension, not a universal professional consensus.',
+        reinforcement: 'Correct — paragraph F acknowledges a tension between densification and green space, but does not claim universal planner opinion that they are incompatible.' },
+      { id: 36, text: 'Most urban climate scientists consider the choice between mitigation and adaptation to be a false dichotomy.',
+        answer: 'TRUE',
+        explanation: 'Paragraph G: <strong>"Most urban climate scientists regard the framing as a false dichotomy, arguing that both approaches are necessary."</strong> The statement accurately paraphrases this consensus position.',
+        reinforcement: 'Correct — paragraph G explicitly states that most urban climate scientists consider the mitigation-vs-adaptation framing to be a false dichotomy.' },
+    ]
+  },
+
+  // ── PASSAGE 3 — Summary Completion Q37–40 ──
+  {
+    passageId: 3,
+    type: 'sentence_completion',
+    label: 'Questions 37–40',
+    instructions: 'Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.<br><br><em>Cities are typically warmer than their rural surroundings due to the urban (37) _______ effect. Among the primary physical drivers is the replacement of vegetation with impervious surfaces, which eliminates (38) _______ — the natural process by which plants and moist soils release heat through water evaporation. Mitigation strategies include urban tree canopy expansion, which can reduce street surface temperatures by fifteen to twenty degrees Celsius during peak summer hours through both shade and (39) _______ cooling. However, the densification of cities creates tension with green space preservation, since the pressures driving cities to build inward tend to reduce the area available for parks and (40) _______.</em>',
+    questions: [
+      { id: 37, text: '(37) Cities are typically warmer than their surroundings due to the urban _______ effect.',
+        answer: 'heat island', answerDisplay: 'heat island', acceptable: ['heat island'],
+        explanation: 'Paragraph A: the phenomenon is universally termed <strong>"the urban heat island effect."</strong> "Heat island" is the two-word passage-exact phrase completing this reference to the phenomenon.',
+        reinforcement: 'Correct — "heat island" is retrieved from the standard name of the phenomenon as stated in paragraph A.' },
+      { id: 38, text: '(38) Replacing vegetation with impervious surfaces eliminates _______, the natural cooling process by which plants and moist soils release heat through water evaporation.',
+        answer: 'evapotranspiration', answerDisplay: 'evapotranspiration', acceptable: ['evapotranspiration'],
+        explanation: 'Paragraph B: <strong>"The replacement of vegetation with impervious cover simultaneously eliminates evapotranspiration — the process by which plants and moist soils release latent heat to the atmosphere through water evaporation."</strong> "Evapotranspiration" is the one-word passage-exact technical term.',
+        reinforcement: 'Correct — "evapotranspiration" is the exact technical term in paragraph B for the eliminated cooling process.' },
+      { id: 39, text: '(39) Mature trees provide cooling through shade and _______ cooling, reducing street surface temperatures by fifteen to twenty degrees.',
+        answer: 'transpirational', answerDisplay: 'transpirational', acceptable: ['transpirational'],
+        explanation: 'Paragraph E: <strong>"with mature trees producing a cooling radius… through the combined effects of shade and transpirational cooling."</strong> "Transpirational" is the one-word passage-exact adjective modifying "cooling."',
+        reinforcement: 'Correct — "transpirational" is taken directly from paragraph E\'s description of the two cooling mechanisms provided by mature trees.' },
+      { id: 40, text: '(40) Urban densification reduces the area available for parks and _______ in dense city environments.',
+        answer: 'street trees', answerDisplay: 'street trees', acceptable: ['street trees'],
+        explanation: 'Paragraph F: <strong>"the surface area available for parks, street trees, and garden plots."</strong> The summary enumerates the first two items from this list; "street trees" is the passage-exact two-word phrase completing the pair.',
+        reinforcement: 'Correct — "street trees" appears in paragraph F\'s list of green space elements threatened by urban densification.' },
+    ]
+  },
+];
+
+// ─────────────────────────────────────────
+//  STATE
+// ─────────────────────────────────────────
+const answers = {};
+const TOTAL_SECONDS = 3600;
+let secondsLeft = TOTAL_SECONDS;
+let timerInterval = null;
+let submitted = false;
+
+// ─────────────────────────────────────────
+//  TAB SWITCHING
+// ─────────────────────────────────────────
+function switchTab(n) {
+  [1,2,3].forEach(i => {
+    document.getElementById('passageContent' + i).style.display = i === n ? 'block' : 'none';
+    document.getElementById('qPanel' + i).style.display = i === n ? 'block' : 'none';
+    document.getElementById('tabNav').querySelectorAll('.tab-btn')[i-1].classList.toggle('active', i === n);
+  });
+  document.getElementById('readingPane').scrollTop = 0;
+  document.getElementById('questionPane').scrollTop = 0;
+}
+
+// ─────────────────────────────────────────
+//  FONT SIZE CONTROLLER
+// ─────────────────────────────────────────
+const FONT_SIZES = [13, 15, 17, 19];
+let fontSizeIdx = parseInt(localStorage.getItem('ielts_font_size_idx') || '1');
+function initFontSize() {
+  document.documentElement.style.setProperty('--passage-font-size', FONT_SIZES[fontSizeIdx] + 'px');
+}
+function adjustFontSize(delta) {
+  if (delta === 0) {
+    fontSizeIdx = 1;
+  } else {
+    fontSizeIdx = Math.max(0, Math.min(FONT_SIZES.length - 1, fontSizeIdx + delta));
+  }
+  document.documentElement.style.setProperty('--passage-font-size', FONT_SIZES[fontSizeIdx] + 'px');
+  localStorage.setItem('ielts_font_size_idx', fontSizeIdx);
+}
+
+// ─────────────────────────────────────────
+//  SPLIT-PANE RESIZER
+// ─────────────────────────────────────────
+(function initResizer() {
+  const container = document.getElementById('splitContainer');
+  const leftPane  = document.getElementById('readingPane');
+  const resizer   = document.getElementById('resizerBar');
+  if (!container || !leftPane || !resizer) return;
+
+  let isDragging = false;
+  let startX     = 0;
+  let startW     = 0;
+
+  function onStart(clientX) {
+    isDragging = true;
+    startX     = clientX;
+    startW     = leftPane.getBoundingClientRect().width;
+    resizer.classList.add('active');
+    document.body.style.cursor     = 'col-resize';
+    document.body.style.userSelect = 'none';
+  }
+
+  function onMove(clientX) {
+    if (!isDragging) return;
+    const cW    = container.getBoundingClientRect().width;
+    const rW    = resizer.getBoundingClientRect().width;
+    const avail = cW - rW;
+    const minW  = avail * 0.25;
+    const maxW  = avail * 0.75;
+    const newW  = Math.max(minW, Math.min(maxW, startW + (clientX - startX)));
+    leftPane.style.width = ((newW / cW) * 100).toFixed(2) + '%';
+  }
+
+  function onEnd() {
+    if (!isDragging) return;
+    isDragging = false;
+    resizer.classList.remove('active');
+    document.body.style.cursor     = '';
+    document.body.style.userSelect = '';
+  }
+
+  resizer.addEventListener('mousedown',  e => { e.preventDefault(); onStart(e.clientX); });
+  document.addEventListener('mousemove', e => onMove(e.clientX));
+  document.addEventListener('mouseup',   onEnd);
+
+  resizer.addEventListener('touchstart',  e => { e.preventDefault(); onStart(e.touches[0].clientX); }, { passive: false });
+  document.addEventListener('touchmove',  e => { if (isDragging) { e.preventDefault(); onMove(e.touches[0].clientX); } }, { passive: false });
+  document.addEventListener('touchend',   onEnd);
+})();
+
+// ─────────────────────────────────────────
+//  TIMER
+// ─────────────────────────────────────────
+function formatTime(s) {
+  return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+}
+function startTimer() {
+  timerInterval = setInterval(() => {
+    secondsLeft--;
+    const pct = (TOTAL_SECONDS - secondsLeft) / TOTAL_SECONDS * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+    const el = document.getElementById('timerDisplay');
+    el.textContent = formatTime(secondsLeft);
+    if (secondsLeft <= 120) el.className = 'timer-box critical';
+    else if (secondsLeft <= 300) el.className = 'timer-box warning';
+    if (secondsLeft <= 0) { clearInterval(timerInterval); autoSubmit(); }
+  }, 1000);
+}
+
+// ─────────────────────────────────────────
+//  RENDER QUESTIONS
+// ─────────────────────────────────────────
+function renderAll() {
+  [1,2,3].forEach(pid => {
+    const panel = document.getElementById('qPanel' + pid);
+    let html = '';
+    GROUPS.filter(g => g.passageId === pid).forEach(group => {
+      html += `<div class="group-header mb-4">
+        <div class="text-xs font-bold tracking-widest uppercase" style="color:var(--gold);">${group.label}</div>
+        <p>${group.instructions}</p>
+      </div>`;
+
+      if (group.type === 'matching_headings') {
+        html += `<div class="headings-list mb-4"><ul style="list-style:none;">`;
+        group.headings.forEach(h => {
+          html += `<li><span>${h.key}.</span>${h.text}</li>`;
+        });
+        html += `</ul></div>`;
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">Paragraph <strong>${q.paraLabel}</strong></div>
+            <select class="q-select" id="q${q.id}" onchange="recordAnswer(${q.id}, this.value)">
+              <option value="">— Select heading —</option>
+              ${group.headings.map(h => `<option value="${h.key}">${h.key}. ${h.text}</option>`).join('')}
+            </select>
+          </div>`;
+        });
+      } else if (group.type === 'tfng') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <div class="q-tfng">
+              <button class="q-tfng-btn" onclick="selectTFNG(${q.id},'TRUE',this)">TRUE</button>
+              <button class="q-tfng-btn" onclick="selectTFNG(${q.id},'FALSE',this)">FALSE</button>
+              <button class="q-tfng-btn" onclick="selectTFNG(${q.id},'NOT GIVEN',this)">NOT GIVEN</button>
+            </div>
+          </div>`;
+        });
+      } else if (group.type === 'sentence_completion') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <input type="text" class="q-input" id="q${q.id}" placeholder="Your answer…" oninput="recordAnswer(${q.id}, this.value.trim())" />
+          </div>`;
+        });
+      } else if (group.type === 'matching_info') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <select class="q-select" id="q${q.id}" onchange="recordAnswer(${q.id}, this.value)">
+              <option value="">— Select paragraph —</option>
+              ${group.paraOptions.map(p => `<option value="${p}">Paragraph ${p}</option>`).join('')}
+            </select>
+          </div>`;
+        });
+      }
+    });
+    panel.innerHTML = html;
+  });
+}
+
+function selectTFNG(qId, val, btn) {
+  btn.parentElement.querySelectorAll('.q-tfng-btn').forEach(b => { b.className = 'q-tfng-btn'; });
+  btn.classList.add(val === 'TRUE' ? 'sel-t' : val === 'FALSE' ? 'sel-f' : 'sel-ng');
+  recordAnswer(qId, val);
+}
+
+function recordAnswer(qId, val) { answers[qId] = val; }
+
+// ─────────────────────────────────────────
+//  SCORING
+// ─────────────────────────────────────────
+function scoreAnswer(q, studentRaw) {
+  if (!studentRaw) return false;
+  const student = studentRaw.toString().trim().toLowerCase();
+  if (q.acceptable) return q.acceptable.map(a => a.toLowerCase()).includes(student);
+  return student === q.answer.toLowerCase();
+}
+function bandFromScore(n) {
+  if (n >= 39) return 9.0; if (n >= 37) return 8.5; if (n >= 35) return 8.0;
+  if (n >= 33) return 7.5; if (n >= 30) return 7.0; if (n >= 27) return 6.5;
+  if (n >= 23) return 6.0; if (n >= 19) return 5.5; if (n >= 15) return 5.0;
+  if (n >= 13) return 4.5; if (n >= 10) return 4.0; if (n >= 8) return 3.5;
+  if (n >= 6) return 3.0; return 2.5;
+}
+function bandColour(b) {
+  if (b >= 7) return '#0D9488'; if (b >= 5.5) return '#C9952E'; return '#dc2626';
+}
+function bandAdvice(band, score) {
+  const pct = Math.round(score/40*100);
+  if (band >= 8.5) return `Outstanding — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Near-native comprehension across all three passages. Focus on NOT GIVEN precision and paraphrased sentence completions to push for Band 9.`;
+  if (band >= 7.5) return `Excellent result — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Strong academic reading. To push towards Band 8+: tighten NOT GIVEN judgements (never infer beyond the text) and copy sentence completion answers exactly from the passage.`;
+  if (band >= 6.5) return `Good performance — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Solid comprehension with room to improve. Review: (1) TRUE vs FALSE — verify the exact claim, not just the topic; (2) Matching Headings — identify the paragraph's central argument before selecting; (3) time allocation across all three passages.`;
+  if (band >= 5.5) return `You scored ${score}/40 (${pct}%), giving an estimated <strong>Band ${band}</strong>. Clear potential — prioritise synonym recognition, since every question involves paraphrase. Review each wrong answer and find the exact passage sentence that should have guided your response.`;
+  return `You scored ${score}/40 (${pct}%), giving an estimated <strong>Band ${band}</strong>. Focus on active reading: identify each paragraph's main claim before reading the questions. Daily timed reading of academic texts and vocabulary building will accelerate improvement significantly.`;
+}
+
+// ─────────────────────────────────────────
+//  SUBMIT
+// ─────────────────────────────────────────
+function confirmSubmit() { if (!confirm('Submit your reading test now?')) return; doSubmit(); }
+function autoSubmit() { if (submitted) return; doSubmit(); }
+function doSubmit() {
+  if (submitted) return;
+  submitted = true;
+  clearInterval(timerInterval);
+  document.getElementById('submittingOverlay').style.display = 'flex';
+  setTimeout(showResults, 800);
+}
+
+// ─────────────────────────────────────────
+//  RESULTS
+// ─────────────────────────────────────────
+function showResults() {
+  document.getElementById('submittingOverlay').style.display = 'none';
+  document.getElementById('testMain').style.display = 'none';
+  document.getElementById('timingStrip').style.display = 'none';
+  document.getElementById('resultsMain').style.display = 'block';
+
+  let correct = 0;
+  const allQs = GROUPS.flatMap(g => g.questions);
+  allQs.forEach(q => { if (scoreAnswer(q, answers[q.id])) correct++; });
+  const band = bandFromScore(correct);
+  const bCol = bandColour(band);
+
+  // Save result
+  const results = JSON.parse(localStorage.getItem('ielts_mock_results') || '[]');
+  results.push({ date: Date.now(), book: 20, testNum: 2, skill: 'reading', scores: { reading: band } });
+  localStorage.setItem('ielts_mock_results', JSON.stringify(results));
+
+  // Per-passage breakdown
+  const passageChips = [1,2,3].map(p => {
+    const pQs = GROUPS.filter(g => g.passageId === p).flatMap(g => g.questions);
+    const pC = pQs.filter(q => scoreAnswer(q, answers[q.id])).length;
+    const pCol = bandColour(bandFromScore(Math.round(pC/pQs.length*40)));
+    return `<div style="background:#EFF3F9;border:1px solid var(--border);border-radius:10px;padding:10px 14px;text-align:center;min-width:80px;">
+      <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px;">Passage ${p}</div>
+      <div style="font-family:'Space Mono',monospace;font-size:1.125rem;font-weight:700;color:${pCol};">${pC}/${pQs.length}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('scoreCard').innerHTML = `
+    <div class="flex flex-col md:flex-row gap-6 items-center">
+      <div class="score-ring-wrap">
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#E2E8F0" stroke-width="8"/>
+          <circle cx="60" cy="60" r="50" fill="none" stroke="${bCol}" stroke-width="8"
+            stroke-dasharray="${Math.round(correct/40*314)} 314" stroke-linecap="round"
+            transform="rotate(-90 60 60)" style="transition:stroke-dasharray 1.2s cubic-bezier(.16,1,.3,1)"/>
+        </svg>
+        <div style="margin-top:-70px;text-align:center;pointer-events:none;">
+          <div style="font-family:'Space Mono',monospace;font-size:1.75rem;font-weight:700;color:${bCol};">${correct}</div>
+          <div style="font-size:0.75rem;color:var(--text-muted);">out of 40</div>
+        </div>
+        <div style="margin-top:16px;"></div>
+      </div>
+      <div class="flex-1">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Your Score</div>
+        <div class="font-display font-black text-4xl mb-1" style="color:${bCol};">Band ${band}</div>
+        <div class="text-sm mb-4" style="color:var(--text-muted);">${correct} correct answers out of 40</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">${passageChips}</div>
+      </div>
+    </div>`;
+
+  document.getElementById('feedbackCard').innerHTML = `
+    <div class="text-xs font-bold tracking-widest uppercase mb-3" style="color:var(--gold);">Overall Feedback</div>
+    <div class="band-feedback">${bandAdvice(band, correct)}</div>`;
+
+  [1,2,3].forEach(pid => {
+    let html = '';
+    GROUPS.filter(g => g.passageId === pid).forEach(group => {
+      html += `<div style="margin-bottom:0.5rem;padding:6px 0 8px;border-bottom:1px solid var(--border-soft);">
+        <span style="font-size:0.6875rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-faint);">${group.label} — ${labelType(group.type)}</span>
+      </div>`;
+      group.questions.forEach(q => {
+        const isCorrect = scoreAnswer(q, answers[q.id]);
+        const studentAns = answers[q.id] ? answers[q.id].toString() : '(no answer)';
+        const correctAns = q.answerDisplay || q.answer;
+        html += `<div class="corr-block ${isCorrect ? 'corr-correct' : 'corr-wrong'}">
+          <div class="corr-qnum ${isCorrect ? 'ok' : 'bad'}">${isCorrect ? '✓' : '✗'} Question ${q.id}</div>
+          <div class="corr-qtext">${q.text}</div>`;
+        if (isCorrect) {
+          html += `<div class="corr-row"><span class="corr-tag reinforce">✓ Correct</span><span class="corr-val">${studentAns}</span></div>
+            <div class="corr-expl">${q.reinforcement || ''}</div>`;
+        } else {
+          html += `<div class="corr-row"><span class="corr-tag your">Your answer</span><span class="corr-val">${studentAns}</span></div>
+            <div class="corr-row"><span class="corr-tag correct">Correct answer</span><span class="corr-val">${correctAns}${q.acceptable && q.acceptable.length > 1 ? ' <span style="font-size:0.75rem;color:var(--text-faint);">(also: ' + q.acceptable.filter(a=>a!==q.answer).join(', ') + ')</span>' : ''}</span></div>
+            <div class="corr-expl">${q.explanation || ''}</div>`;
+        }
+        html += `</div>`;
+      });
+    });
+    document.getElementById('corrPassage' + pid).innerHTML = html;
+  });
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function labelType(t) {
+  return { tfng:'True / False / Not Given', mc:'Multiple Choice', matching_headings:'Matching Headings', matching_info:'Matching Information', sentence_completion:'Sentence Completion', diagram_labelling:'Diagram Labelling', matching_feature:'Matching Features' }[t] || t;
+}
+
+// ─────────────────────────────────────────
+//  INIT
+// ─────────────────────────────────────────
+initFontSize();
+renderAll();
+startTimer();
+</script>
+<script src="/js/components.js"></script>
+<script>
+  IELTSLab.loadNav({ basePath: '../', breadcrumb: 'Mock Tests', authenticated: true, themeDefault: 'light' });
+</script>
+</body>
+</html>
