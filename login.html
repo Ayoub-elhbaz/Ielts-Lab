@@ -4,12 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sign In — IELTS Lab | AI-Powered IELTS Preparation</title>
-  <meta name="description" content="Sign in to IELTS Lab to access AI essay correction, mock tests, and expert human tutoring. Start your IELTS preparation journey today." />
+  <meta name="description" content="Sign in to IELTS Lab to access AI essay correction, mock tests, and expert human tutoring." />
   <meta name="robots" content="noindex, follow" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet" />
-  <script src="https://accounts.google.com/gsi/client" async defer></script>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -107,16 +106,13 @@
       padding: 3rem 2rem;
       background: var(--primary-bg);
     }
-    .form-card {
-      width: 100%;
-      max-width: 420px;
-    }
-    .form-header { margin-bottom: 2.5rem; }
+    .form-card { width: 100%; max-width: 420px; }
+
     .form-logo {
       display: flex;
       align-items: center;
       gap: 0.5rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 2rem;
     }
     .form-logo-mark {
       width: 36px; height: 36px;
@@ -135,36 +131,26 @@
       color: var(--primary-text);
     }
     .form-logo-text span { color: var(--gold); }
-    .form-title {
+
+    /* Steps */
+    .step { display: none; }
+    .step.active { display: block; }
+
+    .step-heading {
       font-family: 'Lora', serif;
-      font-size: 1.8rem;
+      font-size: 1.75rem;
       font-weight: 700;
       color: var(--primary-text);
       line-height: 1.3;
       margin-bottom: 0.5rem;
     }
-    .form-subtitle { font-size: 1rem; color: var(--secondary-text); }
-
-    /* Tabs */
-    .tabs { display: flex; background: #F0EDE8; border-radius: 0.625rem; padding: 4px; margin-bottom: 2rem; }
-    .tab-btn {
-      flex: 1;
-      padding: 0.625rem 1rem;
-      border: none;
-      background: transparent;
-      border-radius: 0.5rem;
-      font-family: 'Source Sans 3', sans-serif;
-      font-size: 0.9375rem;
-      font-weight: 500;
+    .step-sub {
+      font-size: 1rem;
       color: var(--secondary-text);
-      cursor: pointer;
-      transition: all 0.2s;
+      margin-bottom: 2rem;
+      line-height: 1.6;
     }
-    .tab-btn.active {
-      background: #FFFFFF;
-      color: var(--primary-text);
-      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
-    }
+    .step-sub strong { color: var(--primary-text); }
 
     /* Form fields */
     .field { margin-bottom: 1.25rem; }
@@ -176,8 +162,7 @@
       margin-bottom: 0.4rem;
     }
     input[type="text"],
-    input[type="email"],
-    input[type="password"] {
+    input[type="email"] {
       width: 100%;
       padding: 0.75rem 1rem;
       border: 1.5px solid var(--border);
@@ -193,34 +178,17 @@
       border-color: var(--royal-blue);
       box-shadow: 0 0 0 3px rgba(44,74,143,0.12);
     }
-    input.input-error { border-color: var(--error); }
     input::placeholder { color: #A0AEC0; }
 
-    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-    @media (max-width: 480px) { .field-row { grid-template-columns: 1fr; } }
-    @media (max-width: 400px) { .panel-right { padding: 2rem 1.25rem; } }
-
-    /* Error messages */
-    .form-error {
-      font-size: 0.875rem;
-      color: var(--error);
-      margin-top: 0.75rem;
-      min-height: 1.25rem;
-      display: block;
+    /* OTP input */
+    #codeInput {
+      text-align: center;
+      font-size: 2rem;
+      letter-spacing: 0.5rem;
+      font-family: 'Lora', serif;
+      font-weight: 700;
+      padding: 0.875rem 1rem;
     }
-
-    .forgot-link {
-      text-align: right;
-      margin-top: -0.75rem;
-      margin-bottom: 1.25rem;
-    }
-    .forgot-link a {
-      font-size: 0.875rem;
-      color: var(--royal-blue);
-      text-decoration: none;
-      cursor: pointer;
-    }
-    .forgot-link a:hover { text-decoration: underline; }
 
     /* Submit button */
     .btn-submit {
@@ -241,48 +209,79 @@
     .btn-submit:active { transform: translateY(0); }
     .btn-submit:disabled { background: #A0AEC0; cursor: not-allowed; transform: none; }
 
-    /* Divider */
-    .or-divider {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-      margin: 1.5rem 0;
+    /* Error / success messages */
+    .msg {
+      font-size: 0.875rem;
+      min-height: 1.25rem;
+      margin-top: 0.75rem;
+      display: block;
     }
-    .or-divider::before, .or-divider::after {
-      content: ''; flex: 1; height: 1px; background: var(--border);
-    }
-    .or-divider span { font-size: 0.875rem; color: var(--secondary-text); white-space: nowrap; }
+    .msg.error { color: var(--error); }
+    .msg.success { color: var(--success); }
 
-    /* Google button */
-    .btn-google {
-      width: 100%;
-      padding: 0.75rem 1.5rem;
-      background: #FFFFFF;
-      color: var(--primary-text);
-      border: 1.5px solid var(--border);
-      border-radius: 0.5rem;
-      font-family: 'Source Sans 3', sans-serif;
-      font-size: 0.9375rem;
-      font-weight: 500;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.625rem;
-      transition: border-color 0.2s, box-shadow 0.2s;
-    }
-    .btn-google:hover { border-color: #A0AEC0; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
-    .google-icon { width: 18px; height: 18px; flex-shrink: 0; }
-
-    /* Toggle message */
-    .toggle-msg {
+    /* Resend row */
+    .resend-row {
       text-align: center;
-      margin-top: 1.5rem;
-      font-size: 0.9375rem;
+      margin-top: 1.25rem;
+      font-size: 0.875rem;
       color: var(--secondary-text);
     }
-    .toggle-msg a { color: var(--royal-blue); font-weight: 600; text-decoration: none; cursor: pointer; }
-    .toggle-msg a:hover { text-decoration: underline; }
+    .resend-row a {
+      color: var(--royal-blue);
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .resend-row a:hover { text-decoration: underline; }
+
+    /* Back link */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.875rem;
+      color: var(--secondary-text);
+      cursor: pointer;
+      margin-top: 1rem;
+      text-decoration: none;
+      background: none;
+      border: none;
+      font-family: inherit;
+      padding: 0;
+    }
+    .back-link:hover { color: var(--primary-text); }
+
+    /* Email badge */
+    .email-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(44,74,143,0.08);
+      border: 1px solid rgba(44,74,143,0.15);
+      border-radius: 0.375rem;
+      padding: 0.3rem 0.7rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--royal-blue);
+      margin-bottom: 1.5rem;
+    }
+
+    /* Code icon */
+    .code-icon {
+      width: 56px; height: 56px;
+      background: rgba(44,74,143,0.08);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 1.25rem;
+      font-size: 1.5rem;
+    }
+
+    /* Name field hint */
+    .field-hint {
+      font-size: 0.8125rem;
+      color: #A0AEC0;
+      margin-top: 0.25rem;
+    }
 
     /* Footer note */
     .form-footer-note {
@@ -294,88 +293,7 @@
     }
     .form-footer-note a { color: var(--royal-blue); text-decoration: none; }
 
-    /* Panel hidden class */
-    .form-panel { display: none; }
-    .form-panel.active { display: block; }
-
-    /* ── Forgot Password Modal ── */
-    .modal-backdrop {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background: rgba(28,28,46,0.55);
-      backdrop-filter: blur(4px);
-      z-index: 999;
-      align-items: center;
-      justify-content: center;
-      padding: 1.5rem;
-    }
-    .modal-backdrop.open { display: flex; }
-    .modal-box {
-      background: #FFFFFF;
-      border-radius: 1rem;
-      padding: 2rem;
-      width: 100%;
-      max-width: 400px;
-      position: relative;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
-    }
-    .modal-close {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      width: 30px; height: 30px;
-      border: none;
-      background: #F0EDE8;
-      border-radius: 50%;
-      cursor: pointer;
-      font-size: 1.1rem;
-      color: var(--secondary-text);
-      display: flex; align-items: center; justify-content: center;
-      transition: background 0.2s;
-    }
-    .modal-close:hover { background: #E2DDD5; }
-    .modal-title {
-      font-family: 'Lora', serif;
-      font-size: 1.3rem;
-      font-weight: 700;
-      color: var(--primary-text);
-      margin-bottom: 0.5rem;
-    }
-    .modal-subtitle {
-      font-size: 0.9375rem;
-      color: var(--secondary-text);
-      margin-bottom: 1.5rem;
-      line-height: 1.6;
-    }
-    .modal-success {
-      text-align: center;
-      padding: 1rem 0;
-    }
-    .modal-success-icon {
-      width: 52px; height: 52px;
-      background: rgba(39,103,73,0.1);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 1rem;
-      font-size: 1.5rem;
-    }
-    .modal-success-title {
-      font-family: 'Lora', serif;
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--success);
-      margin-bottom: 0.5rem;
-    }
-    .modal-success-text {
-      font-size: 0.9375rem;
-      color: var(--secondary-text);
-      line-height: 1.6;
-    }
-    .modal-success-email {
-      font-weight: 600;
-      color: var(--primary-text);
-    }
+    @media (max-width: 400px) { .panel-right { padding: 2rem 1.25rem; } }
   </style>
 </head>
 <body>
@@ -412,322 +330,220 @@
     </div>
   </div>
 
-  <!-- RIGHT: Login / register form -->
+  <!-- RIGHT: Form -->
   <div class="panel-right">
     <div class="form-card">
-      <div class="form-header">
-        <div class="form-logo">
-          <div class="form-logo-mark">IL</div>
-          <div class="form-logo-text">IELTS<span>Lab</span></div>
-        </div>
-        <h1 class="form-title" id="formTitle">Welcome back</h1>
-        <p class="form-subtitle" id="formSubtitle">Sign in to continue your IELTS journey.</p>
+
+      <div class="form-logo">
+        <div class="form-logo-mark">IL</div>
+        <div class="form-logo-text">IELTS<span>Lab</span></div>
       </div>
 
-      <!-- Tabs -->
-      <div class="tabs" id="tabs">
-        <button class="tab-btn active" id="tabLogin" onclick="switchTab('login')">Sign In</button>
-        <button class="tab-btn" id="tabRegister" onclick="switchTab('register')">Create Account</button>
-      </div>
+      <!-- STEP 1: Enter email -->
+      <div class="step active" id="step1">
+        <h1 class="step-heading">Welcome to IELTS Lab</h1>
+        <p class="step-sub">Enter your email and we'll send you a sign-in code. No password needed.</p>
 
-      <!-- LOGIN FORM -->
-      <div class="form-panel active" id="panelLogin">
-        <form onsubmit="doLogin(); return false;">
+        <form onsubmit="sendCode(); return false;">
           <div class="field">
-            <label for="loginEmail">Email address</label>
-            <input type="email" id="loginEmail" placeholder="you@example.com" autocomplete="email" />
+            <label for="emailInput">Email address</label>
+            <input type="email" id="emailInput" placeholder="you@example.com" autocomplete="email" autofocus />
           </div>
-          <div class="field">
-            <label for="loginPassword">Password</label>
-            <input type="password" id="loginPassword" placeholder="••••••••" autocomplete="current-password" />
-          </div>
-          <div class="forgot-link">
-            <a onclick="openForgotModal()">Forgot your password?</a>
-          </div>
-          <button type="submit" class="btn-submit" id="loginBtn">Sign In</button>
-          <span class="form-error" id="loginError"></span>
+          <button type="submit" class="btn-submit" id="sendBtn">Send code</button>
+          <span class="msg error" id="step1Error"></span>
         </form>
-        <div class="or-divider"><span>or continue with</span></div>
-        <button class="btn-google" onclick="signInWithGoogle()">
-          <svg class="google-icon" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M17.64 9.205c0-.638-.057-1.252-.164-1.841H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/>
-            <path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z" fill="#34A853"/>
-            <path d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/>
-            <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z" fill="#EA4335"/>
-          </svg>
-          Continue with Google
-        </button>
-        <div class="toggle-msg">
-          Don't have an account? <a onclick="switchTab('register')">Create one free</a>
-        </div>
+
+        <p class="form-footer-note">
+          By continuing, you agree to our <a href="/terms/">Terms of Service</a> and <a href="/privacy/">Privacy Policy</a>.
+        </p>
       </div>
 
-      <!-- REGISTER FORM -->
-      <div class="form-panel" id="panelRegister">
-        <form onsubmit="doRegister(); return false;">
-          <div class="field-row">
-            <div class="field">
-              <label for="regFirst">First name</label>
-              <input type="text" id="regFirst" placeholder="Ayoub" autocomplete="given-name" />
-            </div>
-            <div class="field">
-              <label for="regLast">Last name</label>
-              <input type="text" id="regLast" placeholder="El Hebaze" autocomplete="family-name" />
-            </div>
+      <!-- STEP 2: Enter OTP (+name if first time) -->
+      <div class="step" id="step2">
+        <div class="code-icon">📬</div>
+        <h1 class="step-heading" style="text-align:center;">Check your inbox</h1>
+        <p class="step-sub" style="text-align:center;">
+          We sent a 6-digit code to<br/>
+          <strong id="emailDisplay"></strong>
+        </p>
+
+        <form onsubmit="verifyCode(); return false;">
+          <div class="field" id="nameField" style="display:none;">
+            <label for="nameInput">Your first name</label>
+            <input type="text" id="nameInput" placeholder="e.g. Ayoub" autocomplete="given-name" maxlength="60" />
+            <p class="field-hint">First-time here? Let us know your name.</p>
           </div>
+
           <div class="field">
-            <label for="regEmail">Email address</label>
-            <input type="email" id="regEmail" placeholder="you@example.com" autocomplete="email" />
+            <label for="codeInput" style="text-align:center;display:block;">Verification code</label>
+            <input type="text" id="codeInput" placeholder="000000" maxlength="6"
+              autocomplete="one-time-code"
+              inputmode="numeric"
+              oninput="this.value=this.value.replace(/[^0-9]/g,'')"
+              onkeydown="if(event.key==='Enter'){verifyCode();event.preventDefault();}" />
           </div>
-          <div class="field">
-            <label for="regPassword">Password</label>
-            <input type="password" id="regPassword" placeholder="Min. 8 characters" autocomplete="new-password" />
-          </div>
-          <button type="submit" class="btn-submit" id="registerBtn">Create Free Account</button>
-          <span class="form-error" id="regError"></span>
+
+          <span class="msg error" id="step2Error"></span>
+          <button type="submit" class="btn-submit" id="verifyBtn" style="margin-top:0.25rem;">Sign in</button>
         </form>
-        <div class="or-divider"><span>or continue with</span></div>
-        <button class="btn-google" onclick="signInWithGoogle()">
-          <svg class="google-icon" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M17.64 9.205c0-.638-.057-1.252-.164-1.841H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/>
-            <path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z" fill="#34A853"/>
-            <path d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/>
-            <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 6.29C4.672 4.163 6.656 3.58 9 3.58z" fill="#EA4335"/>
-          </svg>
-          Continue with Google
-        </button>
-        <div class="toggle-msg">
-          Already have an account? <a onclick="switchTab('login')">Sign in</a>
-        </div>
-      </div>
 
-      <!-- VERIFY EMAIL PANEL -->
-      <div class="form-panel" id="panelVerify">
-        <div style="text-align:center;margin-bottom:1.75rem;">
-          <div style="width:56px;height:56px;background:rgba(44,74,143,0.08);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:1.5rem;">📧</div>
-          <p style="font-size:0.9375rem;color:var(--secondary-text);line-height:1.7;margin:0;">
-            We sent a 6-digit code to<br/>
-            <strong id="verifyEmailDisplay" style="color:var(--primary-text);"></strong>
-          </p>
-        </div>
-        <div class="field">
-          <label for="verifyCode" style="text-align:center;display:block;">Verification Code</label>
-          <input type="text" id="verifyCode" placeholder="000000" maxlength="6" autocomplete="one-time-code"
-            style="text-align:center;font-size:2rem;letter-spacing:0.5rem;font-family:'Lora',serif;font-weight:700;padding:0.875rem 1rem;"
-            oninput="this.value=this.value.replace(/[^0-9]/g,'')"
-            onkeydown="if(event.key==='Enter')submitVerification()" />
-        </div>
-        <span class="form-error" id="verifyError"></span>
-        <button class="btn-submit" id="verifyBtn" onclick="submitVerification()" style="margin-top:0.5rem;">Verify &amp; Create Account</button>
-        <div style="text-align:center;margin-top:1.25rem;font-size:0.875rem;color:var(--secondary-text);">
+        <div class="resend-row">
           Didn't receive it?
-          <a onclick="resendCode()" id="resendLink" style="color:var(--royal-blue);cursor:pointer;font-weight:600;">Resend code</a><span id="resendTimer" style="color:var(--secondary-text);"></span>
+          <a id="resendLink" onclick="resendCode()">Resend</a><span id="resendTimer"></span>
         </div>
-        <div class="toggle-msg" style="margin-top:0.75rem;">
-          <a onclick="switchTab('register')" style="font-size:0.875rem;font-weight:400;color:var(--secondary-text);">← Back to registration</a>
+
+        <div style="text-align:center;">
+          <button class="back-link" onclick="goBack()">← Use a different email</button>
         </div>
       </div>
 
-      <p class="form-footer-note" id="formFooterNote">
-        By continuing, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.<br/>
-        7-day free trial · No credit card required.
-      </p>
-    </div>
-  </div>
-</div>
-
-<!-- ── Forgot Password Modal ── -->
-<div class="modal-backdrop" id="forgotModal">
-  <div class="modal-box">
-    <button class="modal-close" onclick="closeForgotModal()">✕</button>
-
-    <!-- Step 1: Enter email -->
-    <div id="fpStep1">
-      <div class="modal-title">Reset your password</div>
-      <p class="modal-subtitle">Enter your email and we'll send you a 6-digit verification code.</p>
-      <div class="field">
-        <label for="fpEmail">Email address</label>
-        <input type="email" id="fpEmail" placeholder="you@example.com" autocomplete="email" />
-      </div>
-      <span class="form-error" id="fpError"></span>
-      <button class="btn-submit" id="fpSendBtn" onclick="sendResetCode()" style="margin-top:0.5rem;">Send Code</button>
-    </div>
-
-    <!-- Step 2: Enter code -->
-    <div id="fpStep2" style="display:none;">
-      <div class="modal-title">Check your inbox</div>
-      <p class="modal-subtitle">We sent a 6-digit code to <strong id="fpSentEmail" style="color:var(--primary-text)"></strong></p>
-      <div class="field">
-        <label for="fpCode">Verification code</label>
-        <input type="text" id="fpCode" placeholder="000000" maxlength="6" autocomplete="one-time-code" style="letter-spacing:0.3em;font-size:1.2rem;text-align:center;" />
-      </div>
-      <span class="form-error" id="fpCodeError"></span>
-      <button class="btn-submit" id="fpVerifyBtn" onclick="verifyResetCode()" style="margin-top:0.5rem;">Verify Code</button>
-      <p style="text-align:center;font-size:0.8rem;margin-top:0.75rem;color:var(--muted-text);">
-        Didn't receive it? <a onclick="fpBackToStep1()" style="color:var(--royal-blue);cursor:pointer;">Try again</a>
-      </p>
-    </div>
-
-    <!-- Step 3: New password -->
-    <div id="fpStep3" style="display:none;">
-      <div class="modal-title">Set new password</div>
-      <p class="modal-subtitle">Choose a new password for your account.</p>
-      <div class="field">
-        <label for="fpNewPassword">New password</label>
-        <input type="password" id="fpNewPassword" placeholder="Min. 8 characters" autocomplete="new-password" />
-      </div>
-      <div class="field">
-        <label for="fpConfirmPassword">Confirm password</label>
-        <input type="password" id="fpConfirmPassword" placeholder="Repeat your password" autocomplete="new-password" />
-      </div>
-      <span class="form-error" id="fpPasswordError"></span>
-      <button class="btn-submit" onclick="submitNewPassword()" style="margin-top:0.5rem;">Update Password</button>
-    </div>
-
-    <!-- Step 4: Success -->
-    <div id="fpStep4" style="display:none;">
-      <div class="modal-success">
-        <div class="modal-success-icon">✅</div>
-        <div class="modal-success-title">Password updated!</div>
-        <p class="modal-success-text">Your password has been changed. You can now sign in with your new password.</p>
-        <button class="btn-submit" onclick="closeForgotModal()" style="margin-top:1.25rem;">Back to Sign In</button>
-      </div>
     </div>
   </div>
 </div>
 
 <script>
-  // ── Config ──
-  const GOOGLE_CLIENT_ID = '328632045409-usg6nlk5g9ig89pcj2rlujet7kmjrltt.apps.googleusercontent.com';
   const DEFAULT_REDIRECT = './IELTS-Lab.html';
-  const USERS_KEY = 'ielts_users';
+  let pendingEmail = '';
+  let resendInterval = null;
+  let isNewUser = false;
 
   function getRedirect() {
     const params = new URLSearchParams(window.location.search);
     const next = params.get('next');
-    // Only allow same-origin relative paths — block open redirects
-    if (next && !next.includes('://') && !next.startsWith('//') && next.startsWith('.')) return next;
-    if (next && !next.includes('://') && !next.startsWith('//') && next.startsWith('/')) return next;
+    if (next && !next.includes('://') && !next.startsWith('//') && (next.startsWith('.') || next.startsWith('/'))) return next;
     return DEFAULT_REDIRECT;
   }
 
-  // ── User storage helpers ──
-  function getUsers() { try { return JSON.parse(localStorage.getItem(USERS_KEY)) || []; } catch { return []; } }
-  function saveUsers(u) { localStorage.setItem(USERS_KEY, JSON.stringify(u)); }
-  function setSession(name, email, token) {
-    localStorage.setItem('ielts_session', JSON.stringify({ name, email }));
-    if (token) localStorage.setItem('ielts_auth_token', token);
-    window.location.replace(getRedirect());
-  }
-  function setLoading(btnId, loading) {
-    const btn = document.getElementById(btnId);
-    const labels = { loginBtn: 'Sign In', registerBtn: 'Create Free Account', verifyBtn: 'Verify & Create Account' };
-    btn.disabled = loading;
-    btn.textContent = loading ? 'Please wait…' : (labels[btnId] || 'Submit');
-  }
-
-  // ── Tab switching ──
-  function switchTab(tab) {
-    const isLogin = tab === 'login';
-    document.getElementById('tabLogin').classList.toggle('active', isLogin);
-    document.getElementById('tabRegister').classList.toggle('active', !isLogin);
-    document.getElementById('panelLogin').classList.toggle('active', isLogin);
-    document.getElementById('panelRegister').classList.toggle('active', !isLogin);
-    document.getElementById('panelVerify').classList.remove('active');
-    document.getElementById('tabs').style.display = '';
-    document.getElementById('formFooterNote').style.display = '';
-    document.getElementById('formTitle').textContent = isLogin ? 'Welcome back' : 'Start your journey';
-    document.getElementById('formSubtitle').textContent = isLogin
-      ? 'Sign in to continue your IELTS journey.'
-      : 'Join 18,000+ students preparing with IELTS Lab.';
-    document.getElementById('loginError').textContent = '';
-    document.getElementById('regError').textContent = '';
-  }
-
-  // ── Sign In ──
-  async function doLogin() {
-    const email    = document.getElementById('loginEmail').value.trim();
-    const password = document.getElementById('loginPassword').value;
-    const errEl    = document.getElementById('loginError');
-    errEl.textContent = '';
-    if (!email || !password) { errEl.textContent = 'Please fill in all fields.'; return; }
-    setLoading('loginBtn', true);
-    const user = getUsers().find(u => u.email === email && u.password === password);
-    if (!user) { errEl.textContent = 'Incorrect email or password. Please try again.'; setLoading('loginBtn', false); return; }
+  function getStoredName() {
     try {
-      const r = await fetch('/api/auth/login', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: user.email }),
-      });
-      const d = await r.json();
-      setSession(user.name, user.email, d.token || null);
-    } catch {
-      setSession(user.name, user.email, null);
-    }
+      const s = JSON.parse(localStorage.getItem('ielts_session'));
+      return (s && s.name) ? s.name : null;
+    } catch { return null; }
   }
 
-  // ── Register — sends verification code ──
-  let pendingRegistration = null;
-  let resendInterval = null;
+  function showStep(n) {
+    document.querySelectorAll('.step').forEach(el => el.classList.remove('active'));
+    document.getElementById('step' + n).classList.add('active');
+  }
 
-  async function doRegister() {
-    const first    = document.getElementById('regFirst').value.trim();
-    const last     = document.getElementById('regLast').value.trim();
-    const email    = document.getElementById('regEmail').value.trim();
-    const password = document.getElementById('regPassword').value;
-    const errEl    = document.getElementById('regError');
+  function setBtn(id, loading, label) {
+    const btn = document.getElementById(id);
+    btn.disabled = loading;
+    btn.textContent = loading ? 'Please wait…' : label;
+  }
+
+  // ── Step 1: Send OTP ─────────────────────────────────────────────────────────
+  async function sendCode() {
+    const email = document.getElementById('emailInput').value.trim();
+    const errEl = document.getElementById('step1Error');
     errEl.textContent = '';
 
-    if (!first || !email || !password) { errEl.textContent = 'Please fill in all required fields.'; return; }
+    if (!email) { errEl.textContent = 'Please enter your email address.'; return; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errEl.textContent = 'Please enter a valid email address.'; return; }
-    if (password.length < 8) { errEl.textContent = 'Password must be at least 8 characters.'; return; }
-    if (getUsers().find(u => u.email === email)) { errEl.textContent = 'An account with this email already exists.'; return; }
 
-    setLoading('registerBtn', true);
+    setBtn('sendBtn', true, 'Send code');
     try {
       const res = await fetch('/api/auth/send-verification', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to send verification email.');
-      pendingRegistration = { name: first + (last ? ' ' + last : ''), email, password };
-      setLoading('registerBtn', false);
-      showVerifyPanel(email);
+      if (!res.ok) throw new Error(data.error || 'Failed to send code. Please try again.');
+
+      pendingEmail = email;
+      document.getElementById('emailDisplay').textContent = email;
+      document.getElementById('codeInput').value = '';
+      document.getElementById('step2Error').textContent = '';
+
+      // Show name field only if no name already stored
+      isNewUser = !getStoredName();
+      document.getElementById('nameField').style.display = isNewUser ? 'block' : 'none';
+
+      showStep(2);
+      startResendCooldown(60);
+      setTimeout(() => {
+        const focus = isNewUser ? document.getElementById('nameInput') : document.getElementById('codeInput');
+        focus.focus();
+      }, 100);
     } catch (err) {
       errEl.textContent = err.message;
-      setLoading('registerBtn', false);
+    } finally {
+      setBtn('sendBtn', false, 'Send code');
     }
   }
 
-  // ── Verification panel ──
-  function showVerifyPanel(email) {
-    document.getElementById('panelLogin').classList.remove('active');
-    document.getElementById('panelRegister').classList.remove('active');
-    document.getElementById('panelVerify').classList.add('active');
-    document.getElementById('tabs').style.display = 'none';
-    document.getElementById('formFooterNote').style.display = 'none';
-    document.getElementById('formTitle').textContent = 'Check your email';
-    document.getElementById('formSubtitle').textContent = 'Enter the 6-digit code we just sent you.';
-    document.getElementById('verifyEmailDisplay').textContent = email;
-    document.getElementById('verifyCode').value = '';
-    document.getElementById('verifyError').textContent = '';
-    setTimeout(() => document.getElementById('verifyCode').focus(), 100);
-    startResendCooldown(60);
+  // ── Step 2: Verify OTP ───────────────────────────────────────────────────────
+  async function verifyCode() {
+    const code  = document.getElementById('codeInput').value.trim();
+    const errEl = document.getElementById('step2Error');
+    errEl.textContent = '';
+
+    if (!code || code.length !== 6) { errEl.textContent = 'Please enter the 6-digit code.'; return; }
+
+    setBtn('verifyBtn', true, 'Sign in');
+    try {
+      const res = await fetch('/api/auth/verify-code', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: pendingEmail, code }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Incorrect code. Please try again.');
+
+      // Determine name: entered > previously stored > email prefix
+      const enteredName = document.getElementById('nameInput').value.trim();
+      const storedName  = getStoredName();
+      const name = enteredName || storedName || pendingEmail.split('@')[0];
+
+      // Save session
+      localStorage.setItem('ielts_session', JSON.stringify({ name, email: pendingEmail }));
+      if (data.token) localStorage.setItem('ielts_auth_token', data.token);
+
+      window.location.replace(getRedirect());
+    } catch (err) {
+      errEl.textContent = err.message;
+      setBtn('verifyBtn', false, 'Sign in');
+    }
+  }
+
+  // ── Resend code ──────────────────────────────────────────────────────────────
+  async function resendCode() {
+    const errEl = document.getElementById('step2Error');
+    errEl.className = 'msg';
+    errEl.textContent = '';
+    try {
+      const res = await fetch('/api/auth/send-verification', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: pendingEmail }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || 'Failed to resend.');
+      errEl.className = 'msg success';
+      errEl.textContent = 'New code sent!';
+      startResendCooldown(60);
+      setTimeout(() => { errEl.textContent = ''; errEl.className = 'msg'; }, 3000);
+    } catch (err) {
+      errEl.className = 'msg error';
+      errEl.textContent = err.message;
+    }
   }
 
   function startResendCooldown(seconds) {
     clearInterval(resendInterval);
-    const link = document.getElementById('resendLink');
+    const link  = document.getElementById('resendLink');
     const timer = document.getElementById('resendTimer');
-    link.style.pointerEvents = 'none'; link.style.opacity = '0.4';
+    link.style.pointerEvents = 'none';
+    link.style.opacity = '0.4';
     let remaining = seconds;
     timer.textContent = ` (${remaining}s)`;
     resendInterval = setInterval(() => {
       remaining--;
       if (remaining <= 0) {
         clearInterval(resendInterval);
-        link.style.pointerEvents = ''; link.style.opacity = '';
+        link.style.pointerEvents = '';
+        link.style.opacity = '';
         timer.textContent = '';
       } else {
         timer.textContent = ` (${remaining}s)`;
@@ -735,182 +551,20 @@
     }, 1000);
   }
 
-  async function submitVerification() {
-    const code  = document.getElementById('verifyCode').value.trim();
-    const errEl = document.getElementById('verifyError');
-    errEl.textContent = ''; errEl.style.color = '';
-    if (!code || code.length !== 6) { errEl.textContent = 'Please enter the 6-digit code.'; return; }
-    if (!pendingRegistration) { errEl.textContent = 'Session expired. Please start registration again.'; return; }
-    setLoading('verifyBtn', true);
+  function goBack() {
+    clearInterval(resendInterval);
+    document.getElementById('step2Error').textContent = '';
+    showStep(1);
+    setTimeout(() => document.getElementById('emailInput').focus(), 100);
+  }
+
+  // If already logged in, skip login page
+  (function() {
     try {
-      const res = await fetch('/api/auth/verify-code', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: pendingRegistration.email, code }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Verification failed.');
-      const users = getUsers();
-      users.push(pendingRegistration);
-      saveUsers(users);
-      setSession(pendingRegistration.name, pendingRegistration.email, data.token || null);
-    } catch (err) {
-      errEl.textContent = err.message;
-      setLoading('verifyBtn', false);
-    }
-  }
-
-  async function resendCode() {
-    if (!pendingRegistration) return;
-    const errEl = document.getElementById('verifyError');
-    errEl.textContent = ''; errEl.style.color = '';
-    try {
-      const res = await fetch('/api/auth/send-verification', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: pendingRegistration.email }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to resend.');
-      startResendCooldown(60);
-      errEl.style.color = 'var(--success)';
-      errEl.textContent = 'New code sent!';
-      setTimeout(() => { errEl.textContent = ''; errEl.style.color = ''; }, 3000);
-    } catch (err) {
-      errEl.textContent = err.message;
-    }
-  }
-
-  // ── Google Sign-In ──
-  function initGoogle() {
-    if (!window.google || GOOGLE_CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com') return;
-    google.accounts.id.initialize({ client_id: GOOGLE_CLIENT_ID, callback: handleGoogleCredential, auto_select: false });
-  }
-  async function handleGoogleCredential(response) {
-    const payload = JSON.parse(atob(response.credential.split('.')[1]));
-    const users   = getUsers();
-    if (!users.find(u => u.email === payload.email)) {
-      users.push({ name: payload.name, email: payload.email, password: null, provider: 'google' });
-      saveUsers(users);
-    }
-    try {
-      const r = await fetch('/api/auth/login', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: payload.email }),
-      });
-      const d = await r.json();
-      setSession(payload.name, payload.email, d.token || null);
-    } catch {
-      setSession(payload.name, payload.email, null);
-    }
-  }
-  function signInWithGoogle() {
-    if (!window.google || GOOGLE_CLIENT_ID === 'YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com') {
-      alert('Google Sign-In is not configured yet. Please use email/password login.');
-      return;
-    }
-    google.accounts.id.prompt();
-  }
-
-  // ── Forgot Password Modal ──
-  let fpEmail = '';
-
-  function fpShowStep(n) {
-    [1,2,3,4].forEach(i => document.getElementById('fpStep'+i).style.display = i === n ? 'block' : 'none');
-  }
-
-  function openForgotModal() {
-    fpEmail = '';
-    document.getElementById('fpEmail').value = document.getElementById('loginEmail').value;
-    document.getElementById('fpError').textContent = '';
-    fpShowStep(1);
-    document.getElementById('forgotModal').classList.add('open');
-    setTimeout(() => document.getElementById('fpEmail').focus(), 100);
-  }
-
-  function closeForgotModal() {
-    document.getElementById('forgotModal').classList.remove('open');
-  }
-
-  function fpBackToStep1() {
-    document.getElementById('fpError').textContent = '';
-    fpShowStep(1);
-  }
-
-  async function sendResetCode() {
-    const email = document.getElementById('fpEmail').value.trim();
-    const errEl = document.getElementById('fpError');
-    errEl.textContent = '';
-    if (!email) { errEl.textContent = 'Please enter your email address.'; return; }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errEl.textContent = 'Please enter a valid email address.'; return; }
-
-    const user = getUsers().find(u => u.email === email);
-    if (!user) { errEl.textContent = 'No account found with this email address.'; return; }
-
-    const btn = document.getElementById('fpSendBtn');
-    btn.disabled = true; btn.textContent = 'Sending…';
-    try {
-      const res = await fetch('/api/auth/send-verification', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Failed to send code.');
-      fpEmail = email;
-      document.getElementById('fpSentEmail').textContent = email;
-      document.getElementById('fpCode').value = '';
-      document.getElementById('fpCodeError').textContent = '';
-      fpShowStep(2);
-      setTimeout(() => document.getElementById('fpCode').focus(), 100);
-    } catch (err) {
-      errEl.textContent = err.message;
-    } finally {
-      btn.disabled = false; btn.textContent = 'Send Code';
-    }
-  }
-
-  async function verifyResetCode() {
-    const code  = document.getElementById('fpCode').value.trim();
-    const errEl = document.getElementById('fpCodeError');
-    errEl.textContent = '';
-    if (!code || code.length !== 6) { errEl.textContent = 'Please enter the 6-digit code.'; return; }
-
-    const btn = document.getElementById('fpVerifyBtn');
-    btn.disabled = true; btn.textContent = 'Verifying…';
-    try {
-      const res = await fetch('/api/auth/verify-code', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: fpEmail, code }),
-      });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error || 'Incorrect code.');
-      document.getElementById('fpNewPassword').value = '';
-      document.getElementById('fpConfirmPassword').value = '';
-      document.getElementById('fpPasswordError').textContent = '';
-      fpShowStep(3);
-      setTimeout(() => document.getElementById('fpNewPassword').focus(), 100);
-    } catch (err) {
-      errEl.textContent = err.message;
-    } finally {
-      btn.disabled = false; btn.textContent = 'Verify Code';
-    }
-  }
-
-  function submitNewPassword() {
-    const pw1   = document.getElementById('fpNewPassword').value;
-    const pw2   = document.getElementById('fpConfirmPassword').value;
-    const errEl = document.getElementById('fpPasswordError');
-    errEl.textContent = '';
-    if (pw1.length < 8) { errEl.textContent = 'Password must be at least 8 characters.'; return; }
-    if (pw1 !== pw2)    { errEl.textContent = 'Passwords do not match.'; return; }
-
-    const users = getUsers();
-    const idx   = users.findIndex(u => u.email === fpEmail);
-    if (idx === -1) { errEl.textContent = 'Account not found. Please try again.'; return; }
-    users[idx].password = pw1;
-    saveUsers(users);
-    fpShowStep(4);
-  }
-  document.getElementById('forgotModal').addEventListener('click', function(e) { if (e.target === this) closeForgotModal(); });
-  window.addEventListener('load', initGoogle);
+      const s = JSON.parse(localStorage.getItem('ielts_session'));
+      if (s && s.name) window.location.replace(getRedirect());
+    } catch {}
+  })();
 </script>
 </body>
 </html>
