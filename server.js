@@ -680,11 +680,11 @@ app.post('/api/onboarding', requireAuth, async (req, res) => {
   if (!full_name) return res.status(400).json({ error: 'Full name is required.' });
 
   try {
-    const user = await getOrCreateUser(email, full_name).catch(() => null);
-    if (!user) return res.status(500).json({ error: 'Could not find user.' });
-
+    // Save to DB only if available — email is sent regardless
     if (db) {
-      await db.query(`
+      const user = await getOrCreateUser(email, full_name).catch(() => null);
+      if (user) {
+        await db.query(`
         INSERT INTO onboarding (user_id, full_name, phone, country, age, current_band, target_band, exam_date, main_skill, ielts_reason, referral_source)
         VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
         ON CONFLICT (user_id) DO UPDATE SET
@@ -695,6 +695,7 @@ app.post('/api/onboarding', requireAuth, async (req, res) => {
       `, [user.id, full_name, phone||null, country||null, age?parseInt(age):null,
           current_band||null, target_band||null, exam_date||null,
           main_skill||null, ielts_reason||null, referral_source||null]);
+      }
     }
 
     function row(label, value) {
