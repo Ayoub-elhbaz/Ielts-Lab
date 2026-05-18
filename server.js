@@ -558,17 +558,27 @@ app.post('/api/auth/send-verification', async (req, res) => {
 
   if (db) {
     const norm = email.toLowerCase().trim();
-    const existing = await db.query('SELECT id FROM users WHERE email=$1', [norm]).catch(() => ({ rows: [] }));
-    const userExists = existing.rows.length > 0;
+    try {
+      const existing = await db.query('SELECT id FROM users WHERE email=$1', [norm]);
+      const userExists = existing.rows.length > 0;
+      console.log(`[send-verification] email=${norm} mode=${mode} userExists=${userExists}`);
 
-    // Sign-in: reject unknown emails
-    if (mode === 'signin' && !userExists) {
-      return res.status(404).json({ error: 'No account found with this email. Please create an account first.', no_account: true });
+      if (mode === 'signin' && !userExists) {
+        return res.status(404).json({ error: 'No account found with this email. Please create an account first.', no_account: true });
+      }
+      if (mode === 'signup' && userExists) {
+        return res.status(409).json({ error: 'An account with this email already exists. Please sign in instead.', account_exists: true });
+      }
+    } catch (dbErr) {
+      console.error('[send-verification] DB check failed:', dbErr.message);
+      // For signup: fail closed — block if we can't confirm user doesn't exist
+      if (mode === 'signup') {
+        return res.status(503).json({ error: 'Unable to verify account status. Please try again.' });
+      }
+      // For signin: fail open — allow the attempt
     }
-    // Sign-up: reject emails that already have an account
-    if (mode === 'signup' && userExists) {
-      return res.status(409).json({ error: 'An account with this email already exists. Please sign in instead.', account_exists: true });
-    }
+  } else {
+    console.warn('[send-verification] No DB — skipping account existence check');
   }
 
   const code      = String(Math.floor(100000 + Math.random() * 900000));
@@ -654,7 +664,11 @@ app.post('/api/auth/verify-code', async (req, res) => {
 
   // Upsert user in DB and return plan info
   const name = record.name || null;
-  const user = await getOrCreateUser(emailKey, name).catch(() => null);
+  const user = await getOrCreateUser(emailKey, name).catch(err => {
+    console.error(`[verify-code] getOrCreateUser failed for ${emailKey}:`, err.message);
+    return null;
+  });
+  if (!user) console.warn(`[verify-code] User NOT saved to DB for ${emailKey} — signup check will not work`);
   const planInfo = user ? await getUserPlan(emailKey).catch(() => null) : null;
   let onboardingDone = false;
   if (db && user) {
