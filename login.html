@@ -402,12 +402,6 @@
         </p>
 
         <form onsubmit="verifyCode(); return false;">
-          <div class="field" id="nameField" style="display:none;">
-            <label for="nameInput">Your first name</label>
-            <input type="text" id="nameInput" placeholder="e.g. Ayoub" autocomplete="given-name" maxlength="60" />
-            <p class="field-hint">First-time here? Let us know your name.</p>
-          </div>
-
           <div class="field">
             <label for="codeInput" style="text-align:center;display:block;">Verification code</label>
             <input type="text" id="codeInput" placeholder="000000" maxlength="6"
@@ -512,10 +506,6 @@
       document.getElementById('codeInput').value = '';
       document.getElementById('step2Error').textContent = '';
 
-      // Show name field only if no name already stored
-      isNewUser = !getStoredName();
-      document.getElementById('nameField').style.display = isNewUser ? 'block' : 'none';
-
       showStep(2);
       startResendCooldown(60);
       setTimeout(() => {
@@ -547,10 +537,9 @@
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Incorrect code. Please try again.');
 
-      // Determine name: entered > previously stored > email prefix
-      const enteredName = document.getElementById('nameInput').value.trim();
-      const storedName  = getStoredName();
-      const name = enteredName || storedName || pendingEmail.split('@')[0];
+      // Determine name: previously stored > email prefix
+      const storedName = getStoredName();
+      const name = storedName || pendingEmail.split('@')[0];
 
       // Save session
       localStorage.setItem('ielts_session', JSON.stringify({ name, email: pendingEmail }));
