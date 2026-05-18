@@ -504,6 +504,11 @@
         setBtn('sendBtn', false, 'Send code');
         return;
       }
+      if (res.status === 409 && data.account_exists) {
+        errEl.innerHTML = 'This email already has an account. <a onclick="switchMode(\'signin\')" style="color:var(--royal-blue);font-weight:600;cursor:pointer;text-decoration:underline;">Sign in instead</a>.';
+        setBtn('sendBtn', false, 'Send code');
+        return;
+      }
       if (!res.ok) throw new Error(data.error || 'Failed to send code. Please try again.');
 
       pendingEmail = email;

@@ -141,7 +141,7 @@
 
         <div class="field-row">
           <div class="field" style="margin-bottom:0;">
-            <label for="currentBand">Current band score</label>
+            <label for="currentBand">Current band score <span style="color:#C53030;">*</span></label>
             <select id="currentBand">
               <option value="">Select…</option>
               <option value="Haven't taken it yet">Haven't taken it yet</option>
@@ -158,7 +158,7 @@
             </select>
           </div>
           <div class="field" style="margin-bottom:0;">
-            <label for="targetBand">Target band score</label>
+            <label for="targetBand">Target band score <span style="color:#C53030;">*</span></label>
             <select id="targetBand">
               <option value="">Select…</option>
               <option value="5.5">5.5</option>
@@ -186,7 +186,7 @@
         </div>
 
         <div class="field">
-          <label>Main skill to improve</label>
+          <label>Main skill to improve <span style="color:#C53030;">*</span></label>
           <div class="chip-group" id="skillChips">
             <label class="chip"><input type="radio" name="skill" value="Listening" onchange="selectChip('skillChips',this)"> 🎧 Listening</label>
             <label class="chip"><input type="radio" name="skill" value="Reading" onchange="selectChip('skillChips',this)"> 📖 Reading</label>
@@ -210,7 +210,7 @@
         <p class="step-sub">Two last quick questions.</p>
 
         <div class="field">
-          <label>Why do you need IELTS?</label>
+          <label>Why do you need IELTS? <span style="color:#C53030;">*</span></label>
           <div class="chip-group" id="reasonChips">
             <label class="chip"><input type="radio" name="reason" value="Study abroad" onchange="selectChip('reasonChips',this)"> 🎓 Study abroad</label>
             <label class="chip"><input type="radio" name="reason" value="Work visa" onchange="selectChip('reasonChips',this)"> 💼 Work visa</label>
@@ -286,11 +286,21 @@
   };
 
   function goStep(n) {
-    // Validate before leaving
-    if (n > 1) {
+    // Validate step 1 before moving forward
+    if (n === 2) {
       const name = document.getElementById('fullName').value.trim();
-      if (!name) { document.getElementById('err1').textContent = 'Please enter your full name.'; if (n > 1) { goStepRaw(1); return; } }
-      else document.getElementById('err1').textContent = '';
+      if (!name) { document.getElementById('err1').textContent = 'Please enter your full name.'; return; }
+      document.getElementById('err1').textContent = '';
+    }
+    // Validate step 2 before moving to step 3
+    if (n === 3) {
+      const current = document.getElementById('currentBand').value;
+      const target  = document.getElementById('targetBand').value;
+      const skill   = document.querySelector('input[name="skill"]:checked');
+      if (!current) { document.getElementById('err2').textContent = 'Please select your current band score.'; return; }
+      if (!target)  { document.getElementById('err2').textContent = 'Please select your target band score.'; return; }
+      if (!skill)   { document.getElementById('err2').textContent = 'Please select the main skill you want to improve.'; return; }
+      document.getElementById('err2').textContent = '';
     }
     goStepRaw(n);
   }
@@ -325,6 +335,10 @@
     const referral_source = document.getElementById('referral').value;
 
     if (!full_name) { goStepRaw(1); document.getElementById('err1').textContent = 'Please enter your full name.'; return; }
+    if (!document.getElementById('currentBand').value) { goStepRaw(2); document.getElementById('err2').textContent = 'Please select your current band score.'; return; }
+    if (!document.getElementById('targetBand').value)  { goStepRaw(2); document.getElementById('err2').textContent = 'Please select your target band score.'; return; }
+    if (!main_skill)   { goStepRaw(2); document.getElementById('err2').textContent = 'Please select the main skill you want to improve.'; return; }
+    if (!ielts_reason) { document.getElementById('err3').textContent = 'Please select why you need IELTS.'; return; }
 
     const btn = document.getElementById('submitBtn');
     btn.disabled = true; btn.textContent = 'Saving…';

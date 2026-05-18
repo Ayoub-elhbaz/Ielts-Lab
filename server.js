@@ -556,11 +556,18 @@ app.post('/api/auth/send-verification', async (req, res) => {
     return res.status(400).json({ error: 'A valid email address is required.' });
   }
 
-  // Sign-in mode: reject emails that don't have an account yet
-  if (mode === 'signin' && db) {
-    const existing = await db.query('SELECT id FROM users WHERE email=$1', [email.toLowerCase().trim()]).catch(() => ({ rows: [1] }));
-    if (existing.rows.length === 0) {
+  if (db) {
+    const norm = email.toLowerCase().trim();
+    const existing = await db.query('SELECT id FROM users WHERE email=$1', [norm]).catch(() => ({ rows: [] }));
+    const userExists = existing.rows.length > 0;
+
+    // Sign-in: reject unknown emails
+    if (mode === 'signin' && !userExists) {
       return res.status(404).json({ error: 'No account found with this email. Please create an account first.', no_account: true });
+    }
+    // Sign-up: reject emails that already have an account
+    if (mode === 'signup' && userExists) {
+      return res.status(409).json({ error: 'An account with this email already exists. Please sign in instead.', account_exists: true });
     }
   }
 
