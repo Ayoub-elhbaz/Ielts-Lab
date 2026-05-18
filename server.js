@@ -662,6 +662,13 @@ app.post('/api/auth/verify-code', async (req, res) => {
   codeAttempts.delete(emailKey);
   console.log(`[verify-code] Verified: ${emailKey} from ${requestIp}`);
 
+  // Check if user already existed BEFORE upsert (used to detect duplicate signups)
+  let alreadyExisted = false;
+  if (db) {
+    const precheck = await db.query('SELECT id FROM users WHERE email=$1', [emailKey]).catch(() => null);
+    alreadyExisted = precheck && precheck.rows.length > 0;
+  }
+
   // Upsert user in DB and return plan info
   const name = record.name || null;
   const user = await getOrCreateUser(emailKey, name).catch(err => {
@@ -675,7 +682,7 @@ app.post('/api/auth/verify-code', async (req, res) => {
     const ob = await db.query('SELECT id FROM onboarding WHERE user_id=$1', [user.id]).catch(() => ({ rows: [] }));
     onboardingDone = ob.rows.length > 0;
   }
-  res.json({ success: true, token: generateAuthToken(emailKey), plan: planInfo?.plan || 'free', credits: planInfo?.credits || 0, onboarding_done: onboardingDone });
+  res.json({ success: true, token: generateAuthToken(emailKey), plan: planInfo?.plan || 'free', credits: planInfo?.credits || 0, onboarding_done: onboardingDone, already_existed: alreadyExisted });
 });
 
 // POST /api/auth/login — issue session token for password/Google sign-in

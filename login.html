@@ -547,6 +547,14 @@
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Incorrect code. Please try again.');
 
+      // Block existing users from completing signup
+      if (currentMode === 'signup' && data.already_existed) {
+        const errEl2 = document.getElementById('step2Error');
+        errEl2.innerHTML = 'This email already has an account. <a onclick="goBack();switchMode(\'signin\')" style="color:var(--royal-blue);font-weight:600;cursor:pointer;text-decoration:underline;">Sign in instead</a>.';
+        setBtn('verifyBtn', false, 'Sign in');
+        return;
+      }
+
       // Determine name: previously stored > email prefix
       const storedName = getStoredName();
       const name = storedName || pendingEmail.split('@')[0];
