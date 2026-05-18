@@ -74,8 +74,20 @@ async function initDB() {
       phone TEXT,
       country TEXT,
       age INTEGER,
+      current_band TEXT,
+      target_band TEXT,
+      exam_date TEXT,
+      main_skill TEXT,
+      ielts_reason TEXT,
+      referral_source TEXT,
       submitted_at TIMESTAMPTZ DEFAULT NOW()
     );
+    ALTER TABLE onboarding ADD COLUMN IF NOT EXISTS current_band TEXT;
+    ALTER TABLE onboarding ADD COLUMN IF NOT EXISTS target_band TEXT;
+    ALTER TABLE onboarding ADD COLUMN IF NOT EXISTS exam_date TEXT;
+    ALTER TABLE onboarding ADD COLUMN IF NOT EXISTS main_skill TEXT;
+    ALTER TABLE onboarding ADD COLUMN IF NOT EXISTS ielts_reason TEXT;
+    ALTER TABLE onboarding ADD COLUMN IF NOT EXISTS referral_source TEXT;
   `);
   console.log('[db] Schema ready');
 }
@@ -648,9 +660,22 @@ app.post('/api/auth/login', authLimiter, async (req, res) => {
   res.json({ token: generateAuthToken(norm), plan: planInfo?.plan || 'free', credits: planInfo?.credits || 0 });
 });
 
+// GET /api/onboarding/status ──────────────────────────────────────────────────
+app.get('/api/onboarding/status', requireAuth, async (req, res) => {
+  if (!db) return res.json({ done: true }); // no DB = skip onboarding gate
+  try {
+    const user = await getOrCreateUser(req.userEmail, null).catch(() => null);
+    if (!user) return res.json({ done: false });
+    const r = await db.query('SELECT id FROM onboarding WHERE user_id=$1', [user.id]);
+    res.json({ done: r.rows.length > 0 });
+  } catch {
+    res.json({ done: true }); // fail open so users aren't stuck
+  }
+});
+
 // POST /api/onboarding ────────────────────────────────────────────────────────
 app.post('/api/onboarding', requireAuth, async (req, res) => {
-  const { full_name, phone, country, age } = req.body;
+  const { full_name, phone, country, age, current_band, target_band, exam_date, main_skill, ielts_reason, referral_source } = req.body;
   const email = req.userEmail;
   if (!full_name) return res.status(400).json({ error: 'Full name is required.' });
 
@@ -660,15 +685,25 @@ app.post('/api/onboarding', requireAuth, async (req, res) => {
 
     if (db) {
       await db.query(`
-        INSERT INTO onboarding (user_id, full_name, phone, country, age)
-        VALUES ($1,$2,$3,$4,$5)
-        ON CONFLICT (user_id) DO UPDATE
-          SET full_name=$2, phone=$3, country=$4, age=$5, submitted_at=NOW()
-      `, [user.id, full_name, phone || null, country || null, age ? parseInt(age) : null]);
+        INSERT INTO onboarding (user_id, full_name, phone, country, age, current_band, target_band, exam_date, main_skill, ielts_reason, referral_source)
+        VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
+        ON CONFLICT (user_id) DO UPDATE SET
+          full_name=$2, phone=$3, country=$4, age=$5,
+          current_band=$6, target_band=$7, exam_date=$8,
+          main_skill=$9, ielts_reason=$10, referral_source=$11,
+          submitted_at=NOW()
+      `, [user.id, full_name, phone||null, country||null, age?parseInt(age):null,
+          current_band||null, target_band||null, exam_date||null,
+          main_skill||null, ielts_reason||null, referral_source||null]);
     }
 
-    // Email notification to Ayoub
-    const ageDisplay = age ? `${age} years old` : 'Not provided';
+    function row(label, value) {
+      return `<tr><td style="padding:10px 0;border-bottom:1px solid #E2DDD5;">
+        <span style="font-size:12px;color:#A0AEC0;text-transform:uppercase;letter-spacing:0.05em;">${label}</span><br/>
+        <span style="font-size:15px;color:#1C1C2E;font-weight:500;">${value || 'Not provided'}</span>
+      </td></tr>`;
+    }
+
     const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"></head>
     <body style="margin:0;padding:0;background:#f8f6f1;font-family:'Helvetica Neue',Arial,sans-serif;">
       <table width="100%" cellpadding="0" cellspacing="0" style="background:#f8f6f1;padding:40px 16px;">
@@ -676,31 +711,22 @@ app.post('/api/onboarding', requireAuth, async (req, res) => {
           <table width="520" cellpadding="0" cellspacing="0" style="max-width:520px;width:100%;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
             <tr><td style="background:#1C1C2E;padding:28px 36px;text-align:center;">
               <div style="font-family:Georgia,serif;font-size:22px;font-weight:700;color:#F8F6F1;">IELTS <span style="color:#B8860B;">Lab</span></div>
-              <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:4px;letter-spacing:0.1em;text-transform:uppercase;">New User Registration</div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:4px;letter-spacing:0.1em;text-transform:uppercase;">New Student Profile</div>
             </td></tr>
             <tr><td style="padding:36px;">
-              <p style="font-size:16px;font-weight:600;color:#1C1C2E;margin:0 0 20px;">A new student just joined IELTS Lab 🎉</p>
+              <p style="font-size:16px;font-weight:600;color:#1C1C2E;margin:0 0 20px;">New student joined IELTS Lab 🎉</p>
               <table width="100%" cellpadding="0" cellspacing="0">
-                <tr><td style="padding:10px 0;border-bottom:1px solid #E2DDD5;">
-                  <span style="font-size:13px;color:#A0AEC0;text-transform:uppercase;letter-spacing:0.05em;">Full Name</span><br/>
-                  <span style="font-size:15px;color:#1C1C2E;font-weight:500;">${full_name}</span>
-                </td></tr>
-                <tr><td style="padding:10px 0;border-bottom:1px solid #E2DDD5;">
-                  <span style="font-size:13px;color:#A0AEC0;text-transform:uppercase;letter-spacing:0.05em;">Email</span><br/>
-                  <span style="font-size:15px;color:#1C1C2E;font-weight:500;">${email}</span>
-                </td></tr>
-                <tr><td style="padding:10px 0;border-bottom:1px solid #E2DDD5;">
-                  <span style="font-size:13px;color:#A0AEC0;text-transform:uppercase;letter-spacing:0.05em;">Phone</span><br/>
-                  <span style="font-size:15px;color:#1C1C2E;font-weight:500;">${phone || 'Not provided'}</span>
-                </td></tr>
-                <tr><td style="padding:10px 0;border-bottom:1px solid #E2DDD5;">
-                  <span style="font-size:13px;color:#A0AEC0;text-transform:uppercase;letter-spacing:0.05em;">Country</span><br/>
-                  <span style="font-size:15px;color:#1C1C2E;font-weight:500;">${country || 'Not provided'}</span>
-                </td></tr>
-                <tr><td style="padding:10px 0;">
-                  <span style="font-size:13px;color:#A0AEC0;text-transform:uppercase;letter-spacing:0.05em;">Age</span><br/>
-                  <span style="font-size:15px;color:#1C1C2E;font-weight:500;">${ageDisplay}</span>
-                </td></tr>
+                ${row('Full Name', full_name)}
+                ${row('Email', email)}
+                ${row('Phone', phone)}
+                ${row('Country', country)}
+                ${row('Age', age ? age + ' years old' : null)}
+                ${row('Current Band Score', current_band)}
+                ${row('Target Band Score', target_band)}
+                ${row('Exam Date', exam_date)}
+                ${row('Main Skill to Improve', main_skill)}
+                ${row('Why They Need IELTS', ielts_reason)}
+                ${row('How They Found IELTS Lab', referral_source)}
               </table>
               <p style="font-size:12px;color:#A0AEC0;margin:24px 0 0;">Submitted at ${new Date().toUTCString()}</p>
             </td></tr>

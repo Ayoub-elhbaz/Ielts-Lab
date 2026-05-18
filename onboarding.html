@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcome to IELTS Lab — Tell us about yourself</title>
+  <title>Welcome to IELTS Lab — Quick Setup</title>
   <meta name="robots" content="noindex, nofollow" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,245 +11,81 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --primary-bg: #F8F6F1;
+      --bg: #F8F6F1;
       --white: #FFFFFF;
-      --primary-text: #1C1C2E;
-      --secondary-text: #4A5568;
-      --royal-blue: #2C4A8F;
-      --royal-blue-hover: #1a3370;
+      --text: #1C1C2E;
+      --muted: #4A5568;
+      --blue: #2C4A8F;
+      --blue-h: #1a3370;
       --gold: #B8860B;
       --border: #E2DDD5;
       --success: #276749;
       --error: #C53030;
     }
-    html, body {
-      min-height: 100vh;
-      background: var(--primary-bg);
-      color: var(--primary-text);
-      font-family: 'Source Sans 3', system-ui, sans-serif;
-      font-size: 16px;
-      line-height: 1.8;
-      -webkit-font-smoothing: antialiased;
-    }
+    html, body { min-height: 100vh; background: var(--bg); color: var(--text); font-family: 'Source Sans 3', system-ui, sans-serif; font-size: 16px; line-height: 1.8; -webkit-font-smoothing: antialiased; }
 
-    .page {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 3rem 1.5rem;
-    }
+    .page { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem 1.5rem; }
 
-    .card {
-      width: 100%;
-      max-width: 500px;
-      background: var(--white);
-      border-radius: 1.25rem;
-      box-shadow: 0 8px 40px rgba(0,0,0,0.08);
-      overflow: hidden;
-    }
+    .card { width: 100%; max-width: 540px; background: var(--white); border-radius: 1.25rem; box-shadow: 0 8px 40px rgba(0,0,0,0.08); overflow: hidden; }
 
-    /* Header */
-    .card-header {
-      background: #1C1C2E;
-      padding: 2rem 2.5rem;
-      text-align: center;
-    }
-    .card-logo {
-      font-family: 'Lora', serif;
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: #F8F6F1;
-    }
+    .card-header { background: #1C1C2E; padding: 1.75rem 2.5rem; display: flex; align-items: center; justify-content: space-between; }
+    .card-logo { font-family: 'Lora', serif; font-size: 1.3rem; font-weight: 700; color: #F8F6F1; }
     .card-logo span { color: #B8860B; }
-    .card-header-sub {
-      font-size: 0.75rem;
-      color: rgba(255,255,255,0.4);
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      margin-top: 4px;
-    }
+    .card-progress-text { font-size: 0.75rem; color: rgba(255,255,255,0.4); letter-spacing: 0.08em; text-transform: uppercase; }
 
-    /* Body */
+    .progress-bar-wrap { height: 3px; background: rgba(255,255,255,0.08); }
+    .progress-bar { height: 100%; background: #B8860B; transition: width 0.4s cubic-bezier(0.16,1,0.3,1); }
+
     .card-body { padding: 2.5rem; }
 
-    .welcome-icon {
-      width: 56px; height: 56px;
-      background: rgba(44,74,143,0.08);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 1.5rem;
-      margin: 0 auto 1.25rem;
-    }
-
-    .card-title {
-      font-family: 'Lora', serif;
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: var(--primary-text);
-      text-align: center;
-      margin-bottom: 0.5rem;
-      line-height: 1.3;
-    }
-    .card-subtitle {
-      font-size: 0.9375rem;
-      color: var(--secondary-text);
-      text-align: center;
-      margin-bottom: 2rem;
-      line-height: 1.6;
-    }
-
-    /* Progress dots */
-    .progress {
-      display: flex;
-      justify-content: center;
-      gap: 0.5rem;
-      margin-bottom: 2rem;
-    }
-    .dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      background: #E2DDD5;
-      transition: background 0.3s, transform 0.3s;
-    }
-    .dot.active { background: var(--royal-blue); transform: scale(1.3); }
-    .dot.done { background: var(--royal-blue); opacity: 0.4; }
-
-    /* Steps */
     .step { display: none; }
     .step.active { display: block; }
 
-    .step-label {
-      font-size: 0.75rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--royal-blue);
-      margin-bottom: 1.5rem;
-    }
+    .step-icon { width: 52px; height: 52px; background: rgba(44,74,143,0.08); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 1.25rem; }
+    .step-title { font-family: 'Lora', serif; font-size: 1.5rem; font-weight: 700; color: var(--text); margin-bottom: 0.4rem; line-height: 1.3; }
+    .step-sub { font-size: 0.9375rem; color: var(--muted); margin-bottom: 1.75rem; line-height: 1.6; }
 
-    /* Fields */
-    .field { margin-bottom: 1.25rem; }
-    label {
-      display: block;
-      font-size: 0.9375rem;
-      font-weight: 500;
-      color: var(--primary-text);
-      margin-bottom: 0.4rem;
+    .field { margin-bottom: 1.1rem; }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.1rem; }
+    @media (max-width: 480px) { .field-row { grid-template-columns: 1fr; } }
+    label { display: block; font-size: 0.9rem; font-weight: 500; color: var(--text); margin-bottom: 0.35rem; }
+    .opt { font-size: 0.8rem; color: #A0AEC0; font-weight: 400; margin-left: 0.3rem; }
+
+    input[type="text"], input[type="email"], input[type="tel"], input[type="date"], select {
+      width: 100%; padding: 0.7rem 1rem; border: 1.5px solid var(--border); border-radius: 0.5rem;
+      background: #fff; font-family: 'Source Sans 3', sans-serif; font-size: 0.9375rem;
+      color: var(--text); transition: border-color 0.2s, box-shadow 0.2s; outline: none; appearance: none;
     }
-    .label-optional {
-      font-size: 0.8125rem;
-      color: #A0AEC0;
-      font-weight: 400;
-      margin-left: 0.4rem;
-    }
-    input[type="text"],
-    input[type="email"],
-    input[type="tel"],
-    input[type="number"],
-    select {
-      width: 100%;
-      padding: 0.75rem 1rem;
-      border: 1.5px solid var(--border);
-      border-radius: 0.5rem;
-      background: #FFFFFF;
-      font-family: 'Source Sans 3', sans-serif;
-      font-size: 1rem;
-      color: var(--primary-text);
-      transition: border-color 0.2s, box-shadow 0.2s;
-      outline: none;
-      appearance: none;
-    }
-    input:focus, select:focus {
-      border-color: var(--royal-blue);
-      box-shadow: 0 0 0 3px rgba(44,74,143,0.12);
-    }
+    input:focus, select:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(44,74,143,0.12); }
     input::placeholder { color: #A0AEC0; }
-    input[readonly] {
-      background: #F8F6F1;
-      color: var(--secondary-text);
-      cursor: default;
-    }
+    input[readonly] { background: #F8F6F1; color: var(--muted); cursor: default; }
     select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234A5568' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 1rem center; padding-right: 2.5rem; }
 
-    /* Buttons */
-    .btn-row { display: flex; gap: 0.75rem; margin-top: 0.5rem; }
-    .btn-primary {
-      flex: 1;
-      padding: 0.875rem 1.5rem;
-      background: var(--royal-blue);
-      color: #FFFFFF;
-      border: none;
-      border-radius: 0.5rem;
-      font-family: 'Source Sans 3', sans-serif;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.15s;
-    }
-    .btn-primary:hover { background: var(--royal-blue-hover); transform: translateY(-1px); }
+    /* Skill chips */
+    .chip-group { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .chip { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.45rem 0.9rem; border: 1.5px solid var(--border); border-radius: 2rem; font-size: 0.875rem; font-weight: 500; color: var(--muted); cursor: pointer; transition: all 0.15s; background: #fff; user-select: none; }
+    .chip:hover { border-color: var(--blue); color: var(--blue); }
+    .chip.selected { border-color: var(--blue); background: rgba(44,74,143,0.08); color: var(--blue); font-weight: 600; }
+    .chip input { display: none; }
+
+    .btn-row { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+    .btn-primary { flex: 1; padding: 0.875rem 1.5rem; background: var(--blue); color: #fff; border: none; border-radius: 0.5rem; font-family: 'Source Sans 3', sans-serif; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background 0.2s, transform 0.15s; }
+    .btn-primary:hover { background: var(--blue-h); transform: translateY(-1px); }
     .btn-primary:active { transform: translateY(0); }
     .btn-primary:disabled { background: #A0AEC0; cursor: not-allowed; transform: none; }
-    .btn-back {
-      padding: 0.875rem 1.25rem;
-      background: transparent;
-      color: var(--secondary-text);
-      border: 1.5px solid var(--border);
-      border-radius: 0.5rem;
-      font-family: 'Source Sans 3', sans-serif;
-      font-size: 1rem;
-      cursor: pointer;
-      transition: border-color 0.2s, color 0.2s;
-    }
-    .btn-back:hover { border-color: #A0AEC0; color: var(--primary-text); }
+    .btn-back { padding: 0.875rem 1.25rem; background: transparent; color: var(--muted); border: 1.5px solid var(--border); border-radius: 0.5rem; font-family: 'Source Sans 3', sans-serif; font-size: 1rem; cursor: pointer; transition: border-color 0.2s, color 0.2s; }
+    .btn-back:hover { border-color: #A0AEC0; color: var(--text); }
 
-    /* Error */
-    .msg-error {
-      font-size: 0.875rem;
-      color: var(--error);
-      margin-top: 0.75rem;
-      min-height: 1.25rem;
-      display: block;
-    }
+    .msg-error { font-size: 0.875rem; color: var(--error); min-height: 1.25rem; margin-top: 0.5rem; display: block; }
 
-    /* Success screen */
     .success-screen { text-align: center; padding: 1rem 0; }
-    .success-icon {
-      width: 72px; height: 72px;
-      background: rgba(39,103,73,0.1);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 2rem;
-      margin: 0 auto 1.25rem;
-    }
-    .success-title {
-      font-family: 'Lora', serif;
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--success);
-      margin-bottom: 0.5rem;
-    }
-    .success-text {
-      font-size: 0.9375rem;
-      color: var(--secondary-text);
-      line-height: 1.7;
-      margin-bottom: 1.75rem;
-    }
+    .success-icon { width: 72px; height: 72px; background: rgba(39,103,73,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem; margin: 0 auto 1.25rem; }
+    .success-title { font-family: 'Lora', serif; font-size: 1.5rem; font-weight: 700; color: var(--success); margin-bottom: 0.5rem; }
+    .success-text { font-size: 0.9375rem; color: var(--muted); line-height: 1.7; margin-bottom: 1.75rem; }
 
-    /* Footer */
-    .card-footer {
-      padding: 1.25rem 2.5rem;
-      border-top: 1px solid var(--border);
-      text-align: center;
-      font-size: 0.8125rem;
-      color: #A0AEC0;
-    }
+    .card-footer { padding: 1rem 2.5rem; border-top: 1px solid var(--border); text-align: center; font-size: 0.8125rem; color: #A0AEC0; }
 
-    @media (max-width: 540px) {
-      .card-body { padding: 2rem 1.5rem; }
-      .card-footer { padding: 1.25rem 1.5rem; }
-    }
+    @media (max-width: 540px) { .card-body { padding: 2rem 1.5rem; } .card-footer { padding: 1rem 1.5rem; } }
   </style>
 </head>
 <body>
@@ -258,24 +94,20 @@
 
     <div class="card-header">
       <div class="card-logo">IELTS <span>Lab</span></div>
-      <div class="card-header-sub">Quick profile setup</div>
+      <div class="card-progress-text" id="progressText">Step 1 of 3</div>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar" id="progressBar" style="width:33%"></div>
     </div>
 
     <div class="card-body">
 
-      <div class="welcome-icon">👋</div>
-      <h1 class="card-title" id="cardTitle">Before you start</h1>
-      <p class="card-subtitle" id="cardSubtitle">Takes 30 seconds. Help us personalise your experience.</p>
-
-      <!-- Progress dots: 2 steps -->
-      <div class="progress">
-        <div class="dot active" id="dot0"></div>
-        <div class="dot" id="dot1"></div>
-      </div>
-
-      <!-- STEP 1: Name + Email -->
+      <!-- ── STEP 1: Personal info ── -->
       <div class="step active" id="step1">
-        <div class="step-label">Step 1 of 2 — Identity</div>
+        <div class="step-icon">👋</div>
+        <div class="step-title">Nice to meet you</div>
+        <p class="step-sub">Let's start with the basics.</p>
+
         <div class="field">
           <label for="fullName">Full name</label>
           <input type="text" id="fullName" placeholder="e.g. Ayoub El Hebaze" autocomplete="name" autofocus />
@@ -284,85 +116,154 @@
           <label for="emailDisplay">Email address</label>
           <input type="email" id="emailDisplay" readonly />
         </div>
+        <div class="field-row">
+          <div class="field" style="margin-bottom:0;">
+            <label for="phone">Phone <span class="opt">(optional)</span></label>
+            <input type="tel" id="phone" placeholder="+1 555 000 0000" autocomplete="tel" />
+          </div>
+          <div class="field" style="margin-bottom:0;">
+            <label for="age">Age <span class="opt">(optional)</span></label>
+            <input type="text" id="age" placeholder="e.g. 24" inputmode="numeric" />
+          </div>
+        </div>
+
         <span class="msg-error" id="err1"></span>
         <div class="btn-row">
-          <button class="btn-primary" id="btn1" onclick="goStep2()">Continue →</button>
+          <button class="btn-primary" onclick="goStep(2)">Continue →</button>
         </div>
       </div>
 
-      <!-- STEP 2: Phone + Country + Age -->
+      <!-- ── STEP 2: IELTS profile ── -->
       <div class="step" id="step2">
-        <div class="step-label">Step 2 of 2 — Details</div>
-        <div class="field">
-          <label for="phone">Phone number <span class="label-optional">(optional)</span></label>
-          <input type="tel" id="phone" placeholder="+1 555 000 0000" autocomplete="tel" />
+        <div class="step-icon">🎯</div>
+        <div class="step-title">Your IELTS profile</div>
+        <p class="step-sub">Help us understand where you are and where you want to go.</p>
+
+        <div class="field-row">
+          <div class="field" style="margin-bottom:0;">
+            <label for="currentBand">Current band score</label>
+            <select id="currentBand">
+              <option value="">Select…</option>
+              <option value="Haven't taken it yet">Haven't taken it yet</option>
+              <option value="4.0">4.0</option>
+              <option value="4.5">4.5</option>
+              <option value="5.0">5.0</option>
+              <option value="5.5">5.5</option>
+              <option value="6.0">6.0</option>
+              <option value="6.5">6.5</option>
+              <option value="7.0">7.0</option>
+              <option value="7.5">7.5</option>
+              <option value="8.0">8.0</option>
+              <option value="8.5">8.5+</option>
+            </select>
+          </div>
+          <div class="field" style="margin-bottom:0;">
+            <label for="targetBand">Target band score</label>
+            <select id="targetBand">
+              <option value="">Select…</option>
+              <option value="5.5">5.5</option>
+              <option value="6.0">6.0</option>
+              <option value="6.5">6.5</option>
+              <option value="7.0">7.0</option>
+              <option value="7.5">7.5</option>
+              <option value="8.0">8.0</option>
+              <option value="8.5">8.5</option>
+              <option value="9.0">9.0</option>
+            </select>
+          </div>
         </div>
+
         <div class="field">
-          <label for="country">Country <span class="label-optional">(optional)</span></label>
-          <select id="country">
-            <option value="">Select your country…</option>
-            <option>Afghanistan</option><option>Albania</option><option>Algeria</option><option>Argentina</option>
-            <option>Australia</option><option>Austria</option><option>Azerbaijan</option><option>Bahrain</option>
-            <option>Bangladesh</option><option>Belgium</option><option>Bolivia</option><option>Bosnia and Herzegovina</option>
-            <option>Brazil</option><option>Canada</option><option>Chile</option><option>China</option>
-            <option>Colombia</option><option>Croatia</option><option>Czech Republic</option><option>Denmark</option>
-            <option>Ecuador</option><option>Egypt</option><option>Ethiopia</option><option>Finland</option>
-            <option>France</option><option>Georgia</option><option>Germany</option><option>Ghana</option>
-            <option>Greece</option><option>Guatemala</option><option>Hungary</option><option>India</option>
-            <option>Indonesia</option><option>Iran</option><option>Iraq</option><option>Ireland</option>
-            <option>Israel</option><option>Italy</option><option>Japan</option><option>Jordan</option>
-            <option>Kazakhstan</option><option>Kenya</option><option>Kuwait</option><option>Kyrgyzstan</option>
-            <option>Lebanon</option><option>Libya</option><option>Malaysia</option><option>Mexico</option>
-            <option>Morocco</option><option>Myanmar</option><option>Nepal</option><option>Netherlands</option>
-            <option>New Zealand</option><option>Nigeria</option><option>Norway</option><option>Oman</option>
-            <option>Pakistan</option><option>Palestine</option><option>Peru</option><option>Philippines</option>
-            <option>Poland</option><option>Portugal</option><option>Qatar</option><option>Romania</option>
-            <option>Russia</option><option>Saudi Arabia</option><option>Senegal</option><option>Serbia</option>
-            <option>Singapore</option><option>South Africa</option><option>South Korea</option><option>Spain</option>
-            <option>Sri Lanka</option><option>Sudan</option><option>Sweden</option><option>Switzerland</option>
-            <option>Syria</option><option>Taiwan</option><option>Tajikistan</option><option>Tanzania</option>
-            <option>Thailand</option><option>Tunisia</option><option>Turkey</option><option>Turkmenistan</option>
-            <option>Uganda</option><option>Ukraine</option><option>United Arab Emirates</option>
-            <option>United Kingdom</option><option>United States</option><option>Uzbekistan</option>
-            <option>Venezuela</option><option>Vietnam</option><option>Yemen</option><option>Zimbabwe</option>
+          <label for="examDate">Exam date <span class="opt">(optional)</span></label>
+          <select id="examDate">
+            <option value="">Not scheduled yet</option>
+            <option value="Within 1 month">Within 1 month</option>
+            <option value="1–2 months">1–2 months</option>
+            <option value="2–3 months">2–3 months</option>
+            <option value="3–6 months">3–6 months</option>
+            <option value="6+ months">6+ months</option>
           </select>
         </div>
+
         <div class="field">
-          <label for="age">Age <span class="label-optional">(optional)</span></label>
-          <input type="number" id="age" placeholder="e.g. 24" min="13" max="99" autocomplete="off" />
+          <label>Main skill to improve</label>
+          <div class="chip-group" id="skillChips">
+            <label class="chip"><input type="radio" name="skill" value="Listening" onchange="selectChip('skillChips',this)"> 🎧 Listening</label>
+            <label class="chip"><input type="radio" name="skill" value="Reading" onchange="selectChip('skillChips',this)"> 📖 Reading</label>
+            <label class="chip"><input type="radio" name="skill" value="Writing" onchange="selectChip('skillChips',this)"> ✍️ Writing</label>
+            <label class="chip"><input type="radio" name="skill" value="Speaking" onchange="selectChip('skillChips',this)"> 🎙️ Speaking</label>
+            <label class="chip"><input type="radio" name="skill" value="All skills" onchange="selectChip('skillChips',this)"> 🎯 All skills</label>
+          </div>
         </div>
+
         <span class="msg-error" id="err2"></span>
         <div class="btn-row">
-          <button class="btn-back" onclick="goStep1()">← Back</button>
-          <button class="btn-primary" id="btn2" onclick="submitForm()">Complete setup</button>
+          <button class="btn-back" onclick="goStep(1)">← Back</button>
+          <button class="btn-primary" onclick="goStep(3)">Continue →</button>
         </div>
       </div>
 
-      <!-- SUCCESS -->
+      <!-- ── STEP 3: Goals & discovery ── -->
+      <div class="step" id="step3">
+        <div class="step-icon">🌍</div>
+        <div class="step-title">Almost done</div>
+        <p class="step-sub">Two last quick questions.</p>
+
+        <div class="field">
+          <label>Why do you need IELTS?</label>
+          <div class="chip-group" id="reasonChips">
+            <label class="chip"><input type="radio" name="reason" value="Study abroad" onchange="selectChip('reasonChips',this)"> 🎓 Study abroad</label>
+            <label class="chip"><input type="radio" name="reason" value="Work visa" onchange="selectChip('reasonChips',this)"> 💼 Work visa</label>
+            <label class="chip"><input type="radio" name="reason" value="Immigration" onchange="selectChip('reasonChips',this)"> 🌐 Immigration</label>
+            <label class="chip"><input type="radio" name="reason" value="Professional registration" onchange="selectChip('reasonChips',this)"> 🏥 Professional reg.</label>
+            <label class="chip"><input type="radio" name="reason" value="Other" onchange="selectChip('reasonChips',this)"> Other</label>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="referral">How did you find IELTS Lab? <span class="opt">(optional)</span></label>
+          <select id="referral">
+            <option value="">Select…</option>
+            <option value="Google search">Google search</option>
+            <option value="YouTube">YouTube</option>
+            <option value="Instagram">Instagram</option>
+            <option value="TikTok">TikTok</option>
+            <option value="Facebook">Facebook</option>
+            <option value="Friend or family">Friend or family</option>
+            <option value="Reddit">Reddit</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+
+        <span class="msg-error" id="err3"></span>
+        <div class="btn-row">
+          <button class="btn-back" onclick="goStep(2)">← Back</button>
+          <button class="btn-primary" id="submitBtn" onclick="submitForm()">Complete setup →</button>
+        </div>
+      </div>
+
+      <!-- ── SUCCESS ── -->
       <div class="step" id="stepDone">
         <div class="success-screen">
           <div class="success-icon">✅</div>
           <div class="success-title">You're all set!</div>
-          <p class="success-text">Welcome to IELTS Lab. Your profile has been saved.<br/>Let's get your band score up.</p>
-          <button class="btn-primary" id="btnContinue" onclick="redirectToApp()">Go to IELTS Lab →</button>
+          <p class="success-text">Welcome to IELTS Lab. Your profile has been saved.<br/>Let's start improving your band score.</p>
+          <button class="btn-primary" onclick="redirectToApp()" style="max-width:220px;margin:0 auto;display:block;">Go to IELTS Lab →</button>
         </div>
       </div>
 
     </div>
 
     <div class="card-footer" id="cardFooter">
-      Your information is kept private and never shared with third parties.
+      Your information is private and never shared with third parties.
     </div>
 
   </div>
 </div>
 
 <script>
-  const session = (() => {
-    try { return JSON.parse(localStorage.getItem('ielts_session')); } catch { return null; }
-  })();
+  const session = (() => { try { return JSON.parse(localStorage.getItem('ielts_session')); } catch { return null; } })();
   if (!session) window.location.replace('./login.html');
-
   const token = localStorage.getItem('ielts_auth_token');
 
   function getNext() {
@@ -372,92 +273,85 @@
     return './IELTS-Lab.html';
   }
 
-  // Pre-fill email
   document.getElementById('emailDisplay').value = session?.email || '';
-  // Pre-fill name if already stored
-  if (session?.name && !session.name.includes('@')) {
-    document.getElementById('fullName').value = session.name;
+  if (session?.name && !session.name.includes('@')) document.getElementById('fullName').value = session.name;
+
+  const STEPS = {
+    1: { progress: 33, text: 'Step 1 of 3' },
+    2: { progress: 66, text: 'Step 2 of 3' },
+    3: { progress: 100, text: 'Step 3 of 3' },
+  };
+
+  function goStep(n) {
+    // Validate before leaving
+    if (n > 1) {
+      const name = document.getElementById('fullName').value.trim();
+      if (!name) { document.getElementById('err1').textContent = 'Please enter your full name.'; if (n > 1) { goStepRaw(1); return; } }
+      else document.getElementById('err1').textContent = '';
+    }
+    goStepRaw(n);
   }
 
-  function setDots(activeIdx) {
-    [0,1].forEach(i => {
-      const d = document.getElementById('dot' + i);
-      d.className = 'dot' + (i < activeIdx ? ' done' : i === activeIdx ? ' active' : '');
-    });
+  function goStepRaw(n) {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.getElementById('step' + n).classList.add('active');
+    if (STEPS[n]) {
+      document.getElementById('progressBar').style.width = STEPS[n].progress + '%';
+      document.getElementById('progressText').textContent = STEPS[n].text;
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
-  function goStep1() {
-    document.getElementById('step2').classList.remove('active');
-    document.getElementById('step1').classList.add('active');
-    document.getElementById('cardTitle').textContent = 'Before you start';
-    document.getElementById('cardSubtitle').textContent = 'Takes 30 seconds. Help us personalise your experience.';
-    setDots(0);
-    document.getElementById('err1').textContent = '';
-    setTimeout(() => document.getElementById('fullName').focus(), 100);
-  }
-
-  function goStep2() {
-    const name = document.getElementById('fullName').value.trim();
-    const errEl = document.getElementById('err1');
-    errEl.textContent = '';
-    if (!name) { errEl.textContent = 'Please enter your full name.'; return; }
-
-    document.getElementById('step1').classList.remove('active');
-    document.getElementById('step2').classList.add('active');
-    document.getElementById('cardTitle').textContent = 'Almost done';
-    document.getElementById('cardSubtitle').textContent = 'A couple more details and you\'re in.';
-    setDots(1);
-    setTimeout(() => document.getElementById('phone').focus(), 100);
+  function selectChip(groupId, input) {
+    document.querySelectorAll('#' + groupId + ' .chip').forEach(c => c.classList.remove('selected'));
+    input.closest('.chip').classList.add('selected');
   }
 
   async function submitForm() {
-    const errEl = document.getElementById('err2');
+    const errEl = document.getElementById('err3');
     errEl.textContent = '';
 
-    const full_name = document.getElementById('fullName').value.trim();
-    const phone     = document.getElementById('phone').value.trim();
-    const country   = document.getElementById('country').value;
-    const age       = document.getElementById('age').value;
+    const full_name       = document.getElementById('fullName').value.trim();
+    const phone           = document.getElementById('phone').value.trim();
+    const age             = document.getElementById('age').value.trim();
+    const current_band    = document.getElementById('currentBand').value;
+    const target_band     = document.getElementById('targetBand').value;
+    const exam_date       = document.getElementById('examDate').value;
+    const main_skill      = document.querySelector('input[name="skill"]:checked')?.value || '';
+    const ielts_reason    = document.querySelector('input[name="reason"]:checked')?.value || '';
+    const referral_source = document.getElementById('referral').value;
 
-    const btn = document.getElementById('btn2');
-    btn.disabled = true;
-    btn.textContent = 'Saving…';
+    if (!full_name) { goStepRaw(1); document.getElementById('err1').textContent = 'Please enter your full name.'; return; }
+
+    const btn = document.getElementById('submitBtn');
+    btn.disabled = true; btn.textContent = 'Saving…';
 
     try {
       const res = await fetch('/api/onboarding', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify({ full_name, phone, country, age }),
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify({ full_name, phone, age, current_band, target_band, exam_date, main_skill, ielts_reason, referral_source }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Something went wrong. Please try again.');
 
-      // Update stored name
       localStorage.setItem('ielts_session', JSON.stringify({ ...session, name: full_name }));
+      localStorage.setItem('ielts_onboarding_done', '1');
 
-      // Show success
-      document.getElementById('step2').classList.remove('active');
+      document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
       document.getElementById('stepDone').classList.add('active');
-      document.getElementById('cardTitle').textContent = 'Welcome aboard!';
-      document.getElementById('cardSubtitle').textContent = '';
+      document.getElementById('progressBar').style.width = '100%';
+      document.getElementById('progressText').textContent = 'Complete!';
       document.getElementById('cardFooter').style.display = 'none';
-      document.querySelector('.progress').style.display = 'none';
 
-      // Auto-redirect after 2.5s
-      setTimeout(redirectToApp, 2500);
+      setTimeout(redirectToApp, 3000);
     } catch (err) {
       errEl.textContent = err.message;
-      btn.disabled = false;
-      btn.textContent = 'Complete setup';
+      btn.disabled = false; btn.textContent = 'Complete setup →';
     }
   }
 
-  function redirectToApp() {
-    window.location.replace(getNext());
-  }
+  function redirectToApp() { window.location.replace(getNext()); }
 </script>
 </body>
 </html>
