@@ -500,7 +500,12 @@
       localStorage.setItem('ielts_session', JSON.stringify({ name, email: pendingEmail }));
       if (data.token) localStorage.setItem('ielts_auth_token', data.token);
 
-      window.location.replace(getRedirect());
+      // Redirect to onboarding if not yet completed
+      if (!data.onboarding_done) {
+        window.location.replace('./onboarding.html?next=' + encodeURIComponent(getRedirect()));
+      } else {
+        window.location.replace(getRedirect());
+      }
     } catch (err) {
       errEl.textContent = err.message;
       setBtn('verifyBtn', false, 'Sign in');

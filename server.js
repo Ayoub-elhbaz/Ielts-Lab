@@ -67,6 +67,15 @@ async function initDB() {
       corrections_used INTEGER DEFAULT 0,
       UNIQUE(user_id, month)
     );
+    CREATE TABLE IF NOT EXISTS onboarding (
+      id SERIAL PRIMARY KEY,
+      user_id INTEGER REFERENCES users(id) ON DELETE CASCADE UNIQUE,
+      full_name TEXT,
+      phone TEXT,
+      country TEXT,
+      age INTEGER,
+      submitted_at TIMESTAMPTZ DEFAULT NOW()
+    );
   `);
   console.log('[db] Schema ready');
 }
@@ -619,7 +628,12 @@ app.post('/api/auth/verify-code', async (req, res) => {
   const name = record.name || null;
   const user = await getOrCreateUser(emailKey, name).catch(() => null);
   const planInfo = user ? await getUserPlan(emailKey).catch(() => null) : null;
-  res.json({ success: true, token: generateAuthToken(emailKey), plan: planInfo?.plan || 'free', credits: planInfo?.credits || 0 });
+  let onboardingDone = false;
+  if (db && user) {
+    const ob = await db.query('SELECT id FROM onboarding WHERE user_id=$1', [user.id]).catch(() => ({ rows: [] }));
+    onboardingDone = ob.rows.length > 0;
+  }
+  res.json({ success: true, token: generateAuthToken(emailKey), plan: planInfo?.plan || 'free', credits: planInfo?.credits || 0, onboarding_done: onboardingDone });
 });
 
 // POST /api/auth/login — issue session token for password/Google sign-in
@@ -632,6 +646,78 @@ app.post('/api/auth/login', authLimiter, async (req, res) => {
   const user = await getOrCreateUser(norm, null).catch(() => null);
   const planInfo = user ? await getUserPlan(norm).catch(() => null) : null;
   res.json({ token: generateAuthToken(norm), plan: planInfo?.plan || 'free', credits: planInfo?.credits || 0 });
+});
+
+// POST /api/onboarding ────────────────────────────────────────────────────────
+app.post('/api/onboarding', requireAuth, async (req, res) => {
+  const { full_name, phone, country, age } = req.body;
+  const email = req.userEmail;
+  if (!full_name) return res.status(400).json({ error: 'Full name is required.' });
+
+  try {
+    const user = await getOrCreateUser(email, full_name).catch(() => null);
+    if (!user) return res.status(500).json({ error: 'Could not find user.' });
+
+    if (db) {
+      await db.query(`
+        INSERT INTO onboarding (user_id, full_name, phone, country, age)
+        VALUES ($1,$2,$3,$4,$5)
+        ON CONFLICT (user_id) DO UPDATE
+          SET full_name=$2, phone=$3, country=$4, age=$5, submitted_at=NOW()
+      `, [user.id, full_name, phone || null, country || null, age ? parseInt(age) : null]);
+    }
+
+    // Email notification to Ayoub
+    const ageDisplay = age ? `${age} years old` : 'Not provided';
+    const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"></head>
+    <body style="margin:0;padding:0;background:#f8f6f1;font-family:'Helvetica Neue',Arial,sans-serif;">
+      <table width="100%" cellpadding="0" cellspacing="0" style="background:#f8f6f1;padding:40px 16px;">
+        <tr><td align="center">
+          <table width="520" cellpadding="0" cellspacing="0" style="max-width:520px;width:100%;background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,0.08);">
+            <tr><td style="background:#1C1C2E;padding:28px 36px;text-align:center;">
+              <div style="font-family:Georgia,serif;font-size:22px;font-weight:700;color:#F8F6F1;">IELTS <span style="color:#B8860B;">Lab</span></div>
+              <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:4px;letter-spacing:0.1em;text-transform:uppercase;">New User Registration</div>
+            </td></tr>
+            <tr><td style="padding:36px;">
+              <p style="font-size:16px;font-weight:600;color:#1C1C2E;margin:0 0 20px;">A new student just joined IELTS Lab 🎉</p>
+              <table width="100%" cellpadding="0" cellspacing="0">
+                <tr><td style="padding:10px 0;border-bottom:1px solid #E2DDD5;">
+                  <span style="font-size:13px;color:#A0AEC0;text-transform:uppercase;letter-spacing:0.05em;">Full Name</span><br/>
+                  <span style="font-size:15px;color:#1C1C2E;font-weight:500;">${full_name}</span>
+                </td></tr>
+                <tr><td style="padding:10px 0;border-bottom:1px solid #E2DDD5;">
+                  <span style="font-size:13px;color:#A0AEC0;text-transform:uppercase;letter-spacing:0.05em;">Email</span><br/>
+                  <span style="font-size:15px;color:#1C1C2E;font-weight:500;">${email}</span>
+                </td></tr>
+                <tr><td style="padding:10px 0;border-bottom:1px solid #E2DDD5;">
+                  <span style="font-size:13px;color:#A0AEC0;text-transform:uppercase;letter-spacing:0.05em;">Phone</span><br/>
+                  <span style="font-size:15px;color:#1C1C2E;font-weight:500;">${phone || 'Not provided'}</span>
+                </td></tr>
+                <tr><td style="padding:10px 0;border-bottom:1px solid #E2DDD5;">
+                  <span style="font-size:13px;color:#A0AEC0;text-transform:uppercase;letter-spacing:0.05em;">Country</span><br/>
+                  <span style="font-size:15px;color:#1C1C2E;font-weight:500;">${country || 'Not provided'}</span>
+                </td></tr>
+                <tr><td style="padding:10px 0;">
+                  <span style="font-size:13px;color:#A0AEC0;text-transform:uppercase;letter-spacing:0.05em;">Age</span><br/>
+                  <span style="font-size:15px;color:#1C1C2E;font-weight:500;">${ageDisplay}</span>
+                </td></tr>
+              </table>
+              <p style="font-size:12px;color:#A0AEC0;margin:24px 0 0;">Submitted at ${new Date().toUTCString()}</p>
+            </td></tr>
+          </table>
+        </td></tr>
+      </table>
+    </body></html>`;
+
+    await sendEmail('ieltslab26@gmail.com', `New student: ${full_name} (${email})`, html).catch(err => {
+      console.error('[onboarding] Email failed:', err.message);
+    });
+
+    res.json({ success: true });
+  } catch (err) {
+    console.error('[onboarding]', err.message);
+    res.status(500).json({ error: 'Could not save profile. Please try again.' });
+  }
 });
 
 // ════════════════════════════════════════════════════════════════════════════
