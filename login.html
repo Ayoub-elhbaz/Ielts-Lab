@@ -283,6 +283,33 @@
       margin-top: 0.25rem;
     }
 
+    /* Tabs */
+    .auth-tabs {
+      display: flex;
+      background: #F0EDE8;
+      border-radius: 0.625rem;
+      padding: 4px;
+      margin-bottom: 1.75rem;
+    }
+    .auth-tab {
+      flex: 1;
+      padding: 0.6rem 1rem;
+      border: none;
+      background: transparent;
+      border-radius: 0.5rem;
+      font-family: 'Source Sans 3', sans-serif;
+      font-size: 0.9375rem;
+      font-weight: 500;
+      color: var(--secondary-text);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .auth-tab.active {
+      background: #FFFFFF;
+      color: var(--primary-text);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+    }
+
     /* Footer note */
     .form-footer-note {
       text-align: center;
@@ -341,8 +368,15 @@
 
       <!-- STEP 1: Enter email -->
       <div class="step active" id="step1">
-        <h1 class="step-heading">Welcome to IELTS Lab</h1>
-        <p class="step-sub">Enter your email and we'll send you a sign-in code. No password needed.</p>
+
+        <!-- Tabs -->
+        <div class="auth-tabs">
+          <button type="button" class="auth-tab active" id="tabSignIn" onclick="switchMode('signin')">Sign In</button>
+          <button type="button" class="auth-tab" id="tabSignUp" onclick="switchMode('signup')">Create Account</button>
+        </div>
+
+        <h1 class="step-heading" id="step1Heading">Welcome back</h1>
+        <p class="step-sub" id="step1Sub">Enter your email and we'll send you a sign-in code. No password needed.</p>
 
         <form onsubmit="sendCode(); return false;">
           <div class="field">
@@ -406,6 +440,28 @@
   let pendingEmail = '';
   let resendInterval = null;
   let isNewUser = false;
+  let currentMode = 'signin'; // 'signin' | 'signup'
+
+  const MODES = {
+    signin: {
+      heading: 'Welcome back',
+      sub: 'Enter your email and we\'ll send you a sign-in code. No password needed.',
+    },
+    signup: {
+      heading: 'Join IELTS Lab free',
+      sub: 'Create your account in seconds. Just enter your email — no password needed.',
+    },
+  };
+
+  function switchMode(mode) {
+    currentMode = mode;
+    document.getElementById('tabSignIn').classList.toggle('active', mode === 'signin');
+    document.getElementById('tabSignUp').classList.toggle('active', mode === 'signup');
+    document.getElementById('step1Heading').textContent = MODES[mode].heading;
+    document.getElementById('step1Sub').textContent = MODES[mode].sub;
+    document.getElementById('step1Error').textContent = '';
+    document.getElementById('emailInput').focus();
+  }
 
   function getRedirect() {
     const params = new URLSearchParams(window.location.search);
