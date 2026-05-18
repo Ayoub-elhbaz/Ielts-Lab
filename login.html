@@ -491,6 +491,16 @@
     if (!email) { errEl.textContent = 'Please enter your email address.'; return; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errEl.textContent = 'Please enter a valid email address.'; return; }
 
+    // Signup mode: block if a session already exists in this browser
+    if (currentMode === 'signup') {
+      const existing = localStorage.getItem('ielts_session');
+      const onboardingDone = localStorage.getItem('ielts_onboarding_done');
+      if (existing || onboardingDone) {
+        errEl.innerHTML = 'This email already has an account. <a onclick="switchMode(\'signin\')" style="color:var(--royal-blue);font-weight:600;cursor:pointer;text-decoration:underline;">Sign in instead</a>.';
+        return;
+      }
+    }
+
     setBtn('sendBtn', true, 'Send code');
     try {
       const res = await fetch('/api/auth/send-verification', {
@@ -567,6 +577,7 @@
       if (!data.onboarding_done) {
         window.location.replace('./onboarding.html?next=' + encodeURIComponent(getRedirect()));
       } else {
+        localStorage.setItem('ielts_onboarding_done', '1'); // cache so localStorage signup check works
         window.location.replace(getRedirect());
       }
     } catch (err) {
