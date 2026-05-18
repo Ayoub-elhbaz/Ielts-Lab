@@ -551,10 +551,19 @@ async function sendEmail(to, subject, html, replyToOverride) {
 
 // POST /api/auth/send-verification ───────────────────────────────────────────
 app.post('/api/auth/send-verification', async (req, res) => {
-  const { email, name } = req.body;
+  const { email, name, mode } = req.body;
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return res.status(400).json({ error: 'A valid email address is required.' });
   }
+
+  // Sign-in mode: reject emails that don't have an account yet
+  if (mode === 'signin' && db) {
+    const existing = await db.query('SELECT id FROM users WHERE email=$1', [email.toLowerCase().trim()]).catch(() => ({ rows: [1] }));
+    if (existing.rows.length === 0) {
+      return res.status(404).json({ error: 'No account found with this email. Please create an account first.', no_account: true });
+    }
+  }
+
   const code      = String(Math.floor(100000 + Math.random() * 900000));
   const requestIp = req.ip || req.socket?.remoteAddress || 'unknown';
   // Store code with IP binding — the same IP must verify it (replay guard).

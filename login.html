@@ -496,9 +496,14 @@
       const res = await fetch('/api/auth/send-verification', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email, mode: currentMode }),
       });
       const data = await res.json();
+      if (res.status === 404 && data.no_account) {
+        errEl.innerHTML = 'No account found. <a onclick="switchMode(\'signup\')" style="color:var(--royal-blue);font-weight:600;cursor:pointer;text-decoration:underline;">Create an account</a> first.';
+        setBtn('sendBtn', false, 'Send code');
+        return;
+      }
       if (!res.ok) throw new Error(data.error || 'Failed to send code. Please try again.');
 
       pendingEmail = email;
@@ -566,7 +571,7 @@
       const res = await fetch('/api/auth/send-verification', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: pendingEmail }),
+        body: JSON.stringify({ email: pendingEmail, mode: currentMode }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || 'Failed to resend.');
