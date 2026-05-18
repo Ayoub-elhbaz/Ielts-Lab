@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>IELTS Lab — Cambridge 20 Full Test 1 · Reading Passage 1</title>
+  <title>IELTS Lab — Cambridge 20 Full Test 1 · Academic Reading</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -76,8 +76,14 @@
     .font-ctrl-label { font-size: 0.625rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); padding: 0 8px; }
 
     /* ── ACCESSIBILITY TOOLBAR ── */
-    .a11y-bar { display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: #FFFFFF; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 1.25rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .a11y-bar { display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: #FFFFFF; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
     .a11y-bar-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); }
+
+    /* ── TAB NAV ── */
+    .tab-nav { display: flex; gap: 4px; margin-bottom: 1rem; background: #EFF3F9; border-radius: 12px; padding: 4px; }
+    .tab-btn { flex: 1; padding: 8px 12px; border: none; border-radius: 9px; background: transparent; color: var(--text-muted); font-size: 0.8125rem; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .tab-btn:hover { background: rgba(255,255,255,0.6); color: var(--text-primary); }
+    .tab-btn.active { background: #FFFFFF; color: var(--navy); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
 
     /* ── SECTION CARDS ── */
     .section-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 1.75rem; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
@@ -184,7 +190,11 @@
 <!-- TIMING STRIP -->
 <div class="timing-strip" id="timingStrip">
   <div class="px-4 flex items-center justify-center gap-10">
-    <div class="timing-item"><span class="timing-label">Passage 1</span><span class="timing-val">20 min recommended</span></div>
+    <div class="timing-item"><span class="timing-label">Passage 1</span><span class="timing-val">15–17 min</span></div>
+    <div style="width:1px;height:24px;background:var(--border);"></div>
+    <div class="timing-item"><span class="timing-label">Passage 2</span><span class="timing-val">20 min</span></div>
+    <div style="width:1px;height:24px;background:var(--border);"></div>
+    <div class="timing-item"><span class="timing-label">Passage 3</span><span class="timing-val">23–25 min</span></div>
   </div>
 </div>
 
@@ -195,10 +205,10 @@
   <div class="flex items-start justify-between mb-5 gap-4">
     <div>
       <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Cambridge 20 · Full Test 1</div>
-      <h1 class="font-display font-black text-2xl" style="color:var(--text-primary);">Academic Reading — Passage 1</h1>
+      <h1 class="font-display font-black text-2xl" style="color:var(--text-primary);">Academic Reading — Full Test 1</h1>
     </div>
     <div class="flex items-center gap-3 flex-shrink-0">
-      <div id="timerDisplay" class="timer-box">20:00</div>
+      <div id="timerDisplay" class="timer-box">60:00</div>
     </div>
   </div>
 
@@ -212,7 +222,14 @@
       <button class="font-ctrl-btn a-large" onclick="adjustFontSize(1)"  title="Increase text size">A+</button>
     </div>
     <span style="font-size:0.75rem;color:var(--text-faint);">Adjust the reading passage font size</span>
-    <div class="ml-auto text-xs hidden md:block" style="color:var(--text-muted);">20 minutes · 13 questions · 1 passage</div>
+    <div class="ml-auto text-xs hidden md:block" style="color:var(--text-muted);">60 minutes · 40 questions · 3 passages</div>
+  </div>
+
+  <!-- TAB NAV -->
+  <div class="tab-nav" id="tabNav">
+    <button class="tab-btn active" onclick="switchTab(1)">Passage 1 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q1–13)</span></button>
+    <button class="tab-btn" onclick="switchTab(2)">Passage 2 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q14–26)</span></button>
+    <button class="tab-btn" onclick="switchTab(3)">Passage 3 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q27–40)</span></button>
   </div>
 
   <!-- ══ SPLIT VIEW ══ -->
@@ -240,6 +257,48 @@
         </div>
       </div>
 
+      <!-- Passage 2 -->
+      <div id="passageContent2" style="display:none;">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 2</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">The Vertical Farm: Promise and Practicalities of Indoor Agriculture</div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>When the first commercial vertical farm opened in Kyoto in 1983, its operators were producing lettuce at a cost approximately fourteen times that of conventional field agriculture. Within two decades, advances in LED lighting efficiency, hydroponic nutrient delivery, and climate control automation had reduced that differential by more than eighty percent, and by 2023 the global vertical farming market had reached an estimated valuation of six billion US dollars. The trajectory illustrates a technology whose fundamental promise — year-round production of food crops in controlled indoor environments, decoupled entirely from climate variability, seasonal cycles, and the finite global stock of arable land — has remained consistent even as its economic viability has undergone successive and sometimes painful revision.</p>
+
+          <p><span class="para-label">B</span>Vertical farming operates on a principle straightforward in concept but demanding in execution: multiple layers of growing trays are stacked within a climate-controlled enclosure, with artificial illumination substituting entirely for sunlight. The most common growing medium is not soil but a hydroponic solution — a precisely calibrated aqueous nutrient mixture — delivered either continuously or intermittently to the root systems of plants, whose aerial portions are exposed to light-emitting diodes tuned to the specific wavelength bands that maximise photosynthetic efficiency. Water consumption under these conditions is typically ninety to ninety-five percent lower than field equivalents, because evapotranspiration losses are largely eliminated and irrigation runoff is captured and recycled continuously. Pest pressure is dramatically reduced in the absence of soil-borne pathogens and through the physical exclusion of insects, allowing producers to operate without pesticides in most operational contexts.</p>
+
+          <p><span class="para-label">C</span>The crop repertoire of commercial vertical farms remains, at present, highly constrained. Leafy vegetables — lettuce, spinach, kale, basil, and related species — dominate production because their short growth cycles, compact canopy structure, and high value-to-mass ratios justify the intensive capital and energy expenditure that indoor cultivation entails. Attempts to grow staple crops such as wheat or rice in vertical environments have been conducted experimentally, but the caloric yield per unit of energy input is so unfavourable that commercial viability under current technology is not foreseeable. The same constraint applies to large fruiting crops: tomatoes and peppers are grown indoors at scale in some operations, but the energy intensity of maintaining adequate fruit-set and ripening represents a substantially higher cost burden than leafy crop production, and profitability remains marginal even in premium urban markets where consumers are willing to pay significantly elevated prices for locally sourced food.</p>
+
+          <p><span class="para-label">D</span>Energy consumption represents the central structural challenge confronting the sector. A comprehensive life-cycle analysis published in 2022 in the journal Nature Food calculated that the carbon footprint of vertically farmed lettuce was between three and thirteen times greater than field-produced equivalents when electricity was generated predominantly from fossil fuels. The analysis distinguished sharply, however, between operations drawing on carbon-intensive grids and those powered by renewable sources: where electricity is derived from wind, solar, or hydroelectric generation, the carbon differential narrows considerably and can, in some scenarios, reverse entirely. This dependency has led several analysts to characterise vertical farming less as an agricultural innovation in isolation and more as a technology whose environmental credentials are inextricably bound to the broader energy transition — a description its proponents do not dispute.</p>
+
+          <p><span class="para-label">E</span>The locational advantages of vertical farming are most pronounced in regions where conventional agriculture faces acute structural constraints: areas of extreme population density with minimal adjacent arable land, climate zones unsuited to year-round production, and logistics-constrained environments such as island territories and polar research stations. Several Gulf states have invested substantially in controlled-environment agriculture as a food security measure, on the reasoning that the energy cost of indoor production is comparable to, or lower than, the embedded energy cost of importing fresh produce by refrigerated air freight over long distances. In Singapore, where fewer than one percent of the total land area is under agricultural use, the government has set a target of producing thirty percent of the nation's nutritional needs domestically by 2030 — a goal that analysts agree would be unachievable without large-scale vertical farming deployment.</p>
+
+          <p><span class="para-label">F</span>Consolidation and capital pressure have dominated the sector's recent history. Several high-profile vertical farming enterprises that attracted substantial venture capital investment during the early 2020s subsequently declared bankruptcy or entered administration, citing the persistent gap between production costs and the prices that major supermarket buyers were willing to pay. Critics argued that investor valuations had been premised on optimistic assumptions about the rate at which automation would reduce labour requirements, the speed at which LED efficiency would improve, and the willingness of consumers to sustain meaningful price premiums for local, pesticide-free produce. The resulting shakeout has not extinguished the sector — operations that achieved sufficient production scale and secured long-term supply contracts with retailers have generally survived — but it has prompted a more sober reassessment of the timeline over which indoor farming can become broadly cost-competitive with conventional field agriculture.</p>
+
+          <p><span class="para-label">G</span>The most compelling near-term case for vertical farming may lie not in replacing conventional agriculture wholesale but in complementing it within integrated food systems. Strategically located indoor facilities can supply high-value fresh produce to urban populations while reducing transport-related spoilage and enabling continuous availability of crops that seasonal field agriculture cannot provide year-round. A number of research institutions are additionally exploring the use of vertical farming techniques for producing pharmaceutical-grade plant compounds — a niche where the premium commanded by the product can justify the elevated energy intensity of the production method. Whether vertical farming ultimately realises its early promise as a transformative element of global food security will depend substantially on trajectories in energy pricing, photovoltaic technology, and robotics-driven labour automation that remain genuinely difficult to predict.</p>
+        </div>
+      </div>
+
+      <!-- Passage 3 -->
+      <div id="passageContent3" style="display:none;">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 3</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">The Attention Economy: Scarcity, Distraction, and Digital Cognition</div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>In a study published in Nature Human Behaviour in 2019, researchers tracking the online information-consumption patterns of more than six thousand participants across seventeen countries identified a statistically significant narrowing of collective attention spans over a twelve-year observation period. The finding was not that individual humans were becoming less attentive in controlled experimental settings, but that the window during which any single topic dominated shared public discourse had contracted measurably — from an average of seventeen days in 2013 to fewer than ten by 2016. The researchers attributed this compression not to any biological change in human cognition but to the accelerating throughput of content through digitally mediated communication channels, each optimised to attract and redirect attention with increasing precision.</p>
+
+          <p><span class="para-label">B</span>Attention, in the framework developed by cognitive scientist Herbert Simon and later extended by economist Michael Goldhaber, is more productively understood as an economic resource than as a simple psychological faculty. Simon observed in 1971 that a wealth of information creates a poverty of attention, identifying the logical corollary that had largely eluded prior theorists: if information is superabundant, the finite capacity for human attention becomes correspondingly scarce. Goldhaber, writing in 1997, elaborated this insight into a systematic account of an emerging 'attention economy' in which the fundamental competition between producers of content, media, and services was no longer primarily for the consumer's money but for their finite daily allocation of cognitive engagement. Attention, unlike money, cannot be stored, transferred, or accumulated — it exists only at the moment of its expenditure and dissipates irreversibly thereafter.</p>
+
+          <p><span class="para-label">C</span>The commercial architecture of dominant digital platforms is explicitly designed around this scarcity. Advertising revenue models that pay platforms per impression or per interaction create a direct financial incentive to maximise the aggregate quantity of attention flowing through the platform, regardless of the quality of that attention or the value of the experience it generates for the user. A social media platform that retains a user's engagement for four hours generates four times the advertising revenue of one that delivers an equally substantive experience in one hour — even if the longer session involves substantially higher cognitive cost to the user and produces a less satisfying outcome. The structural misalignment between platform revenue incentives and user welfare constitutes, in the assessment of several academic economists, a textbook case of market failure with potentially systemic social consequences.</p>
+
+          <p><span class="para-label">D</span>The psychological mechanisms through which platforms sustain engagement have been extensively documented in the academic literature. Variable reward schedules — derived directly from operant conditioning research in behavioural psychology, where unpredictable positive outcomes reliably produce more persistent behaviour than predictable ones — underlie the design of notification systems, social approval metrics, and content recommendation algorithms tuned to maximise re-engagement. Infinite scroll interfaces remove the natural stopping points that finite content formats impose, substituting an uninterrupted stream whose only terminus is the user's own decision to disengage — a decision that, by design, is made progressively more effortful the longer the session continues. Internal documents from several major platforms, disclosed through regulatory proceedings in the United States and the European Union, confirmed that engagement-maximising interface design was an explicit engineering and product development objective during the period of their most rapid growth.</p>
+
+          <p><span class="para-label">E</span>The cognitive consequences of sustained high-frequency attention switching have been studied most rigorously through the framework of cognitive load theory, first developed by educational psychologist John Sweller in the late 1980s. Working memory — the cognitive subsystem responsible for the active manipulation and integration of information — has a finite capacity; when saturated by competing simultaneous inputs, the depth of processing applied to any individual item decreases substantially. Studies employing neuroimaging techniques have demonstrated that extended periods of fragmented, interrupt-driven cognitive engagement are associated with measurably reduced activation in the prefrontal cortex during tasks requiring sustained concentration, and that these attenuated activation patterns persist beyond the period of exposure. This persistence suggests a form of cognitive habituation to distraction — a partial and acquired degradation of the capacity for extended focused work that remains detectable even when the distracting stimuli have been removed.</p>
+
+          <p><span class="para-label">F</span>The implications are particularly acute for developing cognitive systems. Longitudinal research tracking digital media use and cognitive development in children aged six to twelve found that each additional hour of daily engagement with social media and short-form video platforms was associated with measurable reductions in performance on standardised assessments of executive function, working memory, and reading comprehension — effects that held independently of content type. The researchers distinguished carefully between passive consumption of algorithmically curated content and active, goal-directed digital engagement such as reading, structured creative production, or programmatic problem-solving: negative associations were specific to the passive consumption category. Notably, the developmental effects measured in this research were of greater magnitude than those associated with equivalent durations of conventional television viewing — itself previously considered the paradigmatic case of cognitively passive media consumption.</p>
+
+          <p><span class="para-label">G</span>Regulatory and design-based responses have emerged in several jurisdictions, though their effectiveness remains under active scrutiny. The European Union's Digital Services Act, which entered into force in 2024, requires platforms exceeding defined user thresholds to conduct and publish risk assessments for the range of societal harms — encompassing potential impacts on mental health and cognitive development — that may be attributable to their recommendation architectures. A parallel movement within the technology sector, associated with the Center for Humane Technology founded by former Google design ethicist Tristan Harris, advocates for a transition from engagement-maximising to 'time well spent' design principles: interfaces that provide users with more transparent and granular control over their attention allocation, and that optimise for user-reported satisfaction rather than aggregate session duration. Whether regulatory mandates or industry-led design reform can substantively restructure the incentive systems currently driving platform behaviour remains an open and consequential question.</p>
+        </div>
+      </div>
+
     </div><!-- /reading-pane -->
 
     <!-- RESIZER BAR -->
@@ -254,6 +313,8 @@
     <!-- QUESTION PANE -->
     <div class="question-pane" id="questionPane">
       <div id="qPanel1"></div>
+      <div id="qPanel2" style="display:none;"></div>
+      <div id="qPanel3" style="display:none;"></div>
     </div>
 
   </div><!-- /split-container -->
@@ -274,9 +335,17 @@
   </div>
   <div class="section-card mb-6" id="scoreCard"></div>
   <div class="section-card mb-8" id="feedbackCard"></div>
-  <div class="section-card mb-10">
+  <div class="section-card mb-6">
     <div class="passage-corr-header">Passage 1 — The Phytoplankton Paradox</div>
     <div id="corrPassage1"></div>
+  </div>
+  <div class="section-card mb-6">
+    <div class="passage-corr-header">Passage 2 — The Vertical Farm</div>
+    <div id="corrPassage2"></div>
+  </div>
+  <div class="section-card mb-10">
+    <div class="passage-corr-header">Passage 3 — The Attention Economy</div>
+    <div id="corrPassage3"></div>
   </div>
   <div class="flex gap-4 justify-center mb-16">
     <a href="index.html" class="btn-gold">← Back to Tests</a>
@@ -296,7 +365,7 @@
 //  TEST DATA
 // ─────────────────────────────────────────
 const GROUPS = [
-  // ── Matching Headings Q1–5 ──
+  // ── PASSAGE 1 — Matching Headings Q1–5 ──
   {
     passageId: 1,
     type: 'matching_headings',
@@ -330,7 +399,7 @@ const GROUPS = [
         reinforcement: 'Correct — paragraph F\'s organising logic is explaining why carbon export was far smaller than expected, directly matching heading iii.' },
     ]
   },
-  // ── T/F/NG Q6–9 ──
+  // ── PASSAGE 1 — T/F/NG Q6–9 ──
   {
     passageId: 1,
     type: 'tfng',
@@ -355,7 +424,7 @@ const GROUPS = [
         reinforcement: 'Correct — no information about the SOIREE team\'s prior work or Atlantic experiments appears in the passage.' },
     ]
   },
-  // ── Sentence Completion Q10–13 ──
+  // ── PASSAGE 1 — Sentence Completion Q10–13 ──
   {
     passageId: 1,
     type: 'sentence_completion',
@@ -380,16 +449,195 @@ const GROUPS = [
         reinforcement: 'Correct — "remineralised" is the precise verb in paragraph F describing why sequestration fell short of expectations.' },
     ]
   },
+
+  // ── PASSAGE 2 — The Vertical Farm ──
+  {
+    passageId: 2,
+    type: 'matching_headings',
+    label: 'Questions 14–18',
+    instructions: 'The reading passage has seven paragraphs, <strong>A–G</strong>. Choose the correct heading for paragraphs <strong>B–F</strong> from the list of headings below. Paragraphs A and G are not included. Write the correct Roman numeral in the box.',
+    headings: [
+      { key: 'i',    text: 'How the source of energy determines whether vertical farming is environmentally beneficial' },
+      { key: 'ii',   text: 'The core mechanism of indoor plant cultivation and its resource-use advantages' },
+      { key: 'iii',  text: 'The constraints that restrict which crops can be grown profitably indoors' },
+      { key: 'iv',   text: 'The financial difficulties that followed unrealistic investor expectations' },
+      { key: 'v',    text: 'Geographic and political contexts that make indoor agriculture a strategic necessity' },
+      { key: 'vi',   text: 'Research into alternative pharmaceutical applications of indoor farming technology' },
+      { key: 'vii',  text: 'A comparison of vertical farming costs with those of other water-intensive agricultural technologies' },
+      { key: 'viii', text: 'International trade agreements that affect the competitiveness of domestically produced food' },
+    ],
+    questions: [
+      { id: 14, paraLabel: 'B', text: 'Paragraph B', answer: 'ii', answerDisplay: 'ii — The core mechanism of indoor plant cultivation and its resource-use advantages',
+        explanation: 'Paragraph B describes the hydroponic growing mechanism, artificial LED lighting, and quantifies the resulting water and pesticide reductions. Heading vi (pharmaceutical applications) maps to G; headings vii and viii (trade/cost comparisons) are not discussed anywhere in the passage.',
+        reinforcement: 'Correct — paragraph B explains how vertical farms work and their resource advantages, matching "core mechanism… resource-use advantages."' },
+      { id: 15, paraLabel: 'C', text: 'Paragraph C', answer: 'iii', answerDisplay: 'iii — The constraints that restrict which crops can be grown profitably indoors',
+        explanation: 'Paragraph C explains why only leafy vegetables are commercially viable and why staple crops and fruiting crops cannot currently be grown profitably indoors. "Constraints" paraphrases the paragraph\'s focus on caloric yield ratios and energy cost burdens.',
+        reinforcement: 'Correct — the entire logic of paragraph C is that most crop types are ruled out by economic and energy constraints, matching heading iii.' },
+      { id: 16, paraLabel: 'D', text: 'Paragraph D', answer: 'i', answerDisplay: 'i — How the source of energy determines whether vertical farming is environmentally beneficial',
+        explanation: 'Paragraph D\'s central argument is that the carbon footprint of vertical farming is determined by the electricity source — fossil fuels make it worse than field agriculture; renewables can reverse the differential entirely. "Source of energy" = grid type; "environmentally beneficial" = carbon footprint reversal.',
+        reinforcement: 'Correct — paragraph D demonstrates that the electricity source is the decisive variable in determining vertical farming\'s environmental impact.' },
+      { id: 17, paraLabel: 'E', text: 'Paragraph E', answer: 'v', answerDisplay: 'v — Geographic and political contexts that make indoor agriculture a strategic necessity',
+        explanation: 'Paragraph E discusses Gulf states (geographic/political context making indoor farming a food security necessity) and Singapore\'s 30%-by-2030 government target (political context). "Strategic necessity" paraphrases "food security measure."',
+        reinforcement: 'Correct — paragraph E is organised around specific geographic and government-policy contexts that make vertical farming strategically essential.' },
+      { id: 18, paraLabel: 'F', text: 'Paragraph F', answer: 'iv', answerDisplay: 'iv — The financial difficulties that followed unrealistic investor expectations',
+        explanation: 'Paragraph F describes companies that went bankrupt or entered administration after investors held "optimistic assumptions" about automation, LED improvements, and consumer willingness to pay premiums. "Financial difficulties" = bankruptcies; "unrealistic investor expectations" = optimistic assumptions.',
+        reinforcement: 'Correct — paragraph F is the collapse-and-shakeout paragraph, directly matching "financial difficulties following unrealistic investor expectations."' },
+    ]
+  },
+  {
+    passageId: 2,
+    type: 'tfng',
+    label: 'Questions 19–22',
+    instructions: 'Do the following statements agree with the information given in the reading passage? Write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      { id: 19, text: 'The carbon footprint of vertically farmed lettuce is always higher than that of field-grown equivalents, regardless of the electricity source used.',
+        answer: 'FALSE',
+        explanation: 'Paragraph D: the carbon differential <strong>"can, in some scenarios, reverse entirely"</strong> when powered by renewable electricity. "Always higher… regardless of source" directly contradicts this.',
+        reinforcement: 'Correct — paragraph D explicitly states the carbon differential can reverse under renewable electricity, making "always higher" FALSE.' },
+      { id: 20, text: 'Singapore\'s government has set a target of meeting thirty percent of the country\'s nutritional needs through domestic production by 2030.',
+        answer: 'TRUE',
+        explanation: 'Paragraph E: <strong>"the government has set a target of producing thirty percent of the nation\'s nutritional needs domestically by 2030."</strong> The statement is an exact paraphrase.',
+        reinforcement: 'Correct — paragraph E states the 30%-by-2030 target explicitly.' },
+      { id: 21, text: 'Several vertical farming enterprises that attracted venture capital funding in the early 2020s subsequently entered bankruptcy or administration.',
+        answer: 'TRUE',
+        explanation: 'Paragraph F: <strong>"Several high-profile vertical farming enterprises that attracted substantial venture capital investment during the early 2020s subsequently declared bankruptcy or entered administration."</strong> Direct match.',
+        reinforcement: 'Correct — paragraph F confirms multiple venture-backed firms went bankrupt or entered administration.' },
+      { id: 22, text: 'Government subsidies have been identified as the most effective mechanism for making vertical farming commercially viable.',
+        answer: 'NOT GIVEN',
+        explanation: 'Government subsidies are not mentioned anywhere in the passage. Singapore\'s production target and Gulf state investments are cited, but no government subsidy mechanism is discussed or identified as a solution.',
+        reinforcement: 'Correct — the passage never discusses government subsidies as a solution to vertical farming\'s commercial viability challenges.' },
+    ]
+  },
+  {
+    passageId: 2,
+    type: 'sentence_completion',
+    label: 'Questions 23–26',
+    instructions: 'Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.',
+    questions: [
+      { id: 23, text: 'The first commercial vertical farm, which opened in _______ in 1983, produced lettuce at approximately fourteen times the cost of conventional field agriculture.',
+        answer: 'kyoto', answerDisplay: 'Kyoto', acceptable: ['kyoto'],
+        explanation: 'Paragraph A: <strong>"When the first commercial vertical farm opened in Kyoto in 1983, its operators were producing lettuce at a cost approximately fourteen times that of conventional field agriculture."</strong> "Kyoto" is the exact proper noun required.',
+        reinforcement: 'Correct — "Kyoto" is stated explicitly in paragraph A as the location of the first commercial vertical farm.' },
+      { id: 24, text: 'LEDs used in vertical farms are tuned to the specific wavelength bands that maximise _______ efficiency.',
+        answer: 'photosynthetic', answerDisplay: 'photosynthetic', acceptable: ['photosynthetic'],
+        explanation: 'Paragraph B: <strong>"light-emitting diodes tuned to the specific wavelength bands that maximise photosynthetic efficiency."</strong> The sentence frame is a near-direct quotation; "photosynthetic" is the one-word answer bridging LEDs and efficiency.',
+        reinforcement: 'Correct — "photosynthetic" is the exact modifier in paragraph B describing what the LED wavelengths are tuned to maximise.' },
+      { id: 25, text: 'Leafy vegetables are commercially favoured in vertical farms partly because of their short _______ cycles and compact canopy structure.',
+        answer: 'growth', answerDisplay: 'growth', acceptable: ['growth'],
+        explanation: 'Paragraph C: <strong>"their short growth cycles, compact canopy structure, and high value-to-mass ratios justify the intensive capital and energy expenditure."</strong> "Growth" is the single noun completing "growth cycles."',
+        reinforcement: 'Correct — "growth" (cycles) is the passage-exact term in paragraph C explaining why leafy vegetables suit vertical farms.' },
+      { id: 26, text: 'Several analysts have characterised vertical farming as a technology whose environmental credentials are bound to the broader _______ transition.',
+        answer: 'energy', answerDisplay: 'energy', acceptable: ['energy'],
+        explanation: 'Paragraph D: <strong>"a technology whose environmental credentials are inextricably bound to the broader energy transition."</strong> "Energy" is the noun immediately before "transition" in this exact phrase.',
+        reinforcement: 'Correct — "energy" (transition) is the precise term in paragraph D\'s concluding characterisation of the technology\'s dependency.' },
+    ]
+  },
+
+  // ── PASSAGE 3 — The Attention Economy ──
+  {
+    passageId: 3,
+    type: 'matching_info',
+    label: 'Questions 27–31',
+    instructions: 'The reading passage has seven paragraphs, <strong>A–G</strong>. Which paragraph contains the following information? Write the correct letter <strong>A–G</strong> in the box. You may use any letter more than once.',
+    paraOptions: ['A','B','C','D','E','F','G'],
+    questions: [
+      { id: 27, text: 'A description of how infinite scroll interfaces remove the natural stopping points that would otherwise limit session duration.',
+        answer: 'D', answerDisplay: 'D',
+        explanation: 'Paragraph D: <strong>"Infinite scroll interfaces remove the natural stopping points that finite content formats impose, substituting an uninterrupted stream whose only terminus is the user\'s own decision to disengage."</strong>',
+        reinforcement: 'Correct — the description of infinite scroll removing stopping points is in paragraph D.' },
+      { id: 28, text: 'An explanation of how platform revenue structures create a financial incentive that is misaligned with the interests of users.',
+        answer: 'C', answerDisplay: 'C',
+        explanation: 'Paragraph C: <strong>"The structural misalignment between platform revenue incentives and user welfare constitutes… a textbook case of market failure."</strong> The revenue model explanation appears in the same paragraph.',
+        reinforcement: 'Correct — the revenue-incentive misalignment argument is developed in paragraph C.' },
+      { id: 29, text: 'A reference to research demonstrating that the effects of distraction on concentration persist even after the exposure to distraction has ended.',
+        answer: 'E', answerDisplay: 'E',
+        explanation: 'Paragraph E: <strong>"these attenuated activation patterns persist beyond the period of exposure"</strong> and "remains detectable even when the distracting stimuli have been removed."',
+        reinforcement: 'Correct — the persistence of cognitive effects after exposure ends is described in paragraph E.' },
+      { id: 30, text: 'An identification of attention as a resource that loses its value permanently if it is not deployed at the moment it arises.',
+        answer: 'B', answerDisplay: 'B',
+        explanation: 'Paragraph B: <strong>"Attention, unlike money, cannot be stored, transferred, or accumulated — it exists only at the moment of its expenditure and dissipates irreversibly thereafter."</strong>',
+        reinforcement: 'Correct — the irreversible dissipation of unspent attention is stated explicitly in paragraph B.' },
+      { id: 31, text: 'A description of regulatory requirements introduced in a specific jurisdiction to assess the societal risks of platform recommendation systems.',
+        answer: 'G', answerDisplay: 'G',
+        explanation: 'Paragraph G: <strong>"The European Union\'s Digital Services Act… requires platforms… to conduct and publish risk assessments for the range of societal harms… attributable to their recommendation architectures."</strong>',
+        reinforcement: 'Correct — the EU Digital Services Act and its risk assessment requirement are described in paragraph G.' },
+    ]
+  },
+  {
+    passageId: 3,
+    type: 'tfng',
+    label: 'Questions 32–36',
+    instructions: 'Do the following statements agree with the information given in the reading passage? Write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      { id: 32, text: 'The 2019 Nature Human Behaviour study found that the average time a single topic dominated public discourse decreased between 2013 and 2016.',
+        answer: 'TRUE',
+        explanation: 'Paragraph A: <strong>"from an average of seventeen days in 2013 to fewer than ten by 2016."</strong> The statement accurately paraphrases this decrease.',
+        reinforcement: 'Correct — paragraph A confirms the contraction from seventeen days to fewer than ten between 2013 and 2016.' },
+      { id: 33, text: 'Herbert Simon was the first person to use the term \'attention economy\' to describe competition for human cognitive engagement.',
+        answer: 'FALSE',
+        explanation: 'Paragraph B attributes the term \'attention economy\' to Michael Goldhaber (1997), not Herbert Simon. Simon only observed in 1971 that "a wealth of information creates a poverty of attention" — he did not coin the term "attention economy."',
+        reinforcement: 'Correct — paragraph B credits Goldhaber, not Simon, with the term "attention economy."' },
+      { id: 34, text: 'Internal platform documents confirmed that maximising user engagement was a deliberate design goal during rapid platform growth.',
+        answer: 'TRUE',
+        explanation: 'Paragraph D: <strong>"Internal documents from several major platforms, disclosed through regulatory proceedings… confirmed that engagement-maximising interface design was an explicit engineering and product development objective."</strong>',
+        reinforcement: 'Correct — paragraph D states internal documents explicitly confirmed engagement maximisation as a deliberate objective.' },
+      { id: 35, text: 'Children who use digital devices for creative activities such as art or writing experience the same cognitive effects as those who passively consume social media.',
+        answer: 'FALSE',
+        explanation: 'Paragraph F: <strong>"negative associations were specific to the passive consumption category"</strong> — active, goal-directed digital use (including creative production) was explicitly distinguished and did NOT show the same negative effects.',
+        reinforcement: 'Correct — paragraph F explicitly states negative cognitive effects were limited to passive consumption, not creative/active use.' },
+      { id: 36, text: 'The Center for Humane Technology was founded by a former employee of Google.',
+        answer: 'TRUE',
+        explanation: 'Paragraph G: <strong>"the Center for Humane Technology founded by former Google design ethicist Tristan Harris."</strong> "Former employee of Google" paraphrases "former Google design ethicist."',
+        reinforcement: 'Correct — paragraph G identifies Tristan Harris as a former Google employee who founded the Center for Humane Technology.' },
+    ]
+  },
+  {
+    passageId: 3,
+    type: 'sentence_completion',
+    label: 'Questions 37–40',
+    instructions: 'Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.<br><br><em>Research into the cognitive consequences of prolonged attention switching has drawn on the (37) _______ framework, first developed by psychologist John Sweller. This theory holds that working memory has a (38) _______ capacity, and that competing inputs reduce the depth at which information is processed. Neuroimaging studies showed that extended fragmented engagement reduces activation in the (39) _______ during concentration-demanding tasks. Crucially, these attenuated activation patterns persist after exposure ends, indicating a form of cognitive (40) _______ that partially impairs focused work even when distracting stimuli are no longer present.</em>',
+    questions: [
+      { id: 37, text: '(37) The framework first developed by psychologist John Sweller is known as the _______ framework.',
+        answer: 'cognitive load', answerDisplay: 'cognitive load', acceptable: ['cognitive load'],
+        explanation: 'Paragraph E: <strong>"the framework of cognitive load theory, first developed by educational psychologist John Sweller."</strong> The summary calls it "cognitive load framework"; the answer is "cognitive load" (two words).',
+        reinforcement: 'Correct — "cognitive load" is retrieved from paragraph E\'s introduction of Sweller\'s framework.' },
+      { id: 38, text: '(38) Working memory has a _______ capacity, meaning competing inputs reduce processing depth.',
+        answer: 'finite', answerDisplay: 'finite', acceptable: ['finite'],
+        explanation: 'Paragraph E: <strong>"Working memory… has a finite capacity; when saturated by competing simultaneous inputs, the depth of processing applied to any individual item decreases substantially."</strong>',
+        reinforcement: 'Correct — "finite" is the exact adjective in paragraph E describing working memory capacity.' },
+      { id: 39, text: '(39) Neuroimaging linked fragmented engagement to reduced activation in the _______ during tasks requiring concentration.',
+        answer: 'prefrontal cortex', answerDisplay: 'prefrontal cortex', acceptable: ['prefrontal cortex'],
+        explanation: 'Paragraph E: <strong>"measurably reduced activation in the prefrontal cortex during tasks requiring sustained concentration."</strong> "Prefrontal cortex" is two words and passage-exact.',
+        reinforcement: 'Correct — "prefrontal cortex" is the neuroanatomical region specified in paragraph E.' },
+      { id: 40, text: '(40) Persistence of reduced activation after exposure suggests a form of cognitive _______ that impairs focused work in quieter environments.',
+        answer: 'habituation', answerDisplay: 'habituation', acceptable: ['habituation'],
+        explanation: 'Paragraph E: <strong>"This persistence suggests a form of cognitive habituation to distraction — a partial and acquired degradation of the capacity for extended focused work."</strong>',
+        reinforcement: 'Correct — "habituation" is the exact noun in paragraph E describing the acquired cognitive degradation.' },
+    ]
+  },
 ];
 
 // ─────────────────────────────────────────
 //  STATE
 // ─────────────────────────────────────────
 const answers = {};
-const TOTAL_SECONDS = 1200;
+const TOTAL_SECONDS = 3600;
 let secondsLeft = TOTAL_SECONDS;
 let timerInterval = null;
 let submitted = false;
+
+// ─────────────────────────────────────────
+//  TAB SWITCHING
+// ─────────────────────────────────────────
+function switchTab(n) {
+  [1,2,3].forEach(i => {
+    document.getElementById('passageContent' + i).style.display = i === n ? 'block' : 'none';
+    document.getElementById('qPanel' + i).style.display = i === n ? 'block' : 'none';
+    document.getElementById('tabNav').querySelectorAll('.tab-btn')[i-1].classList.toggle('active', i === n);
+  });
+  document.getElementById('readingPane').scrollTop = 0;
+  document.getElementById('questionPane').scrollTop = 0;
+}
 
 // ─────────────────────────────────────────
 //  FONT SIZE CONTROLLER
@@ -482,7 +730,7 @@ function startTimer() {
 //  RENDER QUESTIONS
 // ─────────────────────────────────────────
 function renderAll() {
-  [1].forEach(pid => {
+  [1,2,3].forEach(pid => {
     const panel = document.getElementById('qPanel' + pid);
     let html = '';
     GROUPS.filter(g => g.passageId === pid).forEach(group => {
@@ -527,6 +775,17 @@ function renderAll() {
             <input type="text" class="q-input" id="q${q.id}" placeholder="Your answer…" oninput="recordAnswer(${q.id}, this.value.trim())" />
           </div>`;
         });
+      } else if (group.type === 'matching_info') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <select class="q-select" id="q${q.id}" onchange="recordAnswer(${q.id}, this.value)">
+              <option value="">— Select paragraph —</option>
+              ${group.paraOptions.map(p => `<option value="${p}">Paragraph ${p}</option>`).join('')}
+            </select>
+          </div>`;
+        });
       }
     });
     panel.innerHTML = html;
@@ -550,21 +809,22 @@ function scoreAnswer(q, studentRaw) {
   return student === q.answer.toLowerCase();
 }
 function bandFromScore(n) {
-  if (n >= 13) return 9.0; if (n >= 12) return 8.5; if (n >= 11) return 8.0;
-  if (n >= 10) return 7.5; if (n >= 9)  return 7.0; if (n >= 8)  return 6.5;
-  if (n >= 7)  return 6.0; if (n >= 6)  return 5.5; if (n >= 5)  return 5.0;
-  if (n >= 4)  return 4.5; if (n >= 3)  return 4.0; return 3.5;
+  if (n >= 39) return 9.0; if (n >= 37) return 8.5; if (n >= 35) return 8.0;
+  if (n >= 33) return 7.5; if (n >= 30) return 7.0; if (n >= 27) return 6.5;
+  if (n >= 23) return 6.0; if (n >= 19) return 5.5; if (n >= 15) return 5.0;
+  if (n >= 13) return 4.5; if (n >= 10) return 4.0; if (n >= 8) return 3.5;
+  if (n >= 6) return 3.0; return 2.5;
 }
 function bandColour(b) {
   if (b >= 7) return '#0D9488'; if (b >= 5.5) return '#C9952E'; return '#dc2626';
 }
 function bandAdvice(band, score) {
-  const pct = Math.round(score/13*100);
-  if (band >= 8.5) return `Outstanding — ${score}/13 (${pct}%) on this passage yields an estimated <strong>Band ${band}</strong>. You demonstrated near-perfect comprehension with precise vocabulary recognition. Maintain this accuracy across all three passages in the full exam.`;
-  if (band >= 7.5) return `Excellent result — ${score}/13 (${pct}%) gives an estimated <strong>Band ${band}</strong> for this passage. Very strong reading comprehension. To push towards Band 8+, tighten your approach to NOT GIVEN (make sure you're not inferring beyond the text) and sentence completion retrieval (copy exact words).`;
-  if (band >= 6.5) return `Good performance — ${score}/13 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Solid comprehension with room to improve. Focus areas: (1) TRUE vs FALSE — verify the exact claim, not just the topic; (2) Matching Headings — identify the paragraph's central argument, not keywords; (3) read sentence completion frames carefully for exact word clues.`;
-  if (band >= 5.5) return `You scored ${score}/13 (${pct}%), giving an estimated <strong>Band ${band}</strong> on this passage. There is clear potential here. Prioritise synonym recognition — almost every question involves paraphrase. Review your wrong answers and find the exact passage sentence that should have guided each response.`;
-  return `You scored ${score}/13 (${pct}%), giving an estimated <strong>Band ${band}</strong>. At this stage, focus on active reading: for each paragraph, identify the main claim in one sentence before reading the questions. Building academic vocabulary and daily timed reading practice will accelerate your progress significantly.`;
+  const pct = Math.round(score/40*100);
+  if (band >= 8.5) return `Outstanding — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Near-native comprehension across all three passages. Focus on NOT GIVEN precision and paraphrased sentence completions to push for Band 9.`;
+  if (band >= 7.5) return `Excellent result — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Strong academic reading. To push towards Band 8+: tighten NOT GIVEN judgements (never infer beyond the text) and copy sentence completion answers exactly from the passage.`;
+  if (band >= 6.5) return `Good performance — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Solid comprehension with room to improve. Review: (1) TRUE vs FALSE — verify the exact claim, not just the topic; (2) Matching Headings — identify the paragraph's central argument before selecting; (3) time allocation across all three passages.`;
+  if (band >= 5.5) return `You scored ${score}/40 (${pct}%), giving an estimated <strong>Band ${band}</strong>. Clear potential — prioritise synonym recognition, since every question involves paraphrase. Review each wrong answer and find the exact passage sentence that should have guided your response.`;
+  return `You scored ${score}/40 (${pct}%), giving an estimated <strong>Band ${band}</strong>. Focus on active reading: identify each paragraph's main claim before reading the questions. Daily timed reading of academic texts and vocabulary building will accelerate improvement significantly.`;
 }
 
 // ─────────────────────────────────────────
@@ -600,25 +860,37 @@ function showResults() {
   results.push({ date: Date.now(), book: 20, testNum: 1, skill: 'reading', scores: { reading: band } });
   localStorage.setItem('ielts_mock_results', JSON.stringify(results));
 
+  // Per-passage breakdown
+  const passageChips = [1,2,3].map(p => {
+    const pQs = GROUPS.filter(g => g.passageId === p).flatMap(g => g.questions);
+    const pC = pQs.filter(q => scoreAnswer(q, answers[q.id])).length;
+    const pCol = bandColour(bandFromScore(Math.round(pC/pQs.length*40)));
+    return `<div style="background:#EFF3F9;border:1px solid var(--border);border-radius:10px;padding:10px 14px;text-align:center;min-width:80px;">
+      <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px;">Passage ${p}</div>
+      <div style="font-family:'Space Mono',monospace;font-size:1.125rem;font-weight:700;color:${pCol};">${pC}/${pQs.length}</div>
+    </div>`;
+  }).join('');
+
   document.getElementById('scoreCard').innerHTML = `
     <div class="flex flex-col md:flex-row gap-6 items-center">
       <div class="score-ring-wrap">
         <svg width="120" height="120" viewBox="0 0 120 120">
           <circle cx="60" cy="60" r="50" fill="none" stroke="#E2E8F0" stroke-width="8"/>
           <circle cx="60" cy="60" r="50" fill="none" stroke="${bCol}" stroke-width="8"
-            stroke-dasharray="${Math.round(correct/13*314)} 314" stroke-linecap="round"
+            stroke-dasharray="${Math.round(correct/40*314)} 314" stroke-linecap="round"
             transform="rotate(-90 60 60)" style="transition:stroke-dasharray 1.2s cubic-bezier(.16,1,.3,1)"/>
         </svg>
         <div style="margin-top:-70px;text-align:center;pointer-events:none;">
           <div style="font-family:'Space Mono',monospace;font-size:1.75rem;font-weight:700;color:${bCol};">${correct}</div>
-          <div style="font-size:0.75rem;color:var(--text-muted);">out of 13</div>
+          <div style="font-size:0.75rem;color:var(--text-muted);">out of 40</div>
         </div>
         <div style="margin-top:16px;"></div>
       </div>
       <div class="flex-1">
         <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Your Score</div>
         <div class="font-display font-black text-4xl mb-1" style="color:${bCol};">Band ${band}</div>
-        <div class="text-sm mb-4" style="color:var(--text-muted);">${correct} correct answers out of 13</div>
+        <div class="text-sm mb-4" style="color:var(--text-muted);">${correct} correct answers out of 40</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">${passageChips}</div>
       </div>
     </div>`;
 
@@ -626,7 +898,7 @@ function showResults() {
     <div class="text-xs font-bold tracking-widest uppercase mb-3" style="color:var(--gold);">Overall Feedback</div>
     <div class="band-feedback">${bandAdvice(band, correct)}</div>`;
 
-  [1].forEach(pid => {
+  [1,2,3].forEach(pid => {
     let html = '';
     GROUPS.filter(g => g.passageId === pid).forEach(group => {
       html += `<div style="margin-bottom:0.5rem;padding:6px 0 8px;border-bottom:1px solid var(--border-soft);">
@@ -668,6 +940,8 @@ renderAll();
 startTimer();
 </script>
 <script src="/js/components.js"></script>
-<script>loadHeader();</script>
+<script>
+  IELTSLab.loadNav({ basePath: '../', breadcrumb: 'Mock Tests', authenticated: true, themeDefault: 'light' });
+</script>
 </body>
 </html>
