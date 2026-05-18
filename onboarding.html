@@ -236,6 +236,9 @@
         </div>
 
         <span class="msg-error" id="err3"></span>
+        <div id="signInFallback" style="display:none;margin-top:0.5rem;font-size:0.875rem;color:#4A5568;">
+          <a href="./login.html" style="color:#2C4A8F;font-weight:600;text-decoration:underline;">Sign in again →</a>
+        </div>
         <div class="btn-row">
           <button class="btn-back" onclick="goStep(2)">← Back</button>
           <button class="btn-primary" id="submitBtn" onclick="submitForm()">Complete setup →</button>
@@ -333,6 +336,12 @@
         body: JSON.stringify({ full_name, phone, age, current_band, target_band, exam_date, main_skill, ielts_reason, referral_source }),
       });
       const data = await res.json();
+      if (res.status === 401) {
+        localStorage.removeItem('ielts_session');
+        localStorage.removeItem('ielts_auth_token');
+        window.location.replace('./login.html');
+        return;
+      }
       if (!res.ok) throw new Error(data.error || 'Something went wrong. Please try again.');
 
       localStorage.setItem('ielts_session', JSON.stringify({ ...session, name: full_name }));
@@ -347,6 +356,9 @@
       setTimeout(redirectToApp, 3000);
     } catch (err) {
       errEl.textContent = err.message;
+      if (err.message.toLowerCase().includes('session') || err.message.toLowerCase().includes('sign in')) {
+        document.getElementById('signInFallback').style.display = 'block';
+      }
       btn.disabled = false; btn.textContent = 'Complete setup →';
     }
   }
