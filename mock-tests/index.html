@@ -389,7 +389,16 @@
     // DATA
     const CAMBRIDGE_BOOKS = [
       { num: 20, year: '2025', academic: true, general: true,
-        staticLinks: { '1-reading-academic': 'cam20-t1-reading.html', '2-reading-academic': 'cam20-t2-reading.html', '3-reading-academic': 'cam20-t3-reading.html', '4-reading-academic': 'cam20-t4-reading.html' } },
+        staticLinks: {
+          '1-reading-academic': 'cam20-t1-reading.html',
+          '2-reading-academic': 'cam20-t2-reading.html',
+          '3-reading-academic': 'cam20-t3-reading.html',
+          '4-reading-academic': 'cam20-t4-reading.html',
+          '1-writing-academic': 'cam20-t1-writing.html',
+          '2-writing-academic': 'cam20-t2-writing.html',
+          '3-writing-academic': 'cam20-t3-writing.html',
+          '4-writing-academic': 'cam20-t4-writing.html',
+        } },
       { num: 19, year: '2024', academic: true, general: true },
       { num: 18, year: '2023', academic: true, general: true },
       { num: 17, year: '2022', academic: true, general: true },
@@ -456,12 +465,21 @@
       const timeStr  = skillMode ? `${SKILL_ICONS[skillMode]} ${SKILL_TIMES[skillMode]}` : '⏱ ~3 hours';
       const onclickFn = skillMode ? `openSetup('single','${skillMode}',${book.num},${testNum})` : `openSetup('full',null,${book.num},${testNum})`;
 
-      // Direct-link button for any static reading test on this card
+      // Direct-link buttons for static test pages (reading + writing)
       const staticReadingUrl = book.staticLinks?.[`${testNum}-reading-academic`];
-      const showDirectRead = staticReadingUrl && (!skillMode || skillMode === 'reading');
-      const directBtn = showDirectRead
-        ? `<a href="${staticReadingUrl}" class="btn-gold" style="display:block;text-align:center;text-decoration:none;width:100%;font-size:0.8rem;padding:8px 0;">Start Reading →</a>`
-        : `<button onclick="${onclickFn}" class="btn-gold" style="width:100%;font-size:0.8rem;padding:8px 0;">${skillMode ? `Start ${SKILL_LABELS[skillMode]} →` : 'Start Test →'}</button>`;
+      const staticWritingUrl = book.staticLinks?.[`${testNum}-writing-academic`];
+      const showDirectRead  = staticReadingUrl  && (!skillMode || skillMode === 'reading');
+      const showDirectWrite = staticWritingUrl  && (!skillMode || skillMode === 'writing');
+      const hasInstant      = showDirectRead || showDirectWrite;
+
+      let directBtn;
+      if (showDirectRead) {
+        directBtn = `<a href="${staticReadingUrl}" class="btn-gold" style="display:block;text-align:center;text-decoration:none;width:100%;font-size:0.8rem;padding:8px 0;">Start Reading →</a>`;
+      } else if (showDirectWrite) {
+        directBtn = `<a href="${staticWritingUrl}" class="btn-gold" style="display:block;text-align:center;text-decoration:none;width:100%;font-size:0.8rem;padding:8px 0;">Start Writing →</a>`;
+      } else {
+        directBtn = `<button onclick="${onclickFn}" class="btn-gold" style="width:100%;font-size:0.8rem;padding:8px 0;">${skillMode ? `Start ${SKILL_LABELS[skillMode]} →` : 'Start Test →'}</button>`;
+      }
 
       return `
         <div class="test-card">
@@ -472,7 +490,7 @@
             </div>
             <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">
               <div class="card-taken" style="font-size:0.7rem;color:#9ca3af;display:flex;align-items:center;gap:3px;white-space:nowrap;">⚡ ${taken} taken</div>
-              ${showDirectRead ? `<span style="font-size:0.6rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;background:rgba(16,185,129,0.1);color:#059669;border:1px solid rgba(16,185,129,0.25);border-radius:4px;padding:2px 6px;">✅ Instant Results</span>` : ''}
+              ${hasInstant ? `<span style="font-size:0.6rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;background:rgba(16,185,129,0.1);color:#059669;border:1px solid rgba(16,185,129,0.25);border-radius:4px;padding:2px 6px;">✅ Instant Results</span>` : ''}
             </div>
           </div>
           <div style="display:flex;gap:4px;margin-bottom:10px;">${skillBadges}</div>
