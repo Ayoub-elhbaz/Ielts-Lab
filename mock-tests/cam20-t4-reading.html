@@ -131,36 +131,41 @@
 </div>
 
 <!-- TEST MAIN -->
-<div id="testMain">
-  <main class="max-w-6xl mx-auto px-6 pt-8 pb-4">
+<main class="flex-1 w-full px-4 py-6" id="testMain">
 
-    <!-- Header -->
-    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-      <div>
-        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Cambridge 20 · Full Test 4</div>
-        <h1 class="font-display font-black text-2xl" style="color:var(--text-primary);">Academic Reading — Full Test 4</h1>
-      </div>
-      <div class="flex items-center gap-3 flex-wrap">
-        <div class="font-ctrl">
-          <span class="font-ctrl-label">Text</span>
-          <button class="font-ctrl-btn a-small" onclick="adjustFontSize(-1)" title="Decrease font size">A</button>
-          <button class="font-ctrl-btn a-mid" onclick="adjustFontSize(0)" title="Reset font size">A</button>
-          <button class="font-ctrl-btn a-large" onclick="adjustFontSize(1)" title="Increase font size">A</button>
-        </div>
-        <div id="timerDisplay" class="timer-box">60:00</div>
-        <button class="btn-gold" onclick="confirmSubmit()" style="padding:10px 20px;font-size:0.875rem;">Submit Test</button>
-      </div>
+  <!-- HEADER ROW -->
+  <div class="flex items-start justify-between mb-5 gap-4">
+    <div>
+      <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Cambridge 20 · Full Test 4</div>
+      <h1 class="font-display font-black text-2xl" style="color:var(--text-primary);">Academic Reading — Full Test 4</h1>
     </div>
-
-    <!-- Tab Nav -->
-    <div class="tab-nav" id="tabNav">
-      <button class="tab-btn active" onclick="switchTab(1)">Passage 1 <span style="font-size:0.75rem;opacity:0.7;">(Q1–13)</span></button>
-      <button class="tab-btn" onclick="switchTab(2)">Passage 2 <span style="font-size:0.75rem;opacity:0.7;">(Q14–26)</span></button>
-      <button class="tab-btn" onclick="switchTab(3)">Passage 3 <span style="font-size:0.75rem;opacity:0.7;">(Q27–40)</span></button>
+    <div class="flex items-center gap-3 flex-shrink-0">
+      <div id="timerDisplay" class="timer-box">60:00</div>
     </div>
+  </div>
 
-    <!-- Split Container -->
-    <div class="split-container" id="splitContainer">
+  <!-- ACCESSIBILITY TOOLBAR -->
+  <div class="a11y-bar">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-muted);flex-shrink:0;"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+    <span class="a11y-bar-label">Text Size</span>
+    <div class="font-ctrl" role="toolbar" aria-label="Adjust passage text size">
+      <button class="font-ctrl-btn a-small" onclick="adjustFontSize(-1)" title="Decrease text size">A−</button>
+      <button class="font-ctrl-btn a-mid"   onclick="adjustFontSize(0)"  title="Reset text size">A</button>
+      <button class="font-ctrl-btn a-large" onclick="adjustFontSize(1)"  title="Increase text size">A+</button>
+    </div>
+    <span style="font-size:0.75rem;color:var(--text-faint);">Adjust the reading passage font size</span>
+    <div class="ml-auto text-xs hidden md:block" style="color:var(--text-muted);">60 minutes · 40 questions · 3 passages</div>
+  </div>
+
+  <!-- TAB NAV -->
+  <div class="tab-nav" id="tabNav">
+    <button class="tab-btn active" onclick="switchTab(1)">Passage 1 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q1–13)</span></button>
+    <button class="tab-btn" onclick="switchTab(2)">Passage 2 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q14–26)</span></button>
+    <button class="tab-btn" onclick="switchTab(3)">Passage 3 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q27–40)</span></button>
+  </div>
+
+  <!-- SPLIT CONTAINER -->
+  <div class="split-container" id="splitContainer">
 
       <!-- Reading Pane -->
       <div class="reading-pane" id="readingPane">
@@ -232,10 +237,13 @@
         <div id="qPanel3" style="display:none;"></div>
       </div>
 
-    </div><!-- end split-container -->
+  </div><!-- /split-container -->
 
-  </main>
-</div><!-- end testMain -->
+  <!-- SUBMIT -->
+  <div class="flex justify-center mt-10 mb-16">
+    <button onclick="confirmSubmit()" class="btn-gold px-10 py-4 text-base">Submit Reading Test</button>
+  </div>
+</main>
 
 <!-- RESULTS MAIN -->
 <div id="resultsMain" style="display:none;" class="flex-1 max-w-5xl mx-auto px-6 py-10 w-full">
