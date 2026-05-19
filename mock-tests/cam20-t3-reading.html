@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IELTS Lab — Cambridge 20 Full Test 3 · Academic Reading</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <script>tailwind.config={theme:{extend:{fontFamily:{display:['Satoshi','Plus Jakarta Sans','system-ui','sans-serif'],sans:['Plus Jakarta Sans','system-ui','sans-serif']}}}}</script>
+  <style>
+    /* ── DESIGN TOKENS ── */
+    :root {
+      --gold: #C9952E;
+      --gold-light: #DDB05A;
+      --gold-dim: rgba(201,149,46,0.10);
+      --gold-border: rgba(201,149,46,0.30);
+      --navy: #1a3c6e;
+      --navy-mid: #2a4f8a;
+      --page-bg: #F7F8FA;
+      --card-bg: #FFFFFF;
+      --qpanel-bg: #EFF3F9;
+      --border: #E2E8F0;
+      --border-soft: #EEF1F6;
+      --text-primary: #1E2A3A;
+      --text-body: #374151;
+      --text-muted: #64748B;
+      --text-faint: #94A3B8;
+      --passage-font-size: 15px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--page-bg); color: var(--text-primary); }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    h1, h2, h3, h4, .font-display { font-family: 'Satoshi', 'Plus Jakarta Sans', system-ui, sans-serif; }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #EFF2F7; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 3px; }
+
+    /* ── PROGRESS ── */
+    .progress-bar { height: 3px; background: #E2E8F0; position: fixed; top: 64px; left: 0; right: 0; z-index: 40; }
+    .progress-fill { height: 100%; background: linear-gradient(to right, var(--gold), #DDB05A); transition: width 1s linear; width: 0%; }
+
+    /* ── NAV ── */
+    .nav-glass { background: rgba(255,255,255,0.97); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .nav-logo { display: flex; align-items: baseline; gap: 0; text-decoration: none; }
+    .nl-ielts { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; letter-spacing: 1px; color: var(--text-primary); }
+    .nl-lab { font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: 3px; color: var(--gold); margin-left: 5px; }
+    #themeToggle { background: transparent; border: 1.5px solid var(--border); color: var(--text-muted); border-radius: 8px; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; font-size: 15px; flex-shrink: 0; padding: 0; }
+    #themeToggle:hover { border-color: var(--gold-border); color: var(--gold); }
+
+    /* ── TIMER ── */
+    .timer-box { background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 10px; padding: 8px 16px; font-family: 'Space Mono', monospace; font-size: 1.125rem; font-weight: 700; color: var(--text-primary); letter-spacing: 2px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+    .timer-box.warning { color: #b45309; border-color: rgba(180,83,9,0.3); background: #fffbeb; }
+    .timer-box.critical { color: #dc2626; border-color: rgba(220,38,38,0.3); background: #fef2f2; animation: pulse 1s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
+
+    /* ── TIMING STRIP ── */
+    .timing-strip { background: #FAFBFD; border-bottom: 1px solid var(--border); padding: 8px 0; }
+    .timing-item { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+    .timing-label { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
+    .timing-val { font-size: 0.75rem; color: var(--text-muted); }
+
+    /* ── FONT SIZE CONTROLLER ── */
+    .font-ctrl { display: inline-flex; align-items: center; gap: 0; background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 9px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .font-ctrl-btn { padding: 6px 12px; border: none; background: transparent; cursor: pointer; color: var(--text-muted); font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.15s; line-height: 1; border-right: 1px solid var(--border); }
+    .font-ctrl-btn:last-child { border-right: none; }
+    .font-ctrl-btn:hover { background: var(--gold-dim); color: var(--gold); }
+    .font-ctrl-btn.a-small { font-size: 11px; }
+    .font-ctrl-btn.a-mid   { font-size: 13px; }
+    .font-ctrl-btn.a-large { font-size: 16px; }
+    .font-ctrl-label { font-size: 0.625rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); padding: 0 8px; }
+
+    /* ── ACCESSIBILITY TOOLBAR ── */
+    .a11y-bar { display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: #FFFFFF; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .a11y-bar-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); }
+
+    /* ── TAB NAV ── */
+    .tab-nav { display: flex; gap: 4px; margin-bottom: 1rem; background: #EFF3F9; border-radius: 12px; padding: 4px; }
+    .tab-btn { flex: 1; padding: 8px 12px; border: none; border-radius: 9px; background: transparent; color: var(--text-muted); font-size: 0.8125rem; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .tab-btn:hover { background: rgba(255,255,255,0.6); color: var(--text-primary); }
+    .tab-btn.active { background: #FFFFFF; color: var(--navy); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+
+    /* ── SECTION CARDS ── */
+    .section-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 1.75rem; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+
+    /* ── PASSAGE ── */
+    .passage-text { font-size: var(--passage-font-size); line-height: 2.0; color: var(--text-body); transition: font-size 0.2s ease; }
+    .passage-text p { margin-bottom: 1.2rem; }
+    .para-label { display: inline-block; font-family: 'Space Mono', monospace; font-size: 0.6875rem; font-weight: 700; color: var(--navy); background: rgba(26,60,110,0.08); border: 1px solid rgba(26,60,110,0.18); border-radius: 4px; padding: 1px 6px; margin-right: 8px; letter-spacing: 0.05em; }
+
+    /* ── QUESTION BLOCKS ── */
+    .q-block { margin-bottom: 1.25rem; padding: 1rem 1.15rem; border-radius: 12px; background: #FFFFFF; border: 1px solid var(--border); }
+    .q-num { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+    .q-text { font-size: 0.9rem; color: var(--text-body); margin-bottom: 10px; line-height: 1.65; }
+    .q-input { width: 100%; background: #F8FAFC; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text-primary); font-size: 0.9rem; transition: border-color 0.2s, box-shadow 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-input:focus { outline: none; border-color: var(--gold-border); box-shadow: 0 0 0 3px var(--gold-dim); }
+    .q-select { width: 100%; background: #F8FAFC; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text-primary); font-size: 0.875rem; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-select:focus { outline: none; border-color: var(--gold-border); }
+
+    /* ── T/F/NG BUTTONS ── */
+    .q-tfng { display: flex; gap: 8px; flex-wrap: wrap; }
+    .q-tfng-btn { padding: 7px 16px; border: 1.5px solid var(--border); border-radius: 8px; background: #F8FAFC; color: var(--text-muted); font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: all 0.15s; font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: 0.04em; }
+    .q-tfng-btn:hover { border-color: var(--gold-border); color: var(--gold); background: var(--gold-dim); }
+    .q-tfng-btn.sel-t  { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.4); color: #059669; }
+    .q-tfng-btn.sel-f  { background: rgba(239,68,68,0.08);  border-color: rgba(239,68,68,0.4);  color: #dc2626; }
+    .q-tfng-btn.sel-ng { background: rgba(201,149,46,0.10); border-color: var(--gold-border);    color: var(--gold); }
+
+    /* ── HEADINGS LIST ── */
+    .headings-list { background: #EFF3F9; border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.25rem; font-size: 0.875rem; color: var(--text-body); }
+    .headings-list ul { padding-left: 0; }
+    .headings-list li { display: flex; gap: 10px; margin-bottom: 0.6rem; line-height: 1.55; }
+    .headings-list li span { font-family: 'Space Mono', monospace; font-weight: 700; color: var(--navy); flex-shrink: 0; min-width: 20px; }
+
+    /* ── GROUP HEADER ── */
+    .group-header { background: #EFF3F9; border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.25rem; font-size: 0.875rem; color: var(--text-body); line-height: 1.65; }
+    .group-header .text-xs { margin-bottom: 4px; }
+
+    /* ── SPLIT PANE ── */
+    .split-container { display: flex; gap: 0; min-height: calc(100vh - 260px); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; background: var(--card-bg); }
+    .reading-pane { flex: 0 0 50%; overflow-y: auto; padding: 1.5rem 1.75rem; border-right: 1px solid var(--border); min-height: 500px; }
+    .question-pane { flex: 1; overflow-y: auto; padding: 1.25rem 1.5rem; }
+    .resizer-bar { width: 6px; background: var(--border); cursor: col-resize; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.2s; }
+    .resizer-bar:hover, .resizer-bar.active { background: var(--gold-border); }
+    .resizer-btn { background: transparent; border: none; cursor: col-resize; display: flex; align-items: center; gap: 2px; flex-direction: column; padding: 4px 2px; }
+
+    /* ── RESULTS ── */
+    .score-ring-wrap { display: flex; flex-direction: column; align-items: center; }
+    .band-feedback { font-size: 0.95rem; color: var(--text-body); line-height: 1.75; }
+    .passage-corr-header { font-family: 'Satoshi', sans-serif; font-weight: 700; font-size: 1rem; color: var(--navy); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+    .corr-block { padding: 1rem 1.15rem; border-radius: 12px; margin-bottom: 0.9rem; border: 1px solid; }
+    .corr-correct { background: rgba(16,185,129,0.04); border-color: rgba(16,185,129,0.2); }
+    .corr-wrong { background: rgba(239,68,68,0.04); border-color: rgba(239,68,68,0.2); }
+    .corr-qnum { font-size: 0.75rem; font-weight: 700; margin-bottom: 5px; }
+    .corr-qnum.ok { color: #059669; }
+    .corr-qnum.bad { color: #dc2626; }
+    .corr-qtext { font-size: 0.875rem; color: var(--text-body); margin-bottom: 8px; line-height: 1.6; }
+    .corr-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+    .corr-tag { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; flex-shrink: 0; }
+    .corr-tag.your { background: rgba(239,68,68,0.1); color: #dc2626; }
+    .corr-tag.correct { background: rgba(16,185,129,0.1); color: #059669; }
+    .corr-tag.reinforce { background: rgba(16,185,129,0.1); color: #059669; }
+    .corr-val { font-size: 0.875rem; font-weight: 600; color: var(--text-primary); }
+    .corr-expl { font-size: 0.8125rem; color: var(--text-muted); line-height: 1.65; margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--border-soft); }
+
+    /* ── BUTTONS ── */
+    .btn-gold { background: var(--gold); color: #fff; border: none; border-radius: 12px; font-family: 'Satoshi', sans-serif; font-weight: 700; font-size: 0.9375rem; cursor: pointer; padding: 12px 28px; transition: all 0.2s; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-gold:hover { background: var(--gold-light); box-shadow: 0 4px 16px rgba(201,149,46,0.3); }
+
+    /* ── SPINNER ── */
+    .spinner { width: 44px; height: 44px; border: 3px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+<div id="header-container"></div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<!-- TIMING STRIP -->
+<div class="timing-strip" id="timingStrip">
+  <div class="max-w-6xl mx-auto px-6 flex items-center justify-between gap-4">
+    <div class="flex items-center gap-6">
+      <div class="timing-item"><span class="timing-label">Test</span><span class="timing-val">Cambridge 20 · Test 3</span></div>
+      <div class="timing-item"><span class="timing-label">Section</span><span class="timing-val">Academic Reading</span></div>
+      <div class="timing-item"><span class="timing-label">Questions</span><span class="timing-val">40 total</span></div>
+    </div>
+    <div class="flex items-center gap-3">
+      <div class="timing-item"><span class="timing-label">Passages</span><span class="timing-val">3</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- SUBMITTING OVERLAY -->
+<div id="submittingOverlay" style="display:none;position:fixed;inset:0;background:rgba(247,248,250,0.92);z-index:9999;flex-direction:column;align-items:center;justify-content:center;gap:20px;">
+  <div class="spinner"></div>
+  <div class="font-display font-bold text-lg" style="color:var(--text-primary);">Marking your answers…</div>
+</div>
+
+<!-- TEST MAIN -->
+<main id="testMain" class="max-w-6xl mx-auto px-6 py-6">
+
+  <!-- TEST HEADER -->
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-5">
+    <div>
+      <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Cambridge 20 · Full Test 3</div>
+      <h1 class="font-display font-black text-2xl" style="color:var(--text-primary);">Academic Reading — Full Test 3</h1>
+    </div>
+    <div class="flex items-center gap-3 flex-wrap">
+      <div class="a11y-bar" style="margin-bottom:0;">
+        <span class="a11y-bar-label">Text size</span>
+        <div class="font-ctrl">
+          <button class="font-ctrl-btn a-small" onclick="adjustFontSize(-1)">A</button>
+          <button class="font-ctrl-btn a-mid" onclick="adjustFontSize(0)">A</button>
+          <button class="font-ctrl-btn a-large" onclick="adjustFontSize(1)">A</button>
+        </div>
+      </div>
+      <div class="timer-box" id="timerDisplay">60:00</div>
+      <button class="btn-gold" onclick="confirmSubmit()" style="padding:10px 20px;font-size:0.875rem;">Submit Test</button>
+    </div>
+  </div>
+
+  <!-- TAB NAV -->
+  <div class="tab-nav" id="tabNav">
+    <button class="tab-btn active" onclick="switchTab(1)">Passage 1 <span style="font-size:0.75rem;opacity:0.7;">(Q1–13)</span></button>
+    <button class="tab-btn" onclick="switchTab(2)">Passage 2 <span style="font-size:0.75rem;opacity:0.7;">(Q14–26)</span></button>
+    <button class="tab-btn" onclick="switchTab(3)">Passage 3 <span style="font-size:0.75rem;opacity:0.7;">(Q27–40)</span></button>
+  </div>
+
+  <!-- SPLIT CONTAINER -->
+  <div class="split-container" id="splitContainer">
+    <!-- READING PANE -->
+    <div class="reading-pane" id="readingPane">
+
+      <!-- PASSAGE 1 -->
+      <div id="passageContent1">
+        <div class="mb-5">
+          <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 1</div>
+          <h2 class="font-display font-bold text-xl mb-1" style="color:var(--navy);">The Mycorrhizal Network: Underground Partnerships and Forest Ecology</h2>
+        </div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>In 1997, ecologist Suzanne Simard published results in <em>Nature</em> from experiments in British Columbia's interior forests showing that Douglas fir seedlings deprived of neighbouring mature trees showed stunted growth — not due to light competition alone, but because they were severed from a subterranean exchange network mediated by fungi. The finding catalysed a decade of research into what has since been termed the mycorrhizal network: a web of fungal threads permeating forest soils that physically connects the root systems of multiple trees and facilitates the bidirectional movement of carbon, water, and mineral nutrients across the forest floor. What had previously been regarded as a straightforward symbiotic exchange between individual plants and their fungal partners was revealed to be a community-wide infrastructure whose disruption may fundamentally alter the character of forest ecosystems.</p>
+          <p><span class="para-label">B</span>Two main types of mycorrhizal associations have been characterised. Ectomycorrhizae (ECM) form a sheath around root tips without penetrating cells — a structure associated with temperate forest trees including oaks, beeches, and conifers. Arbuscular mycorrhizae (AM), by contrast, penetrate cell walls and form branching structures called arbuscules inside root cells — a type associated with approximately 80% of all land plant species. In both cases the plant supplies the fungus with photosynthetically fixed carbon sugars, while the fungus provides the plant with mineral nutrients — principally phosphorus and nitrogen — accessed through the fungus's hyphal network, which extends far beyond the nutrient-depleted zone immediately surrounding the root. The relationship is ancient: fossil evidence from 407 million years ago indicates mycorrhizal associations predated the colonisation of land by complex vascular plants, suggesting the partnership may have been essential to the terrestrial spread of plant life.</p>
+          <p><span class="para-label">C</span>Carbon flows from source trees — those with higher photosynthetic rates, typically mature canopy trees — to sink trees, which are younger plants growing in shade or under stress. This movement proceeds through the fungal network, driven by concentration gradients. Researchers have traced these flows using radioactive carbon-14 and stable isotope carbon-13 as tracers, injecting labelled CO₂ into paper bag chambers placed over individual trees and detecting its appearance in connected neighbours within hours. Nitrogen and phosphorus move in the opposite direction relative to carbon — from fungus to plant — as the fungi mine mineral compounds from soil organic matter through the secretion of extracellular enzymes. Studies at the University of British Columbia demonstrated that in some stands up to 40% of the carbon in the youngest seedlings derived from carbon fixed by larger neighbouring trees.</p>
+          <p><span class="para-label">D</span>Not all trees are equally connected within the network. Large, old trees — those that Simard termed "mother trees" — function as hub nodes: they maintain the largest number of fungal linkages and serve as the primary conduits through which resources flow to surrounding vegetation. When a hub tree is damaged or felled, network connectivity drops precipitously, and the survival rates of seedlings in the surrounding area decline measurably. Beyond simple nutrient transfer, there is growing evidence that chemical signals — including defence compounds and stress hormones — can travel through the hyphal network when one plant is attacked by pests or pathogens, eliciting pre-emptive chemical responses in connected neighbours before the threat arrives. This so-called "defence priming" has been demonstrated experimentally in both arbuscular and ectomycorrhizal systems, though the precise molecular identities of the signalling compounds remain incompletely characterised.</p>
+          <p><span class="para-label">E</span>The most controlled evidence for network effects comes from mesh-bag experiments, in which plants are grown in containers separated by membranes of different pore sizes. Where mesh excludes all fungal hyphae (pore size &lt; 0.5 µm), seedlings growing near established plants show none of the growth benefits observed in open-soil controls. Where mesh allows hyphae but not roots to pass through, seedlings receive substantial resource transfers. A 2015 study by Song and colleagues published in <em>Ecology Letters</em> used this approach to demonstrate that mycorrhizal-connected plants primed with herbivore damage could activate chemical defences in unconnected neighbours only when the connecting mesh permitted hyphal passage — establishing network-mediated signalling as distinct from airborne volatile communication.</p>
+          <p><span class="para-label">F</span>The atmospheric deposition of reactive nitrogen from agricultural ammonia and fossil fuel combustion has emerged as one of the most pervasive threats to mycorrhizal diversity in temperate and boreal forests. Under high nitrogen conditions, plants can meet their own nitrogen needs directly from soil solution without fungal assistance, reducing the carbon subsidy they extend to fungal partners and causing measurable declines in the diversity and biomass of mycorrhizal communities. Fungicide applications in agricultural soils similarly suppress arbuscular mycorrhizal colonisation rates in adjacent land. Perhaps most damaging of all is clear-cut logging, which simultaneously removes the photosynthetic carbon source that sustains the network and physically disrupts the hyphal mat through mechanical soil disturbance. Recovery of mycorrhizal diversity after clear-cutting has been shown to take decades even under replanting programmes that reintroduce appropriate tree species.</p>
+          <p><span class="para-label">G</span>The recognition that mycorrhizal networks constitute ecological infrastructure — rather than mere dyadic plant-fungus symbioses — has implications for forest management, restoration ecology, and climate policy. Reforestation programmes that introduce seedlings without regard for the mycorrhizal compatibility between introduced species and surviving forest remnants risk creating isolated plantings that fail to recruit into the existing network. Some practitioners now advocate for "assisted mycorrhization" — the deliberate inoculation of seedlings with locally derived fungal strains before planting — as a way to accelerate network integration. As global temperatures rise, the shifting distribution of fungal species and the alteration of soil moisture regimes may reorganise mycorrhizal community composition in ways that current Earth system models do not capture, introducing an important and largely unquantified uncertainty into projections of forest carbon storage under warming scenarios.</p>
+        </div>
+      </div>
+
+      <!-- PASSAGE 2 -->
+      <div id="passageContent2" style="display:none;">
+        <div class="mb-5">
+          <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 2</div>
+          <h2 class="font-display font-bold text-xl mb-1" style="color:var(--navy);">The Architecture of Sleep: Neural Mechanisms and Memory Consolidation</h2>
+        </div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>In a landmark series of experiments conducted across the 1950s and 1960s at the University of Chicago, researchers studying electroencephalographic recordings from sleeping subjects identified two fundamentally different physiological states alternating throughout the night: periods of high-amplitude, low-frequency electrical activity — slow-wave sleep — punctuated by episodes of low-amplitude, high-frequency activity virtually indistinguishable from wakefulness, accompanied by rapid conjugate eye movements and near-complete skeletal muscle paralysis. The discovery of what became known as rapid eye movement sleep, or REM, overturned the prevailing view of sleep as a passive withdrawal from consciousness and established it as an active neurobiological process with distinct stages, each associated with specific patterns of brain activation, neuromodulatory tone, and — as subsequent decades of research would establish — specific cognitive functions.</p>
+          <p><span class="para-label">B</span>The timing and depth of sleep are governed by two interacting biological systems first formalised by Alexander Borbély in his influential two-process model, published in 1982. Process C represents the circadian rhythm: a roughly twenty-four-hour oscillation in physiological arousal generated by the suprachiasmatic nucleus (SCN) of the hypothalamus in response to light input via the retinohypothalamic tract. Process S represents homeostatic sleep pressure: the accumulating drive to sleep that builds during wakefulness and dissipates during sleep, mediated in part by the progressive extracellular accumulation of adenosine — a metabolic by-product of neural activity — whose binding to A1 receptors in the basal forebrain promotes sleepiness. The interaction of these two processes explains the characteristic shape of the human sleep-wake cycle: sleep is most restorative when initiated at the peak of circadian sleep propensity, and the depth of early sleep stages is proportional to the duration of preceding wakefulness.</p>
+          <p><span class="para-label">C</span>In healthy adults, sleep is organised into repeating cycles of approximately ninety minutes, with four to six cycles typically completed across a normal nocturnal sleep period. Each cycle begins with the light transitional stage N1, progresses to N2 sleep characterised by sleep spindles — brief bursts of twelve to fifteen Hz oscillatory activity generated by thalamocortical circuits — and K-complexes, then deepens into N3 slow-wave sleep (SWS), characterised by delta oscillations of 0.5–4 Hz that reflect the synchronised slow cycling of large cortical neuronal populations between active and silent states. REM sleep, which closes each cycle, is generated by cholinergic neurones in the brainstem and is characterised by tonic depolarisation of cortical neurones, cessation of noradrenergic and serotonergic tone, and the vivid, narrative-structured dreaming that most people report upon awakening from this stage. The proportion of the cycle occupied by SWS is greatest early in the night, while REM periods lengthen progressively in later cycles, reflecting the differential regulation of these stages by homeostatic and circadian factors respectively.</p>
+          <p><span class="para-label">D</span>The consolidation of declarative memory — factual knowledge and autobiographical episodes explicitly available to conscious recall — depends critically on the hippocampus during encoding and on a subsequent dialogue between the hippocampus and the neocortex during consolidation. Neurophysiological recordings in rodents have revealed that during SWS, the hippocampus replays sequences of place-cell firing that occurred during prior waking experience, in a compressed form and coordinated with sharp-wave ripple events in the CA1 region. These hippocampal ripples are temporally coupled with cortical sleep spindles and the slow oscillation, creating a three-way dialogue that is thought to transfer memory traces from the hippocampus to distributed neocortical storage sites — a process sometimes termed the two-stage model of memory consolidation. Human neuroimaging studies have confirmed that reactivation of hippocampal patterns during SWS correlates with subsequent retention of factual material learned before sleep, and that targeted memory reactivation — in which learning-associated odour cues are re-presented during SWS — enhances consolidation of the associated memories.</p>
+          <p><span class="para-label">E</span>While declarative memory consolidation is associated primarily with SWS, procedural memory — the learning of motor skills, perceptual discriminations, and rule-based problem solving — shows a preferential dependence on REM sleep. A widely cited experimental paradigm involves the finger-tapping task, in which subjects learn a novel sequence of keystrokes as rapidly as possible. Subjects who sleep normally between training and testing show substantially greater speed and accuracy on retest than those who remain awake, with the improvement correlating specifically with the amount of stage 2 and REM sleep obtained. The administration of REM-suppressing drugs — including certain antidepressants — disrupts this overnight improvement without affecting subjective assessments of sleep quality, indicating a specific and dissociable role of REM-stage processes in motor sequence learning. Neuroimaging evidence suggests that during REM sleep, the motor cortex and striatum replay motor sequences in an accelerated and reorganised form, with patterns of activation resembling those of skilled rather than novice performers.</p>
+          <p><span class="para-label">F</span>The succession of sleep stages is orchestrated by a complex interplay of neurotransmitter systems. Cholinergic neurones in the laterodorsal tegmentum and pedunculopontine tegmentum are maximally active during REM sleep, generating the cortical activation and muscle atonia that characterise this stage through a cascade of projections to the thalamus and brainstem motor nuclei. During NREM sleep, the firing of these cholinergic cells is inhibited by GABAergic interneurones and by aminergic cells — noradrenergic neurones of the locus coeruleus and serotonergic neurones of the dorsal raphe — whose activity progressively declines through NREM stages. This withdrawal of aminergic tone is thought to be essential for SWS memory consolidation: noradrenaline suppresses hippocampal sharp-wave ripples when present, and its absence during SWS may be a necessary condition for the hippocampal replay events that drive declarative memory transfer. Adenosine, accumulating during wakefulness, is cleared rapidly during sleep — a process disrupted by caffeine, which blocks adenosine receptors and impairs the homeostatic sleep pressure that drives deep NREM sleep.</p>
+          <p><span class="para-label">G</span>Chronic sleep restriction — typically defined as fewer than six hours per night sustained over weeks — produces cumulative cognitive deficits that individuals are often unable to perceive in their own performance, as the subjective sensation of sleepiness adapts to the restricted schedule while objective measures of sustained attention and working memory continue to decline. The economic costs of sleep disorders — including insomnia, which affects approximately one-third of adults at some point in their lives, and obstructive sleep apnoea, which is diagnosed in an estimated one billion people globally — have been estimated in multiple healthcare systems at tens of billions of dollars annually in lost productivity and healthcare utilisation. An unresolved debate in the sleep science literature concerns whether the cognitive consequences of sleep deprivation are primary — resulting from the deprivation itself — or secondary to the metabolic, cardiovascular, and inflammatory disruptions that accompany it; disentangling these pathways has significant implications for how sleep disorders are conceptualised and treated.</p>
+        </div>
+      </div>
+
+      <!-- PASSAGE 3 -->
+      <div id="passageContent3" style="display:none;">
+        <div class="mb-5">
+          <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 3</div>
+          <h2 class="font-display font-bold text-xl mb-1" style="color:var(--navy);">Microfinance: Origins, Evidence, and the Limits of Financial Inclusion</h2>
+        </div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>In 1976, a Bangladeshi economist named Muhammad Yunus lent twenty-seven US dollars of his own money to forty-two bamboo-stool makers in the village of Jobra, near Chittagong, who had previously been trapped in a cycle of debt to local moneylenders charging rates that made commercial profit impossible. The experiment was not planned as the origin of a global financial institution, but the repayment of those loans in full and on schedule convinced Yunus that access to small quantities of capital, extended without conventional collateral requirements, could generate economic activity among the rural poor that formal banking had structurally excluded. The Grameen Bank — Bengali for "village bank" — was formally established in 1983 and would grow to serve more than nine million borrowers by 2023. Yunus received the Nobel Peace Prize in 2006 in recognition of work that had by then spawned a global microfinance industry reaching, by conservative estimates, more than 140 million clients across more than one hundred countries.</p>
+          <p><span class="para-label">B</span>The design of the Grameen model departed in several critical respects from conventional banking. Borrowers were organised into groups of five, whose members were collectively responsible for one another's repayments: no individual could receive a new loan if any group member had defaulted on a current one. This mechanism substituted social collateral — the peer pressure generated by mutual accountability within a close-knit community — for the physical collateral that the rural poor could not provide. Loan officers visited borrowers weekly in their villages rather than requiring borrowers to travel to branches, reducing transaction costs for the borrower and enabling the officers to assess loan use and household circumstances directly. Interest was calculated on the original principal rather than on a declining balance, making effective rates higher than nominal ones — a feature that would later attract scrutiny. Women were explicitly targeted as the primary borrowers on the theory that female-controlled income was more reliably directed toward household welfare, particularly children's nutrition and education, than male-controlled income.</p>
+          <p><span class="para-label">C</span>The Grameen model diffused rapidly through development organisations, governments, and investors from the 1980s onward, mutating as it spread into a diverse ecosystem of microfinance institutions (MFIs) with widely varying ownership structures, product designs, and operational philosophies. By the mid-2000s, commercial investors had entered the sector at scale, attracted by repayment rates that frequently exceeded those of conventional consumer credit in equivalent markets. The listing of Mexico's Compartamos Banco on the stock exchange in 2007 — generating substantial returns for early investors from a portfolio of borrowers paying effective annual interest rates exceeding one hundred percent — crystallised a debate about whether the commercialisation of microfinance had fundamentally compromised its social mission. Critics argued that the original model's cross-subsidy structure, in which the institution's operational costs were covered by the productive loans extended to more commercially viable clients, had been replaced by profit maximisation that intensified the burden on the most financially vulnerable borrowers.</p>
+          <p><span class="para-label">D</span>The decade of the 2000s saw increasing pressure from development economists to subject the claims made on microfinance's behalf to rigorous evaluation. The most methodologically credible work took the form of randomised controlled trials (RCTs), in which expansion of MFI branches into new areas was randomised, allowing researchers to compare outcomes for households in areas that gained access to microfinance with observably similar households in areas that did not. Abhijit Banerjee and Esther Duflo, working with colleagues at J-PAL, conducted one of the first such trials in Hyderabad, India, publishing results in 2015 that showed modest and heterogeneous effects: the arrival of microfinance increased investment in existing small businesses among households that already had them, but produced no significant average effect on income, consumption, health, or education across the population. Subsequent RCTs conducted in Ethiopia, Bosnia, Morocco, Mongolia, and Mexico produced broadly similar results, constituting what one review described as a "fairly consistent picture of modest impacts."</p>
+          <p><span class="para-label">E</span>The modest average effects identified in RCTs mask a distribution that includes both beneficiaries and households made worse off by access to credit. Repeated cycles of borrowing and repayment — particularly where borrowers take loans from multiple MFIs simultaneously, a practice termed over-indebtedness — can erode household assets and social capital when borrowers struggle to meet repayment schedules timed to the loan officer's visit rather than to seasonal income flows. A series of borrower suicides in Andhra Pradesh, India, in 2010 — widely attributed in media reports to aggressive collection practices by local MFIs — prompted the state government to restrict microfinance operations and triggered a national policy review in India. The episode revealed a fault line in the microfinance model between the group lending mechanism's social benefits — mutual support, shared knowledge — and its potential to transmit default risk and social shame through tight-knit community networks in ways that can be psychologically devastating for individual borrowers.</p>
+          <p><span class="para-label">F</span>The identification of microfinance's limitations has prompted a diversification of financial inclusion strategies that extends well beyond the classic microloan product. Microsavings accounts — which allow the poor to deposit small amounts without the minimum balance requirements of formal banks — have shown strong uptake in multiple contexts and have generated evidence of welfare improvements that are more consistent across income groups than loan impacts. Microinsurance products, covering risks including weather-related crop failure, livestock death, and health expenses, address a vulnerability that the standard microloan model does not — the risk of large discrete shocks that wipe out accumulated savings and productive assets. Mobile money platforms, pioneered by M-Pesa in Kenya in 2007, have demonstrated that digital payment infrastructure can extend financial access to remote populations at a fraction of the per-transaction cost of branch-based banking, enabling transfer mechanisms that reduce the cost of remittances and facilitate saving behaviour in populations previously excluded from the formal financial system.</p>
+          <p><span class="para-label">G</span>The consensus that has emerged from two decades of rigorous impact evaluation is more nuanced than the early advocacy of microfinance's proponents or the more recent scepticism of its critics would suggest. Access to financial services — including credit, savings, insurance, and payment systems — represents a genuine welfare improvement for populations previously excluded from them, but the mechanisms and magnitudes of that improvement vary substantially with the design of the product, the characteristics of the borrower, and the broader economic environment into which access is extended. Microfinance has not produced the transformative poverty reduction that its most optimistic proponents claimed, but it has established access to financial services as a legitimate component of development strategy rather than a marginal afterthought. The frontier question — how best to design financial products and delivery mechanisms for specific populations and contexts — is now being addressed through iterative experimentation that takes seriously both the potential and the limits of what finance alone can accomplish.</p>
+        </div>
+      </div>
+
+    </div><!-- end reading-pane -->
+
+    <!-- RESIZER -->
+    <div class="resizer-bar" id="resizerBar">
+      <button class="resizer-btn" tabindex="-1" aria-hidden="true">
+        <span style="width:2px;height:6px;background:var(--text-faint);border-radius:1px;display:block;"></span>
+        <span style="width:2px;height:6px;background:var(--text-faint);border-radius:1px;display:block;"></span>
+        <span style="width:2px;height:6px;background:var(--text-faint);border-radius:1px;display:block;"></span>
+      </button>
+    </div>
+
+    <!-- QUESTION PANE -->
+    <div class="question-pane" id="questionPane">
+      <div id="qPanel1"></div>
+      <div id="qPanel2" style="display:none;"></div>
+      <div id="qPanel3" style="display:none;"></div>
+    </div>
+
+  </div><!-- end split-container -->
+</main>
+
+<!-- RESULTS -->
+<div id="resultsMain" style="display:none;" class="flex-1 max-w-5xl mx-auto px-6 py-10 w-full">
+  <div class="flex items-center gap-3 mb-8">
+    <div>
+      <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Results</div>
+      <h1 class="font-display font-black text-2xl" style="color:var(--text-primary);">Academic Reading — Score Report</h1>
+    </div>
+  </div>
+  <div class="section-card mb-6" id="scoreCard"></div>
+  <div class="section-card mb-8" id="feedbackCard"></div>
+  <div class="section-card mb-6">
+    <div class="passage-corr-header">Passage 1 — The Mycorrhizal Network</div>
+    <div id="corrPassage1"></div>
+  </div>
+  <div class="section-card mb-6">
+    <div class="passage-corr-header">Passage 2 — The Architecture of Sleep</div>
+    <div id="corrPassage2"></div>
+  </div>
+  <div class="section-card mb-10">
+    <div class="passage-corr-header">Passage 3 — Microfinance</div>
+    <div id="corrPassage3"></div>
+  </div>
+  <div class="flex gap-4 justify-center mb-16">
+    <a href="index.html" class="btn-gold">← Back to Tests</a>
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────
+//  GROUPS DATA
+// ─────────────────────────────────────────
+const GROUPS = [
+  {
+    passageId: 1,
+    type: 'matching_headings',
+    label: 'Questions 1–5',
+    instructions: 'The reading passage has seven paragraphs, A–G. Choose the correct heading for paragraphs <strong>B–F</strong> from the list of headings below.',
+    headings: [
+      { key: 'i',    text: 'The ancient evolutionary origins of the plant-fungus partnership' },
+      { key: 'ii',   text: 'How two structural variants of the symbiosis differ and which plants they serve' },
+      { key: 'iii',  text: 'The measurable movement of nutrients and carbon between connected organisms' },
+      { key: 'iv',   text: 'The role of long-established trees in sustaining connectivity and enabling chemical warning systems' },
+      { key: 'v',    text: 'Controlled experimental designs that isolate network effects from other growth factors' },
+      { key: 'vi',   text: 'Human activities that reduce mycorrhizal diversity and disrupt established networks' },
+      { key: 'vii',  text: 'The commercial applications of mycorrhizal research in agriculture' },
+      { key: 'viii', text: 'Genetic sequencing techniques used to identify fungal species underground' },
+    ],
+    questions: [
+      {
+        id: 1, paraLabel: 'B',
+        text: 'Paragraph B',
+        answer: 'ii', answerDisplay: 'ii. How two structural variants of the symbiosis differ and which plants they serve',
+        acceptable: ['ii'],
+        explanation: 'Paragraph B introduces the two main mycorrhizal types — ectomycorrhizae which form sheaths and arbuscular mycorrhizae which penetrate cell walls — and explains which plant groups each type serves. Heading viii (genetic sequencing) and vii (commercial applications) are absent from this paragraph.',
+        reinforcement: 'Correct — paragraph B is organised around distinguishing ectomycorrhizae from arbuscular mycorrhizae and identifying the plant groups they respectively serve, matching heading ii.'
+      },
+      {
+        id: 2, paraLabel: 'C',
+        text: 'Paragraph C',
+        answer: 'iii', answerDisplay: 'iii. The measurable movement of nutrients and carbon between connected organisms',
+        acceptable: ['iii'],
+        explanation: 'Paragraph C describes the directionality of carbon and mineral nutrient flows, the isotope tracing methodology used to measure them, and the quantified results showing up to 40% of seedling carbon deriving from neighbours. "Measurable movement of nutrients and carbon" precisely describes the paragraph\'s content.',
+        reinforcement: 'Correct — paragraph C quantifies the bi-directional flows of carbon and minerals through the fungal network, directly matching heading iii.'
+      },
+      {
+        id: 3, paraLabel: 'D',
+        text: 'Paragraph D',
+        answer: 'iv', answerDisplay: 'iv. The role of long-established trees in sustaining connectivity and enabling chemical warning systems',
+        acceptable: ['iv'],
+        explanation: 'Paragraph D introduces hub trees (old, well-connected "mother trees") as the primary conduit for resource flows, and presents evidence that defence chemical signals travel through the hyphal network when plants are attacked. Heading v (controlled experiments) maps to E.',
+        reinforcement: 'Correct — paragraph D focuses on the role of hub trees and the defence-priming function of the network, matching heading iv.'
+      },
+      {
+        id: 4, paraLabel: 'E',
+        text: 'Paragraph E',
+        answer: 'v', answerDisplay: 'v. Controlled experimental designs that isolate network effects from other growth factors',
+        acceptable: ['v'],
+        explanation: 'Paragraph E describes mesh-bag experiments with different pore sizes that isolate network transfer from other growth factors, demonstrating that connections through hyphae specifically — not root contact or airborne signals — drive the effects measured.',
+        reinforcement: 'Correct — paragraph E is built entirely around the mesh-bag experimental design that controls for non-network confounders, matching heading v precisely.'
+      },
+      {
+        id: 5, paraLabel: 'F',
+        text: 'Paragraph F',
+        answer: 'vi', answerDisplay: 'vi. Human activities that reduce mycorrhizal diversity and disrupt established networks',
+        acceptable: ['vi'],
+        explanation: 'Paragraph F identifies three human activities — nitrogen deposition from agriculture and combustion, fungicide use, and clear-cut logging — that reduce mycorrhizal diversity and disrupt established networks.',
+        reinforcement: 'Correct — paragraph F catalogues the principal anthropogenic threats to mycorrhizal communities, matching heading vi.'
+      },
+    ]
+  },
+
+  {
+    passageId: 1,
+    type: 'tfng',
+    label: 'Questions 6–9',
+    instructions: 'Do the following statements agree with the information given in the reading passage? Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong> in the boxes.',
+    questions: [
+      {
+        id: 6,
+        text: 'Arbuscular mycorrhizae penetrate the cell walls of plant root cells.',
+        answer: 'TRUE', answerDisplay: 'TRUE',
+        acceptable: ['TRUE'],
+        explanation: 'Paragraph B states arbuscular mycorrhizae "penetrate cell walls and form branching structures called arbuscules inside root cells." The statement is an accurate paraphrase.',
+        reinforcement: 'Correct — paragraph B explicitly states that arbuscular mycorrhizae penetrate cell walls, confirming the statement.'
+      },
+      {
+        id: 7,
+        text: "Simard's 1997 experiments demonstrating tree connectivity were conducted in tropical rainforests.",
+        answer: 'FALSE', answerDisplay: 'FALSE',
+        acceptable: ['FALSE'],
+        explanation: "Paragraph A specifies 'British Columbia's interior forests,' not tropical rainforests. The statement directly contradicts the passage's geographical detail.",
+        reinforcement: "Correct — paragraph A identifies British Columbia as the location of Simard's experiments, directly contradicting 'tropical rainforests.'"
+      },
+      {
+        id: 8,
+        text: 'The oldest trees in a forest are always the most connected nodes within the mycorrhizal network.',
+        answer: 'NOT GIVEN', answerDisplay: 'NOT GIVEN',
+        acceptable: ['NOT GIVEN'],
+        explanation: 'Paragraph D identifies large, old trees as hub nodes but does not state that the oldest tree is always the most connected; age and connectivity are discussed as generally correlated but "always" is not supported or contradicted.',
+        reinforcement: 'Correct — the passage correlates age and connectivity but makes no absolute claim that the oldest tree is invariably the most connected.'
+      },
+      {
+        id: 9,
+        text: 'Clear-cutting is described as potentially more damaging to mycorrhizal networks than nitrogen deposition.',
+        answer: 'NOT GIVEN', answerDisplay: 'NOT GIVEN',
+        acceptable: ['NOT GIVEN'],
+        explanation: 'Paragraph F lists both as threats and describes their effects but makes no comparative ranking of their severity. No hierarchy of harm is established in the passage.',
+        reinforcement: 'Correct — paragraph F lists multiple threats without ranking them comparatively, so no judgment about which is "more damaging" can be drawn from the text.'
+      },
+    ]
+  },
+
+  {
+    passageId: 1,
+    type: 'sentence_completion',
+    label: 'Questions 10–13',
+    instructions: 'Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS AND/OR A NUMBER</strong> from the passage for each answer.',
+    questions: [
+      {
+        id: 10,
+        text: 'Mycorrhizal associations are found in approximately _______ of all land plant species.',
+        answer: '80%', answerDisplay: '80% (eighty percent)',
+        acceptable: ['80%', '80 percent', 'eighty percent', '80 %', 'eighty %'],
+        explanation: 'Paragraph B: "arbuscular mycorrhizae… associated with approximately 80% of all land plant species." The sentence frame paraphrases this statistic.',
+        reinforcement: 'Correct — paragraph B states the 80% figure for arbuscular mycorrhizae\'s prevalence across land plant species.'
+      },
+      {
+        id: 11,
+        text: 'Carbon flows from source trees to sink trees through the fungal network, driven by _______ gradients.',
+        answer: 'concentration', answerDisplay: 'concentration',
+        acceptable: ['concentration'],
+        explanation: 'Paragraph C: "driven by concentration gradients." "Concentration" is the single word from the passage completing the sentence frame.',
+        reinforcement: 'Correct — "concentration" is retrieved exactly from paragraph C\'s explanation of the driving force behind carbon flow.'
+      },
+      {
+        id: 12,
+        text: 'To trace carbon movement between trees, researchers injected labelled CO₂ into _______ placed over individual trees.',
+        answer: 'paper bag chambers', answerDisplay: 'paper bag chambers',
+        acceptable: ['paper bag chambers', 'bag chambers'],
+        explanation: 'Paragraph C: "injecting labelled CO₂ into paper bag chambers placed over individual trees." "Paper bag chambers" is the three-word passage-exact phrase.',
+        reinforcement: 'Correct — "paper bag chambers" is the exact term in paragraph C describing the enclosures used for isotope tracing.'
+      },
+      {
+        id: 13,
+        text: 'After clear-cutting, mycorrhizal diversity may take _______ to recover even with appropriate replanting.',
+        answer: 'decades', answerDisplay: 'decades',
+        acceptable: ['decades'],
+        explanation: 'Paragraph F: "Recovery of mycorrhizal diversity after clear-cutting has been shown to take decades even under replanting programmes that reintroduce appropriate tree species."',
+        reinforcement: 'Correct — "decades" is the passage-exact recovery timeline stated in paragraph F\'s discussion of clear-cutting\'s effects.'
+      },
+    ]
+  },
+
+  {
+    passageId: 2,
+    type: 'matching_headings',
+    label: 'Questions 14–18',
+    instructions: 'The reading passage has seven paragraphs, A–G. Choose the correct heading for paragraphs <strong>B–F</strong> from the list of headings below.',
+    headings: [
+      { key: 'i',    text: 'The two regulatory systems that control the timing and depth of human sleep' },
+      { key: 'ii',   text: 'The sequence of distinct neurological stages that sleep passes through each night' },
+      { key: 'iii',  text: 'Evidence that one sleep stage serves a specific role in consolidating factual learning' },
+      { key: 'iv',   text: 'How motor skill improvement overnight depends on a particular sleep phase' },
+      { key: 'v',    text: 'The neurochemical changes that enable and distinguish different sleep stages' },
+      { key: 'vi',   text: 'The role of dreaming in processing emotionally significant experiences' },
+      { key: 'vii',  text: 'Cross-cultural variation in sleep architecture across different populations' },
+      { key: 'viii', text: 'The economic and social costs associated with insufficient sleep' },
+    ],
+    questions: [
+      {
+        id: 14, paraLabel: 'B',
+        text: 'Paragraph B',
+        answer: 'i', answerDisplay: 'i. The two regulatory systems that control the timing and depth of human sleep',
+        acceptable: ['i'],
+        explanation: "Paragraph B introduces Borbély's two-process model — Process C (circadian rhythm) and Process S (homeostatic pressure) — as the two systems governing sleep timing and depth.",
+        reinforcement: 'Correct — paragraph B is entirely devoted to explaining the two processes that regulate sleep onset and depth, matching heading i.'
+      },
+      {
+        id: 15, paraLabel: 'C',
+        text: 'Paragraph C',
+        answer: 'ii', answerDisplay: 'ii. The sequence of distinct neurological stages that sleep passes through each night',
+        acceptable: ['ii'],
+        explanation: 'Paragraph C describes the four sleep stages in order (N1, N2, N3, REM), explains their electrophysiological characteristics, and describes how they cycle through the night.',
+        reinforcement: 'Correct — paragraph C is a structured account of the sleep stage sequence, matching heading ii.'
+      },
+      {
+        id: 16, paraLabel: 'D',
+        text: 'Paragraph D',
+        answer: 'iii', answerDisplay: 'iii. Evidence that one sleep stage serves a specific role in consolidating factual learning',
+        acceptable: ['iii'],
+        explanation: 'Paragraph D explains how slow-wave sleep facilitates declarative memory consolidation through hippocampal sharp-wave ripples and a dialogue with the neocortex.',
+        reinforcement: 'Correct — paragraph D is devoted to the role of slow-wave sleep in consolidating declarative (factual) memory, matching heading iii.'
+      },
+      {
+        id: 17, paraLabel: 'E',
+        text: 'Paragraph E',
+        answer: 'iv', answerDisplay: 'iv. How motor skill improvement overnight depends on a particular sleep phase',
+        acceptable: ['iv'],
+        explanation: 'Paragraph E describes the finger-tapping motor sequence task, shows improvements correlated with REM sleep, and presents neuroimaging evidence of motor sequence replay during REM.',
+        reinforcement: 'Correct — paragraph E provides experimental evidence that REM sleep drives procedural motor learning, matching heading iv.'
+      },
+      {
+        id: 18, paraLabel: 'F',
+        text: 'Paragraph F',
+        answer: 'v', answerDisplay: 'v. The neurochemical changes that enable and distinguish different sleep stages',
+        acceptable: ['v'],
+        explanation: 'Paragraph F describes the neurochemical architecture of sleep in detail — cholinergic cells active in REM, aminergic withdrawal enabling SWS ripples, adenosine clearance during sleep.',
+        reinforcement: 'Correct — paragraph F is an account of the neurotransmitter systems that generate and differentiate sleep stages, matching heading v.'
+      },
+    ]
+  },
+
+  {
+    passageId: 2,
+    type: 'tfng',
+    label: 'Questions 19–22',
+    instructions: 'Do the following statements agree with the information given in the reading passage? Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong> in the boxes.',
+    questions: [
+      {
+        id: 19,
+        text: "Alexander Borbély's two-process model of sleep regulation was published in 1982.",
+        answer: 'TRUE', answerDisplay: 'TRUE',
+        acceptable: ['TRUE'],
+        explanation: 'Paragraph B explicitly states the two-process model was published in 1982, directly confirming the statement.',
+        reinforcement: "Correct — paragraph B dates the publication of Borbély's model to 1982."
+      },
+      {
+        id: 20,
+        text: 'Sleep spindles are generated by circuits in the hippocampus during N2 sleep.',
+        answer: 'FALSE', answerDisplay: 'FALSE',
+        acceptable: ['FALSE'],
+        explanation: 'Paragraph C states sleep spindles are "generated by thalamocortical circuits," not the hippocampus. The statement misidentifies the hippocampus as the source.',
+        reinforcement: 'Correct — paragraph C attributes spindle generation to thalamocortical circuits, not the hippocampus, making the statement FALSE.'
+      },
+      {
+        id: 21,
+        text: 'The amount of REM sleep obtained is greater in the early cycles of the night than in later ones.',
+        answer: 'FALSE', answerDisplay: 'FALSE',
+        acceptable: ['FALSE'],
+        explanation: 'Paragraph C states "REM periods lengthen progressively in later cycles" — the opposite of what the statement claims. Early cycles have more SWS; later cycles have more REM.',
+        reinforcement: 'Correct — paragraph C explicitly states REM periods lengthen in later cycles, directly contradicting "greater in early cycles."'
+      },
+      {
+        id: 22,
+        text: 'The prevalence of obstructive sleep apnoea is estimated at approximately one billion people worldwide.',
+        answer: 'TRUE', answerDisplay: 'TRUE',
+        acceptable: ['TRUE'],
+        explanation: 'Paragraph G: "obstructive sleep apnoea, which is diagnosed in an estimated one billion people globally." The statement is an accurate paraphrase.',
+        reinforcement: 'Correct — paragraph G provides the one billion figure for sleep apnoea prevalence explicitly.'
+      },
+    ]
+  },
+
+  {
+    passageId: 2,
+    type: 'sentence_completion',
+    label: 'Questions 23–26',
+    instructions: 'Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.',
+    questions: [
+      {
+        id: 23,
+        text: 'The suprachiasmatic nucleus generates the circadian rhythm by responding to _______ input via the retinohypothalamic tract.',
+        answer: 'light', answerDisplay: 'light',
+        acceptable: ['light'],
+        explanation: 'Paragraph B: "a roughly twenty-four-hour oscillation… generated by the suprachiasmatic nucleus (SCN) of the hypothalamus in response to light input via the retinohypothalamic tract."',
+        reinforcement: 'Correct — "light" is the exact input described in paragraph B as the stimulus for the SCN\'s circadian oscillation.'
+      },
+      {
+        id: 24,
+        text: 'During slow-wave sleep, hippocampal replay events are associated with _______ in the CA1 region.',
+        answer: 'sharp-wave ripples', answerDisplay: 'sharp-wave ripples',
+        acceptable: ['sharp-wave ripples', 'ripple events'],
+        explanation: 'Paragraph D: "hippocampus replays sequences… coordinated with sharp-wave ripple events in the CA1 region."',
+        reinforcement: 'Correct — "sharp-wave ripples" is the term in paragraph D for the hippocampal events during SWS consolidation.'
+      },
+      {
+        id: 25,
+        text: 'Caffeine impairs homeostatic sleep pressure by blocking _______ receptors in the brain.',
+        answer: 'adenosine', answerDisplay: 'adenosine',
+        acceptable: ['adenosine'],
+        explanation: 'Paragraph F: "caffeine, which blocks adenosine receptors and impairs the homeostatic sleep pressure that drives deep NREM sleep."',
+        reinforcement: 'Correct — "adenosine" is the receptor type that caffeine blocks, as stated in paragraph F.'
+      },
+      {
+        id: 26,
+        text: 'In the finger-tapping study, overnight improvement in motor sequence performance was disrupted by the administration of _______ drugs.',
+        answer: 'REM-suppressing', answerDisplay: 'REM-suppressing',
+        acceptable: ['rem-suppressing', 'REM-suppressing'],
+        explanation: 'Paragraph E: "The administration of REM-suppressing drugs… disrupts this overnight improvement without affecting subjective assessments of sleep quality."',
+        reinforcement: 'Correct — "REM-suppressing" is the exact adjective in paragraph E describing the class of drugs that block procedural memory consolidation.'
+      },
+    ]
+  },
+
+  {
+    passageId: 3,
+    type: 'matching_info',
+    label: 'Questions 27–31',
+    instructions: 'The reading passage has seven paragraphs, A–G. Which paragraph contains the following information? You may use any letter more than once.',
+    paraOptions: ['A','B','C','D','E','F','G'],
+    questions: [
+      {
+        id: 27,
+        text: 'A description of a financial product that allows poor households to make small deposits without minimum balance requirements.',
+        answer: 'F', answerDisplay: 'Paragraph F',
+        acceptable: ['F'],
+        explanation: 'Paragraph F: "Microsavings accounts — which allow the poor to deposit small amounts without the minimum balance requirements of formal banks — have shown strong uptake."',
+        reinforcement: 'Correct — the description of microsavings accounts without minimum balance requirements is in paragraph F.'
+      },
+      {
+        id: 28,
+        text: 'An account of how borrower groups exercise pressure on one another to maintain repayment schedules.',
+        answer: 'B', answerDisplay: 'Paragraph B',
+        acceptable: ['B'],
+        explanation: 'Paragraph B: "no individual could receive a new loan if any group member had defaulted on a current one. This mechanism substituted social collateral — the peer pressure generated by mutual accountability within a close-knit community."',
+        reinforcement: 'Correct — the mechanism of peer pressure within borrower groups is described in paragraph B.'
+      },
+      {
+        id: 29,
+        text: 'A reference to the year in which the Grameen Bank was formally established as a banking institution.',
+        answer: 'A', answerDisplay: 'Paragraph A',
+        acceptable: ['A'],
+        explanation: 'Paragraph A: "The Grameen Bank… was formally established in 1983."',
+        reinforcement: 'Correct — the founding year of 1983 is stated in paragraph A.'
+      },
+      {
+        id: 30,
+        text: 'A description of how the commercialisation of microfinance led to borrowers being charged very high effective interest rates.',
+        answer: 'C', answerDisplay: 'Paragraph C',
+        acceptable: ['C'],
+        explanation: 'Paragraph C: "borrowers paying effective annual interest rates exceeding one hundred percent" — describing the commercialised model of Compartamos Banco.',
+        reinforcement: 'Correct — the concern about effective interest rates exceeding 100% in the commercialised model is raised in paragraph C.'
+      },
+      {
+        id: 31,
+        text: 'An account of a public health crisis linked to aggressive loan collection practices by microfinance institutions.',
+        answer: 'E', answerDisplay: 'Paragraph E',
+        acceptable: ['E'],
+        explanation: 'Paragraph E: "A series of borrower suicides in Andhra Pradesh, India, in 2010 — widely attributed in media reports to aggressive collection practices by local MFIs."',
+        reinforcement: 'Correct — the borrower suicides in Andhra Pradesh attributed to aggressive collection are described in paragraph E.'
+      },
+    ]
+  },
+
+  {
+    passageId: 3,
+    type: 'tfng',
+    label: 'Questions 32–36',
+    instructions: 'Do the following statements agree with the information given in the reading passage? Write <strong>TRUE</strong>, <strong>FALSE</strong>, or <strong>NOT GIVEN</strong> in the boxes.',
+    questions: [
+      {
+        id: 32,
+        text: 'Muhammad Yunus received the Nobel Peace Prize in 2006.',
+        answer: 'TRUE', answerDisplay: 'TRUE',
+        acceptable: ['TRUE'],
+        explanation: 'Paragraph A states explicitly that Yunus received the Nobel Peace Prize in 2006. The statement is a direct match.',
+        reinforcement: 'Correct — paragraph A confirms the Nobel Peace Prize was awarded to Yunus in 2006.'
+      },
+      {
+        id: 33,
+        text: 'In the Grameen lending model, loan officers required borrowers to travel to branch offices for their weekly repayment meetings.',
+        answer: 'FALSE', answerDisplay: 'FALSE',
+        acceptable: ['FALSE'],
+        explanation: 'Paragraph B states officers visited borrowers in villages — the reverse of what the statement claims. "Required borrowers to travel to branches" directly contradicts the passage.',
+        reinforcement: 'Correct — paragraph B states officers visited villages, not that borrowers travelled to branches, making this FALSE.'
+      },
+      {
+        id: 34,
+        text: 'The Banerjee and Duflo study in Hyderabad found that access to microfinance produced significant average improvements in income and education across the population studied.',
+        answer: 'FALSE', answerDisplay: 'FALSE',
+        acceptable: ['FALSE'],
+        explanation: 'Paragraph D explicitly states the Hyderabad study found "no significant average effect on income, consumption, health, or education." The statement directly contradicts this finding.',
+        reinforcement: 'Correct — paragraph D explicitly reports no significant average effects on income or education, making the statement FALSE.'
+      },
+      {
+        id: 35,
+        text: 'The mobile money platform M-Pesa was first introduced in Kenya in 2007.',
+        answer: 'TRUE', answerDisplay: 'TRUE',
+        acceptable: ['TRUE'],
+        explanation: 'Paragraph F explicitly identifies M-Pesa as pioneered in Kenya in 2007, directly confirming the statement.',
+        reinforcement: 'Correct — paragraph F states M-Pesa was pioneered in Kenya in 2007.'
+      },
+      {
+        id: 36,
+        text: 'Governments in countries where microfinance has been studied have generally provided financial subsidies to make MFI products more affordable for borrowers.',
+        answer: 'NOT GIVEN', answerDisplay: 'NOT GIVEN',
+        acceptable: ['NOT GIVEN'],
+        explanation: 'The passage discusses government policy responses — including the Andhra Pradesh restrictions and India\'s national review — but makes no mention of subsidies to MFIs or borrowers anywhere.',
+        reinforcement: 'Correct — government subsidies to microfinance institutions or their borrowers are not mentioned in the passage.'
+      },
+    ]
+  },
+
+  {
+    passageId: 3,
+    type: 'sentence_completion',
+    label: 'Questions 37–40',
+    instructions: 'Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.<br><br><em>Researchers evaluating microfinance\'s impact have increasingly used (37) _______ as the most rigorous method, randomly assigning access to MFI branches across different areas. One of the first such studies, conducted in Hyderabad, found that access to credit increased investment among households that already ran small businesses, but produced modest (38) _______ effects. Risks identified in the literature include over-indebtedness, particularly when borrowers use multiple MFIs simultaneously, and the potential for (39) _______ to spread through tight-knit community networks when individual borrowers default. Despite these limitations, the broader consensus is that access to financial services represents a genuine welfare improvement for populations that have been (40) _______ from formal banking systems.</em>',
+    questions: [
+      {
+        id: 37,
+        text: 'Question 37: researchers\' most rigorous evaluation method',
+        answer: 'randomised controlled trials', answerDisplay: 'randomised controlled trials',
+        acceptable: ['randomised controlled trials', 'controlled trials', 'randomised controlled trial'],
+        explanation: 'Paragraph D: "The most methodologically credible work took the form of randomised controlled trials (RCTs)."',
+        reinforcement: 'Correct — "randomised controlled trials" is retrieved from paragraph D as the method described.'
+      },
+      {
+        id: 38,
+        text: 'Question 38: the adjective describing the effects found in Hyderabad ("modest _______ effects")',
+        answer: 'heterogeneous', answerDisplay: 'heterogeneous',
+        acceptable: ['heterogeneous'],
+        explanation: 'Paragraph D: "modest and heterogeneous effects." The blank in "modest _______ effects" is filled by "heterogeneous," the adjective following "modest" in the passage.',
+        reinforcement: 'Correct — "heterogeneous" is taken from paragraph D\'s characterisation of the Hyderabad study\'s findings.'
+      },
+      {
+        id: 39,
+        text: 'Question 39: what can spread through tight-knit community networks ("the potential for _______ to spread")',
+        answer: 'default risk', answerDisplay: 'default risk',
+        acceptable: ['default risk', 'social shame'],
+        explanation: 'Paragraph E: "transmit default risk and social shame through tight-knit community networks." The blank is filled by "default risk" from paragraph E.',
+        reinforcement: 'Correct — "default risk" is the passage-exact term in paragraph E describing what can spread harmfully through community networks.'
+      },
+      {
+        id: 40,
+        text: 'Question 40: how the target populations were previously treated by formal banking ("populations that have been _______ from formal banking systems")',
+        answer: 'structurally excluded', answerDisplay: 'structurally excluded',
+        acceptable: ['structurally excluded', 'excluded'],
+        explanation: 'Paragraph A: "formal banking had structurally excluded." The blank in "populations that have been _______ from formal banking systems" is filled by "structurally excluded."',
+        reinforcement: 'Correct — "structurally excluded" is retrieved from paragraph A\'s description of who microfinance targets.'
+      },
+    ]
+  },
+];
+
+// ─────────────────────────────────────────
+//  STATE
+// ─────────────────────────────────────────
+const answers = {};
+const TOTAL_SECONDS = 3600;
+let secondsLeft = TOTAL_SECONDS;
+let timerInterval = null;
+let submitted = false;
+
+// ─────────────────────────────────────────
+//  TAB SWITCHING
+// ─────────────────────────────────────────
+function switchTab(n) {
+  [1,2,3].forEach(i => {
+    document.getElementById('passageContent' + i).style.display = i === n ? 'block' : 'none';
+    document.getElementById('qPanel' + i).style.display = i === n ? 'block' : 'none';
+    document.getElementById('tabNav').querySelectorAll('.tab-btn')[i-1].classList.toggle('active', i === n);
+  });
+  document.getElementById('readingPane').scrollTop = 0;
+  document.getElementById('questionPane').scrollTop = 0;
+}
+
+// ─────────────────────────────────────────
+//  FONT SIZE CONTROLLER
+// ─────────────────────────────────────────
+const FONT_SIZES = [13, 15, 17, 19];
+let fontSizeIdx = parseInt(localStorage.getItem('ielts_font_size_idx') || '1');
+function initFontSize() {
+  document.documentElement.style.setProperty('--passage-font-size', FONT_SIZES[fontSizeIdx] + 'px');
+}
+function adjustFontSize(delta) {
+  if (delta === 0) { fontSizeIdx = 1; } else { fontSizeIdx = Math.max(0, Math.min(FONT_SIZES.length - 1, fontSizeIdx + delta)); }
+  document.documentElement.style.setProperty('--passage-font-size', FONT_SIZES[fontSizeIdx] + 'px');
+  localStorage.setItem('ielts_font_size_idx', fontSizeIdx);
+}
+
+// ─────────────────────────────────────────
+//  SPLIT-PANE RESIZER
+// ─────────────────────────────────────────
+(function initResizer() {
+  const container = document.getElementById('splitContainer');
+  const leftPane  = document.getElementById('readingPane');
+  const resizer   = document.getElementById('resizerBar');
+  if (!container || !leftPane || !resizer) return;
+  let isDragging = false, startX = 0, startW = 0;
+  function onStart(clientX) { isDragging = true; startX = clientX; startW = leftPane.getBoundingClientRect().width; resizer.classList.add('active'); document.body.style.cursor = 'col-resize'; document.body.style.userSelect = 'none'; }
+  function onMove(clientX) { if (!isDragging) return; const cW = container.getBoundingClientRect().width; const rW = resizer.getBoundingClientRect().width; const avail = cW - rW; const minW = avail * 0.25; const maxW = avail * 0.75; const newW = Math.max(minW, Math.min(maxW, startW + (clientX - startX))); leftPane.style.width = ((newW / cW) * 100).toFixed(2) + '%'; }
+  function onEnd() { if (!isDragging) return; isDragging = false; resizer.classList.remove('active'); document.body.style.cursor = ''; document.body.style.userSelect = ''; }
+  resizer.addEventListener('mousedown', e => { e.preventDefault(); onStart(e.clientX); });
+  document.addEventListener('mousemove', e => onMove(e.clientX));
+  document.addEventListener('mouseup', onEnd);
+  resizer.addEventListener('touchstart', e => { e.preventDefault(); onStart(e.touches[0].clientX); }, { passive: false });
+  document.addEventListener('touchmove', e => { if (isDragging) { e.preventDefault(); onMove(e.touches[0].clientX); } }, { passive: false });
+  document.addEventListener('touchend', onEnd);
+})();
+
+// ─────────────────────────────────────────
+//  TIMER
+// ─────────────────────────────────────────
+function formatTime(s) { return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`; }
+function startTimer() {
+  timerInterval = setInterval(() => {
+    secondsLeft--;
+    const pct = (TOTAL_SECONDS - secondsLeft) / TOTAL_SECONDS * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+    const el = document.getElementById('timerDisplay');
+    el.textContent = formatTime(secondsLeft);
+    if (secondsLeft <= 120) el.className = 'timer-box critical';
+    else if (secondsLeft <= 300) el.className = 'timer-box warning';
+    if (secondsLeft <= 0) { clearInterval(timerInterval); autoSubmit(); }
+  }, 1000);
+}
+
+// ─────────────────────────────────────────
+//  RENDER QUESTIONS
+// ─────────────────────────────────────────
+function renderAll() {
+  [1,2,3].forEach(pid => {
+    const panel = document.getElementById('qPanel' + pid);
+    let html = '';
+    GROUPS.filter(g => g.passageId === pid).forEach(group => {
+      html += `<div class="group-header mb-4"><div class="text-xs font-bold tracking-widest uppercase" style="color:var(--gold);">${group.label}</div><p>${group.instructions}</p></div>`;
+      if (group.type === 'matching_headings') {
+        html += `<div class="headings-list mb-4"><ul style="list-style:none;">`;
+        group.headings.forEach(h => { html += `<li><span>${h.key}.</span>${h.text}</li>`; });
+        html += `</ul></div>`;
+        group.questions.forEach(q => { html += `<div class="q-block"><div class="q-num">Question ${q.id}</div><div class="q-text">Paragraph <strong>${q.paraLabel}</strong></div><select class="q-select" id="q${q.id}" onchange="recordAnswer(${q.id}, this.value)"><option value="">— Select heading —</option>${group.headings.map(h => `<option value="${h.key}">${h.key}. ${h.text}</option>`).join('')}</select></div>`; });
+      } else if (group.type === 'tfng') {
+        group.questions.forEach(q => { html += `<div class="q-block"><div class="q-num">Question ${q.id}</div><div class="q-text">${q.text}</div><div class="q-tfng"><button class="q-tfng-btn" onclick="selectTFNG(${q.id},'TRUE',this)">TRUE</button><button class="q-tfng-btn" onclick="selectTFNG(${q.id},'FALSE',this)">FALSE</button><button class="q-tfng-btn" onclick="selectTFNG(${q.id},'NOT GIVEN',this)">NOT GIVEN</button></div></div>`; });
+      } else if (group.type === 'sentence_completion') {
+        group.questions.forEach(q => { html += `<div class="q-block"><div class="q-num">Question ${q.id}</div><div class="q-text">${q.text}</div><input type="text" class="q-input" id="q${q.id}" placeholder="Your answer…" oninput="recordAnswer(${q.id}, this.value.trim())" /></div>`; });
+      } else if (group.type === 'matching_info') {
+        group.questions.forEach(q => { html += `<div class="q-block"><div class="q-num">Question ${q.id}</div><div class="q-text">${q.text}</div><select class="q-select" id="q${q.id}" onchange="recordAnswer(${q.id}, this.value)"><option value="">— Select paragraph —</option>${group.paraOptions.map(p => `<option value="${p}">Paragraph ${p}</option>`).join('')}</select></div>`; });
+      }
+    });
+    panel.innerHTML = html;
+  });
+}
+
+function selectTFNG(qId, val, btn) {
+  btn.parentElement.querySelectorAll('.q-tfng-btn').forEach(b => { b.className = 'q-tfng-btn'; });
+  btn.classList.add(val === 'TRUE' ? 'sel-t' : val === 'FALSE' ? 'sel-f' : 'sel-ng');
+  recordAnswer(qId, val);
+}
+function recordAnswer(qId, val) { answers[qId] = val; }
+
+// ─────────────────────────────────────────
+//  SCORING
+// ─────────────────────────────────────────
+function scoreAnswer(q, studentRaw) {
+  if (!studentRaw) return false;
+  const student = studentRaw.toString().trim().toLowerCase();
+  if (q.acceptable) return q.acceptable.map(a => a.toLowerCase()).includes(student);
+  return student === q.answer.toLowerCase();
+}
+function bandFromScore(n) {
+  if (n >= 39) return 9.0; if (n >= 37) return 8.5; if (n >= 35) return 8.0;
+  if (n >= 33) return 7.5; if (n >= 30) return 7.0; if (n >= 27) return 6.5;
+  if (n >= 23) return 6.0; if (n >= 19) return 5.5; if (n >= 15) return 5.0;
+  if (n >= 13) return 4.5; if (n >= 10) return 4.0; if (n >= 8) return 3.5;
+  if (n >= 6) return 3.0; return 2.5;
+}
+function bandColour(b) { if (b >= 7) return '#0D9488'; if (b >= 5.5) return '#C9952E'; return '#dc2626'; }
+function bandAdvice(band, score) {
+  const pct = Math.round(score/40*100);
+  if (band >= 8.5) return `Outstanding — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Near-native comprehension across all three passages. Focus on NOT GIVEN precision and paraphrased sentence completions to push for Band 9.`;
+  if (band >= 7.5) return `Excellent result — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Strong academic reading. To push towards Band 8+: tighten NOT GIVEN judgements (never infer beyond the text) and copy sentence completion answers exactly from the passage.`;
+  if (band >= 6.5) return `Good performance — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Solid comprehension with room to improve. Review: (1) TRUE vs FALSE — verify the exact claim, not just the topic; (2) Matching Headings — identify the paragraph's central argument before selecting; (3) time allocation across all three passages.`;
+  if (band >= 5.5) return `You scored ${score}/40 (${pct}%), giving an estimated <strong>Band ${band}</strong>. Clear potential — prioritise synonym recognition, since every question involves paraphrase. Review each wrong answer and find the exact passage sentence that should have guided your response.`;
+  return `You scored ${score}/40 (${pct}%), giving an estimated <strong>Band ${band}</strong>. Focus on active reading: identify each paragraph's main claim before reading the questions. Daily timed reading of academic texts and vocabulary building will accelerate improvement significantly.`;
+}
+
+function confirmSubmit() { if (!confirm('Submit your reading test now?')) return; doSubmit(); }
+function autoSubmit() { if (submitted) return; doSubmit(); }
+function doSubmit() {
+  if (submitted) return;
+  submitted = true;
+  clearInterval(timerInterval);
+  document.getElementById('submittingOverlay').style.display = 'flex';
+  setTimeout(showResults, 800);
+}
+
+function showResults() {
+  document.getElementById('submittingOverlay').style.display = 'none';
+  document.getElementById('testMain').style.display = 'none';
+  document.getElementById('timingStrip').style.display = 'none';
+  document.getElementById('resultsMain').style.display = 'block';
+
+  let correct = 0;
+  const allQs = GROUPS.flatMap(g => g.questions);
+  allQs.forEach(q => { if (scoreAnswer(q, answers[q.id])) correct++; });
+  const band = bandFromScore(correct);
+  const bCol = bandColour(band);
+
+  const results = JSON.parse(localStorage.getItem('ielts_mock_results') || '[]');
+  results.push({ date: Date.now(), book: 20, testNum: 3, skill: 'reading', scores: { reading: band } });
+  localStorage.setItem('ielts_mock_results', JSON.stringify(results));
+
+  const passageChips = [1,2,3].map(p => {
+    const pQs = GROUPS.filter(g => g.passageId === p).flatMap(g => g.questions);
+    const pC = pQs.filter(q => scoreAnswer(q, answers[q.id])).length;
+    const pCol = bandColour(bandFromScore(Math.round(pC/pQs.length*40)));
+    return `<div style="background:#EFF3F9;border:1px solid var(--border);border-radius:10px;padding:10px 14px;text-align:center;min-width:80px;"><div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px;">Passage ${p}</div><div style="font-family:'Space Mono',monospace;font-size:1.125rem;font-weight:700;color:${pCol};">${pC}/${pQs.length}</div></div>`;
+  }).join('');
+
+  document.getElementById('scoreCard').innerHTML = `<div class="flex flex-col md:flex-row gap-6 items-center"><div class="score-ring-wrap"><svg width="120" height="120" viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="#E2E8F0" stroke-width="8"/><circle cx="60" cy="60" r="50" fill="none" stroke="${bCol}" stroke-width="8" stroke-dasharray="${Math.round(correct/40*314)} 314" stroke-linecap="round" transform="rotate(-90 60 60)" style="transition:stroke-dasharray 1.2s cubic-bezier(.16,1,.3,1)"/></svg><div style="margin-top:-70px;text-align:center;pointer-events:none;"><div style="font-family:'Space Mono',monospace;font-size:1.75rem;font-weight:700;color:${bCol};">${correct}</div><div style="font-size:0.75rem;color:var(--text-muted);">out of 40</div></div><div style="margin-top:16px;"></div></div><div class="flex-1"><div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Your Score</div><div class="font-display font-black text-4xl mb-1" style="color:${bCol};">Band ${band}</div><div class="text-sm mb-4" style="color:var(--text-muted);">${correct} correct answers out of 40</div><div style="display:flex;gap:10px;flex-wrap:wrap;">${passageChips}</div></div></div>`;
+
+  document.getElementById('feedbackCard').innerHTML = `<div class="text-xs font-bold tracking-widest uppercase mb-3" style="color:var(--gold);">Overall Feedback</div><div class="band-feedback">${bandAdvice(band, correct)}</div>`;
+
+  [1,2,3].forEach(pid => {
+    let html = '';
+    GROUPS.filter(g => g.passageId === pid).forEach(group => {
+      html += `<div style="margin-bottom:0.5rem;padding:6px 0 8px;border-bottom:1px solid var(--border-soft);"><span style="font-size:0.6875rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-faint);">${group.label} — ${labelType(group.type)}</span></div>`;
+      group.questions.forEach(q => {
+        const isCorrect = scoreAnswer(q, answers[q.id]);
+        const studentAns = answers[q.id] ? answers[q.id].toString() : '(no answer)';
+        const correctAns = q.answerDisplay || q.answer;
+        html += `<div class="corr-block ${isCorrect ? 'corr-correct' : 'corr-wrong'}"><div class="corr-qnum ${isCorrect ? 'ok' : 'bad'}">${isCorrect ? '✓' : '✗'} Question ${q.id}</div><div class="corr-qtext">${q.text}</div>`;
+        if (isCorrect) { html += `<div class="corr-row"><span class="corr-tag reinforce">✓ Correct</span><span class="corr-val">${studentAns}</span></div><div class="corr-expl">${q.reinforcement || ''}</div>`; }
+        else { html += `<div class="corr-row"><span class="corr-tag your">Your answer</span><span class="corr-val">${studentAns}</span></div><div class="corr-row"><span class="corr-tag correct">Correct answer</span><span class="corr-val">${correctAns}${q.acceptable && q.acceptable.length > 1 ? ' <span style="font-size:0.75rem;color:var(--text-faint);">(also: ' + q.acceptable.filter(a=>a.toLowerCase()!==q.answer.toLowerCase()).join(', ') + ')</span>' : ''}</span></div><div class="corr-expl">${q.explanation || ''}</div>`; }
+        html += `</div>`;
+      });
+    });
+    document.getElementById('corrPassage' + pid).innerHTML = html;
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function labelType(t) {
+  return { tfng:'True / False / Not Given', mc:'Multiple Choice', matching_headings:'Matching Headings', matching_info:'Matching Information', sentence_completion:'Sentence Completion' }[t] || t;
+}
+
+initFontSize();
+renderAll();
+startTimer();
+</script>
+
+<script src="/js/components.js"></script>
+<script>
+  IELTSLab.loadNav({ basePath: '../', breadcrumb: 'Mock Tests', authenticated: true, themeDefault: 'light' });
+</script>
+</body>
+</html>

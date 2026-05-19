@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IELTS Lab — Cambridge 20 Full Test 4 · Academic Reading</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <script>tailwind.config={theme:{extend:{fontFamily:{display:['Satoshi','Plus Jakarta Sans','system-ui','sans-serif'],sans:['Plus Jakarta Sans','system-ui','sans-serif']}}}}</script>
+  <style>
+    :root {
+      --gold: #C9952E; --gold-light: #DDB05A; --gold-dim: rgba(201,149,46,0.10);
+      --gold-border: rgba(201,149,46,0.30); --navy: #1a3c6e; --navy-mid: #2a4f8a;
+      --page-bg: #F7F8FA; --card-bg: #FFFFFF; --qpanel-bg: #EFF3F9;
+      --border: #E2E8F0; --border-soft: #EEF1F6; --text-primary: #1E2A3A;
+      --text-body: #374151; --text-muted: #64748B; --text-faint: #94A3B8;
+      --passage-font-size: 15px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--page-bg); color: var(--text-primary); }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    h1, h2, h3, h4, .font-display { font-family: 'Satoshi', 'Plus Jakarta Sans', system-ui, sans-serif; }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #EFF2F7; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 3px; }
+    .progress-bar { height: 3px; background: #E2E8F0; position: fixed; top: 64px; left: 0; right: 0; z-index: 40; }
+    .progress-fill { height: 100%; background: linear-gradient(to right, var(--gold), #DDB05A); transition: width 1s linear; width: 0%; }
+    .nav-glass { background: rgba(255,255,255,0.97); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .nav-logo { display: flex; align-items: baseline; gap: 0; text-decoration: none; }
+    .nl-ielts { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; letter-spacing: 1px; color: var(--text-primary); }
+    .nl-lab { font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: 3px; color: var(--gold); margin-left: 5px; }
+    #themeToggle { background: transparent; border: 1.5px solid var(--border); color: var(--text-muted); border-radius: 8px; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; font-size: 15px; flex-shrink: 0; padding: 0; }
+    #themeToggle:hover { border-color: var(--gold-border); color: var(--gold); }
+    .timer-box { background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 10px; padding: 8px 16px; font-family: 'Space Mono', monospace; font-size: 1.125rem; font-weight: 700; color: var(--text-primary); letter-spacing: 2px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+    .timer-box.warning { color: #b45309; border-color: rgba(180,83,9,0.3); background: #fffbeb; }
+    .timer-box.critical { color: #dc2626; border-color: rgba(220,38,38,0.3); background: #fef2f2; animation: pulse 1s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
+    .timing-strip { background: #FAFBFD; border-bottom: 1px solid var(--border); padding: 8px 0; }
+    .timing-item { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+    .timing-label { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
+    .timing-val { font-size: 0.75rem; color: var(--text-muted); }
+    .font-ctrl { display: inline-flex; align-items: center; gap: 0; background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 9px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .font-ctrl-btn { padding: 6px 12px; border: none; background: transparent; cursor: pointer; color: var(--text-muted); font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.15s; line-height: 1; border-right: 1px solid var(--border); }
+    .font-ctrl-btn:last-child { border-right: none; }
+    .font-ctrl-btn:hover { background: var(--gold-dim); color: var(--gold); }
+    .font-ctrl-btn.a-small { font-size: 11px; } .font-ctrl-btn.a-mid { font-size: 13px; } .font-ctrl-btn.a-large { font-size: 16px; }
+    .font-ctrl-label { font-size: 0.625rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); padding: 0 8px; }
+    .a11y-bar { display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: #FFFFFF; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .a11y-bar-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); }
+    .tab-nav { display: flex; gap: 4px; margin-bottom: 1rem; background: #EFF3F9; border-radius: 12px; padding: 4px; }
+    .tab-btn { flex: 1; padding: 8px 12px; border: none; border-radius: 9px; background: transparent; color: var(--text-muted); font-size: 0.8125rem; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .tab-btn:hover { background: rgba(255,255,255,0.6); color: var(--text-primary); }
+    .tab-btn.active { background: #FFFFFF; color: var(--navy); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .section-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 1.75rem; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+    .passage-text { font-size: var(--passage-font-size); line-height: 2.0; color: var(--text-body); transition: font-size 0.2s ease; }
+    .passage-text p { margin-bottom: 1.2rem; }
+    .para-label { display: inline-block; font-family: 'Space Mono', monospace; font-size: 0.6875rem; font-weight: 700; color: var(--navy); background: rgba(26,60,110,0.08); border: 1px solid rgba(26,60,110,0.18); border-radius: 4px; padding: 1px 6px; margin-right: 8px; letter-spacing: 0.05em; }
+    .q-block { margin-bottom: 1.25rem; padding: 1rem 1.15rem; border-radius: 12px; background: #FFFFFF; border: 1px solid var(--border); }
+    .q-num { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+    .q-text { font-size: 0.9rem; color: var(--text-body); margin-bottom: 10px; line-height: 1.65; }
+    .q-input { width: 100%; background: #F8FAFC; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text-primary); font-size: 0.9rem; transition: border-color 0.2s, box-shadow 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-input:focus { outline: none; border-color: var(--gold-border); box-shadow: 0 0 0 3px var(--gold-dim); }
+    .q-select { width: 100%; background: #F8FAFC; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text-primary); font-size: 0.875rem; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-select:focus { outline: none; border-color: var(--gold-border); }
+    .q-tfng { display: flex; gap: 8px; flex-wrap: wrap; }
+    .q-tfng-btn { padding: 7px 16px; border: 1.5px solid var(--border); border-radius: 8px; background: #F8FAFC; color: var(--text-muted); font-size: 0.8rem; font-weight: 700; cursor: pointer; transition: all 0.15s; font-family: 'Plus Jakarta Sans', sans-serif; letter-spacing: 0.04em; }
+    .q-tfng-btn:hover { border-color: var(--gold-border); color: var(--gold); background: var(--gold-dim); }
+    .q-tfng-btn.sel-t { background: rgba(16,185,129,0.08); border-color: rgba(16,185,129,0.4); color: #059669; }
+    .q-tfng-btn.sel-f { background: rgba(239,68,68,0.08); border-color: rgba(239,68,68,0.4); color: #dc2626; }
+    .q-tfng-btn.sel-ng { background: rgba(201,149,46,0.10); border-color: var(--gold-border); color: var(--gold); }
+    .headings-list { background: #EFF3F9; border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.25rem; font-size: 0.875rem; color: var(--text-body); }
+    .headings-list ul { padding-left: 0; }
+    .headings-list li { display: flex; gap: 10px; margin-bottom: 0.6rem; line-height: 1.55; }
+    .headings-list li span { font-family: 'Space Mono', monospace; font-weight: 700; color: var(--navy); flex-shrink: 0; min-width: 20px; }
+    .group-header { background: #EFF3F9; border: 1px solid var(--border); border-radius: 12px; padding: 1rem 1.25rem; font-size: 0.875rem; color: var(--text-body); line-height: 1.65; }
+    .group-header .text-xs { margin-bottom: 4px; }
+    .split-container { display: flex; gap: 0; min-height: calc(100vh - 260px); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; background: var(--card-bg); }
+    .reading-pane { flex: 0 0 50%; overflow-y: auto; padding: 1.5rem 1.75rem; border-right: 1px solid var(--border); min-height: 500px; }
+    .question-pane { flex: 1; overflow-y: auto; padding: 1.25rem 1.5rem; }
+    .resizer-bar { width: 6px; background: var(--border); cursor: col-resize; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: background 0.2s; }
+    .resizer-bar:hover, .resizer-bar.active { background: var(--gold-border); }
+    .resizer-btn { background: transparent; border: none; cursor: col-resize; display: flex; align-items: center; gap: 2px; flex-direction: column; padding: 4px 2px; }
+    .score-ring-wrap { display: flex; flex-direction: column; align-items: center; }
+    .band-feedback { font-size: 0.95rem; color: var(--text-body); line-height: 1.75; }
+    .passage-corr-header { font-family: 'Satoshi', sans-serif; font-weight: 700; font-size: 1rem; color: var(--navy); margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
+    .corr-block { padding: 1rem 1.15rem; border-radius: 12px; margin-bottom: 0.9rem; border: 1px solid; }
+    .corr-correct { background: rgba(16,185,129,0.04); border-color: rgba(16,185,129,0.2); }
+    .corr-wrong { background: rgba(239,68,68,0.04); border-color: rgba(239,68,68,0.2); }
+    .corr-qnum { font-size: 0.75rem; font-weight: 700; margin-bottom: 5px; }
+    .corr-qnum.ok { color: #059669; } .corr-qnum.bad { color: #dc2626; }
+    .corr-qtext { font-size: 0.875rem; color: var(--text-body); margin-bottom: 8px; line-height: 1.6; }
+    .corr-row { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+    .corr-tag { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; padding: 2px 7px; border-radius: 4px; flex-shrink: 0; }
+    .corr-tag.your { background: rgba(239,68,68,0.1); color: #dc2626; }
+    .corr-tag.correct { background: rgba(16,185,129,0.1); color: #059669; }
+    .corr-tag.reinforce { background: rgba(16,185,129,0.1); color: #059669; }
+    .corr-val { font-size: 0.875rem; font-weight: 600; color: var(--text-primary); }
+    .corr-expl { font-size: 0.8125rem; color: var(--text-muted); line-height: 1.65; margin-top: 6px; padding-top: 6px; border-top: 1px solid var(--border-soft); }
+    .btn-gold { background: var(--gold); color: #fff; border: none; border-radius: 12px; font-family: 'Satoshi', sans-serif; font-weight: 700; font-size: 0.9375rem; cursor: pointer; padding: 12px 28px; transition: all 0.2s; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-gold:hover { background: var(--gold-light); box-shadow: 0 4px 16px rgba(201,149,46,0.3); }
+    .spinner { width: 44px; height: 44px; border: 3px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+  </style>
+</head>
+<body>
+<div id="header-container"></div>
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<div class="timing-strip" id="timingStrip">
+  <div class="max-w-6xl mx-auto px-6 flex items-center justify-between gap-4">
+    <div class="flex items-center gap-6">
+      <div class="timing-item"><span class="timing-label">Test</span><span class="timing-val">Cambridge 20 · Test 4</span></div>
+      <div class="timing-item"><span class="timing-label">Section</span><span class="timing-val">Academic Reading</span></div>
+      <div class="timing-item"><span class="timing-label">Questions</span><span class="timing-val">40 total</span></div>
+    </div>
+    <div class="flex items-center gap-3">
+      <div class="timing-item"><span class="timing-label">Passages</span><span class="timing-val">3</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- SUBMITTING OVERLAY -->
+<div id="submittingOverlay" style="display:none;position:fixed;inset:0;background:rgba(247,248,250,0.92);z-index:200;flex-direction:column;align-items:center;justify-content:center;gap:20px;">
+  <div class="spinner"></div>
+  <div style="font-family:'Satoshi',sans-serif;font-weight:700;font-size:1.125rem;color:var(--text-primary);">Marking your answers…</div>
+</div>
+
+<!-- TEST MAIN -->
+<div id="testMain">
+  <main class="max-w-6xl mx-auto px-6 pt-8 pb-4">
+
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
+      <div>
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Cambridge 20 · Full Test 4</div>
+        <h1 class="font-display font-black text-2xl" style="color:var(--text-primary);">Academic Reading — Full Test 4</h1>
+      </div>
+      <div class="flex items-center gap-3 flex-wrap">
+        <div class="font-ctrl">
+          <span class="font-ctrl-label">Text</span>
+          <button class="font-ctrl-btn a-small" onclick="adjustFontSize(-1)" title="Decrease font size">A</button>
+          <button class="font-ctrl-btn a-mid" onclick="adjustFontSize(0)" title="Reset font size">A</button>
+          <button class="font-ctrl-btn a-large" onclick="adjustFontSize(1)" title="Increase font size">A</button>
+        </div>
+        <div id="timerDisplay" class="timer-box">60:00</div>
+        <button class="btn-gold" onclick="confirmSubmit()" style="padding:10px 20px;font-size:0.875rem;">Submit Test</button>
+      </div>
+    </div>
+
+    <!-- Tab Nav -->
+    <div class="tab-nav" id="tabNav">
+      <button class="tab-btn active" onclick="switchTab(1)">Passage 1 <span style="font-size:0.75rem;opacity:0.7;">(Q1–13)</span></button>
+      <button class="tab-btn" onclick="switchTab(2)">Passage 2 <span style="font-size:0.75rem;opacity:0.7;">(Q14–26)</span></button>
+      <button class="tab-btn" onclick="switchTab(3)">Passage 3 <span style="font-size:0.75rem;opacity:0.7;">(Q27–40)</span></button>
+    </div>
+
+    <!-- Split Container -->
+    <div class="split-container" id="splitContainer">
+
+      <!-- Reading Pane -->
+      <div class="reading-pane" id="readingPane">
+
+        <!-- PASSAGE 1 -->
+        <div id="passageContent1">
+          <div style="margin-bottom:1.25rem;">
+            <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 1</div>
+            <h2 class="font-display font-bold text-xl mb-1" style="color:var(--navy);">Rewilding: Ecological Restoration and the Return of Keystone Species</h2>
+          </div>
+          <div class="passage-text">
+            <p><span class="para-label">A</span>In January 1995, fourteen grey wolves were transported from Jasper National Park in Canada and released into Yellowstone National Park in Wyoming, ending a seventy-year absence that had followed systematic federal extermination campaigns targeting the species as a threat to livestock. The reintroduction, controversial at the time and opposed by ranching communities in the surrounding states, produced ecological consequences of a scope and rapidity that surprised even the biologists who had advocated for it. Within a decade, vegetation along river corridors had begun to recover as elk herds altered their grazing behaviour in response to predation risk; this plant recovery stabilised riverbanks, reduced erosion, and changed the physical course of several Yellowstone watercourses — a phenomenon that ecologists termed a trophic cascade, in which the reintroduction of a single species at the apex of a food web generates transformational change across multiple ecological levels simultaneously.</p>
+            <p><span class="para-label">B</span>The concept of rewilding was formalised in a foundational 1998 paper by conservation biologists Michael Soulé and Reed Noss, who proposed a framework built around three interconnected elements: cores, corridors, and carnivores. Core areas were to consist of large, legally protected wilderness reserves; corridors were to link these reserves, allowing the free movement of wildlife across fragmented landscapes; and carnivores — apex predators at the top of their respective food webs — were to be restored within these areas, on the theory that their presence was necessary to maintain the ecological processes that had shaped the habitats in which they had evolved. The framework reflected an emerging body of evidence that the absence of large predators, rather than habitat loss alone, was responsible for many of the most dramatic declines in ecological function observed in protected areas that otherwise appeared intact. Modern rewilding initiatives vary considerably in their interpretation of this framework, ranging from intensive predator reintroduction programmes to passive rewilding approaches in which agricultural land is simply withdrawn from production and the process of natural succession allowed to proceed without intervention.</p>
+            <p><span class="para-label">C</span>The scientific foundation for the emphasis on apex predators in rewilding derives from the keystone species concept, first articulated by zoologist Robert Paine following experiments conducted on the rocky intertidal zone of the Washington State coast in the 1960s. Paine manually removed the sea star Pisaster ochraceus from sections of shoreline and observed the results: within months, mussel populations exploded in the absence of their principal predator, crowding out barnacles, anemones, algae, and the diverse invertebrate communities associated with them, until the species-rich intertidal habitat had been reduced to an almost monospecific mussel bed. The sea star, comprising only a small fraction of the total biomass of the ecosystem it controlled, had a disproportionate structuring effect on community composition — a disproportionality that Paine captured in the term "keystone species," by analogy with the wedge-shaped stone at the crown of an arch that, though no larger than its neighbours, bears the compressive loads of the entire structure. Subsequent research identified keystone species across diverse ecosystem types, from elephants that open woodland clearings in African savannas to sea otters that maintain kelp forest ecosystems by controlling sea urchin populations.</p>
+            <p><span class="para-label">D</span>In Europe, where large predators were extirpated from most of their historical range centuries ago and where agricultural abandonment in marginal upland and lowland areas has produced extensive tracts of recovering vegetation, rewilding has attracted both academic interest and practical investment. Rewilding Europe, a non-governmental organisation established in 2011, has worked with landowners, local communities, and governments to promote natural processes across approximately one million hectares across eight European countries. The reintroduction of European bison to forests in Poland and Romania, wolves to the southern Carpathians and the Iberian Peninsula, and white-tailed eagles to Ireland illustrates the range of species involved. In parallel, at Pleistocene Park in northeastern Siberia — a project initiated by ecologist Sergey Zimov — large herbivores including bison, musk ox, and Yakutian horses are being introduced to steppes previously dominated by shrubs, on the hypothesis that the trampling and grazing of large mammals can restore grassland ecosystems and, by compacting the snow layer in winter, slow the thawing of permafrost — a potential feedback loop of global climatic significance.</p>
+            <p><span class="para-label">E</span>The reintroduction of large carnivores has generated persistent conflict with agricultural communities in affected areas, reflecting the genuine material costs that predation imposes on livestock farmers. In the greater Yellowstone ecosystem, annual livestock losses to wolves are estimated at between one hundred and five hundred animals depending on year and pack distribution, with the financial impact concentrated among a small number of ranching operations located adjacent to wolf territories. Compensation schemes — in which governments or conservation organisations reimburse farmers for verified predation losses — have been implemented in many European jurisdictions and in parts of the American West, but the adequacy, timeliness, and verification requirements of these schemes have been sources of persistent dispute. Beyond economic considerations, the presence of wolves near agricultural communities generates anxiety about safety and loss of control over traditional land management practices that is not reducible to financial compensation, and which has fuelled organised political opposition to rewilding initiatives in multiple European countries.</p>
+            <p><span class="para-label">F</span>Systematic evaluation of rewilding outcomes has been complicated by the difficulty of establishing appropriate counterfactuals and by the long timescales over which ecological processes operate. A 2019 meta-analysis of apex predator reintroduction studies published in Science Advances examined outcomes across twenty-seven case studies on six continents, finding that predator reintroduction produced statistically significant increases in prey species diversity and vegetation recovery in the majority of cases, with effects strongest where predators had been absent longest and where their prey had no prior experience of predation. The Yellowstone case produced measurable vegetation recovery within three to five years of wolf reintroduction, though the relative contribution of wolves versus climate, fire regimes, and variation in elk hunting pressure has been the subject of ongoing academic debate. Longer-term monitoring data from European wolf recovery areas suggest that the ecological effects documented in national parks are replicated, albeit at smaller magnitudes, in multi-use landscapes where human activity and legal wolf killing limit predator density.</p>
+            <p><span class="para-label">G</span>The most radical strand of rewilding thinking extends the concept temporally backward, advocating for the reintroduction not merely of historically extirpated species but of ecological functional equivalents for the megafauna that were eliminated from most continents by human hunting during the Pleistocene — an approach sometimes termed Pleistocene rewilding. Proposals have been advanced to introduce African elephants and cheetahs to the American Great Plains as ecological surrogates for the mammoths, mastodons, and American cheetahs lost eleven thousand years ago, and advances in de-extinction technology using ancient DNA have generated speculation about the restoration of species including the woolly mammoth and the passenger pigeon. More immediately, the debate between advocates of "wild" rewilding — in which human management is progressively withdrawn in favour of autonomous ecological processes — and those who argue that the degraded state of most ecosystems makes intensive and sustained management intervention necessary to achieve restoration goals remains unresolved, and will shape the practical implementation of rewilding policy in the coming decades.</p>
+          </div>
+        </div>
+
+        <!-- PASSAGE 2 -->
+        <div id="passageContent2" style="display:none;">
+          <div style="margin-bottom:1.25rem;">
+            <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 2</div>
+            <h2 class="font-display font-bold text-xl mb-1" style="color:var(--navy);">The Psychology of Pricing: How Numbers Shape Consumer Decisions</h2>
+          </div>
+          <div class="passage-text">
+            <p><span class="para-label">A</span>In a widely replicated experiment first conducted by behavioural economist Dan Ariely and colleagues in 2008, participants were asked to write the last two digits of their Social Security number and then bid on items including a bottle of wine, a book, and a computer keyboard. Despite the obvious irrelevance of the Social Security digits to the value of any of the items, participants with higher two-digit numbers — those ending in 70 or 80 — consistently submitted bids approximately sixty to one hundred percent higher than those submitted by participants with lower numbers, in a pattern that held across all product categories and across replications in multiple countries. Ariely termed the phenomenon "arbitrary coherence": the first number encountered, however meaningless, served as an anchor that biased all subsequent numerical judgements in its direction. The experiment illustrated a principle with far-reaching implications for commercial pricing: the perceived value of a product is not determined solely by its intrinsic properties but is heavily influenced by the numerical context in which it is encountered.</p>
+            <p><span class="para-label">B</span>Price anchoring operates through the cognitive mechanism of adjustment: when consumers are exposed to an initial price — whether it is the manufacturer's suggested retail price displayed in strikethrough next to a discounted figure, the highest-priced item listed first on a restaurant menu, or an implausibly large number displayed on a promotional tag — they use it as a reference point from which they make upward or downward adjustments to form their own price estimate. Because the adjustment process is typically insufficient — people stop adjusting when they reach a figure that seems plausible rather than continuing to a fully reasoned independent assessment — the final estimate remains biased toward the anchor. Research by Amos Tversky and Daniel Kahneman in the 1970s demonstrated that even anchors that participants were explicitly told were random — generated by spinning a wheel of fortune — influenced their estimates of quantities as apparently anchor-resistant as the number of countries in Africa. In retail contexts, the use of inflated original prices beside sale prices exploits this mechanism systematically, generating a perception of saving that can be larger than the actual discount would warrant if the reference price were independently assessed.</p>
+            <p><span class="para-label">C</span>Among the most robust findings in pricing psychology is the disproportionate influence of the leftmost digit of a price on consumer perception. A price of £9.99 is processed differently from £10.00 not merely because of the one-penny difference in magnitude — which is objectively trivial — but because the leftmost digit changes from ten to nine, shifting the price category from "tens of pounds" to "pounds" in a cognitive representation that processes numerical magnitude in a qualitative as well as quantitative way. The effect, documented in grocery, retail, and online commerce contexts, is strongest when the left digit crosses a round-number boundary and weakest when prices are already within the same left-digit category. A meta-analysis of field and laboratory studies found that nine-ending prices increased sales volumes by an average of twenty-four percent compared to prices one unit higher, with the effect persisting even when consumers were sophisticated buyers with high numerical literacy. Paradoxically, nine-ending prices can also reduce sales when consumers are using price as a quality signal — in luxury goods markets, for instance, a £9,999 price may convey cheapness relative to £10,000 rather than a bargain.</p>
+            <p><span class="para-label">D</span>The relationship between price and perceived quality is not unidirectional: while consumers generally prefer lower prices, there are systematic conditions under which a higher price increases both willingness to purchase and subjective experience of the product consumed. In a study using functional MRI published in the Proceedings of the National Academy of Sciences in 2008, Plassmann and colleagues gave participants the same wine to drink from glasses labelled with different prices. Neural activation in the medial orbitofrontal cortex — a brain region associated with the experienced pleasantness of a stimulus — was significantly higher when participants believed they were drinking wine priced at forty-five dollars than when they believed it to be the same wine priced at five dollars, despite the identity of the actual liquid consumed. The result suggests that price information does not merely affect abstract judgements of value but directly modifies the sensory experience of consumption — a finding with implications for any domain in which the expected quality of a product or service shapes the subjective experience of receiving it.</p>
+            <p><span class="para-label">E</span>The shift in commercial pricing from one-time purchase transactions to recurring subscription models has made the psychology of sunk costs — commitments of time or money that have been made and cannot be recovered — increasingly relevant to consumer behaviour. The sunk cost fallacy, in which past irrecoverable expenditure influences current decisions despite its economic irrelevance to future outcomes, has been documented in subscription contexts: consumers who have paid for a subscription that they no longer use actively continue their subscription in part because cancellation makes the months of unused payment feel more wasteful than continued subscription would. Gym frequency studies have found that members who pay higher upfront joining fees attend the gym more frequently in the months following payment — not because the higher fee makes attendance more valuable, but because the sunk cost generates a sense of obligation to justify the expenditure. Subscription pricing strategists exploit this dynamic by structuring contracts, free-trial periods, and automatic renewal clauses in ways that make the transition from trial to paid subscription frictionless and the subsequent cancellation psychologically and practically effortful.</p>
+            <p><span class="para-label">F</span>Algorithmic pricing — the use of real-time data on supply, demand, competitor prices, and individual consumer characteristics to set prices that change dynamically rather than remaining fixed — has become pervasive in online retail, travel, and hospitality. Studies of online retail have documented price differentials of up to eighty percent for identical products sold to different users on the same platform within the same day, with variation correlated with device type, browsing history, and geographic location. The exposure of personalised pricing algorithms in high-profile media investigations has generated substantial consumer backlash, with surveys consistently finding that the majority of consumers regard price personalisation based on individual data as unfair, even where the prices offered are lower than those available to other customer segments. The perception of unfairness appears to be driven not by the absolute price paid but by the knowledge that different consumers are paying different amounts for the same thing — a violation of the norm of equal treatment that economists regard as relevant to social welfare even when aggregate efficiency is maintained.</p>
+            <p><span class="para-label">G</span>The systematic exploitation of cognitive biases in commercial pricing has attracted regulatory attention in multiple jurisdictions, though the design of effective interventions is complicated by the difficulty of distinguishing manipulation from legitimate persuasion. The European Union's Omnibus Directive, which entered into force in 2022, requires retailers to display the lowest price charged for a product in the preceding thirty days alongside any promotional price, specifically to reduce the inflation of reference prices used in apparent discounts. Requirements for prominent display of total subscription costs — including the post-trial price — before trial periods begin have been introduced in the United States and the United Kingdom as partial remedies for the subscription-trap phenomenon. Behavioural economists have advocated for the mandatory testing of default options, price displays, and information formats before commercial deployment — a proposal that has found limited legislative support but has gained traction in the design of public-sector services in several countries. The underlying tension between consumer autonomy, commercial innovation, and the structural power that comes from superior knowledge of the psychological mechanisms of decision-making is unlikely to be fully resolved by any single regulatory intervention.</p>
+          </div>
+        </div>
+
+        <!-- PASSAGE 3 -->
+        <div id="passageContent3" style="display:none;">
+          <div style="margin-bottom:1.25rem;">
+            <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 3</div>
+            <h2 class="font-display font-bold text-xl mb-1" style="color:var(--navy);">Quantum Computing: Principles, Progress, and Practical Limits</h2>
+          </div>
+          <div class="passage-text">
+            <p><span class="para-label">A</span>In October 2019, Google's quantum computing team published a paper in Nature claiming that their fifty-three-qubit processor, Sycamore, had completed a specific mathematical sampling task in two hundred seconds that, according to their estimates, would require the most powerful classical supercomputer approximately ten thousand years to perform. The claim was contested within days by IBM, whose researchers argued that an optimised classical algorithm could complete the same task in approximately two-and-a-half days, and that the comparison was therefore misleading. The exchange illustrated a characteristic feature of the nascent field of quantum computing: extraordinary technical progress coexisting with deep uncertainty about what constitutes a meaningful demonstration of practical advantage. Nonetheless, the episode focused global attention on a technology whose underlying physical principles suggest capabilities that would be qualitatively rather than merely quantitatively superior to those of any classical computing architecture — capabilities that, if realised at practical scale, could transform fields from drug discovery to cryptography to climate modelling.</p>
+            <p><span class="para-label">B</span>Classical computers process information using bits — elementary units of information that can exist in one of two states, conventionally represented as zero or one. Quantum computers use quantum bits, or qubits, which exploit the quantum mechanical property of superposition to exist in a linear combination of zero and one simultaneously, until the qubit is measured and collapses to a definite value. The significance of superposition for computation becomes apparent when multiple qubits are considered together: while n classical bits can represent exactly one of 2ⁿ possible states at any given moment, n qubits exist in a superposition of all 2ⁿ states simultaneously, allowing a quantum computation to process an exponentially larger information space with the same number of physical components. This is not equivalent to simply running 2ⁿ classical computations in parallel, however — the structure of quantum algorithms must be carefully designed to amplify the probability of measuring the correct answer and suppress incorrect ones through a process of quantum interference, making quantum algorithm design significantly more mathematically demanding than classical algorithm development.</p>
+            <p><span class="para-label">C</span>A second quantum mechanical property exploited in quantum computing is entanglement: a correlation between the quantum states of two or more qubits that is stronger than any correlation permitted by classical physics. When qubits are entangled, the measurement outcome of one qubit instantaneously determines the outcome of measuring its entangled partner, regardless of the physical separation between them — a property that Einstein famously and sceptically termed "spooky action at a distance." In quantum computing, entanglement allows information to be distributed across multiple qubits in a coordinated way that enables certain computations to be performed with a number of operations that scales polynomially with the size of the problem, rather than exponentially as required by the best known classical algorithms for the same problem. Shor's algorithm for factoring large integers — whose security implications for public-key cryptography are profound, since the difficulty of factoring large numbers is the mathematical foundation of RSA encryption — exploits both superposition and entanglement to achieve a theoretical speedup that would render current encryption standards obsolete if implemented at sufficient qubit scale.</p>
+            <p><span class="para-label">D</span>The practical realisation of quantum computational advantage is severely constrained by the fragility of qubit states. Quantum information is destroyed by any interaction between the qubit and its environment — a process called decoherence — that collapses the superposition before the computation is complete. Contemporary qubits maintained at temperatures close to absolute zero in superconducting systems can sustain coherent states for periods ranging from microseconds to milliseconds, depending on the hardware architecture and the quality of isolation from environmental noise. This decoherence timescale is far shorter than the time required to run algorithms of practical complexity, necessitating quantum error correction — the encoding of a single logical qubit across multiple physical qubits such that errors affecting individual physical components can be detected and corrected without collapsing the logical qubit's state. Current estimates suggest that implementing fully fault-tolerant quantum computation would require between one thousand and one million physical qubits per logical qubit, depending on the error rate of the underlying hardware — a requirement that places robust, fault-tolerant quantum computing far beyond the capabilities of current systems, which contain at most a few hundred to a few thousand physical qubits.</p>
+            <p><span class="para-label">E</span>In the current period before fault-tolerant quantum computing is achieved, quantum researchers are exploring applications that can be addressed by so-called noisy intermediate-scale quantum (NISQ) devices — processors with fifty to a few hundred qubits operating without full error correction. The most promising near-term application is quantum chemistry simulation: because quantum systems naturally simulate quantum mechanical phenomena, even modest quantum processors can model the electronic structure of small molecules — including drug candidates and catalyst structures — with greater accuracy than classical computers can achieve using approximate methods. The pharmaceutical industry has invested substantially in quantum chemistry partnerships, motivated by the prospect of reducing the computational cost of the molecular modelling that underlies drug discovery. Quantum optimisation algorithms, applied to logistics, financial portfolio construction, and supply chain design, represent a second near-term application class, though demonstrating genuine advantage over increasingly sophisticated classical optimisation methods on these tasks has proved more elusive than early projections suggested.</p>
+            <p><span class="para-label">F</span>Multiple competing physical implementations of qubits are under active development, each with distinct advantages and limitations. Superconducting qubits, used by Google, IBM, and a number of startup companies, are fabricated using conventional microelectronic manufacturing processes and can be controlled with high precision using standard microwave electronics, but require cooling to temperatures near absolute zero and suffer from relatively short coherence times. Trapped-ion qubits — electrically charged atomic ions suspended in vacuum and manipulated with laser beams — exhibit significantly longer coherence times and higher gate fidelities than superconducting systems, but require complex optical infrastructure and are difficult to scale to large numbers of qubits. Photonic quantum computing, which uses photons as qubits and operates at room temperature, sidesteps the cooling requirement but faces challenges in realising the entangling operations necessary for universal quantum computation. A fourth approach, topological qubits — which encode quantum information in non-local properties of exotic quantum states and are theoretically more resistant to decoherence — remains at an earlier stage of experimental realisation despite substantial investment from Microsoft.</p>
+            <p><span class="para-label">G</span>The history of projections about quantum computing timescales is one of consistent optimism followed by repeated revision. Milestones that were projected for five-year horizons have frequently required fifteen, and the engineering challenges associated with scaling qubit counts while maintaining error rates have proved more formidable than early theoretical analyses suggested. A more sober assessment that has gained currency among researchers distinguishes between quantum advantage — demonstrating that a quantum processor outperforms classical hardware on any task of practical interest — and quantum utility — the broader question of whether quantum computing can generate value across a sufficient range of commercially or scientifically significant problems to justify the substantial investment it demands. Most researchers active in the field believe that fault-tolerant quantum computing capable of breaking current encryption standards remains at least a decade away and possibly considerably longer, while near-term quantum advantage in chemistry and optimisation may be achievable on a shorter horizon if hardware progress in qubit quality continues at its current rate.</p>
+          </div>
+        </div>
+
+      </div><!-- end reading-pane -->
+
+      <!-- Resizer -->
+      <div class="resizer-bar" id="resizerBar">
+        <button class="resizer-btn" aria-label="Drag to resize">
+          <svg width="4" height="20" viewBox="0 0 4 20" fill="none"><circle cx="2" cy="4" r="1.5" fill="#CBD5E1"/><circle cx="2" cy="10" r="1.5" fill="#CBD5E1"/><circle cx="2" cy="16" r="1.5" fill="#CBD5E1"/></svg>
+        </button>
+      </div>
+
+      <!-- Question Pane -->
+      <div class="question-pane" id="questionPane" style="background:var(--qpanel-bg);">
+        <div id="qPanel1"></div>
+        <div id="qPanel2" style="display:none;"></div>
+        <div id="qPanel3" style="display:none;"></div>
+      </div>
+
+    </div><!-- end split-container -->
+
+  </main>
+</div><!-- end testMain -->
+
+<!-- RESULTS MAIN -->
+<div id="resultsMain" style="display:none;" class="flex-1 max-w-5xl mx-auto px-6 py-10 w-full">
+  <div class="flex items-center gap-3 mb-8">
+    <div>
+      <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Results</div>
+      <h1 class="font-display font-black text-2xl" style="color:var(--text-primary);">Academic Reading — Score Report</h1>
+    </div>
+  </div>
+  <div class="section-card mb-6" id="scoreCard"></div>
+  <div class="section-card mb-8" id="feedbackCard"></div>
+  <div class="section-card mb-6"><div class="passage-corr-header">Passage 1 — Rewilding</div><div id="corrPassage1"></div></div>
+  <div class="section-card mb-6"><div class="passage-corr-header">Passage 2 — The Psychology of Pricing</div><div id="corrPassage2"></div></div>
+  <div class="section-card mb-10"><div class="passage-corr-header">Passage 3 — Quantum Computing</div><div id="corrPassage3"></div></div>
+  <div class="flex gap-4 justify-center mb-16"><a href="index.html" class="btn-gold">&#8592; Back to Tests</a></div>
+</div>
+
+<script>
+// ─── GROUPS DATA ──────────────────────────────────────────────────────────────
+const GROUPS = [
+
+  // ── PASSAGE 1 ──────────────────────────────────────────────────────────────
+
+  {
+    passageId: 1,
+    label: 'Questions 1–5',
+    type: 'matching_headings',
+    instructions: 'The passage has seven paragraphs, <strong>A–G</strong>. Choose the correct heading for paragraphs <strong>B–F</strong> from the list of headings below. Write the correct number <strong>i–viii</strong> in boxes 1–5 on your answer sheet.',
+    headings: [
+      { key: 'i',   text: 'A theoretical framework that explains how predators exert disproportionate influence on ecosystem structure' },
+      { key: 'ii',  text: 'A formal proposal that links protected areas, movement routes, and apex predators as essential elements of restoration' },
+      { key: 'iii', text: 'Empirical assessment of outcomes across multiple predator reintroduction projects worldwide' },
+      { key: 'iv',  text: 'The economic losses and social resistance generated by the presence of large carnivores near farmland' },
+      { key: 'v',   text: 'Specific national and transboundary programmes that have reintroduced animals to European and Siberian landscapes' },
+      { key: 'vi',  text: 'The most extreme version of rewilding, which targets species lost in prehistoric times' },
+      { key: 'vii', text: 'Government legislation that has accelerated rewilding in protected areas across North America' },
+      { key: 'viii',text: 'The impact of invasive plant species on the success of rewilding programmes' }
+    ],
+    questions: [
+      {
+        id: 1, paraLabel: 'B',
+        text: 'Paragraph B',
+        answer: 'ii', answerDisplay: 'ii', acceptable: ['ii'],
+        explanation: 'Paragraph B describes Soulé and Noss\'s 1998 framework — cores, corridors, and carnivores — as a formal three-element proposal for rewilding. "Formal proposal linking protected areas, movement routes, and apex predators" is a direct structural match. Heading vi (prehistoric species) maps to G; headings vii and viii are absent from the passage.',
+        reinforcement: 'Correct — paragraph B introduces the cores-corridors-carnivores framework as the foundational formal proposal for rewilding, matching heading ii.'
+      },
+      {
+        id: 2, paraLabel: 'C',
+        text: 'Paragraph C',
+        answer: 'i', answerDisplay: 'i', acceptable: ['i'],
+        explanation: 'Paragraph C describes Robert Paine\'s keystone species concept — the theoretical explanation for why predators have disproportionate structuring effects on ecosystems. "Theoretical framework… disproportionate influence… ecosystem structure" directly describes the keystone species concept developed in this paragraph.',
+        reinforcement: 'Correct — paragraph C is devoted to the keystone species concept as the theoretical foundation for predator-centred rewilding, matching heading i.'
+      },
+      {
+        id: 3, paraLabel: 'D',
+        text: 'Paragraph D',
+        answer: 'v', answerDisplay: 'v', acceptable: ['v'],
+        explanation: 'Paragraph D describes specific European rewilding programmes — Rewilding Europe, bison in Poland and Romania, wolves in the Carpathians and Iberian Peninsula, eagles in Ireland — and Pleistocene Park in Siberia. "Specific national and transboundary programmes that reintroduced animals to European and Siberian landscapes" is a direct description of paragraph D\'s content.',
+        reinforcement: 'Correct — paragraph D catalogues specific rewilding initiatives across Europe and Siberia, matching heading v.'
+      },
+      {
+        id: 4, paraLabel: 'E',
+        text: 'Paragraph E',
+        answer: 'iv', answerDisplay: 'iv', acceptable: ['iv'],
+        explanation: 'Paragraph E describes livestock losses to wolves, compensation scheme disputes, and the social and political opposition generated by predator presence near farming communities. "Economic losses and social resistance near farmland" matches precisely.',
+        reinforcement: 'Correct — paragraph E addresses both the financial costs of livestock predation and the non-financial social conflicts, matching heading iv.'
+      },
+      {
+        id: 5, paraLabel: 'F',
+        text: 'Paragraph F',
+        answer: 'iii', answerDisplay: 'iii', acceptable: ['iii'],
+        explanation: 'Paragraph F describes a 2019 meta-analysis of twenty-seven predator reintroduction case studies that statistically assessed outcomes. "Empirical assessment of outcomes across multiple predator reintroduction projects worldwide" is a direct description of this meta-analysis.',
+        reinforcement: 'Correct — paragraph F presents the systematic evidence base from the 2019 meta-analysis of twenty-seven cases worldwide, matching heading iii.'
+      }
+    ]
+  },
+
+  {
+    passageId: 1,
+    label: 'Questions 6–9',
+    type: 'tfng',
+    instructions: 'Do the following statements agree with the information given in the passage? In boxes 6–9 on your answer sheet, write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      {
+        id: 6,
+        text: 'The Yellowstone wolf reintroduction programme brought wolves from Canada in 1995.',
+        answer: 'TRUE', answerDisplay: 'TRUE', acceptable: ['TRUE'],
+        explanation: 'Paragraph A explicitly states wolves were transported from Jasper National Park, Canada, and released in January 1995, directly confirming both claims in the statement.',
+        reinforcement: 'Correct — paragraph A confirms both the Canadian origin and the 1995 date of the Yellowstone reintroduction.'
+      },
+      {
+        id: 7,
+        text: 'Robert Paine conducted his keystone species experiments in the Atlantic Ocean.',
+        answer: 'FALSE', answerDisplay: 'FALSE', acceptable: ['FALSE'],
+        explanation: 'Paragraph C locates Paine\'s experiments on the "Washington State coast," on the Pacific coast of the United States, not the Atlantic Ocean. The statement directly contradicts the passage.',
+        reinforcement: 'Correct — paragraph C specifies Washington State coast (Pacific), not the Atlantic, making this FALSE.'
+      },
+      {
+        id: 8,
+        text: 'The 2019 meta-analysis found that predator reintroduction effects were strongest in ecosystems where prey species had lived alongside predators continuously for long periods.',
+        answer: 'FALSE', answerDisplay: 'FALSE', acceptable: ['FALSE'],
+        explanation: 'Paragraph F states effects were strongest "where predators had been absent longest and where their prey had no prior experience of predation" — the opposite of what the statement claims. "Continuous coexistence" reverses the passage\'s finding.',
+        reinforcement: 'Correct — paragraph F specifies no prior predation experience as the condition for strongest effects, directly contradicting "continuous coexistence."'
+      },
+      {
+        id: 9,
+        text: 'Proposals have been made to introduce African elephants to the North American Great Plains as ecological surrogates for extinct Pleistocene megafauna.',
+        answer: 'TRUE', answerDisplay: 'TRUE', acceptable: ['TRUE'],
+        explanation: 'Paragraph G explicitly describes proposals for African elephant introduction to the Great Plains as surrogates for extinct Pleistocene megafauna, directly confirming the statement.',
+        reinforcement: 'Correct — paragraph G confirms the African elephant proposal for the Great Plains as a Pleistocene surrogate.'
+      }
+    ]
+  },
+
+  {
+    passageId: 1,
+    label: 'Questions 10–13',
+    type: 'sentence_completion',
+    instructions: 'Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.',
+    questions: [
+      {
+        id: 10,
+        text: 'The ecological effect produced by wolf reintroduction at Yellowstone — in which a single species triggered change across multiple ecological levels — is described in the passage as a _______.',
+        answer: 'trophic cascade', answerDisplay: 'trophic cascade', acceptable: ['trophic cascade'],
+        explanation: 'Paragraph A: "a phenomenon that ecologists termed a trophic cascade, in which the reintroduction of a single species at the apex of a food web generates transformational change across multiple ecological levels simultaneously."',
+        reinforcement: 'Correct — "trophic cascade" is the exact term in paragraph A describing the multi-level ecological effect.'
+      },
+      {
+        id: 11,
+        text: 'Soulé and Noss\'s rewilding framework proposed that core wilderness reserves should be linked by _______ to allow wildlife to move freely across fragmented landscapes.',
+        answer: 'corridors', answerDisplay: 'corridors', acceptable: ['corridors'],
+        explanation: 'Paragraph B: "corridors were to link these reserves, allowing the free movement of wildlife across fragmented landscapes." "Corridors" is the exact one-word term from the passage.',
+        reinforcement: 'Correct — "corridors" is the passage-exact term in paragraph B for the landscape linkage element of the rewilding framework.'
+      },
+      {
+        id: 12,
+        text: 'In Paine\'s experiment, removing the sea star from sections of shoreline caused mussel populations to expand until the habitat became an almost monospecific _______ bed.',
+        answer: 'mussel', answerDisplay: 'mussel', acceptable: ['mussel'],
+        explanation: 'Paragraph C: "crowding out barnacles, anemones, algae… until the species-rich intertidal habitat had been reduced to an almost monospecific mussel bed." "Mussel" is the one-word answer completing "monospecific ______ bed."',
+        reinforcement: 'Correct — "mussel" is the passage-exact word in paragraph C\'s description of the experimental outcome.'
+      },
+      {
+        id: 13,
+        text: 'At Pleistocene Park in Siberia, the compaction of snow by large herbivores is hypothesised to slow the thawing of _______.',
+        answer: 'permafrost', answerDisplay: 'permafrost', acceptable: ['permafrost'],
+        explanation: 'Paragraph D: "slow the thawing of permafrost — a potential feedback loop of global climatic significance." "Permafrost" is the one-word passage-exact answer.',
+        reinforcement: 'Correct — "permafrost" is the exact term in paragraph D\'s description of the Pleistocene Park hypothesis.'
+      }
+    ]
+  },
+
+  // ── PASSAGE 2 ──────────────────────────────────────────────────────────────
+
+  {
+    passageId: 2,
+    label: 'Questions 14–18',
+    type: 'matching_headings',
+    instructions: 'The passage has seven paragraphs, <strong>A–G</strong>. Choose the correct heading for paragraphs <strong>B–F</strong> from the list of headings below. Write the correct number <strong>i–viii</strong> in boxes 14–18 on your answer sheet.',
+    headings: [
+      { key: 'i',   text: 'The cognitive mechanism by which an initial number biases all subsequent value judgements' },
+      { key: 'ii',  text: 'Why the digit farthest to the left of a price has a disproportionate effect on consumer perception' },
+      { key: 'iii', text: 'Evidence that price information changes the subjective sensory experience of consuming a product' },
+      { key: 'iv',  text: 'How recurring payment models exploit past expenditure to maintain consumer commitment' },
+      { key: 'v',   text: 'The use of data-driven pricing to charge different amounts to different buyers for the same product' },
+      { key: 'vi',  text: 'The psychological basis of loyalty programmes and reward points in consumer retention' },
+      { key: 'vii', text: 'Historical development of price-setting theory in classical economics' },
+      { key: 'viii',text: 'The role of social media influencers in shaping consumer price expectations' }
+    ],
+    questions: [
+      {
+        id: 14, paraLabel: 'B',
+        text: 'Paragraph B',
+        answer: 'i', answerDisplay: 'i', acceptable: ['i'],
+        explanation: 'Paragraph B explains the anchoring mechanism — cognitive adjustment from an initial number that remains biased toward the anchor. "Cognitive mechanism by which an initial number biases subsequent value judgements" precisely describes the adjustment process described in paragraph B.',
+        reinforcement: 'Correct — paragraph B is devoted to explaining the anchoring-and-adjustment mechanism, matching heading i.'
+      },
+      {
+        id: 15, paraLabel: 'C',
+        text: 'Paragraph C',
+        answer: 'ii', answerDisplay: 'ii', acceptable: ['ii'],
+        explanation: 'Paragraph C describes left-digit bias and the 99-cent effect — the disproportionate influence of the leftmost digit on price perception. "The digit farthest to the left… disproportionate effect on consumer perception" is a direct description of paragraph C\'s topic.',
+        reinforcement: 'Correct — paragraph C explains left-digit bias and the 99-cent phenomenon, matching heading ii exactly.'
+      },
+      {
+        id: 16, paraLabel: 'D',
+        text: 'Paragraph D',
+        answer: 'iii', answerDisplay: 'iii', acceptable: ['iii'],
+        explanation: 'Paragraph D describes the Plassmann fMRI experiment showing that higher price labels increased neural activation associated with experienced pleasantness — evidence that price changes the sensory experience itself. "Price information changes the subjective sensory experience of consuming a product" matches precisely.',
+        reinforcement: 'Correct — paragraph D presents neuroimaging evidence that price modifies sensory experience, matching heading iii.'
+      },
+      {
+        id: 17, paraLabel: 'E',
+        text: 'Paragraph E',
+        answer: 'iv', answerDisplay: 'iv', acceptable: ['iv'],
+        explanation: 'Paragraph E describes subscription models, sunk cost effects, and gym attendance patterns — how past irrecoverable payments maintain consumer commitment. "Recurring payment models exploit past expenditure to maintain consumer commitment" describes the subscription and sunk cost phenomena in paragraph E.',
+        reinforcement: 'Correct — paragraph E analyses how subscription pricing and sunk costs influence ongoing consumer commitment, matching heading iv.'
+      },
+      {
+        id: 18, paraLabel: 'F',
+        text: 'Paragraph F',
+        answer: 'v', answerDisplay: 'v', acceptable: ['v'],
+        explanation: 'Paragraph F describes algorithmic dynamic pricing that charges different consumers different prices based on data, and documents the resulting perception of unfairness. "Data-driven pricing to charge different amounts to different buyers for the same product" directly matches the personalised pricing topic of paragraph F.',
+        reinforcement: 'Correct — paragraph F is devoted to personalised algorithmic pricing and its fairness implications, matching heading v.'
+      }
+    ]
+  },
+
+  {
+    passageId: 2,
+    label: 'Questions 19–22',
+    type: 'tfng',
+    instructions: 'Do the following statements agree with the information given in the passage? In boxes 19–22 on your answer sheet, write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      {
+        id: 19,
+        text: 'In Ariely\'s experiment, participants who wrote higher Social Security numbers submitted bids that were approximately sixty to one hundred percent higher than those with lower numbers.',
+        answer: 'TRUE', answerDisplay: 'TRUE', acceptable: ['TRUE'],
+        explanation: 'Paragraph A explicitly states the sixty to one hundred percent bid differential, directly confirming the statement.',
+        reinforcement: 'Correct — paragraph A provides the exact sixty to one hundred percent figure for the bid differential in Ariely\'s experiment.'
+      },
+      {
+        id: 20,
+        text: 'Tversky and Kahneman found that explicitly random anchors had no effect on estimates of quantities such as the number of countries in Africa.',
+        answer: 'FALSE', answerDisplay: 'FALSE', acceptable: ['FALSE'],
+        explanation: 'Paragraph B states that even explicitly random anchors influenced estimates of the number of countries in Africa — the statement claims they had no effect, which directly contradicts the passage.',
+        reinforcement: 'Correct — paragraph B explicitly states that random anchors affected estimates, making "no effect" FALSE.'
+      },
+      {
+        id: 21,
+        text: 'Nine-ending prices can reduce sales in luxury goods markets where consumers use price as a quality signal.',
+        answer: 'TRUE', answerDisplay: 'TRUE', acceptable: ['TRUE'],
+        explanation: 'Paragraph C explicitly states that nine-ending prices can reduce sales in luxury contexts where price signals quality, directly confirming the statement.',
+        reinforcement: 'Correct — paragraph C confirms that nine-ending prices can backfire in luxury markets where quality-signalling is dominant.'
+      },
+      {
+        id: 22,
+        text: 'The European Union\'s Omnibus Directive requires retailers to display the average price charged for a product over the preceding twelve months.',
+        answer: 'FALSE', answerDisplay: 'FALSE', acceptable: ['FALSE'],
+        explanation: 'Paragraph G: the Omnibus Directive requires displaying "the lowest price charged" (not average) "in the preceding thirty days" (not twelve months). The statement contains two factual errors relative to the passage.',
+        reinforcement: 'Correct — paragraph G specifies the lowest price over thirty days, not the average price over twelve months, making the statement FALSE.'
+      }
+    ]
+  },
+
+  {
+    passageId: 2,
+    label: 'Questions 23–26',
+    type: 'sentence_completion',
+    instructions: 'Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.',
+    questions: [
+      {
+        id: 23,
+        text: 'Ariely termed the phenomenon in which an irrelevant initial number biases subsequent price judgements _______.',
+        answer: 'arbitrary coherence', answerDisplay: 'arbitrary coherence', acceptable: ['arbitrary coherence'],
+        explanation: 'Paragraph A: Ariely termed the phenomenon "arbitrary coherence": the first number encountered, however meaningless, served as an anchor that biased all subsequent numerical judgements. "Arbitrary coherence" is the two-word passage-exact term.',
+        reinforcement: 'Correct — "arbitrary coherence" is Ariely\'s exact term for the anchoring phenomenon, retrieved from paragraph A.'
+      },
+      {
+        id: 24,
+        text: 'The meta-analysis of pricing studies found that nine-ending prices increased sales volumes by an average of _______ compared to prices one unit higher.',
+        answer: 'twenty-four percent', answerDisplay: 'twenty-four percent', acceptable: ['twenty-four percent', '24 percent', '24%'],
+        explanation: 'Paragraph C: "nine-ending prices increased sales volumes by an average of twenty-four percent compared to prices one unit higher." "Twenty-four percent" is the passage-exact figure.',
+        reinforcement: 'Correct — "twenty-four percent" is the exact sales volume increase figure stated in paragraph C\'s meta-analysis summary.'
+      },
+      {
+        id: 25,
+        text: 'In the Plassmann fMRI experiment, neural activation in the _______ was higher when participants believed the wine was more expensive.',
+        answer: 'medial orbitofrontal cortex', answerDisplay: 'medial orbitofrontal cortex', acceptable: ['medial orbitofrontal cortex', 'orbitofrontal cortex'],
+        explanation: 'Paragraph D: "Neural activation in the medial orbitofrontal cortex — a brain region associated with the experienced pleasantness of a stimulus — was significantly higher when participants believed they were drinking wine priced at forty-five dollars." "Medial orbitofrontal cortex" is the passage-exact anatomical term.',
+        reinforcement: 'Correct — "medial orbitofrontal cortex" is the brain region named in paragraph D\'s description of the wine pricing experiment.'
+      },
+      {
+        id: 26,
+        text: 'Studies of gym membership found that members who paid higher _______ joining fees attended the gym more frequently in subsequent months.',
+        answer: 'upfront', answerDisplay: 'upfront', acceptable: ['upfront'],
+        explanation: 'Paragraph E: "members who pay higher upfront joining fees attend the gym more frequently in the months following payment." "Upfront" is the passage-exact adjective describing the joining fee structure.',
+        reinforcement: 'Correct — "upfront" is retrieved from paragraph E\'s description of the sunk cost effect on gym attendance.'
+      }
+    ]
+  },
+
+  // ── PASSAGE 3 ──────────────────────────────────────────────────────────────
+
+  {
+    passageId: 3,
+    label: 'Questions 27–31',
+    type: 'matching_info',
+    instructions: 'The passage has seven paragraphs, <strong>A–G</strong>. Which paragraph contains the following information? Write the correct letter, <strong>A–G</strong>, in boxes 27–31 on your answer sheet. <em>NB You may use any letter more than once.</em>',
+    paraOptions: ['A','B','C','D','E','F','G'],
+    questions: [
+      {
+        id: 27,
+        text: 'A description of a type of qubit that operates at room temperature but faces difficulties in performing the entangling operations needed for computation.',
+        answer: 'F', answerDisplay: 'F', acceptable: ['F'],
+        explanation: 'Paragraph F: "Photonic quantum computing, which uses photons as qubits and operates at room temperature, sidesteps the cooling requirement but faces challenges in realising the entangling operations necessary for universal quantum computation."',
+        reinforcement: 'Correct — photonic qubits operating at room temperature with entangling operation challenges are described in paragraph F.'
+      },
+      {
+        id: 28,
+        text: 'A reference to the mathematical algorithm that, if implemented at scale, would undermine the security of currently used encryption systems.',
+        answer: 'C', answerDisplay: 'C', acceptable: ['C'],
+        explanation: 'Paragraph C: "Shor\'s algorithm for factoring large integers — whose security implications for public-key cryptography are profound, since the difficulty of factoring large numbers is the mathematical foundation of RSA encryption — exploits both superposition and entanglement."',
+        reinforcement: 'Correct — Shor\'s algorithm and its threat to RSA encryption are described in paragraph C.'
+      },
+      {
+        id: 29,
+        text: 'An explanation of why a quantum processor cannot simply be understood as running many classical computations in parallel.',
+        answer: 'B', answerDisplay: 'B', acceptable: ['B'],
+        explanation: 'Paragraph B: "This is not equivalent to simply running 2ⁿ classical computations in parallel, however — the structure of quantum algorithms must be carefully designed to amplify the probability of measuring the correct answer."',
+        reinforcement: 'Correct — the clarification that quantum computation is not equivalent to parallel classical computation is in paragraph B.'
+      },
+      {
+        id: 30,
+        text: 'An account of a disputed claim about the superiority of a quantum processor over classical computers on a specific task.',
+        answer: 'A', answerDisplay: 'A', acceptable: ['A'],
+        explanation: 'Paragraph A: Google\'s Sycamore claim that it outperformed classical computers was "contested within days by IBM, whose researchers argued that an optimised classical algorithm could complete the same task in approximately two-and-a-half days."',
+        reinforcement: 'Correct — the dispute over Google\'s quantum supremacy claim is described in paragraph A.'
+      },
+      {
+        id: 31,
+        text: 'A description of an approach to quantum computing that theoretically makes qubit states more resistant to environmental disturbance by encoding information non-locally.',
+        answer: 'F', answerDisplay: 'F', acceptable: ['F'],
+        explanation: 'Paragraph F: "topological qubits — which encode quantum information in non-local properties of exotic quantum states and are theoretically more resistant to decoherence."',
+        reinforcement: 'Correct — topological qubits with non-local encoding and decoherence resistance are described in paragraph F.'
+      }
+    ]
+  },
+
+  {
+    passageId: 3,
+    label: 'Questions 32–36',
+    type: 'tfng',
+    instructions: 'Do the following statements agree with the information given in the passage? In boxes 32–36 on your answer sheet, write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      {
+        id: 32,
+        text: 'Google\'s Sycamore processor completed its benchmark task in two hundred seconds, according to the 2019 Nature paper.',
+        answer: 'TRUE', answerDisplay: 'TRUE', acceptable: ['TRUE'],
+        explanation: 'Paragraph A explicitly states Sycamore completed the task in two hundred seconds, directly confirming the statement.',
+        reinforcement: 'Correct — paragraph A confirms the two hundred second completion time for the Sycamore benchmark.'
+      },
+      {
+        id: 33,
+        text: 'IBM argued that the classical algorithm that could replicate Sycamore\'s task would require approximately ten thousand years to complete it.',
+        answer: 'FALSE', answerDisplay: 'FALSE', acceptable: ['FALSE'],
+        explanation: 'Paragraph A: Google estimated ten thousand years for classical computers; IBM countered with two-and-a-half days. The statement attributes the ten thousand year estimate to IBM, reversing the attribution in the passage.',
+        reinforcement: 'Correct — Google, not IBM, made the ten thousand year estimate; IBM\'s counter-claim was two-and-a-half days. The statement reverses the attribution, making it FALSE.'
+      },
+      {
+        id: 34,
+        text: 'Fault-tolerant quantum computing is estimated to require between one thousand and one million physical qubits per logical qubit.',
+        answer: 'TRUE', answerDisplay: 'TRUE', acceptable: ['TRUE'],
+        explanation: 'Paragraph D provides the exact range of one thousand to one million physical qubits per logical qubit, directly confirming the statement.',
+        reinforcement: 'Correct — paragraph D states the one thousand to one million physical qubit requirement per logical qubit explicitly.'
+      },
+      {
+        id: 35,
+        text: 'Trapped-ion qubits require lower cooling temperatures than superconducting qubits.',
+        answer: 'NOT GIVEN', answerDisplay: 'NOT GIVEN', acceptable: ['NOT GIVEN'],
+        explanation: 'Paragraph F describes superconducting qubits as requiring near-absolute-zero temperatures and trapped-ion qubits as using laser-controlled ions in vacuum, but gives no temperature figure for trapped-ion systems. A direct comparison of cooling temperatures cannot be made from the passage.',
+        reinforcement: 'Correct — paragraph F does not compare the operating temperatures of the two systems, making this NOT GIVEN.'
+      },
+      {
+        id: 36,
+        text: 'Most researchers in the field believe that fault-tolerant quantum computing capable of breaking current encryption will be available within the next five years.',
+        answer: 'FALSE', answerDisplay: 'FALSE', acceptable: ['FALSE'],
+        explanation: 'Paragraph G: "Most researchers active in the field believe that fault-tolerant quantum computing capable of breaking current encryption standards remains at least a decade away and possibly considerably longer." This directly contradicts the "within five years" claim.',
+        reinforcement: 'Correct — paragraph G states most researchers believe fault-tolerant quantum computing for encryption-breaking is at least a decade away, directly contradicting "within the next five years."'
+      }
+    ]
+  },
+
+  {
+    passageId: 3,
+    label: 'Questions 37–40',
+    type: 'sentence_completion',
+    instructions: 'Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.<br><br><em>Quantum computers use qubits that exploit (37) _______ to exist in multiple states simultaneously, enabling processing of an exponentially larger information space than classical bits. However, qubit states are destroyed by any interaction with the environment — a process called (38) _______ — which severely limits computation time. To address this, researchers are working on quantum (39) _______, which encodes one logical qubit across many physical qubits to detect and fix errors without collapsing the quantum state. In the near term, the most promising practical application may be in quantum (40) _______ simulation, as quantum processors can naturally model the electronic structure of molecules relevant to drug discovery and materials science.</em>',
+    questions: [
+      {
+        id: 37,
+        text: '(37) Quantum computers use qubits that exploit _______ to exist in multiple states simultaneously.',
+        answer: 'superposition', answerDisplay: 'superposition', acceptable: ['superposition'],
+        explanation: 'Paragraph B: "qubits, which exploit the quantum mechanical property of superposition to exist in a linear combination of zero and one simultaneously." "Superposition" is the exact property named in the passage.',
+        reinforcement: 'Correct — "superposition" is the quantum property named in paragraph B enabling qubits to exist in multiple states.'
+      },
+      {
+        id: 38,
+        text: '(38) Qubit states are destroyed by interaction with the environment — a process called _______.',
+        answer: 'decoherence', answerDisplay: 'decoherence', acceptable: ['decoherence'],
+        explanation: 'Paragraph D: "Quantum information is destroyed by any interaction between the qubit and its environment — a process called decoherence." "Decoherence" is the passage-exact term for this process.',
+        reinforcement: 'Correct — "decoherence" is the exact term in paragraph D for the environmental interaction that destroys qubit states.'
+      },
+      {
+        id: 39,
+        text: '(39) Researchers are working on quantum _______, which encodes one logical qubit across many physical qubits.',
+        answer: 'error correction', answerDisplay: 'error correction', acceptable: ['error correction'],
+        explanation: 'Paragraph D: "necessitating quantum error correction — the encoding of a single logical qubit across multiple physical qubits such that errors affecting individual physical components can be detected and corrected." "Error correction" is the two-word passage-exact term.',
+        reinforcement: 'Correct — "error correction" is retrieved from paragraph D\'s description of the multi-qubit encoding technique.'
+      },
+      {
+        id: 40,
+        text: '(40) The most promising near-term application may be in quantum _______ simulation.',
+        answer: 'chemistry', answerDisplay: 'chemistry', acceptable: ['chemistry'],
+        explanation: 'Paragraph E: "The most promising near-term application is quantum chemistry simulation: because quantum systems naturally simulate quantum mechanical phenomena, even modest quantum processors can model the electronic structure of small molecules." "Chemistry" completes "quantum _______ simulation."',
+        reinforcement: 'Correct — "chemistry" is retrieved from paragraph E\'s identification of quantum chemistry simulation as the most promising near-term application.'
+      }
+    ]
+  }
+
+];
+// ─── END GROUPS DATA ──────────────────────────────────────────────────────────
+
+const answers = {};
+const TOTAL_SECONDS = 3600;
+let secondsLeft = TOTAL_SECONDS;
+let timerInterval = null;
+let submitted = false;
+
+function switchTab(n) {
+  [1,2,3].forEach(i => {
+    document.getElementById('passageContent' + i).style.display = i === n ? 'block' : 'none';
+    document.getElementById('qPanel' + i).style.display = i === n ? 'block' : 'none';
+    document.getElementById('tabNav').querySelectorAll('.tab-btn')[i-1].classList.toggle('active', i === n);
+  });
+  document.getElementById('readingPane').scrollTop = 0;
+  document.getElementById('questionPane').scrollTop = 0;
+}
+
+const FONT_SIZES = [13, 15, 17, 19];
+let fontSizeIdx = parseInt(localStorage.getItem('ielts_font_size_idx') || '1');
+function initFontSize() { document.documentElement.style.setProperty('--passage-font-size', FONT_SIZES[fontSizeIdx] + 'px'); }
+function adjustFontSize(delta) {
+  if (delta === 0) { fontSizeIdx = 1; } else { fontSizeIdx = Math.max(0, Math.min(FONT_SIZES.length - 1, fontSizeIdx + delta)); }
+  document.documentElement.style.setProperty('--passage-font-size', FONT_SIZES[fontSizeIdx] + 'px');
+  localStorage.setItem('ielts_font_size_idx', fontSizeIdx);
+}
+
+(function initResizer() {
+  const container = document.getElementById('splitContainer');
+  const leftPane = document.getElementById('readingPane');
+  const resizer = document.getElementById('resizerBar');
+  if (!container || !leftPane || !resizer) return;
+  let isDragging = false, startX = 0, startW = 0;
+  function onStart(clientX) { isDragging = true; startX = clientX; startW = leftPane.getBoundingClientRect().width; resizer.classList.add('active'); document.body.style.cursor = 'col-resize'; document.body.style.userSelect = 'none'; }
+  function onMove(clientX) { if (!isDragging) return; const cW = container.getBoundingClientRect().width; const rW = resizer.getBoundingClientRect().width; const avail = cW - rW; const minW = avail * 0.25; const maxW = avail * 0.75; const newW = Math.max(minW, Math.min(maxW, startW + (clientX - startX))); leftPane.style.width = ((newW / cW) * 100).toFixed(2) + '%'; }
+  function onEnd() { if (!isDragging) return; isDragging = false; resizer.classList.remove('active'); document.body.style.cursor = ''; document.body.style.userSelect = ''; }
+  resizer.addEventListener('mousedown', e => { e.preventDefault(); onStart(e.clientX); });
+  document.addEventListener('mousemove', e => onMove(e.clientX));
+  document.addEventListener('mouseup', onEnd);
+  resizer.addEventListener('touchstart', e => { e.preventDefault(); onStart(e.touches[0].clientX); }, { passive: false });
+  document.addEventListener('touchmove', e => { if (isDragging) { e.preventDefault(); onMove(e.touches[0].clientX); } }, { passive: false });
+  document.addEventListener('touchend', onEnd);
+})();
+
+function formatTime(s) { return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`; }
+function startTimer() {
+  timerInterval = setInterval(() => {
+    secondsLeft--;
+    const pct = (TOTAL_SECONDS - secondsLeft) / TOTAL_SECONDS * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+    const el = document.getElementById('timerDisplay');
+    el.textContent = formatTime(secondsLeft);
+    if (secondsLeft <= 120) el.className = 'timer-box critical';
+    else if (secondsLeft <= 300) el.className = 'timer-box warning';
+    if (secondsLeft <= 0) { clearInterval(timerInterval); autoSubmit(); }
+  }, 1000);
+}
+
+function renderAll() {
+  [1,2,3].forEach(pid => {
+    const panel = document.getElementById('qPanel' + pid);
+    let html = '';
+    GROUPS.filter(g => g.passageId === pid).forEach(group => {
+      html += `<div class="group-header mb-4"><div class="text-xs font-bold tracking-widest uppercase" style="color:var(--gold);">${group.label}</div><p>${group.instructions}</p></div>`;
+      if (group.type === 'matching_headings') {
+        html += `<div class="headings-list mb-4"><ul style="list-style:none;">`;
+        group.headings.forEach(h => { html += `<li><span>${h.key}.</span>${h.text}</li>`; });
+        html += `</ul></div>`;
+        group.questions.forEach(q => {
+          html += `<div class="q-block"><div class="q-num">Question ${q.id}</div><div class="q-text">Paragraph <strong>${q.paraLabel}</strong></div><select class="q-select" id="q${q.id}" onchange="recordAnswer(${q.id}, this.value)"><option value="">&#8212; Select heading &#8212;</option>${group.headings.map(h => `<option value="${h.key}">${h.key}. ${h.text}</option>`).join('')}</select></div>`;
+        });
+      } else if (group.type === 'tfng') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block"><div class="q-num">Question ${q.id}</div><div class="q-text">${q.text}</div><div class="q-tfng"><button class="q-tfng-btn" onclick="selectTFNG(${q.id},'TRUE',this)">TRUE</button><button class="q-tfng-btn" onclick="selectTFNG(${q.id},'FALSE',this)">FALSE</button><button class="q-tfng-btn" onclick="selectTFNG(${q.id},'NOT GIVEN',this)">NOT GIVEN</button></div></div>`;
+        });
+      } else if (group.type === 'sentence_completion') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block"><div class="q-num">Question ${q.id}</div><div class="q-text">${q.text}</div><input type="text" class="q-input" id="q${q.id}" placeholder="Your answer&#8230;" oninput="recordAnswer(${q.id}, this.value.trim())" /></div>`;
+        });
+      } else if (group.type === 'matching_info') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block"><div class="q-num">Question ${q.id}</div><div class="q-text">${q.text}</div><select class="q-select" id="q${q.id}" onchange="recordAnswer(${q.id}, this.value)"><option value="">&#8212; Select paragraph &#8212;</option>${group.paraOptions.map(p => `<option value="${p}">Paragraph ${p}</option>`).join('')}</select></div>`;
+        });
+      }
+    });
+    panel.innerHTML = html;
+  });
+}
+
+function selectTFNG(qId, val, btn) {
+  btn.parentElement.querySelectorAll('.q-tfng-btn').forEach(b => { b.className = 'q-tfng-btn'; });
+  btn.classList.add(val === 'TRUE' ? 'sel-t' : val === 'FALSE' ? 'sel-f' : 'sel-ng');
+  recordAnswer(qId, val);
+}
+function recordAnswer(qId, val) { answers[qId] = val; }
+
+function scoreAnswer(q, studentRaw) {
+  if (!studentRaw) return false;
+  const student = studentRaw.toString().trim().toLowerCase();
+  if (q.acceptable) return q.acceptable.map(a => a.toLowerCase()).includes(student);
+  return student === q.answer.toLowerCase();
+}
+function bandFromScore(n) {
+  if (n >= 39) return 9.0; if (n >= 37) return 8.5; if (n >= 35) return 8.0;
+  if (n >= 33) return 7.5; if (n >= 30) return 7.0; if (n >= 27) return 6.5;
+  if (n >= 23) return 6.0; if (n >= 19) return 5.5; if (n >= 15) return 5.0;
+  if (n >= 13) return 4.5; if (n >= 10) return 4.0; if (n >= 8) return 3.5;
+  if (n >= 6) return 3.0; return 2.5;
+}
+function bandColour(b) { if (b >= 7) return '#0D9488'; if (b >= 5.5) return '#C9952E'; return '#dc2626'; }
+function bandAdvice(band, score) {
+  const pct = Math.round(score/40*100);
+  if (band >= 8.5) return `Outstanding &#8212; ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Near-native comprehension across all three passages. Focus on NOT GIVEN precision and paraphrased sentence completions to push for Band 9.`;
+  if (band >= 7.5) return `Excellent result &#8212; ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Strong academic reading. To push towards Band 8+: tighten NOT GIVEN judgements (never infer beyond the text) and copy sentence completion answers exactly from the passage.`;
+  if (band >= 6.5) return `Good performance &#8212; ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Solid comprehension with room to improve. Review: (1) TRUE vs FALSE &#8212; verify the exact claim, not just the topic; (2) Matching Headings &#8212; identify the paragraph's central argument before selecting; (3) time allocation across all three passages.`;
+  if (band >= 5.5) return `You scored ${score}/40 (${pct}%), giving an estimated <strong>Band ${band}</strong>. Clear potential &#8212; prioritise synonym recognition, since every question involves paraphrase. Review each wrong answer and find the exact passage sentence that should have guided your response.`;
+  return `You scored ${score}/40 (${pct}%), giving an estimated <strong>Band ${band}</strong>. Focus on active reading: identify each paragraph's main claim before reading the questions. Daily timed reading of academic texts and vocabulary building will accelerate improvement significantly.`;
+}
+
+function confirmSubmit() { if (!confirm('Submit your reading test now?')) return; doSubmit(); }
+function autoSubmit() { if (submitted) return; doSubmit(); }
+function doSubmit() {
+  if (submitted) return;
+  submitted = true;
+  clearInterval(timerInterval);
+  document.getElementById('submittingOverlay').style.display = 'flex';
+  setTimeout(showResults, 800);
+}
+
+function showResults() {
+  document.getElementById('submittingOverlay').style.display = 'none';
+  document.getElementById('testMain').style.display = 'none';
+  document.getElementById('timingStrip').style.display = 'none';
+  document.getElementById('resultsMain').style.display = 'block';
+
+  let correct = 0;
+  const allQs = GROUPS.flatMap(g => g.questions);
+  allQs.forEach(q => { if (scoreAnswer(q, answers[q.id])) correct++; });
+  const band = bandFromScore(correct);
+  const bCol = bandColour(band);
+
+  const results = JSON.parse(localStorage.getItem('ielts_mock_results') || '[]');
+  results.push({ date: Date.now(), book: 20, testNum: 4, skill: 'reading', scores: { reading: band } });
+  localStorage.setItem('ielts_mock_results', JSON.stringify(results));
+
+  const passageChips = [1,2,3].map(p => {
+    const pQs = GROUPS.filter(g => g.passageId === p).flatMap(g => g.questions);
+    const pC = pQs.filter(q => scoreAnswer(q, answers[q.id])).length;
+    const pCol = bandColour(bandFromScore(Math.round(pC/pQs.length*40)));
+    return `<div style="background:#EFF3F9;border:1px solid var(--border);border-radius:10px;padding:10px 14px;text-align:center;min-width:80px;"><div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px;">Passage ${p}</div><div style="font-family:'Space Mono',monospace;font-size:1.125rem;font-weight:700;color:${pCol};">${pC}/${pQs.length}</div></div>`;
+  }).join('');
+
+  document.getElementById('scoreCard').innerHTML = `<div class="flex flex-col md:flex-row gap-6 items-center"><div class="score-ring-wrap"><svg width="120" height="120" viewBox="0 0 120 120"><circle cx="60" cy="60" r="50" fill="none" stroke="#E2E8F0" stroke-width="8"/><circle cx="60" cy="60" r="50" fill="none" stroke="${bCol}" stroke-width="8" stroke-dasharray="${Math.round(correct/40*314)} 314" stroke-linecap="round" transform="rotate(-90 60 60)" style="transition:stroke-dasharray 1.2s cubic-bezier(.16,1,.3,1)"/></svg><div style="margin-top:-70px;text-align:center;pointer-events:none;"><div style="font-family:'Space Mono',monospace;font-size:1.75rem;font-weight:700;color:${bCol};">${correct}</div><div style="font-size:0.75rem;color:var(--text-muted);">out of 40</div></div><div style="margin-top:16px;"></div></div><div class="flex-1"><div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Your Score</div><div class="font-display font-black text-4xl mb-1" style="color:${bCol};">Band ${band}</div><div class="text-sm mb-4" style="color:var(--text-muted);">${correct} correct answers out of 40</div><div style="display:flex;gap:10px;flex-wrap:wrap;">${passageChips}</div></div></div>`;
+
+  document.getElementById('feedbackCard').innerHTML = `<div class="text-xs font-bold tracking-widest uppercase mb-3" style="color:var(--gold);">Overall Feedback</div><div class="band-feedback">${bandAdvice(band, correct)}</div>`;
+
+  [1,2,3].forEach(pid => {
+    let html = '';
+    GROUPS.filter(g => g.passageId === pid).forEach(group => {
+      html += `<div style="margin-bottom:0.5rem;padding:6px 0 8px;border-bottom:1px solid var(--border-soft);"><span style="font-size:0.6875rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-faint);">${group.label} &#8212; ${labelType(group.type)}</span></div>`;
+      group.questions.forEach(q => {
+        const isCorrect = scoreAnswer(q, answers[q.id]);
+        const studentAns = answers[q.id] ? answers[q.id].toString() : '(no answer)';
+        const correctAns = q.answerDisplay || q.answer;
+        html += `<div class="corr-block ${isCorrect ? 'corr-correct' : 'corr-wrong'}"><div class="corr-qnum ${isCorrect ? 'ok' : 'bad'}">${isCorrect ? '&#10003;' : '&#10007;'} Question ${q.id}</div><div class="corr-qtext">${q.text}</div>`;
+        if (isCorrect) {
+          html += `<div class="corr-row"><span class="corr-tag reinforce">&#10003; Correct</span><span class="corr-val">${studentAns}</span></div><div class="corr-expl">${q.reinforcement || ''}</div>`;
+        } else {
+          html += `<div class="corr-row"><span class="corr-tag your">Your answer</span><span class="corr-val">${studentAns}</span></div><div class="corr-row"><span class="corr-tag correct">Correct answer</span><span class="corr-val">${correctAns}${q.acceptable && q.acceptable.length > 1 ? ' <span style="font-size:0.75rem;color:var(--text-faint);">(also: ' + q.acceptable.filter(a=>a!==q.answer).join(', ') + ')</span>' : ''}</span></div><div class="corr-expl">${q.explanation || ''}</div>`;
+        }
+        html += `</div>`;
+      });
+    });
+    document.getElementById('corrPassage' + pid).innerHTML = html;
+  });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function labelType(t) {
+  return { tfng:'True / False / Not Given', mc:'Multiple Choice', matching_headings:'Matching Headings', matching_info:'Matching Information', sentence_completion:'Sentence Completion' }[t] || t;
+}
+
+initFontSize();
+renderAll();
+startTimer();
+</script>
+
+<script src="/js/components.js"></script>
+<script>
+  IELTSLab.loadNav({ basePath: '../', breadcrumb: 'Mock Tests', authenticated: true, themeDefault: 'light' });
+</script>
+</body>
+</html>
