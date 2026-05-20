@@ -93,7 +93,7 @@ def build(n, t1_intro, t1_chart_type, t1_chart_html, t1_chart_js, t1_qdata,
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Cambridge 20 · Test {n} — Writing | IELTS Lab</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>

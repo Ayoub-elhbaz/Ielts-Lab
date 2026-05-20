@@ -155,6 +155,7 @@ app.use(helmet({
         'https://accounts.google.com',
         'https://apis.google.com',
         'https://cdnjs.cloudflare.com',
+        'https://cdn.jsdelivr.net',
       ],
       scriptSrcAttr: ["'unsafe-inline'"], // required for onclick= and other inline handlers
       styleSrc: [
