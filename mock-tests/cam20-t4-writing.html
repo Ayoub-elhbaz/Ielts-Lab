@@ -39,28 +39,22 @@
     .submit-overlay.hidden{display:none;}
     @keyframes spin{to{transform:rotate(360deg)}}
     .spinner{width:40px;height:40px;border:3px solid #27272a;border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;}
-    /* Task prompt */
     .task-prompt{margin-bottom:1.25rem;padding:1rem 1.25rem;border-radius:0.875rem;border-left:3px solid var(--gold);background:rgba(201,149,46,0.06);}
     .task-prompt .intro{font-size:1rem;color:#e4e4e7;line-height:1.7;margin-bottom:0.5rem;font-weight:600;}
     .task-prompt .rubric{font-size:0.875rem;color:#a1a1aa;font-style:italic;line-height:1.6;margin-bottom:0.4rem;}
     .task-prompt .word-req{font-size:0.8rem;font-weight:700;color:var(--gold);}
-    /* Chart area — always white so charts are readable */
     .chart-area{background:#fff;border-radius:0.875rem;padding:1.25rem 1rem 1rem;margin-bottom:1.25rem;border:1px solid rgba(201,149,46,0.2);}
     .chart-area-title{font-family:'Satoshi','Plus Jakarta Sans',sans-serif;font-size:0.8rem;font-weight:700;color:#0D2B4E;text-align:center;margin-bottom:0.75rem;}
-    /* Data table */
     .data-table{width:100%;border-collapse:collapse;font-size:0.78rem;margin-top:1rem;}
     .data-table th{background:#EEF3FB;color:#0D2B4E;font-weight:700;padding:6px 10px;text-align:left;border-bottom:2px solid #0D2B4E;font-size:0.72rem;letter-spacing:0.04em;}
     .data-table td{padding:5px 10px;border-bottom:1px solid #E4E0D6;color:#1a1a2e;}
     .data-table tr:last-child td{border-bottom:none;}
     .data-table tr:nth-child(even) td{background:#F9F6F0;}
-    /* T2 prompt */
     .t2-body{font-size:1rem;color:#e4e4e7;line-height:1.7;margin-bottom:0.75rem;}
     .t2-question{font-size:1rem;font-weight:700;color:var(--gold-light);line-height:1.6;margin-bottom:0.5rem;}
     .t2-rubric{font-size:0.875rem;color:#a1a1aa;font-style:italic;}
-    /* Theme toggle */
     #themeToggle{background:transparent;border:1px solid rgba(201,149,46,0.25);color:#71717a;border-radius:8px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;font-size:15px;flex-shrink:0;padding:0;}
     #themeToggle:hover{border-color:var(--gold-border);color:var(--gold);}
-    /* Light mode */
     html[data-theme="light"]{background:#F4F1EB !important;color:#1C1C2E !important;}
     html[data-theme="light"] body{background:#F4F1EB !important;}
     html[data-theme="light"] .nav-glass{background:rgba(244,241,235,0.94) !important;border-bottom-color:rgba(0,0,0,0.08) !important;}
@@ -135,11 +129,9 @@
         <p class="word-req">Write at least 150 words.</p>
       </div>
 
-      <!-- CHART -->
       <div class="chart-area">
         
-<div class="chart-area-title">The Process of Recycling Plastic Bottles</div>
-
+<div class="chart-area-title">The Process of Recycling Plastic Bottles (8 Stages)</div>
 <svg viewBox="-50 0 920 340" xmlns="http://www.w3.org/2000/svg"
      style="width:100%;max-width:820px;display:block;margin:0 auto;font-family:'Plus Jakarta Sans',sans-serif;">
   <defs>
@@ -150,81 +142,53 @@
       <polygon points="0 0,9 3.5,0 7" fill="#999"/>
     </marker>
   </defs>
-
-  <!-- ── ROW 1 ─────────────────────────────────────── -->
-  <!-- Box 1 -->
+  <!-- ROW 1 -->
   <rect x="20" y="18" width="165" height="82" rx="7" fill="#EEF3FB" stroke="#1565C0" stroke-width="1.8"/>
   <text x="102" y="39"  text-anchor="middle" font-size="10.5" font-weight="700" fill="#1565C0">1. Collection</text>
   <text x="102" y="56"  text-anchor="middle" font-size="9" fill="#333">used bottles gathered</text>
   <text x="102" y="69"  text-anchor="middle" font-size="9" fill="#333">from homes &amp; bins</text>
-  <!-- → 1→2 -->
   <line x1="185" y1="59" x2="212" y2="59" stroke="#444" stroke-width="1.6" marker-end="url(#arr)"/>
-
-  <!-- Box 2 -->
   <rect x="215" y="18" width="165" height="82" rx="7" fill="#EEF3FB" stroke="#1565C0" stroke-width="1.8"/>
   <text x="297" y="39"  text-anchor="middle" font-size="10.5" font-weight="700" fill="#1565C0">2. Sorting</text>
   <text x="297" y="56"  text-anchor="middle" font-size="9" fill="#333">bottles separated by</text>
   <text x="297" y="69"  text-anchor="middle" font-size="9" fill="#333">plastic type &amp; colour</text>
-  <!-- → 2→3 -->
   <line x1="380" y1="59" x2="407" y2="59" stroke="#444" stroke-width="1.6" marker-end="url(#arr)"/>
-
-  <!-- Box 3 -->
   <rect x="410" y="18" width="165" height="82" rx="7" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.8"/>
   <text x="492" y="39"  text-anchor="middle" font-size="10.5" font-weight="700" fill="#2E7D32">3. Washing</text>
   <text x="492" y="56"  text-anchor="middle" font-size="9" fill="#333">labels &amp; residue</text>
   <text x="492" y="69"  text-anchor="middle" font-size="9" fill="#333">removed with hot water</text>
-  <!-- → 3→4 -->
   <line x1="575" y1="59" x2="602" y2="59" stroke="#444" stroke-width="1.6" marker-end="url(#arr)"/>
-
-  <!-- Box 4 -->
   <rect x="605" y="18" width="165" height="82" rx="7" fill="#E8F5E9" stroke="#2E7D32" stroke-width="1.8"/>
   <text x="687" y="39"  text-anchor="middle" font-size="10.5" font-weight="700" fill="#2E7D32">4. Shredding</text>
   <text x="687" y="56"  text-anchor="middle" font-size="9" fill="#333">bottles cut into</text>
   <text x="687" y="69"  text-anchor="middle" font-size="9" fill="#333">small plastic flakes</text>
-
-  <!-- ↓ turn 4→5 (right side) -->
   <polyline points="770,59 820,59 820,261 770,261"
             fill="none" stroke="#444" stroke-width="1.6" marker-end="url(#arr)"/>
-
-  <!-- ── ROW 2 ─────────────────────────────────────── -->
-  <!-- Box 5 -->
+  <!-- ROW 2 -->
   <rect x="605" y="218" width="165" height="82" rx="7" fill="#FFF3E0" stroke="#E65100" stroke-width="1.8"/>
   <text x="687" y="239" text-anchor="middle" font-size="10.5" font-weight="700" fill="#E65100">5. Melting</text>
   <text x="687" y="256" text-anchor="middle" font-size="9" fill="#333">flakes heated into</text>
   <text x="687" y="269" text-anchor="middle" font-size="9" fill="#333">liquid plastic</text>
-  <!-- ← 5←6 -->
   <line x1="605" y1="261" x2="578" y2="261" stroke="#444" stroke-width="1.6" marker-end="url(#arr)"/>
-
-  <!-- Box 6 -->
   <rect x="410" y="218" width="165" height="82" rx="7" fill="#FFF3E0" stroke="#E65100" stroke-width="1.8"/>
   <text x="492" y="239" text-anchor="middle" font-size="10.5" font-weight="700" fill="#E65100">6. Pellet Forming</text>
   <text x="492" y="256" text-anchor="middle" font-size="9" fill="#333">liquid cooled into</text>
   <text x="492" y="269" text-anchor="middle" font-size="9" fill="#333">small pellets</text>
-  <!-- ← 6←7 -->
   <line x1="410" y1="261" x2="383" y2="261" stroke="#444" stroke-width="1.6" marker-end="url(#arr)"/>
-
-  <!-- Box 7 -->
   <rect x="215" y="218" width="165" height="82" rx="7" fill="#F3E5F5" stroke="#6A1B9A" stroke-width="1.8"/>
   <text x="297" y="239" text-anchor="middle" font-size="10.5" font-weight="700" fill="#6A1B9A">7. Manufacturing</text>
   <text x="297" y="256" text-anchor="middle" font-size="9" fill="#333">pellets used to make</text>
   <text x="297" y="269" text-anchor="middle" font-size="9" fill="#333">new bottles &amp; products</text>
-  <!-- ← 7←8 -->
   <line x1="215" y1="261" x2="188" y2="261" stroke="#444" stroke-width="1.6" marker-end="url(#arr)"/>
-
-  <!-- Box 8 -->
   <rect x="20" y="218" width="165" height="82" rx="7" fill="#F3E5F5" stroke="#6A1B9A" stroke-width="1.8"/>
   <text x="102" y="239" text-anchor="middle" font-size="10.5" font-weight="700" fill="#6A1B9A">8. Distribution</text>
   <text x="102" y="256" text-anchor="middle" font-size="9" fill="#333">new products sent</text>
   <text x="102" y="269" text-anchor="middle" font-size="9" fill="#333">back to consumers</text>
-
-  <!-- ↑ return dashed arrow: Box 8 left → up → Box 1 left -->
   <polyline points="20,261 -35,261 -35,59 20,59"
             fill="none" stroke="#999" stroke-width="1.5"
             stroke-dasharray="6,4" marker-end="url(#arr-d)"/>
   <text transform="rotate(-90,-35,160)" x="-35" y="160"
         text-anchor="middle" font-size="8.5" fill="#aaa">cyclical</text>
-
-  <!-- Title -->
   <text x="385" y="328" text-anchor="middle" font-size="11.5" font-weight="700" fill="#1a1a2e">
     The Process of Recycling Plastic Bottles
   </text>
@@ -272,7 +236,6 @@
     </div>
   </main>
 
-  <!-- TIME'S UP -->
   <div id="timesUpModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:250;align-items:center;justify-content:center;">
     <div style="background:#111113;border:1px solid #27272a;border-radius:1.25rem;padding:2rem;max-width:400px;width:90%;text-align:center;">
       <div style="font-size:2.5rem;margin-bottom:1rem;">⏰</div>
@@ -284,9 +247,9 @@
 
   <script>
     // AUTH
-    const raw = localStorage.getItem('ielts_session');
+    var raw = localStorage.getItem('ielts_session');
     if (!raw) window.location.replace('../login.html');
-    try { JSON.parse(raw); } catch { localStorage.removeItem('ielts_session'); window.location.replace('../login.html'); }
+    try { JSON.parse(raw); } catch(e) { localStorage.removeItem('ielts_session'); window.location.replace('../login.html'); }
 
     // QUESTION DATA
     const QD = {task1:{prompt:'The diagram below shows the process of recycling plastic bottles. Summarise the information by selecting and reporting the main features, and make comparisons where relevant. Write at least 150 words.',chartType:'Process diagram (8 stages, cyclical)'},task2:{prompt:'Working from home has become increasingly common in many parts of the world. While this offers a number of benefits, it also has significant drawbacks for both employees and employers. Do the advantages of working from home outweigh the disadvantages?',essayType:'Advantages / Disadvantages'}};
@@ -303,6 +266,11 @@
     document.addEventListener('DOMContentLoaded', function() {
       var b = document.getElementById('themeToggle');
       if (b) b.textContent = (document.documentElement.getAttribute('data-theme') || 'dark') === 'dark' ? '☀' : '🌙';
+    });
+
+    // CHARTS — run after full page load so canvas has computed dimensions
+    window.addEventListener('load', function() {
+      
     });
 
     // TIMER

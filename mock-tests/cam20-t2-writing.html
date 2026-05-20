@@ -39,28 +39,22 @@
     .submit-overlay.hidden{display:none;}
     @keyframes spin{to{transform:rotate(360deg)}}
     .spinner{width:40px;height:40px;border:3px solid #27272a;border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;}
-    /* Task prompt */
     .task-prompt{margin-bottom:1.25rem;padding:1rem 1.25rem;border-radius:0.875rem;border-left:3px solid var(--gold);background:rgba(201,149,46,0.06);}
     .task-prompt .intro{font-size:1rem;color:#e4e4e7;line-height:1.7;margin-bottom:0.5rem;font-weight:600;}
     .task-prompt .rubric{font-size:0.875rem;color:#a1a1aa;font-style:italic;line-height:1.6;margin-bottom:0.4rem;}
     .task-prompt .word-req{font-size:0.8rem;font-weight:700;color:var(--gold);}
-    /* Chart area — always white so charts are readable */
     .chart-area{background:#fff;border-radius:0.875rem;padding:1.25rem 1rem 1rem;margin-bottom:1.25rem;border:1px solid rgba(201,149,46,0.2);}
     .chart-area-title{font-family:'Satoshi','Plus Jakarta Sans',sans-serif;font-size:0.8rem;font-weight:700;color:#0D2B4E;text-align:center;margin-bottom:0.75rem;}
-    /* Data table */
     .data-table{width:100%;border-collapse:collapse;font-size:0.78rem;margin-top:1rem;}
     .data-table th{background:#EEF3FB;color:#0D2B4E;font-weight:700;padding:6px 10px;text-align:left;border-bottom:2px solid #0D2B4E;font-size:0.72rem;letter-spacing:0.04em;}
     .data-table td{padding:5px 10px;border-bottom:1px solid #E4E0D6;color:#1a1a2e;}
     .data-table tr:last-child td{border-bottom:none;}
     .data-table tr:nth-child(even) td{background:#F9F6F0;}
-    /* T2 prompt */
     .t2-body{font-size:1rem;color:#e4e4e7;line-height:1.7;margin-bottom:0.75rem;}
     .t2-question{font-size:1rem;font-weight:700;color:var(--gold-light);line-height:1.6;margin-bottom:0.5rem;}
     .t2-rubric{font-size:0.875rem;color:#a1a1aa;font-style:italic;}
-    /* Theme toggle */
     #themeToggle{background:transparent;border:1px solid rgba(201,149,46,0.25);color:#71717a;border-radius:8px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;font-size:15px;flex-shrink:0;padding:0;}
     #themeToggle:hover{border-color:var(--gold-border);color:var(--gold);}
-    /* Light mode */
     html[data-theme="light"]{background:#F4F1EB !important;color:#1C1C2E !important;}
     html[data-theme="light"] body{background:#F4F1EB !important;}
     html[data-theme="light"] .nav-glass{background:rgba(244,241,235,0.94) !important;border-bottom-color:rgba(0,0,0,0.08) !important;}
@@ -135,11 +129,10 @@
         <p class="word-req">Write at least 150 words.</p>
       </div>
 
-      <!-- CHART -->
       <div class="chart-area">
         
 <div class="chart-area-title">Percentage of Adults Participating in Five Leisure Activities<br>by Age Group, Country X (2022)</div>
-<canvas id="chartT2" style="max-height:380px;"></canvas>
+<canvas id="chartT2" height="380"></canvas>
 <table class="data-table" style="margin-top:1.1rem;">
   <thead><tr><th>Activity</th><th>18–29 (%)</th><th>30–49 (%)</th><th>50–64 (%)</th><th>65+ (%)</th></tr></thead>
   <tbody>
@@ -150,33 +143,6 @@
     <tr><td>Visiting museums</td><td>28</td><td>36</td><td>44</td><td>39</td></tr>
   </tbody>
 </table>
-<script>
-(function(){
-  var ctx = document.getElementById('chartT2').getContext('2d');
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: ['Reading books','Watching streaming','Outdoor exercise','Playing video games','Visiting museums'],
-      datasets: [
-        { label:'18–29', data:[42,88,64,71,28], backgroundColor:'rgba(21,101,192,0.82)',  borderColor:'#1565C0', borderWidth:1 },
-        { label:'30–49', data:[55,79,58,46,36], backgroundColor:'rgba(46,125,50,0.82)',  borderColor:'#2E7D32', borderWidth:1 },
-        { label:'50–64', data:[68,62,49,19,44], backgroundColor:'rgba(245,124,0,0.82)',  borderColor:'#E65100', borderWidth:1 },
-        { label:'65+',   data:[74,51,33,8,39],  backgroundColor:'rgba(123,31,162,0.82)', borderColor:'#7B1FA2', borderWidth:1 },
-      ]
-    },
-    options: {
-      responsive:true,
-      plugins:{
-        legend:{ position:'top', title:{ display:true, text:'Age group', font:{ weight:'bold' } }, labels:{ boxWidth:14, font:{ size:11 } } }
-      },
-      scales:{
-        x:{ title:{ display:true, text:'Leisure activity', font:{ weight:'bold', size:12 } }, grid:{ display:false } },
-        y:{ min:0, max:100, title:{ display:true, text:'Percentage of adults (%)', font:{ weight:'bold', size:12 } }, grid:{ color:'rgba(0,0,0,0.06)' }, ticks:{ stepSize:20, callback: v => v+'%' } }
-      }
-    }
-  });
-})();
-</script>
       </div>
 
       <textarea id="task1Answer" class="answer-area"
@@ -220,7 +186,6 @@
     </div>
   </main>
 
-  <!-- TIME'S UP -->
   <div id="timesUpModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:250;align-items:center;justify-content:center;">
     <div style="background:#111113;border:1px solid #27272a;border-radius:1.25rem;padding:2rem;max-width:400px;width:90%;text-align:center;">
       <div style="font-size:2.5rem;margin-bottom:1rem;">⏰</div>
@@ -232,9 +197,9 @@
 
   <script>
     // AUTH
-    const raw = localStorage.getItem('ielts_session');
+    var raw = localStorage.getItem('ielts_session');
     if (!raw) window.location.replace('../login.html');
-    try { JSON.parse(raw); } catch { localStorage.removeItem('ielts_session'); window.location.replace('../login.html'); }
+    try { JSON.parse(raw); } catch(e) { localStorage.removeItem('ielts_session'); window.location.replace('../login.html'); }
 
     // QUESTION DATA
     const QD = {task1:{prompt:'The chart below shows the percentage of adults in Country X who participated in five different leisure activities in 2022, broken down by age group. Summarise the information by selecting and reporting the main features, and make comparisons where relevant. Write at least 150 words.',chartType:'Grouped bar chart'},task2:{prompt:'Some people think that governments should invest more public money in promoting healthy lifestyles in order to reduce the cost of healthcare. Others believe that this money would be better spent on improving medical treatment and hospital facilities. Discuss both views and give your own opinion.',essayType:'Discussion (both views + opinion)'}};
@@ -251,6 +216,37 @@
     document.addEventListener('DOMContentLoaded', function() {
       var b = document.getElementById('themeToggle');
       if (b) b.textContent = (document.documentElement.getAttribute('data-theme') || 'dark') === 'dark' ? '☀' : '🌙';
+    });
+
+    // CHARTS — run after full page load so canvas has computed dimensions
+    window.addEventListener('load', function() {
+      
+  var ctx2 = document.getElementById('chartT2');
+  if (ctx2) {
+    new Chart(ctx2.getContext('2d'), {
+      type: 'bar',
+      data: {
+        labels: ['Reading books','Watching streaming','Outdoor exercise','Playing video games','Visiting museums'],
+        datasets: [
+          { label:'18-29', data:[42,88,64,71,28], backgroundColor:'rgba(21,101,192,0.85)',  borderColor:'#1565C0', borderWidth:1 },
+          { label:'30-49', data:[55,79,58,46,36], backgroundColor:'rgba(46,125,50,0.85)',  borderColor:'#2E7D32', borderWidth:1 },
+          { label:'50-64', data:[68,62,49,19,44], backgroundColor:'rgba(245,124,0,0.85)',  borderColor:'#E65100', borderWidth:1 },
+          { label:'65+',   data:[74,51,33,8,39],  backgroundColor:'rgba(123,31,162,0.85)', borderColor:'#7B1FA2', borderWidth:1 }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position:'top', labels:{ boxWidth:14, font:{ size:11 } } }
+        },
+        scales: {
+          x: { title:{ display:true, text:'Leisure activity', font:{ weight:'bold', size:12 } }, grid:{ display:false } },
+          y: { min:0, max:100, title:{ display:true, text:'Percentage of adults (%)', font:{ weight:'bold', size:12 } }, grid:{ color:'rgba(0,0,0,0.06)' }, ticks:{ stepSize:20, callback: function(v){ return v+'%'; } } }
+        }
+      }
+    });
+  }
     });
 
     // TIMER

@@ -39,28 +39,22 @@
     .submit-overlay.hidden{display:none;}
     @keyframes spin{to{transform:rotate(360deg)}}
     .spinner{width:40px;height:40px;border:3px solid #27272a;border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;}
-    /* Task prompt */
     .task-prompt{margin-bottom:1.25rem;padding:1rem 1.25rem;border-radius:0.875rem;border-left:3px solid var(--gold);background:rgba(201,149,46,0.06);}
     .task-prompt .intro{font-size:1rem;color:#e4e4e7;line-height:1.7;margin-bottom:0.5rem;font-weight:600;}
     .task-prompt .rubric{font-size:0.875rem;color:#a1a1aa;font-style:italic;line-height:1.6;margin-bottom:0.4rem;}
     .task-prompt .word-req{font-size:0.8rem;font-weight:700;color:var(--gold);}
-    /* Chart area — always white so charts are readable */
     .chart-area{background:#fff;border-radius:0.875rem;padding:1.25rem 1rem 1rem;margin-bottom:1.25rem;border:1px solid rgba(201,149,46,0.2);}
     .chart-area-title{font-family:'Satoshi','Plus Jakarta Sans',sans-serif;font-size:0.8rem;font-weight:700;color:#0D2B4E;text-align:center;margin-bottom:0.75rem;}
-    /* Data table */
     .data-table{width:100%;border-collapse:collapse;font-size:0.78rem;margin-top:1rem;}
     .data-table th{background:#EEF3FB;color:#0D2B4E;font-weight:700;padding:6px 10px;text-align:left;border-bottom:2px solid #0D2B4E;font-size:0.72rem;letter-spacing:0.04em;}
     .data-table td{padding:5px 10px;border-bottom:1px solid #E4E0D6;color:#1a1a2e;}
     .data-table tr:last-child td{border-bottom:none;}
     .data-table tr:nth-child(even) td{background:#F9F6F0;}
-    /* T2 prompt */
     .t2-body{font-size:1rem;color:#e4e4e7;line-height:1.7;margin-bottom:0.75rem;}
     .t2-question{font-size:1rem;font-weight:700;color:var(--gold-light);line-height:1.6;margin-bottom:0.5rem;}
     .t2-rubric{font-size:0.875rem;color:#a1a1aa;font-style:italic;}
-    /* Theme toggle */
     #themeToggle{background:transparent;border:1px solid rgba(201,149,46,0.25);color:#71717a;border-radius:8px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;font-size:15px;flex-shrink:0;padding:0;}
     #themeToggle:hover{border-color:var(--gold-border);color:var(--gold);}
-    /* Light mode */
     html[data-theme="light"]{background:#F4F1EB !important;color:#1C1C2E !important;}
     html[data-theme="light"] body{background:#F4F1EB !important;}
     html[data-theme="light"] .nav-glass{background:rgba(244,241,235,0.94) !important;border-bottom-color:rgba(0,0,0,0.08) !important;}
@@ -135,41 +129,19 @@
         <p class="word-req">Write at least 150 words.</p>
       </div>
 
-      <!-- CHART -->
       <div class="chart-area">
         
 <div class="chart-area-title">Sources of Household Energy Consumption in City Y, 1990 and 2020</div>
-<div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;align-items:flex-start;">
+<div style="display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center;align-items:flex-start;">
   <div style="flex:1;min-width:240px;max-width:320px;">
-    <div style="text-align:center;font-weight:700;font-size:0.85rem;color:#0D2B4E;margin-bottom:0.5rem;">1990</div>
-    <canvas id="chartT3a"></canvas>
+    <div style="text-align:center;font-weight:700;font-size:0.9rem;color:#0D2B4E;margin-bottom:0.5rem;">1990</div>
+    <canvas id="chartT3a" height="280"></canvas>
   </div>
   <div style="flex:1;min-width:240px;max-width:320px;">
-    <div style="text-align:center;font-weight:700;font-size:0.85rem;color:#0D2B4E;margin-bottom:0.5rem;">2020</div>
-    <canvas id="chartT3b"></canvas>
+    <div style="text-align:center;font-weight:700;font-size:0.9rem;color:#0D2B4E;margin-bottom:0.5rem;">2020</div>
+    <canvas id="chartT3b" height="280"></canvas>
   </div>
 </div>
-<script>
-(function(){
-  var labels = ['Coal','Natural gas','Electricity (grid)','Wood / biomass','Solar'];
-  var colors = ['#37474F','#4A90D9','#FFC107','#795548','#F44336'];
-  var cfg = function(data, titleYear) {{
-    return {{
-      type:'pie',
-      data:{{ labels:labels, datasets:[{{ data:data, backgroundColor:colors, borderColor:'#fff', borderWidth:2.5 }}] }},
-      options:{{
-        responsive:true,
-        plugins:{{
-          legend:{{ position:'bottom', labels:{{ boxWidth:13, font:{{ size:10 }} }} }},
-          tooltip:{{ callbacks:{{ label: ctx => ' '+ctx.label+': '+ctx.parsed+'%' }} }}
-        }}
-      }}
-    }};
-  }};
-  new Chart(document.getElementById('chartT3a').getContext('2d'), cfg([41,28,18,12,1],'1990'));
-  new Chart(document.getElementById('chartT3b').getContext('2d'), cfg([8,32,39,4,17],'2020'));
-})();
-</script>
       </div>
 
       <textarea id="task1Answer" class="answer-area"
@@ -213,7 +185,6 @@
     </div>
   </main>
 
-  <!-- TIME'S UP -->
   <div id="timesUpModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:250;align-items:center;justify-content:center;">
     <div style="background:#111113;border:1px solid #27272a;border-radius:1.25rem;padding:2rem;max-width:400px;width:90%;text-align:center;">
       <div style="font-size:2.5rem;margin-bottom:1rem;">⏰</div>
@@ -225,9 +196,9 @@
 
   <script>
     // AUTH
-    const raw = localStorage.getItem('ielts_session');
+    var raw = localStorage.getItem('ielts_session');
     if (!raw) window.location.replace('../login.html');
-    try { JSON.parse(raw); } catch { localStorage.removeItem('ielts_session'); window.location.replace('../login.html'); }
+    try { JSON.parse(raw); } catch(e) { localStorage.removeItem('ielts_session'); window.location.replace('../login.html'); }
 
     // QUESTION DATA
     const QD = {task1:{prompt:'The pie charts below show the sources of household energy consumption in City Y in 1990 and 2020. Summarise the information by selecting and reporting the main features, and make comparisons where relevant. Write at least 150 words.',chartType:'Two pie charts (comparison)'},task2:{prompt:'In many cities around the world, traffic congestion and air pollution have become increasingly serious problems. What are the main causes of these problems, and what measures can governments and individuals take to address them?',essayType:'Problem / Solution'}};
@@ -244,6 +215,34 @@
     document.addEventListener('DOMContentLoaded', function() {
       var b = document.getElementById('themeToggle');
       if (b) b.textContent = (document.documentElement.getAttribute('data-theme') || 'dark') === 'dark' ? '☀' : '🌙';
+    });
+
+    // CHARTS — run after full page load so canvas has computed dimensions
+    window.addEventListener('load', function() {
+      
+  var pieLabels = ['Coal','Natural gas','Electricity (grid)','Wood / biomass','Solar'];
+  var pieColors = ['#37474F','#4A90D9','#FFC107','#795548','#F44336'];
+  function makePie(id, data) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    new Chart(el.getContext('2d'), {
+      type: 'pie',
+      data: {
+        labels: pieLabels,
+        datasets: [{ data: data, backgroundColor: pieColors, borderColor: '#fff', borderWidth: 2.5 }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position:'bottom', labels:{ boxWidth:13, font:{ size:10 } } },
+          tooltip: { callbacks: { label: function(c){ return ' '+c.label+': '+c.parsed+'%'; } } }
+        }
+      }
+    });
+  }
+  makePie('chartT3a', [41,28,18,12,1]);
+  makePie('chartT3b', [8,32,39,4,17]);
     });
 
     // TIMER
