@@ -368,7 +368,9 @@ def build(n, t1_intro, t1_chart_type, t1_chart_html, t1_chart_js, t1_qdata,
 # ════════════════════════════════════════════════════════════════════════════
 T1_CHART_HTML = '''
 <div class="chart-area-title">Average Daily Screen Time Among Teenagers (Ages 13–18)<br>in Four Countries, 2000–2020 (hours per day)</div>
-<canvas id="chartT1" height="260"></canvas>'''
+<div style="position:relative;height:240px;">
+  <canvas id="chartT1" style="width:100%;height:100%;"></canvas>
+</div>'''
 
 T1_CHART_JS = """
   var ctx1 = document.getElementById('chartT1');
@@ -413,7 +415,9 @@ T1_T2_QDATA = {
 # ════════════════════════════════════════════════════════════════════════════
 T2_CHART_HTML = '''
 <div class="chart-area-title">Percentage of Adults Participating in Five Leisure Activities<br>by Age Group, Country X (2022)</div>
-<canvas id="chartT2" height="260"></canvas>
+<div style="position:relative;height:240px;">
+  <canvas id="chartT2" style="width:100%;height:100%;"></canvas>
+</div>
 <table class="data-table" style="margin-top:1.1rem;">
   <thead><tr><th>Activity</th><th>18–29 (%)</th><th>30–49 (%)</th><th>50–64 (%)</th><th>65+ (%)</th></tr></thead>
   <tbody>
@@ -468,13 +472,17 @@ T2_T2_QDATA = {
 T3_CHART_HTML = '''
 <div class="chart-area-title">Sources of Household Energy Consumption in City Y, 1990 and 2020</div>
 <div style="display:flex;gap:1.5rem;flex-wrap:wrap;justify-content:center;align-items:flex-start;">
-  <div style="flex:1;min-width:240px;max-width:320px;">
+  <div style="flex:1;min-width:200px;max-width:280px;">
     <div style="text-align:center;font-weight:700;font-size:0.9rem;color:#0D2B4E;margin-bottom:0.5rem;">1990</div>
-    <canvas id="chartT3a" height="220"></canvas>
+    <div style="position:relative;height:220px;">
+      <canvas id="chartT3a" style="width:100%;height:100%;"></canvas>
+    </div>
   </div>
-  <div style="flex:1;min-width:240px;max-width:320px;">
+  <div style="flex:1;min-width:200px;max-width:280px;">
     <div style="text-align:center;font-weight:700;font-size:0.9rem;color:#0D2B4E;margin-bottom:0.5rem;">2020</div>
-    <canvas id="chartT3b" height="220"></canvas>
+    <div style="position:relative;height:220px;">
+      <canvas id="chartT3b" style="width:100%;height:100%;"></canvas>
+    </div>
   </div>
 </div>'''
 
