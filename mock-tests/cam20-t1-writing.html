@@ -1,161 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Cambridge 20 · Test 1 — Writing | IELTS Lab</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
-  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet"/>
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
   <script>tailwind.config={theme:{extend:{fontFamily:{display:['Satoshi','Plus Jakarta Sans','system-ui','sans-serif'],sans:['Plus Jakarta Sans','system-ui','sans-serif']}}}}</script>
   <style>
     :root{--gold:#C9952E;--gold-light:#DDB05A;--gold-dim:rgba(201,149,46,0.10);--gold-border:rgba(201,149,46,0.22);--white:#EEF4FF;}
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
     html{background:#09090b;color:#fafafa;}
     body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
-    h1,h2,h3,h4,.font-display{font-family:'Satoshi','Plus Jakarta Sans',system-ui,sans-serif;}
-
-    /* scrollbar */
+    h1,h2,h3,.font-display{font-family:'Satoshi','Plus Jakarta Sans',system-ui,sans-serif;}
     ::-webkit-scrollbar{width:5px;} ::-webkit-scrollbar-track{background:#09090b;} ::-webkit-scrollbar-thumb{background:#3f3f46;border-radius:3px;}
-
-    /* nav */
     .nav-glass{background:rgba(9,9,11,0.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.04);}
     .nl-ielts{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;letter-spacing:1px;color:var(--white);}
     .nl-lab{font-family:'Space Mono',monospace;font-size:12px;font-weight:700;letter-spacing:3px;color:var(--gold);margin-left:5px;filter:drop-shadow(0 0 6px rgba(201,149,46,0.5));}
-
-    /* progress */
     .progress-bar{height:3px;background:#18181b;position:fixed;top:64px;left:0;right:0;z-index:40;}
     .progress-fill{height:100%;background:linear-gradient(to right,var(--gold),#DDB05A);transition:width 1s linear;width:0%;}
-
-    /* timer */
     .timer-box{background:rgba(17,17,19,0.95);border:1px solid #1c1c1e;border-radius:0.75rem;padding:10px 18px;font-family:'Space Mono',monospace;font-size:1.25rem;font-weight:700;color:#fafafa;letter-spacing:2px;box-shadow:0 4px 20px rgba(0,0,0,0.4);}
     .timer-box.warning{color:#fbbf24;border-color:rgba(251,191,36,0.3);}
     .timer-box.critical{color:#f87171;border-color:rgba(248,113,113,0.3);animation:pulse 1s ease-in-out infinite;}
     @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.7}}
-
-    /* cards */
     .section-card{background:rgba(17,17,19,0.7);border:1px solid #1c1c1e;border-radius:1.25rem;padding:1.75rem;}
-
-    /* textarea */
     .answer-area{width:100%;background:#0c0c0e;border:1px solid #27272a;border-radius:0.75rem;padding:1rem;color:#e4e4e7;font-size:0.9375rem;line-height:1.75;resize:vertical;font-family:'Plus Jakarta Sans',system-ui,sans-serif;transition:border-color 0.2s;min-height:200px;}
     .answer-area:focus{outline:none;border-color:var(--gold-border);}
-
-    /* word counter */
     .word-counter{font-size:0.75rem;font-family:'Space Mono',monospace;}
     .word-counter.under{color:#71717a;} .word-counter.ok{color:#4ade80;} .word-counter.good{color:var(--gold);}
-
-    /* buttons */
     .btn-gold{background:linear-gradient(135deg,var(--gold) 0%,#a8741f 100%);color:#05081A;border:none;border-radius:0.5rem;padding:12px 32px;font-size:0.875rem;font-weight:700;letter-spacing:0.04em;cursor:pointer;transition:all 0.25s ease;box-shadow:0 0 20px rgba(201,149,46,0.25);}
     .btn-gold:hover{transform:translateY(-2px);box-shadow:0 0 32px rgba(201,149,46,0.45);}
-
-    /* overlay */
     .submit-overlay{position:fixed;inset:0;z-index:300;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(9,9,11,0.97);}
     .submit-overlay.hidden{display:none;}
     @keyframes spin{to{transform:rotate(360deg)}}
     .spinner{width:40px;height:40px;border:3px solid #27272a;border-top-color:var(--gold);border-radius:50%;animation:spin 0.8s linear infinite;}
-
-    /* task prompt */
-    .task-prompt{margin-bottom:1.25rem;padding:1.1rem 1.25rem;border-radius:0.875rem;border-left:3px solid var(--gold);background:rgba(201,149,46,0.06);}
-    .task-prompt .intro{font-size:1rem;color:#e4e4e7;line-height:1.7;margin-bottom:0.6rem;font-weight:600;}
-    .task-prompt .rubric{font-size:0.875rem;color:#a1a1aa;font-style:italic;line-height:1.6;margin-bottom:0.5rem;}
-    .task-prompt .word-req{font-size:0.8rem;font-weight:700;color:var(--gold);letter-spacing:0.02em;}
-
-    /* visual description box */
-    .vis-box{border-radius:0.875rem;overflow:hidden;margin-bottom:1.25rem;border:1px solid rgba(201,149,46,0.18);}
-    .vis-box-header{background:rgba(201,149,46,0.12);border-bottom:1px solid rgba(201,149,46,0.18);padding:0.6rem 1rem;display:flex;align-items:center;gap:0.5rem;}
-    .vis-box-header span{font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--gold);}
-    .vis-box-header .chart-badge{font-size:0.65rem;background:rgba(201,149,46,0.15);border:1px solid rgba(201,149,46,0.3);color:var(--gold-light);border-radius:4px;padding:2px 8px;font-family:'Space Mono',monospace;}
-    .vis-section{padding:1rem 1.1rem;background:rgba(14,14,16,0.6);}
-    .vis-meta-row{display:flex;flex-wrap:wrap;gap:0.5rem 1.5rem;margin-bottom:0.9rem;font-size:0.78rem;color:#71717a;}
-    .vis-meta-row b{color:#a1a1aa;}
-
-    /* vis table */
-    .vis-table{width:100%;border-collapse:collapse;font-size:0.8rem;margin-bottom:1rem;}
-    .vis-table th{background:rgba(201,149,46,0.08);color:var(--gold-light);font-size:0.7rem;letter-spacing:0.06em;text-transform:uppercase;padding:6px 10px;text-align:left;border-bottom:1px solid rgba(201,149,46,0.15);}
-    .vis-table td{padding:5px 10px;border-bottom:1px solid rgba(255,255,255,0.04);color:#d4d4d8;}
-    .vis-table tr:last-child td{border-bottom:none;}
-    .vis-hi{color:var(--gold-light);font-weight:700;}
-    .vis-up{color:#4ade80;font-size:0.75rem;}
-
-    /* bullets */
-    .vis-bullets{list-style:none;display:flex;flex-direction:column;gap:0.35rem;font-size:0.82rem;color:#a1a1aa;line-height:1.55;}
-    .vis-bullets li{padding-left:1.1rem;position:relative;}
-    .vis-bullets li::before{content:'›';position:absolute;left:0;color:var(--gold);font-weight:700;}
-    .vis-bullets b{color:#e4e4e7;}
-
-    /* pie chart visual */
-    .vis-pie-row{display:flex;align-items:flex-start;gap:1rem;margin-bottom:1rem;}
-    .vis-pie-block{flex:1;}
-    .vis-pie-title{font-size:0.75rem;font-weight:700;letter-spacing:0.06em;color:var(--gold);margin-bottom:0.5rem;text-transform:uppercase;}
-    .vis-pie-item{display:flex;align-items:center;gap:0.4rem;font-size:0.8rem;color:#d4d4d8;margin-bottom:0.3rem;}
-    .vis-pie-dot{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
-    .vis-hi-text{color:var(--gold-light);font-weight:700;}
-    .vis-tag{font-size:0.65rem;font-family:'Space Mono',monospace;border-radius:3px;padding:1px 5px;}
-    .vis-tag-up{background:rgba(74,222,128,0.1);color:#4ade80;}
-    .vis-tag-dn{background:rgba(248,113,113,0.1);color:#f87171;}
-    .vis-pie-arrow{font-size:1.5rem;color:var(--gold);padding-top:1.5rem;flex-shrink:0;}
-
-    /* process diagram */
-    .vis-process{display:flex;flex-direction:column;gap:0;}
-    .vis-stage{display:flex;align-items:flex-start;gap:0.75rem;padding:0.6rem 0.25rem;}
-    .vis-stage-num{width:24px;height:24px;border-radius:50%;background:rgba(201,149,46,0.2);border:1px solid rgba(201,149,46,0.4);color:var(--gold);font-family:'Space Mono',monospace;font-size:0.7rem;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
-    .vis-stage-body{flex:1;}
-    .vis-stage-body b{font-size:0.82rem;color:#e4e4e7;}
-    .vis-stage-body p{font-size:0.78rem;color:#9ca3af;line-height:1.5;margin-top:2px;}
-    .vis-input{font-size:0.68rem;font-family:'Space Mono',monospace;color:var(--gold-light);background:rgba(201,149,46,0.08);border-radius:3px;padding:1px 6px;display:inline-block;margin:3px 0;}
-    .vis-arrow{font-size:0.75rem;color:rgba(201,149,46,0.4);padding-left:0.75rem;line-height:1.2;}
-
-    /* Task 2 prompt */
+    /* Task prompt */
+    .task-prompt{margin-bottom:1.25rem;padding:1rem 1.25rem;border-radius:0.875rem;border-left:3px solid var(--gold);background:rgba(201,149,46,0.06);}
+    .task-prompt .intro{font-size:1rem;color:#e4e4e7;line-height:1.7;margin-bottom:0.5rem;font-weight:600;}
+    .task-prompt .rubric{font-size:0.875rem;color:#a1a1aa;font-style:italic;line-height:1.6;margin-bottom:0.4rem;}
+    .task-prompt .word-req{font-size:0.8rem;font-weight:700;color:var(--gold);}
+    /* Chart area — always white so charts are readable */
+    .chart-area{background:#fff;border-radius:0.875rem;padding:1.25rem 1rem 1rem;margin-bottom:1.25rem;border:1px solid rgba(201,149,46,0.2);}
+    .chart-area-title{font-family:'Satoshi','Plus Jakarta Sans',sans-serif;font-size:0.8rem;font-weight:700;color:#0D2B4E;text-align:center;margin-bottom:0.75rem;}
+    /* Data table */
+    .data-table{width:100%;border-collapse:collapse;font-size:0.78rem;margin-top:1rem;}
+    .data-table th{background:#EEF3FB;color:#0D2B4E;font-weight:700;padding:6px 10px;text-align:left;border-bottom:2px solid #0D2B4E;font-size:0.72rem;letter-spacing:0.04em;}
+    .data-table td{padding:5px 10px;border-bottom:1px solid #E4E0D6;color:#1a1a2e;}
+    .data-table tr:last-child td{border-bottom:none;}
+    .data-table tr:nth-child(even) td{background:#F9F6F0;}
+    /* T2 prompt */
     .t2-body{font-size:1rem;color:#e4e4e7;line-height:1.7;margin-bottom:0.75rem;}
-    .t2-question{font-size:1rem;font-weight:700;color:var(--gold-light);line-height:1.6;margin-bottom:0.6rem;}
+    .t2-question{font-size:1rem;font-weight:700;color:var(--gold-light);line-height:1.6;margin-bottom:0.5rem;}
     .t2-rubric{font-size:0.875rem;color:#a1a1aa;font-style:italic;}
-
-    /* theme toggle */
+    /* Theme toggle */
     #themeToggle{background:transparent;border:1px solid rgba(201,149,46,0.25);color:#71717a;border-radius:8px;width:34px;height:34px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;font-size:15px;flex-shrink:0;padding:0;}
     #themeToggle:hover{border-color:var(--gold-border);color:var(--gold);}
-
-    /* Light mode overrides */
+    /* Light mode */
     html[data-theme="light"]{background:#F4F1EB !important;color:#1C1C2E !important;}
-    html[data-theme="light"] body{background:#F4F1EB !important;color:#1C1C2E !important;}
+    html[data-theme="light"] body{background:#F4F1EB !important;}
     html[data-theme="light"] .nav-glass{background:rgba(244,241,235,0.94) !important;border-bottom-color:rgba(0,0,0,0.08) !important;}
     html[data-theme="light"] .nl-ielts{color:#1C1C2E !important;}
     html[data-theme="light"] .section-card{background:rgba(255,255,255,0.95) !important;border-color:#E4E0D6 !important;}
-    html[data-theme="light"] .timer-box{background:#FFFFFF !important;border-color:#D4D0C8 !important;color:#1C1C2E !important;}
-    html[data-theme="light"] .timer-box.warning{color:#b45309 !important;}
-    html[data-theme="light"] .timer-box.critical{color:#dc2626 !important;}
+    html[data-theme="light"] .timer-box{background:#FFF !important;border-color:#D4D0C8 !important;color:#1C1C2E !important;}
     html[data-theme="light"] .answer-area{background:#F9F6F0 !important;border-color:#D4D0C8 !important;color:#1C1C2E !important;}
-    html[data-theme="light"] .task-prompt{background:rgba(201,149,46,0.05) !important;}
+    html[data-theme="light"] .task-prompt{background:rgba(201,149,46,0.04) !important;}
     html[data-theme="light"] .task-prompt .intro{color:#1C1C2E !important;}
     html[data-theme="light"] .task-prompt .rubric{color:#585862 !important;}
-    html[data-theme="light"] .vis-box{border-color:rgba(201,149,46,0.25) !important;}
-    html[data-theme="light"] .vis-section{background:rgba(249,246,240,0.8) !important;}
-    html[data-theme="light"] .vis-table td{color:#1C1C2E !important;border-bottom-color:rgba(0,0,0,0.06) !important;}
-    html[data-theme="light"] .vis-bullets{color:#4A4A5A !important;}
-    html[data-theme="light"] .vis-bullets b{color:#1C1C2E !important;}
-    html[data-theme="light"] .vis-stage-body p{color:#6B6B7A !important;}
-    html[data-theme="light"] .vis-stage-body b{color:#1C1C2E !important;}
-    html[data-theme="light"] .vis-meta-row{color:#9B9BAA !important;}
     html[data-theme="light"] .t2-body{color:#1C1C2E !important;}
     html[data-theme="light"] .t2-rubric{color:#585862 !important;}
     html[data-theme="light"] .submit-overlay{background:rgba(244,241,235,0.97) !important;}
     html[data-theme="light"] .spinner{border-color:#D4D0C8 !important;border-top-color:var(--gold) !important;}
+    html[data-theme="light"] .progress-bar{background:#E4E0D6 !important;}
     html[data-theme="light"] ::-webkit-scrollbar-track{background:#F4F1EB !important;}
     html[data-theme="light"] ::-webkit-scrollbar-thumb{background:#C4B07A !important;}
-    html[data-theme="light"] .progress-bar{background:#E4E0D6 !important;}
   </style>
   <script>(function(){var t=localStorage.getItem('ieltslab_theme')||'dark';document.documentElement.setAttribute('data-theme',t);})();</script>
 </head>
 <body class="bg-zinc-950 text-zinc-50 min-h-screen flex flex-col">
 
-  <!-- PROGRESS BAR -->
   <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
 
-  <!-- NAV -->
-  <nav class="nav-glass sticky top-0 z-50 h-16 flex items-center px-6" role="navigation">
-    <div class="flex items-center justify-between w-full max-w-6xl mx-auto">
+  <nav class="nav-glass sticky top-0 z-50 h-16 flex items-center px-6">
+    <div class="flex items-center justify-between w-full max-w-5xl mx-auto">
       <a href="../IELTS-Lab.html" class="flex items-baseline gap-0 no-underline">
         <span class="nl-ielts">IELTS</span><span class="nl-lab">LAB</span>
       </a>
@@ -167,22 +98,19 @@
     </div>
   </nav>
 
-  <!-- SUBMITTING OVERLAY -->
   <div class="submit-overlay hidden" id="submittingOverlay">
     <div class="spinner mb-6"></div>
     <div class="font-display font-bold text-zinc-200 text-xl mb-2">Grading Your Responses</div>
     <p class="text-sm text-zinc-500 max-w-xs text-center">Our AI examiner is analysing your writing using official IELTS band descriptors…</p>
   </div>
 
-  <!-- MAIN -->
   <main class="flex-1 max-w-4xl mx-auto px-4 sm:px-6 py-8 w-full">
 
-    <!-- Header row -->
     <div class="flex flex-wrap items-start justify-between gap-4 mb-8">
       <div>
         <div class="text-xs font-medium tracking-widest uppercase mb-1" style="color:var(--gold);">✏️ Writing · Academic</div>
         <h1 class="font-display font-black text-2xl text-zinc-100">Cambridge IELTS 20 — Test 1</h1>
-        <p class="text-xs text-zinc-500 mt-1">Task 2 type: Opinion (Agree / Disagree)</p>
+        <p class="text-xs text-zinc-500 mt-1">Task 2 type: Discussion (Both Views + Opinion)</p>
       </div>
       <div class="flex items-center gap-6 text-xs text-zinc-600 mt-1">
         <div>Task 1 <span class="text-zinc-500">~20 min · 150+ words</span></div>
@@ -190,217 +118,191 @@
       </div>
     </div>
 
-    <!-- ── TASK 1 ─────────────────────────────────────────── -->
+    <!-- TASK 1 -->
     <div class="section-card mb-6">
       <div class="flex items-center gap-3 mb-5">
-        <span class="inline-flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold" style="background:var(--gold-dim);border:1px solid var(--gold-border);color:var(--gold);">1</span>
+        <span class="inline-flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold"
+              style="background:var(--gold-dim);border:1px solid var(--gold-border);color:var(--gold);">1</span>
         <div>
           <div class="font-display font-bold text-zinc-100">Task 1 — Line Graph</div>
-          <div class="text-xs text-zinc-500">Minimum 150 words · Recommended: ~20 minutes</div>
+          <div class="text-xs text-zinc-500">Minimum 150 words · ~20 minutes</div>
         </div>
       </div>
 
-      <!-- Prompt -->
       <div class="task-prompt">
-        <p class="intro">The graph below shows the percentage of households with access to the internet in five countries between 2005 and 2020.</p>
+        <p class="intro">The graph below shows the average daily screen time among teenagers aged 13–18 in four countries between 2000 and 2020.</p>
         <p class="rubric">Summarise the information by selecting and reporting the main features, and make comparisons where relevant.</p>
         <p class="word-req">Write at least 150 words.</p>
       </div>
 
-      <!-- Visual data -->
-      <div class="vis-box">
-        <div class="vis-box-header">
-          <span>📊 Visual Data</span>
-          <span class="chart-badge">Line Graph</span>
-          <span style="font-size:0.68rem;color:#52525b;margin-left:auto;">Since visuals cannot be reproduced in digital format, all data is provided below so you can answer as if viewing the original chart.</span>
-        </div>
-        <div style="padding:0.75rem 1rem 0.25rem;background:rgba(201,149,46,0.06);border-bottom:1px solid rgba(201,149,46,0.1);">
-          <span style="font-size:0.8rem;font-weight:700;color:#e4e4e7;">Percentage of Households with Internet Access (2005–2020)</span>
-        </div>
+      <!-- CHART -->
+      <div class="chart-area">
         
-        <div class="vis-section">
-          <div class="vis-meta-row">
-            <span><b>X-axis:</b> Years — 2005 · 2010 · 2015 · 2020</span>
-            <span><b>Y-axis:</b> % of households (0–100%)</span>
-            <span><b>Five lines:</b> South Korea · Australia · France · Brazil · Nigeria</span>
-          </div>
-          <table class="vis-table">
-            <thead><tr><th>Country</th><th>2005</th><th>2010</th><th>2015</th><th>2020</th><th>Change</th></tr></thead>
-            <tbody>
-              <tr><td>🇰🇷 South Korea</td><td>72%</td><td>83%</td><td>90%</td><td class="vis-hi">95%</td><td class="vis-up">+23 pp</td></tr>
-              <tr><td>🇦🇺 Australia</td><td>59%</td><td>74%</td><td>83%</td><td class="vis-hi">90%</td><td class="vis-up">+31 pp</td></tr>
-              <tr><td>🇫🇷 France</td><td>52%</td><td>69%</td><td>81%</td><td class="vis-hi">88%</td><td class="vis-up">+36 pp</td></tr>
-              <tr><td>🇧🇷 Brazil</td><td>13%</td><td>27%</td><td>51%</td><td>71%</td><td class="vis-up">+58 pp</td></tr>
-              <tr><td>🇳🇬 Nigeria</td><td>2%</td><td>8%</td><td>22%</td><td>42%</td><td class="vis-up">+40 pp</td></tr>
-            </tbody>
-          </table>
-          <ul class="vis-bullets">
-            <li>All five countries show an <b>upward trend</b> throughout the period.</li>
-            <li>South Korea is <b>consistently the highest</b>, starting at 72% and reaching 95% by 2020.</li>
-            <li>Australia and France track closely together, converging near 88–90% in 2020.</li>
-            <li>Brazil shows the <b>steepest absolute rise</b> in the mid-tier (+58 pp, from 13% to 71%).</li>
-            <li>Nigeria starts lowest (2%) but achieves the greatest <b>relative growth</b>, rising to 42%.</li>
-            <li>A clear gap persists between the upper group (88–95%) and lower group (42–71%) in 2020.</li>
-            <li>Brazil and Nigeria's steepest gains occur in the <b>2010–2015</b> interval.</li>
-          </ul>
-        </div>
-      
+<div class="chart-area-title">Average Daily Screen Time Among Teenagers (Ages 13–18)<br>in Four Countries, 2000–2020</div>
+<canvas id="chartT1" style="max-height:360px;"></canvas>
+<script>
+(function(){
+  var ctx = document.getElementById('chartT1').getContext('2d');
+  new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: ['2000','2005','2010','2015','2020'],
+      datasets: [
+        { label:'United Kingdom', data:[1.8,2.6,3.7,5.2,6.5], borderColor:'#1565C0', backgroundColor:'rgba(21,101,192,0.08)', borderWidth:2.5, pointRadius:6, pointHoverRadius:8, pointBackgroundColor:'#fff', pointBorderColor:'#1565C0', pointBorderWidth:2.5, tension:0.15 },
+        { label:'Japan',          data:[2.2,3.1,4.1,5.7,6.8], borderColor:'#C62828', backgroundColor:'rgba(198,40,40,0.08)',   borderWidth:2.5, pointRadius:6, pointHoverRadius:8, pointBackgroundColor:'#fff', pointBorderColor:'#C62828', pointBorderWidth:2.5, tension:0.15, pointStyle:'rect' },
+        { label:'Canada',         data:[1.7,2.3,3.4,5.0,6.2], borderColor:'#2E7D32', backgroundColor:'rgba(46,125,50,0.08)',   borderWidth:2.5, pointRadius:6, pointHoverRadius:8, pointBackgroundColor:'#fff', pointBorderColor:'#2E7D32', pointBorderWidth:2.5, tension:0.15, pointStyle:'triangle' },
+        { label:'Germany',        data:[1.3,1.9,2.9,4.2,5.7], borderColor:'#7B1FA2', backgroundColor:'rgba(123,31,162,0.08)', borderWidth:2.5, pointRadius:6, pointHoverRadius:8, pointBackgroundColor:'#fff', pointBorderColor:'#7B1FA2', pointBorderWidth:2.5, tension:0.15, pointStyle:'star' },
+      ]
+    },
+    options: {
+      responsive:true,
+      plugins:{
+        legend:{ position:'top', labels:{ boxWidth:14, font:{ size:11 } } },
+        tooltip:{ callbacks:{ label: ctx => ' '+ctx.dataset.label+': '+ctx.parsed.y+' hrs/day' } }
+      },
+      scales:{
+        x:{ title:{ display:true, text:'Year', font:{ weight:'bold', size:12 } }, grid:{ color:'rgba(0,0,0,0.06)' } },
+        y:{ min:0, max:7, title:{ display:true, text:'Hours per day', font:{ weight:'bold', size:12 } }, grid:{ color:'rgba(0,0,0,0.06)' }, ticks:{ stepSize:1 } }
+      }
+    }
+  });
+})();
+</script>
       </div>
 
-      <!-- Answer -->
-      <textarea id="task1Answer" class="answer-area" placeholder="Write your Task 1 response here…" oninput="updateWordCount('task1')"></textarea>
+      <textarea id="task1Answer" class="answer-area"
+                placeholder="Write your Task 1 response here…"
+                oninput="updateWordCount('task1')"></textarea>
       <div class="flex justify-between items-center mt-2">
         <div class="word-counter under" id="task1Counter">0 words</div>
         <div class="text-xs text-zinc-700">Minimum: 150 words</div>
       </div>
     </div>
 
-    <!-- ── TASK 2 ─────────────────────────────────────────── -->
+    <!-- TASK 2 -->
     <div class="section-card mb-8">
       <div class="flex items-center gap-3 mb-5">
-        <span class="inline-flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold" style="background:var(--gold-dim);border:1px solid var(--gold-border);color:var(--gold);">2</span>
+        <span class="inline-flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold"
+              style="background:var(--gold-dim);border:1px solid var(--gold-border);color:var(--gold);">2</span>
         <div>
           <div class="font-display font-bold text-zinc-100">Task 2 — Essay</div>
-          <div class="text-xs text-zinc-500">Minimum 250 words · Recommended: ~40 minutes · Opinion (Agree / Disagree)</div>
+          <div class="text-xs text-zinc-500">Minimum 250 words · ~40 minutes · Discussion (Both Views + Opinion)</div>
         </div>
       </div>
 
-      <!-- Prompt -->
       <div class="task-prompt" style="border-left-color:#3A7BF7;">
-        
-        <p class="t2-body">Some people believe that social media has had an overwhelmingly negative impact on young people and society as a whole. Others, however, argue that its benefits outweigh the drawbacks.</p>
-        <p class="t2-question">To what extent do you agree or disagree?</p>
-        <p class="t2-rubric">Give reasons for your answer and include any relevant examples from your own knowledge or experience.</p>
-      
+        <p class="t2-body">In many countries today, young people spend an increasing amount of time on electronic devices such as smartphones and tablets. Some people believe this is harmful to their development, while others argue it prepares them for the modern world.</p>
+     <p class="t2-question">Discuss both these views and give your own opinion.</p>
+     <p class="t2-rubric">Give reasons for your answer and include any relevant examples from your own knowledge or experience.</p>
         <p class="word-req" style="margin-top:0.6rem;">Write at least 250 words.</p>
       </div>
 
-      <!-- Answer -->
-      <textarea id="task2Answer" class="answer-area" style="min-height:280px;" placeholder="Write your Task 2 essay here…" oninput="updateWordCount('task2')"></textarea>
+      <textarea id="task2Answer" class="answer-area" style="min-height:280px;"
+                placeholder="Write your Task 2 essay here…"
+                oninput="updateWordCount('task2')"></textarea>
       <div class="flex justify-between items-center mt-2">
         <div class="word-counter under" id="task2Counter">0 words</div>
         <div class="text-xs text-zinc-700">Minimum: 250 words</div>
       </div>
     </div>
 
-    <!-- Submit -->
     <div class="flex justify-center mb-16">
       <button onclick="confirmSubmit()" class="btn-gold px-12">Submit Writing Test</button>
     </div>
-
   </main>
 
-  <!-- TIME'S UP MODAL -->
+  <!-- TIME'S UP -->
   <div id="timesUpModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:250;align-items:center;justify-content:center;">
     <div style="background:#111113;border:1px solid #27272a;border-radius:1.25rem;padding:2rem;max-width:400px;width:90%;text-align:center;">
       <div style="font-size:2.5rem;margin-bottom:1rem;">⏰</div>
       <div class="font-display font-bold text-xl" style="color:#fafafa;margin-bottom:0.5rem;">Time's Up!</div>
-      <p style="font-size:0.875rem;color:#71717a;margin-bottom:1.5rem;">Your 60 minutes are up. Your answers will be submitted now.</p>
-      <button onclick="submitTest()" class="btn-gold w-full">Submit & See Results</button>
+      <p style="font-size:0.875rem;color:#71717a;margin-bottom:1.5rem;">Your 60 minutes are up.</p>
+      <button onclick="submitTest()" class="btn-gold w-full">Submit &amp; See Results</button>
     </div>
   </div>
 
   <script>
-    // ── AUTH ──────────────────────────────────────────────────
-    const rawSession = localStorage.getItem('ielts_session');
-    if (!rawSession) window.location.replace('../login.html');
-    let session;
-    try { session = JSON.parse(rawSession); }
-    catch { localStorage.removeItem('ielts_session'); window.location.replace('../login.html'); }
+    // AUTH
+    const raw = localStorage.getItem('ielts_session');
+    if (!raw) window.location.replace('../login.html');
+    try { JSON.parse(raw); } catch { localStorage.removeItem('ielts_session'); window.location.replace('../login.html'); }
 
-    // ── QUESTION DATA (pre-embedded) ─────────────────────────
-    const QUESTION_DATA = {  task1: {    prompt: 'The graph below shows the percentage of households with access to the internet in five countries between 2005 and 2020. Summarise the information by selecting and reporting the main features, and make comparisons where relevant. Write at least 150 words.',    chartType: 'Line graph',    chartDescription: 'Five countries (South Korea, Australia, France, Brazil, Nigeria) tracked from 2005 to 2020. Data: South Korea 72→95%, Australia 59→90%, France 52→88%, Brazil 13→71%, Nigeria 2→42%. All lines rise; upper group (SK/AU/FR) consistently higher than lower group (Brazil/Nigeria).'  },  task2: {    prompt: 'Some people believe that social media has had an overwhelmingly negative impact on young people and society as a whole. Others, however, argue that its benefits outweigh the drawbacks. To what extent do you agree or disagree?',    essayType: 'Opinion (agree / disagree)'  }};
+    // QUESTION DATA
+    const QD = {task1:{prompt:'The graph below shows the average daily screen time among teenagers aged 13-18 in four countries between 2000 and 2020. Summarise the information by selecting and reporting the main features, and make comparisons where relevant. Write at least 150 words.',chartType:'Line graph'},task2:{prompt:'In many countries today, young people spend an increasing amount of time on electronic devices such as smartphones and tablets. Some people believe this is harmful to their development, while others argue it prepares them for the modern world. Discuss both these views and give your own opinion.',essayType:'Discussion (both views + opinion)'}};
 
-    // ── THEME ─────────────────────────────────────────────────
-    function toggleTheme(){
-      var c=document.documentElement.getAttribute('data-theme')||'dark',n=c==='dark'?'light':'dark';
-      document.documentElement.setAttribute('data-theme',n);localStorage.setItem('ieltslab_theme',n);
-      var b=document.getElementById('themeToggle');if(b)b.textContent=n==='dark'?'☀':'🌙';
+    // THEME
+    function toggleTheme() {
+      var c = document.documentElement.getAttribute('data-theme') || 'dark';
+      var n = c === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', n);
+      localStorage.setItem('ieltslab_theme', n);
+      var b = document.getElementById('themeToggle');
+      if (b) b.textContent = n === 'dark' ? '☀' : '🌙';
     }
-    document.addEventListener('DOMContentLoaded',function(){
-      var b=document.getElementById('themeToggle');
-      if(b){var d=(document.documentElement.getAttribute('data-theme')||'dark')==='dark';b.textContent=d?'☀':'🌙';}
+    document.addEventListener('DOMContentLoaded', function() {
+      var b = document.getElementById('themeToggle');
+      if (b) b.textContent = (document.documentElement.getAttribute('data-theme') || 'dark') === 'dark' ? '☀' : '🌙';
     });
 
-    // ── TIMER ─────────────────────────────────────────────────
-    const TOTAL = 3600;
-    let secondsLeft = TOTAL;
-    const timerInterval = setInterval(function(){
-      secondsLeft--;
-      const m = Math.floor(secondsLeft/60), s = secondsLeft%60;
-      const el = document.getElementById('timerDisplay');
-      el.textContent = String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
-      document.getElementById('progressFill').style.width = ((TOTAL-secondsLeft)/TOTAL*100)+'%';
-      if(secondsLeft<=300) el.className='timer-box critical';
-      else if(secondsLeft<=600) el.className='timer-box warning';
-      if(secondsLeft<=0){ clearInterval(timerInterval); showTimesUp(); }
-    },1000);
+    // TIMER
+    var TOTAL = 3600, left = TOTAL;
+    var tmr = setInterval(function() {
+      left--;
+      var m = Math.floor(left / 60), s = left % 60;
+      document.getElementById('timerDisplay').textContent = String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+      document.getElementById('progressFill').style.width = ((TOTAL - left) / TOTAL * 100) + '%';
+      var el = document.getElementById('timerDisplay');
+      if (left <= 300) el.className = 'timer-box critical';
+      else if (left <= 600) el.className = 'timer-box warning';
+      if (left <= 0) { clearInterval(tmr); document.getElementById('timesUpModal').style.display = 'flex'; }
+    }, 1000);
 
-    function showTimesUp(){
-      const m=document.getElementById('timesUpModal');
-      m.style.display='flex';
+    // WORD COUNT
+    function countWords(t) { return t.trim() === '' ? 0 : t.trim().split(/\s+/).length; }
+    function updateWordCount(task) {
+      var ta = document.getElementById(task + 'Answer');
+      var ct = document.getElementById(task + 'Counter');
+      var min = task === 'task1' ? 150 : 250;
+      var n = countWords(ta.value);
+      ct.textContent = n + ' words';
+      ct.className = 'word-counter ' + (n >= min ? (n >= min * 1.3 ? 'good' : 'ok') : 'under');
     }
 
-    // ── WORD COUNT ────────────────────────────────────────────
-    function countWords(t){ return t.trim()===''?0:t.trim().split(/\s+/).length; }
-    function updateWordCount(task){
-      const ta=document.getElementById(task+'Answer');
-      const ct=document.getElementById(task+'Counter');
-      const min=task==='task1'?150:250;
-      const n=countWords(ta.value);
-      ct.textContent=n+' words';
-      ct.className='word-counter '+(n>=min?(n>=min*1.3?'good':'ok'):'under');
-    }
-
-    // ── SUBMIT ────────────────────────────────────────────────
-    function confirmSubmit(){
-      if(!confirm("Submit your writing test now?\nYou can't go back after this.")) return;
+    // SUBMIT
+    function confirmSubmit() {
+      if (!confirm("Submit your writing test now?\nYou cannot go back after this.")) return;
       submitTest();
     }
-
-    async function submitTest(){
-      document.getElementById('timesUpModal').style.display='none';
-      clearInterval(timerInterval);
-      const a1=document.getElementById('task1Answer').value;
-      const a2=document.getElementById('task2Answer').value;
-      if(!a1.trim()&&!a2.trim()){ alert('Please write at least something before submitting.'); return; }
-
+    async function submitTest() {
+      document.getElementById('timesUpModal').style.display = 'none';
+      clearInterval(tmr);
+      var a1 = document.getElementById('task1Answer').value;
+      var a2 = document.getElementById('task2Answer').value;
+      if (!a1.trim() && !a2.trim()) { alert('Please write at least something before submitting.'); return; }
       document.getElementById('submittingOverlay').classList.remove('hidden');
-      try{
-        const res = await fetch('/api/mock/grade',{
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body:JSON.stringify({
-            skill:'writing',
-            trainingType:'academic',
-            question:QUESTION_DATA,
-            answers:{task1:a1,task2:a2}
-          })
+      try {
+        var res = await fetch('/api/mock/grade', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({ skill: 'writing', trainingType: 'academic', question: QD, answers: { task1: a1, task2: a2 } })
         });
-        if(!res.ok) throw new Error('HTTP '+res.status);
-        const result=await res.json();
-
-        const rid=Date.now().toString();
-        const saved={
-          id:rid,
-          date:Date.now(),
-          book:20,
-          testNum:1,
-          skill:'writing',
-          trainingType:'academic',
-          testType:'Writing — Cambridge 20 · Test 1',
-          scores:{writing:result.overall_band,overall:result.overall_band},
-          feedback:result,
-          question:QUESTION_DATA,
-          answers:{task1:a1,task2:a2}
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        var result = await res.json();
+        var rid = Date.now().toString();
+        var saved = {
+          id: rid, date: Date.now(), book: 20, testNum: 1,
+          skill: 'writing', trainingType: 'academic',
+          testType: 'Writing — Cambridge 20 · Test 1',
+          scores: { writing: result.overall_band, overall: result.overall_band },
+          feedback: result, question: QD, answers: { task1: a1, task2: a2 }
         };
-        const existing=JSON.parse(localStorage.getItem('ielts_mock_results')||'[]');
-        existing.push(saved);
-        localStorage.setItem('ielts_mock_results',JSON.stringify(existing));
-        window.location.href='results.html?id='+rid;
-      }catch(err){
+        var ex = JSON.parse(localStorage.getItem('ielts_mock_results') || '[]');
+        ex.push(saved);
+        localStorage.setItem('ielts_mock_results', JSON.stringify(ex));
+        window.location.href = 'results.html?id=' + rid;
+      } catch (err) {
         document.getElementById('submittingOverlay').classList.add('hidden');
-        alert('Grading failed: '+err.message+'\n\nPlease try again.');
+        alert('Grading failed: ' + err.message + '\n\nPlease try again.');
       }
     }
   </script>
