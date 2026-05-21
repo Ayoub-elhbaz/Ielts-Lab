@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Practice Resources — IELTS Lab</title>
+  <script>(function(){ var t=localStorage.getItem('ieltslab_theme')||'light'; document.documentElement.setAttribute('data-theme',t); })();</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Satoshi:wght@400;500;700;900&family=Space+Mono:wght@400;700&family=Caveat:wght@600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --gold: #C9952E;
+      --gold-light: #DDB05A;
+      --gold-dim: rgba(201,149,46,0.10);
+      --gold-border: rgba(201,149,46,0.22);
+      --navy: #0d2b4e;
+      --navy-mid: #1a3c6e;
+      --blue: #3A7BF7;
+      --teal: #2AFFD6;
+      --white: #EEF4FF;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: #f5f7fb;
+      color: #1a2640;
+      min-height: 100vh;
+    }
+
+    html[data-theme="dark"] body {
+      background: #0b1627;
+      color: #d0ddf0;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      background: linear-gradient(135deg, var(--navy) 0%, #1a3c6e 60%, #0d2b4e 100%);
+      padding: 80px 24px 64px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 110%, rgba(201,149,46,0.18) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-tag {
+      display: inline-block;
+      background: var(--gold-dim);
+      border: 1px solid var(--gold-border);
+      color: var(--gold-light);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.12em;
+      padding: 4px 14px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .hero h1 {
+      font-family: 'Satoshi', sans-serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .hero h1 span {
+      background: linear-gradient(90deg, var(--gold) 0%, var(--gold-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      color: rgba(238,244,255,0.72);
+      font-size: 1.05rem;
+      max-width: 560px;
+      margin: 0 auto 32px;
+      line-height: 1.7;
+    }
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--gold);
+      color: #fff;
+      font-family: 'Satoshi', sans-serif;
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 12px 28px;
+      border-radius: 999px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .hero-cta:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+    /* ── Stats strip ── */
+    .stats-strip {
+      background: #fff;
+      border-bottom: 1px solid #e8edf4;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0;
+    }
+    html[data-theme="dark"] .stats-strip {
+      background: #111e30;
+      border-bottom-color: #1e2f45;
+    }
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 40px;
+      border-right: 1px solid #e8edf4;
+    }
+    html[data-theme="dark"] .stat-item { border-right-color: #1e2f45; }
+    .stat-item:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Satoshi', sans-serif;
+      font-weight: 900;
+      font-size: 2rem;
+      color: var(--gold);
+      line-height: 1;
+    }
+    .stat-label {
+      font-size: 0.78rem;
+      color: #6b7a99;
+      margin-top: 4px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+    html[data-theme="dark"] .stat-label { color: #8899bb; }
+
+    /* ── Section ── */
+    .section { padding: 64px 24px; max-width: 1100px; margin: 0 auto; }
+    .section-header { margin-bottom: 36px; }
+    .section-header h2 {
+      font-family: 'Satoshi', sans-serif;
+      font-size: 1.65rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+    html[data-theme="dark"] .section-header h2 { color: #d0ddf0; }
+    .section-header p { color: #5a6a82; font-size: 0.95rem; line-height: 1.6; }
+    html[data-theme="dark"] .section-header p { color: #8899bb; }
+    .section-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    /* ── Volume group ── */
+    .volume-group { margin-bottom: 48px; }
+    .volume-label {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .volume-label h3 {
+      font-family: 'Satoshi', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+    html[data-theme="dark"] .volume-label h3 { color: #d0ddf0; }
+    .volume-badge {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.68rem;
+      padding: 2px 10px;
+      border-radius: 999px;
+      background: var(--gold-dim);
+      color: var(--gold-light);
+      border: 1px solid var(--gold-border);
+    }
+
+    /* ── Cards grid ── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    .test-card {
+      background: #fff;
+      border: 1.5px solid #e2e8f2;
+      border-radius: 16px;
+      padding: 22px 22px 18px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    }
+    html[data-theme="dark"] .test-card {
+      background: #111e30;
+      border-color: #1e2f45;
+    }
+    .test-card:hover {
+      border-color: var(--gold-border);
+      box-shadow: 0 6px 28px rgba(201,149,46,0.13);
+      transform: translateY(-3px);
+    }
+    .card-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      background: var(--gold-dim);
+      border: 1px solid var(--gold-border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+    }
+    .card-title {
+      font-family: 'Satoshi', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+    html[data-theme="dark"] .card-title { color: #d0ddf0; }
+    .card-meta {
+      font-size: 0.78rem;
+      color: #7a8aa8;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    html[data-theme="dark"] .card-meta { color: #7a8aa8; }
+    .card-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(58,123,247,0.08);
+      color: #3A7BF7;
+      border: 1px solid rgba(58,123,247,0.18);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+    .card-pill.writing {
+      background: rgba(201,149,46,0.08);
+      color: var(--gold);
+      border-color: var(--gold-border);
+    }
+    .card-arrow {
+      margin-top: auto;
+      font-size: 0.8rem;
+      color: var(--gold);
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: gap 0.2s;
+    }
+    .test-card:hover .card-arrow { gap: 8px; }
+
+    /* ── Reading feature cards ── */
+    .reading-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .reading-card {
+      background: #fff;
+      border: 1.5px solid #e2e8f2;
+      border-radius: 16px;
+      padding: 28px;
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    html[data-theme="dark"] .reading-card {
+      background: #111e30;
+      border-color: #1e2f45;
+    }
+    .reading-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--blue) 0%, var(--teal) 100%);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+    .reading-card:hover {
+      border-color: rgba(58,123,247,0.3);
+      box-shadow: 0 6px 28px rgba(58,123,247,0.10);
+      transform: translateY(-3px);
+    }
+    .reading-card:hover::before { opacity: 1; }
+    .reading-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .reading-card-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      background: rgba(58,123,247,0.08);
+      border: 1px solid rgba(58,123,247,0.18);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .reading-card-title {
+      font-family: 'Satoshi', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--navy);
+      line-height: 1.3;
+    }
+    html[data-theme="dark"] .reading-card-title { color: #d0ddf0; }
+    .reading-card-passages {
+      font-size: 0.8rem;
+      color: #6b7a99;
+      line-height: 1.7;
+    }
+    html[data-theme="dark"] .reading-card-passages { color: #8899bb; }
+    .reading-card-passages li { list-style: none; padding-left: 0; margin: 0; }
+    .reading-card-passages li::before { content: '— '; color: var(--blue); }
+    .reading-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 4px;
+    }
+    .reading-stats {
+      display: flex;
+      gap: 12px;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      color: #6b7a99;
+    }
+    html[data-theme="dark"] .reading-stats { color: #8899bb; }
+    .reading-stats span { display: flex; align-items: center; gap: 4px; }
+    .reading-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(58,123,247,0.08);
+      color: #3A7BF7;
+      border: 1px solid rgba(58,123,247,0.2);
+      font-family: 'Satoshi', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      padding: 7px 16px;
+      border-radius: 999px;
+      transition: background 0.2s;
+      text-decoration: none;
+    }
+    .reading-cta:hover { background: rgba(58,123,247,0.15); }
+
+    /* ── How-to section ── */
+    .howto-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .howto-card {
+      background: #fff;
+      border: 1.5px solid #e2e8f2;
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    html[data-theme="dark"] .howto-card {
+      background: #111e30;
+      border-color: #1e2f45;
+    }
+    .howto-step {
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      background: var(--gold-dim);
+      border: 1px solid var(--gold-border);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--gold);
+    }
+    .howto-title {
+      font-family: 'Satoshi', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--navy);
+    }
+    html[data-theme="dark"] .howto-title { color: #d0ddf0; }
+    .howto-desc {
+      font-size: 0.83rem;
+      color: #6b7a99;
+      line-height: 1.6;
+    }
+    html[data-theme="dark"] .howto-desc { color: #8899bb; }
+
+    /* ── Divider ── */
+    .section-divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, #e2e8f2, transparent);
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    html[data-theme="dark"] .section-divider {
+      background: linear-gradient(90deg, transparent, #1e2f45, transparent);
+    }
+
+    /* ── Footer ── */
+    .page-footer {
+      background: var(--navy);
+      color: rgba(238,244,255,0.55);
+      text-align: center;
+      padding: 32px 24px;
+      font-size: 0.82rem;
+    }
+    .page-footer a { color: var(--gold-light); text-decoration: none; }
+    .page-footer a:hover { text-decoration: underline; }
+
+    /* ── Reveal ── */
+    .reveal { opacity:0; transform:translateY(22px); transition: opacity 0.65s, transform 0.65s; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+    .d100 { transition-delay:0.1s; }
+    .d200 { transition-delay:0.2s; }
+    .d300 { transition-delay:0.3s; }
+    .d400 { transition-delay:0.4s; }
+
+    @media (max-width: 640px) {
+      .stat-item { padding: 18px 20px; }
+      .section { padding: 48px 16px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="header-container"></div>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-tag">Practice Resources</div>
+    <h1>Official Cambridge<br><span>IELTS Practice Tests</span></h1>
+    <p>Timed, interactive tests with instant AI-graded results. Writing tests include real chart data; reading tests include full answer explanations.</p>
+    <a href="index.html" class="hero-cta">← Back to Mock Tests</a>
+  </section>
+
+  <!-- Stats Strip -->
+  <div class="stats-strip">
+    <div class="stat-item">
+      <div class="stat-num">16</div>
+      <div class="stat-label">Writing Tests</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">5</div>
+      <div class="stat-label">Reading Tests</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">4</div>
+      <div class="stat-label">Cambridge Volumes</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">Instant</div>
+      <div class="stat-label">AI Results</div>
+    </div>
+  </div>
+
+  <!-- Writing Tests -->
+  <section class="section">
+    <div class="section-header reveal">
+      <div class="section-eyebrow">✏️ Writing</div>
+      <h2>Academic Writing Practice Tests</h2>
+      <p>Each test includes a real Task 1 data visualisation (graph, chart, diagram, or map) and a Task 2 essay. Responses are graded by Claude AI across all 4 IELTS writing criteria.</p>
+    </div>
+
+    <!-- Cambridge 20 -->
+    <div class="volume-group reveal d100">
+      <div class="volume-label">
+        <h3>Cambridge IELTS 20</h3>
+        <span class="volume-badge">2025 Edition</span>
+      </div>
+      <div class="cards-grid">
+        <a href="cam20-t1-writing.html" class="test-card">
+          <div class="card-icon">📈</div>
+          <div class="card-title">Test 1 — Writing</div>
+          <div class="card-meta">
+            <span class="card-pill writing">CAM 20</span>
+            <span>60 min · 2 tasks</span>
+          </div>
+          <div class="card-arrow">Start test →</div>
+        </a>
+        <a href="cam20-t2-writing.html" class="test-card">
+          <div class="card-icon">📊</div>
+          <div class="card-title">Test 2 — Writing</div>
+          <div class="card-meta">
+            <span class="card-pill writing">CAM 20</span>
+            <span>60 min · 2 tasks</span>
+          </div>
+          <div class="card-arrow">Start test →</div>
+        </a>
+        <a href="cam20-t3-writing.html" class="test-card">
+          <div class="card-icon">🥧</div>
+          <div class="card-title">Test 3 — Writing</div>
+          <div class="card-meta">
+            <span class="card-pill writing">CAM 20</span>
+            <span>60 min · 2 tasks</span>
+          </div>
+          <div class="card-arrow">Start test →</div>
+        </a>
+        <a href="cam20-t4-writing.html" class="test-card">
+          <div class="card-icon">🗺️</div>
+          <div class="card-title">Test 4 — Writing</div>
+          <div class="card-meta">
+            <span class="card-pill writing">CAM 20</span>
+            <span>60 min · 2 tasks</span>
+          </div>
+          <div class="card-arrow">Start test →</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Cambridge 19 -->
+    <div class="volume-group reveal d200">
+      <div class="volume-label">
+        <h3>Cambridge IELTS 19</h3>
+        <span class="volume-badge">2024 Edition</span>
+      </div>
+      <div class="cards-grid">
+        <a href="cam19-t1-writing.html" class="test-card">
+          <div class="card-icon">📈</div>
+          <div class="card-title">Test 1 — Writing</div>
+          <div class="card-meta">
+            <span class="card-pill writing">CAM 19</span>
+            <span>60 min · 2 tasks</span>
+          </div>
+          <div class="card-arrow">Start test →</div>
+        </a>
+        <a href="cam19-t2-writing.html" class="test-card">
+          <div class="card-icon">📊</div>
+          <div class="card-title">Test 2 — Writing</div>
+          <div class="card-meta">
+            <span class="card-pill writing">CAM 19</span>
+            <span>60 min · 2 tasks</span>
+          </div>
+          <div class="card-arrow">Start test →</div>
+        </a>
+        <a href="cam19-t3-writing.html" class="test-card">
+          <div class="card-icon">🥧</div>
+          <div class="card-title">Test 3 — Writing</div>
+          <div class="card-meta">
+            <span class="card-pill writing">CAM 19</span>
+            <span>60 min · 2 tasks</span>
+          </div>
+          <div class="card-arrow">Start test →</div>
+        </a>
+        <a href="cam19-t4-writing.html" class="test-card">
+          <div class="card-icon">⚙️</div>
+          <div class="card-title">Test 4 — Writing</div>
+          <div class="card-meta">
+            <span class="card-pill writing">CAM 19</span>
+            <span>60 min · 2 tasks</span>
+          </div>
+          <div class="card-arrow">Start test →</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Cambridge 18 -->
+    <div class="volume-group reveal d300">
+      <div class="volume-label">
+        <h3>Cambridge IELTS 18</h3>
+        <span class="volume-badge">2023 Edition</span>
+      </div>
+      <div class="cards-grid">
+        <a href="cam18-t1-writing.html" class="test-card">
+          <div class="card-icon">📈</div>
+          <div class="card-title">Test 1 — Writing</div>
+          <div class="card-meta">
+            <span class="card-pill writing">CAM 18</span>
+            <span>60 min · 2 tasks</span>
+          </div>
+          <div class="card-arrow">Start test →</div>
+        </a>
+        <a href="cam18-t2-writing.html" class="test-card">
+          <div class="card-icon">📊</div>
+          <div class="card-title">Test 2 — Writing</div>
+          <div class="card-meta">
+            <span class="card-pill writing">CAM 18</span>
+            <span>60 min · 2 tasks</span>
+          </div>
+          <div class="card-arrow">Start test →</div>
+        </a>
+        <a href="cam18-t3-writing.html" class="test-card">
+          <div class="card-icon">🥧</div>
+          <div class="card-title">Test 3 — Writing</div>
+          <div class="card-meta">
+            <span class="card-pill writing">CAM 18</span>
+            <span>60 min · 2 tasks</span>
+          </div>
+          <div class="card-arrow">Start test →</div>
+        </a>
+        <a href="cam18-t4-writing.html" class="test-card">
+          <div class="card-icon">⚙️</div>
+          <div class="card-title">Test 4 — Writing</div>
+          <div class="card-meta">
+            <span class="card-pill writing">CAM 18</span>
+            <span>60 min · 2 tasks</span>
+          </div>
+          <div class="card-arrow">Start test →</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Cambridge 17 -->
+    <div class="volume-group reveal d400">
+      <div class="volume-label">
+        <h3>Cambridge IELTS 17</h3>
+        <span class="volume-badge">2022 Edition</span>
+      </div>
+      <div class="cards-grid">
+        <a href="cam17-t1-writing.html" class="test-card">
+          <div class="card-icon">📈</div>
+          <div class="card-title">Test 1 — Writing</div>
+          <div class="card-meta">
+            <span class="card-pill writing">CAM 17</span>
+            <span>60 min · 2 tasks</span>
+          </div>
+          <div class="card-arrow">Start test →</div>
+        </a>
+        <a href="cam17-t2-writing.html" class="test-card">
+          <div class="card-icon">📊</div>
+          <div class="card-title">Test 2 — Writing</div>
+          <div class="card-meta">
+            <span class="card-pill writing">CAM 17</span>
+            <span>60 min · 2 tasks</span>
+          </div>
+          <div class="card-arrow">Start test →</div>
+        </a>
+        <a href="cam17-t3-writing.html" class="test-card">
+          <div class="card-icon">🥧</div>
+          <div class="card-title">Test 3 — Writing</div>
+          <div class="card-meta">
+            <span class="card-pill writing">CAM 17</span>
+            <span>60 min · 2 tasks</span>
+          </div>
+          <div class="card-arrow">Start test →</div>
+        </a>
+        <a href="cam17-t4-writing.html" class="test-card">
+          <div class="card-icon">🗺️</div>
+          <div class="card-title">Test 4 — Writing</div>
+          <div class="card-meta">
+            <span class="card-pill writing">CAM 17</span>
+            <span>60 min · 2 tasks</span>
+          </div>
+          <div class="card-arrow">Start test →</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- Reading Tests -->
+  <section class="section">
+    <div class="section-header reveal">
+      <div class="section-eyebrow">📖 Reading</div>
+      <h2>Academic Reading Practice Tests</h2>
+      <p>Full 60-minute tests with 40 questions across 3 academic passages. Includes True/False/NG, multiple choice, matching, and sentence completion. Instant results with per-question explanations and band score.</p>
+    </div>
+
+    <div class="reading-grid">
+
+      <!-- Cambridge 20 T1 -->
+      <a href="cam20-t1-reading.html" class="reading-card reveal d100">
+        <div class="reading-card-header">
+          <div class="reading-card-icon">📖</div>
+          <div>
+            <div class="reading-card-title">Cambridge 20 · Test 1</div>
+            <div style="font-size:0.72rem; color:#3A7BF7; font-family:'Space Mono',monospace; margin-top:4px;">CAM 20 · ACADEMIC</div>
+          </div>
+        </div>
+        <ul class="reading-card-passages">
+          <li>The Phytoplankton Paradox</li>
+          <li>The Vertical Farm</li>
+          <li>The Attention Economy</li>
+        </ul>
+        <div class="reading-card-footer">
+          <div class="reading-stats">
+            <span>⏱ 60 min</span>
+            <span>❓ 40 Q</span>
+          </div>
+          <span class="reading-cta">Start →</span>
+        </div>
+      </a>
+
+      <!-- Cambridge 20 T2 -->
+      <a href="cam20-t2-reading.html" class="reading-card reveal d200">
+        <div class="reading-card-header">
+          <div class="reading-card-icon">📖</div>
+          <div>
+            <div class="reading-card-title">Cambridge 20 · Test 2</div>
+            <div style="font-size:0.72rem; color:#3A7BF7; font-family:'Space Mono',monospace; margin-top:4px;">CAM 20 · ACADEMIC</div>
+          </div>
+        </div>
+        <ul class="reading-card-passages">
+          <li>The Memory Palace</li>
+          <li>Deep-Sea Mining</li>
+          <li>The Urban Heat Island Effect</li>
+        </ul>
+        <div class="reading-card-footer">
+          <div class="reading-stats">
+            <span>⏱ 60 min</span>
+            <span>❓ 40 Q</span>
+          </div>
+          <span class="reading-cta">Start →</span>
+        </div>
+      </a>
+
+      <!-- Cambridge 20 T3 -->
+      <a href="cam20-t3-reading.html" class="reading-card reveal d300">
+        <div class="reading-card-header">
+          <div class="reading-card-icon">📖</div>
+          <div>
+            <div class="reading-card-title">Cambridge 20 · Test 3</div>
+            <div style="font-size:0.72rem; color:#3A7BF7; font-family:'Space Mono',monospace; margin-top:4px;">CAM 20 · ACADEMIC</div>
+          </div>
+        </div>
+        <ul class="reading-card-passages">
+          <li>The Mycorrhizal Network</li>
+          <li>The Architecture of Sleep</li>
+          <li>Microfinance</li>
+        </ul>
+        <div class="reading-card-footer">
+          <div class="reading-stats">
+            <span>⏱ 60 min</span>
+            <span>❓ 40 Q</span>
+          </div>
+          <span class="reading-cta">Start →</span>
+        </div>
+      </a>
+
+      <!-- Cambridge 20 T4 -->
+      <a href="cam20-t4-reading.html" class="reading-card reveal d400">
+        <div class="reading-card-header">
+          <div class="reading-card-icon">📖</div>
+          <div>
+            <div class="reading-card-title">Cambridge 20 · Test 4</div>
+            <div style="font-size:0.72rem; color:#3A7BF7; font-family:'Space Mono',monospace; margin-top:4px;">CAM 20 · ACADEMIC</div>
+          </div>
+        </div>
+        <ul class="reading-card-passages">
+          <li>Rewilding</li>
+          <li>The Psychology of Pricing</li>
+          <li>Quantum Computing</li>
+        </ul>
+        <div class="reading-card-footer">
+          <div class="reading-stats">
+            <span>⏱ 60 min</span>
+            <span>❓ 40 Q</span>
+          </div>
+          <span class="reading-cta">Start →</span>
+        </div>
+      </a>
+
+      <!-- Cambridge 19 T1 -->
+      <a href="cam19-t1-reading.html" class="reading-card reveal d100">
+        <div class="reading-card-header">
+          <div class="reading-card-icon">📖</div>
+          <div>
+            <div class="reading-card-title">Cambridge 19 · Test 1</div>
+            <div style="font-size:0.72rem; color:#3A7BF7; font-family:'Space Mono',monospace; margin-top:4px;">CAM 19 · ACADEMIC</div>
+          </div>
+        </div>
+        <ul class="reading-card-passages">
+          <li>Passage 1: The Lost City of the Sahara</li>
+          <li>Passage 2: The Science of Sleep</li>
+          <li>Passage 3: Why Cities Need Trees</li>
+        </ul>
+        <div class="reading-card-footer">
+          <div class="reading-stats">
+            <span>⏱ 60 min</span>
+            <span>❓ 40 Q</span>
+          </div>
+          <span class="reading-cta">Start →</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <div class="section-divider"></div>
+
+  <!-- How to Use -->
+  <section class="section">
+    <div class="section-header reveal">
+      <div class="section-eyebrow">💡 Guide</div>
+      <h2>How to Get the Most from Practice Tests</h2>
+      <p>Use these tests under real exam conditions for the highest score gains.</p>
+    </div>
+    <div class="howto-grid">
+      <div class="howto-card reveal d100">
+        <div class="howto-step">01</div>
+        <div class="howto-title">Set a timer</div>
+        <div class="howto-desc">Writing: 60 minutes (20 min Task 1, 40 min Task 2). Reading: 60 minutes for all 40 questions. The built-in timer starts automatically.</div>
+      </div>
+      <div class="howto-card reveal d200">
+        <div class="howto-step">02</div>
+        <div class="howto-title">No looking up answers</div>
+        <div class="howto-desc">Treat it like the real exam. No dictionary, no notes. You can review everything after — but the score only counts if you earned it.</div>
+      </div>
+      <div class="howto-card reveal d300">
+        <div class="howto-step">03</div>
+        <div class="howto-title">Study the feedback</div>
+        <div class="howto-desc">Don't just check your score. For writing, read every criterion comment. For reading, review every wrong answer with the explanation panel open.</div>
+      </div>
+      <div class="howto-card reveal d400">
+        <div class="howto-step">04</div>
+        <div class="howto-title">Track your progress</div>
+        <div class="howto-desc">Every test saves your score automatically. Visit the Mock Tests dashboard to see your history and band score trend over time.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="page-footer">
+    <p>© 2025 IELTS Lab &nbsp;·&nbsp; <a href="index.html">Mock Tests</a> &nbsp;·&nbsp; <a href="../writing-clinic/index.html">Writing Clinic</a> &nbsp;·&nbsp; <a href="../IELTS-Lab.html">Home</a></p>
+  </footer>
+
+  <script src="../js/components.js"></script>
+  <script>
+    const session = IELTSLab.authGuard('../login.html');
+    IELTSLab.loadNav({
+      basePath: '../',
+      breadcrumb: 'Resources',
+      authenticated: true,
+      themeDefault: 'light',
+    });
+
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
