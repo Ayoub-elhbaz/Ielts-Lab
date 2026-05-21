@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IELTS Lab — Cambridge 19 Test 1 · Academic Reading</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <script>tailwind.config={theme:{extend:{fontFamily:{display:['Satoshi','Plus Jakarta Sans','system-ui','sans-serif'],sans:['Plus Jakarta Sans','system-ui','sans-serif']}}}}</script>
+  <style>
+    :root {
+      --gold: #C9952E; --gold-light: #DDB05A; --gold-dim: rgba(201,149,46,0.10); --gold-border: rgba(201,149,46,0.30);
+      --navy: #1a3c6e; --navy-mid: #2a4f8a; --page-bg: #F7F8FA; --card-bg: #FFFFFF;
+      --qpanel-bg: #EFF3F9; --border: #E2E8F0; --border-soft: #EEF1F6;
+      --text-primary: #1E2A3A; --text-body: #374151; --text-muted: #64748B; --text-faint: #94A3B8;
+      --passage-font-size: 15px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--page-bg); color: var(--text-primary); }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    h1, h2, h3, h4, .font-display { font-family: 'Satoshi', 'Plus Jakarta Sans', system-ui, sans-serif; }
+    ::-webkit-scrollbar { width: 5px; } ::-webkit-scrollbar-track { background: #EFF2F7; } ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 3px; }
+    .progress-bar { height: 3px; background: #E2E8F0; position: fixed; top: 64px; left: 0; right: 0; z-index: 40; }
+    .progress-fill { height: 100%; background: linear-gradient(to right, var(--gold), #DDB05A); transition: width 1s linear; width: 0%; }
+    .nav-glass { background: rgba(255,255,255,0.97); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .nav-logo { display: flex; align-items: baseline; gap: 0; text-decoration: none; }
+    .nl-ielts { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; letter-spacing: 1px; color: var(--text-primary); }
+    .nl-lab { font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: 3px; color: var(--gold); margin-left: 5px; }
+    #themeToggle { background: transparent; border: 1.5px solid var(--border); color: var(--text-muted); border-radius: 8px; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; font-size: 15px; flex-shrink: 0; padding: 0; }
+    #themeToggle:hover { border-color: var(--gold-border); color: var(--gold); }
+    .timer-box { background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 10px; padding: 8px 16px; font-family: 'Space Mono', monospace; font-size: 1.125rem; font-weight: 700; color: var(--text-primary); letter-spacing: 2px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+    .timer-box.warning { color: #b45309; border-color: rgba(180,83,9,0.3); background: #fffbeb; }
+    .timer-box.critical { color: #dc2626; border-color: rgba(220,38,38,0.3); background: #fef2f2; animation: pulse 1s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
+    .timing-strip { background: #FAFBFD; border-bottom: 1px solid var(--border); padding: 8px 0; }
+    .timing-item { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+    .timing-label { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
+    .timing-val { font-size: 0.75rem; color: var(--text-muted); }
+    .font-ctrl { display: inline-flex; align-items: center; gap: 0; background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 9px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .font-ctrl-btn { padding: 6px 12px; border: none; background: transparent; cursor: pointer; color: var(--text-muted); font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.15s; line-height: 1; border-right: 1px solid var(--border); }
+    .font-ctrl-btn:last-child { border-right: none; }
+    .font-ctrl-btn:hover { background: var(--gold-dim); color: var(--gold); }
+    .font-ctrl-btn.a-small { font-size: 11px; } .font-ctrl-btn.a-mid { font-size: 13px; } .font-ctrl-btn.a-large { font-size: 16px; }
+    .a11y-bar { display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: #FFFFFF; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .a11y-bar-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); }
+    .tab-nav { display: flex; gap: 4px; margin-bottom: 1rem; background: #EFF3F9; border-radius: 12px; padding: 4px; }
+    .tab-btn { flex: 1; padding: 8px 12px; border: none; border-radius: 9px; background: transparent; color: var(--text-muted); font-size: 0.8125rem; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .tab-btn:hover { background: rgba(255,255,255,0.6); color: var(--text-primary); }
+    .tab-btn.active { background: #FFFFFF; color: var(--navy); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .section-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 1.75rem; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+    .passage-text { font-size: var(--passage-font-size); line-height: 2.0; color: var(--text-body); transition: font-size 0.2s ease; }
+    .passage-text p { margin-bottom: 1.2rem; }
+    .para-label { display: inline-block; font-family: 'Space Mono', monospace; font-size: 0.6875rem; font-weight: 700; color: var(--navy); background: rgba(26,60,110,0.08); border: 1px solid rgba(26,60,110,0.18); border-radius: 4px; padding: 1px 6px; margin-right: 8px; letter-spacing: 0.05em; }
+    .q-block { margin-bottom: 1.25rem; padding: 1rem 1.15rem; border-radius: 12px; background: #FFFFFF; border: 1px solid var(--border); }
+    .q-num { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+    .q-text { font-size: 0.9rem; color: var(--text-body); margin-bottom: 10px; line-height: 1.65; }
+    .q-input { width: 100%; background: #F8FAFC; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text-primary); font-size: 0.9rem; transition: border-color 0.2s, box-shadow 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,149,46,0.12); }
+    .q-select { width: 100%; background: #F8FAFC; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text-primary); font-size: 0.9rem; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-select:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,149,46,0.12); }
+    .q-options { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+    .q-option { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; padding: 9px 12px; border-radius: 8px; border: 1.5px solid var(--border); transition: all 0.2s; background: #F8FAFC; }
+    .q-option:hover { background: var(--gold-dim); border-color: var(--gold-border); }
+    .q-option input[type=radio] { accent-color: var(--gold); margin-top: 3px; flex-shrink: 0; }
+    .q-option label { font-size: 0.9rem; color: var(--text-body); cursor: pointer; line-height: 1.55; }
+    .q-tfng { display: flex; gap: 8px; }
+    .q-tfng-btn { flex: 1; padding: 9px 6px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer; background: #F8FAFC; color: var(--text-muted); transition: all 0.2s; letter-spacing: 0.05em; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-tfng-btn:hover { border-color: var(--gold-border); color: var(--gold); background: var(--gold-dim); }
+    .q-tfng-btn.sel-t { border-color: #16a34a; background: #f0fdf4; color: #16a34a; }
+    .q-tfng-btn.sel-f { border-color: #dc2626; background: #fef2f2; color: #dc2626; }
+    .q-tfng-btn.sel-ng { border-color: #d97706; background: #fffbeb; color: #d97706; }
+    .q-tfng-btn.sel-y { border-color: #16a34a; background: #f0fdf4; color: #16a34a; }
+    .q-tfng-btn.sel-n { border-color: #dc2626; background: #fef2f2; color: #dc2626; }
+    .group-header { margin-bottom: 1.25rem; padding: 0.875rem 1rem; border-radius: 12px; background: rgba(26,60,110,0.04); border: 1px solid rgba(26,60,110,0.12); }
+    .group-header p { font-size: 0.8125rem; color: var(--text-muted); line-height: 1.65; margin-top: 6px; }
+    .headings-list { margin: 0.75rem 0; padding: 0.875rem 1rem; background: #FFFFFF; border-radius: 10px; border: 1px solid var(--border); }
+    .headings-list li { font-size: 0.8125rem; color: var(--text-body); line-height: 1.8; padding: 2px 0; }
+    .headings-list li span { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--gold); margin-right: 6px; font-weight: 700; }
+    .btn-gold { background: linear-gradient(135deg, var(--gold) 0%, #a8741f 100%); color: #FFFFFF; border: none; border-radius: 10px; padding: 12px 32px; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.04em; cursor: pointer; transition: all 0.25s ease; box-shadow: 0 2px 12px rgba(201,149,46,0.30); }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 6px 22px rgba(201,149,46,0.42); }
+    .corr-block { margin-bottom: 1rem; padding: 1rem 1.25rem; border-radius: 12px; border: 1.5px solid; }
+    .corr-correct { background: #f0fdf4; border-color: #bbf7d0; }
+    .corr-wrong { background: #fef2f2; border-color: #fecaca; }
+    .corr-qnum { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+    .corr-qnum.ok { color: #16a34a; } .corr-qnum.bad { color: #dc2626; }
+    .corr-qtext { font-size: 0.875rem; color: var(--text-body); line-height: 1.65; margin-bottom: 8px; }
+    .corr-row { display: flex; gap: 8px; align-items: flex-start; font-size: 0.8125rem; margin-bottom: 4px; }
+    .corr-tag { flex-shrink: 0; padding: 2px 8px; border-radius: 4px; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+    .corr-tag.your { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+    .corr-tag.correct { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .corr-tag.reinforce { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .corr-val { color: var(--text-primary); line-height: 1.5; }
+    .corr-expl { margin-top: 8px; padding: 9px 12px; background: #FFFFFF; border-radius: 8px; border-left: 3px solid var(--gold-border); font-size: 0.8125rem; color: var(--text-muted); line-height: 1.65; }
+    .corr-expl strong { color: var(--text-primary); }
+    .score-ring-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .band-feedback { padding: 1.25rem; border-radius: 12px; background: rgba(26,60,110,0.04); border: 1px solid rgba(26,60,110,0.12); font-size: 0.9rem; color: var(--text-body); line-height: 1.8; }
+    .band-feedback strong { color: var(--navy); }
+    .passage-corr-header { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); padding: 10px 0 8px; border-bottom: 1px solid var(--border); margin-bottom: 1rem; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; }
+    .split-container { display: flex; height: calc(100vh - 268px); min-height: 560px; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+    .reading-pane { width: 52%; min-width: 25%; max-width: 75%; overflow-y: auto; padding: 1.75rem; background: var(--card-bg); flex-shrink: 0; }
+    .question-pane { flex: 1; overflow-y: auto; padding: 1.75rem; background: var(--qpanel-bg); min-width: 25%; }
+    .resizer-bar { width: 16px; background: #F1F5F9; cursor: col-resize; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; border-left: 1px solid var(--border); border-right: 1px solid var(--border); transition: background 0.15s; user-select: none; -webkit-user-select: none; }
+    .resizer-bar:hover, .resizer-bar.active { background: var(--gold-dim); border-left-color: var(--gold-border); border-right-color: var(--gold-border); }
+    .resizer-btn { background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 8px; padding: 10px 4px; cursor: col-resize; display: flex; flex-direction: column; align-items: center; gap: 5px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); transition: border-color 0.15s, box-shadow 0.15s; pointer-events: none; }
+    .resizer-bar:hover .resizer-btn { border-color: var(--gold-border); box-shadow: 0 2px 8px rgba(201,149,46,0.15); }
+    @media (max-width: 1023px) {
+      .split-container { flex-direction: column; height: auto; overflow: visible; border: none; border-radius: 0; box-shadow: none; gap: 1rem; }
+      .reading-pane { width: 100% !important; min-width: 100%; max-width: 100%; overflow-y: visible; border: 1px solid var(--border); border-radius: 16px; }
+      .resizer-bar { display: none; }
+      .question-pane { min-width: 100%; overflow-y: visible; border: 1px solid var(--border); border-radius: 16px; }
+    }
+  </style>
+  <script>
+    (function(){
+      var raw = localStorage.getItem('ielts_session');
+      if (!raw) { window.location.replace('../login.html'); return; }
+      try { JSON.parse(raw); } catch(e) { localStorage.removeItem('ielts_session'); window.location.replace('../login.html'); }
+    })();
+    (function(){ var t = localStorage.getItem('ieltslab_theme') || 'light'; document.documentElement.setAttribute('data-theme', t); })();
+    function toggleTheme(){ var c = document.documentElement.getAttribute('data-theme') || 'light', n = c === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', n); localStorage.setItem('ieltslab_theme', n); var b = document.getElementById('themeToggle'); if(b) b.textContent = n === 'dark' ? '☀' : '🌙'; }
+    document.addEventListener('DOMContentLoaded', function(){ var b = document.getElementById('themeToggle'); if(b){ var d = (document.documentElement.getAttribute('data-theme') || 'light') === 'dark'; b.textContent = d ? '☀' : '🌙'; } });
+  </script>
+</head>
+<body class="min-h-screen flex flex-col" style="background:var(--page-bg);color:var(--text-primary);">
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+<div id="header-container"></div>
+
+<div class="timing-strip" id="timingStrip">
+  <div class="px-4 flex items-center justify-center gap-10">
+    <div class="timing-item"><span class="timing-label">Passage 1</span><span class="timing-val">~20 min · Q1–13</span></div>
+    <div style="width:1px;height:24px;background:var(--border);"></div>
+    <div class="timing-item"><span class="timing-label">Passage 2</span><span class="timing-val">~20 min · Q14–26</span></div>
+    <div style="width:1px;height:24px;background:var(--border);"></div>
+    <div class="timing-item"><span class="timing-label">Passage 3</span><span class="timing-val">~20 min · Q27–40</span></div>
+  </div>
+</div>
+
+<main class="flex-1 w-full px-4 py-6" id="testMain">
+  <div class="flex items-start justify-between mb-5 gap-4">
+    <div>
+      <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Cambridge 19 · Test 1</div>
+      <h1 class="font-display font-black text-2xl" style="color:var(--text-primary);">Academic Reading — Test 1</h1>
+    </div>
+    <div class="flex items-center gap-3 flex-shrink-0">
+      <div id="timerDisplay" class="timer-box">60:00</div>
+    </div>
+  </div>
+
+  <div class="a11y-bar">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-muted);flex-shrink:0;"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+    <span class="a11y-bar-label">Text Size</span>
+    <div class="font-ctrl" role="toolbar" aria-label="Adjust passage text size">
+      <button class="font-ctrl-btn a-small" onclick="adjustFontSize(-1)" title="Decrease text size">A−</button>
+      <button class="font-ctrl-btn a-mid"   onclick="adjustFontSize(0)"  title="Reset text size">A</button>
+      <button class="font-ctrl-btn a-large" onclick="adjustFontSize(1)"  title="Increase text size">A+</button>
+    </div>
+    <span style="font-size:0.75rem;color:var(--text-faint);">Adjust the reading passage font size</span>
+    <div class="ml-auto text-xs hidden md:block" style="color:var(--text-muted);">60 minutes · 40 questions · 3 passages</div>
+  </div>
+
+  <div class="tab-nav" id="tabNav">
+    <button class="tab-btn active" onclick="switchTab(1)">Passage 1 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q1–13)</span></button>
+    <button class="tab-btn" onclick="switchTab(2)">Passage 2 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q14–26)</span></button>
+    <button class="tab-btn" onclick="switchTab(3)">Passage 3 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q27–40)</span></button>
+  </div>
+
+  <div class="split-container" id="splitContainer">
+    <div class="reading-pane" id="readingPane">
+
+      <!-- PASSAGE 1 -->
+      <div id="passageContent1">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 1</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">The Lost City of the Sahara</div>
+        <div class="passage-text">
+          <p>For most of the twentieth century, the Garamantes were dismissed by historians as little more than a band of desert raiders. Greek and Roman writers had described them as a barbarous people who lived deep in the Libyan Sahara and occasionally attacked the settled towns along the Mediterranean coast. Modern scholars repeated these accounts with little curiosity. The Sahara, after all, was widely regarded as too harsh an environment to support a complex civilisation.</p>
+          <p>That picture began to change in the late 1990s, when archaeologist David Mattingly led a series of surveys in the Fezzan region of south-western Libya. Using satellite images and ground-penetrating radar, his team uncovered the remains of more than a hundred fortified settlements, dense networks of fields and, most surprisingly, an elaborate underground irrigation system. The Garamantes, it turned out, had built a sophisticated kingdom in one of the driest places on Earth, and they had done so without rivers, lakes or regular rainfall.</p>
+          <p>The key to their success lay several metres below the desert floor. Beneath the Fezzan lies a vast natural reservoir of water known as the Nubian Sandstone Aquifer, which was filled during a much wetter period thousands of years ago. To reach this water, the Garamantes constructed thousands of kilometres of tunnels, known locally as foggaras. Each tunnel sloped gently downwards from a hillside towards an oasis, drawing water through gravity alone. The tunnels were dug entirely by hand, ventilated by vertical shafts spaced every ten metres or so. Some foggaras run for more than five kilometres underground.</p>
+          <p>Building and maintaining this system was an extraordinary feat of engineering. Mattingly estimates that the foggaras required tens of thousands of labourers working over several centuries. Yet the Garamantian population at its peak is thought to have been only around 100,000 people. This has led some researchers, including the historian Klaus Schmidt, to argue that the foggaras must have been dug largely by enslaved workers captured during raids on neighbouring peoples. Others, such as Anna Lehmann, dispute this interpretation, pointing to the lack of large prisons or barracks at Garamantian sites and suggesting that much of the work may have been carried out by free citizens organised in seasonal labour groups.</p>
+          <p>Whatever the workforce, the rewards were considerable. The water from the foggaras allowed the Garamantes to grow wheat, barley, dates, grapes and even cotton in carefully laid-out fields. They built towns with multi-storey houses, developed a distinctive script and minted no coins but used Roman ones in trade. Their kingdom sat at the centre of a trans-Saharan trade network that carried gold, ivory and slaves northwards to the Mediterranean coast and salt, glass and pottery southwards into sub-Saharan Africa. Far from being barbarians on the margins of the classical world, the Garamantes were active participants in it.</p>
+          <p>The civilisation flourished for around a thousand years, from roughly 500 BCE to 500 CE, before going into rapid decline. The cause was not invasion, plague or political collapse — it was the very resource that had made the kingdom possible in the first place. Because the Nubian aquifer is recharged only by rainfall over thousands of years, the Garamantes were essentially mining a non-renewable resource. As the water table fell, the foggaras ran dry one by one. Fields could no longer be irrigated, towns were abandoned, and within two centuries the Garamantian kingdom had vanished beneath the sand.</p>
+          <p>For modern researchers, the story of the Garamantes is more than an archaeological curiosity. Several countries in North Africa and the Middle East rely heavily on the same aquifer that the Garamantes once tapped, and they too are withdrawing water far faster than it can be replenished. Mattingly has warned that the lesson of the foggaras is a sobering one: a civilisation built entirely on non-renewable groundwater is, in the long run, building on sand.</p>
+        </div>
+      </div>
+
+      <!-- PASSAGE 2 -->
+      <div id="passageContent2" style="display:none;">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 2</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">The Science of Sleep</div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>For most of human history, sleep was treated as a kind of small daily death — an unproductive gap between periods of useful activity. It was only in the 1950s, when the American researcher Nathaniel Kleitman and his student Eugene Aserinsky discovered that the sleeping brain passes through distinct, repeating phases, that scientists began to take sleep seriously as a subject of study. Their work, and the decades of research that have followed, has revealed that sleep is not a single state but a sequence of carefully orchestrated processes, each of which appears to serve a different biological purpose.</p>
+          <p><span class="para-label">B</span>A typical adult night of sleep is made up of four to six cycles, each lasting about 90 minutes. Within each cycle, the brain moves through several stages of so-called non-REM sleep, in which brain activity slows and the body relaxes, before entering REM sleep — short for 'rapid eye movement' — when the eyes dart back and forth beneath closed lids and most dreaming takes place. Curiously, the muscles of the limbs become temporarily paralysed during REM, which is thought to prevent the sleeper from physically acting out their dreams.</p>
+          <p><span class="para-label">C</span>One of the most striking findings of recent decades is that deep, non-REM sleep plays a critical role in memory. Studies carried out at Harvard University by Robert Stickgold and colleagues have shown that volunteers who learn a new motor skill perform measurably better on it the morning after a full night's sleep, even without any additional practice. The improvement is largest in those who spent the most time in deep sleep, suggesting that the brain uses this period to consolidate the memories formed during the day, strengthening some neural connections and discarding others.</p>
+          <p><span class="para-label">D</span>REM sleep appears to do something different. Rather than reinforcing memories one by one, it seems to weave them into wider patterns. In one well-known experiment, participants who were allowed REM sleep between two learning sessions were much better at spotting hidden links between apparently unrelated pieces of information than those who were kept awake. This may explain the long-standing intuition, recorded in many cultures, that 'sleeping on a problem' can produce creative solutions that hours of conscious thought cannot.</p>
+          <p><span class="para-label">E</span>Sleep also plays an important role in physical health. During deep sleep, the body releases growth hormone, repairs tissues and regulates the immune system. A landmark study published in 2009 followed more than 150 healthy adults who were deliberately exposed to a common cold virus. Those who had slept less than seven hours a night in the preceding fortnight were almost three times more likely to develop symptoms than those who had slept eight hours or more. Other studies have linked chronic short sleep to a higher risk of obesity, diabetes and heart disease, though the exact mechanisms are still debated.</p>
+          <p><span class="para-label">F</span>Despite this growing body of evidence, the average adult in many industrialised countries now sleeps significantly less than their grandparents did. Surveys in the United States, the United Kingdom and Japan suggest that average nightly sleep duration has fallen by roughly an hour since the 1960s. Researchers point to several culprits: longer working hours, the spread of artificial light, and, most recently, the widespread use of bright electronic screens in the hours before bed. Light, especially the blue-rich light emitted by phones and tablets, suppresses the production of melatonin, the hormone that signals to the body that it is time to sleep.</p>
+          <p><span class="para-label">G</span>Some scientists argue that we are now living through a quiet public-health crisis driven by sleep deprivation. Others are more cautious, pointing out that sleep needs vary considerably from person to person and that the link between short sleep and disease may sometimes run the other way — illness may itself disrupt sleep. What almost all researchers do agree on, however, is that sleep is no longer the empty interval that previous generations believed it to be. It is one of the most biologically active and important periods of the day.</p>
+        </div>
+      </div>
+
+      <!-- PASSAGE 3 -->
+      <div id="passageContent3" style="display:none;">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 3</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">Why Cities Need Trees</div>
+        <div class="passage-text">
+          <p>Urban planners have long thought of trees as decoration — pleasant additions to a street, but ultimately a matter of taste. Over the past two decades, however, a growing body of research has begun to reframe the urban tree as something closer to essential infrastructure: a piece of equipment that delivers measurable economic, environmental and health benefits to the cities that invest in it.</p>
+          <p>The most easily quantified of these benefits is temperature. As global temperatures rise, cities suffer disproportionately from a phenomenon known as the urban heat island, in which dense concentrations of concrete, asphalt and metal can raise air temperatures by as much as ten degrees Celsius above those of the surrounding countryside. Trees mitigate this effect in two ways. Their canopies provide shade, blocking up to ninety per cent of incoming solar radiation; and their leaves release water vapour through a process called transpiration, which cools the surrounding air much as sweat cools the skin. A 2019 study of forty European cities found that streets with continuous tree cover were on average two to three degrees cooler than nearby treeless streets during summer afternoons.</p>
+          <p>The implications of this cooling effect extend well beyond comfort. Heatwaves are among the deadliest of all weather events, and their toll falls most heavily on the elderly, the poor and those with chronic illnesses. A team of researchers led by epidemiologist Tamara Iungman estimated, in a study published in The Lancet in 2023, that increasing tree cover in European cities to thirty per cent of urban area could prevent roughly a third of all heat-related deaths during summer. In some southern cities, the figure could be even higher.</p>
+          <p>Trees also clean the air, although the picture here is more complicated than it first appears. Leaves intercept fine particles produced by traffic and industry, and some species absorb gaseous pollutants such as ozone and nitrogen dioxide through tiny openings in their leaves. However, certain species, particularly some oaks and poplars, also release compounds known as volatile organic compounds, or VOCs, which can react with vehicle emissions to form additional ozone at ground level. Choosing the wrong species, or placing trees in the wrong locations — for example, in a narrow street where they trap polluted air rather than allowing it to disperse — can therefore worsen the very problem they are intended to solve.</p>
+          <p>Less obvious are the mental-health benefits. A 2019 study published in Scientific Reports analysed the medical records of nearly 100,000 residents of Leipzig, Germany, and found that those who lived within a hundred metres of street trees were significantly less likely to be prescribed antidepressants. The effect held even after controlling for factors such as income, education and access to parks. The authors were careful not to claim that trees alone cause better mental health, but argued that the association was strong enough to deserve attention from urban planners.</p>
+          <p>Despite their benefits, urban trees face an increasingly difficult environment. Compacted soils, limited root space, road salt, vehicle damage and underground utilities all shorten their lives; the average street tree in a major Western city now survives for only around twenty years, compared with several centuries for the same species growing in a forest. Climate change adds further stress, exposing trees to droughts and pests for which native species may not be well adapted. Some cities, including Melbourne and Barcelona, have responded by deliberately diversifying their tree populations and importing species from warmer regions in anticipation of future climates.</p>
+          <p>There is also a question of equity. Studies in both the United States and Europe have repeatedly found that wealthier neighbourhoods tend to have far more tree cover than poorer ones, even within the same city. Since the neighbourhoods with the fewest trees are often the same ones with the worst air quality and the highest exposure to heat, the unequal distribution of urban trees can amplify existing health inequalities. A handful of cities have begun to tackle this directly — Los Angeles, for example, has explicitly committed to planting more trees in its lowest-income districts first — but for the most part, the gap remains wide.</p>
+          <p>What seems clear is that the question is no longer whether cities should plant trees, but how they should plant them — which species, where, for whose benefit, and how to keep them alive long enough for those benefits to be felt. Treating trees as infrastructure means budgeting for their maintenance, planning their locations as carefully as bus routes, and recognising that, like any infrastructure, they will fail without sustained investment.</p>
+        </div>
+      </div>
+
+    </div><!-- /reading-pane -->
+
+    <div class="resizer-bar" id="resizerBar">
+      <button class="resizer-btn" aria-label="Drag to resize panels">
+        <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M3.5 2L1 6L3.5 10" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span style="display:block;width:2px;height:14px;background:var(--border);border-radius:1px;"></span>
+        <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M6.5 2L9 6L6.5 10" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+
+    <div class="question-pane" id="questionPane">
+      <div id="qPanel1"></div>
+      <div id="qPanel2" style="display:none;"></div>
+      <div id="qPanel3" style="display:none;"></div>
+    </div>
+  </div>
+
+  <div class="flex justify-center mt-10 mb-16">
+    <button onclick="confirmSubmit()" class="btn-gold px-10 py-4 text-base">Submit Reading Test</button>
+  </div>
+</main>
+
+<!-- RESULTS -->
+<div id="resultsMain" style="display:none;" class="flex-1 max-w-5xl mx-auto px-6 py-10 w-full">
+  <div class="flex items-center gap-3 mb-8">
+    <div>
+      <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Results</div>
+      <h1 class="font-display font-black text-2xl" style="color:var(--text-primary);">Academic Reading — Score Report</h1>
+    </div>
+  </div>
+  <div class="section-card mb-6" id="scoreCard"></div>
+  <div class="section-card mb-8" id="feedbackCard"></div>
+  <div class="section-card mb-6">
+    <div class="passage-corr-header">Passage 1 — The Lost City of the Sahara</div>
+    <div id="corrPassage1"></div>
+  </div>
+  <div class="section-card mb-6">
+    <div class="passage-corr-header">Passage 2 — The Science of Sleep</div>
+    <div id="corrPassage2"></div>
+  </div>
+  <div class="section-card mb-10">
+    <div class="passage-corr-header">Passage 3 — Why Cities Need Trees</div>
+    <div id="corrPassage3"></div>
+  </div>
+  <div class="flex gap-4 justify-center mb-16">
+    <a href="index.html" class="btn-gold">← Back to Tests</a>
+  </div>
+</div>
+
+<div id="submittingOverlay" style="display:none;position:fixed;inset:0;z-index:300;background:rgba(247,248,250,0.97);flex-direction:column;align-items:center;justify-content:center;" class="flex">
+  <div class="spinner mb-6"></div>
+  <div class="font-display font-bold text-xl mb-2" style="color:var(--text-primary);">Scoring Your Answers</div>
+  <p class="text-sm" style="color:var(--text-muted);">Analysing your responses…</p>
+</div>
+
+<script>
+// ─────────────────────────────────────────
+//  TEST DATA
+// ─────────────────────────────────────────
+const GROUPS = [
+
+  // ══ PASSAGE 1 — The Lost City of the Sahara ══
+
+  {
+    passageId: 1, type: 'tfng', label: 'Questions 1–5',
+    instructions: 'Do the following statements agree with the information given in Reading Passage 1? Write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      { id: 1, text: 'Greek and Roman writers had a low opinion of the Garamantes.',
+        answer: 'TRUE',
+        explanation: 'The passage states that Greek and Roman writers described them as <strong>"a barbarous people"</strong> — this is clearly a low opinion.',
+        reinforcement: 'Correct — "barbarous people" shows a clearly negative view, confirming TRUE.' },
+      { id: 2, text: 'David Mattingly was the first archaeologist to explore the Fezzan region.',
+        answer: 'NOT GIVEN',
+        explanation: 'The passage says Mattingly led surveys in the late 1990s but <strong>does not state</strong> he was the first to explore the region. No information confirms or denies whether previous archaeologists had worked there.',
+        reinforcement: 'Correct — the passage says Mattingly worked there but gives no information about whether he was the first, making this NOT GIVEN.' },
+      { id: 3, text: 'The Garamantes used a combination of rivers and underground water for irrigation.',
+        answer: 'FALSE',
+        explanation: 'The passage says the Garamantes built their kingdom <strong>"without rivers, lakes or regular rainfall,"</strong> relying only on underground water through the foggaras. Rivers are explicitly excluded.',
+        reinforcement: 'Correct — the passage explicitly says the kingdom was built without rivers, making the claim FALSE.' },
+      { id: 4, text: 'The foggaras were ventilated by shafts dug at regular intervals.',
+        answer: 'TRUE',
+        explanation: 'The passage states the tunnels were <strong>"ventilated by vertical shafts spaced every ten metres or so."</strong> "Every ten metres or so" = at regular intervals.',
+        reinforcement: 'Correct — "spaced every ten metres or so" confirms regular intervals, making this TRUE.' },
+      { id: 5, text: 'The Garamantes produced their own coins.',
+        answer: 'FALSE',
+        explanation: 'The passage states the Garamantes <strong>"minted no coins but used Roman ones in trade."</strong> This directly contradicts the claim that they produced their own coins.',
+        reinforcement: 'Correct — "minted no coins" directly contradicts "produced their own coins," making this FALSE.' },
+    ]
+  },
+
+  {
+    passageId: 1, type: 'matching_feature', label: 'Questions 6–9',
+    instructions: 'Look at the following statements (Questions 6–9) and the list of researchers below. Match each statement with the correct researcher, A, B or C. Write the correct letter in the box. You may use any letter more than once.',
+    featureOptions: [
+      { key: 'A', label: 'A — David Mattingly' },
+      { key: 'B', label: 'B — Klaus Schmidt' },
+      { key: 'C', label: 'C — Anna Lehmann' },
+    ],
+    questions: [
+      { id: 6, text: 'compares the Garamantian situation to that of countries today',
+        answer: 'A', answerDisplay: 'A — David Mattingly',
+        explanation: 'The final paragraph states: <strong>"Mattingly has warned that the lesson of the foggaras is a sobering one"</strong> and that countries in North Africa and the Middle East rely on the same aquifer. This is Mattingly making the modern comparison.',
+        reinforcement: 'Correct — Mattingly makes the comparison to modern-day countries using the same aquifer.' },
+      { id: 7, text: 'believes that most of the workforce was made up of captives',
+        answer: 'B', answerDisplay: 'B — Klaus Schmidt',
+        explanation: '<strong>Klaus Schmidt</strong> argued that the foggaras <strong>"must have been dug largely by enslaved workers captured during raids on neighbouring peoples."</strong> "Captives" paraphrases "enslaved workers captured during raids."',
+        reinforcement: 'Correct — Schmidt argues for enslaved (captive) labour, matching this statement.' },
+      { id: 8, text: 'estimates the size of the labour force needed to build the foggaras',
+        answer: 'A', answerDisplay: 'A — David Mattingly',
+        explanation: '<strong>"Mattingly estimates that the foggaras required tens of thousands of labourers working over several centuries."</strong> This is an explicit estimate of labour force size.',
+        reinforcement: 'Correct — Mattingly provides the estimate of "tens of thousands of labourers."' },
+      { id: 9, text: 'points to the absence of certain buildings as evidence against one theory',
+        answer: 'C', answerDisplay: 'C — Anna Lehmann',
+        explanation: '<strong>Anna Lehmann</strong> disputes the enslaved labour theory by <strong>"pointing to the lack of large prisons or barracks"</strong> at Garamantian sites — the absence of prisons/barracks as counter-evidence.',
+        reinforcement: 'Correct — Lehmann uses the absence of prisons and barracks as evidence against Schmidt\'s theory.' },
+    ]
+  },
+
+  {
+    passageId: 1, type: 'sentence_completion', label: 'Questions 10–13',
+    instructions: 'Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer. Write your answers in the boxes.',
+    questions: [
+      { id: 10, text: 'Beneath the Fezzan lies a huge natural store of water called the _______.',
+        answer: 'nubian sandstone aquifer', answerDisplay: 'Nubian Sandstone Aquifer',
+        acceptable: ['nubian sandstone aquifer','nubian sandstone','nubian aquifer','aquifer'],
+        explanation: 'The passage states: <strong>"Beneath the Fezzan lies a vast natural reservoir of water known as the Nubian Sandstone Aquifer."</strong> Accept "Nubian Sandstone Aquifer," "Nubian Sandstone," "Nubian aquifer," or "aquifer."',
+        reinforcement: 'Correct — the full name from the passage is the Nubian Sandstone Aquifer.' },
+      { id: 11, text: 'Water flowed through the tunnels using nothing but _______.',
+        answer: 'gravity',
+        acceptable: ['gravity'],
+        explanation: 'The passage states each tunnel drew water <strong>"through gravity alone."</strong> "Using nothing but" paraphrases "through … alone."',
+        reinforcement: 'Correct — "gravity" is the exact word used in the passage.' },
+      { id: 12, text: 'The Garamantes were able to grow a range of crops including _______.',
+        answer: 'cotton',
+        acceptable: ['cotton','wheat','barley','dates','grapes','wheat barley','barley dates'],
+        explanation: 'The passage lists: <strong>"wheat, barley, dates, grapes and even cotton."</strong> Any single crop or short phrase from this list is acceptable. "Cotton" is the most notable as it is introduced with "even," suggesting it was surprising.',
+        reinforcement: 'Correct — any crop from the list (wheat, barley, dates, grapes, cotton) is accepted.' },
+      { id: 13, text: 'The eventual decline of the kingdom was caused by a falling _______.',
+        answer: 'water table',
+        acceptable: ['water table'],
+        explanation: 'The passage states: <strong>"As the water table fell, the foggaras ran dry one by one."</strong> "Water table" is the two-word passage-exact answer.',
+        reinforcement: 'Correct — "water table" is retrieved directly from the passage\'s explanation of the kingdom\'s decline.' },
+    ]
+  },
+
+  // ══ PASSAGE 2 — The Science of Sleep ══
+
+  {
+    passageId: 2, type: 'matching_info', label: 'Questions 14–18',
+    instructions: 'Reading Passage 2 has seven paragraphs, <strong>A–G</strong>. Which paragraph contains the following information? Write the correct letter, A–G, in the box. You may use any letter more than once.',
+    paraOptions: ['A','B','C','D','E','F','G'],
+    questions: [
+      { id: 14, text: 'a reference to the cultural belief that sleep can help solve problems',
+        answer: 'D', answerDisplay: 'D',
+        explanation: '<strong>Paragraph D</strong> contains: <strong>"This may explain the long-standing intuition, recorded in many cultures, that \'sleeping on a problem\' can produce creative solutions that hours of conscious thought cannot."</strong>',
+        reinforcement: 'Correct — the cultural intuition about "sleeping on a problem" is in paragraph D.' },
+      { id: 15, text: 'an example of how sleep affects the body\'s response to disease',
+        answer: 'E', answerDisplay: 'E',
+        explanation: '<strong>Paragraph E</strong> describes the 2009 study where participants exposed to a cold virus: those who slept less than seven hours were nearly three times more likely to develop symptoms.',
+        reinforcement: 'Correct — the cold virus experiment showing sleep\'s effect on disease resistance is in paragraph E.' },
+      { id: 16, text: 'the names of the scientists who first identified sleep stages',
+        answer: 'A', answerDisplay: 'A',
+        explanation: '<strong>Paragraph A</strong> names <strong>Nathaniel Kleitman and Eugene Aserinsky</strong> as the researchers who discovered in the 1950s that the sleeping brain passes through distinct, repeating phases.',
+        reinforcement: 'Correct — Kleitman and Aserinsky are named in paragraph A.' },
+      { id: 17, text: 'a description of how the body is physically restrained during dreaming',
+        answer: 'B', answerDisplay: 'B',
+        explanation: '<strong>Paragraph B</strong> states: <strong>"the muscles of the limbs become temporarily paralysed during REM, which is thought to prevent the sleeper from physically acting out their dreams."</strong>',
+        reinforcement: 'Correct — muscle paralysis during REM dreaming is described in paragraph B.' },
+      { id: 18, text: 'a mention of how modern technology disrupts a natural sleep signal',
+        answer: 'F', answerDisplay: 'F',
+        explanation: '<strong>Paragraph F</strong> explains that <strong>"the blue-rich light emitted by phones and tablets, suppresses the production of melatonin, the hormone that signals to the body that it is time to sleep."</strong> Modern technology (screens) disrupts melatonin production.',
+        reinforcement: 'Correct — the effect of screens on melatonin (a natural sleep signal) is in paragraph F.' },
+    ]
+  },
+
+  {
+    passageId: 2, type: 'mc', label: 'Questions 19–22',
+    instructions: 'Choose the correct letter, A, B, C or D. Write the correct letter in the box.',
+    questions: [
+      { id: 19, text: 'According to Reading Passage 2, before the 1950s, sleep was generally seen as',
+        answer: 'B', answerDisplay: 'B',
+        options: [
+          { key: 'A', text: 'a serious topic for scientific study.' },
+          { key: 'B', text: 'a wasted period of inactivity.' },
+          { key: 'C', text: 'a sign of poor health.' },
+          { key: 'D', text: 'a religious or spiritual experience.' },
+        ],
+        explanation: 'Paragraph A: sleep was treated as <strong>"an unproductive gap between periods of useful activity."</strong> "Wasted period of inactivity" paraphrases "unproductive gap." Option A is wrong — scientists only began to take it seriously after the 1950s discovery.',
+        reinforcement: 'Correct — "an unproductive gap" is directly paraphrased by "a wasted period of inactivity" (B).' },
+      { id: 20, text: 'Robert Stickgold\'s research suggests that the brain uses deep sleep to',
+        answer: 'B', answerDisplay: 'B',
+        options: [
+          { key: 'A', text: 'process the day\'s emotions.' },
+          { key: 'B', text: 'strengthen useful memories and remove others.' },
+          { key: 'C', text: 'rest the nervous system completely.' },
+          { key: 'D', text: 'form connections between unrelated ideas.' },
+        ],
+        explanation: 'Paragraph C: the brain uses deep sleep to "consolidate the memories formed during the day, <strong>strengthening some neural connections and discarding others</strong>." Option D describes REM sleep (paragraph D), not deep non-REM sleep.',
+        reinforcement: 'Correct — "strengthening some… and discarding others" matches option B precisely.' },
+      { id: 21, text: 'The 2009 study mentioned in paragraph E shows that people who slept fewer hours',
+        answer: 'C', answerDisplay: 'C',
+        options: [
+          { key: 'A', text: 'felt more tired during the day.' },
+          { key: 'B', text: 'had weaker immune systems by old age.' },
+          { key: 'C', text: 'were much more likely to catch a cold.' },
+          { key: 'D', text: 'developed more serious symptoms when ill.' },
+        ],
+        explanation: 'Paragraph E: those who slept less than seven hours were <strong>"almost three times more likely to develop symptoms"</strong> (i.e. catch a cold) than those who slept eight or more hours. The study measured whether people developed symptoms, not severity.',
+        reinforcement: 'Correct — "almost three times more likely to develop symptoms" means much more likely to catch a cold (C).' },
+      { id: 22, text: 'Which of the following best summarises the writer\'s overall view of sleep research?',
+        answer: 'B', answerDisplay: 'B',
+        options: [
+          { key: 'A', text: 'Most claims about the dangers of poor sleep have been exaggerated.' },
+          { key: 'B', text: 'Scientific understanding of sleep has changed dramatically.' },
+          { key: 'C', text: 'Sleep should be standardised across the population.' },
+          { key: 'D', text: 'The link between sleep and illness has now been fully explained.' },
+        ],
+        explanation: 'The passage traces the transformation from sleep being seen as "a small daily death" (paragraph A) to recognition as "one of the most biologically active and important periods of the day" (paragraph G). The writer emphasises how dramatically understanding has changed. Option D is wrong — paragraph G notes "the exact mechanisms are still debated."',
+        reinforcement: 'Correct — the passage charts a dramatic shift in scientific understanding of sleep, matching option B.' },
+    ]
+  },
+
+  {
+    passageId: 2, type: 'word_bank', label: 'Questions 23–26',
+    instructions: 'Complete the summary below using the list of words, A–H, below. Write the correct letter, A–H, in the box.',
+    wordBankOptions: [
+      { key: 'A', word: 'creative' }, { key: 'B', word: 'ninety' },
+      { key: 'C', word: 'deleting' }, { key: 'D', word: 'consolidating' },
+      { key: 'E', word: 'obvious' },  { key: 'F', word: 'sixty' },
+      { key: 'G', word: 'artificial light' }, { key: 'H', word: 'caffeine' },
+    ],
+    summaryText: 'Modern research has changed the way scientists view sleep. A typical night is now known to consist of repeating cycles of non-REM and REM sleep, each lasting about <strong>23</strong> ___ minutes. Deep sleep is thought to be particularly important for <strong>24</strong> ___ memories, while REM sleep helps people find <strong>25</strong> ___ links between different pieces of information. In recent decades, however, average sleep time has fallen, partly because of the effect of <strong>26</strong> ___ on the hormone melatonin.',
+    questions: [
+      { id: 23, text: 'each lasting about ___ minutes',
+        answer: 'B', answerDisplay: 'B — ninety',
+        acceptable: ['b'],
+        explanation: 'Paragraph B: <strong>"each lasting about 90 minutes."</strong> Option B = "ninety" = 90. Option F = "sixty" is wrong.',
+        reinforcement: 'Correct — 90 minutes = ninety (B).' },
+      { id: 24, text: 'particularly important for ___ memories',
+        answer: 'D', answerDisplay: 'D — consolidating',
+        acceptable: ['d'],
+        explanation: 'Paragraph C: <strong>"the brain uses this period to consolidate the memories formed during the day."</strong> Option D = "consolidating." Option C = "deleting" is the opposite.',
+        reinforcement: 'Correct — "consolidate" in the passage matches "consolidating" (D).' },
+      { id: 25, text: 'helps people find ___ links',
+        answer: 'A', answerDisplay: 'A — creative',
+        acceptable: ['a'],
+        explanation: 'Paragraph D: REM sleep helps spot "hidden links" and produce <strong>"creative solutions."</strong> Option A = "creative." Option E = "obvious" is wrong — the links are described as hidden, not obvious.',
+        reinforcement: 'Correct — "creative solutions" from REM sleep matches "creative" (A).' },
+      { id: 26, text: 'the effect of ___ on the hormone melatonin',
+        answer: 'G', answerDisplay: 'G — artificial light',
+        acceptable: ['g'],
+        explanation: 'Paragraph F: <strong>"the spread of artificial light"</strong> suppresses melatonin production. Option G = "artificial light." Option H = "caffeine" is not mentioned in connection with melatonin.',
+        reinforcement: 'Correct — "spread of artificial light" from paragraph F matches option G.' },
+    ]
+  },
+
+  // ══ PASSAGE 3 — Why Cities Need Trees ══
+
+  {
+    passageId: 3, type: 'yes_no_ng', label: 'Questions 27–31',
+    instructions: 'Do the following statements agree with the <em>views of the writer</em> in Reading Passage 3? Write <strong>YES</strong> if the statement agrees with the views of the writer, <strong>NO</strong> if the statement contradicts the views of the writer, or <strong>NOT GIVEN</strong> if it is impossible to say what the writer thinks about this.',
+    questions: [
+      { id: 27, text: 'Urban planners have always viewed trees as essential city infrastructure.',
+        answer: 'NO',
+        explanation: 'The writer states that urban planners have <strong>"long thought of trees as decoration"</strong> — not essential infrastructure. This directly contradicts "always viewed trees as essential infrastructure."',
+        reinforcement: 'Correct — the writer says planners long thought of trees as decoration, not infrastructure, making this NO.' },
+      { id: 28, text: 'The cooling effect of trees in cities can be measured.',
+        answer: 'YES',
+        explanation: 'The writer calls temperature <strong>"the most easily quantified"</strong> benefit and cites the 2019 study measuring streets as "two to three degrees cooler." The cooling effect is measurable.',
+        reinforcement: 'Correct — the writer explicitly says temperature is the "most easily quantified" benefit, making this YES.' },
+      { id: 29, text: 'All species of tree improve urban air quality.',
+        answer: 'NO',
+        explanation: 'The writer notes that <strong>"certain species, particularly some oaks and poplars,"</strong> release VOCs that can worsen air quality. Not all species improve air quality — some make it worse.',
+        reinforcement: 'Correct — the writer says some species (oaks, poplars) can worsen air quality, contradicting "all species," making this NO.' },
+      { id: 30, text: 'The 2019 Leipzig study proved that trees directly cause improvements in mental health.',
+        answer: 'NO',
+        explanation: 'The writer states the authors were <strong>"careful not to claim that trees alone cause better mental health"</strong> — they only argued the association was strong enough to deserve attention. This directly contradicts "proved … directly cause."',
+        reinforcement: 'Correct — the writer says the authors deliberately did not claim direct causation, making this NO.' },
+      { id: 31, text: 'Wealthier areas of cities generally have more tree cover than poorer areas.',
+        answer: 'YES',
+        explanation: 'The writer states: <strong>"Studies… have repeatedly found that wealthier neighbourhoods tend to have far more tree cover than poorer ones."</strong> This agrees with the statement.',
+        reinforcement: 'Correct — the writer cites studies confirming wealthier areas have more tree cover, making this YES.' },
+    ]
+  },
+
+  {
+    passageId: 3, type: 'matching_feature', label: 'Questions 32–36',
+    instructions: 'Look at the following statements (Questions 32–36) and the list of cities below. Match each statement with the correct city, A–E. Write the correct letter in the box. You may use any letter more than once.',
+    featureOptions: [
+      { key: 'A', label: 'A — Leipzig' },
+      { key: 'B', label: 'B — Melbourne' },
+      { key: 'C', label: 'C — Barcelona' },
+      { key: 'D', label: 'D — Los Angeles' },
+      { key: 'E', label: 'E — No specific city is mentioned' },
+    ],
+    questions: [
+      { id: 32, text: 'It is bringing in tree species from warmer climates.',
+        answer: 'B', answerDisplay: 'B or C (Melbourne or Barcelona)',
+        acceptable: ['b','c'],
+        explanation: 'The passage states: <strong>"Some cities, including Melbourne and Barcelona, have responded by deliberately diversifying their tree populations and importing species from warmer regions."</strong> Both B and C are correct.',
+        reinforcement: 'Correct — both Melbourne (B) and Barcelona (C) are described as importing species from warmer regions.' },
+      { id: 33, text: 'It is focusing its tree planting on disadvantaged neighbourhoods.',
+        answer: 'D', answerDisplay: 'D — Los Angeles',
+        acceptable: ['d'],
+        explanation: 'The passage states: <strong>"Los Angeles, for example, has explicitly committed to planting more trees in its lowest-income districts first."</strong> "Lowest-income districts" = disadvantaged neighbourhoods.',
+        reinforcement: 'Correct — only Los Angeles (D) is described as prioritising lowest-income areas.' },
+      { id: 34, text: 'Its medical records were used to study the mental-health effects of trees.',
+        answer: 'A', answerDisplay: 'A — Leipzig',
+        acceptable: ['a'],
+        explanation: 'The passage states: <strong>"A 2019 study… analysed the medical records of nearly 100,000 residents of Leipzig, Germany."</strong>',
+        reinforcement: 'Correct — Leipzig\'s medical records were used for the antidepressant study.' },
+      { id: 35, text: 'It has actively diversified the kinds of tree it plants.',
+        answer: 'B', answerDisplay: 'B or C (Melbourne or Barcelona)',
+        acceptable: ['b','c'],
+        explanation: '<strong>"Some cities, including Melbourne and Barcelona, have responded by deliberately diversifying their tree populations."</strong> Both B and C are correct.',
+        reinforcement: 'Correct — both Melbourne (B) and Barcelona (C) have deliberately diversified their tree populations.' },
+      { id: 36, text: 'It has explicitly linked tree planting to issues of inequality.',
+        answer: 'D', answerDisplay: 'D — Los Angeles',
+        acceptable: ['d'],
+        explanation: 'Only <strong>Los Angeles</strong> is described as linking tree planting to inequality, with its commitment to planting in its lowest-income districts first.',
+        reinforcement: 'Correct — only Los Angeles (D) is described as explicitly linking tree planting to addressing inequality.' },
+    ]
+  },
+
+  {
+    passageId: 3, type: 'sentence_completion', label: 'Questions 37–40',
+    instructions: 'Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from Reading Passage 3 for each answer.',
+    questions: [
+      { id: 37, text: 'Recent research suggests that trees should be treated as part of a city\'s _______ rather than as decoration.',
+        answer: 'essential infrastructure', answerDisplay: 'essential infrastructure',
+        acceptable: ['essential infrastructure','infrastructure'],
+        explanation: 'The passage describes the urban tree as <strong>"essential infrastructure."</strong> Either "essential infrastructure" (two words) or just "infrastructure" is acceptable.',
+        reinforcement: 'Correct — "essential infrastructure" is the exact phrase from the passage.' },
+      { id: 38, text: 'They reduce the urban _______ effect through shade and by releasing water vapour from their leaves.',
+        answer: 'heat island', answerDisplay: 'heat island',
+        acceptable: ['heat island'],
+        explanation: 'The passage refers to <strong>"the urban heat island"</strong> effect, where cities are hotter than surrounding areas.',
+        reinforcement: 'Correct — "heat island" is the exact two-word phrase from the passage.' },
+      { id: 39, text: 'However, the wrong choice of species can be counterproductive, as some trees emit _______ that contribute to ground-level ozone.',
+        answer: 'VOCs', answerDisplay: 'VOCs (volatile organic compounds)',
+        acceptable: ['vocs','volatile organic compounds','compounds'],
+        explanation: 'The passage states that some species <strong>"release compounds known as volatile organic compounds, or VOCs, which can react with vehicle emissions to form additional ozone at ground level."</strong>',
+        reinforcement: 'Correct — "VOCs" or "volatile organic compounds" from the passage.' },
+      { id: 40, text: 'Urban trees also face hostile conditions: in major Western cities, their average lifespan is now only around _______ years.',
+        answer: 'twenty', answerDisplay: 'twenty',
+        acceptable: ['twenty','20'],
+        explanation: 'The passage states: <strong>"the average street tree in a major Western city now survives for only around twenty years."</strong>',
+        reinforcement: 'Correct — "twenty" (or "20") is the lifespan given in the passage.' },
+    ]
+  },
+];
+
+// ─────────────────────────────────────────
+//  STATE
+// ─────────────────────────────────────────
+const answers = {};
+const TOTAL_SECONDS = 3600;
+let secondsLeft = TOTAL_SECONDS;
+let timerInterval = null;
+let submitted = false;
+
+// ─────────────────────────────────────────
+//  TAB SWITCHING
+// ─────────────────────────────────────────
+function switchTab(n) {
+  [1,2,3].forEach(i => {
+    document.getElementById('passageContent' + i).style.display = i === n ? 'block' : 'none';
+    document.getElementById('qPanel' + i).style.display = i === n ? 'block' : 'none';
+    document.getElementById('tabNav').querySelectorAll('.tab-btn')[i-1].classList.toggle('active', i === n);
+  });
+  document.getElementById('readingPane').scrollTop = 0;
+  document.getElementById('questionPane').scrollTop = 0;
+}
+
+// ─────────────────────────────────────────
+//  FONT SIZE
+// ─────────────────────────────────────────
+const FONT_SIZES = [13, 15, 17, 19];
+let fontSizeIdx = parseInt(localStorage.getItem('ielts_font_size_idx') || '1');
+function initFontSize() { document.documentElement.style.setProperty('--passage-font-size', FONT_SIZES[fontSizeIdx] + 'px'); }
+function adjustFontSize(delta) {
+  if (delta === 0) fontSizeIdx = 1;
+  else fontSizeIdx = Math.max(0, Math.min(FONT_SIZES.length - 1, fontSizeIdx + delta));
+  document.documentElement.style.setProperty('--passage-font-size', FONT_SIZES[fontSizeIdx] + 'px');
+  localStorage.setItem('ielts_font_size_idx', fontSizeIdx);
+}
+
+// ─────────────────────────────────────────
+//  RESIZER
+// ─────────────────────────────────────────
+(function initResizer() {
+  const container = document.getElementById('splitContainer');
+  const leftPane  = document.getElementById('readingPane');
+  const resizer   = document.getElementById('resizerBar');
+  if (!container || !leftPane || !resizer) return;
+  let isDragging = false, startX = 0, startW = 0;
+  function onStart(cx) { isDragging = true; startX = cx; startW = leftPane.getBoundingClientRect().width; resizer.classList.add('active'); document.body.style.cursor = 'col-resize'; document.body.style.userSelect = 'none'; }
+  function onMove(cx) { if (!isDragging) return; const cW = container.getBoundingClientRect().width; const rW = resizer.getBoundingClientRect().width; const avail = cW - rW; leftPane.style.width = ((Math.max(avail*0.25, Math.min(avail*0.75, startW + (cx-startX))) / cW) * 100).toFixed(2) + '%'; }
+  function onEnd() { if (!isDragging) return; isDragging = false; resizer.classList.remove('active'); document.body.style.cursor = ''; document.body.style.userSelect = ''; }
+  resizer.addEventListener('mousedown', e => { e.preventDefault(); onStart(e.clientX); });
+  document.addEventListener('mousemove', e => onMove(e.clientX));
+  document.addEventListener('mouseup', onEnd);
+  resizer.addEventListener('touchstart', e => { e.preventDefault(); onStart(e.touches[0].clientX); }, { passive: false });
+  document.addEventListener('touchmove', e => { if (isDragging) { e.preventDefault(); onMove(e.touches[0].clientX); } }, { passive: false });
+  document.addEventListener('touchend', onEnd);
+})();
+
+// ─────────────────────────────────────────
+//  TIMER
+// ─────────────────────────────────────────
+function startTimer() {
+  timerInterval = setInterval(() => {
+    secondsLeft--;
+    document.getElementById('progressFill').style.width = ((TOTAL_SECONDS - secondsLeft) / TOTAL_SECONDS * 100) + '%';
+    const el = document.getElementById('timerDisplay');
+    el.textContent = `${String(Math.floor(secondsLeft/60)).padStart(2,'0')}:${String(secondsLeft%60).padStart(2,'0')}`;
+    if (secondsLeft <= 120) el.className = 'timer-box critical';
+    else if (secondsLeft <= 300) el.className = 'timer-box warning';
+    if (secondsLeft <= 0) { clearInterval(timerInterval); autoSubmit(); }
+  }, 1000);
+}
+
+// ─────────────────────────────────────────
+//  RENDER QUESTIONS
+// ─────────────────────────────────────────
+function renderAll() {
+  [1,2,3].forEach(pid => {
+    const panel = document.getElementById('qPanel' + pid);
+    let html = '';
+    GROUPS.filter(g => g.passageId === pid).forEach(group => {
+      html += `<div class="group-header mb-4">
+        <div class="text-xs font-bold tracking-widest uppercase" style="color:var(--gold);">${group.label}</div>
+        <p>${group.instructions}</p>
+      </div>`;
+
+      if (group.type === 'tfng' || group.type === 'yes_no_ng') {
+        const isYNG = group.type === 'yes_no_ng';
+        const btns = isYNG
+          ? [['YES','sel-y'],['NO','sel-n'],['NOT GIVEN','sel-ng']]
+          : [['TRUE','sel-t'],['FALSE','sel-f'],['NOT GIVEN','sel-ng']];
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <div class="q-tfng">
+              ${btns.map(([label, cls]) => `<button class="q-tfng-btn" onclick="selectTFNG(${q.id},'${label}',this,'${cls}')">${label}</button>`).join('')}
+            </div>
+          </div>`;
+        });
+
+      } else if (group.type === 'sentence_completion') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <input type="text" class="q-input" id="q${q.id}" placeholder="Your answer…" oninput="recordAnswer(${q.id}, this.value.trim())" />
+          </div>`;
+        });
+
+      } else if (group.type === 'matching_info') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <select class="q-select" id="q${q.id}" onchange="recordAnswer(${q.id}, this.value)">
+              <option value="">— Select paragraph —</option>
+              ${group.paraOptions.map(p => `<option value="${p}">Paragraph ${p}</option>`).join('')}
+            </select>
+          </div>`;
+        });
+
+      } else if (group.type === 'matching_feature') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <select class="q-select" id="q${q.id}" onchange="recordAnswer(${q.id}, this.value)">
+              <option value="">— Select —</option>
+              ${group.featureOptions.map(o => `<option value="${o.key}">${o.label}</option>`).join('')}
+            </select>
+          </div>`;
+        });
+
+      } else if (group.type === 'mc') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <div class="q-options">
+              ${q.options.map(o => `
+              <div class="q-option" onclick="selectMC(${q.id},'${o.key}',this)">
+                <input type="radio" name="q${q.id}" value="${o.key}" id="q${q.id}_${o.key}" onchange="recordAnswer(${q.id},'${o.key}')">
+                <label for="q${q.id}_${o.key}"><strong>${o.key}.</strong> ${o.text}</label>
+              </div>`).join('')}
+            </div>
+          </div>`;
+        });
+
+      } else if (group.type === 'word_bank') {
+        html += `<div class="headings-list mb-4"><ul style="list-style:none;">`;
+        group.wordBankOptions.forEach(o => { html += `<li><span>${o.key}.</span>${o.word}</li>`; });
+        html += `</ul></div>`;
+        html += `<div class="q-block mb-4" style="background:rgba(26,60,110,0.03);border-color:rgba(26,60,110,0.12);">
+          <p style="font-size:0.85rem;color:var(--text-body);line-height:1.8;">${group.summaryText}</p>
+        </div>`;
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <select class="q-select" id="q${q.id}" onchange="recordAnswer(${q.id}, this.value)">
+              <option value="">— Select letter —</option>
+              ${group.wordBankOptions.map(o => `<option value="${o.key}">${o.key} — ${o.word}</option>`).join('')}
+            </select>
+          </div>`;
+        });
+      }
+    });
+    panel.innerHTML = html;
+  });
+}
+
+function selectTFNG(qId, val, btn, cls) {
+  btn.parentElement.querySelectorAll('.q-tfng-btn').forEach(b => { b.className = 'q-tfng-btn'; });
+  btn.classList.add(cls);
+  recordAnswer(qId, val);
+}
+function selectMC(qId, val, optionEl) {
+  optionEl.closest('.q-options').querySelectorAll('.q-option').forEach(o => { o.style.background = ''; o.style.borderColor = ''; });
+  optionEl.style.background = 'var(--gold-dim)';
+  optionEl.style.borderColor = 'var(--gold-border)';
+  const radio = optionEl.querySelector('input[type=radio]');
+  if (radio) radio.checked = true;
+  recordAnswer(qId, val);
+}
+function recordAnswer(qId, val) { answers[qId] = val; }
+
+// ─────────────────────────────────────────
+//  SCORING
+// ─────────────────────────────────────────
+function scoreAnswer(q, studentRaw) {
+  if (!studentRaw) return false;
+  const student = studentRaw.toString().trim().toLowerCase();
+  if (q.acceptable) return q.acceptable.map(a => a.toLowerCase()).includes(student);
+  return student === q.answer.toLowerCase();
+}
+function bandFromScore(n) {
+  if (n >= 39) return 9.0; if (n >= 37) return 8.5; if (n >= 35) return 8.0;
+  if (n >= 33) return 7.5; if (n >= 30) return 7.0; if (n >= 27) return 6.5;
+  if (n >= 23) return 6.0; if (n >= 19) return 5.5; if (n >= 15) return 5.0;
+  if (n >= 13) return 4.5; if (n >= 10) return 4.0; return 3.5;
+}
+function bandColour(b) { return b >= 7 ? '#0D9488' : b >= 5.5 ? '#C9952E' : '#dc2626'; }
+function bandAdvice(band, score) {
+  const pct = Math.round(score/40*100);
+  if (band >= 8.5) return `Outstanding — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Excellent comprehension across all three passages. Focus on NOT GIVEN/NOT GIVEN precision and exact word retrieval in sentence completions.`;
+  if (band >= 7.5) return `Excellent result — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Strong academic reading. To push towards Band 8+: tighten YES/NO/NOT GIVEN judgements — only use the writer's expressed views, not implied ones.`;
+  if (band >= 6.5) return `Good performance — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Solid comprehension. Review: (1) Yes/No/Not Given — look for the writer's views, not facts; (2) sentence completion — copy words exactly from the passage; (3) time management across all three passages.`;
+  if (band >= 5.5) return `You scored ${score}/40 (${pct}%), giving an estimated <strong>Band ${band}</strong>. Clear potential — prioritise synonym recognition, since every question involves paraphrase. Review each wrong answer and locate the exact passage sentence.`;
+  return `You scored ${score}/40 (${pct}%), giving an estimated <strong>Band ${band}</strong>. Focus on active reading: identify each paragraph's main claim before answering. Daily timed reading of academic texts will accelerate improvement.`;
+}
+
+// ─────────────────────────────────────────
+//  SUBMIT
+// ─────────────────────────────────────────
+function confirmSubmit() { if (!confirm('Submit your reading test now?')) return; doSubmit(); }
+function autoSubmit() { if (submitted) return; doSubmit(); }
+function doSubmit() {
+  if (submitted) return;
+  submitted = true;
+  clearInterval(timerInterval);
+  document.getElementById('submittingOverlay').style.display = 'flex';
+  setTimeout(showResults, 800);
+}
+
+// ─────────────────────────────────────────
+//  RESULTS
+// ─────────────────────────────────────────
+function showResults() {
+  document.getElementById('submittingOverlay').style.display = 'none';
+  document.getElementById('testMain').style.display = 'none';
+  document.getElementById('timingStrip').style.display = 'none';
+  document.getElementById('resultsMain').style.display = 'block';
+
+  let correct = 0;
+  const allQs = GROUPS.flatMap(g => g.questions);
+  allQs.forEach(q => { if (scoreAnswer(q, answers[q.id])) correct++; });
+  const band = bandFromScore(correct);
+  const bCol = bandColour(band);
+
+  const results = JSON.parse(localStorage.getItem('ielts_mock_results') || '[]');
+  results.push({ date: Date.now(), book: 19, testNum: 1, skill: 'reading', scores: { reading: band } });
+  localStorage.setItem('ielts_mock_results', JSON.stringify(results));
+
+  const passageChips = [1,2,3].map(p => {
+    const pQs = GROUPS.filter(g => g.passageId === p).flatMap(g => g.questions);
+    const pC = pQs.filter(q => scoreAnswer(q, answers[q.id])).length;
+    const pCol = bandColour(bandFromScore(Math.round(pC/pQs.length*40)));
+    return `<div style="background:#EFF3F9;border:1px solid var(--border);border-radius:10px;padding:10px 14px;text-align:center;min-width:80px;">
+      <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px;">Passage ${p}</div>
+      <div style="font-family:'Space Mono',monospace;font-size:1.125rem;font-weight:700;color:${pCol};">${pC}/${pQs.length}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('scoreCard').innerHTML = `
+    <div class="flex flex-col md:flex-row gap-6 items-center">
+      <div class="score-ring-wrap">
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#E2E8F0" stroke-width="8"/>
+          <circle cx="60" cy="60" r="50" fill="none" stroke="${bCol}" stroke-width="8"
+            stroke-dasharray="${Math.round(correct/40*314)} 314" stroke-linecap="round"
+            transform="rotate(-90 60 60)" style="transition:stroke-dasharray 1.2s cubic-bezier(.16,1,.3,1)"/>
+        </svg>
+        <div style="margin-top:-70px;text-align:center;pointer-events:none;">
+          <div style="font-family:'Space Mono',monospace;font-size:1.75rem;font-weight:700;color:${bCol};">${correct}</div>
+          <div style="font-size:0.75rem;color:var(--text-muted);">out of 40</div>
+        </div>
+        <div style="margin-top:16px;"></div>
+      </div>
+      <div class="flex-1">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Your Score</div>
+        <div class="font-display font-black text-4xl mb-1" style="color:${bCol};">Band ${band}</div>
+        <div class="text-sm mb-4" style="color:var(--text-muted);">${correct} correct answers out of 40</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">${passageChips}</div>
+      </div>
+    </div>`;
+
+  document.getElementById('feedbackCard').innerHTML = `
+    <div class="text-xs font-bold tracking-widest uppercase mb-3" style="color:var(--gold);">Overall Feedback</div>
+    <div class="band-feedback">${bandAdvice(band, correct)}</div>`;
+
+  [1,2,3].forEach(pid => {
+    const passageNames = ['The Lost City of the Sahara','The Science of Sleep','Why Cities Need Trees'];
+    let html = '';
+    GROUPS.filter(g => g.passageId === pid).forEach(group => {
+      const typeLabel = { tfng:'True / False / Not Given', yes_no_ng:'Yes / No / Not Given', mc:'Multiple Choice', matching_info:'Matching Information', matching_feature:'Matching Features', sentence_completion:'Sentence Completion', word_bank:'Summary Completion (Word Bank)' }[group.type] || group.type;
+      html += `<div style="margin-bottom:0.5rem;padding:6px 0 8px;border-bottom:1px solid var(--border-soft);">
+        <span style="font-size:0.6875rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-faint);">${group.label} — ${typeLabel}</span>
+      </div>`;
+      group.questions.forEach(q => {
+        const isCorrect = scoreAnswer(q, answers[q.id]);
+        const studentAns = answers[q.id] ? answers[q.id].toString() : '(no answer)';
+        const correctAns = q.answerDisplay || q.answer;
+        html += `<div class="corr-block ${isCorrect ? 'corr-correct' : 'corr-wrong'}">
+          <div class="corr-qnum ${isCorrect ? 'ok' : 'bad'}">${isCorrect ? '✓' : '✗'} Question ${q.id}</div>
+          <div class="corr-qtext">${q.text}</div>`;
+        if (isCorrect) {
+          html += `<div class="corr-row"><span class="corr-tag reinforce">✓ Correct</span><span class="corr-val">${studentAns}</span></div>
+            <div class="corr-expl">${q.reinforcement || ''}</div>`;
+        } else {
+          const extraAcceptable = q.acceptable && q.acceptable.length > 1
+            ? ` <span style="font-size:0.75rem;color:var(--text-faint);">(also: ${q.acceptable.filter(a=>a.toLowerCase()!==q.answer.toLowerCase()).join(', ')})</span>`
+            : '';
+          html += `<div class="corr-row"><span class="corr-tag your">Your answer</span><span class="corr-val">${studentAns}</span></div>
+            <div class="corr-row"><span class="corr-tag correct">Correct answer</span><span class="corr-val">${correctAns}${extraAcceptable}</span></div>
+            <div class="corr-expl">${q.explanation || ''}</div>`;
+        }
+        html += `</div>`;
+      });
+    });
+    document.getElementById('corrPassage' + pid).innerHTML = html;
+  });
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─────────────────────────────────────────
+//  INIT
+// ─────────────────────────────────────────
+initFontSize();
+renderAll();
+startTimer();
+</script>
+<script src="/js/components.js"></script>
+<script>
+  IELTSLab.loadNav({ basePath: '../', breadcrumb: 'Mock Tests', authenticated: true, themeDefault: 'light' });
+</script>
+</body>
+</html>
