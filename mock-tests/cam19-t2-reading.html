@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IELTS Lab — Cambridge 19 Test 2 · Academic Reading</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <script>tailwind.config={theme:{extend:{fontFamily:{display:['Satoshi','Plus Jakarta Sans','system-ui','sans-serif'],sans:['Plus Jakarta Sans','system-ui','sans-serif']}}}}</script>
+  <style>
+    :root {
+      --gold: #C9952E; --gold-light: #DDB05A; --gold-dim: rgba(201,149,46,0.10); --gold-border: rgba(201,149,46,0.30);
+      --navy: #1a3c6e; --navy-mid: #2a4f8a; --page-bg: #F7F8FA; --card-bg: #FFFFFF;
+      --qpanel-bg: #EFF3F9; --border: #E2E8F0; --border-soft: #EEF1F6;
+      --text-primary: #1E2A3A; --text-body: #374151; --text-muted: #64748B; --text-faint: #94A3B8;
+      --passage-font-size: 15px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--page-bg); color: var(--text-primary); }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    h1, h2, h3, h4, .font-display { font-family: 'Satoshi', 'Plus Jakarta Sans', system-ui, sans-serif; }
+    ::-webkit-scrollbar { width: 5px; } ::-webkit-scrollbar-track { background: #EFF2F7; } ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 3px; }
+    .progress-bar { height: 3px; background: #E2E8F0; position: fixed; top: 64px; left: 0; right: 0; z-index: 40; }
+    .progress-fill { height: 100%; background: linear-gradient(to right, var(--gold), #DDB05A); transition: width 1s linear; width: 0%; }
+    .nav-glass { background: rgba(255,255,255,0.97); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .nav-logo { display: flex; align-items: baseline; gap: 0; text-decoration: none; }
+    .nl-ielts { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; letter-spacing: 1px; color: var(--text-primary); }
+    .nl-lab { font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: 3px; color: var(--gold); margin-left: 5px; }
+    #themeToggle { background: transparent; border: 1.5px solid var(--border); color: var(--text-muted); border-radius: 8px; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; font-size: 15px; flex-shrink: 0; padding: 0; }
+    #themeToggle:hover { border-color: var(--gold-border); color: var(--gold); }
+    .timer-box { background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 10px; padding: 8px 16px; font-family: 'Space Mono', monospace; font-size: 1.125rem; font-weight: 700; color: var(--text-primary); letter-spacing: 2px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+    .timer-box.warning { color: #b45309; border-color: rgba(180,83,9,0.3); background: #fffbeb; }
+    .timer-box.critical { color: #dc2626; border-color: rgba(220,38,38,0.3); background: #fef2f2; animation: pulse 1s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
+    .timing-strip { background: #FAFBFD; border-bottom: 1px solid var(--border); padding: 8px 0; }
+    .timing-item { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+    .timing-label { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
+    .timing-val { font-size: 0.75rem; color: var(--text-muted); }
+    .font-ctrl { display: inline-flex; align-items: center; gap: 0; background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 9px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .font-ctrl-btn { padding: 6px 12px; border: none; background: transparent; cursor: pointer; color: var(--text-muted); font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.15s; line-height: 1; border-right: 1px solid var(--border); }
+    .font-ctrl-btn:last-child { border-right: none; }
+    .font-ctrl-btn:hover { background: var(--gold-dim); color: var(--gold); }
+    .font-ctrl-btn.a-small { font-size: 11px; } .font-ctrl-btn.a-mid { font-size: 13px; } .font-ctrl-btn.a-large { font-size: 16px; }
+    .a11y-bar { display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: #FFFFFF; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .a11y-bar-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); }
+    .tab-nav { display: flex; gap: 4px; margin-bottom: 1rem; background: #EFF3F9; border-radius: 12px; padding: 4px; }
+    .tab-btn { flex: 1; padding: 8px 12px; border: none; border-radius: 9px; background: transparent; color: var(--text-muted); font-size: 0.8125rem; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .tab-btn:hover { background: rgba(255,255,255,0.6); color: var(--text-primary); }
+    .tab-btn.active { background: #FFFFFF; color: var(--navy); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .section-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 1.75rem; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+    .passage-text { font-size: var(--passage-font-size); line-height: 2.0; color: var(--text-body); transition: font-size 0.2s ease; }
+    .passage-text p { margin-bottom: 1.2rem; }
+    .para-label { display: inline-block; font-family: 'Space Mono', monospace; font-size: 0.6875rem; font-weight: 700; color: var(--navy); background: rgba(26,60,110,0.08); border: 1px solid rgba(26,60,110,0.18); border-radius: 4px; padding: 1px 6px; margin-right: 8px; letter-spacing: 0.05em; }
+    .q-block { margin-bottom: 1.25rem; padding: 1rem 1.15rem; border-radius: 12px; background: #FFFFFF; border: 1px solid var(--border); }
+    .q-num { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+    .q-text { font-size: 0.9rem; color: var(--text-body); margin-bottom: 10px; line-height: 1.65; }
+    .q-input { width: 100%; background: #F8FAFC; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text-primary); font-size: 0.9rem; transition: border-color 0.2s, box-shadow 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,149,46,0.12); }
+    .q-select { width: 100%; background: #F8FAFC; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text-primary); font-size: 0.9rem; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-select:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,149,46,0.12); }
+    .q-options { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+    .q-option { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; padding: 9px 12px; border-radius: 8px; border: 1.5px solid var(--border); transition: all 0.2s; background: #F8FAFC; }
+    .q-option:hover { background: var(--gold-dim); border-color: var(--gold-border); }
+    .q-option input[type=radio] { accent-color: var(--gold); margin-top: 3px; flex-shrink: 0; }
+    .q-option label { font-size: 0.9rem; color: var(--text-body); cursor: pointer; line-height: 1.55; }
+    .q-tfng { display: flex; gap: 8px; }
+    .q-tfng-btn { flex: 1; padding: 9px 6px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer; background: #F8FAFC; color: var(--text-muted); transition: all 0.2s; letter-spacing: 0.05em; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-tfng-btn:hover { border-color: var(--gold-border); color: var(--gold); background: var(--gold-dim); }
+    .q-tfng-btn.sel-t { border-color: #16a34a; background: #f0fdf4; color: #16a34a; }
+    .q-tfng-btn.sel-f { border-color: #dc2626; background: #fef2f2; color: #dc2626; }
+    .q-tfng-btn.sel-ng { border-color: #d97706; background: #fffbeb; color: #d97706; }
+    .q-tfng-btn.sel-y { border-color: #16a34a; background: #f0fdf4; color: #16a34a; }
+    .q-tfng-btn.sel-n { border-color: #dc2626; background: #fef2f2; color: #dc2626; }
+    .group-header { margin-bottom: 1.25rem; padding: 0.875rem 1rem; border-radius: 12px; background: rgba(26,60,110,0.04); border: 1px solid rgba(26,60,110,0.12); }
+    .group-header p { font-size: 0.8125rem; color: var(--text-muted); line-height: 1.65; margin-top: 6px; }
+    .headings-list { margin: 0.75rem 0; padding: 0.875rem 1rem; background: #FFFFFF; border-radius: 10px; border: 1px solid var(--border); }
+    .headings-list li { font-size: 0.8125rem; color: var(--text-body); line-height: 1.8; padding: 2px 0; }
+    .headings-list li span { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--gold); margin-right: 6px; font-weight: 700; }
+    .btn-gold { background: linear-gradient(135deg, var(--gold) 0%, #a8741f 100%); color: #FFFFFF; border: none; border-radius: 10px; padding: 12px 32px; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.04em; cursor: pointer; transition: all 0.25s ease; box-shadow: 0 2px 12px rgba(201,149,46,0.30); }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 6px 22px rgba(201,149,46,0.42); }
+    .corr-block { margin-bottom: 1rem; padding: 1rem 1.25rem; border-radius: 12px; border: 1.5px solid; }
+    .corr-correct { background: #f0fdf4; border-color: #bbf7d0; }
+    .corr-wrong { background: #fef2f2; border-color: #fecaca; }
+    .corr-qnum { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+    .corr-qnum.ok { color: #16a34a; } .corr-qnum.bad { color: #dc2626; }
+    .corr-qtext { font-size: 0.875rem; color: var(--text-body); line-height: 1.65; margin-bottom: 8px; }
+    .corr-row { display: flex; gap: 8px; align-items: flex-start; font-size: 0.8125rem; margin-bottom: 4px; }
+    .corr-tag { flex-shrink: 0; padding: 2px 8px; border-radius: 4px; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+    .corr-tag.your { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+    .corr-tag.correct { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .corr-tag.reinforce { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .corr-val { color: var(--text-primary); line-height: 1.5; }
+    .corr-expl { margin-top: 8px; padding: 9px 12px; background: #FFFFFF; border-radius: 8px; border-left: 3px solid var(--gold-border); font-size: 0.8125rem; color: var(--text-muted); line-height: 1.65; }
+    .corr-expl strong { color: var(--text-primary); }
+    .score-ring-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .band-feedback { padding: 1.25rem; border-radius: 12px; background: rgba(26,60,110,0.04); border: 1px solid rgba(26,60,110,0.12); font-size: 0.9rem; color: var(--text-body); line-height: 1.8; }
+    .band-feedback strong { color: var(--navy); }
+    .passage-corr-header { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); padding: 10px 0 8px; border-bottom: 1px solid var(--border); margin-bottom: 1rem; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; }
+    .split-container { display: flex; height: calc(100vh - 268px); min-height: 560px; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+    .reading-pane { width: 52%; min-width: 25%; max-width: 75%; overflow-y: auto; padding: 1.75rem; background: var(--card-bg); flex-shrink: 0; }
+    .question-pane { flex: 1; overflow-y: auto; padding: 1.75rem; background: var(--qpanel-bg); min-width: 25%; }
+    .resizer-bar { width: 16px; background: #F1F5F9; cursor: col-resize; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; border-left: 1px solid var(--border); border-right: 1px solid var(--border); transition: background 0.15s; user-select: none; -webkit-user-select: none; }
+    .resizer-bar:hover, .resizer-bar.active { background: var(--gold-dim); border-left-color: var(--gold-border); border-right-color: var(--gold-border); }
+    .resizer-btn { background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 8px; padding: 10px 4px; cursor: col-resize; display: flex; flex-direction: column; align-items: center; gap: 5px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); transition: border-color 0.15s, box-shadow 0.15s; pointer-events: none; }
+    .resizer-bar:hover .resizer-btn { border-color: var(--gold-border); box-shadow: 0 2px 8px rgba(201,149,46,0.15); }
+    @media (max-width: 1023px) {
+      .split-container { flex-direction: column; height: auto; overflow: visible; border: none; border-radius: 0; box-shadow: none; gap: 1rem; }
+      .reading-pane { width: 100% !important; min-width: 100%; max-width: 100%; overflow-y: visible; border: 1px solid var(--border); border-radius: 16px; }
+      .resizer-bar { display: none; }
+      .question-pane { min-width: 100%; overflow-y: visible; border: 1px solid var(--border); border-radius: 16px; }
+    }
+  </style>
+  <script>
+    (function(){
+      var raw = localStorage.getItem('ielts_session');
+      if (!raw) { window.location.replace('../login.html'); return; }
+      try { JSON.parse(raw); } catch(e) { localStorage.removeItem('ielts_session'); window.location.replace('../login.html'); }
+    })();
+    (function(){ var t = localStorage.getItem('ieltslab_theme') || 'light'; document.documentElement.setAttribute('data-theme', t); })();
+    function toggleTheme(){ var c = document.documentElement.getAttribute('data-theme') || 'light', n = c === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', n); localStorage.setItem('ieltslab_theme', n); var b = document.getElementById('themeToggle'); if(b) b.textContent = n === 'dark' ? '☀' : '🌙'; }
+    document.addEventListener('DOMContentLoaded', function(){ var b = document.getElementById('themeToggle'); if(b){ var d = (document.documentElement.getAttribute('data-theme') || 'light') === 'dark'; b.textContent = d ? '☀' : '🌙'; } });
+  </script>
+</head>
+<body class="min-h-screen flex flex-col" style="background:var(--page-bg);color:var(--text-primary);">
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+<div id="header-container"></div>
+
+<div class="timing-strip" id="timingStrip">
+  <div class="px-4 flex items-center justify-center gap-10">
+    <div class="timing-item"><span class="timing-label">Passage 1</span><span class="timing-val">~20 min · Q1–13</span></div>
+    <div style="width:1px;height:24px;background:var(--border);"></div>
+    <div class="timing-item"><span class="timing-label">Passage 2</span><span class="timing-val">~20 min · Q14–26</span></div>
+    <div style="width:1px;height:24px;background:var(--border);"></div>
+    <div class="timing-item"><span class="timing-label">Passage 3</span><span class="timing-val">~20 min · Q27–40</span></div>
+  </div>
+</div>
+
+<main class="flex-1 w-full px-4 py-6" id="testMain">
+  <div class="flex items-start justify-between mb-5 gap-4">
+    <div>
+      <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Cambridge 19 · Test 2</div>
+      <h1 class="font-display font-black text-2xl" style="color:var(--text-primary);">Academic Reading — Test 2</h1>
+    </div>
+    <div class="flex items-center gap-3 flex-shrink-0">
+      <div id="timerDisplay" class="timer-box">60:00</div>
+    </div>
+  </div>
+
+  <div class="a11y-bar">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-muted);flex-shrink:0;"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+    <span class="a11y-bar-label">Text Size</span>
+    <div class="font-ctrl" role="toolbar" aria-label="Adjust passage text size">
+      <button class="font-ctrl-btn a-small" onclick="adjustFontSize(-1)" title="Decrease text size">A−</button>
+      <button class="font-ctrl-btn a-mid"   onclick="adjustFontSize(0)"  title="Reset text size">A</button>
+      <button class="font-ctrl-btn a-large" onclick="adjustFontSize(1)"  title="Increase text size">A+</button>
+    </div>
+    <span style="font-size:0.75rem;color:var(--text-faint);">Adjust the reading passage font size</span>
+    <div class="ml-auto text-xs hidden md:block" style="color:var(--text-muted);">60 minutes · 40 questions · 3 passages</div>
+  </div>
+
+  <div class="tab-nav" id="tabNav">
+    <button class="tab-btn active" onclick="switchTab(1)">Passage 1 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q1–13)</span></button>
+    <button class="tab-btn" onclick="switchTab(2)">Passage 2 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q14–26)</span></button>
+    <button class="tab-btn" onclick="switchTab(3)">Passage 3 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q27–40)</span></button>
+  </div>
+
+  <div class="split-container" id="splitContainer">
+    <div class="reading-pane" id="readingPane">
+
+      <!-- PASSAGE 1 -->
+      <div id="passageContent1">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 1</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">The rediscovery of saffron in England</div>
+        <div class="passage-text">
+          <p>For nearly four centuries, the small market town of Saffron Walden in eastern England took its name from a crop that had once been one of the most valuable commodities in Europe. Crocus sativus, the autumn-flowering plant whose dried red stigmas produce the spice saffron, was cultivated across the fields of Essex from the late fourteenth century until the early nineteenth, when changing tastes, cheaper imports and rising labour costs caused the industry to vanish entirely. By 1820, the last grower had given up, and within a generation, the knowledge of how to plant, harvest and dry the crocus had been almost completely lost.</p>
+          <p>Saffron is famously labour-intensive. Each flower produces only three crimson stigmas, which must be picked by hand within hours of the bloom opening, then dried with great care to preserve both colour and flavour. Roughly 150,000 flowers are needed to make a single kilogram of the dried spice. In the medieval economy, where labour was cheap and saffron was used in everything from medicine and dyeing to the kitchens of the wealthy, the equation made sense. By the nineteenth century, with industrial wages rising and Spanish and Iranian saffron arriving by ship at a fraction of the cost, English saffron had become an impossible business.</p>
+          <p>The story might have ended there but for a retired Essex farmer named David Smale. In 2006, Smale, who had grown up hearing his grandfather speak of the saffron fields, began to wonder whether the crop could be brought back. He started with a small plot of around 200 corms — the bulb-like underground stems from which the crocus grows — sourced from a specialist nursery in the Netherlands. The first harvest yielded enough saffron to fill a single small jar. It was, by any commercial measure, a failure. But the spice was unmistakably present, and its quality, Smale insisted, was extraordinary.</p>
+          <p>What followed was less a business plan than a quiet experiment. Smale planted more corms each year and kept careful notes on soil, weather and yield. He discovered that the chalky, well-drained soils of Essex were, as the medieval growers had known, almost ideal. He also discovered that modern conditions presented problems his predecessors had not faced. Slugs and field mice, controlled in earlier centuries by intensive farming around the crocus beds, devastated his early plantings. Unusually wet autumns rotted the corms in the ground. It took nearly five years before Smale produced a harvest large enough to sell at a local farmers' market.</p>
+          <p>Word of the rediscovery spread slowly. A handful of restaurants in London began ordering small quantities of the English-grown spice, drawn by its remarkable freshness — saffron loses much of its aroma within a year of drying, and imported saffron is often two or three years old by the time it reaches British kitchens. A small magazine article in 2012 brought enquiries from across the country, and Smale found himself, somewhat reluctantly, training other would-be growers. Within a decade, there were eight saffron producers operating in England, most of them on plots of less than two acres.</p>
+          <p>The economics, however, remained challenging. English saffron sells for between £30 and £40 per gram, more than ten times the price of the imported product. Customers willing to pay such prices are, inevitably, a small market: high-end restaurants, specialist food shops and a growing number of consumers who treat saffron the way some treat single-estate olive oil or wine from a particular vineyard. Most growers earn modest supplementary incomes rather than full livings. Smale himself, now in his seventies, has never given up his other agricultural work.</p>
+          <p>What the revival has produced, perhaps more interestingly than any commercial product, is a slow recovery of practical knowledge. Researchers from the University of Essex have begun documenting the techniques the new growers are developing — when to lift the corms for storage, how deeply to plant them, which pests respond to which deterrents. Much of this information existed only in fragments in medieval and early modern farming manuals, and even there it was often vague or unreliable. The current growers are, in effect, reconstructing an agricultural tradition from the ground up.</p>
+          <p>Whether English saffron will become more than a curiosity remains uncertain. The crop will probably never again cover whole landscapes as it once did, and competing with low-cost imports for the mass market is not realistically possible. But the revival has demonstrated something that the spice trade had seemingly disproved: that a luxury product, made well and made nearby, can sustain itself even in an age of cheap global shipping. For the small town that gave the spice its English name, that is a quietly satisfying outcome.</p>
+        </div>
+      </div>
+
+      <!-- PASSAGE 2 -->
+      <div id="passageContent2" style="display:none;">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 2</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">Why cities are getting quieter</div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>Ask anyone who lives in a major city to describe the sound of their neighbourhood, and the answer will usually involve some version of the same complaint: it is too loud. Traffic, construction, sirens, neighbours, the rumble of underground trains — urban noise is one of the most consistent grievances of city living, and one of the most well-established environmental health hazards of modern life. Chronic exposure to noise above 55 decibels has been linked in numerous studies to elevated rates of cardiovascular disease, sleep disturbance and cognitive impairment in children. Public health agencies in several countries have begun to treat persistent noise as a problem comparable in seriousness to air pollution. Until quite recently, the situation seemed to be growing steadily worse.</p>
+          <p><span class="para-label">B</span>Yet measurements taken in cities across Europe and North America over the past fifteen years tell a different story. Average daytime noise levels in central London, Paris and New York have fallen by between two and four decibels since 2010 — a drop that sounds small, but which represents a significant reduction in perceived loudness, since the decibel scale is logarithmic. A reduction of three decibels corresponds to roughly halving the sound energy reaching the ear. The trend, while uneven, is real, and the explanations behind it tell us a good deal about how cities are changing.</p>
+          <p><span class="para-label">C</span>The single largest factor is the quiet revolution in vehicle technology. Electric and hybrid cars produce significantly less noise than petrol or diesel vehicles, particularly at urban speeds below thirty kilometres per hour, where engine sound dominates over the noise of tyres on the road. As electric vehicles have moved from a small minority of the urban fleet to a substantial share in many European cities, the cumulative effect on ambient sound has been measurable. Paris, which has actively encouraged electric taxis and delivery vehicles, has recorded some of the steepest declines.</p>
+          <p><span class="para-label">D</span>Road surfaces have also changed. So-called low-noise asphalt, which contains air pockets that absorb tyre noise rather than reflecting it, has been installed on increasing numbers of urban roads. The material costs slightly more than conventional asphalt and tends to wear out faster, but cities have judged the trade-off worthwhile. A 2019 study in Stockholm found that resurfacing a single arterial road with low-noise asphalt reduced average traffic noise along it by 4.5 decibels — a change residents described as transformative.</p>
+          <p><span class="para-label">E</span>A third factor is rarely mentioned because it is harder to see: the decline of certain noisy activities altogether. The shift to remote and hybrid working has reduced rush-hour traffic in many city centres. Shopping has migrated online, which has thinned the volume of delivery vehicles operating in dense retail districts even as it has added them to suburban streets. Construction itself, while not quieter, is more often subject to local regulations that confine the noisiest work to limited hours. None of these changes was undertaken for the sake of acoustic comfort, but each has had acoustic consequences.</p>
+          <p><span class="para-label">F</span>Not everyone agrees that the headline figures tell the whole story. Critics point out that average noise levels conceal large variations across the city. The very streets that have benefited most from electric vehicles and resurfacing tend to be in wealthier districts; major arterial roads, freight corridors and the neighbourhoods around airports and rail depots have seen little change, and sometimes increases. The acoustic divide, some researchers argue, is widening — and the people most exposed to harmful noise are disproportionately those least able to move.</p>
+          <p><span class="para-label">G</span>There are also concerns about a more subtle phenomenon. Electric vehicles, precisely because they are so quiet at low speeds, pose a documented safety risk to pedestrians, particularly visually impaired ones. Many jurisdictions now require electric vehicles to emit an artificial sound when travelling below a certain speed. The sounds were initially modelled on conventional engine noise, but research suggests that other patterns — softer, more variable, more like the natural environment — would be both safer and less stressful for residents. How quiet a city should be, in other words, is not a question with an obvious answer.</p>
+          <p><span class="para-label">H</span>What does seem clear is that the assumption of inevitable acoustic decline — the sense that cities must necessarily grow louder as they grow larger — has been disproved by the recent data. Quietness, like air quality or green space, turns out to be something cities can actively cultivate, and many are beginning to do so deliberately. Paris has designated 'tranquil zones' in residential districts where through-traffic is restricted; Barcelona has experimented with closing entire blocks to vehicles during certain hours. The results, while modest, are encouraging. A quieter city is not a fantasy, and it does not require abandoning urban life — only paying attention to what the city sounds like, and choosing differently.</p>
+        </div>
+      </div>
+
+      <!-- PASSAGE 3 -->
+      <div id="passageContent3" style="display:none;">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 3</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">The unsettled science of animal play</div>
+        <div class="passage-text">
+          <p>Few aspects of animal behaviour are at once so obvious and so theoretically troublesome as play. Anyone who has watched a litter of puppies wrestling, a young chimpanzee swinging from a branch in mock alarm, or a pair of crows passing a stick between them in mid-air, has witnessed something that resembles what humans do when we play. Yet for biologists, this resemblance has long been more difficult than illuminating. Behaviour that consumes energy, exposes the animal to risk, and does not directly serve survival or reproduction is precisely the kind of behaviour that natural selection ought, in theory, to eliminate. That it has not done so — that play appears in mammals, birds, some reptiles and even, in disputed cases, certain fish and invertebrates — suggests either that the textbook framework is missing something, or that play serves some function we have failed to identify.</p>
+          <p>The most enduring explanation, advanced in different forms since the late nineteenth century, is that play is preparation. Through chasing, pouncing, mock-fighting and the manipulation of objects, young animals are thought to develop the motor skills, social competence and tactical knowledge they will need as adults. The hypothesis has obvious intuitive appeal: a kitten stalking a moving piece of string today is rehearsing the predator it will become tomorrow. But intuitive appeal is not evidence, and when researchers have tried to test the prediction directly, the results have been inconsistent. Studies of meerkats, for example, found no clear correlation between the amount of mock-fighting an individual engaged in as a pup and its success in real conflicts as an adult. Similar findings have emerged from work on rats and several primate species. If play is rehearsal, the rehearsal does not appear to be very thorough.</p>
+          <p>A more recent line of thinking, associated particularly with the comparative psychologist Marc Bekoff, holds that the function of play is not skill-building at all, but the cultivation of behavioural flexibility. Animals that play, in this view, are not so much preparing for predictable adult tasks as learning to cope with the unexpected — to recover from being knocked off balance, to adjust to a sudden change in their partner's behaviour, to switch tactics when an approach fails. The capacity to respond creatively to novel situations is, on this account, what play develops; and the cost of acquiring such a capacity through real experience would be prohibitive. Better, evolutionarily, to practise on a sibling than on a predator.</p>
+          <p>This emotional dimension of play has become a particularly active area of investigation. Several mammals, including rats, have been shown to produce vocalisations during play that closely resemble laughter in their acoustic structure, and that disappear when the animal is stressed. Whether these sounds constitute genuine positive emotion in the human sense is philosophically contested, but the parallel is striking enough that researchers now use them as a measure of welfare in laboratory rodents. If an animal stops making its play-calls, something is wrong.</p>
+          <p>What complicates all of this is that play itself is harder to define than it might seem. The standard criteria — that the behaviour is voluntary, repeated, lacks immediate function, and is performed in a relaxed state — exclude some activities that seem like play and include others that do not. A young dolphin pushing a turtle around the surface of a bay for hours probably qualifies under any reasonable definition; what about a single octopus repeatedly pulling and releasing a floating pill bottle, as has been recorded in captivity? The behaviour fits the criteria, but the cognitive machinery behind it is so different from that of a mammal that calling it the same thing may be more misleading than helpful.</p>
+          <p>Some researchers have responded by treating play not as a single phenomenon but as a family of related ones — locomotor play (running, jumping for no reason), object play (manipulating items), and social play (mock-fighting and chase games) — each potentially serving different functions in different species. This approach captures real differences but gives up on a unified explanation. If play is many things, then asking 'why do animals play?' may be like asking 'why do animals eat?': the answer depends entirely on which animal and which behaviour.</p>
+          <p>Critics of the recent emphasis on emotion and flexibility have argued that the field is in danger of substituting attractive ideas for testable ones. The notion that animals play for fun, while almost certainly true in some sense, is not a scientific claim until 'fun' is operationally defined and measurable. Yet the more conservative alternatives — that play is purely a by-product of energy surplus, or an evolutionary accident in species with prolonged development — have struggled to explain the sheer diversity of forms play takes.</p>
+          <p>Where this leaves the question is, perhaps appropriately, unresolved. Play is among the few animal behaviours that researchers describe with words borrowed almost wholesale from human experience: relish, exuberance, joy. Whether this borrowing reflects a genuine continuity between human and animal minds, or merely an unavoidable limit of human language describing non-human things, is a question that biology, on its own, may not be equipped to answer.</p>
+        </div>
+      </div>
+
+    </div><!-- /reading-pane -->
+
+    <div class="resizer-bar" id="resizerBar">
+      <button class="resizer-btn" aria-label="Drag to resize panels">
+        <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M3.5 2L1 6L3.5 10" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span style="display:block;width:2px;height:14px;background:var(--border);border-radius:1px;"></span>
+        <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M6.5 2L9 6L6.5 10" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+
+    <div class="question-pane" id="questionPane">
+      <div id="qPanel1"></div>
+      <div id="qPanel2" style="display:none;"></div>
+      <div id="qPanel3" style="display:none;"></div>
+    </div>
+  </div>
+
+  <div class="flex justify-center mt-10 mb-16">
+    <button onclick="confirmSubmit()" class="btn-gold px-10 py-4 text-base">Submit Reading Test</button>
+  </div>
+</main>
+
+<!-- RESULTS -->
+<div id="resultsMain" style="display:none;" class="flex-1 max-w-5xl mx-auto px-6 py-10 w-full">
+  <div class="flex items-center gap-3 mb-8">
+    <div>
+      <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Results</div>
+      <h1 class="font-display font-black text-2xl" style="color:var(--text-primary);">Academic Reading — Score Report</h1>
+    </div>
+  </div>
+  <div class="section-card mb-6" id="scoreCard"></div>
+  <div class="section-card mb-8" id="feedbackCard"></div>
+  <div class="section-card mb-6">
+    <div class="passage-corr-header">Passage 1 — The rediscovery of saffron in England</div>
+    <div id="corrPassage1"></div>
+  </div>
+  <div class="section-card mb-6">
+    <div class="passage-corr-header">Passage 2 — Why cities are getting quieter</div>
+    <div id="corrPassage2"></div>
+  </div>
+  <div class="section-card mb-10">
+    <div class="passage-corr-header">Passage 3 — The unsettled science of animal play</div>
+    <div id="corrPassage3"></div>
+  </div>
+  <div class="flex gap-4 justify-center mb-16">
+    <a href="index.html" class="btn-gold">← Back to Tests</a>
+  </div>
+</div>
+
+<div id="submittingOverlay" style="display:none;position:fixed;inset:0;z-index:300;background:rgba(247,248,250,0.97);flex-direction:column;align-items:center;justify-content:center;" class="flex">
+  <div class="spinner mb-6"></div>
+  <div class="font-display font-bold text-xl mb-2" style="color:var(--text-primary);">Scoring Your Answers</div>
+  <p class="text-sm" style="color:var(--text-muted);">Analysing your responses…</p>
+</div>
+
+<script>
+// ─────────────────────────────────────────
+//  TEST DATA
+// ─────────────────────────────────────────
+const GROUPS = [
+
+  // ══ PASSAGE 1 — The rediscovery of saffron in England ══
+
+  {
+    passageId: 1, type: 'tfng', label: 'Questions 1–6',
+    instructions: 'Do the following statements agree with the information given in Reading Passage 1? Write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      { id: 1, text: 'Saffron Walden was named after the crop before saffron began to be grown there.',
+        answer: 'FALSE',
+        explanation: 'The passage states the town <strong>"took its name from a crop"</strong> — meaning the crop was grown there first, then the town was named after it. The statement reverses the order.',
+        reinforcement: 'Correct — the town was named after the crop that was already being grown there, so this is FALSE.' },
+      { id: 2, text: 'Saffron production in Essex stopped because of competition from cheaper foreign producers.',
+        answer: 'TRUE',
+        explanation: 'The passage cites <strong>"Spanish and Iranian saffron arriving by ship at a fraction of the cost"</strong> as one cause of the industry\'s collapse — cheaper foreign imports.',
+        reinforcement: 'Correct — cheaper Spanish and Iranian imports are explicitly named as a cause of the collapse, making this TRUE.' },
+      { id: 3, text: 'David Smale began growing saffron with the intention of building a commercial business.',
+        answer: 'FALSE',
+        explanation: 'The passage says what followed was <strong>"less a business plan than a quiet experiment."</strong> Smale\'s motivation was curiosity, not commerce.',
+        reinforcement: 'Correct — the passage explicitly says it was "less a business plan than a quiet experiment," making this FALSE.' },
+      { id: 4, text: 'Smale\'s early harvests were affected by problems that medieval growers had also experienced.',
+        answer: 'FALSE',
+        explanation: 'The passage states that <strong>"modern conditions presented problems his predecessors had not faced"</strong> — slugs, field mice and wet autumns were new problems, not shared with medieval growers.',
+        reinforcement: 'Correct — the passage says these were problems his predecessors had NOT faced, making this FALSE.' },
+      { id: 5, text: 'The 2012 magazine article led to the creation of a national saffron growers\' association.',
+        answer: 'NOT GIVEN',
+        explanation: 'The article led to enquiries and Smale training other growers, but <strong>no association is ever mentioned</strong> in the passage.',
+        reinforcement: 'Correct — the passage mentions enquiries and training but says nothing about any association, making this NOT GIVEN.' },
+      { id: 6, text: 'English saffron is significantly more expensive than imported saffron.',
+        answer: 'TRUE',
+        explanation: 'The passage states English saffron costs <strong>"more than ten times the price of the imported product."</strong> Ten times more is significantly more expensive.',
+        reinforcement: 'Correct — "more than ten times the price" confirms this is significantly more expensive, making this TRUE.' },
+    ]
+  },
+
+  {
+    passageId: 1, type: 'mc', label: 'Questions 7–9',
+    instructions: 'Choose the correct letter, A, B, C or D.',
+    questions: [
+      { id: 7, text: 'Why is saffron production so labour-intensive?',
+        answer: 'B', answerDisplay: 'B',
+        options: [
+          { key: 'A', text: 'The plants require constant attention throughout the year.' },
+          { key: 'B', text: 'Only a tiny portion of each flower is used to make the spice.' },
+          { key: 'C', text: 'The flowers must be picked at night to preserve their colour.' },
+          { key: 'D', text: 'The drying process takes several weeks to complete.' },
+        ],
+        explanation: 'The passage states each flower produces only <strong>three crimson stigmas</strong> which must be picked by hand — a tiny portion of the whole flower. Roughly 150,000 flowers are needed per kilogram. Option C is wrong (the passage says within hours of opening, not at night); option D is not supported.',
+        reinforcement: 'Correct — each flower yields only three stigmas, which is the tiny portion that makes it so labour-intensive (B).' },
+      { id: 8, text: 'According to the passage, the soils of Essex are well suited to saffron because they are',
+        answer: 'B', answerDisplay: 'B',
+        options: [
+          { key: 'A', text: 'rich in nutrients.' },
+          { key: 'B', text: 'chalky and well drained.' },
+          { key: 'C', text: 'warmer than soils elsewhere in England.' },
+          { key: 'D', text: 'protected from wind.' },
+        ],
+        explanation: 'The passage directly states: <strong>"the chalky, well-drained soils of Essex were, as the medieval growers had known, almost ideal."</strong> No other soil properties are mentioned.',
+        reinforcement: 'Correct — "chalky, well-drained soils" is the exact phrase from the passage, matching option B.' },
+      { id: 9, text: 'Customers who buy English saffron are compared to people who',
+        answer: 'C', answerDisplay: 'C',
+        options: [
+          { key: 'A', text: 'collect rare ingredients as a hobby.' },
+          { key: 'B', text: 'buy local produce for environmental reasons.' },
+          { key: 'C', text: 'pay extra for premium versions of common products.' },
+          { key: 'D', text: 'support small businesses out of principle.' },
+        ],
+        explanation: 'The passage compares them to consumers who treat saffron the way some treat <strong>"single-estate olive oil or wine from a particular vineyard"</strong> — paying premium prices for a higher-quality version of an everyday product.',
+        reinforcement: 'Correct — single-estate olive oil and fine wine are premium versions of common products, matching option C.' },
+    ]
+  },
+
+  {
+    passageId: 1, type: 'sentence_completion', label: 'Questions 10–13',
+    instructions: 'Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.',
+    questions: [
+      { id: 10, text: 'Saffron is produced from the dried _______ of the autumn-flowering crocus.',
+        answer: 'red stigmas', answerDisplay: 'red stigmas',
+        acceptable: ['red stigmas','stigmas'],
+        explanation: 'From paragraph 1: <strong>"dried red stigmas produce the spice saffron."</strong> Either "red stigmas" or "stigmas" alone is acceptable.',
+        reinforcement: 'Correct — "red stigmas" (or "stigmas") is the exact phrase from the passage.' },
+      { id: 11, text: 'To produce one kilogram of dried saffron, around _______ flowers are required.',
+        answer: '150,000', answerDisplay: '150,000',
+        acceptable: ['150,000','150000'],
+        explanation: 'Paragraph 2: <strong>"Roughly 150,000 flowers are needed to make a single kilogram of the dried spice."</strong>',
+        reinforcement: 'Correct — 150,000 is stated directly in the passage.' },
+      { id: 12, text: 'Imported saffron is less fresh because by the time it arrives in Britain it is often _______ old.',
+        answer: 'two or three years', answerDisplay: 'two or three years',
+        acceptable: ['two or three years','two or three'],
+        explanation: 'Paragraph 5: imported saffron is <strong>"often two or three years old by the time it reaches British kitchens."</strong>',
+        reinforcement: 'Correct — "two or three years" is taken directly from the passage.' },
+      { id: 13, text: 'Researchers at the University of Essex are recording the _______ that the new growers have developed.',
+        answer: 'techniques', answerDisplay: 'techniques',
+        acceptable: ['techniques'],
+        explanation: 'Paragraph 7: <strong>"Researchers from the University of Essex have begun documenting the techniques the new growers are developing."</strong>',
+        reinforcement: 'Correct — "techniques" is the exact word from the passage.' },
+    ]
+  },
+
+  // ══ PASSAGE 2 — Why cities are getting quieter ══
+
+  {
+    passageId: 2, type: 'matching_info', label: 'Questions 14–19',
+    instructions: 'Reading Passage 2 has eight paragraphs, <strong>A–H</strong>. Which paragraph contains the following information? Write the correct letter, A–H. You may use any letter more than once.',
+    paraOptions: ['A','B','C','D','E','F','G','H'],
+    questions: [
+      { id: 14, text: 'an example of a deliberate city policy to reduce noise in residential areas',
+        answer: 'H', answerDisplay: 'H',
+        explanation: '<strong>Paragraph H</strong> describes Paris designating <strong>"tranquil zones in residential districts where through-traffic is restricted"</strong> — an explicit deliberate policy.',
+        reinforcement: 'Correct — Paris\'s tranquil zones policy is in paragraph H.' },
+      { id: 15, text: 'evidence that recent noise reductions are not shared equally across a city',
+        answer: 'F', answerDisplay: 'F',
+        explanation: '<strong>Paragraph F</strong> discusses how improvements have benefited wealthier districts while poorer areas near arterial roads and airports have seen little change — unequal distribution.',
+        reinforcement: 'Correct — the unequal distribution of noise reduction across rich and poor areas is discussed in paragraph F.' },
+      { id: 16, text: 'a description of a measurement that proved larger than it first appeared',
+        answer: 'B', answerDisplay: 'B',
+        explanation: '<strong>Paragraph B</strong> states the 2–4 decibel drop <strong>"sounds small, but … represents a significant reduction"</strong> because the decibel scale is logarithmic — the measurement was larger in impact than it first seemed.',
+        reinforcement: 'Correct — the 2–4 decibel drop is described as seeming small but proving significant due to the logarithmic scale, in paragraph B.' },
+      { id: 17, text: 'a reference to research on the kind of artificial sound electric cars should make',
+        answer: 'G', answerDisplay: 'G',
+        explanation: '<strong>Paragraph G</strong> mentions research suggesting that <strong>"softer, more variable"</strong> sounds modelled on the natural environment would be safer and less stressful than engine-like sounds.',
+        reinforcement: 'Correct — research on better artificial sounds for electric vehicles is in paragraph G.' },
+      { id: 18, text: 'examples of changes that reduced noise without intending to',
+        answer: 'E', answerDisplay: 'E',
+        explanation: '<strong>Paragraph E</strong> states: <strong>"None of these changes was undertaken for the sake of acoustic comfort, but each has had acoustic consequences."</strong> Remote working, online shopping and construction regulations all reduced noise as side effects.',
+        reinforcement: 'Correct — unintentional noise reductions from remote work, online shopping, and construction rules are described in paragraph E.' },
+      { id: 19, text: 'the health consequences of long-term noise exposure',
+        answer: 'A', answerDisplay: 'A',
+        explanation: '<strong>Paragraph A</strong> lists <strong>"cardiovascular disease, sleep disturbance and cognitive impairment in children"</strong> as consequences of chronic noise exposure above 55 decibels.',
+        reinforcement: 'Correct — health consequences of long-term noise exposure are listed in paragraph A.' },
+    ]
+  },
+
+  {
+    passageId: 2, type: 'sentence_completion', label: 'Questions 20–23',
+    instructions: 'Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.',
+    questions: [
+      { id: 20, text: 'Electric vehicles are markedly quieter than older cars at low _______.',
+        answer: 'speeds', answerDisplay: 'speeds',
+        acceptable: ['speeds','urban speeds'],
+        explanation: 'Paragraph C states electric cars are quieter <strong>"at urban speeds below thirty kilometres per hour."</strong> The key word is "speeds."',
+        reinforcement: 'Correct — "speeds" (or "urban speeds") is the answer from paragraph C.' },
+      { id: 21, text: 'Low-noise asphalt contains _______ that absorb tyre noise instead of reflecting it.',
+        answer: 'air pockets', answerDisplay: 'air pockets',
+        acceptable: ['air pockets'],
+        explanation: 'Paragraph D: the asphalt <strong>"contains air pockets that absorb tyre noise rather than reflecting it."</strong>',
+        reinforcement: 'Correct — "air pockets" is stated directly in paragraph D.' },
+      { id: 22, text: 'The increase in _______ working has cut down on rush-hour traffic.',
+        answer: 'remote', answerDisplay: 'remote (or hybrid)',
+        acceptable: ['remote','hybrid','remote and hybrid','remote and'],
+        explanation: 'Paragraph E: <strong>"The shift to remote and hybrid working has reduced rush-hour traffic."</strong> Either "remote" or "hybrid" is acceptable.',
+        reinforcement: 'Correct — "remote" or "hybrid" (both from paragraph E) are acceptable answers.' },
+      { id: 23, text: 'Critics argue that the acoustic _______ between richer and poorer districts is growing.',
+        answer: 'divide', answerDisplay: 'divide',
+        acceptable: ['divide'],
+        explanation: 'Paragraph F: <strong>"The acoustic divide, some researchers argue, is widening."</strong>',
+        reinforcement: 'Correct — "divide" is taken directly from paragraph F.' },
+    ]
+  },
+
+  {
+    passageId: 2, type: 'yes_no_ng', label: 'Questions 24–26',
+    instructions: 'Do the following statements agree with the <em>views of the writer</em> in Reading Passage 2? Write <strong>YES</strong> if the statement agrees with the writer\'s views, <strong>NO</strong> if the statement contradicts the writer\'s views, or <strong>NOT GIVEN</strong> if it is impossible to say what the writer thinks about this.',
+    questions: [
+      { id: 24, text: 'Cities are bound to grow noisier as they expand.',
+        answer: 'NO',
+        explanation: 'Paragraph H states the assumption of inevitable acoustic decline <strong>"has been disproved by the recent data."</strong> The writer directly contradicts the idea that cities must grow noisier.',
+        reinforcement: 'Correct — the writer explicitly says this assumption "has been disproved," making this NO.' },
+      { id: 25, text: 'Electric vehicles should be made to sound exactly like petrol engines.',
+        answer: 'NO',
+        explanation: 'Paragraph G states that <strong>"research suggests that other patterns — softer, more variable, more like the natural environment — would be both safer and less stressful"</strong> than sounds modelled on conventional engine noise.',
+        reinforcement: 'Correct — the writer says research supports different, more natural sounds rather than engine sounds, making this NO.' },
+      { id: 26, text: 'Reducing urban noise requires people to give up city life.',
+        answer: 'NO',
+        explanation: 'Paragraph H: the writer says a quieter city <strong>"does not require abandoning urban life — only paying attention to what the city sounds like, and choosing differently."</strong>',
+        reinforcement: 'Correct — the writer explicitly says urban life need not be abandoned, making this NO.' },
+    ]
+  },
+
+  // ══ PASSAGE 3 — The unsettled science of animal play ══
+
+  {
+    passageId: 3, type: 'mc', label: 'Questions 27–31',
+    instructions: 'Choose the correct letter, A, B, C or D.',
+    questions: [
+      { id: 27, text: 'In the first paragraph, the writer suggests that play is theoretically troublesome because',
+        answer: 'C', answerDisplay: 'C',
+        options: [
+          { key: 'A', text: 'it is much rarer in nature than people commonly assume.' },
+          { key: 'B', text: 'it is observed mainly in animals that are closely related to humans.' },
+          { key: 'C', text: 'it appears to contradict what natural selection should produce.' },
+          { key: 'D', text: 'it is impossible to distinguish from other kinds of behaviour.' },
+        ],
+        explanation: 'The first paragraph states that play <strong>"consumes energy, exposes the animal to risk, and does not directly serve survival or reproduction"</strong> — precisely the kind of behaviour natural selection should eliminate. That it persists contradicts natural selection theory.',
+        reinforcement: 'Correct — play contradicts what natural selection should produce by wasting energy without survival benefit (C).' },
+      { id: 28, text: 'According to the second paragraph, attempts to test the "play as rehearsal" hypothesis have',
+        answer: 'D', answerDisplay: 'D',
+        options: [
+          { key: 'A', text: 'produced strong support for it in most species studied.' },
+          { key: 'B', text: 'confirmed it in mammals but not in birds.' },
+          { key: 'C', text: 'shown that the hypothesis applies only to predatory behaviour.' },
+          { key: 'D', text: 'failed to find the clear link the hypothesis would predict.' },
+        ],
+        explanation: 'Paragraph 2: studies of meerkats, rats and primates <strong>"found no clear correlation"</strong> between play as juveniles and success as adults. The rehearsal hypothesis was not confirmed.',
+        reinforcement: 'Correct — studies across multiple species failed to find the expected link between juvenile play and adult success (D).' },
+      { id: 29, text: 'What is the central claim of the theory associated with Marc Bekoff?',
+        answer: 'B', answerDisplay: 'B',
+        options: [
+          { key: 'A', text: 'That play exists primarily to strengthen social bonds within a group.' },
+          { key: 'B', text: 'That play teaches animals to handle unpredictable situations.' },
+          { key: 'C', text: 'That play is an evolved form of communication between siblings.' },
+          { key: 'D', text: 'That play occurs only in species with extended childhoods.' },
+        ],
+        explanation: 'Paragraph 3: Bekoff\'s theory holds that play cultivates <strong>"behavioural flexibility"</strong> — the capacity to <strong>"respond creatively to novel situations"</strong> and cope with the unexpected.',
+        reinforcement: 'Correct — Bekoff\'s theory is about developing the ability to handle unexpected, unpredictable situations (B).' },
+      { id: 30, text: 'Why is the octopus example mentioned in paragraph 5?',
+        answer: 'B', answerDisplay: 'B',
+        options: [
+          { key: 'A', text: 'To show that play is more common in invertebrates than was thought.' },
+          { key: 'B', text: 'To question whether one definition can cover behaviour in very different species.' },
+          { key: 'C', text: 'To illustrate how play in captivity differs from play in the wild.' },
+          { key: 'D', text: 'To suggest that octopuses are more intelligent than mammals.' },
+        ],
+        explanation: 'The octopus example fits the standard criteria for play, but the writer notes that <strong>"the cognitive machinery behind it is so different from that of a mammal that calling it the same thing may be more misleading than helpful."</strong> The point is whether one definition works across radically different species.',
+        reinforcement: 'Correct — the octopus example questions whether a single definition can meaningfully cover such different animals (B).' },
+      { id: 31, text: 'What objection do critics raise against recent research on play?',
+        answer: 'C', answerDisplay: 'C',
+        options: [
+          { key: 'A', text: 'It relies too heavily on observations of laboratory animals.' },
+          { key: 'B', text: 'It ignores the role of energy and metabolism.' },
+          { key: 'C', text: 'It uses appealing ideas that are difficult to test scientifically.' },
+          { key: 'D', text: 'It assumes that all play serves the same purpose.' },
+        ],
+        explanation: 'Paragraph 7: critics argue the field is <strong>"substituting attractive ideas for testable ones."</strong> The idea that animals play for fun is appealing but not scientifically defined or measurable.',
+        reinforcement: 'Correct — critics say the field uses attractive but scientifically untestable ideas (C).' },
+    ]
+  },
+
+  {
+    passageId: 3, type: 'yes_no_ng', label: 'Questions 32–36',
+    instructions: 'Do the following statements agree with the <em>views of the writer</em> in Reading Passage 3? Write <strong>YES</strong> if the statement agrees with the writer\'s views, <strong>NO</strong> if the statement contradicts the writer\'s views, or <strong>NOT GIVEN</strong> if it is impossible to say what the writer thinks about this.',
+    questions: [
+      { id: 32, text: 'The "play as preparation" theory remains the most widely accepted explanation today.',
+        answer: 'NOT GIVEN',
+        explanation: 'The writer calls it <strong>"the most enduring explanation"</strong> but says nothing about whether it is the most widely accepted today. Enduring and widely accepted are different claims.',
+        reinforcement: 'Correct — the writer says it is the most enduring, not necessarily the most widely accepted today, making this NOT GIVEN.' },
+      { id: 33, text: 'Sounds made by rats during play may be useful indicators of the animals\' wellbeing.',
+        answer: 'YES',
+        explanation: 'Paragraph 4: <strong>"researchers now use them as a measure of welfare in laboratory rodents. If an animal stops making its play-calls, something is wrong."</strong> This directly supports the statement.',
+        reinforcement: 'Correct — the writer says play-calls are now used as welfare measures, confirming this is YES.' },
+      { id: 34, text: 'Treating play as several different phenomena rather than one is a clearly superior approach.',
+        answer: 'NO',
+        explanation: 'Paragraph 6: the writer notes this approach <strong>"captures real differences but gives up on a unified explanation"</strong> — acknowledging a real disadvantage. The writer does not endorse it as clearly superior.',
+        reinforcement: 'Correct — the writer notes this approach loses a unified explanation, so it is not called clearly superior, making this NO.' },
+      { id: 35, text: 'The conservative explanations of play deal well with how varied play behaviour is.',
+        answer: 'NO',
+        explanation: 'Paragraph 7: the writer states the conservative alternatives <strong>"have struggled to explain the sheer diversity of forms play takes."</strong> They deal poorly, not well, with this diversity.',
+        reinforcement: 'Correct — the writer says conservative explanations struggle with play\'s diversity, making this NO.' },
+      { id: 36, text: 'Biology alone may not be able to settle whether animals experience play as humans do.',
+        answer: 'YES',
+        explanation: 'The final paragraph states the question of whether animals experience play as humans do <strong>"is a question that biology, on its own, may not be equipped to answer."</strong>',
+        reinforcement: 'Correct — the final sentence directly supports this claim, making it YES.' },
+    ]
+  },
+
+  {
+    passageId: 3, type: 'sentence_completion', label: 'Questions 37–40',
+    instructions: 'Complete the summary below. Choose <strong>NO MORE THAN THREE WORDS</strong> from the passage for each answer.',
+    questions: [
+      { id: 37, text: 'The traditional account treats animal play as a form of _______ for adult life.',
+        answer: 'preparation', answerDisplay: 'preparation',
+        acceptable: ['preparation'],
+        explanation: 'Paragraph 2: <strong>"the most enduring explanation… is that play is preparation."</strong>',
+        reinforcement: 'Correct — "preparation" is the exact word used in paragraph 2.' },
+      { id: 38, text: 'The predicted link between play and adult success was not found in studies of _______.',
+        answer: 'meerkats', answerDisplay: 'meerkats',
+        acceptable: ['meerkats'],
+        explanation: 'Paragraph 2: <strong>"Studies of meerkats, for example, found no clear correlation between the amount of mock-fighting an individual engaged in as a pup and its success in real conflicts as an adult."</strong>',
+        reinforcement: 'Correct — meerkats is the named species where the link was tested and not found.' },
+      { id: 39, text: 'An alternative view holds that play develops _______ — the ability to respond well to unexpected events.',
+        answer: 'behavioural flexibility', answerDisplay: 'behavioural flexibility',
+        acceptable: ['behavioural flexibility'],
+        explanation: 'Paragraph 3: Bekoff holds that play cultivates <strong>"behavioural flexibility"</strong> — the capacity to respond to novel situations.',
+        reinforcement: 'Correct — "behavioural flexibility" is Bekoff\'s exact term from paragraph 3.' },
+      { id: 40, text: 'Certain vocalisations in rats resemble _______ in their structure and are used to assess animal welfare.',
+        answer: 'laughter', answerDisplay: 'laughter',
+        acceptable: ['laughter'],
+        explanation: 'Paragraph 4: rat play vocalisations <strong>"closely resemble laughter in their acoustic structure."</strong>',
+        reinforcement: 'Correct — "laughter" is the word used in paragraph 4 to describe what the sounds resemble.' },
+    ]
+  },
+];
+
+// ─────────────────────────────────────────
+//  STATE
+// ─────────────────────────────────────────
+const answers = {};
+const TOTAL_SECONDS = 3600;
+let secondsLeft = TOTAL_SECONDS;
+let timerInterval = null;
+let submitted = false;
+
+// ─────────────────────────────────────────
+//  TAB SWITCHING
+// ─────────────────────────────────────────
+function switchTab(n) {
+  [1,2,3].forEach(i => {
+    document.getElementById('passageContent' + i).style.display = i === n ? 'block' : 'none';
+    document.getElementById('qPanel' + i).style.display = i === n ? 'block' : 'none';
+    document.getElementById('tabNav').querySelectorAll('.tab-btn')[i-1].classList.toggle('active', i === n);
+  });
+  document.getElementById('readingPane').scrollTop = 0;
+  document.getElementById('questionPane').scrollTop = 0;
+}
+
+// ─────────────────────────────────────────
+//  FONT SIZE
+// ─────────────────────────────────────────
+const FONT_SIZES = [13, 15, 17, 19];
+let fontSizeIdx = parseInt(localStorage.getItem('ielts_font_size_idx') || '1');
+function initFontSize() { document.documentElement.style.setProperty('--passage-font-size', FONT_SIZES[fontSizeIdx] + 'px'); }
+function adjustFontSize(delta) {
+  if (delta === 0) fontSizeIdx = 1;
+  else fontSizeIdx = Math.max(0, Math.min(FONT_SIZES.length - 1, fontSizeIdx + delta));
+  document.documentElement.style.setProperty('--passage-font-size', FONT_SIZES[fontSizeIdx] + 'px');
+  localStorage.setItem('ielts_font_size_idx', fontSizeIdx);
+}
+
+// ─────────────────────────────────────────
+//  RESIZER
+// ─────────────────────────────────────────
+(function initResizer() {
+  const container = document.getElementById('splitContainer');
+  const leftPane  = document.getElementById('readingPane');
+  const resizer   = document.getElementById('resizerBar');
+  if (!container || !leftPane || !resizer) return;
+  let isDragging = false, startX = 0, startW = 0;
+  function onStart(cx) { isDragging = true; startX = cx; startW = leftPane.getBoundingClientRect().width; resizer.classList.add('active'); document.body.style.cursor = 'col-resize'; document.body.style.userSelect = 'none'; }
+  function onMove(cx) { if (!isDragging) return; const cW = container.getBoundingClientRect().width; const rW = resizer.getBoundingClientRect().width; const avail = cW - rW; leftPane.style.width = ((Math.max(avail*0.25, Math.min(avail*0.75, startW + (cx-startX))) / cW) * 100).toFixed(2) + '%'; }
+  function onEnd() { if (!isDragging) return; isDragging = false; resizer.classList.remove('active'); document.body.style.cursor = ''; document.body.style.userSelect = ''; }
+  resizer.addEventListener('mousedown', e => { e.preventDefault(); onStart(e.clientX); });
+  document.addEventListener('mousemove', e => onMove(e.clientX));
+  document.addEventListener('mouseup', onEnd);
+  resizer.addEventListener('touchstart', e => { e.preventDefault(); onStart(e.touches[0].clientX); }, { passive: false });
+  document.addEventListener('touchmove', e => { if (isDragging) { e.preventDefault(); onMove(e.touches[0].clientX); } }, { passive: false });
+  document.addEventListener('touchend', onEnd);
+})();
+
+// ─────────────────────────────────────────
+//  TIMER
+// ─────────────────────────────────────────
+function startTimer() {
+  timerInterval = setInterval(() => {
+    secondsLeft--;
+    document.getElementById('progressFill').style.width = ((TOTAL_SECONDS - secondsLeft) / TOTAL_SECONDS * 100) + '%';
+    const el = document.getElementById('timerDisplay');
+    el.textContent = `${String(Math.floor(secondsLeft/60)).padStart(2,'0')}:${String(secondsLeft%60).padStart(2,'0')}`;
+    if (secondsLeft <= 120) el.className = 'timer-box critical';
+    else if (secondsLeft <= 300) el.className = 'timer-box warning';
+    if (secondsLeft <= 0) { clearInterval(timerInterval); autoSubmit(); }
+  }, 1000);
+}
+
+// ─────────────────────────────────────────
+//  RENDER QUESTIONS
+// ─────────────────────────────────────────
+function renderAll() {
+  [1,2,3].forEach(pid => {
+    const panel = document.getElementById('qPanel' + pid);
+    let html = '';
+    GROUPS.filter(g => g.passageId === pid).forEach(group => {
+      html += `<div class="group-header mb-4">
+        <div class="text-xs font-bold tracking-widest uppercase" style="color:var(--gold);">${group.label}</div>
+        <p>${group.instructions}</p>
+      </div>`;
+
+      if (group.type === 'tfng' || group.type === 'yes_no_ng') {
+        const isYNG = group.type === 'yes_no_ng';
+        const btns = isYNG
+          ? [['YES','sel-y'],['NO','sel-n'],['NOT GIVEN','sel-ng']]
+          : [['TRUE','sel-t'],['FALSE','sel-f'],['NOT GIVEN','sel-ng']];
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <div class="q-tfng">
+              ${btns.map(([label, cls]) => `<button class="q-tfng-btn" onclick="selectTFNG(${q.id},'${label}',this,'${cls}')">${label}</button>`).join('')}
+            </div>
+          </div>`;
+        });
+
+      } else if (group.type === 'sentence_completion') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <input type="text" class="q-input" id="q${q.id}" placeholder="Your answer…" oninput="recordAnswer(${q.id}, this.value.trim())" />
+          </div>`;
+        });
+
+      } else if (group.type === 'matching_info') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <select class="q-select" id="q${q.id}" onchange="recordAnswer(${q.id}, this.value)">
+              <option value="">— Select paragraph —</option>
+              ${group.paraOptions.map(p => `<option value="${p}">Paragraph ${p}</option>`).join('')}
+            </select>
+          </div>`;
+        });
+
+      } else if (group.type === 'mc') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <div class="q-options">
+              ${q.options.map(o => `
+              <div class="q-option" onclick="selectMC(${q.id},'${o.key}',this)">
+                <input type="radio" name="q${q.id}" value="${o.key}" id="q${q.id}_${o.key}" onchange="recordAnswer(${q.id},'${o.key}')">
+                <label for="q${q.id}_${o.key}"><strong>${o.key}.</strong> ${o.text}</label>
+              </div>`).join('')}
+            </div>
+          </div>`;
+        });
+      }
+    });
+    panel.innerHTML = html;
+  });
+}
+
+function selectTFNG(qId, val, btn, cls) {
+  btn.parentElement.querySelectorAll('.q-tfng-btn').forEach(b => { b.className = 'q-tfng-btn'; });
+  btn.classList.add(cls);
+  recordAnswer(qId, val);
+}
+function selectMC(qId, val, optionEl) {
+  optionEl.closest('.q-options').querySelectorAll('.q-option').forEach(o => { o.style.background = ''; o.style.borderColor = ''; });
+  optionEl.style.background = 'var(--gold-dim)';
+  optionEl.style.borderColor = 'var(--gold-border)';
+  const radio = optionEl.querySelector('input[type=radio]');
+  if (radio) radio.checked = true;
+  recordAnswer(qId, val);
+}
+function recordAnswer(qId, val) { answers[qId] = val; }
+
+// ─────────────────────────────────────────
+//  SCORING
+// ─────────────────────────────────────────
+function scoreAnswer(q, studentRaw) {
+  if (!studentRaw) return false;
+  const student = studentRaw.toString().trim().toLowerCase();
+  if (q.acceptable) return q.acceptable.map(a => a.toLowerCase()).includes(student);
+  return student === q.answer.toLowerCase();
+}
+function bandFromScore(n) {
+  if (n >= 39) return 9.0; if (n >= 37) return 8.5; if (n >= 35) return 8.0;
+  if (n >= 33) return 7.5; if (n >= 30) return 7.0; if (n >= 27) return 6.5;
+  if (n >= 23) return 6.0; if (n >= 19) return 5.5; if (n >= 15) return 5.0;
+  if (n >= 13) return 4.5; if (n >= 10) return 4.0; return 3.5;
+}
+function bandColour(b) { return b >= 7 ? '#0D9488' : b >= 5.5 ? '#C9952E' : '#dc2626'; }
+function bandAdvice(band, score) {
+  const pct = Math.round(score/40*100);
+  if (band >= 8.5) return `Outstanding — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Excellent comprehension across all three passages. Focus on NOT GIVEN precision and exact word retrieval in sentence completions.`;
+  if (band >= 7.5) return `Excellent result — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Strong academic reading. To push towards Band 8+: tighten YES/NO/NOT GIVEN judgements — only use the writer's expressed views, not implied ones.`;
+  if (band >= 6.5) return `Good performance — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Solid comprehension. Review: (1) Yes/No/Not Given — look for the writer's views, not facts; (2) sentence completion — copy words exactly from the passage; (3) time management across all three passages.`;
+  if (band >= 5.5) return `You scored ${score}/40 (${pct}%), giving an estimated <strong>Band ${band}</strong>. Clear potential — prioritise synonym recognition, since every question involves paraphrase. Review each wrong answer and locate the exact passage sentence.`;
+  return `You scored ${score}/40 (${pct}%), giving an estimated <strong>Band ${band}</strong>. Focus on active reading: identify each paragraph's main claim before answering. Daily timed reading of academic texts will accelerate improvement.`;
+}
+
+// ─────────────────────────────────────────
+//  SUBMIT
+// ─────────────────────────────────────────
+function confirmSubmit() { if (!confirm('Submit your reading test now?')) return; doSubmit(); }
+function autoSubmit() { if (submitted) return; doSubmit(); }
+function doSubmit() {
+  if (submitted) return;
+  submitted = true;
+  clearInterval(timerInterval);
+  document.getElementById('submittingOverlay').style.display = 'flex';
+  setTimeout(showResults, 800);
+}
+
+// ─────────────────────────────────────────
+//  RESULTS
+// ─────────────────────────────────────────
+function showResults() {
+  document.getElementById('submittingOverlay').style.display = 'none';
+  document.getElementById('testMain').style.display = 'none';
+  document.getElementById('timingStrip').style.display = 'none';
+  document.getElementById('resultsMain').style.display = 'block';
+
+  let correct = 0;
+  const allQs = GROUPS.flatMap(g => g.questions);
+  allQs.forEach(q => { if (scoreAnswer(q, answers[q.id])) correct++; });
+  const band = bandFromScore(correct);
+  const bCol = bandColour(band);
+
+  const results = JSON.parse(localStorage.getItem('ielts_mock_results') || '[]');
+  results.push({ date: Date.now(), book: 19, testNum: 2, skill: 'reading', scores: { reading: band } });
+  localStorage.setItem('ielts_mock_results', JSON.stringify(results));
+
+  const passageChips = [1,2,3].map(p => {
+    const pQs = GROUPS.filter(g => g.passageId === p).flatMap(g => g.questions);
+    const pC = pQs.filter(q => scoreAnswer(q, answers[q.id])).length;
+    const pCol = bandColour(bandFromScore(Math.round(pC/pQs.length*40)));
+    return `<div style="background:#EFF3F9;border:1px solid var(--border);border-radius:10px;padding:10px 14px;text-align:center;min-width:80px;">
+      <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px;">Passage ${p}</div>
+      <div style="font-family:'Space Mono',monospace;font-size:1.125rem;font-weight:700;color:${pCol};">${pC}/${pQs.length}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('scoreCard').innerHTML = `
+    <div class="flex flex-col md:flex-row gap-6 items-center">
+      <div class="score-ring-wrap">
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#E2E8F0" stroke-width="8"/>
+          <circle cx="60" cy="60" r="50" fill="none" stroke="${bCol}" stroke-width="8"
+            stroke-dasharray="${Math.round(correct/40*314)} 314" stroke-linecap="round"
+            transform="rotate(-90 60 60)" style="transition:stroke-dasharray 1.2s cubic-bezier(.16,1,.3,1)"/>
+        </svg>
+        <div style="margin-top:-70px;text-align:center;pointer-events:none;">
+          <div style="font-family:'Space Mono',monospace;font-size:1.75rem;font-weight:700;color:${bCol};">${correct}</div>
+          <div style="font-size:0.75rem;color:var(--text-muted);">out of 40</div>
+        </div>
+        <div style="margin-top:16px;"></div>
+      </div>
+      <div class="flex-1">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Your Score</div>
+        <div class="font-display font-black text-4xl mb-1" style="color:${bCol};">Band ${band}</div>
+        <div class="text-sm mb-4" style="color:var(--text-muted);">${correct} correct answers out of 40</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">${passageChips}</div>
+      </div>
+    </div>`;
+
+  document.getElementById('feedbackCard').innerHTML = `
+    <div class="text-xs font-bold tracking-widest uppercase mb-3" style="color:var(--gold);">Overall Feedback</div>
+    <div class="band-feedback">${bandAdvice(band, correct)}</div>`;
+
+  [1,2,3].forEach(pid => {
+    let html = '';
+    GROUPS.filter(g => g.passageId === pid).forEach(group => {
+      const typeLabel = { tfng:'True / False / Not Given', yes_no_ng:'Yes / No / Not Given', mc:'Multiple Choice', matching_info:'Matching Information', matching_feature:'Matching Features', sentence_completion:'Sentence Completion', word_bank:'Summary Completion (Word Bank)' }[group.type] || group.type;
+      html += `<div style="margin-bottom:0.5rem;padding:6px 0 8px;border-bottom:1px solid var(--border-soft);">
+        <span style="font-size:0.6875rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-faint);">${group.label} — ${typeLabel}</span>
+      </div>`;
+      group.questions.forEach(q => {
+        const isCorrect = scoreAnswer(q, answers[q.id]);
+        const studentAns = answers[q.id] ? answers[q.id].toString() : '(no answer)';
+        const correctAns = q.answerDisplay || q.answer;
+        html += `<div class="corr-block ${isCorrect ? 'corr-correct' : 'corr-wrong'}">
+          <div class="corr-qnum ${isCorrect ? 'ok' : 'bad'}">${isCorrect ? '✓' : '✗'} Question ${q.id}</div>
+          <div class="corr-qtext">${q.text}</div>`;
+        if (isCorrect) {
+          html += `<div class="corr-row"><span class="corr-tag reinforce">✓ Correct</span><span class="corr-val">${studentAns}</span></div>
+            <div class="corr-expl">${q.reinforcement || ''}</div>`;
+        } else {
+          const extraAcceptable = q.acceptable && q.acceptable.length > 1
+            ? ` <span style="font-size:0.75rem;color:var(--text-faint);">(also: ${q.acceptable.filter(a=>a.toLowerCase()!==q.answer.toLowerCase()).join(', ')})</span>`
+            : '';
+          html += `<div class="corr-row"><span class="corr-tag your">Your answer</span><span class="corr-val">${studentAns}</span></div>
+            <div class="corr-row"><span class="corr-tag correct">Correct answer</span><span class="corr-val">${correctAns}${extraAcceptable}</span></div>
+            <div class="corr-expl">${q.explanation || ''}</div>`;
+        }
+        html += `</div>`;
+      });
+    });
+    document.getElementById('corrPassage' + pid).innerHTML = html;
+  });
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─────────────────────────────────────────
+//  INIT
+// ─────────────────────────────────────────
+initFontSize();
+renderAll();
+startTimer();
+</script>
+<script src="/js/components.js"></script>
+<script>
+  IELTSLab.loadNav({ basePath: '../', breadcrumb: 'Mock Tests', authenticated: true, themeDefault: 'light' });
+</script>
+</body>
+</html>
