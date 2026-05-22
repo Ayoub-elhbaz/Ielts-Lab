@@ -17,7 +17,7 @@
       --navy: #1a3c6e; --navy-mid: #2a4f8a; --page-bg: #F7F8FA; --card-bg: #FFFFFF;
       --qpanel-bg: #EFF3F9; --border: #E2E8F0; --border-soft: #EEF1F6;
       --text-primary: #1E2A3A; --text-body: #374151; --text-muted: #64748B; --text-faint: #94A3B8;
-      --passage-font-size: 15px;
+      --passage-font-size: 17px;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { background: var(--page-bg); color: var(--text-primary); }
@@ -52,7 +52,7 @@
     .tab-btn:hover { background: rgba(255,255,255,0.6); color: var(--text-primary); }
     .tab-btn.active { background: #FFFFFF; color: var(--navy); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
     .section-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 1.75rem; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
-    .passage-text { font-size: var(--passage-font-size); line-height: 2.0; color: var(--text-body); transition: font-size 0.2s ease; }
+    .passage-text { font-size: var(--passage-font-size); line-height: 1.7; color: var(--text-body); transition: font-size 0.2s ease; }
     .passage-text p { margin-bottom: 1.2rem; }
     .para-label { display: inline-block; font-family: 'Space Mono', monospace; font-size: 0.6875rem; font-weight: 700; color: var(--navy); background: rgba(26,60,110,0.08); border: 1px solid rgba(26,60,110,0.18); border-radius: 4px; padding: 1px 6px; margin-right: 8px; letter-spacing: 0.05em; }
     .q-block { margin-bottom: 1.25rem; padding: 1rem 1.15rem; border-radius: 12px; background: #FFFFFF; border: 1px solid var(--border); }
@@ -239,8 +239,8 @@
     </div>
   </div>
 
-  <div class="flex justify-center mt-10 mb-16">
-    <button onclick="confirmSubmit()" class="btn-gold px-10 py-4 text-base">Submit Reading Test</button>
+  <div class="flex justify-center mt-6 mb-8">
+    <button onclick="confirmSubmit()" class="btn-gold">Submit Reading Test</button>
   </div>
 </main>
 
