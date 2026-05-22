@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IELTS Lab — Cambridge 19 Test 3 · Academic Reading</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <script>tailwind.config={theme:{extend:{fontFamily:{display:['Satoshi','Plus Jakarta Sans','system-ui','sans-serif'],sans:['Plus Jakarta Sans','system-ui','sans-serif']}}}}</script>
+  <style>
+    :root {
+      --gold: #C9952E; --gold-light: #DDB05A; --gold-dim: rgba(201,149,46,0.10); --gold-border: rgba(201,149,46,0.30);
+      --navy: #1a3c6e; --navy-mid: #2a4f8a; --page-bg: #F7F8FA; --card-bg: #FFFFFF;
+      --qpanel-bg: #EFF3F9; --border: #E2E8F0; --border-soft: #EEF1F6;
+      --text-primary: #1E2A3A; --text-body: #374151; --text-muted: #64748B; --text-faint: #94A3B8;
+      --passage-font-size: 17px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--page-bg); color: var(--text-primary); }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    h1, h2, h3, h4, .font-display { font-family: 'Satoshi', 'Plus Jakarta Sans', system-ui, sans-serif; }
+    ::-webkit-scrollbar { width: 5px; } ::-webkit-scrollbar-track { background: #EFF2F7; } ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 3px; }
+    .progress-bar { height: 3px; background: #E2E8F0; position: fixed; top: 64px; left: 0; right: 0; z-index: 40; }
+    .progress-fill { height: 100%; background: linear-gradient(to right, var(--gold), #DDB05A); transition: width 1s linear; width: 0%; }
+    .nav-glass { background: rgba(255,255,255,0.97); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .nav-logo { display: flex; align-items: baseline; gap: 0; text-decoration: none; }
+    .nl-ielts { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; letter-spacing: 1px; color: var(--text-primary); }
+    .nl-lab { font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: 3px; color: var(--gold); margin-left: 5px; }
+    #themeToggle { background: transparent; border: 1.5px solid var(--border); color: var(--text-muted); border-radius: 8px; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; font-size: 15px; flex-shrink: 0; padding: 0; }
+    #themeToggle:hover { border-color: var(--gold-border); color: var(--gold); }
+    .timer-box { background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 10px; padding: 8px 16px; font-family: 'Space Mono', monospace; font-size: 1.125rem; font-weight: 700; color: var(--text-primary); letter-spacing: 2px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+    .timer-box.warning { color: #b45309; border-color: rgba(180,83,9,0.3); background: #fffbeb; }
+    .timer-box.critical { color: #dc2626; border-color: rgba(220,38,38,0.3); background: #fef2f2; animation: pulse 1s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
+    .timing-strip { background: #FAFBFD; border-bottom: 1px solid var(--border); padding: 8px 0; }
+    .timing-item { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+    .timing-label { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
+    .timing-val { font-size: 0.75rem; color: var(--text-muted); }
+    .font-ctrl { display: inline-flex; align-items: center; gap: 0; background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 9px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .font-ctrl-btn { padding: 6px 12px; border: none; background: transparent; cursor: pointer; color: var(--text-muted); font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.15s; line-height: 1; border-right: 1px solid var(--border); }
+    .font-ctrl-btn:last-child { border-right: none; }
+    .font-ctrl-btn:hover { background: var(--gold-dim); color: var(--gold); }
+    .font-ctrl-btn.a-small { font-size: 11px; } .font-ctrl-btn.a-mid { font-size: 13px; } .font-ctrl-btn.a-large { font-size: 16px; }
+    .a11y-bar { display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: #FFFFFF; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .a11y-bar-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); }
+    .tab-nav { display: flex; gap: 4px; margin-bottom: 1rem; background: #EFF3F9; border-radius: 12px; padding: 4px; }
+    .tab-btn { flex: 1; padding: 8px 12px; border: none; border-radius: 9px; background: transparent; color: var(--text-muted); font-size: 0.8125rem; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .tab-btn:hover { background: rgba(255,255,255,0.6); color: var(--text-primary); }
+    .tab-btn.active { background: #FFFFFF; color: var(--navy); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+    .section-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 1.75rem; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+    .passage-text { font-size: var(--passage-font-size); line-height: 1.7; color: var(--text-body); transition: font-size 0.2s ease; }
+    .passage-text p { margin-bottom: 1.2rem; }
+    .para-label { display: inline-block; font-family: 'Space Mono', monospace; font-size: 0.6875rem; font-weight: 700; color: var(--navy); background: rgba(26,60,110,0.08); border: 1px solid rgba(26,60,110,0.18); border-radius: 4px; padding: 1px 6px; margin-right: 8px; letter-spacing: 0.05em; }
+    .q-block { margin-bottom: 1.25rem; padding: 1rem 1.15rem; border-radius: 12px; background: #FFFFFF; border: 1px solid var(--border); }
+    .q-num { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+    .q-text { font-size: 0.9rem; color: var(--text-body); margin-bottom: 10px; line-height: 1.65; }
+    .q-input { width: 100%; background: #F8FAFC; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text-primary); font-size: 0.9rem; transition: border-color 0.2s, box-shadow 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,149,46,0.12); }
+    .q-select { width: 100%; background: #F8FAFC; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text-primary); font-size: 0.9rem; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-select:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,149,46,0.12); }
+    .q-options { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+    .q-option { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; padding: 9px 12px; border-radius: 8px; border: 1.5px solid var(--border); transition: all 0.2s; background: #F8FAFC; }
+    .q-option:hover { background: var(--gold-dim); border-color: var(--gold-border); }
+    .q-option input[type=radio] { accent-color: var(--gold); margin-top: 3px; flex-shrink: 0; }
+    .q-option label { font-size: 0.9rem; color: var(--text-body); cursor: pointer; line-height: 1.55; }
+    .q-tfng { display: flex; gap: 8px; }
+    .q-tfng-btn { flex: 1; padding: 9px 6px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer; background: #F8FAFC; color: var(--text-muted); transition: all 0.2s; letter-spacing: 0.05em; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-tfng-btn:hover { border-color: var(--gold-border); color: var(--gold); background: var(--gold-dim); }
+    .q-tfng-btn.sel-t { border-color: #16a34a; background: #f0fdf4; color: #16a34a; }
+    .q-tfng-btn.sel-f { border-color: #dc2626; background: #fef2f2; color: #dc2626; }
+    .q-tfng-btn.sel-ng { border-color: #d97706; background: #fffbeb; color: #d97706; }
+    .q-tfng-btn.sel-y { border-color: #16a34a; background: #f0fdf4; color: #16a34a; }
+    .q-tfng-btn.sel-n { border-color: #dc2626; background: #fef2f2; color: #dc2626; }
+    .group-header { margin-bottom: 1.25rem; padding: 0.875rem 1rem; border-radius: 12px; background: rgba(26,60,110,0.04); border: 1px solid rgba(26,60,110,0.12); }
+    .group-header p { font-size: 0.8125rem; color: var(--text-muted); line-height: 1.65; margin-top: 6px; }
+    .headings-list { margin: 0.75rem 0; padding: 0.875rem 1rem; background: #FFFFFF; border-radius: 10px; border: 1px solid var(--border); }
+    .headings-list li { font-size: 0.8125rem; color: var(--text-body); line-height: 1.8; padding: 2px 0; }
+    .headings-list li span { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--gold); margin-right: 6px; font-weight: 700; }
+    .btn-gold { background: linear-gradient(135deg, var(--gold) 0%, #a8741f 100%); color: #FFFFFF; border: none; border-radius: 10px; padding: 12px 32px; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.04em; cursor: pointer; transition: all 0.25s ease; box-shadow: 0 2px 12px rgba(201,149,46,0.30); }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 6px 22px rgba(201,149,46,0.42); }
+    .corr-block { margin-bottom: 1rem; padding: 1rem 1.25rem; border-radius: 12px; border: 1.5px solid; }
+    .corr-correct { background: #f0fdf4; border-color: #bbf7d0; }
+    .corr-wrong { background: #fef2f2; border-color: #fecaca; }
+    .corr-qnum { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+    .corr-qnum.ok { color: #16a34a; } .corr-qnum.bad { color: #dc2626; }
+    .corr-qtext { font-size: 0.875rem; color: var(--text-body); line-height: 1.65; margin-bottom: 8px; }
+    .corr-row { display: flex; gap: 8px; align-items: flex-start; font-size: 0.8125rem; margin-bottom: 4px; }
+    .corr-tag { flex-shrink: 0; padding: 2px 8px; border-radius: 4px; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+    .corr-tag.your { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+    .corr-tag.correct { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .corr-tag.reinforce { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .corr-val { color: var(--text-primary); line-height: 1.5; }
+    .corr-expl { margin-top: 8px; padding: 9px 12px; background: #FFFFFF; border-radius: 8px; border-left: 3px solid var(--gold-border); font-size: 0.8125rem; color: var(--text-muted); line-height: 1.65; }
+    .corr-expl strong { color: var(--text-primary); }
+    .score-ring-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .band-feedback { padding: 1.25rem; border-radius: 12px; background: rgba(26,60,110,0.04); border: 1px solid rgba(26,60,110,0.12); font-size: 0.9rem; color: var(--text-body); line-height: 1.8; }
+    .band-feedback strong { color: var(--navy); }
+    .passage-corr-header { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); padding: 10px 0 8px; border-bottom: 1px solid var(--border); margin-bottom: 1rem; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; }
+    .split-container { display: flex; height: calc(100vh - 268px); min-height: 560px; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+    .reading-pane { width: 52%; min-width: 25%; max-width: 75%; overflow-y: auto; padding: 1.75rem; background: var(--card-bg); flex-shrink: 0; }
+    .question-pane { flex: 1; overflow-y: auto; padding: 1.75rem; background: var(--qpanel-bg); min-width: 25%; }
+    .resizer-bar { width: 16px; background: #F1F5F9; cursor: col-resize; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; border-left: 1px solid var(--border); border-right: 1px solid var(--border); transition: background 0.15s; user-select: none; -webkit-user-select: none; }
+    .resizer-bar:hover, .resizer-bar.active { background: var(--gold-dim); border-left-color: var(--gold-border); border-right-color: var(--gold-border); }
+    .resizer-btn { background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 8px; padding: 10px 4px; cursor: col-resize; display: flex; flex-direction: column; align-items: center; gap: 5px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); transition: border-color 0.15s, box-shadow 0.15s; pointer-events: none; }
+    .resizer-bar:hover .resizer-btn { border-color: var(--gold-border); box-shadow: 0 2px 8px rgba(201,149,46,0.15); }
+    @media (max-width: 1023px) {
+      .split-container { flex-direction: column; height: auto; overflow: visible; border: none; border-radius: 0; box-shadow: none; gap: 1rem; }
+      .reading-pane { width: 100% !important; min-width: 100%; max-width: 100%; overflow-y: visible; border: 1px solid var(--border); border-radius: 16px; }
+      .resizer-bar { display: none; }
+      .question-pane { min-width: 100%; overflow-y: visible; border: 1px solid var(--border); border-radius: 16px; }
+    }
+  </style>
+  <script>
+    (function(){
+      var raw = localStorage.getItem('ielts_session');
+      if (!raw) { window.location.replace('../login.html'); return; }
+      try { JSON.parse(raw); } catch(e) { localStorage.removeItem('ielts_session'); window.location.replace('../login.html'); }
+    })();
+    (function(){ var t = localStorage.getItem('ieltslab_theme') || 'light'; document.documentElement.setAttribute('data-theme', t); })();
+    function toggleTheme(){ var c = document.documentElement.getAttribute('data-theme') || 'light', n = c === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', n); localStorage.setItem('ieltslab_theme', n); var b = document.getElementById('themeToggle'); if(b) b.textContent = n === 'dark' ? '☀' : '🌙'; }
+    document.addEventListener('DOMContentLoaded', function(){ var b = document.getElementById('themeToggle'); if(b){ var d = (document.documentElement.getAttribute('data-theme') || 'light') === 'dark'; b.textContent = d ? '☀' : '🌙'; } });
+  </script>
+</head>
+<body class="min-h-screen flex flex-col" style="background:var(--page-bg);color:var(--text-primary);">
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+<div id="header-container"></div>
+
+<div class="timing-strip" id="timingStrip">
+  <div class="px-4 flex items-center justify-center gap-10">
+    <div class="timing-item"><span class="timing-label">Passage 1</span><span class="timing-val">~20 min · Q1–13</span></div>
+    <div style="width:1px;height:24px;background:var(--border);"></div>
+    <div class="timing-item"><span class="timing-label">Passage 2</span><span class="timing-val">~20 min · Q14–26</span></div>
+    <div style="width:1px;height:24px;background:var(--border);"></div>
+    <div class="timing-item"><span class="timing-label">Passage 3</span><span class="timing-val">~20 min · Q27–40</span></div>
+  </div>
+</div>
+
+<main class="flex-1 w-full px-4 py-6" id="testMain">
+  <div class="flex items-start justify-between mb-5 gap-4">
+    <div>
+      <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Cambridge 19 · Test 3</div>
+      <h1 class="font-display font-black text-2xl" style="color:var(--text-primary);">Academic Reading — Test 3</h1>
+    </div>
+    <div class="flex items-center gap-3 flex-shrink-0">
+      <div id="timerDisplay" class="timer-box">60:00</div>
+    </div>
+  </div>
+
+  <div class="a11y-bar">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-muted);flex-shrink:0;"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+    <span class="a11y-bar-label">Text Size</span>
+    <div class="font-ctrl" role="toolbar" aria-label="Adjust passage text size">
+      <button class="font-ctrl-btn a-small" onclick="adjustFontSize(-1)" title="Decrease text size">A−</button>
+      <button class="font-ctrl-btn a-mid"   onclick="adjustFontSize(0)"  title="Reset text size">A</button>
+      <button class="font-ctrl-btn a-large" onclick="adjustFontSize(1)"  title="Increase text size">A+</button>
+    </div>
+    <span style="font-size:0.75rem;color:var(--text-faint);">Adjust the reading passage font size</span>
+    <div class="ml-auto text-xs hidden md:block" style="color:var(--text-muted);">60 minutes · 40 questions · 3 passages</div>
+  </div>
+
+  <div class="tab-nav" id="tabNav">
+    <button class="tab-btn active" onclick="switchTab(1)">Passage 1 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q1–13)</span></button>
+    <button class="tab-btn" onclick="switchTab(2)">Passage 2 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q14–26)</span></button>
+    <button class="tab-btn" onclick="switchTab(3)">Passage 3 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q27–40)</span></button>
+  </div>
+
+  <div class="split-container" id="splitContainer">
+    <div class="reading-pane" id="readingPane">
+
+      <!-- PASSAGE 1 -->
+      <div id="passageContent1">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 1</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">The lost art of the lighthouse keeper</div>
+        <div class="passage-text">
+          <p>For more than two centuries, one of the most demanding and isolated occupations in the world was also one of the most quietly essential. The lighthouse keeper — the person responsible for tending the great lamps that warned ships away from rocks, reefs and shoals — occupied a role that combined technical skill, physical endurance and an almost monastic tolerance for solitude. Today the profession has all but disappeared, made obsolete by automation, and the knowledge that keepers once carried has largely vanished with them.</p>
+          <p>The work was never glamorous, though it has often been romanticised since. A keeper's primary duty was to ensure that the light never failed. In the era before electricity, this meant tending an oil lamp through the night, trimming its wick at regular intervals to keep the flame bright and steady, and constantly cleaning the soot that the burning oil deposited on the glass of the lantern room. The great lenses that focused the light — known as Fresnel lenses, after the French engineer who designed them — had to be polished daily, for even a thin film of salt or grime could weaken the beam that ships depended on.</p>
+          <p>Beyond the light itself, keepers maintained the entire station. They kept meticulous logs of weather, passing vessels and any unusual events. They operated fog signals, which in the days before electronic horns might be powered by compressed air or even, in earlier times, by firing a cannon at intervals. At remote rock stations, far from any shore, keepers also had to be their own mechanics, cooks, and, when necessary, medics. A keeper who fell ill might wait weeks for relief if storms prevented a supply boat from landing.</p>
+          <p>Isolation was the defining feature of the life. The most exposed stations, built on bare rocks battered by the open sea, were known in the British service as 'rock stations', and a posting to one was both a mark of trust and a kind of sentence. Keepers at such places might be cut off from the mainland for months at a stretch. They typically worked in teams of three, a number arrived at after a notorious eighteenth-century incident in which a station had been staffed by only two men. When one of them died, the survivor — fearing he would be accused of murder if he buried the body — kept the corpse beside him until relief arrived weeks later, by which point he had been driven half mad. After that, three keepers became the standard, so that no one would ever again be left alone with a single companion.</p>
+          <p>Despite the hardship, the role attracted a particular kind of person, and many keepers served for decades. The work suited those who valued routine, self-reliance and the company of the sea over that of people. Families sometimes lived at the shore stations, and the children of keepers occasionally followed their parents into the service, creating dynasties that spanned generations. There was pride in the work, and a strong professional culture built around the absolute reliability the job demanded. A light that failed, even once, could cost dozens of lives.</p>
+          <p>The decline of the profession was gradual and then sudden. Electrification, beginning in the late nineteenth century, removed the constant labour of tending oil lamps. Automatic timers, remote monitoring and, eventually, satellite positioning made it possible for a single control centre to oversee dozens of lights without anyone present at any of them. One by one, stations were automated and their keepers withdrawn. In most maritime nations, the last manned lighthouse was decommissioned somewhere between the 1980s and the early 2000s. The very last keepers often spoke of the strange experience of training the machines that would replace them.</p>
+          <p>What was lost when the keepers left is harder to measure than what was saved. Automation is cheaper and, by most measures, more reliable; modern navigation systems have made even the lights themselves less essential than they once were, and some have been switched off entirely. But the keepers possessed a kind of local knowledge that no sensor records — an intimate understanding of how a particular stretch of coast behaved in particular weathers, of the moods of the sea around their rock. Sailors in distress had sometimes been saved not by the light but by a keeper who noticed something wrong and raised the alarm.</p>
+          <p>Many former lighthouses now serve as museums, holiday lets or private homes, their lantern rooms dark or lit automatically. The keepers themselves have become figures of nostalgia, celebrated in books and films that tend to emphasise the romance and overlook the tedium. Yet the profession deserves to be remembered for what it actually was: not a poetic exile, but a skilled and disciplined form of public service, carried out for generations by people whose entire purpose was to be reliable on behalf of strangers they would never meet.</p>
+        </div>
+      </div>
+
+      <!-- PASSAGE 2 -->
+      <div id="passageContent2" style="display:none;">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 2</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">How plants tell the time</div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>In 1729 the French astronomer Jean-Jacques d'Ortous de Mairan noticed something peculiar about a plant on his windowsill. The mimosa, whose leaves opened in daylight and folded shut at night, continued to follow this rhythm even when he placed it in a cupboard in constant darkness. The leaves still opened in the morning and closed in the evening, despite having no way of detecting whether it was day or night. De Mairan had stumbled upon one of the most fundamental features of life on Earth: an internal biological clock, ticking away independently of the outside world.</p>
+          <p><span class="para-label">B</span>Almost three centuries later, the mechanism behind that observation has been worked out in remarkable detail, and it turns out that plants are among the most sophisticated timekeepers in nature. Like animals, plants possess what biologists call a circadian rhythm — an internal cycle of roughly twenty-four hours that governs a vast range of activities. In plants, the clock controls when leaves and petals open, when scent is released, when certain genes are switched on and off, and even when the plant is most receptive to particular wavelengths of light. The word circadian comes from the Latin circa diem, meaning 'about a day', and the 'about' is important: the internal cycle is close to twenty-four hours but not exactly, which is why it must be reset daily against the real world.</p>
+          <p><span class="para-label">C</span>That resetting is achieved through environmental cues, of which the most important is light. Specialised light-sensitive proteins in the plant's cells detect the shift from darkness to dawn and nudge the internal clock back into alignment with the solar day. Temperature plays a secondary role; the cooler nights and warmer days of a normal cycle help reinforce the rhythm. A plant deprived of all such cues, like de Mairan's mimosa in its cupboard, will keep running on its internal clock alone, but the rhythm will gradually drift out of step with the real world — proof that the clock is internal but normally corrected from outside.</p>
+          <p><span class="para-label">D</span>Why should a plant need to know the time at all? The answer lies in the advantage of anticipation. A plant that can predict sunrise, rather than merely react to it, can have its photosynthetic machinery ready the moment light arrives, wasting none of the precious early daylight. Experiments have shown that plants whose internal clocks are artificially set to match their environment grow larger and accumulate more carbohydrate than identical plants whose clocks are deliberately mismatched. The clock, in other words, is not a curiosity but a competitive tool, honed by natural selection because good timekeeping translates directly into more energy and faster growth.</p>
+          <p><span class="para-label">E</span>The clock also governs defence. Many plants are attacked by insects that themselves follow daily rhythms, feeding most heavily at particular times. Researchers studying the much-used laboratory plant Arabidopsis found that it ramps up production of defensive chemicals in anticipation of the hours when caterpillars are most likely to feed. When the plant's clock was disrupted so that its defences no longer aligned with the insects' feeding schedule, the plants suffered significantly more damage. The plant was, in effect, scheduling its immune response in advance, like a shopkeeper locking the doors before the hour when thieves are known to operate.</p>
+          <p><span class="para-label">F</span>Perhaps the most striking demonstration of plant timekeeping concerns pollination. Some flowers open and release their scent only at the specific times of day when their preferred pollinators are active. Certain night-flowering species, pollinated by moths, stay tightly closed and scentless through the day and then, as dusk approaches, open and begin to emit their fragrance — not in response to darkness, which has not yet fully fallen, but in anticipation of it, driven by the internal clock. The flower and the insect, over evolutionary time, have synchronised their schedules to mutual benefit.</p>
+          <p><span class="para-label">G</span>Understanding the plant clock is not merely of academic interest. Agriculture depends on plants growing in places and seasons far removed from where their clocks originally evolved, and a clock poorly matched to local day length can reduce yields. Plant breeders have begun to select varieties whose internal timing suits particular latitudes, and researchers hope that a deeper understanding of the clock's genetics will allow crops to be tuned for the lengthening or shortening days they will actually experience. There is also interest in how the clock will cope as climate change shifts the relationship between temperature and day length — two cues that have always moved together but may increasingly diverge.</p>
+          <p><span class="para-label">H</span>What began as an idle observation of a plant in a cupboard has thus grown into a field with serious practical stakes. The deeper lesson of de Mairan's mimosa is that even organisms without brains, eyes or nervous systems can keep time, anticipate the future and act on that anticipation. The plant on the windowsill was not simply responding to the world around it. It was, in its own silent way, predicting it.</p>
+        </div>
+      </div>
+
+      <!-- PASSAGE 3 -->
+      <div id="passageContent3" style="display:none;">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 3</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">The trouble with measuring happiness</div>
+        <div class="passage-text">
+          <p>For most of its history as a discipline, economics concerned itself with things that could be counted: incomes, prices, output, employment. Happiness was left to philosophers and poets. Over the past few decades, however, a growing number of economists have argued that this division of labour was a mistake — that the ultimate purpose of economic activity is human wellbeing, and that a science measuring everything except wellbeing has lost sight of why it exists. The result has been the rise of what is sometimes called the economics of happiness, a field that attempts something its founders would once have considered absurd: to measure how good people's lives actually feel.</p>
+          <p>The motivation is easy to understand. For most of the twentieth century, economic success was equated with growth in gross domestic product, the total monetary value of goods and services a country produces. GDP is a powerful and convenient measure, but it was never designed to capture welfare, and its limitations are by now well known. It counts a traffic jam, an oil spill and a divorce as economic activity because money changes hands, while ignoring leisure, clean air, good health and the unpaid work that holds households together. A country could, in principle, grow steadily richer by the GDP measure while its citizens grew steadily more miserable.</p>
+          <p>The obvious alternative is simply to ask people how they feel. Happiness researchers do exactly this, typically through large surveys in which respondents rate their satisfaction with life on a numerical scale. These subjective wellbeing measures have produced some robust and widely replicated findings. Within any given country, richer people report higher life satisfaction than poorer ones, as common sense would predict. But across countries and over time the picture is stranger. Above a certain level of income — enough to meet basic needs comfortably — additional national wealth seems to buy surprisingly little extra happiness, a puzzle first noted by the economist Richard Easterlin and named the Easterlin paradox after him.</p>
+          <p>The paradox has been the subject of fierce and unresolved debate. One camp argues that it is largely an illusion produced by the way happiness is measured: a survey scale that runs from one to ten cannot register improvement indefinitely, because once a population is clustered near the top of the scale, no further improvement can show up in the numbers. On this view, the apparent flattening of happiness is an artefact of the ruler, not a fact about human experience. Another camp maintains that the paradox is real and reflects a genuine feature of human psychology: that people judge their circumstances relative to those around them, so that as everyone grows richer together, no one feels better off.</p>
+          <p>This second explanation, if correct, has uncomfortable implications. It suggests that much of the effort a wealthy society pours into further growth is, in terms of actual wellbeing, self-cancelling — a race in which everyone runs faster but no one moves forward, because each person's gain is measured against everyone else's. Beyond a certain point, the pursuit of more would be not merely ineffective but structurally incapable of delivering what it promises. Critics counter that this underestimates how much people value the genuine new possibilities wealth brings, and that comparison with others is only one of many psychological processes at work.</p>
+          <p>Even setting aside the Easterlin debate, the project faces a deeper conceptual problem: it is not clear that the thing being measured is a single thing at all. Philosophers have long distinguished two notions of a good life. One is hedonic — the moment-to-moment balance of pleasant and unpleasant feelings. The other is eudaimonic, a concept inherited from Aristotle, concerned with whether a life is meaningful and well lived, regardless of how it feels at any instant. A person doing difficult, demanding work might score low on momentary pleasure while rating their life as deeply worthwhile. Which of these is happiness? Surveys that ask about 'life satisfaction' may capture the second; surveys that sample momentary mood capture the first; and the two do not always move together.</p>
+          <p>These difficulties have not stopped governments from taking the measures seriously. Several countries now collect national wellbeing statistics alongside their economic data, and a few have used them to guide policy directly. The kingdom of Bhutan famously adopted 'Gross National Happiness' as an explicit goal of government. Such initiatives are easy to mock, and skeptics point out that a single happiness number is far too crude to settle real policy trade-offs. Yet defenders argue that even an imperfect measure of wellbeing is better than none, and that the act of measuring something signals what a society chooses to value.</p>
+          <p>Perhaps the most defensible conclusion is also the most modest. Happiness data are not precise enough to replace traditional economic indicators, and the concept they attempt to capture is too contested to be reduced to a single figure. But they serve as a valuable corrective — a reminder that the numbers economists have always trusted were only ever a proxy for something else, and that the proxy should never be mistaken for the goal. The economics of happiness may not yet be able to tell us exactly how to make people's lives go better. Its real achievement has been to insist that this was always the question worth asking.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="resizer-bar" id="resizerBar">
+      <div class="resizer-btn">
+        <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M3.5 2L1 6L3.5 10" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span style="display:block;width:2px;height:14px;background:var(--border);border-radius:1px;"></span>
+        <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M6.5 2L9 6L6.5 10" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+    </div>
+
+    <div class="question-pane" id="questionPane">
+      <div id="qPanel1"></div>
+      <div id="qPanel2" style="display:none;"></div>
+      <div id="qPanel3" style="display:none;"></div>
+    </div>
+  </div>
+
+  <div class="flex justify-center mt-6 mb-8">
+    <button onclick="confirmSubmit()" class="btn-gold">Submit Reading Test</button>
+  </div>
+</main>
+
+<!-- RESULTS -->
+<div id="resultsMain" style="display:none;" class="flex-1 max-w-5xl mx-auto px-6 py-10 w-full">
+  <div class="flex items-center gap-3 mb-8">
+    <div>
+      <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Results</div>
+      <h1 class="font-display font-black text-2xl" style="color:var(--text-primary);">Academic Reading — Score Report</h1>
+    </div>
+  </div>
+  <div class="section-card mb-6" id="scoreCard"></div>
+  <div class="section-card mb-8" id="feedbackCard"></div>
+  <div class="section-card mb-6">
+    <div class="passage-corr-header">Passage 1 — The lost art of the lighthouse keeper</div>
+    <div id="corrPassage1"></div>
+  </div>
+  <div class="section-card mb-6">
+    <div class="passage-corr-header">Passage 2 — How plants tell the time</div>
+    <div id="corrPassage2"></div>
+  </div>
+  <div class="section-card mb-10">
+    <div class="passage-corr-header">Passage 3 — The trouble with measuring happiness</div>
+    <div id="corrPassage3"></div>
+  </div>
+  <div class="flex gap-4 justify-center mb-16">
+    <a href="index.html" class="btn-gold">← Back to Tests</a>
+  </div>
+</div>
+
+<div id="submittingOverlay" style="display:none;position:fixed;inset:0;z-index:300;background:rgba(247,248,250,0.97);flex-direction:column;align-items:center;justify-content:center;" class="flex">
+  <div class="spinner mb-6"></div>
+  <div class="font-display font-bold text-xl mb-2" style="color:var(--text-primary);">Scoring Your Answers</div>
+  <p class="text-sm" style="color:var(--text-muted);">Analysing your responses…</p>
+</div>
+
+<script>
+// ─────────────────────────────────────────
+//  TEST DATA
+// ─────────────────────────────────────────
+const GROUPS = [
+
+  // ══ PASSAGE 1 — The lost art of the lighthouse keeper ══
+
+  {
+    passageId: 1, type: 'tfng', label: 'Questions 1–7',
+    instructions: 'Do the following statements agree with the information given in Reading Passage 1? Write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      { id: 1, text: 'The work of lighthouse keepers has been made to seem more romantic than it really was.',
+        answer: 'TRUE',
+        explanation: 'Paragraph 2 says the work <strong>"has often been romanticised"</strong>, and the final paragraph repeats that books and films <strong>"tend to emphasise the romance and overlook the tedium."</strong>',
+        reinforcement: 'Correct — the passage explicitly states the work has been romanticised, making this TRUE.' },
+      { id: 2, text: 'Fresnel lenses required cleaning only when visibly dirty.',
+        answer: 'FALSE',
+        explanation: 'The passage states Fresnel lenses <strong>"had to be polished daily"</strong> — not only when visibly dirty. Even a thin film could weaken the beam.',
+        reinforcement: 'Correct — "had to be polished daily" directly contradicts the idea they were cleaned only when visibly dirty, making this FALSE.' },
+      { id: 3, text: 'Early fog signals were sometimes produced by firing a cannon.',
+        answer: 'TRUE',
+        explanation: 'Paragraph 3 states that in earlier times fog signals might be produced <strong>"by firing a cannon at intervals."</strong>',
+        reinforcement: 'Correct — firing a cannon is explicitly mentioned as an early fog signal method, making this TRUE.' },
+      { id: 4, text: 'The rule requiring three keepers per station was introduced after a particular tragic event.',
+        answer: 'TRUE',
+        explanation: 'Paragraph 4 describes how the three-keeper standard was adopted after a <strong>"notorious eighteenth-century incident"</strong> in which a two-man posting led to a survivor being driven half mad.',
+        reinforcement: 'Correct — the passage explicitly links the three-keeper rule to a specific historical incident, making this TRUE.' },
+      { id: 5, text: 'Keepers were paid more for working at remote rock stations.',
+        answer: 'NOT GIVEN',
+        explanation: 'The passage mentions rock stations were <strong>"a mark of trust"</strong> but says nothing at all about pay or financial compensation for such postings.',
+        reinforcement: 'Correct — pay for rock stations is never mentioned in the passage, making this NOT GIVEN.' },
+      { id: 6, text: 'Some keepers\' children went on to do the same job.',
+        answer: 'TRUE',
+        explanation: 'Paragraph 5 states that children of keepers <strong>"occasionally followed their parents into the service, creating dynasties that spanned generations."</strong>',
+        reinforcement: 'Correct — the passage directly states that some keepers\' children joined the service, making this TRUE.' },
+      { id: 7, text: 'Modern navigation technology has made some lighthouses unnecessary.',
+        answer: 'TRUE',
+        explanation: 'Paragraph 7 states that <strong>"modern navigation systems have made even the lights themselves less essential than they once were, and some have been switched off entirely."</strong>',
+        reinforcement: 'Correct — lights being switched off entirely confirms that some lighthouses are now unnecessary, making this TRUE.' },
+    ]
+  },
+
+  {
+    passageId: 1, type: 'mc', label: 'Questions 8–10',
+    instructions: 'Choose the correct letter, A, B, C or D.',
+    questions: [
+      { id: 8, text: 'What was the keeper\'s most important responsibility?',
+        answer: 'B', answerDisplay: 'B',
+        options: [
+          { key: 'A', text: 'keeping accurate written records' },
+          { key: 'B', text: 'making sure the light never went out' },
+          { key: 'C', text: 'maintaining the fog signals' },
+          { key: 'D', text: 'assisting ships in difficulty' },
+        ],
+        explanation: 'Paragraph 2 explicitly states: <strong>"A keeper\'s primary duty was to ensure that the light never failed."</strong> This directly matches option B. Record-keeping (A) and fog signals (C) are mentioned as duties but not the primary one; assisting ships (D) is mentioned only incidentally.',
+        reinforcement: 'Correct — "primary duty was to ensure that the light never failed" confirms B is the right answer.' },
+      { id: 9, text: 'Why did stations begin using teams of three keepers?',
+        answer: 'B', answerDisplay: 'B',
+        options: [
+          { key: 'A', text: 'The work had become too heavy for two people.' },
+          { key: 'B', text: 'To ensure no keeper was ever left alone with just one other person.' },
+          { key: 'C', text: 'Because rock stations were larger than shore stations.' },
+          { key: 'D', text: 'To allow keepers to take regular holidays.' },
+        ],
+        explanation: 'Paragraph 4 states three keepers became the standard <strong>"so that no one would ever again be left alone with a single companion."</strong> The reason was psychological safety after the incident, not workload (A), station size (C), or holidays (D).',
+        reinforcement: 'Correct — the passage directly states the three-keeper rule was to prevent anyone being alone with just one companion (B).' },
+      { id: 10, text: 'According to the final paragraph, the writer believes lighthouse keepers should be remembered as',
+        answer: 'C', answerDisplay: 'C',
+        options: [
+          { key: 'A', text: 'romantic figures living in poetic isolation.' },
+          { key: 'B', text: 'victims of an unfair and outdated system.' },
+          { key: 'C', text: 'skilled professionals performing a public service.' },
+          { key: 'D', text: 'pioneers of early navigation technology.' },
+        ],
+        explanation: 'The final sentence calls it <strong>"a skilled and disciplined form of public service."</strong> The writer explicitly rejects the romantic view (A) and there is no suggestion of victimhood (B) or technological pioneering (D).',
+        reinforcement: 'Correct — "skilled and disciplined form of public service" directly supports option C.' },
+    ]
+  },
+
+  {
+    passageId: 1, type: 'sentence_completion', label: 'Questions 11–13',
+    instructions: 'Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.',
+    questions: [
+      { id: 11, text: 'In the era before electricity, keepers had to trim the lamp\'s _______ to keep the flame steady.',
+        answer: 'wick', answerDisplay: 'wick',
+        acceptable: ['wick'],
+        explanation: 'Paragraph 2: <strong>"trimming its wick at regular intervals to keep the flame bright and steady."</strong>',
+        reinforcement: 'Correct — "wick" is taken directly from paragraph 2.' },
+      { id: 12, text: 'The most exposed lighthouses, built on bare rock in the open sea, were called _______.',
+        answer: 'rock stations', answerDisplay: 'rock stations',
+        acceptable: ['rock stations'],
+        explanation: 'Paragraph 4: <strong>"The most exposed stations, built on bare rocks battered by the open sea, were known in the British service as \'rock stations\'."</strong>',
+        reinforcement: 'Correct — "rock stations" is the exact term used in paragraph 4.' },
+      { id: 13, text: 'The writer argues that keepers had a kind of local _______ that no modern sensor can record.',
+        answer: 'knowledge', answerDisplay: 'knowledge',
+        acceptable: ['knowledge'],
+        explanation: 'Paragraph 7: <strong>"the keepers possessed a kind of local knowledge that no sensor records."</strong>',
+        reinforcement: 'Correct — "knowledge" is the exact word from paragraph 7.' },
+    ]
+  },
+
+  // ══ PASSAGE 2 — How plants tell the time ══
+
+  {
+    passageId: 2, type: 'matching_info', label: 'Questions 14–18',
+    instructions: 'Reading Passage 2 has eight paragraphs, <strong>A–H</strong>. Which paragraph contains the following information? Write the correct letter, A–H.',
+    paraOptions: ['A','B','C','D','E','F','G','H'],
+    questions: [
+      { id: 14, text: 'an explanation of why accurate timekeeping helps a plant grow',
+        answer: 'D', answerDisplay: 'D',
+        explanation: '<strong>Paragraph D</strong> explains the advantage of anticipation: plants whose clocks match their environment <strong>"grow larger and accumulate more carbohydrate"</strong> than those with mismatched clocks.',
+        reinforcement: 'Correct — the growth advantage from accurate timekeeping is explained in paragraph D.' },
+      { id: 15, text: 'the practical importance of the plant clock for farming',
+        answer: 'G', answerDisplay: 'G',
+        explanation: '<strong>Paragraph G</strong> discusses how <strong>"agriculture depends on plants growing in places... far removed from where their clocks originally evolved"</strong> and explains how plant breeders are now selecting for clock-matched varieties.',
+        reinforcement: 'Correct — practical agricultural applications of the plant clock are discussed in paragraph G.' },
+      { id: 16, text: 'the first recorded observation that a plant has an internal rhythm',
+        answer: 'A', answerDisplay: 'A',
+        explanation: '<strong>Paragraph A</strong> describes De Mairan\'s observation in <strong>1729</strong> — the first time an internal plant rhythm was recorded — when his mimosa continued its leaf cycle in a dark cupboard.',
+        reinforcement: 'Correct — De Mairan\'s 1729 observation, the first recorded, is described in paragraph A.' },
+      { id: 17, text: 'an example of a plant timing its chemical defences',
+        answer: 'E', answerDisplay: 'E',
+        explanation: '<strong>Paragraph E</strong> describes how the plant Arabidopsis <strong>"ramps up production of defensive chemicals in anticipation of the hours when caterpillars are most likely to feed."</strong>',
+        reinforcement: 'Correct — Arabidopsis timing its defensive chemical production is in paragraph E.' },
+      { id: 18, text: 'a description of how the internal clock is corrected each day',
+        answer: 'C', answerDisplay: 'C',
+        explanation: '<strong>Paragraph C</strong> explains the resetting mechanism: <strong>"specialised light-sensitive proteins... detect the shift from darkness to dawn and nudge the internal clock back into alignment."</strong> Temperature is also mentioned as a secondary cue.',
+        reinforcement: 'Correct — the daily resetting of the plant clock via light and temperature is described in paragraph C.' },
+    ]
+  },
+
+  {
+    passageId: 2, type: 'sentence_completion', label: 'Questions 19–23',
+    instructions: 'Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.',
+    questions: [
+      { id: 19, text: 'Plants keep time using an internal cycle of about twenty-four hours, known as a _______ rhythm.',
+        answer: 'circadian', answerDisplay: 'circadian',
+        acceptable: ['circadian'],
+        explanation: 'Paragraph B: <strong>"plants possess what biologists call a circadian rhythm — an internal cycle of roughly twenty-four hours."</strong>',
+        reinforcement: 'Correct — "circadian" is the term introduced in paragraph B.' },
+      { id: 20, text: 'Because the cycle is not exactly a day long, it must be reset against the real world, mainly using _______, which is detected by special proteins in the plant\'s cells.',
+        answer: 'light', answerDisplay: 'light',
+        acceptable: ['light'],
+        explanation: 'Paragraph C: <strong>"the most important [resetting cue] is light. Specialised light-sensitive proteins in the plant\'s cells detect the shift from darkness to dawn."</strong>',
+        reinforcement: 'Correct — light is stated as the most important resetting cue in paragraph C.' },
+      { id: 21, text: '_______ acts as a secondary cue, reinforcing the rhythm through cooler nights and warmer days.',
+        answer: 'temperature', answerDisplay: 'temperature',
+        acceptable: ['temperature'],
+        explanation: 'Paragraph C: <strong>"Temperature plays a secondary role; the cooler nights and warmer days of a normal cycle help reinforce the rhythm."</strong>',
+        reinforcement: 'Correct — "temperature" is explicitly called a secondary cue in paragraph C.' },
+      { id: 22, text: 'By predicting sunrise, a plant can prepare its _______ machinery in advance.',
+        answer: 'photosynthetic', answerDisplay: 'photosynthetic',
+        acceptable: ['photosynthetic'],
+        explanation: 'Paragraph D: <strong>"can have its photosynthetic machinery ready the moment light arrives, wasting none of the precious early daylight."</strong>',
+        reinforcement: 'Correct — "photosynthetic" is the exact word from paragraph D.' },
+      { id: 23, text: 'The plant Arabidopsis increases its production of _______ chemicals at the times when insects are likely to feed.',
+        answer: 'defensive', answerDisplay: 'defensive',
+        acceptable: ['defensive'],
+        explanation: 'Paragraph E: <strong>"it ramps up production of defensive chemicals in anticipation of the hours when caterpillars are most likely to feed."</strong>',
+        reinforcement: 'Correct — "defensive" is the exact adjective from paragraph E.' },
+    ]
+  },
+
+  {
+    passageId: 2, type: 'tfng', label: 'Questions 24–26',
+    instructions: 'Do the following statements agree with the information given in Reading Passage 2? Write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if it contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      { id: 24, text: 'Night-flowering plants open only after it has become completely dark.',
+        answer: 'FALSE',
+        explanation: 'Paragraph F states these plants open <strong>"as dusk approaches"</strong> — that is, in anticipation of darkness, <strong>"not in response to darkness, which has not yet fully fallen."</strong>',
+        reinforcement: 'Correct — the passage explicitly says they open before darkness has fully fallen, making this FALSE.' },
+      { id: 25, text: 'Plant breeders are now choosing varieties suited to the day length of particular regions.',
+        answer: 'TRUE',
+        explanation: 'Paragraph G: <strong>"Plant breeders have begun to select varieties whose internal timing suits particular latitudes."</strong>',
+        reinforcement: 'Correct — this is directly stated in paragraph G, making this TRUE.' },
+      { id: 26, text: 'Climate change has already caused most crops to lose their internal clocks.',
+        answer: 'NOT GIVEN',
+        explanation: 'Paragraph G expresses concern about <strong>future</strong> divergence of temperature and day-length cues under climate change, but makes no claim that crops have already lost their clocks.',
+        reinforcement: 'Correct — the passage only discusses a future risk, not a current outcome, making this NOT GIVEN.' },
+    ]
+  },
+
+  // ══ PASSAGE 3 — The trouble with measuring happiness ══
+
+  {
+    passageId: 3, type: 'mc', label: 'Questions 27–31',
+    instructions: 'Choose the correct letter, A, B, C or D.',
+    questions: [
+      { id: 27, text: 'Why do some economists believe wellbeing should be part of their discipline?',
+        answer: 'B', answerDisplay: 'B',
+        options: [
+          { key: 'A', text: 'because philosophers have failed to define happiness clearly' },
+          { key: 'B', text: 'because wellbeing is the ultimate purpose of economic activity' },
+          { key: 'C', text: 'because traditional measures have become too difficult to calculate' },
+          { key: 'D', text: 'because happiness is easier to measure than income' },
+        ],
+        explanation: 'Paragraph 1: these economists argue that <strong>"the ultimate purpose of economic activity is human wellbeing."</strong> The passage says nothing about philosophers failing (A), calculation difficulty (C), or happiness being easier to measure (D).',
+        reinforcement: 'Correct — "ultimate purpose of economic activity is human wellbeing" directly supports option B.' },
+      { id: 28, text: 'What criticism of GDP does the writer make in the second paragraph?',
+        answer: 'C', answerDisplay: 'C',
+        options: [
+          { key: 'A', text: 'It is too difficult for ordinary people to understand.' },
+          { key: 'B', text: 'It changes too quickly to be useful for policy.' },
+          { key: 'C', text: 'It can rise even as people\'s lives get worse.' },
+          { key: 'D', text: 'It was abandoned by most countries long ago.' },
+        ],
+        explanation: 'Paragraph 2: <strong>"A country could, in principle, grow steadily richer by the GDP measure while its citizens grew steadily more miserable."</strong> This is the core criticism — GDP can rise while lives deteriorate.',
+        reinforcement: 'Correct — the passage explicitly states GDP can rise while citizens become more miserable (C).' },
+      { id: 29, text: 'The Easterlin paradox refers to the finding that',
+        answer: 'B', answerDisplay: 'B',
+        options: [
+          { key: 'A', text: 'richer people within a country are no happier than poorer ones.' },
+          { key: 'B', text: 'beyond a certain point, more national wealth adds little happiness.' },
+          { key: 'C', text: 'happiness surveys give different results in different countries.' },
+          { key: 'D', text: 'poorer countries report higher happiness than richer ones.' },
+        ],
+        explanation: 'Paragraph 3 defines the paradox: <strong>"above a certain level of income... additional national wealth seems to buy surprisingly little extra happiness."</strong> Option A describes within-country findings, which are the opposite of the paradox.',
+        reinforcement: 'Correct — the paradox is defined as additional national wealth buying little extra happiness beyond a threshold (B).' },
+      { id: 30, text: 'According to one explanation of the paradox, happiness appears to flatten because',
+        answer: 'C', answerDisplay: 'C',
+        options: [
+          { key: 'A', text: 'people quickly forget improvements in their lives.' },
+          { key: 'B', text: 'wealthy people are reluctant to admit they are satisfied.' },
+          { key: 'C', text: 'a fixed survey scale cannot record improvement without limit.' },
+          { key: 'D', text: 'surveys are usually conducted among the wrong people.' },
+        ],
+        explanation: 'Paragraph 4 describes this as <strong>"an artefact of the ruler"</strong>: a scale from one to ten <strong>"cannot register improvement indefinitely"</strong> once a population clusters near the top.',
+        reinforcement: 'Correct — the "artefact of the ruler" argument is that a fixed scale cannot record unlimited improvement (C).' },
+      { id: 31, text: 'The example of demanding work is used to show that',
+        answer: 'B', answerDisplay: 'B',
+        options: [
+          { key: 'A', text: 'meaningful lives are usually unpleasant.' },
+          { key: 'B', text: 'momentary pleasure and a sense of meaning can diverge.' },
+          { key: 'C', text: 'most people prefer purpose to enjoyment.' },
+          { key: 'D', text: 'surveys consistently overstate how happy people are.' },
+        ],
+        explanation: 'Paragraph 6: <strong>"A person doing difficult, demanding work might score low on momentary pleasure while rating their life as deeply worthwhile."</strong> This shows hedonic and eudaimonic measures can point in opposite directions.',
+        reinforcement: 'Correct — the example shows that pleasure (hedonic) and meaning (eudaimonic) can diverge (B).' },
+    ]
+  },
+
+  {
+    passageId: 3, type: 'yes_no_ng', label: 'Questions 32–36',
+    instructions: 'Do the following statements agree with the views of the writer in Reading Passage 3? Write <strong>YES</strong> if the statement agrees with the writer\'s views, <strong>NO</strong> if it contradicts them, or <strong>NOT GIVEN</strong> if it is impossible to say.',
+    questions: [
+      { id: 32, text: 'GDP was originally designed to measure human welfare.',
+        answer: 'NO',
+        explanation: 'Paragraph 2 states GDP <strong>"was never designed to capture welfare."</strong> The statement directly contradicts this.',
+        reinforcement: 'Correct — "never designed to capture welfare" directly contradicts the statement, making the answer NO.' },
+      { id: 33, text: 'The relative-comparison explanation of the paradox, if true, has troubling consequences.',
+        answer: 'YES',
+        explanation: 'Paragraph 5 explicitly calls the implications <strong>"uncomfortable"</strong> and describes growth as a <strong>"self-cancelling"</strong> race — clearly conveying that the writer finds the consequences troubling.',
+        reinforcement: 'Correct — the writer calls the implications "uncomfortable" and describes a self-cancelling race, supporting YES.' },
+      { id: 34, text: 'Bhutan\'s happiness policy has been more successful than those of other countries.',
+        answer: 'NOT GIVEN',
+        explanation: 'Paragraph 7 mentions Bhutan\'s Gross National Happiness initiative but makes no comparison of its success relative to other countries\' policies.',
+        reinforcement: 'Correct — the passage mentions Bhutan\'s policy but makes no comparison of success, making this NOT GIVEN.' },
+      { id: 35, text: 'A flawed measure of wellbeing is still better than having no measure at all, in the view of its defenders.',
+        answer: 'YES',
+        explanation: 'Paragraph 7: <strong>"defenders argue that even an imperfect measure of wellbeing is better than none."</strong>',
+        reinforcement: 'Correct — defenders explicitly argue an imperfect measure is better than none, supporting YES.' },
+      { id: 36, text: 'Happiness data should replace traditional economic indicators.',
+        answer: 'NO',
+        explanation: 'Paragraph 8: the writer says happiness data <strong>"are not precise enough to replace traditional economic indicators."</strong>',
+        reinforcement: 'Correct — the writer directly says happiness data cannot replace traditional indicators, making the answer NO.' },
+    ]
+  },
+
+  {
+    passageId: 3, type: 'sentence_completion', label: 'Questions 37–40',
+    instructions: 'Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.',
+    questions: [
+      { id: 37, text: 'The _______ view of a good life focuses on the moment-to-moment balance of pleasant and unpleasant feelings.',
+        answer: 'hedonic', answerDisplay: 'hedonic',
+        acceptable: ['hedonic'],
+        explanation: 'Paragraph 6: <strong>"One is hedonic — the moment-to-moment balance of pleasant and unpleasant feelings."</strong>',
+        reinforcement: 'Correct — "hedonic" is the exact term from paragraph 6.' },
+      { id: 38, text: 'The eudaimonic view derives from _______ and concerns whether a life is meaningful and well lived.',
+        answer: 'Aristotle', answerDisplay: 'Aristotle',
+        acceptable: ['aristotle', 'Aristotle'],
+        explanation: 'Paragraph 6: <strong>"The other is eudaimonic, a concept inherited from Aristotle."</strong>',
+        reinforcement: 'Correct — "Aristotle" is the source named in paragraph 6.' },
+      { id: 39, text: 'Surveys measuring _______ may capture the eudaimonic notion of a good life.',
+        answer: 'life satisfaction', answerDisplay: 'life satisfaction',
+        acceptable: ['life satisfaction'],
+        explanation: 'Paragraph 6: <strong>"Surveys that ask about \'life satisfaction\' may capture the second [eudaimonic view]."</strong>',
+        reinforcement: 'Correct — "life satisfaction" is the exact phrase from paragraph 6.' },
+      { id: 40, text: 'The writer concludes that happiness data act as a useful _______, reminding economists that their familiar numbers were only ever a proxy.',
+        answer: 'corrective', answerDisplay: 'corrective',
+        acceptable: ['corrective'],
+        explanation: 'Paragraph 8: <strong>"they serve as a valuable corrective — a reminder that the numbers economists have always trusted were only ever a proxy for something else."</strong>',
+        reinforcement: 'Correct — "corrective" is the exact word from paragraph 8.' },
+    ]
+  },
+];
+
+// ─────────────────────────────────────────
+//  STATE
+// ─────────────────────────────────────────
+const answers = {};
+const TOTAL_SECONDS = 3600;
+let secondsLeft = TOTAL_SECONDS;
+let timerInterval = null;
+let submitted = false;
+
+// ─────────────────────────────────────────
+//  TAB SWITCHING
+// ─────────────────────────────────────────
+function switchTab(n) {
+  [1,2,3].forEach(i => {
+    document.getElementById('passageContent' + i).style.display = i === n ? 'block' : 'none';
+    document.getElementById('qPanel' + i).style.display = i === n ? 'block' : 'none';
+    document.getElementById('tabNav').querySelectorAll('.tab-btn')[i-1].classList.toggle('active', i === n);
+  });
+  document.getElementById('readingPane').scrollTop = 0;
+  document.getElementById('questionPane').scrollTop = 0;
+}
+
+// ─────────────────────────────────────────
+//  FONT SIZE
+// ─────────────────────────────────────────
+const FONT_SIZES = [13, 15, 17, 19];
+let fontSizeIdx = parseInt(localStorage.getItem('ielts_font_size_idx') || '2');
+function initFontSize() { document.documentElement.style.setProperty('--passage-font-size', FONT_SIZES[fontSizeIdx] + 'px'); }
+function adjustFontSize(delta) {
+  if (delta === 0) fontSizeIdx = 2;
+  else fontSizeIdx = Math.max(0, Math.min(FONT_SIZES.length - 1, fontSizeIdx + delta));
+  document.documentElement.style.setProperty('--passage-font-size', FONT_SIZES[fontSizeIdx] + 'px');
+  localStorage.setItem('ielts_font_size_idx', fontSizeIdx);
+}
+
+// ─────────────────────────────────────────
+//  RESIZER
+// ─────────────────────────────────────────
+(function initResizer() {
+  const container = document.getElementById('splitContainer');
+  const leftPane  = document.getElementById('readingPane');
+  const resizer   = document.getElementById('resizerBar');
+  if (!container || !leftPane || !resizer) return;
+  let isDragging = false, startX = 0, startW = 0;
+  function onStart(cx) { isDragging = true; startX = cx; startW = leftPane.getBoundingClientRect().width; resizer.classList.add('active'); document.body.style.cursor = 'col-resize'; document.body.style.userSelect = 'none'; }
+  function onMove(cx) { if (!isDragging) return; const cW = container.getBoundingClientRect().width; const rW = resizer.getBoundingClientRect().width; const avail = cW - rW; leftPane.style.width = ((Math.max(avail*0.25, Math.min(avail*0.75, startW + (cx-startX))) / cW) * 100).toFixed(2) + '%'; }
+  function onEnd() { if (!isDragging) return; isDragging = false; resizer.classList.remove('active'); document.body.style.cursor = ''; document.body.style.userSelect = ''; }
+  resizer.addEventListener('mousedown', e => { e.preventDefault(); onStart(e.clientX); });
+  document.addEventListener('mousemove', e => onMove(e.clientX));
+  document.addEventListener('mouseup', onEnd);
+  resizer.addEventListener('touchstart', e => { e.preventDefault(); onStart(e.touches[0].clientX); }, { passive: false });
+  document.addEventListener('touchmove', e => { if (isDragging) { e.preventDefault(); onMove(e.touches[0].clientX); } }, { passive: false });
+  document.addEventListener('touchend', onEnd);
+})();
+
+// ─────────────────────────────────────────
+//  TIMER
+// ─────────────────────────────────────────
+function startTimer() {
+  timerInterval = setInterval(() => {
+    secondsLeft--;
+    document.getElementById('progressFill').style.width = ((TOTAL_SECONDS - secondsLeft) / TOTAL_SECONDS * 100) + '%';
+    const el = document.getElementById('timerDisplay');
+    el.textContent = `${String(Math.floor(secondsLeft/60)).padStart(2,'0')}:${String(secondsLeft%60).padStart(2,'0')}`;
+    if (secondsLeft <= 120) el.className = 'timer-box critical';
+    else if (secondsLeft <= 300) el.className = 'timer-box warning';
+    if (secondsLeft <= 0) { clearInterval(timerInterval); autoSubmit(); }
+  }, 1000);
+}
+
+// ─────────────────────────────────────────
+//  RENDER QUESTIONS
+// ─────────────────────────────────────────
+function renderAll() {
+  [1,2,3].forEach(pid => {
+    const panel = document.getElementById('qPanel' + pid);
+    let html = '';
+    GROUPS.filter(g => g.passageId === pid).forEach(group => {
+      html += `<div class="group-header mb-4">
+        <div class="text-xs font-bold tracking-widest uppercase" style="color:var(--gold);">${group.label}</div>
+        <p>${group.instructions}</p>
+      </div>`;
+
+      if (group.type === 'tfng' || group.type === 'yes_no_ng') {
+        const isYNG = group.type === 'yes_no_ng';
+        const btns = isYNG
+          ? [['YES','sel-y'],['NO','sel-n'],['NOT GIVEN','sel-ng']]
+          : [['TRUE','sel-t'],['FALSE','sel-f'],['NOT GIVEN','sel-ng']];
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <div class="q-tfng">
+              ${btns.map(([label, cls]) => `<button class="q-tfng-btn" onclick="selectTFNG(${q.id},'${label}',this,'${cls}')">${label}</button>`).join('')}
+            </div>
+          </div>`;
+        });
+
+      } else if (group.type === 'sentence_completion') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <input type="text" class="q-input" id="q${q.id}" placeholder="Your answer…" oninput="recordAnswer(${q.id}, this.value.trim())" />
+          </div>`;
+        });
+
+      } else if (group.type === 'matching_info') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <select class="q-select" id="q${q.id}" onchange="recordAnswer(${q.id}, this.value)">
+              <option value="">— Select paragraph —</option>
+              ${group.paraOptions.map(p => `<option value="${p}">Paragraph ${p}</option>`).join('')}
+            </select>
+          </div>`;
+        });
+
+      } else if (group.type === 'mc') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <div class="q-options">
+              ${q.options.map(o => `
+              <div class="q-option" onclick="selectMC(${q.id},'${o.key}',this)">
+                <input type="radio" name="q${q.id}" value="${o.key}" id="q${q.id}_${o.key}" onchange="recordAnswer(${q.id},'${o.key}')">
+                <label for="q${q.id}_${o.key}"><strong>${o.key}.</strong> ${o.text}</label>
+              </div>`).join('')}
+            </div>
+          </div>`;
+        });
+      }
+    });
+    panel.innerHTML = html;
+  });
+}
+
+function selectTFNG(qId, val, btn, cls) {
+  btn.parentElement.querySelectorAll('.q-tfng-btn').forEach(b => { b.className = 'q-tfng-btn'; });
+  btn.classList.add(cls);
+  recordAnswer(qId, val);
+}
+function selectMC(qId, val, optionEl) {
+  optionEl.closest('.q-options').querySelectorAll('.q-option').forEach(o => { o.style.background = ''; o.style.borderColor = ''; });
+  optionEl.style.background = 'var(--gold-dim)';
+  optionEl.style.borderColor = 'var(--gold-border)';
+  const radio = optionEl.querySelector('input[type=radio]');
+  if (radio) radio.checked = true;
+  recordAnswer(qId, val);
+}
+function recordAnswer(qId, val) { answers[qId] = val; }
+
+// ─────────────────────────────────────────
+//  SCORING
+// ─────────────────────────────────────────
+function scoreAnswer(q, studentRaw) {
+  if (!studentRaw) return false;
+  const student = studentRaw.toString().trim().toLowerCase();
+  if (q.acceptable) return q.acceptable.map(a => a.toLowerCase()).includes(student);
+  return student === q.answer.toLowerCase();
+}
+function bandFromScore(n) {
+  if (n >= 39) return 9.0; if (n >= 37) return 8.5; if (n >= 35) return 8.0;
+  if (n >= 33) return 7.5; if (n >= 30) return 7.0; if (n >= 27) return 6.5;
+  if (n >= 23) return 6.0; if (n >= 19) return 5.5; if (n >= 15) return 5.0;
+  if (n >= 13) return 4.5; if (n >= 10) return 4.0; return 3.5;
+}
+function bandColour(b) { return b >= 7 ? '#0D9488' : b >= 5.5 ? '#C9952E' : '#dc2626'; }
+function bandAdvice(band, score) {
+  const pct = Math.round(score/40*100);
+  if (band >= 8.5) return `Outstanding — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Excellent comprehension across all three passages. Focus on NOT GIVEN precision and exact word retrieval in sentence completions.`;
+  if (band >= 7.5) return `Excellent result — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Strong academic reading. To push towards Band 8+: tighten YES/NO/NOT GIVEN judgements — only use the writer's expressed views, not implied ones.`;
+  if (band >= 6.5) return `Good performance — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Solid comprehension. Review: (1) Yes/No/Not Given — look for the writer's views, not facts; (2) sentence completion — copy words exactly from the passage; (3) time management across all three passages.`;
+  if (band >= 5.5) return `You scored ${score}/40 (${pct}%), giving an estimated <strong>Band ${band}</strong>. Clear potential — prioritise synonym recognition, since every question involves paraphrase. Review each wrong answer and locate the exact passage sentence.`;
+  return `You scored ${score}/40 (${pct}%), giving an estimated <strong>Band ${band}</strong>. Focus on active reading: identify each paragraph's main claim before answering. Daily timed reading of academic texts will accelerate improvement.`;
+}
+
+// ─────────────────────────────────────────
+//  SUBMIT
+// ─────────────────────────────────────────
+function confirmSubmit() { if (!confirm('Submit your reading test now?')) return; doSubmit(); }
+function autoSubmit() { if (submitted) return; doSubmit(); }
+function doSubmit() {
+  if (submitted) return;
+  submitted = true;
+  clearInterval(timerInterval);
+  document.getElementById('submittingOverlay').style.display = 'flex';
+  setTimeout(showResults, 800);
+}
+
+// ─────────────────────────────────────────
+//  RESULTS
+// ─────────────────────────────────────────
+function showResults() {
+  document.getElementById('submittingOverlay').style.display = 'none';
+  document.getElementById('testMain').style.display = 'none';
+  document.getElementById('timingStrip').style.display = 'none';
+  document.getElementById('resultsMain').style.display = 'block';
+
+  let correct = 0;
+  const allQs = GROUPS.flatMap(g => g.questions);
+  allQs.forEach(q => { if (scoreAnswer(q, answers[q.id])) correct++; });
+  const band = bandFromScore(correct);
+  const bCol = bandColour(band);
+
+  const results = JSON.parse(localStorage.getItem('ielts_mock_results') || '[]');
+  results.push({ date: Date.now(), book: 19, testNum: 3, skill: 'reading', scores: { reading: band } });
+  localStorage.setItem('ielts_mock_results', JSON.stringify(results));
+
+  const passageChips = [1,2,3].map(p => {
+    const pQs = GROUPS.filter(g => g.passageId === p).flatMap(g => g.questions);
+    const pC = pQs.filter(q => scoreAnswer(q, answers[q.id])).length;
+    const pCol = bandColour(bandFromScore(Math.round(pC/pQs.length*40)));
+    return `<div style="background:#EFF3F9;border:1px solid var(--border);border-radius:10px;padding:10px 14px;text-align:center;min-width:80px;">
+      <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px;">Passage ${p}</div>
+      <div style="font-family:'Space Mono',monospace;font-size:1.125rem;font-weight:700;color:${pCol};">${pC}/${pQs.length}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('scoreCard').innerHTML = `
+    <div class="flex flex-col md:flex-row gap-6 items-center">
+      <div class="score-ring-wrap">
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#E2E8F0" stroke-width="8"/>
+          <circle cx="60" cy="60" r="50" fill="none" stroke="${bCol}" stroke-width="8"
+            stroke-dasharray="${Math.round(correct/40*314)} 314" stroke-linecap="round"
+            transform="rotate(-90 60 60)" style="transition:stroke-dasharray 1.2s cubic-bezier(.16,1,.3,1)"/>
+        </svg>
+        <div style="margin-top:-70px;text-align:center;pointer-events:none;">
+          <div style="font-family:'Space Mono',monospace;font-size:1.75rem;font-weight:700;color:${bCol};">${correct}</div>
+          <div style="font-size:0.75rem;color:var(--text-muted);">out of 40</div>
+        </div>
+        <div style="margin-top:16px;"></div>
+      </div>
+      <div class="flex-1">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Your Score</div>
+        <div class="font-display font-black text-4xl mb-1" style="color:${bCol};">Band ${band}</div>
+        <div class="text-sm mb-4" style="color:var(--text-muted);">${correct} correct answers out of 40</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">${passageChips}</div>
+      </div>
+    </div>`;
+
+  document.getElementById('feedbackCard').innerHTML = `
+    <div class="text-xs font-bold tracking-widest uppercase mb-3" style="color:var(--gold);">Overall Feedback</div>
+    <div class="band-feedback">${bandAdvice(band, correct)}</div>`;
+
+  [1,2,3].forEach(pid => {
+    let html = '';
+    GROUPS.filter(g => g.passageId === pid).forEach(group => {
+      const typeLabel = { tfng:'True / False / Not Given', yes_no_ng:'Yes / No / Not Given', mc:'Multiple Choice', matching_info:'Matching Information', sentence_completion:'Sentence Completion' }[group.type] || group.type;
+      html += `<div style="margin-bottom:0.5rem;padding:6px 0 8px;border-bottom:1px solid var(--border-soft);">
+        <span style="font-size:0.6875rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-faint);">${group.label} — ${typeLabel}</span>
+      </div>`;
+      group.questions.forEach(q => {
+        const isCorrect = scoreAnswer(q, answers[q.id]);
+        const studentAns = answers[q.id] ? answers[q.id].toString() : '(no answer)';
+        const correctAns = q.answerDisplay || q.answer;
+        html += `<div class="corr-block ${isCorrect ? 'corr-correct' : 'corr-wrong'}">
+          <div class="corr-qnum ${isCorrect ? 'ok' : 'bad'}">${isCorrect ? '✓' : '✗'} Question ${q.id}</div>
+          <div class="corr-qtext">${q.text}</div>`;
+        if (isCorrect) {
+          html += `<div class="corr-row"><span class="corr-tag reinforce">✓ Correct</span><span class="corr-val">${studentAns}</span></div>
+            <div class="corr-expl">${q.reinforcement || ''}</div>`;
+        } else {
+          const extraAcceptable = q.acceptable && q.acceptable.length > 1
+            ? ` <span style="font-size:0.75rem;color:var(--text-faint);">(also: ${q.acceptable.filter(a=>a.toLowerCase()!==q.answer.toLowerCase()).join(', ')})</span>`
+            : '';
+          html += `<div class="corr-row"><span class="corr-tag your">Your answer</span><span class="corr-val">${studentAns}</span></div>
+            <div class="corr-row"><span class="corr-tag correct">Correct answer</span><span class="corr-val">${correctAns}${extraAcceptable}</span></div>
+            <div class="corr-expl">${q.explanation || ''}</div>`;
+        }
+        html += `</div>`;
+      });
+    });
+    document.getElementById('corrPassage' + pid).innerHTML = html;
+  });
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─────────────────────────────────────────
+//  INIT
+// ─────────────────────────────────────────
+initFontSize();
+renderAll();
+startTimer();
+</script>
+<script src="/js/components.js"></script>
+<script>
+  IELTSLab.loadNav({ basePath: '../', breadcrumb: 'Mock Tests', authenticated: true, themeDefault: 'light' });
+</script>
+</body>
+</html>
