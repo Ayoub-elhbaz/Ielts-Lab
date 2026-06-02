@@ -642,7 +642,7 @@
     .mock-cta-left { flex: 0 0 55%; min-width: 0; }
     .mock-cta-right { flex: 1; position: relative; border-radius: 16px; overflow: hidden; align-self: stretch; min-height: 420px; }
     .mock-cta-img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .mock-cta-img-overlay { position: absolute; inset: 0; background: linear-gradient(to right, var(--color-navy) 0%, transparent 30%); pointer-events: none; }
+    .mock-cta-img-overlay { position: absolute; inset: 0; background: linear-gradient(to left, var(--color-navy) 0%, transparent 30%); pointer-events: none; }
 
     /* Pill CTA button */
     .mock-cta-btn-new {
@@ -674,7 +674,9 @@
       <!-- Skeleton loader -->
       <div id="mockCtaSkeleton">
         <div class="mock-cta-layout">
-          <!-- Left column skeleton -->
+          <!-- Left column skeleton: image placeholder -->
+          <div class="mock-cta-right" style="background:rgba(255,255,255,0.06);"></div>
+          <!-- Right column skeleton -->
           <div class="mock-cta-left">
             <div class="skel-block" style="height:48px;margin:0 0 20px;border-radius:6px;"></div>
             <div class="skel-block" style="height:22px;max-width:500px;margin:0 0 8px;"></div>
@@ -686,8 +688,6 @@
             </div>
             <div class="skel-block" style="height:60px;max-width:280px;border-radius:50px;"></div>
           </div>
-          <!-- Right column skeleton: image placeholder -->
-          <div class="mock-cta-right" style="background:rgba(255,255,255,0.06);"></div>
         </div>
       </div>
 
@@ -695,7 +695,15 @@
       <div id="mockCtaContent" class="mock-cta-content" style="display:none;">
         <div class="mock-cta-layout">
 
-          <!-- Left column: text content -->
+          <!-- Left column: student image -->
+          <div class="mock-cta-right">
+            <img src="https://images.unsplash.com/photo-1571260899304-425eee4c7efc?w=800&q=80"
+                 alt="Student taking a test on a computer"
+                 class="mock-cta-img" />
+            <div class="mock-cta-img-overlay"></div>
+          </div>
+
+          <!-- Right column: text content -->
           <div class="mock-cta-left">
             <h2 id="mockCtaHeadline" style="color:#FFFFFF;font-size:36px;font-weight:500;font-family:'Satoshi','Plus Jakarta Sans',sans-serif;line-height:1.25;margin:0 0 16px;"></h2>
             <p id="mockCtaSubheadline" style="color:rgba(255,255,255,0.75);font-size:18px;line-height:1.6;margin:0 0 32px;"></p>
@@ -707,14 +715,6 @@
                 <p style="color:rgba(255,255,255,0.5);font-size:13px;margin:0;">⭐⭐⭐⭐⭐ Taken by 18,000+ students</p>
               </div>
             </div>
-          </div>
-
-          <!-- Right column: student image -->
-          <div class="mock-cta-right">
-            <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&q=80"
-                 alt="Student focused at desk preparing for IELTS exam"
-                 class="mock-cta-img" />
-            <div class="mock-cta-img-overlay"></div>
           </div>
 
         </div>
