@@ -69,7 +69,7 @@
 
     /* Nav */
     .nav-glass {
-      background: rgba(9,9,11,0.82);
+      background: var(--color-navy);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid rgba(255,255,255,0.04);
@@ -220,16 +220,17 @@
       padding:28px 48px;
       pointer-events:all;
       animation:fadeDown 1.2s ease both;
+      background: var(--color-navy);
     }
     .nav-logo { display:flex; align-items:baseline; gap:0; text-decoration:none; }
-    .nl-ielts { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:600; letter-spacing:1px; color:var(--white); }
-    .nl-lab   { font-family:'Space Mono',monospace; font-size:13px; font-weight:700; letter-spacing:3px; color:var(--gold); margin-left:5px; padding-bottom:1px; filter:drop-shadow(0 0 8px rgba(201,149,46,0.5)); }
+    .nl-ielts { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:600; letter-spacing:1px; color:#FFFFFF; }
+    .nl-lab   { font-family:'Space Mono',monospace; font-size:13px; font-weight:700; letter-spacing:3px; color:#FFFFFF; margin-left:5px; padding-bottom:1px; }
     .nl-flask { font-size:16px; margin-left:4px; }
     .nav-links { display:flex; gap:32px; list-style:none; }
-    .nav-links a { font-family:'DM Sans',sans-serif; font-size:11px; font-weight:400; letter-spacing:2.5px; text-transform:uppercase; color:rgba(238,244,255,0.90); text-decoration:none; transition:color 0.3s; }
-    .nav-links a:hover { color:var(--gold); }
-    .nav-cta { font-family:'DM Sans',sans-serif; font-size:10px; font-weight:400; letter-spacing:2px; text-transform:uppercase; padding:9px 22px; border-radius:2px; border:1px solid rgba(201,149,46,0.4); color:var(--gold); background:rgba(201,149,46,0.07); cursor:pointer; text-decoration:none; transition:all 0.3s; }
-    .nav-cta:hover { background:rgba(201,149,46,0.15); border-color:var(--gold); }
+    .nav-links a { font-family:'DM Sans',sans-serif; font-size:11px; font-weight:400; letter-spacing:2.5px; text-transform:uppercase; color:#FFFFFF; text-decoration:none; transition:color 0.3s; }
+    .nav-links a:hover { color:rgba(255,255,255,0.75); }
+    .nav-cta { font-family:'DM Sans',sans-serif; font-size:10px; font-weight:400; letter-spacing:2px; text-transform:uppercase; padding:9px 22px; border-radius:8px; border:none; color:#FFFFFF; background:var(--color-teal); cursor:pointer; text-decoration:none; transition:all 0.3s; }
+    .nav-cta:hover { background:var(--color-teal-dark); }
     .ui .hero { display:flex; flex-direction:column; align-items:center; text-align:center; padding:0 24px; }
     .logo-lockup { display:flex; flex-direction:column; align-items:center; margin-bottom:32px; animation:fadeUp 1.5s 0.1s ease both; }
     .logo-top    { display:flex; align-items:center; gap:10px; }
