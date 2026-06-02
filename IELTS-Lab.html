@@ -119,6 +119,10 @@
     /* Divider */
     .divider { border-top: 1px solid var(--color-border); }
 
+    /* Mobile nav — hidden on desktop */
+    #navHamburger { display: none; }
+    #mobileNavDrawer { display: none; }
+
     /* Skill/tag pills (GROUP 5) */
     .skill-pill {
       display: inline-flex;
@@ -314,10 +318,93 @@
 
     /* ── Mobile responsiveness ──────────────────────────────────── */
     @media (max-width: 768px) {
-      /* Nav */
-      .ui nav { padding: 16px 20px; }
-      .nav-links { display: none; }
-      .nav-cta { padding: 8px 16px; font-size: 9px; }
+      /* ── Nav base ── */
+      .ui nav {
+        position: fixed !important;
+        top: 0; left: 0; right: 0;
+        height: 60px;
+        padding: 0 16px !important;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: nowrap;
+        z-index: 9998;
+        animation: none;
+      }
+      .nav-links { display: none !important; }
+      #mainNavCta { display: none !important; }
+
+      /* ── Hamburger button ── */
+      #navHamburger {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px; height: 40px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 8px;
+        border: 1px solid rgba(255,255,255,0.2);
+        cursor: pointer;
+        flex-shrink: 0;
+        transition: background 0.2s;
+      }
+      #navHamburger:hover { background: rgba(255,255,255,0.18); }
+
+      /* ── Mobile drawer ── */
+      #mobileNavDrawer {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        top: 60px; left: 0; right: 0;
+        background: var(--color-navy);
+        border-top: 2px solid var(--color-teal);
+        box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        transition: max-height 0.3s ease, opacity 0.25s ease;
+        z-index: 9997;
+        pointer-events: none;
+      }
+      .ui nav.nav-open #mobileNavDrawer {
+        max-height: 500px;
+        opacity: 1;
+        padding: 16px 0 24px;
+        pointer-events: all;
+      }
+
+      /* ── Mobile nav links ── */
+      .mobile-nav-link {
+        display: block;
+        padding: 14px 24px;
+        font-size: 16px;
+        font-weight: 500;
+        color: rgba(255,255,255,0.85);
+        border-bottom: 1px solid rgba(255,255,255,0.07);
+        text-decoration: none;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        transition: background 0.15s, color 0.15s;
+      }
+      .mobile-nav-link:hover { background: rgba(255,255,255,0.06); color: #FFFFFF; }
+
+      /* ── Mobile CTA ── */
+      .mobile-nav-cta {
+        display: block;
+        margin: 16px 24px 0;
+        width: calc(100% - 48px);
+        background: var(--color-teal);
+        color: #FFFFFF;
+        font-size: 16px;
+        font-weight: 500;
+        padding: 14px;
+        border-radius: 8px;
+        text-align: center;
+        border: none;
+        text-decoration: none;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        cursor: pointer;
+        transition: background 0.2s;
+      }
+      .mobile-nav-cta:hover { background: var(--color-teal-dark); }
       /* Hero layout */
       .ui .hero { padding: 0 16px; margin-top: 8px; }
       .score-card-float { display: none; }
@@ -381,6 +468,19 @@
         <a href="login.html" class="nav-cta" id="mainNavCta">Start Free Trial</a>
         <!-- User avatar (shown when logged in) -->
         <button id="userAvatarBtn" onclick="toggleDashboard()" style="display:none;width:36px;height:36px;border-radius:50%;background:var(--color-teal);border:none;cursor:pointer;font-family:'Satoshi',sans-serif;font-size:0.8rem;font-weight:700;color:#FFFFFF;flex-shrink:0;margin-left:0.75rem;transition:transform 0.15s;" title="My account"></button>
+        <!-- Hamburger (mobile only) -->
+        <button id="navHamburger" onclick="toggleMobileNav()" aria-label="Open menu" aria-expanded="false">
+          <i class="ti ti-menu-2" style="font-size:22px;color:white;line-height:1;"></i>
+        </button>
+        <!-- Mobile nav drawer -->
+        <div id="mobileNavDrawer">
+          <a href="mock-tests/index.html" class="mobile-nav-link" onclick="closeMobileNav()">Mock Tests</a>
+          <a href="writing-clinic/index.html" class="mobile-nav-link" onclick="closeMobileNav()">Writing Clinic</a>
+          <a href="guide/index.html" class="mobile-nav-link" onclick="closeMobileNav()">IELTS Guide</a>
+          <a href="#skills" class="mobile-nav-link" onclick="closeMobileNav()">Courses</a>
+          <a href="pricing.html" class="mobile-nav-link" onclick="closeMobileNav()">Pricing</a>
+          <a href="login.html" class="mobile-nav-cta" onclick="closeMobileNav()">Start Free Trial</a>
+        </div>
       </nav>
 
       <!-- HERO CENTER -->
@@ -1991,6 +2091,36 @@
       localStorage.removeItem('ielts_onboarding_done');
       window.location.replace('./login.html');
     }
+
+    // ── Mobile nav ────────────────────────────────────────────────────────────
+    function toggleMobileNav() {
+      var nav = document.querySelector('.ui nav');
+      var btn = document.getElementById('navHamburger');
+      var icon = btn.querySelector('i');
+      var isOpen = nav.classList.toggle('nav-open');
+      btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      icon.className = isOpen ? 'ti ti-x' : 'ti ti-menu-2';
+      icon.style.fontSize = '22px';
+      icon.style.color = 'white';
+      icon.style.lineHeight = '1';
+    }
+
+    function closeMobileNav() {
+      var nav = document.querySelector('.ui nav');
+      var btn = document.getElementById('navHamburger');
+      var icon = btn ? btn.querySelector('i') : null;
+      nav.classList.remove('nav-open');
+      if (btn) btn.setAttribute('aria-expanded', 'false');
+      if (icon) { icon.className = 'ti ti-menu-2'; icon.style.fontSize = '22px'; icon.style.color = 'white'; icon.style.lineHeight = '1'; }
+    }
+
+    // Close when clicking outside the nav
+    document.addEventListener('click', function(e) {
+      var nav = document.querySelector('.ui nav');
+      if (nav && nav.classList.contains('nav-open') && !nav.contains(e.target)) {
+        closeMobileNav();
+      }
+    });
   </script>
 
   <!-- ╔══════════════════════════════ GLOBAL FLOATING CTA ═════════════════╗ -->
