@@ -2639,7 +2639,7 @@ app.get('/api/mock-test-copy', async (_req, res) => {
         messages: [{
           role:    'user',
           content: `You are a conversion copywriter for an IELTS prep platform. Write copy for a section that drives students to take a full mock test. Return ONLY a JSON object with these exact keys:
-- headline: a punchy 8-12 word headline that creates urgency around exam readiness (no questions, use power words)
+- headline: Write a headline that opens with a visceral action word or emotional trigger (e.g. Expose, Discover, Prove, Silence, Crush, Unlock). The headline must make a student feel that skipping this mock test means walking into the exam blind. 8-12 words. No questions. No generic phrases like 'Take Your' or 'Start Your Journey'.
 - subheadline: one sentence, 20-30 words, that explains what the mock test reveals that normal practice cannot
 - bullets: an array of exactly 3 strings, each under 12 words, highlighting what students discover from taking the mock test
 - cta: 4-6 word CTA button label that feels exciting not generic (not 'Start Now' or 'Click Here')

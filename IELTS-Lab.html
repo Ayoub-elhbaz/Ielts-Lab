@@ -12,6 +12,7 @@
   <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Space+Mono:wght@400;700&family=DM+Sans:wght@200;300;400&display=swap" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.29.0/dist/tabler-icons.min.css" />
 
   <script>
     tailwind.config = {
@@ -635,35 +636,88 @@
     .mock-cta-content { opacity: 0; transition: opacity 0.4s ease; }
     .mock-cta-content.loaded { opacity: 1; }
     .mock-bullet-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+    /* Two-column layout */
+    .mock-cta-layout { display: flex; align-items: center; gap: 48px; max-width: 1100px; margin: 0 auto; }
+    .mock-cta-left { flex: 0 0 55%; min-width: 0; }
+    .mock-cta-right { flex: 1; position: relative; border-radius: 16px; overflow: hidden; align-self: stretch; min-height: 420px; }
+    .mock-cta-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .mock-cta-img-overlay { position: absolute; inset: 0; background: linear-gradient(to right, var(--color-navy) 0%, transparent 30%); pointer-events: none; }
+
+    /* Pill CTA button */
+    .mock-cta-btn-new {
+      display: inline-flex; align-items: center; gap: 10px;
+      background: linear-gradient(135deg, #2E9E82 0%, #1a7a63 100%);
+      color: #FFFFFF; font-size: 17px; font-weight: 600;
+      padding: 18px 48px; border-radius: 50px; border: none;
+      box-shadow: 0 8px 32px rgba(46,158,130,0.45);
+      text-decoration: none;
+      transition: all 0.25s ease;
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    }
+    .mock-cta-btn-new:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(46,158,130,0.6); }
+    .mock-cta-btn-new:active { transform: translateY(0px); box-shadow: 0 4px 16px rgba(46,158,130,0.4); }
+
+    /* Mobile */
+    @media (max-width: 768px) {
+      .mock-cta-layout { flex-direction: column; gap: 32px; }
+      .mock-cta-left { flex: none; width: 100%; order: 1; }
+      .mock-cta-right { flex: none; width: 100%; min-height: 260px; order: 2; border-radius: 12px; }
+      .mock-cta-img-overlay { background: linear-gradient(to bottom, var(--color-navy) 0%, transparent 30%); }
+    }
     @media (max-width: 640px) { .mock-bullet-grid { grid-template-columns: 1fr; } }
   </style>
 
   <section id="mock-cta-section" class="divider" style="background:var(--color-navy);padding:80px 0;">
-    <div class="max-w-3xl mx-auto px-6">
+    <div class="px-6">
 
       <!-- Skeleton loader -->
       <div id="mockCtaSkeleton">
-        <div class="skel-block" style="height:48px;max-width:580px;margin:0 auto 20px;"></div>
-        <div class="skel-block" style="height:22px;max-width:500px;margin:0 auto 8px;"></div>
-        <div class="skel-block" style="height:22px;max-width:360px;margin:0 auto 36px;"></div>
-        <div class="mock-bullet-grid" style="margin-bottom:40px;">
-          <div class="skel-block" style="height:100px;border-radius:12px;"></div>
-          <div class="skel-block" style="height:100px;border-radius:12px;animation-delay:0.15s;"></div>
-          <div class="skel-block" style="height:100px;border-radius:12px;animation-delay:0.3s;"></div>
+        <div class="mock-cta-layout">
+          <!-- Left column skeleton -->
+          <div class="mock-cta-left">
+            <div class="skel-block" style="height:48px;margin:0 0 20px;border-radius:6px;"></div>
+            <div class="skel-block" style="height:22px;max-width:500px;margin:0 0 8px;"></div>
+            <div class="skel-block" style="height:22px;max-width:360px;margin:0 0 36px;"></div>
+            <div class="mock-bullet-grid" style="margin-bottom:40px;">
+              <div class="skel-block" style="height:100px;border-radius:12px;"></div>
+              <div class="skel-block" style="height:100px;border-radius:12px;animation-delay:0.15s;"></div>
+              <div class="skel-block" style="height:100px;border-radius:12px;animation-delay:0.3s;"></div>
+            </div>
+            <div class="skel-block" style="height:60px;max-width:280px;border-radius:50px;"></div>
+          </div>
+          <!-- Right column skeleton: image placeholder -->
+          <div class="mock-cta-right" style="background:rgba(255,255,255,0.06);"></div>
         </div>
-        <div class="skel-block" style="height:56px;max-width:260px;margin:0 auto;border-radius:8px;"></div>
       </div>
 
       <!-- Content (hidden until API responds) -->
-      <div id="mockCtaContent" class="mock-cta-content" style="display:none;text-align:center;">
-        <h2 id="mockCtaHeadline" style="color:#FFFFFF;font-size:36px;font-weight:500;max-width:700px;margin:0 auto;font-family:'Satoshi','Plus Jakarta Sans',sans-serif;line-height:1.25;"></h2>
-        <p id="mockCtaSubheadline" style="color:rgba(255,255,255,0.75);font-size:18px;max-width:580px;margin:16px auto 32px;line-height:1.6;"></p>
-        <div id="mockCtaBullets" class="mock-bullet-grid" style="margin-bottom:0;text-align:left;"></div>
-        <a id="mockCtaBtn" href="https://ieltslab.io/mock-tests/index.html"
-           style="display:inline-block;background:var(--color-teal);color:#FFFFFF;font-size:17px;font-weight:500;padding:16px 40px;border-radius:8px;border:none;text-decoration:none;margin:40px auto 0;transition:background 0.2s;"
-           onmouseover="this.style.background='var(--color-teal-dark)'"
-           onmouseout="this.style.background='var(--color-teal)'"></a>
-        <p id="mockCtaFootnote" style="color:rgba(255,255,255,0.45);font-size:13px;margin-top:12px;"></p>
+      <div id="mockCtaContent" class="mock-cta-content" style="display:none;">
+        <div class="mock-cta-layout">
+
+          <!-- Left column: text content -->
+          <div class="mock-cta-left">
+            <h2 id="mockCtaHeadline" style="color:#FFFFFF;font-size:36px;font-weight:500;font-family:'Satoshi','Plus Jakarta Sans',sans-serif;line-height:1.25;margin:0 0 16px;"></h2>
+            <p id="mockCtaSubheadline" style="color:rgba(255,255,255,0.75);font-size:18px;line-height:1.6;margin:0 0 32px;"></p>
+            <div id="mockCtaBullets" class="mock-bullet-grid" style="margin-bottom:40px;"></div>
+            <div style="text-align:center;">
+              <a id="mockCtaBtn" href="https://ieltslab.io/mock-tests/index.html" class="mock-cta-btn-new"></a>
+              <div style="margin-top:14px;">
+                <p id="mockCtaFootnote" style="color:rgba(255,255,255,0.45);font-size:13px;margin:0 0 4px;"></p>
+                <p style="color:rgba(255,255,255,0.5);font-size:13px;margin:0;">⭐⭐⭐⭐⭐ Taken by 18,000+ students</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right column: student image -->
+          <div class="mock-cta-right">
+            <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=800&q=80"
+                 alt="Student focused at desk preparing for IELTS exam"
+                 class="mock-cta-img" />
+            <div class="mock-cta-img-overlay"></div>
+          </div>
+
+        </div>
       </div>
 
     </div>
@@ -682,11 +736,14 @@
       function renderCopy(copy) {
         document.getElementById('mockCtaHeadline').textContent    = copy.headline    || FALLBACK.headline;
         document.getElementById('mockCtaSubheadline').textContent = copy.subheadline || FALLBACK.subheadline;
-        document.getElementById('mockCtaBtn').textContent         = copy.cta         || FALLBACK.cta;
         document.getElementById('mockCtaFootnote').textContent    = copy.footnote    || FALLBACK.footnote;
 
-        var bullets    = (copy.bullets && copy.bullets.length === 3) ? copy.bullets : FALLBACK.bullets;
-        var bulletsEl  = document.getElementById('mockCtaBullets');
+        var ctaLabel = copy.cta || FALLBACK.cta;
+        document.getElementById('mockCtaBtn').innerHTML =
+          ctaLabel + ' <i class="ti ti-arrow-right" style="font-size:18px;line-height:1;"></i>';
+
+        var bullets   = (copy.bullets && copy.bullets.length === 3) ? copy.bullets : FALLBACK.bullets;
+        var bulletsEl = document.getElementById('mockCtaBullets');
         bullets.forEach(function(text) {
           var card = document.createElement('div');
           card.style.cssText = 'background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-left:4px solid var(--color-teal);border-radius:12px;padding:20px;color:#FFFFFF;font-size:15px;line-height:1.55;';
