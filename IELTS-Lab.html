@@ -259,11 +259,11 @@
     .btn-main:hover { transform:translateY(-2px); background:var(--color-teal-dark); box-shadow:0 0 42px rgba(46,158,130,0.45); }
     .btn-ghost { font-family:'DM Sans',sans-serif; font-size:11px; font-weight:300; letter-spacing:2.5px; text-transform:uppercase; padding:13px 32px; border-radius:8px; cursor:pointer; background:transparent; border:2px solid #FFFFFF; color:#FFFFFF; transition:all 0.3s; }
     .btn-ghost:hover { background:rgba(255,255,255,0.1); }
-    .hero-stats { position:absolute; bottom:0; left:0; right:0; display:flex; justify-content:center; gap:clamp(24px,4vw,60px); padding:28px 48px; border-top:1px solid rgba(200,216,255,0.06); animation:fadeUp 1.5s 1.1s ease both; }
-    .hero-stat  { display:flex; flex-direction:column; align-items:center; gap:4px; }
-    .hero-stat-num { font-family:'Cormorant Garamond',serif; font-size:clamp(20px,2.5vw,28px); font-weight:600; color:var(--white); letter-spacing:1px; }
+    .hero-stats { position:absolute; bottom:0; left:0; right:0; display:flex; justify-content:center; gap:clamp(12px,2vw,24px); padding:20px 48px; border-top:none; animation:fadeUp 1.5s 1.1s ease both; }
+    .hero-stat  { display:flex; flex-direction:column; align-items:center; gap:4px; background:var(--color-white); border:1px solid var(--color-border); border-radius:12px; padding:14px 24px; }
+    .hero-stat-num { font-family:'Cormorant Garamond',serif; font-size:clamp(20px,2.5vw,28px); font-weight:500; color:var(--color-navy); letter-spacing:1px; }
     .hero-stat-num .stat-accent { color:var(--color-teal); }
-    .hero-stat-label { font-family:'DM Sans',sans-serif; font-size:9px; font-weight:300; letter-spacing:3px; text-transform:uppercase; color:rgba(200,216,255,0.3); }
+    .hero-stat-label { font-family:'DM Sans',sans-serif; font-size:9px; font-weight:300; letter-spacing:3px; text-transform:uppercase; color:var(--color-slate); }
     .scroll-hint { position:absolute; bottom:90px; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:6px; animation:fadeUp 1.5s 1.3s ease both; pointer-events:none; }
     .scroll-line { width:1px; height:40px; background:linear-gradient(to bottom, rgba(200,216,255,0.3),transparent); animation:scrollPulse 2s ease-in-out infinite; }
     .scroll-text { font-family:'DM Sans',sans-serif; font-size:8px; letter-spacing:3px; text-transform:uppercase; color:rgba(200,216,255,0.25); }
