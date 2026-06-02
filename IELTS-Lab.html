@@ -239,15 +239,15 @@
     .logo-badge  { font-family:'Space Mono',monospace; font-size:9px; letter-spacing:5px; text-transform:uppercase; color:rgba(200,216,255,0.3); margin-top:8px; }
     .brand-name  { display:flex; align-items:baseline; }
     .brand-ielts { font-family:'Cormorant Garamond',serif; font-size:clamp(56px,8vw,110px); font-weight:600; letter-spacing:-1px; line-height:1; color:var(--white); }
-    .brand-lab   { font-family:'Space Mono',monospace; font-size:clamp(20px,2.8vw,38px); font-weight:700; letter-spacing:4px; color:var(--gold); margin-left:8px; filter:drop-shadow(0 0 16px rgba(201,149,46,0.6)); padding-bottom:6px; }
+    .brand-lab   { font-family:'Space Mono',monospace; font-size:clamp(20px,2.8vw,38px); font-weight:700; letter-spacing:4px; color:var(--color-teal); margin-left:8px; filter:drop-shadow(0 0 16px rgba(46,158,130,0.5)); padding-bottom:6px; }
     .brand-flask { font-size:clamp(20px,2.5vw,34px); margin-left:6px; animation:flaskBob 3.5s ease-in-out infinite; display:inline-block; }
     @keyframes flaskBob { 0%,100%{transform:translateY(0) rotate(-6deg)} 50%{transform:translateY(-5px) rotate(6deg)} }
     .quote-wrap { margin-top:8px; animation:fadeUp 1.5s 0.3s ease both; }
-    .quote { font-family:'Cormorant Garamond',serif; font-size:clamp(17px,2.2vw,26px); font-weight:300; font-style:italic; color:rgba(200,216,255,0.75); line-height:1.55; max-width:620px; }
-    .quote-mark { font-size:1.4em; line-height:0; vertical-align:-0.3em; color:var(--gold); opacity:0.6; }
-    .quote-attr { font-family:'DM Sans',sans-serif; font-size:10px; font-weight:300; letter-spacing:3px; text-transform:uppercase; color:rgba(200,216,255,0.3); margin-top:12px; }
-    .quote-attr span { color:var(--gold); opacity:0.7; }
-    .sub { font-family:'DM Sans',sans-serif; font-size:clamp(12px,1.4vw,15px); font-weight:200; color:rgba(200,216,255,0.45); letter-spacing:3px; text-transform:uppercase; margin-top:28px; animation:fadeUp 1.5s 0.5s ease both; }
+    .quote { font-family:'Cormorant Garamond',serif; font-size:clamp(17px,2.2vw,26px); font-weight:300; font-style:italic; color:rgba(255,255,255,0.8); line-height:1.55; max-width:620px; }
+    .quote-mark { font-size:1.4em; line-height:0; vertical-align:-0.3em; color:var(--color-teal); opacity:0.8; }
+    .quote-attr { font-family:'DM Sans',sans-serif; font-size:10px; font-weight:300; letter-spacing:3px; text-transform:uppercase; color:rgba(255,255,255,0.8); margin-top:12px; }
+    .quote-attr span { color:var(--color-teal); opacity:1; }
+    .sub { font-family:'DM Sans',sans-serif; font-size:clamp(12px,1.4vw,15px); font-weight:200; color:rgba(255,255,255,0.8); letter-spacing:3px; text-transform:uppercase; margin-top:28px; animation:fadeUp 1.5s 0.5s ease both; }
     .pills { display:flex; gap:10px; margin-top:28px; animation:fadeUp 1.5s 0.7s ease both; }
     .pill  { font-family:'DM Sans',sans-serif; font-size:10px; font-weight:300; letter-spacing:2px; text-transform:uppercase; padding:8px 18px; border-radius:30px; backdrop-filter:blur(8px); }
     .pill-w { border:1px solid rgba(201,149,46,0.35); color:#E8C97A; background:rgba(201,149,46,0.07); }
@@ -255,14 +255,14 @@
     .pill-l { border:1px solid rgba(201,149,46,0.35); color:#E8C97A; background:rgba(201,149,46,0.07); }
     .pill-s { border:1px solid rgba(42,255,214,0.3);  color:#7AFFF0; background:rgba(42,255,214,0.06); }
     .ctas { display:flex; gap:14px; margin-top:34px; pointer-events:all; animation:fadeUp 1.5s 0.9s ease both; }
-    .btn-main { font-family:'DM Sans',sans-serif; font-size:11px; font-weight:400; letter-spacing:2.5px; text-transform:uppercase; padding:13px 32px; border-radius:2px; border:none; cursor:pointer; background:linear-gradient(135deg,var(--gold) 0%,#a8741f 100%); color:#05081A; box-shadow:0 0 28px rgba(201,149,46,0.3); transition:all 0.3s; }
-    .btn-main:hover { transform:translateY(-2px); box-shadow:0 0 42px rgba(201,149,46,0.5); }
-    .btn-ghost { font-family:'DM Sans',sans-serif; font-size:11px; font-weight:300; letter-spacing:2.5px; text-transform:uppercase; padding:13px 32px; border-radius:2px; cursor:pointer; background:transparent; border:1px solid rgba(200,216,255,0.18); color:rgba(200,216,255,0.55); transition:all 0.3s; }
-    .btn-ghost:hover { border-color:rgba(58,123,247,0.6); color:#7AAEFF; }
+    .btn-main { font-family:'DM Sans',sans-serif; font-size:11px; font-weight:400; letter-spacing:2.5px; text-transform:uppercase; padding:13px 32px; border-radius:8px; border:none; cursor:pointer; background:var(--color-teal); color:#FFFFFF; box-shadow:0 0 28px rgba(46,158,130,0.3); transition:all 0.3s; }
+    .btn-main:hover { transform:translateY(-2px); background:var(--color-teal-dark); box-shadow:0 0 42px rgba(46,158,130,0.45); }
+    .btn-ghost { font-family:'DM Sans',sans-serif; font-size:11px; font-weight:300; letter-spacing:2.5px; text-transform:uppercase; padding:13px 32px; border-radius:8px; cursor:pointer; background:transparent; border:2px solid #FFFFFF; color:#FFFFFF; transition:all 0.3s; }
+    .btn-ghost:hover { background:rgba(255,255,255,0.1); }
     .hero-stats { position:absolute; bottom:0; left:0; right:0; display:flex; justify-content:center; gap:clamp(24px,4vw,60px); padding:28px 48px; border-top:1px solid rgba(200,216,255,0.06); animation:fadeUp 1.5s 1.1s ease both; }
     .hero-stat  { display:flex; flex-direction:column; align-items:center; gap:4px; }
     .hero-stat-num { font-family:'Cormorant Garamond',serif; font-size:clamp(20px,2.5vw,28px); font-weight:600; color:var(--white); letter-spacing:1px; }
-    .hero-stat-num .stat-accent { color:var(--gold); }
+    .hero-stat-num .stat-accent { color:var(--color-teal); }
     .hero-stat-label { font-family:'DM Sans',sans-serif; font-size:9px; font-weight:300; letter-spacing:3px; text-transform:uppercase; color:rgba(200,216,255,0.3); }
     .scroll-hint { position:absolute; bottom:90px; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; gap:6px; animation:fadeUp 1.5s 1.3s ease both; pointer-events:none; }
     .scroll-line { width:1px; height:40px; background:linear-gradient(to bottom, rgba(200,216,255,0.3),transparent); animation:scrollPulse 2s ease-in-out infinite; }
@@ -288,7 +288,7 @@
     .hero-vignette {
       position: absolute; inset: 0;
       z-index: 6; pointer-events: none;
-      background: radial-gradient(ellipse 85% 75% at 50% 50%, transparent 30%, rgba(5,8,26,0.92) 100%);
+      background: radial-gradient(ellipse 85% 75% at 50% 50%, transparent 30%, rgba(22,37,64,0.92) 100%);
     }
 
     /* ── Mobile responsiveness ──────────────────────────────────── */
@@ -328,7 +328,7 @@
 <body class="bg-[#F4F1EB] text-[#1C1C2E]">
 
   <!-- ╔══════════════════════════════ HERO ════════════════════════════════╗ -->
-  <section id="hero-section" class="min-h-[100dvh] flex items-center relative overflow-hidden" style="background:#05081A">
+  <section id="hero-section" class="min-h-[100dvh] flex items-center relative overflow-hidden" style="background:linear-gradient(to bottom, #1B3054, #162540)">
 
     <!-- ── Ayoub Lab canvas layers ── -->
     <canvas id="cvMap"      class="hero-cv" style="z-index:1;opacity:0.55"></canvas>
@@ -337,8 +337,8 @@
     <canvas id="cvScript"   class="hero-cv" style="z-index:4"></canvas>
     <div class="hero-grain"></div>
     <div class="hero-vignette"></div>
-    <!-- warm gold accent glow over the background -->
-    <div class="absolute inset-0 pointer-events-none" style="z-index:7;background:radial-gradient(ellipse 55% 55% at 68% 48%, rgba(201,149,46,0.06) 0%, transparent 65%)"></div>
+    <!-- teal accent glow over the background -->
+    <div class="absolute inset-0 pointer-events-none" style="z-index:7;background:radial-gradient(ellipse 55% 55% at 68% 48%, rgba(46,158,130,0.08) 0%, transparent 65%)"></div>
 
     <!-- ayoub lab UI layer -->
     <div class="ui">
