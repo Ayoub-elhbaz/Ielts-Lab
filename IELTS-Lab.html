@@ -87,14 +87,14 @@
     .text-gold { color: var(--color-teal); }
 
     /* Skill bar */
-    .skill-track { height: 2px; background: #DDD8CE; border-radius: 99px; overflow: hidden; }
+    .skill-track { height: 2px; background: var(--color-mint); border-radius: 99px; overflow: hidden; }
     .score-card-float .skill-track { background: #27272a; }
     .skill-fill { height: 100%; background: var(--color-teal); border-radius: 99px; width: 0; transition: width 1.2s cubic-bezier(0.16,1,0.3,1); }
 
     /* Scrollbar */
     ::-webkit-scrollbar { width: 5px; }
     ::-webkit-scrollbar-track { background: #F4F1EB; }
-    ::-webkit-scrollbar-thumb { background: #C49A2B; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb { background: var(--color-teal); border-radius: 3px; }
 
     /* Hover lift */
     .hover-lift { transition: transform 0.2s ease, box-shadow 0.2s ease; }
@@ -116,7 +116,27 @@
     .marquee-wrap { overflow: hidden; }
 
     /* Divider */
-    .divider { border-top: 1px solid #DDD8CE; }
+    .divider { border-top: 1px solid var(--color-border); }
+
+    /* Skill/tag pills (GROUP 5) */
+    .skill-pill {
+      display: inline-flex;
+      align-items: center;
+      font-size: 12px;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      background: var(--color-mint);
+      color: var(--color-teal-dark);
+      border: 1px solid var(--color-teal);
+    }
+
+    /* Tailwind hex-color normalization for light sections */
+    .text-\[#3D4451\] { color: var(--color-slate) !important; }
+    .text-\[#6B7280\] { color: var(--color-slate) !important; }
+    .text-\[#9CA3AF\] { color: var(--color-slate) !important; }
+    .text-\[#1C1C2E\] { color: var(--color-navy) !important; }
+    .border-\[#DDD8CE\] { border-color: var(--color-border) !important; }
+    .border-\[#EDE9E0\] { border-color: var(--color-border) !important; }
 
     blockquote { quotes: none; }
 
@@ -158,7 +178,7 @@
       width: 80px;
       height: 80px;
       border-radius: 50%;
-      background: #DDD8CE;
+      background: var(--color-mint);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -359,7 +379,7 @@
         </ul>
         <a href="login.html" class="nav-cta" id="mainNavCta">Start Free Trial</a>
         <!-- User avatar (shown when logged in) -->
-        <button id="userAvatarBtn" onclick="toggleDashboard()" style="display:none;width:36px;height:36px;border-radius:50%;background:var(--gold);border:none;cursor:pointer;font-family:'Satoshi',sans-serif;font-size:0.8rem;font-weight:700;color:#1C1C2E;flex-shrink:0;margin-left:0.75rem;transition:transform 0.15s;" title="My account"></button>
+        <button id="userAvatarBtn" onclick="toggleDashboard()" style="display:none;width:36px;height:36px;border-radius:50%;background:var(--color-teal);border:none;cursor:pointer;font-family:'Satoshi',sans-serif;font-size:0.8rem;font-weight:700;color:#FFFFFF;flex-shrink:0;margin-left:0.75rem;transition:transform 0.15s;" title="My account"></button>
       </nav>
 
       <!-- HERO CENTER -->
@@ -491,13 +511,13 @@
           </div>
 
           <div class="flex items-center gap-2 p-3 rounded-lg bg-zinc-800/50">
-            <div class="w-1.5 h-1.5 rounded-full flex-shrink-0" style="background:var(--gold)"></div>
+            <div class="w-1.5 h-1.5 rounded-full flex-shrink-0" style="background:var(--color-teal)"></div>
             <span class="text-xs text-zinc-400">Writing Task 2 needs work — 3 targeted exercises queued</span>
           </div>
         </div>
 
         <div class="absolute -top-4 -right-4 float-slow px-3 py-2 rounded-xl text-xs font-medium border"
-             style="background:rgba(17,17,19,0.92);border-color:var(--gold-border);color:var(--gold-light);box-shadow:0 8px 24px rgba(0,0,0,0.4);backdrop-filter:blur(8px)">
+             style="background:rgba(17,17,19,0.92);border-color:rgba(46,158,130,0.35);color:var(--color-teal);box-shadow:0 8px 24px rgba(0,0,0,0.4);backdrop-filter:blur(8px)">
           +1.5 bands in 6 weeks
         </div>
 
@@ -517,41 +537,41 @@
   </section>
 
   <!-- ╔══════════════════════════════ TRUST STRIP ═════════════════════════╗ -->
-  <div class="py-10" style="background:#1B2B4B;border-top:1px solid rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06)">
+  <div class="py-10" style="background:var(--color-off-white);border-top:1px solid var(--color-border);border-bottom:1px solid var(--color-border)">
     <div class="marquee-wrap">
       <div class="marquee-inner inline-flex items-center gap-16">
-        <span class="text-sm font-medium whitespace-nowrap" style="color:rgba(238,244,255,0.72)">BBC Learning English</span>
-        <span style="color:rgba(201,149,46,0.5)">·</span>
-        <span class="text-sm font-medium whitespace-nowrap" style="color:rgba(238,244,255,0.72)">British Council</span>
-        <span style="color:rgba(201,149,46,0.5)">·</span>
-        <span class="text-sm font-medium whitespace-nowrap" style="color:rgba(238,244,255,0.72)">Cambridge English</span>
-        <span style="color:rgba(201,149,46,0.5)">·</span>
-        <span class="text-sm font-medium whitespace-nowrap" style="color:rgba(238,244,255,0.72)">IDP Education</span>
-        <span style="color:rgba(201,149,46,0.5)">·</span>
-        <span class="text-sm font-medium whitespace-nowrap" style="color:rgba(238,244,255,0.72)">The Guardian Education</span>
-        <span style="color:rgba(201,149,46,0.5)">·</span>
-        <span class="text-sm font-medium whitespace-nowrap" style="color:rgba(238,244,255,0.72)">RMIT University</span>
-        <span style="color:rgba(201,149,46,0.5)">·</span>
-        <span class="text-sm font-medium whitespace-nowrap" style="color:rgba(238,244,255,0.72)">UCL Language Centre</span>
-        <span style="color:rgba(201,149,46,0.5)">·</span>
-        <span class="text-sm font-medium whitespace-nowrap" style="color:rgba(238,244,255,0.72)">QS World Rankings</span>
-        <span style="color:rgba(201,149,46,0.5)">·</span>
-        <span class="text-sm font-medium whitespace-nowrap" style="color:rgba(238,244,255,0.72)">BBC Learning English</span>
-        <span style="color:rgba(201,149,46,0.5)">·</span>
-        <span class="text-sm font-medium whitespace-nowrap" style="color:rgba(238,244,255,0.72)">British Council</span>
-        <span style="color:rgba(201,149,46,0.5)">·</span>
-        <span class="text-sm font-medium whitespace-nowrap" style="color:rgba(238,244,255,0.72)">Cambridge English</span>
-        <span style="color:rgba(201,149,46,0.5)">·</span>
-        <span class="text-sm font-medium whitespace-nowrap" style="color:rgba(238,244,255,0.72)">IDP Education</span>
-        <span style="color:rgba(201,149,46,0.5)">·</span>
-        <span class="text-sm font-medium whitespace-nowrap" style="color:rgba(238,244,255,0.72)">The Guardian Education</span>
-        <span style="color:rgba(201,149,46,0.5)">·</span>
-        <span class="text-sm font-medium whitespace-nowrap" style="color:rgba(238,244,255,0.72)">RMIT University</span>
-        <span style="color:rgba(201,149,46,0.5)">·</span>
-        <span class="text-sm font-medium whitespace-nowrap" style="color:rgba(238,244,255,0.72)">UCL Language Centre</span>
-        <span style="color:rgba(201,149,46,0.5)">·</span>
-        <span class="text-sm font-medium whitespace-nowrap" style="color:rgba(238,244,255,0.72)">QS World Rankings</span>
-        <span style="color:rgba(201,149,46,0.5)">·</span>
+        <span class="text-sm font-medium whitespace-nowrap" style="color:var(--color-navy)">BBC Learning English</span>
+        <span style="color:var(--color-teal)">·</span>
+        <span class="text-sm font-medium whitespace-nowrap" style="color:var(--color-navy)">British Council</span>
+        <span style="color:var(--color-teal)">·</span>
+        <span class="text-sm font-medium whitespace-nowrap" style="color:var(--color-navy)">Cambridge English</span>
+        <span style="color:var(--color-teal)">·</span>
+        <span class="text-sm font-medium whitespace-nowrap" style="color:var(--color-navy)">IDP Education</span>
+        <span style="color:var(--color-teal)">·</span>
+        <span class="text-sm font-medium whitespace-nowrap" style="color:var(--color-navy)">The Guardian Education</span>
+        <span style="color:var(--color-teal)">·</span>
+        <span class="text-sm font-medium whitespace-nowrap" style="color:var(--color-navy)">RMIT University</span>
+        <span style="color:var(--color-teal)">·</span>
+        <span class="text-sm font-medium whitespace-nowrap" style="color:var(--color-navy)">UCL Language Centre</span>
+        <span style="color:var(--color-teal)">·</span>
+        <span class="text-sm font-medium whitespace-nowrap" style="color:var(--color-navy)">QS World Rankings</span>
+        <span style="color:var(--color-teal)">·</span>
+        <span class="text-sm font-medium whitespace-nowrap" style="color:var(--color-navy)">BBC Learning English</span>
+        <span style="color:var(--color-teal)">·</span>
+        <span class="text-sm font-medium whitespace-nowrap" style="color:var(--color-navy)">British Council</span>
+        <span style="color:var(--color-teal)">·</span>
+        <span class="text-sm font-medium whitespace-nowrap" style="color:var(--color-navy)">Cambridge English</span>
+        <span style="color:var(--color-teal)">·</span>
+        <span class="text-sm font-medium whitespace-nowrap" style="color:var(--color-navy)">IDP Education</span>
+        <span style="color:var(--color-teal)">·</span>
+        <span class="text-sm font-medium whitespace-nowrap" style="color:var(--color-navy)">The Guardian Education</span>
+        <span style="color:var(--color-teal)">·</span>
+        <span class="text-sm font-medium whitespace-nowrap" style="color:var(--color-navy)">RMIT University</span>
+        <span style="color:var(--color-teal)">·</span>
+        <span class="text-sm font-medium whitespace-nowrap" style="color:var(--color-navy)">UCL Language Centre</span>
+        <span style="color:var(--color-teal)">·</span>
+        <span class="text-sm font-medium whitespace-nowrap" style="color:var(--color-navy)">QS World Rankings</span>
+        <span style="color:var(--color-teal)">·</span>
       </div>
     </div>
   </div>
@@ -612,17 +632,17 @@
   <style>
     @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     @keyframes demoFadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
-    .demo-tab { padding: 6px 16px; border-radius: 20px; font-size: 0.8125rem; font-weight: 500; border: 1px solid #DDD8CE; color: #3D4451; background: transparent; cursor: pointer; transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .demo-tab { padding: 6px 16px; border-radius: 20px; font-size: 0.8125rem; font-weight: 500; border: 1px solid var(--color-border); color: var(--color-slate); background: transparent; cursor: pointer; transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
     .demo-tab.active, .demo-tab:hover { background: var(--color-teal); color: #FFFFFF; border-color: var(--color-teal); }
-    .demo-input-area { width: 100%; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.9375rem; line-height: 1.7; resize: none; border: 1.5px solid #DDD8CE; border-radius: 12px; padding: 16px 20px; background: #fff; color: #1C1C2E; outline: none; transition: border-color 0.2s; }
+    .demo-input-area { width: 100%; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.9375rem; line-height: 1.7; resize: none; border: 1.5px solid var(--color-border); border-radius: 12px; padding: 16px 20px; background: #fff; color: var(--color-navy); outline: none; transition: border-color 0.2s; }
     .demo-input-area:focus { border-color: var(--color-teal); }
-    .demo-issue { display: flex; gap: 14px; padding: 14px 16px; border-radius: 10px; background: #fff; border: 1px solid #DDD8CE; }
+    .demo-issue { display: flex; gap: 14px; padding: 14px 16px; border-radius: 10px; background: #fff; border: 1px solid var(--color-border); }
     .demo-issue-tag { font-size: 0.625rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; margin-top: 1px; }
-    .demo-tag-lr { background: rgba(239,68,68,0.08); color: #ef4444; border: 1px solid rgba(239,68,68,0.2); }
-    .demo-tag-gr { background: rgba(251,146,60,0.1); color: #c2550a; border: 1px solid rgba(251,146,60,0.25); }
-    .demo-tag-cc { background: rgba(59,130,246,0.08); color: #3b82f6; border: 1px solid rgba(59,130,246,0.2); }
-    .demo-tag-ta { background: rgba(168,85,247,0.08); color: #a855f7; border: 1px solid rgba(168,85,247,0.2); }
-    .demo-improved { background: rgba(42,255,214,0.05); border: 1px solid rgba(42,255,214,0.2); border-radius: 10px; padding: 14px 18px; }
+    .demo-tag-lr { background: rgba(226,75,74,0.08); color: #E24B4A; border: 1px solid rgba(226,75,74,0.2); }
+    .demo-tag-gr { background: rgba(226,75,74,0.06); color: #E24B4A; border: 1px solid rgba(226,75,74,0.15); }
+    .demo-tag-cc { background: rgba(27,48,84,0.07); color: var(--color-navy); border: 1px solid rgba(27,48,84,0.18); }
+    .demo-tag-ta { background: rgba(46,158,130,0.08); color: var(--color-teal-dark); border: 1px solid rgba(46,158,130,0.2); }
+    .demo-improved { background: rgba(46,158,130,0.06); border: 1px solid rgba(46,158,130,0.2); border-radius: 10px; padding: 14px 18px; }
     .demo-feedback-enter { animation: demoFadeUp 0.45s cubic-bezier(0.16,1,0.3,1) both; }
     .demo-analyse-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 8px; font-size: 0.875rem; font-weight: 500; border: none; cursor: pointer; background: var(--color-teal); color: #FFFFFF; transition: background 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
     .demo-analyse-btn:hover:not(:disabled) { background: var(--color-teal-dark); }
@@ -735,21 +755,21 @@
         var tagLabel = { lr: 'Lexical Resource', gr: 'Grammar', cc: 'Coherence', ta: 'Task Achievement' };
 
         fb.innerHTML = '<div class="demo-feedback-enter" style="display:flex;flex-direction:column;gap:12px">'
-          + '<div style="display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:10px;background:#1B2B4B">'
+          + '<div style="display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:10px;background:var(--color-navy)">'
           + '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1z" stroke="#2E9E82" stroke-width="1.3"/><path d="M8 7v4M8 5.5V5" stroke="#2E9E82" stroke-width="1.5" stroke-linecap="round"/></svg>'
-          + '<span style="font-size:0.875rem;font-weight:500;color:rgba(238,244,255,0.85)">3 issues found — each one costs band score. Here\'s exactly what to fix:</span>'
+          + '<span style="font-size:0.875rem;font-weight:500;color:rgba(255,255,255,0.85)">3 issues found — each one costs band score. Here\'s exactly what to fix:</span>'
           + '</div>'
           + ex.issues.map(function(iss) {
               return '<div class="demo-issue"><div><span class="demo-issue-tag ' + tagClass[iss.tag] + '">' + tagLabel[iss.tag] + '</span></div>'
-                + '<div><div style="font-size:0.875rem;font-weight:600;color:#1C1C2E;margin-bottom:4px">' + iss.title + '</div>'
-                + '<div style="font-size:0.8125rem;line-height:1.65;color:#3D4451">' + iss.desc + '</div></div></div>';
+                + '<div><div style="font-size:0.875rem;font-weight:600;color:var(--color-navy);margin-bottom:4px">' + iss.title + '</div>'
+                + '<div style="font-size:0.8125rem;line-height:1.65;color:var(--color-slate)">' + iss.desc + '</div></div></div>';
             }).join('')
-          + '<div class="demo-improved"><div style="font-size:0.75rem;font-weight:700;color:#2AFFD6;margin-bottom:8px;letter-spacing:0.05em">✓ Band 7+ version</div>'
-          + '<p style="font-size:0.9rem;line-height:1.75;color:#1C1C2E;font-style:italic">' + ex.improved + '</p></div>'
+          + '<div class="demo-improved"><div style="font-size:0.75rem;font-weight:700;color:var(--color-teal-dark);margin-bottom:8px;letter-spacing:0.05em">✓ Band 7+ version</div>'
+          + '<p style="font-size:0.9rem;line-height:1.75;color:var(--color-navy);font-style:italic">' + ex.improved + '</p></div>'
           + '<div style="text-align:center;padding-top:4px">'
           + '<a href="login.html" style="display:inline-flex;align-items:center;gap:8px;padding:11px 28px;border-radius:8px;font-size:0.875rem;font-weight:600;background:var(--color-teal);color:#FFFFFF;text-decoration:none;border:none;">'
           + 'Get full essay feedback free →</a>'
-          + '<div style="font-size:0.75rem;color:#9CA3AF;margin-top:8px">No credit card required</div></div>'
+          + '<div style="font-size:0.75rem;color:var(--color-slate);margin-top:8px">No credit card required</div></div>'
           + '</div>';
 
         fb.style.display = 'block';
@@ -870,7 +890,7 @@
         <!-- LEFT COLUMN -->
         <div class="reveal-l">
 
-          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-7" style="background:#1B2B4B">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-7" style="background:var(--color-navy)">
             <span class="text-white text-xs font-medium tracking-widest uppercase">✦ Members Only</span>
           </div>
 
@@ -905,8 +925,8 @@
           <div class="sn sn-1" style="background:#F5C518">
             <div class="sn-body">
               <div style="font-size:2.25rem;margin-bottom:0.8rem;filter:drop-shadow(0 2px 3px rgba(27,43,75,0.18))">💰</div>
-              <div style="font-family:'Caveat',cursive;font-weight:700;font-size:1.65rem;color:#1B2B4B;margin-bottom:0.5rem;line-height:1.2">90% Cheaper</div>
-              <p style="font-family:'Caveat',cursive;font-weight:400;font-size:1.1rem;line-height:1.6;color:#1B2B4B;opacity:0.85">
+              <div style="font-family:'Caveat',cursive;font-weight:700;font-size:1.65rem;color:var(--color-navy);margin-bottom:0.5rem;line-height:1.2">90% Cheaper</div>
+              <p style="font-family:'Caveat',cursive;font-weight:400;font-size:1.1rem;line-height:1.6;color:var(--color-navy);opacity:0.85">
                 A human IELTS tutor charges $30–60 per essay review. Our AI examiner costs a fraction — unlimited feedback for less than a coffee.
               </p>
             </div>
@@ -916,8 +936,8 @@
           <div class="sn sn-2" style="background:#B8F0D8">
             <div class="sn-body">
               <div style="font-size:2.25rem;margin-bottom:0.8rem;filter:drop-shadow(0 2px 3px rgba(27,43,75,0.18))">⚡</div>
-              <div style="font-family:'Caveat',cursive;font-weight:700;font-size:1.65rem;color:#1B2B4B;margin-bottom:0.5rem;line-height:1.2">Under 2 Minutes</div>
-              <p style="font-family:'Caveat',cursive;font-weight:400;font-size:1.1rem;line-height:1.6;color:#1B2B4B;opacity:0.85">
+              <div style="font-family:'Caveat',cursive;font-weight:700;font-size:1.65rem;color:var(--color-navy);margin-bottom:0.5rem;line-height:1.2">Under 2 Minutes</div>
+              <p style="font-family:'Caveat',cursive;font-weight:400;font-size:1.1rem;line-height:1.6;color:var(--color-navy);opacity:0.85">
                 No waiting days for tutor feedback. Get a full band score, line-by-line corrections, and a model answer in under 2 minutes.
               </p>
             </div>
@@ -927,8 +947,8 @@
           <div class="sn sn-3" style="background:#C5DEFF">
             <div class="sn-body">
               <div style="font-size:2.25rem;margin-bottom:0.8rem;filter:drop-shadow(0 2px 3px rgba(27,43,75,0.18))">🎯</div>
-              <div style="font-family:'Caveat',cursive;font-weight:700;font-size:1.65rem;color:#1B2B4B;margin-bottom:0.5rem;line-height:1.2">±0.3 Band Accuracy</div>
-              <p style="font-family:'Caveat',cursive;font-weight:400;font-size:1.1rem;line-height:1.6;color:#1B2B4B;opacity:0.85">
+              <div style="font-family:'Caveat',cursive;font-weight:700;font-size:1.65rem;color:var(--color-navy);margin-bottom:0.5rem;line-height:1.2">±0.3 Band Accuracy</div>
+              <p style="font-family:'Caveat',cursive;font-weight:400;font-size:1.1rem;line-height:1.6;color:var(--color-navy);opacity:0.85">
                 Trained on 48,000 real examiner-annotated scripts. Our model scores within 0.3 bands of certified human examiners.
               </p>
             </div>
@@ -985,9 +1005,9 @@
 
       <!-- Task label -->
       <div class="mb-6 reveal">
-        <div class="inline-flex flex-wrap items-center gap-3 px-5 py-3 rounded-xl border" style="background:#fff;border-color:#DDD8CE">
+        <div class="inline-flex flex-wrap items-center gap-3 px-5 py-3 rounded-xl border" style="background:#fff;border-color:var(--color-border)">
           <span class="text-xs font-semibold tracking-widest uppercase" style="color:var(--color-teal)">Task 2 — Opinion Essay</span>
-          <div class="w-px h-4 hidden sm:block" style="background:#DDD8CE"></div>
+          <div class="w-px h-4 hidden sm:block" style="background:var(--color-border)"></div>
           <span class="text-sm text-[#3D4451]">Some people believe children should spend more time outdoors. Do you agree or disagree?</span>
         </div>
       </div>
@@ -996,39 +1016,39 @@
       <div class="grid lg:grid-cols-2 gap-6 mb-6 reveal">
 
         <!-- Before -->
-        <div class="rounded-2xl border border-[#DDD8CE] overflow-hidden">
-          <div class="px-6 py-4 flex items-center justify-between border-b" style="background:#fff;border-color:#DDD8CE">
+        <div class="rounded-2xl border border-[#DDD8CE] overflow-hidden" style="border-left:4px solid #E24B4A">
+          <div class="px-6 py-4 flex items-center justify-between border-b" style="background:#fff;border-color:var(--color-border)">
             <div class="flex items-center gap-3">
-              <div class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold" style="background:var(--color-teal);color:#FFFFFF;border:none;font-weight:500">5.5</div>
+              <div class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold" style="background:#E24B4A;color:#FFFFFF;border:none;font-weight:500">5.5</div>
               <span class="text-sm font-semibold text-[#1C1C2E]">Original — Band 5.5</span>
             </div>
             <span class="text-xs text-[#9CA3AF]">Before IELTS Lab</span>
           </div>
-          <div class="p-6" style="background:#FFFAF8;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;line-height:1.9;color:#1C1C2E">
-            <p class="mb-4"><mark style="background:rgba(239,68,68,0.11);border-bottom:2px solid #ef4444;padding:0 2px">I think</mark> that children should spend more time outside because it is <mark style="background:rgba(239,68,68,0.11);border-bottom:2px solid #ef4444;padding:0 2px">very good</mark> for their health. Nowadays, <mark style="background:rgba(239,68,68,0.11);border-bottom:2px solid #ef4444;padding:0 2px">many children</mark> stay at home and play video games <mark style="background:rgba(239,68,68,0.11);border-bottom:2px solid #ef4444;padding:0 2px">all the time</mark>. This is a big problem because they <mark style="background:rgba(239,68,68,0.11);border-bottom:2px solid #ef4444;padding:0 2px">do not get</mark> enough exercise.</p>
-            <p>In my opinion, parents <mark style="background:rgba(239,68,68,0.11);border-bottom:2px solid #ef4444;padding:0 2px">should make</mark> their children go outside <mark style="background:rgba(239,68,68,0.11);border-bottom:2px solid #ef4444;padding:0 2px">every day</mark>. If children play outside, <mark style="background:rgba(239,68,68,0.11);border-bottom:2px solid #ef4444;padding:0 2px">they will be happy and healthy</mark>. <mark style="background:rgba(239,68,68,0.11);border-bottom:2px solid #ef4444;padding:0 2px">In conclusion</mark>, I think outdoor activities are <mark style="background:rgba(239,68,68,0.11);border-bottom:2px solid #ef4444;padding:0 2px">very important</mark> for children.</p>
+          <div class="p-6" style="background:var(--color-white);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;line-height:1.9;color:var(--color-navy)">
+            <p class="mb-4"><mark style="background:rgba(226,75,74,0.11);border-bottom:2px solid #E24B4A;padding:0 2px;color:#E24B4A">I think</mark> that children should spend more time outside because it is <mark style="background:rgba(226,75,74,0.11);border-bottom:2px solid #E24B4A;padding:0 2px;color:#E24B4A">very good</mark> for their health. Nowadays, <mark style="background:rgba(226,75,74,0.11);border-bottom:2px solid #E24B4A;padding:0 2px;color:#E24B4A">many children</mark> stay at home and play video games <mark style="background:rgba(226,75,74,0.11);border-bottom:2px solid #E24B4A;padding:0 2px;color:#E24B4A">all the time</mark>. This is a big problem because they <mark style="background:rgba(226,75,74,0.11);border-bottom:2px solid #E24B4A;padding:0 2px;color:#E24B4A">do not get</mark> enough exercise.</p>
+            <p>In my opinion, parents <mark style="background:rgba(226,75,74,0.11);border-bottom:2px solid #E24B4A;padding:0 2px;color:#E24B4A">should make</mark> their children go outside <mark style="background:rgba(226,75,74,0.11);border-bottom:2px solid #E24B4A;padding:0 2px;color:#E24B4A">every day</mark>. If children play outside, <mark style="background:rgba(226,75,74,0.11);border-bottom:2px solid #E24B4A;padding:0 2px;color:#E24B4A">they will be happy and healthy</mark>. <mark style="background:rgba(226,75,74,0.11);border-bottom:2px solid #E24B4A;padding:0 2px;color:#E24B4A">In conclusion</mark>, I think outdoor activities are <mark style="background:rgba(226,75,74,0.11);border-bottom:2px solid #E24B4A;padding:0 2px;color:#E24B4A">very important</mark> for children.</p>
           </div>
-          <div class="px-6 py-3 border-t flex items-center gap-2" style="background:#fff;border-color:#DDD8CE">
+          <div class="px-6 py-3 border-t flex items-center gap-2" style="background:#fff;border-color:var(--color-border)">
             <div class="w-2 h-2 rounded-full" style="background:#ef4444"></div>
             <span class="text-xs text-[#6B7280]">8 phrases flagged by AI examiner</span>
           </div>
         </div>
 
         <!-- After -->
-        <div class="rounded-2xl border overflow-hidden" style="border-color:rgba(42,255,214,0.25)">
-          <div class="px-6 py-4 flex items-center justify-between border-b" style="background:#fff;border-color:#DDD8CE">
+        <div class="rounded-2xl border overflow-hidden" style="border-color:var(--color-border);border-left:4px solid var(--color-teal)">
+          <div class="px-6 py-4 flex items-center justify-between border-b" style="background:#fff;border-color:var(--color-border)">
             <div class="flex items-center gap-3">
               <div class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold" style="background:var(--color-teal);color:#FFFFFF;border:none;font-weight:500">7.5</div>
               <span class="text-sm font-semibold text-[#1C1C2E]">Revised — Band 7.5</span>
             </div>
             <span class="text-xs text-[#9CA3AF]">After 2 AI sessions</span>
           </div>
-          <div class="p-6" style="background:#F5FBF8;font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;line-height:1.9;color:#1C1C2E">
-            <p class="mb-4">It is <mark style="background:rgba(42,255,214,0.13);border-bottom:2px solid #2affd6;padding:0 2px">widely argued</mark> that children should dedicate <mark style="background:rgba(42,255,214,0.13);border-bottom:2px solid #2affd6;padding:0 2px">a greater portion of their leisure time</mark> to outdoor pursuits, and I <mark style="background:rgba(42,255,214,0.13);border-bottom:2px solid #2affd6;padding:0 2px">strongly concur</mark> with this view. In an era of <mark style="background:rgba(42,255,214,0.13);border-bottom:2px solid #2affd6;padding:0 2px">pervasive digital entertainment</mark>, sedentary lifestyles among young people have become an <mark style="background:rgba(42,255,214,0.13);border-bottom:2px solid #2affd6;padding:0 2px">increasingly pressing</mark> public health concern.</p>
-            <p><mark style="background:rgba(42,255,214,0.13);border-bottom:2px solid #2affd6;padding:0 2px">Encouraging children to engage in outdoor physical activity</mark> not only promotes cardiovascular health and <mark style="background:rgba(42,255,214,0.13);border-bottom:2px solid #2affd6;padding:0 2px">fosters psychological wellbeing</mark>, but also develops <mark style="background:rgba(42,255,214,0.13);border-bottom:2px solid #2affd6;padding:0 2px">crucial interpersonal skills</mark> through cooperative play. <mark style="background:rgba(42,255,214,0.13);border-bottom:2px solid #2affd6;padding:0 2px">In light of these benefits</mark>, it is imperative that parents and educators <mark style="background:rgba(42,255,214,0.13);border-bottom:2px solid #2affd6;padding:0 2px">prioritise structured outdoor experiences</mark> as an integral component of childhood development.</p>
+          <div class="p-6" style="background:var(--color-white);font-family:'Plus Jakarta Sans',sans-serif;font-size:0.9rem;line-height:1.9;color:var(--color-navy)">
+            <p class="mb-4">It is <mark style="background:rgba(46,158,130,0.12);border-bottom:2px solid var(--color-teal);padding:0 2px;color:var(--color-teal-dark)">widely argued</mark> that children should dedicate <mark style="background:rgba(46,158,130,0.12);border-bottom:2px solid var(--color-teal);padding:0 2px;color:var(--color-teal-dark)">a greater portion of their leisure time</mark> to outdoor pursuits, and I <mark style="background:rgba(46,158,130,0.12);border-bottom:2px solid var(--color-teal);padding:0 2px;color:var(--color-teal-dark)">strongly concur</mark> with this view. In an era of <mark style="background:rgba(46,158,130,0.12);border-bottom:2px solid var(--color-teal);padding:0 2px;color:var(--color-teal-dark)">pervasive digital entertainment</mark>, sedentary lifestyles among young people have become an <mark style="background:rgba(46,158,130,0.12);border-bottom:2px solid var(--color-teal);padding:0 2px;color:var(--color-teal-dark)">increasingly pressing</mark> public health concern.</p>
+            <p><mark style="background:rgba(46,158,130,0.12);border-bottom:2px solid var(--color-teal);padding:0 2px;color:var(--color-teal-dark)">Encouraging children to engage in outdoor physical activity</mark> not only promotes cardiovascular health and <mark style="background:rgba(46,158,130,0.12);border-bottom:2px solid var(--color-teal);padding:0 2px;color:var(--color-teal-dark)">fosters psychological wellbeing</mark>, but also develops <mark style="background:rgba(46,158,130,0.12);border-bottom:2px solid var(--color-teal);padding:0 2px;color:var(--color-teal-dark)">crucial interpersonal skills</mark> through cooperative play. <mark style="background:rgba(46,158,130,0.12);border-bottom:2px solid var(--color-teal);padding:0 2px;color:var(--color-teal-dark)">In light of these benefits</mark>, it is imperative that parents and educators <mark style="background:rgba(46,158,130,0.12);border-bottom:2px solid var(--color-teal);padding:0 2px;color:var(--color-teal-dark)">prioritise structured outdoor experiences</mark> as an integral component of childhood development.</p>
           </div>
-          <div class="px-6 py-3 border-t flex items-center gap-2" style="background:#fff;border-color:rgba(42,255,214,0.2)">
-            <div class="w-2 h-2 rounded-full" style="background:#2affd6"></div>
+          <div class="px-6 py-3 border-t flex items-center gap-2" style="background:#fff;border-color:var(--color-border)">
+            <div class="w-2 h-2 rounded-full" style="background:var(--color-teal)"></div>
             <span class="text-xs text-[#6B7280]">8 upgrades applied — every one is learnable</span>
           </div>
         </div>
@@ -1036,21 +1056,21 @@
 
       <!-- Key changes row -->
       <div class="grid md:grid-cols-3 gap-4 reveal d100">
-        <div class="p-5 rounded-xl border" style="background:#fff;border-color:#DDD8CE">
+        <div class="p-5 rounded-xl border" style="background:#fff;border-color:var(--color-border)">
           <div class="flex items-center gap-2 mb-3">
             <div class="text-xs font-bold px-2 py-0.5 rounded" style="background:rgba(46,158,130,0.12);color:var(--color-teal);border:1px solid rgba(46,158,130,0.25)">+1.5</div>
             <div class="text-xs font-semibold text-[#1C1C2E]">Lexical Resource</div>
           </div>
           <div class="text-xs text-[#3D4451] leading-relaxed">"Very good" became "increasingly pressing." "Make children go" became "encourage children to engage." Every swap raises the band ceiling — and each one is a learnable pattern.</div>
         </div>
-        <div class="p-5 rounded-xl border" style="background:#fff;border-color:#DDD8CE">
+        <div class="p-5 rounded-xl border" style="background:#fff;border-color:var(--color-border)">
           <div class="flex items-center gap-2 mb-3">
             <div class="text-xs font-bold px-2 py-0.5 rounded" style="background:rgba(46,158,130,0.12);color:var(--color-teal);border:1px solid rgba(46,158,130,0.25)">+1.0</div>
             <div class="text-xs font-semibold text-[#1C1C2E]">Task Achievement</div>
           </div>
           <div class="text-xs text-[#3D4451] leading-relaxed">The original stated a position but gave no supporting logic. The revision builds a layered argument — health, psychology, social development — which is what examiners look for at Band 7+.</div>
         </div>
-        <div class="p-5 rounded-xl border" style="background:#fff;border-color:#DDD8CE">
+        <div class="p-5 rounded-xl border" style="background:#fff;border-color:var(--color-border)">
           <div class="flex items-center gap-2 mb-3">
             <div class="text-xs font-bold px-2 py-0.5 rounded" style="background:rgba(46,158,130,0.12);color:var(--color-teal);border:1px solid rgba(46,158,130,0.25)">+1.0</div>
             <div class="text-xs font-semibold text-[#1C1C2E]">Grammatical Range</div>
@@ -1125,29 +1145,29 @@
             <div class="space-y-2">
               <!-- Row 1: Completed -->
               <div class="flex items-center gap-3 p-3 rounded-xl" style="background:rgba(46,158,130,0.1);border:1px solid rgba(46,158,130,0.2)">
-                <div class="w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0" style="background:var(--gold)">
-                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1 5l3 3 5-5" stroke="#09090b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <div class="w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0" style="background:var(--color-teal)">
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1 5l3 3 5-5" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </div>
                 <div class="flex-1 min-w-0">
                   <div class="text-sm text-[#1C1C2E] font-medium truncate">Task 2: Opinion Essay</div>
                   <div class="text-xs text-[#3D4451]">Band target: 7.0 · Est. 45 min</div>
                 </div>
-                <span class="text-xs font-medium" style="color:var(--gold)">Done</span>
+                <span class="text-xs font-medium" style="color:var(--color-teal)">Done</span>
               </div>
               <!-- Row 2: Active (today) -->
-              <div class="flex items-center gap-3 p-3 rounded-xl" style="background:#F4F1EB;border:1.5px solid #1B2B4B">
-                <div class="w-6 h-6 rounded-md border-2 flex-shrink-0 flex items-center justify-center" style="border-color:#1B2B4B">
-                  <div class="w-2 h-2 rounded-sm" style="background:#1B2B4B"></div>
+              <div class="flex items-center gap-3 p-3 rounded-xl" style="background:var(--color-off-white);border:1.5px solid var(--color-navy)">
+                <div class="w-6 h-6 rounded-md border-2 flex-shrink-0 flex items-center justify-center" style="border-color:var(--color-navy)">
+                  <div class="w-2 h-2 rounded-sm" style="background:var(--color-navy)"></div>
                 </div>
                 <div class="flex-1 min-w-0">
                   <div class="text-sm text-[#1C1C2E] font-medium truncate">Cohesion Drills — Linking Devices</div>
                   <div class="text-xs text-[#3D4451]">12 exercises · Est. 20 min</div>
                 </div>
-                <span class="text-xs font-semibold text-[#1B2B4B]">Today</span>
+                <span class="text-xs font-semibold" style="color:var(--color-navy)">Today</span>
               </div>
               <!-- Row 3: Pending -->
               <div class="flex items-center gap-3 p-3 rounded-xl border border-[#EDE9E0] opacity-50">
-                <div class="w-6 h-6 rounded-md border border-[#DDD8CE] flex-shrink-0" style="background:#F4F1EB"></div>
+                <div class="w-6 h-6 rounded-md border border-[#DDD8CE] flex-shrink-0" style="background:var(--color-off-white)"></div>
                 <div class="flex-1 min-w-0">
                   <div class="text-sm text-[#3D4451] truncate">Task 1: Academic Line Graph</div>
                   <div class="text-xs text-[#6B7280]">Band target: 7.0 · Est. 40 min</div>
@@ -1156,7 +1176,7 @@
               </div>
               <!-- Row 4: Pending -->
               <div class="flex items-center gap-3 p-3 rounded-xl border border-[#EDE9E0] opacity-50">
-                <div class="w-6 h-6 rounded-md border border-[#DDD8CE] flex-shrink-0" style="background:#F4F1EB"></div>
+                <div class="w-6 h-6 rounded-md border border-[#DDD8CE] flex-shrink-0" style="background:var(--color-off-white)"></div>
                 <div class="flex-1 min-w-0">
                   <div class="text-sm text-[#3D4451] truncate">Full Writing Mock + Review</div>
                   <div class="text-xs text-[#6B7280]">60 min timed · Est. 90 min total</div>
@@ -1205,14 +1225,14 @@
           </div>
 
           <!-- Teacher highlight box -->
-          <div class="rounded-2xl p-5 mb-8" style="background:#1B2B4B">
+          <div class="rounded-2xl p-5 mb-8" style="background:var(--color-navy)">
             <div class="flex items-start gap-3">
-              <div class="flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center mt-0.5" style="background:rgba(201,149,46,0.18)">
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2a4 4 0 1 1 0 8 4 4 0 0 1 0-8zm-6 13c0-2.761 2.686-5 6-5s6 2.239 6 5" stroke="#C49A2B" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <div class="flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center mt-0.5" style="background:rgba(46,158,130,0.18)">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 2a4 4 0 1 1 0 8 4 4 0 0 1 0-8zm-6 13c0-2.761 2.686-5 6-5s6 2.239 6 5" stroke="#2E9E82" stroke-width="1.5" stroke-linecap="round"/></svg>
               </div>
               <div>
-                <div class="text-sm font-semibold mb-1.5" style="color:#C49A2B">A Real Teacher. Not Just an Algorithm.</div>
-                <p class="text-sm leading-relaxed" style="color:rgba(244,241,235,0.82)">After you subscribe, a certified IELTS teacher personally reviews your profile, contacts you directly, identifies your biggest weakness, and builds your first week around fixing it — before the AI takes over.</p>
+                <div class="text-sm font-semibold mb-1.5" style="color:var(--color-teal)">A Real Teacher. Not Just an Algorithm.</div>
+                <p class="text-sm leading-relaxed" style="color:rgba(255,255,255,0.82)">After you subscribe, a certified IELTS teacher personally reviews your profile, contacts you directly, identifies your biggest weakness, and builds your first week around fixing it — before the AI takes over.</p>
               </div>
             </div>
           </div>
@@ -1238,7 +1258,7 @@
       <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
         <div class="reveal md:col-span-3 p-8 rounded-2xl border border-[#DDD8CE] hover-lift relative overflow-hidden group" style="background:#FFFFFF">
           <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-               style="background:radial-gradient(ellipse 60% 60% at 20% 80%, rgba(201,149,46,0.06) 0%, transparent 70%)"></div>
+               style="background:radial-gradient(ellipse 60% 60% at 20% 80%, rgba(46,158,130,0.06) 0%, transparent 70%)"></div>
           <div class="relative">
             <div class="flex items-center justify-between mb-6">
               <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(46,158,130,0.1);border:1px solid rgba(46,158,130,0.2)">
@@ -1251,17 +1271,17 @@
               2,400+ authentic passage questions — Academic and General. Skimming and scanning drills, True/False/Not Given mastery, matching headings at speed. Timed conditions enforced from week three onward.
             </p>
             <div class="flex flex-wrap gap-2">
-              <span class="text-xs px-3 py-1.5 rounded-full border border-[#DDD8CE] text-[#3D4451]">T/F/NG strategies</span>
-              <span class="text-xs px-3 py-1.5 rounded-full border border-[#DDD8CE] text-[#3D4451]">Heading matching</span>
-              <span class="text-xs px-3 py-1.5 rounded-full border border-[#DDD8CE] text-[#3D4451]">Summary completion</span>
-              <span class="text-xs px-3 py-1.5 rounded-full border border-[#DDD8CE] text-[#3D4451]">Speed reading</span>
+              <span class="skill-pill">T/F/NG strategies</span>
+              <span class="skill-pill">Heading matching</span>
+              <span class="skill-pill">Summary completion</span>
+              <span class="skill-pill">Speed reading</span>
             </div>
           </div>
         </div>
 
         <div class="reveal d100 md:col-span-2 p-8 rounded-2xl border border-[#DDD8CE] hover-lift relative overflow-hidden group" style="background:#FFFFFF">
           <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-               style="background:radial-gradient(ellipse 80% 60% at 80% 20%, rgba(201,149,46,0.06) 0%, transparent 70%)"></div>
+               style="background:radial-gradient(ellipse 80% 60% at 80% 20%, rgba(46,158,130,0.06) 0%, transparent 70%)"></div>
           <div class="relative">
             <div class="flex items-center justify-between mb-6">
               <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(46,158,130,0.1);border:1px solid rgba(46,158,130,0.2)">
@@ -1272,16 +1292,16 @@
             <h3 class="font-display font-bold text-2xl tracking-tight mb-3" style="color:var(--color-navy)">Writing</h3>
             <p class="text-sm leading-relaxed mb-5" style="color:var(--color-slate)">AI-graded essays with examiner-level feedback. Task 1 data interpretation. Task 2 argumentative structures. Vocabulary range enhancement built into every exercise.</p>
             <div class="flex flex-wrap gap-2">
-              <span class="text-xs px-3 py-1.5 rounded-full border border-[#DDD8CE] text-[#3D4451]">AI marking</span>
-              <span class="text-xs px-3 py-1.5 rounded-full border border-[#DDD8CE] text-[#3D4451]">Task 1 &amp; 2</span>
-              <span class="text-xs px-3 py-1.5 rounded-full border border-[#DDD8CE] text-[#3D4451]">Vocabulary</span>
+              <span class="skill-pill">AI marking</span>
+              <span class="skill-pill">Task 1 &amp; 2</span>
+              <span class="skill-pill">Vocabulary</span>
             </div>
           </div>
         </div>
 
         <div class="reveal d200 md:col-span-2 p-8 rounded-2xl border border-[#DDD8CE] hover-lift relative overflow-hidden group" style="background:#FFFFFF">
           <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-               style="background:radial-gradient(ellipse 80% 60% at 20% 80%, rgba(201,149,46,0.06) 0%, transparent 70%)"></div>
+               style="background:radial-gradient(ellipse 80% 60% at 20% 80%, rgba(46,158,130,0.06) 0%, transparent 70%)"></div>
           <div class="relative">
             <div class="flex items-center justify-between mb-6">
               <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(46,158,130,0.1);border:1px solid rgba(46,158,130,0.2)">
@@ -1292,16 +1312,16 @@
             <h3 class="font-display font-bold text-2xl tracking-tight mb-3" style="color:var(--color-navy)">Listening</h3>
             <p class="text-sm leading-relaxed mb-5" style="color:var(--color-slate)">Native-speaker audio from British, Australian, and American accents. Section 1–4 question formats. Accent adaptation exercises reduce mishearing by an average 34%.</p>
             <div class="flex flex-wrap gap-2">
-              <span class="text-xs px-3 py-1.5 rounded-full border border-[#DDD8CE] text-[#3D4451]">Multi-accent</span>
-              <span class="text-xs px-3 py-1.5 rounded-full border border-[#DDD8CE] text-[#3D4451]">Sections 1–4</span>
-              <span class="text-xs px-3 py-1.5 rounded-full border border-[#DDD8CE] text-[#3D4451]">Note-taking</span>
+              <span class="skill-pill">Multi-accent</span>
+              <span class="skill-pill">Sections 1–4</span>
+              <span class="skill-pill">Note-taking</span>
             </div>
           </div>
         </div>
 
         <div class="reveal d300 md:col-span-3 p-8 rounded-2xl border border-[#DDD8CE] hover-lift relative overflow-hidden group" style="background:#FFFFFF">
           <div class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-               style="background:radial-gradient(ellipse 60% 80% at 80% 30%, rgba(201,149,46,0.06) 0%, transparent 70%)"></div>
+               style="background:radial-gradient(ellipse 60% 80% at 80% 30%, rgba(46,158,130,0.06) 0%, transparent 70%)"></div>
           <div class="relative">
             <div class="flex items-center justify-between mb-6">
               <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(46,158,130,0.1);border:1px solid rgba(46,158,130,0.2)">
@@ -1312,10 +1332,10 @@
             <h3 class="font-display font-bold text-2xl tracking-tight mb-3" style="color:var(--color-navy)">Speaking</h3>
             <p class="text-sm leading-relaxed max-w-[46ch] mb-6" style="color:var(--color-slate)">Record your response. Receive AI feedback on fluency, pronunciation, vocabulary range, and grammatical accuracy — the same four criteria your examiner will use. Part 1, 2, and 3 formats covered.</p>
             <div class="flex flex-wrap gap-2">
-              <span class="text-xs px-3 py-1.5 rounded-full border border-[#DDD8CE] text-[#3D4451]">Pronunciation scoring</span>
-              <span class="text-xs px-3 py-1.5 rounded-full border border-[#DDD8CE] text-[#3D4451]">Fluency analysis</span>
-              <span class="text-xs px-3 py-1.5 rounded-full border border-[#DDD8CE] text-[#3D4451]">Parts 1–3</span>
-              <span class="text-xs px-3 py-1.5 rounded-full border border-[#DDD8CE] text-[#3D4451]">Filler word detection</span>
+              <span class="skill-pill">Pronunciation scoring</span>
+              <span class="skill-pill">Fluency analysis</span>
+              <span class="skill-pill">Parts 1–3</span>
+              <span class="skill-pill">Filler word detection</span>
             </div>
           </div>
         </div>
@@ -1337,7 +1357,7 @@
       </div>
 
       <div class="grid lg:grid-cols-[1fr_380px] gap-6">
-        <div class="reveal p-8 md:p-10 rounded-2xl flex flex-col justify-between" style="background:var(--color-white);border:1px solid var(--color-border)">
+        <div class="reveal p-8 md:p-10 rounded-2xl flex flex-col justify-between" style="background:var(--color-white);border:1px solid var(--color-border);border-left:4px solid var(--color-teal)">
           <div>
             <div class="flex items-center gap-3 mb-8">
               <div class="w-10 h-10 rounded-full flex items-center justify-center font-display font-bold text-lg" style="background:rgba(46,158,130,0.12);border:1px solid rgba(46,158,130,0.25);color:var(--color-teal)">N</div>
@@ -1364,7 +1384,7 @@
         </div>
 
         <div class="flex flex-col gap-6">
-          <div class="reveal d100 p-7 rounded-2xl flex-1" style="background:var(--color-white);border:1px solid var(--color-border)">
+          <div class="reveal d100 p-7 rounded-2xl flex-1" style="background:var(--color-white);border:1px solid var(--color-border);border-left:4px solid var(--color-teal)">
             <div class="flex items-center gap-3 mb-5">
               <div class="w-9 h-9 rounded-full flex items-center justify-center font-display font-bold" style="background:rgba(46,158,130,0.12);border:1px solid rgba(46,158,130,0.25);color:var(--color-teal)">O</div>
               <div>
@@ -1381,7 +1401,7 @@
             <div class="mt-4 text-xs" style="color:var(--color-slate)">6.0 → 8.0 · 9 weeks</div>
           </div>
 
-          <div class="reveal d200 p-7 rounded-2xl flex-1" style="background:var(--color-white);border:1px solid var(--color-border)">
+          <div class="reveal d200 p-7 rounded-2xl flex-1" style="background:var(--color-white);border:1px solid var(--color-border);border-left:4px solid var(--color-teal)">
             <div class="flex items-center gap-3 mb-5">
               <div class="w-9 h-9 rounded-full flex items-center justify-center font-display font-bold" style="background:rgba(46,158,130,0.12);border:1px solid rgba(46,158,130,0.25);color:var(--color-teal)">P</div>
               <div>
@@ -1592,7 +1612,7 @@
             onmouseout="this.style.background='var(--color-teal)'">
             Book My Session →
           </button>
-          <p style="text-align:center;font-size:0.75rem;color:#9CA3AF;margin-top:0.75rem;">
+          <p style="text-align:center;font-size:0.75rem;color:var(--color-slate);margin-top:0.75rem;">
             We reply within a few hours with time slot options and payment details.
           </p>
 
@@ -1604,22 +1624,22 @@
 
   <style>
     .bs-label {
-      display: block; font-size: 0.72rem; font-weight: 700;
+      display: block; font-size: 0.72rem; font-weight: 500;
       letter-spacing: 0.07em; text-transform: uppercase;
-      color: #6B7280; margin-bottom: 0.35rem;
+      color: var(--color-navy); margin-bottom: 0.35rem;
     }
     .bs-input {
-      width: 100%; background: #fff; border: 1px solid #DDD8CE;
-      border-radius: 0.6rem; padding: 0.7rem 1rem;
-      color: #1C1C2E; font-family: inherit; font-size: 0.9rem;
-      outline: none; transition: border-color 0.2s;
+      width: 100%; background: #fff; border: 1.5px solid var(--color-border);
+      border-radius: 8px; padding: 0.7rem 1rem;
+      color: var(--color-navy); font-family: inherit; font-size: 0.9rem;
+      outline: none; transition: border-color 0.2s, box-shadow 0.2s;
       box-sizing: border-box;
     }
-    .bs-input:focus { border-color: var(--color-teal); }
+    .bs-input:focus { border-color: var(--color-teal); box-shadow: 0 0 0 3px rgba(46,158,130,0.15); }
     .bs-input::placeholder { color: #9CA3AF; }
     .bs-select {
       appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%23C9952E' stroke-width='1.5' stroke-linecap='round' fill='none'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%232E9E82' stroke-width='1.5' stroke-linecap='round' fill='none'/%3E%3C/svg%3E");
       background-repeat: no-repeat; background-position: right 1rem center;
       padding-right: 2.5rem; cursor: pointer;
     }
@@ -1631,51 +1651,51 @@
   </style>
 
   <!-- ╔══════════════════════════════ FOOTER ══════════════════════════════╗ -->
-  <footer class="py-16" style="background:#05081A;border-top:1px solid rgba(255,255,255,0.07)">
+  <footer class="py-16" style="background:var(--color-navy);border-top:1px solid rgba(255,255,255,0.15)">
     <div class="max-w-7xl mx-auto px-6 lg:px-10">
       <div class="grid grid-cols-2 md:grid-cols-4 gap-10 mb-16">
         <div class="col-span-2 md:col-span-1">
           <div class="flex items-center gap-2 mb-4">
-            <div class="w-6 h-6 rounded-md flex items-center justify-center" style="background:var(--gold)">
-              <span class="font-display font-black text-xs text-zinc-950">IL</span>
+            <div class="w-6 h-6 rounded-md flex items-center justify-center" style="background:var(--color-teal)">
+              <span class="font-display font-black text-xs" style="color:#FFFFFF">IL</span>
             </div>
-            <span class="font-display font-black text-sm text-white">IELTS<span style="color:var(--gold)">Lab</span></span>
+            <span class="font-display font-black text-sm" style="color:#FFFFFF">IELTS<span style="color:#FFFFFF">Lab</span></span>
           </div>
-          <p class="text-xs leading-relaxed max-w-[28ch]" style="color:rgba(238,244,255,0.5)">IELTS preparation built on AI precision and examiner expertise.</p>
+          <p class="text-xs leading-relaxed max-w-[28ch]" style="color:rgba(255,255,255,0.7)">IELTS preparation built on AI precision and examiner expertise.</p>
         </div>
         <div>
-          <div class="text-xs font-medium uppercase tracking-wider mb-4" style="color:var(--gold)">Product</div>
+          <div class="text-xs font-medium uppercase tracking-wider mb-4" style="color:rgba(255,255,255,0.7)">Product</div>
           <ul class="space-y-2.5">
-            <li><a href="#" class="text-sm transition-colors" style="color:rgba(238,244,255,0.6)" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(238,244,255,0.6)'">Practice</a></li>
-            <li><a href="mock-tests/index.html" class="text-sm transition-colors" style="color:rgba(238,244,255,0.6)" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(238,244,255,0.6)'">Mock Tests</a></li>
-            <li><a href="reading-analyzer/index.html" class="text-sm transition-colors" style="color:rgba(238,244,255,0.6)" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(238,244,255,0.6)'">Reading Analyzer</a></li>
-            <li><a href="services/index.html" class="text-sm transition-colors" style="color:rgba(238,244,255,0.6)" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(238,244,255,0.6)'">Expert Services</a></li>
-            <li><a href="#" class="text-sm transition-colors" style="color:rgba(238,244,255,0.6)" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(238,244,255,0.6)'">Score Predictor</a></li>
-            <li><a href="#" class="text-sm transition-colors" style="color:rgba(238,244,255,0.6)" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(238,244,255,0.6)'">Study Plans</a></li>
+            <li><a href="#" class="text-sm transition-colors" style="color:rgba(255,255,255,0.8)" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Practice</a></li>
+            <li><a href="mock-tests/index.html" class="text-sm transition-colors" style="color:rgba(255,255,255,0.8)" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Mock Tests</a></li>
+            <li><a href="reading-analyzer/index.html" class="text-sm transition-colors" style="color:rgba(255,255,255,0.8)" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Reading Analyzer</a></li>
+            <li><a href="services/index.html" class="text-sm transition-colors" style="color:rgba(255,255,255,0.8)" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Expert Services</a></li>
+            <li><a href="#" class="text-sm transition-colors" style="color:rgba(255,255,255,0.8)" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Score Predictor</a></li>
+            <li><a href="#" class="text-sm transition-colors" style="color:rgba(255,255,255,0.8)" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Study Plans</a></li>
           </ul>
         </div>
         <div>
-          <div class="text-xs font-medium uppercase tracking-wider mb-4" style="color:var(--gold)">Resources</div>
+          <div class="text-xs font-medium uppercase tracking-wider mb-4" style="color:rgba(255,255,255,0.7)">Resources</div>
           <ul class="space-y-2.5">
-            <li><a href="guide/index.html" class="text-sm transition-colors" style="color:rgba(238,244,255,0.6)" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(238,244,255,0.6)'">IELTS Guide</a></li>
-            <li><a href="#" class="text-sm transition-colors" style="color:rgba(238,244,255,0.6)" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(238,244,255,0.6)'">Band Descriptors</a></li>
-            <li><a href="#" class="text-sm transition-colors" style="color:rgba(238,244,255,0.6)" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(238,244,255,0.6)'">Essay Templates</a></li>
-            <li><a href="#" class="text-sm transition-colors" style="color:rgba(238,244,255,0.6)" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(238,244,255,0.6)'">Blog</a></li>
+            <li><a href="guide/index.html" class="text-sm transition-colors" style="color:rgba(255,255,255,0.8)" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">IELTS Guide</a></li>
+            <li><a href="#" class="text-sm transition-colors" style="color:rgba(255,255,255,0.8)" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Band Descriptors</a></li>
+            <li><a href="#" class="text-sm transition-colors" style="color:rgba(255,255,255,0.8)" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Essay Templates</a></li>
+            <li><a href="#" class="text-sm transition-colors" style="color:rgba(255,255,255,0.8)" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Blog</a></li>
           </ul>
         </div>
         <div>
-          <div class="text-xs font-medium uppercase tracking-wider mb-4" style="color:var(--gold)">Company</div>
+          <div class="text-xs font-medium uppercase tracking-wider mb-4" style="color:rgba(255,255,255,0.7)">Company</div>
           <ul class="space-y-2.5">
-            <li><a href="/about/index.html" class="text-sm transition-colors" style="color:rgba(238,244,255,0.6)" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(238,244,255,0.6)'">About</a></li>
-            <li><a href="#" class="text-sm transition-colors" style="color:rgba(238,244,255,0.6)" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(238,244,255,0.6)'">Teachers</a></li>
-            <li><a href="/privacy/index.html" class="text-sm transition-colors" style="color:rgba(238,244,255,0.6)" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(238,244,255,0.6)'">Privacy</a></li>
-            <li><a href="/terms/index.html" class="text-sm transition-colors" style="color:rgba(238,244,255,0.6)" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(238,244,255,0.6)'">Terms</a></li>
+            <li><a href="/about/index.html" class="text-sm transition-colors" style="color:rgba(255,255,255,0.8)" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">About</a></li>
+            <li><a href="#" class="text-sm transition-colors" style="color:rgba(255,255,255,0.8)" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Teachers</a></li>
+            <li><a href="/privacy/index.html" class="text-sm transition-colors" style="color:rgba(255,255,255,0.8)" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Privacy</a></li>
+            <li><a href="/terms/index.html" class="text-sm transition-colors" style="color:rgba(255,255,255,0.8)" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='rgba(255,255,255,0.8)'">Terms</a></li>
           </ul>
         </div>
       </div>
-      <div class="pt-8 flex flex-col md:flex-row items-center justify-between gap-4" style="border-top:1px solid rgba(255,255,255,0.1)">
-        <div class="text-xs" style="color:rgba(238,244,255,0.35)">© 2026 IELTS Lab. All rights reserved.</div>
-        <div class="text-xs" style="color:rgba(238,244,255,0.35)">Not affiliated with the British Council, IDP, or Cambridge Assessment English.</div>
+      <div class="pt-8 flex flex-col md:flex-row items-center justify-between gap-4" style="border-top:1px solid rgba(255,255,255,0.15)">
+        <div class="text-xs" style="color:rgba(255,255,255,0.5)">© 2026 IELTS Lab. All rights reserved.</div>
+        <div class="text-xs" style="color:rgba(255,255,255,0.5)">Not affiliated with the British Council, IDP, or Cambridge Assessment English.</div>
       </div>
     </div>
   </footer>
@@ -2029,10 +2049,10 @@
     }
     #clinic-fab.fab-dim { opacity: 0.45; }
     #clinic-fab:hover {
-      background: #C49A2B !important;
-      color: #1B2B4B !important;
+      background: var(--color-teal-dark) !important;
+      color: #FFFFFF !important;
       transform: translateY(-3px) !important;
-      box-shadow: 0 8px 24px rgba(196,154,43,0.40) !important;
+      box-shadow: 0 8px 24px rgba(46,158,130,0.40) !important;
       animation: none;
     }
   </style>
@@ -2060,7 +2080,7 @@
     #b2bModal { display:none; position:fixed; inset:0; z-index:9999; background:rgba(5,8,15,0.82); backdrop-filter:blur(6px); overflow-y:auto; }
     #b2bModal .modal-wrap { min-height:100%; display:flex; align-items:center; justify-content:center; padding:24px; }
     #b2bModal .modal-card {
-      background:#0d1117; border:1px solid rgba(201,149,46,0.28); border-radius:1.25rem;
+      background:#0d1117; border:1px solid rgba(46,158,130,0.28); border-radius:1.25rem;
       width:100%; max-width:560px; padding:2.5rem; position:relative;
       box-shadow:0 24px 64px rgba(0,0,0,0.6);
     }
@@ -2072,7 +2092,7 @@
     #b2bModal .modal-close:hover { color:rgba(238,244,255,0.8); }
     #b2bModal .modal-label {
       font-size:0.68rem; font-weight:700; letter-spacing:0.12em;
-      text-transform:uppercase; color:#C9952E; margin-bottom:0.4rem;
+      text-transform:uppercase; color:var(--color-teal); margin-bottom:0.4rem;
     }
     #b2bModal h2 { font-family:Satoshi,sans-serif; font-size:1.5rem; font-weight:800; color:#EEF4FF; margin:0 0 0.4rem; }
     #b2bModal .modal-sub { font-size:0.85rem; color:rgba(238,244,255,0.45); margin:0 0 1.75rem; }
@@ -2094,23 +2114,23 @@
     }
     #b2bModal input::placeholder, #b2bModal textarea::placeholder { color:rgba(238,244,255,0.25); }
     #b2bModal input:focus, #b2bModal select:focus, #b2bModal textarea:focus {
-      border-color:rgba(201,149,46,0.5); box-shadow:0 0 0 3px rgba(201,149,46,0.08);
+      border-color:rgba(46,158,130,0.5); box-shadow:0 0 0 3px rgba(46,158,130,0.08);
     }
-    #b2bModal select { appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C9952E' stroke-width='1.5' stroke-linecap='round' fill='none'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 0.875rem center; padding-right:2.5rem; cursor:pointer; }
+    #b2bModal select { appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%232E9E82' stroke-width='1.5' stroke-linecap='round' fill='none'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 0.875rem center; padding-right:2.5rem; cursor:pointer; }
     #b2bModal select option { background:#161b22; }
     #b2bModal textarea { resize:vertical; min-height:90px; line-height:1.6; }
     #b2bModal .interests-label { font-size:0.78rem; font-weight:600; color:rgba(238,244,255,0.55); letter-spacing:0.04em; text-transform:uppercase; margin-bottom:0.6rem; display:block; }
     #b2bModal .check-group { display:flex; flex-direction:column; gap:0.5rem; }
     #b2bModal .check-item { display:flex; align-items:center; gap:0.6rem; cursor:pointer; }
-    #b2bModal .check-item input[type="checkbox"] { width:17px; height:17px; accent-color:#C9952E; cursor:pointer; flex-shrink:0; }
+    #b2bModal .check-item input[type="checkbox"] { width:17px; height:17px; accent-color:var(--color-teal); cursor:pointer; flex-shrink:0; }
     #b2bModal .check-item span { font-size:0.88rem; color:rgba(238,244,255,0.75); }
     #b2bModal .btn-submit {
-      width:100%; padding:0.9rem; background:linear-gradient(135deg,#C9952E,#DDB05A);
-      color:#0d0f14; font-weight:700; border:none; border-radius:0.75rem;
+      width:100%; padding:0.9rem; background:var(--color-teal);
+      color:#FFFFFF; font-weight:700; border:none; border-radius:0.75rem;
       font-size:0.95rem; cursor:pointer; font-family:inherit;
       transition:transform .2s, box-shadow .2s;
     }
-    #b2bModal .btn-submit:hover:not(:disabled) { transform:translateY(-1px); box-shadow:0 8px 24px rgba(201,149,46,0.3); }
+    #b2bModal .btn-submit:hover:not(:disabled) { transform:translateY(-1px); background:var(--color-teal-dark); box-shadow:0 8px 24px rgba(46,158,130,0.3); }
     #b2bModal .btn-submit:disabled { opacity:0.6; cursor:not-allowed; transform:none; }
     #b2bModal .form-error { display:none; color:#f87171; font-size:0.83rem; margin-bottom:0.75rem; }
     #b2bModal .success-state { display:none; text-align:center; padding:1.5rem 0 0.5rem; }
@@ -2209,7 +2229,7 @@
       price.style.transform = 'scale(0.92)';
       setTimeout(() => { price.style.display = 'none'; }, 180);
       panel.style.maxHeight = '1400px';
-      card.style.borderColor = 'rgba(201,149,46,0.45)';
+      card.style.borderColor = 'rgba(46,158,130,0.45)';
       card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       setTimeout(() => document.getElementById('ibName').focus(), 520);
     }
@@ -2374,7 +2394,7 @@
 <div id="dashboardBackdrop" onclick="closeDashboard()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:99998;"></div>
 <div id="dashboardPanel" style="display:none;position:fixed;top:0;right:0;height:100vh;width:300px;max-width:90vw;background:#fff;z-index:99999;box-shadow:-8px 0 40px rgba(0,0,0,0.18);flex-direction:column;font-family:'Plus Jakarta Sans',system-ui,sans-serif;">
   <div style="background:#1C1C2E;padding:1.5rem;display:flex;align-items:center;gap:1rem;">
-    <div id="dpAvatar" style="width:46px;height:46px;border-radius:50%;background:var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Satoshi',sans-serif;font-size:1rem;font-weight:700;color:#1C1C2E;flex-shrink:0;"></div>
+    <div id="dpAvatar" style="width:46px;height:46px;border-radius:50%;background:var(--color-teal);display:flex;align-items:center;justify-content:center;font-family:'Satoshi',sans-serif;font-size:1rem;font-weight:700;color:#FFFFFF;flex-shrink:0;"></div>
     <div style="min-width:0;">
       <div id="dpName" style="font-weight:600;color:#F8F6F1;font-size:0.9375rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
       <div id="dpEmail" style="font-size:0.75rem;color:rgba(255,255,255,0.45);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
