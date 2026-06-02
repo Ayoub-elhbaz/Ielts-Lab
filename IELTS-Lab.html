@@ -628,157 +628,85 @@
     </div>
   </section>
 
-  <!-- ╔══════════════════════════════ AI DEMO STRIP ═══════════════════════╗ -->
+  <!-- ╔══════════════════════════════ MOCK TEST CTA ═══════════════════════╗ -->
   <style>
-    @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-    @keyframes demoFadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
-    .demo-tab { padding: 6px 16px; border-radius: 20px; font-size: 0.8125rem; font-weight: 500; border: 1px solid var(--color-border); color: var(--color-slate); background: transparent; cursor: pointer; transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
-    .demo-tab.active, .demo-tab:hover { background: var(--color-teal); color: #FFFFFF; border-color: var(--color-teal); }
-    .demo-input-area { width: 100%; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.9375rem; line-height: 1.7; resize: none; border: 1.5px solid var(--color-border); border-radius: 12px; padding: 16px 20px; background: #fff; color: var(--color-navy); outline: none; transition: border-color 0.2s; }
-    .demo-input-area:focus { border-color: var(--color-teal); }
-    .demo-issue { display: flex; gap: 14px; padding: 14px 16px; border-radius: 10px; background: #fff; border: 1px solid var(--color-border); }
-    .demo-issue-tag { font-size: 0.625rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; margin-top: 1px; }
-    .demo-tag-lr { background: rgba(226,75,74,0.08); color: #E24B4A; border: 1px solid rgba(226,75,74,0.2); }
-    .demo-tag-gr { background: rgba(226,75,74,0.06); color: #E24B4A; border: 1px solid rgba(226,75,74,0.15); }
-    .demo-tag-cc { background: rgba(27,48,84,0.07); color: var(--color-navy); border: 1px solid rgba(27,48,84,0.18); }
-    .demo-tag-ta { background: rgba(46,158,130,0.08); color: var(--color-teal-dark); border: 1px solid rgba(46,158,130,0.2); }
-    .demo-improved { background: rgba(46,158,130,0.06); border: 1px solid rgba(46,158,130,0.2); border-radius: 10px; padding: 14px 18px; }
-    .demo-feedback-enter { animation: demoFadeUp 0.45s cubic-bezier(0.16,1,0.3,1) both; }
-    .demo-analyse-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 8px; font-size: 0.875rem; font-weight: 500; border: none; cursor: pointer; background: var(--color-teal); color: #FFFFFF; transition: background 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
-    .demo-analyse-btn:hover:not(:disabled) { background: var(--color-teal-dark); }
-    .demo-analyse-btn:disabled { opacity: 0.7; cursor: default; }
+    @keyframes skeletonPulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+    .skel-block { background: rgba(255,255,255,0.08); border-radius: 6px; animation: skeletonPulse 1.5s ease-in-out infinite; }
+    .mock-cta-content { opacity: 0; transition: opacity 0.4s ease; }
+    .mock-cta-content.loaded { opacity: 1; }
+    .mock-bullet-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+    @media (max-width: 640px) { .mock-bullet-grid { grid-template-columns: 1fr; } }
   </style>
 
-  <section class="py-24 divider" style="background:var(--color-mint)">
+  <section id="mock-cta-section" class="divider" style="background:var(--color-navy);padding:80px 0;">
     <div class="max-w-3xl mx-auto px-6">
-      <div class="text-center mb-10 reveal">
-        <div class="label mb-4">Try It Free — No Sign-Up Required</div>
-        <h2 class="font-display font-black text-4xl md:text-5xl tracking-tighter leading-tight mb-3" style="color:var(--color-navy)">
-          See what an examiner<br/>actually notices.
-        </h2>
-        <p class="text-sm max-w-[48ch] mx-auto leading-relaxed" style="color:var(--color-slate)">Pick an example below. Our AI flags the exact issues a Band 9 examiner would penalise — and shows you the fix.</p>
+
+      <!-- Skeleton loader -->
+      <div id="mockCtaSkeleton">
+        <div class="skel-block" style="height:48px;max-width:580px;margin:0 auto 20px;"></div>
+        <div class="skel-block" style="height:22px;max-width:500px;margin:0 auto 8px;"></div>
+        <div class="skel-block" style="height:22px;max-width:360px;margin:0 auto 36px;"></div>
+        <div class="mock-bullet-grid" style="margin-bottom:40px;">
+          <div class="skel-block" style="height:100px;border-radius:12px;"></div>
+          <div class="skel-block" style="height:100px;border-radius:12px;animation-delay:0.15s;"></div>
+          <div class="skel-block" style="height:100px;border-radius:12px;animation-delay:0.3s;"></div>
+        </div>
+        <div class="skel-block" style="height:56px;max-width:260px;margin:0 auto;border-radius:8px;"></div>
       </div>
 
-      <div class="reveal">
-        <div class="flex flex-wrap gap-2 mb-5" id="demoTabs">
-          <button class="demo-tab active" onclick="demoSelect(0)">Task 2 — argument opener</button>
-          <button class="demo-tab" onclick="demoSelect(1)">Task 2 — conclusion</button>
-          <button class="demo-tab" onclick="demoSelect(2)">Task 1 — trend sentence</button>
-          <button class="demo-tab" onclick="demoSelect(3)">Vocabulary range</button>
-        </div>
-
-        <div class="p-6 rounded-2xl border border-[#DDD8CE]" style="background:#fff">
-          <div class="flex items-center justify-between mb-4">
-            <span class="text-xs font-semibold text-[#6B7280] tracking-widest uppercase">Your sentence</span>
-            <span id="demoCharCount" class="text-xs text-[#9CA3AF]">0 chars</span>
-          </div>
-          <textarea id="demoInput" class="demo-input-area" rows="3" oninput="demoCharUpdate()" placeholder="Select an example above or type your own…"></textarea>
-          <div class="flex items-center justify-between mt-4 gap-4">
-            <span class="text-xs text-[#9CA3AF] leading-relaxed">Tip: edit the example to see how changes affect the feedback</span>
-            <button id="demoBtn" class="demo-analyse-btn" onclick="runDemo()">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              Analyse →
-            </button>
-          </div>
-        </div>
-
-        <div id="demoFeedback" style="display:none;margin-top:1.25rem"></div>
+      <!-- Content (hidden until API responds) -->
+      <div id="mockCtaContent" class="mock-cta-content" style="display:none;text-align:center;">
+        <h2 id="mockCtaHeadline" style="color:#FFFFFF;font-size:36px;font-weight:500;max-width:700px;margin:0 auto;font-family:'Satoshi','Plus Jakarta Sans',sans-serif;line-height:1.25;"></h2>
+        <p id="mockCtaSubheadline" style="color:rgba(255,255,255,0.75);font-size:18px;max-width:580px;margin:16px auto 32px;line-height:1.6;"></p>
+        <div id="mockCtaBullets" class="mock-bullet-grid" style="margin-bottom:0;text-align:left;"></div>
+        <a id="mockCtaBtn" href="https://ieltslab.io/mock-tests/index.html"
+           style="display:inline-block;background:var(--color-teal);color:#FFFFFF;font-size:17px;font-weight:500;padding:16px 40px;border-radius:8px;border:none;text-decoration:none;margin:40px auto 0;transition:background 0.2s;"
+           onmouseover="this.style.background='var(--color-teal-dark)'"
+           onmouseout="this.style.background='var(--color-teal)'"></a>
+        <p id="mockCtaFootnote" style="color:rgba(255,255,255,0.45);font-size:13px;margin-top:12px;"></p>
       </div>
+
     </div>
   </section>
 
   <script>
-    const DEMO_EXAMPLES = [
-      {
-        text: "Many people believe that the government should spend more money on public transport. I agree with this view because it will help the environment.",
-        issues: [
-          { tag: "lr", label: "Lexical Resource", title: "Flat, high-frequency vocabulary", desc: '"spend more money" and "help the environment" are band 5–6 phrasing. Examiners reward collocations: "allocate funding," "alleviate urban congestion," "reduce carbon emissions."' },
-          { tag: "ta", label: "Task Achievement", title: "No position complexity", desc: 'Stating "I agree" with a single reason doesn\'t address the full task. Band 7+ responses acknowledge the strongest counter-argument before rebutting it.' },
-          { tag: "cc", label: "Coherence & Cohesion", title: "Weak cause-effect link", desc: '"because it will help the environment" is a vague logical connector. A precise progression — "given its capacity to reduce private vehicle dependency" — raises the Coherence band.' }
-        ],
-        improved: "While critics argue that subsidising private enterprise stimulates economic growth more efficiently, I contend that sustained government investment in public transport infrastructure would yield far greater societal benefits, notably in reducing urban congestion and carbon emissions."
-      },
-      {
-        text: "In conclusion, I think that technology is both good and bad. We should use it carefully in the future.",
-        issues: [
-          { tag: "lr", label: "Lexical Resource", title: '"I think" in a conclusion — informal register', desc: "Academic writing penalises personal hedges in conclusions. Examiners expect: \"it can be argued,\" \"the evidence suggests,\" \"it is reasonable to conclude.\"" },
-          { tag: "ta", label: "Task Achievement", title: "Position is not restated", desc: '"Both good and bad" is non-committal and contradicts the requirement to "clearly state a position." The conclusion must echo your thesis — not introduce new vagueness.' },
-          { tag: "cc", label: "Coherence & Cohesion", title: '"In the future" — vague forward reference', desc: "A specific forward-looking statement — referencing policy, regulation, or education — scores far higher. \"In the future\" tells the examiner nothing." }
-        ],
-        improved: "In conclusion, although technology presents inherent risks if left unregulated, the evidence strongly supports the view that responsible governance and digital literacy programmes can maximise its societal benefits while mitigating potential harm."
-      },
-      {
-        text: "The graph shows that the number of people went up a lot from 2010 to 2020.",
-        issues: [
-          { tag: "lr", label: "Lexical Resource", title: '"went up a lot" — informal phrasing', desc: 'Task 1 demands formal, precise trend vocabulary: "increased significantly," "rose sharply," "surged by approximately X%." Informal language creates a band 5 ceiling on Lexical Resource.' },
-          { tag: "ta", label: "Task Achievement", title: "No specific data reference", desc: 'Descriptors require you to "select and report main features." Band 7 means citing actual values from the chart — "from 2.3 million to 5.1 million" — not vague descriptions.' },
-          { tag: "gr", label: "Grammatical Range", title: "One clause — no syntactic variety", desc: 'A single independent clause shows limited range. Task 1 Band 7 uses complex structures: noun phrases ("a sharp upward trend"), passive constructions, and non-finite clauses.' }
-        ],
-        improved: "The data reveals a marked upward trend in the figure, which rose sharply from approximately [X] to [Y] between 2010 and 2020 — a near doubling that represents the most significant change illustrated in the graph."
-      },
-      {
-        text: "The issue of climate change is very important and many people think it is a very big problem.",
-        issues: [
-          { tag: "lr", label: "Lexical Resource", title: '"very" used twice — signals limited range', desc: '"Very important" and "very big" are band 5 intensifiers. Examiners expect precise alternatives: "critically significant," "increasingly alarming," "poses an existential threat."' },
-          { tag: "gr", label: "Grammatical Range", title: "Paratactic structure — no syntactic variety", desc: 'Two independent clauses joined by "and" is the simplest sentence structure. Band 7+ writing uses subordination, relative clauses, and apposition to pack more meaning per sentence.' },
-          { tag: "ta", label: "Task Achievement", title: '"many people" — vague attribution', desc: 'Attributing views to "many people" without hedging weakens the argument. Use: "it is widely acknowledged," "scientific consensus indicates," or "policymakers increasingly recognise."' }
-        ],
-        improved: "Climate change, widely regarded as one of the most pressing crises of the 21st century, has prompted mounting concern among scientists, policymakers, and the general public alike — yet coordinated international responses remain critically inadequate."
+    (function() {
+      var FALLBACK = {
+        headline:    'Your Exam Score Is Decided Before You Walk In',
+        subheadline: 'A timed mock test under real conditions exposes the exact gaps that daily practice sets never will.',
+        bullets:     ['Your true band score under timed exam pressure', 'Which skill is dragging your overall band down', 'Exactly how far you are from your target band'],
+        cta:         'Take the Full Mock Test',
+        footnote:    'No account needed — start in under 30 seconds.',
+      };
+
+      function renderCopy(copy) {
+        document.getElementById('mockCtaHeadline').textContent    = copy.headline    || FALLBACK.headline;
+        document.getElementById('mockCtaSubheadline').textContent = copy.subheadline || FALLBACK.subheadline;
+        document.getElementById('mockCtaBtn').textContent         = copy.cta         || FALLBACK.cta;
+        document.getElementById('mockCtaFootnote').textContent    = copy.footnote    || FALLBACK.footnote;
+
+        var bullets    = (copy.bullets && copy.bullets.length === 3) ? copy.bullets : FALLBACK.bullets;
+        var bulletsEl  = document.getElementById('mockCtaBullets');
+        bullets.forEach(function(text) {
+          var card = document.createElement('div');
+          card.style.cssText = 'background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-left:4px solid var(--color-teal);border-radius:12px;padding:20px;color:#FFFFFF;font-size:15px;line-height:1.55;';
+          card.textContent = text;
+          bulletsEl.appendChild(card);
+        });
+
+        document.getElementById('mockCtaSkeleton').style.display = 'none';
+        var content = document.getElementById('mockCtaContent');
+        content.style.display = 'block';
+        requestAnimationFrame(function() {
+          requestAnimationFrame(function() { content.classList.add('loaded'); });
+        });
       }
-    ];
 
-    let demoActive = 0;
-
-    function demoSelect(idx) {
-      demoActive = idx;
-      const ex = DEMO_EXAMPLES[idx];
-      document.getElementById('demoInput').value = ex.text;
-      document.getElementById('demoCharCount').textContent = ex.text.length + ' chars';
-      document.getElementById('demoFeedback').style.display = 'none';
-      document.querySelectorAll('.demo-tab').forEach(function(t, i) { t.classList.toggle('active', i === idx); });
-    }
-
-    function demoCharUpdate() {
-      document.getElementById('demoCharCount').textContent = document.getElementById('demoInput').value.length + ' chars';
-    }
-
-    function runDemo() {
-      var btn = document.getElementById('demoBtn');
-      var fb = document.getElementById('demoFeedback');
-      btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="animation:spin 0.9s linear infinite"><path d="M7 1a6 6 0 1 1 0 12A6 6 0 0 1 7 1z" stroke="currentColor" stroke-width="1.5" opacity="0.25"/><path d="M7 1a6 6 0 0 1 6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Analysing…';
-      btn.disabled = true;
-      fb.style.display = 'none';
-
-      setTimeout(function() {
-        var ex = DEMO_EXAMPLES[demoActive];
-        var tagClass = { lr: 'demo-tag-lr', gr: 'demo-tag-gr', cc: 'demo-tag-cc', ta: 'demo-tag-ta' };
-        var tagLabel = { lr: 'Lexical Resource', gr: 'Grammar', cc: 'Coherence', ta: 'Task Achievement' };
-
-        fb.innerHTML = '<div class="demo-feedback-enter" style="display:flex;flex-direction:column;gap:12px">'
-          + '<div style="display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:10px;background:var(--color-navy)">'
-          + '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1z" stroke="#2E9E82" stroke-width="1.3"/><path d="M8 7v4M8 5.5V5" stroke="#2E9E82" stroke-width="1.5" stroke-linecap="round"/></svg>'
-          + '<span style="font-size:0.875rem;font-weight:500;color:rgba(255,255,255,0.85)">3 issues found — each one costs band score. Here\'s exactly what to fix:</span>'
-          + '</div>'
-          + ex.issues.map(function(iss) {
-              return '<div class="demo-issue"><div><span class="demo-issue-tag ' + tagClass[iss.tag] + '">' + tagLabel[iss.tag] + '</span></div>'
-                + '<div><div style="font-size:0.875rem;font-weight:600;color:var(--color-navy);margin-bottom:4px">' + iss.title + '</div>'
-                + '<div style="font-size:0.8125rem;line-height:1.65;color:var(--color-slate)">' + iss.desc + '</div></div></div>';
-            }).join('')
-          + '<div class="demo-improved"><div style="font-size:0.75rem;font-weight:700;color:var(--color-teal-dark);margin-bottom:8px;letter-spacing:0.05em">✓ Band 7+ version</div>'
-          + '<p style="font-size:0.9rem;line-height:1.75;color:var(--color-navy);font-style:italic">' + ex.improved + '</p></div>'
-          + '<div style="text-align:center;padding-top:4px">'
-          + '<a href="login.html" style="display:inline-flex;align-items:center;gap:8px;padding:11px 28px;border-radius:8px;font-size:0.875rem;font-weight:600;background:var(--color-teal);color:#FFFFFF;text-decoration:none;border:none;">'
-          + 'Get full essay feedback free →</a>'
-          + '<div style="font-size:0.75rem;color:var(--color-slate);margin-top:8px">No credit card required</div></div>'
-          + '</div>';
-
-        fb.style.display = 'block';
-        btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Analyse →';
-        btn.disabled = false;
-      }, 1100);
-    }
-
-    demoSelect(0);
+      fetch('/api/mock-test-copy')
+        .then(function(r) { return r.json(); })
+        .then(renderCopy)
+        .catch(function() { renderCopy(FALLBACK); });
+    })();
   </script>
 
   <!-- ╔══════════════════════════════ WRITING CLINIC ══════════════════════╗ -->

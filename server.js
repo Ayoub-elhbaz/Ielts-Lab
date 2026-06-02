@@ -2615,6 +2615,50 @@ app.use((err, req, res, _next) => {
   res.status(status).json({ error: message });
 });
 
+// ── Mock test CTA copy (cached, generated once per server lifetime) ──────────
+let _mockTestCopyCache = null;
+
+app.get('/api/mock-test-copy', async (_req, res) => {
+  if (_mockTestCopyCache) return res.json(_mockTestCopyCache);
+
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  if (!apiKey) return res.status(500).json({ error: 'API key not configured' });
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type':      'application/json',
+        'x-api-key':         apiKey,
+        'anthropic-version': '2023-06-01',
+      },
+      body: JSON.stringify({
+        model:      'claude-sonnet-4-20250514',
+        max_tokens: 512,
+        system:     'You are a conversion copywriter. Return ONLY valid JSON, no markdown fences, no explanation.',
+        messages: [{
+          role:    'user',
+          content: `You are a conversion copywriter for an IELTS prep platform. Write copy for a section that drives students to take a full mock test. Return ONLY a JSON object with these exact keys:
+- headline: a punchy 8-12 word headline that creates urgency around exam readiness (no questions, use power words)
+- subheadline: one sentence, 20-30 words, that explains what the mock test reveals that normal practice cannot
+- bullets: an array of exactly 3 strings, each under 12 words, highlighting what students discover from taking the mock test
+- cta: 4-6 word CTA button label that feels exciting not generic (not 'Start Now' or 'Click Here')
+- footnote: one short reassuring line under 12 words about no signup required`,
+        }],
+      }),
+    });
+
+    const data = await response.json();
+    const text = data.content?.[0]?.text?.trim() || '';
+    const copy = JSON.parse(text);
+    _mockTestCopyCache = copy;
+    res.json(copy);
+  } catch (err) {
+    console.error('[mock-test-copy]', err.message);
+    res.status(500).json({ error: err.message });
+  }
+});
+
 // ── Start ─────────────────────────────────────────────────────────────────────
 app.listen(PORT, () => {
   const keyOk = !!process.env.ANTHROPIC_API_KEY;
