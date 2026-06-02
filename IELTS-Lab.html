@@ -123,6 +123,19 @@
     #navHamburger { display: none; }
     #mobileNavDrawer { display: none; }
 
+    /* Burger bars */
+    .burger-bar {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: white;
+      border-radius: 2px;
+      transition: all 0.25s ease;
+    }
+    nav.nav-open .burger-bar:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    nav.nav-open .burger-bar:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    nav.nav-open .burger-bar:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
     /* Skill/tag pills (GROUP 5) */
     .skill-pill {
       display: inline-flex;
@@ -337,12 +350,14 @@
       /* ── Hamburger button ── */
       #navHamburger {
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
+        gap: 5px;
         width: 40px; height: 40px;
         background: rgba(255,255,255,0.1);
         border-radius: 8px;
-        border: 1px solid rgba(255,255,255,0.2);
+        border: 1px solid rgba(255,255,255,0.25);
         cursor: pointer;
         flex-shrink: 0;
         transition: background 0.2s;
@@ -470,7 +485,9 @@
         <button id="userAvatarBtn" onclick="toggleDashboard()" style="display:none;width:36px;height:36px;border-radius:50%;background:var(--color-teal);border:none;cursor:pointer;font-family:'Satoshi',sans-serif;font-size:0.8rem;font-weight:700;color:#FFFFFF;flex-shrink:0;margin-left:0.75rem;transition:transform 0.15s;" title="My account"></button>
         <!-- Hamburger (mobile only) -->
         <button id="navHamburger" onclick="toggleMobileNav()" aria-label="Open menu" aria-expanded="false">
-          <i class="ti ti-menu-2" style="font-size:22px;color:white;line-height:1;"></i>
+          <span class="burger-bar"></span>
+          <span class="burger-bar"></span>
+          <span class="burger-bar"></span>
         </button>
         <!-- Mobile nav drawer -->
         <div id="mobileNavDrawer">
@@ -2096,22 +2113,15 @@
     function toggleMobileNav() {
       var nav = document.querySelector('.ui nav');
       var btn = document.getElementById('navHamburger');
-      var icon = btn.querySelector('i');
       var isOpen = nav.classList.toggle('nav-open');
       btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-      icon.className = isOpen ? 'ti ti-x' : 'ti ti-menu-2';
-      icon.style.fontSize = '22px';
-      icon.style.color = 'white';
-      icon.style.lineHeight = '1';
     }
 
     function closeMobileNav() {
       var nav = document.querySelector('.ui nav');
       var btn = document.getElementById('navHamburger');
-      var icon = btn ? btn.querySelector('i') : null;
       nav.classList.remove('nav-open');
       if (btn) btn.setAttribute('aria-expanded', 'false');
-      if (icon) { icon.className = 'ti ti-menu-2'; icon.style.fontSize = '22px'; icon.style.color = 'white'; icon.style.lineHeight = '1'; }
     }
 
     // Close when clicking outside the nav
