@@ -81,15 +81,15 @@
       font-weight: 600;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--gold);
+      color: var(--color-teal);
     }
 
-    .text-gold { color: var(--gold); }
+    .text-gold { color: var(--color-teal); }
 
     /* Skill bar */
     .skill-track { height: 2px; background: #DDD8CE; border-radius: 99px; overflow: hidden; }
     .score-card-float .skill-track { background: #27272a; }
-    .skill-fill { height: 100%; background: var(--gold); border-radius: 99px; width: 0; transition: width 1.2s cubic-bezier(0.16,1,0.3,1); }
+    .skill-fill { height: 100%; background: var(--color-teal); border-radius: 99px; width: 0; transition: width 1.2s cubic-bezier(0.16,1,0.3,1); }
 
     /* Scrollbar */
     ::-webkit-scrollbar { width: 5px; }
@@ -103,7 +103,7 @@
     /* Score ring */
     .ring-track { stroke: #27272a; }
     .ring-fill {
-      stroke: var(--gold);
+      stroke: var(--color-teal);
       stroke-dashoffset: 0;
       transform-origin: center;
       transform: rotate(-90deg);
@@ -135,9 +135,9 @@
     .teacher-card {
       flex: 0 0 260px;
       scroll-snap-align: start;
-      background: #FFFFFF;
-      border: 1px solid #DDD8CE;
-      border-radius: 1.25rem;
+      background: var(--color-white);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
       padding: 1.75rem 1.5rem;
       display: flex;
       flex-direction: column;
@@ -149,8 +149,8 @@
     }
     .teacher-card:hover {
       transform: translateY(-6px);
-      border-color: var(--gold-border);
-      box-shadow: 0 16px 48px rgba(0,0,0,0.12), 0 0 0 1px rgba(201,149,46,0.12);
+      border-color: var(--color-teal);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.08), 0 0 0 1px rgba(46,158,130,0.15);
     }
 
     /* Avatar glow ring */
@@ -165,13 +165,13 @@
       font-family: 'Satoshi', sans-serif;
       font-weight: 900;
       font-size: 1.5rem;
-      color: var(--gold);
+      color: var(--color-teal);
       margin-bottom: 1.25rem;
       position: relative;
       box-shadow:
-        0 0 0 2px var(--gold),
-        0 0 20px rgba(201,149,46,0.22),
-        0 0 40px rgba(201,149,46,0.08);
+        0 0 0 2px var(--color-teal),
+        0 0 20px rgba(46,158,130,0.22),
+        0 0 40px rgba(46,158,130,0.08);
     }
 
     /* Book button */
@@ -182,22 +182,22 @@
       padding-left: 0;
       padding-right: 0;
       height: 38px;
-      border-radius: 0.5rem;
+      border-radius: 8px;
       font-size: 0.8125rem;
       font-weight: 500;
-      border: 1px solid var(--gold-border);
-      color: var(--gold);
-      background: transparent;
+      border: none;
+      color: #FFFFFF;
+      background: var(--color-teal);
       cursor: pointer;
-      transition: background 0.2s ease, color 0.2s ease;
+      transition: background 0.2s ease;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    .book-btn:hover { background: var(--gold-dim); }
+    .book-btn:hover { background: var(--color-teal-dark); }
 
     /* Stars */
-    .stars { color: var(--gold); font-size: 0.75rem; letter-spacing: 1px; }
+    .stars { color: var(--color-teal); font-size: 0.75rem; letter-spacing: 1px; }
 
     /* ── ayoub lab hero UI layer ── */
     .ui {
@@ -557,49 +557,49 @@
   </div>
 
   <!-- ╔══════════════════════════════ PAIN POINTS ═════════════════════════╗ -->
-  <section class="py-20" style="background:#1B2B4B">
+  <section class="py-20" style="background:var(--color-white)">
     <div class="max-w-7xl mx-auto px-6 lg:px-10">
       <div class="text-center mb-12 reveal">
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-5" style="background:rgba(201,149,46,0.12);border:1px solid rgba(201,149,46,0.25)">
-          <span style="color:var(--gold);font-size:0.6875rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;">Does this sound familiar?</span>
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-5" style="background:rgba(46,158,130,0.1);border:1px solid rgba(46,158,130,0.25)">
+          <span style="color:var(--color-teal);font-size:0.6875rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;">Does this sound familiar?</span>
         </div>
-        <h2 class="font-display font-black text-3xl md:text-4xl tracking-tighter leading-tight" style="color:var(--white)">
+        <h2 class="font-display font-black text-3xl md:text-4xl tracking-tighter leading-tight" style="color:var(--color-navy)">
           Most students fail for<br/>the same three reasons.
         </h2>
       </div>
 
       <div class="grid md:grid-cols-3 gap-5">
-        <div class="reveal p-8 rounded-2xl hover-lift" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08)">
-          <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(201,149,46,0.12);border:1px solid rgba(201,149,46,0.2)">
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 2a9 9 0 1 0 0 18A9 9 0 0 0 11 2z" stroke="#C9952E" stroke-width="1.5"/><path d="M11 7v5l3 2" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <div class="reveal p-8 rounded-2xl hover-lift" style="background:var(--color-white);border:1px solid var(--color-border);border-radius:12px">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(46,158,130,0.1);border:1px solid rgba(46,158,130,0.2)">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M11 2a9 9 0 1 0 0 18A9 9 0 0 0 11 2z" stroke="#2E9E82" stroke-width="1.5"/><path d="M11 7v5l3 2" stroke="#2E9E82" stroke-width="1.5" stroke-linecap="round"/></svg>
           </div>
-          <h3 class="font-display font-bold text-xl mb-3" style="color:var(--white)">Stuck at Band 6.5 — again?</h3>
-          <p class="text-sm leading-relaxed mb-6" style="color:rgba(238,244,255,0.58)">You know your English is good enough. But every attempt comes back 6.5. The problem isn't your language — it's that you don't know which criterion is bleeding your score.</p>
-          <div class="flex items-center gap-2 text-sm font-medium" style="color:var(--gold)">
+          <h3 class="font-display font-bold text-xl mb-3" style="color:var(--color-navy)">Stuck at Band 6.5 — again?</h3>
+          <p class="text-sm leading-relaxed mb-6" style="color:var(--color-slate)">You know your English is good enough. But every attempt comes back 6.5. The problem isn't your language — it's that you don't know which criterion is bleeding your score.</p>
+          <div class="flex items-center gap-2 text-sm font-medium" style="color:var(--color-teal)">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             Our AI pinpoints the exact criterion
           </div>
         </div>
 
-        <div class="reveal d100 p-8 rounded-2xl hover-lift" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08)">
-          <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(201,149,46,0.12);border:1px solid rgba(201,149,46,0.2)">
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="4" width="16" height="15" rx="2" stroke="#C9952E" stroke-width="1.5"/><path d="M7 2v4M15 2v4M3 9h16" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <div class="reveal d100 p-8 rounded-2xl hover-lift" style="background:var(--color-white);border:1px solid var(--color-border);border-radius:12px">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(46,158,130,0.1);border:1px solid rgba(46,158,130,0.2)">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><rect x="3" y="4" width="16" height="15" rx="2" stroke="#2E9E82" stroke-width="1.5"/><path d="M7 2v4M15 2v4M3 9h16" stroke="#2E9E82" stroke-width="1.5" stroke-linecap="round"/></svg>
           </div>
-          <h3 class="font-display font-bold text-xl mb-3" style="color:var(--white)">Exam in 6–8 weeks?</h3>
-          <p class="text-sm leading-relaxed mb-6" style="color:rgba(238,244,255,0.58)">Visa deadline, university offer, job requirement — IELTS stress is always tied to a countdown. Generic prep wastes the weeks you don't have. You need a plan that compresses the learning curve from day one.</p>
-          <div class="flex items-center gap-2 text-sm font-medium" style="color:var(--gold)">
+          <h3 class="font-display font-bold text-xl mb-3" style="color:var(--color-navy)">Exam in 6–8 weeks?</h3>
+          <p class="text-sm leading-relaxed mb-6" style="color:var(--color-slate)">Visa deadline, university offer, job requirement — IELTS stress is always tied to a countdown. Generic prep wastes the weeks you don't have. You need a plan that compresses the learning curve from day one.</p>
+          <div class="flex items-center gap-2 text-sm font-medium" style="color:var(--color-teal)">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             Adaptive plan built around your deadline
           </div>
         </div>
 
-        <div class="reveal d200 p-8 rounded-2xl hover-lift" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08)">
-          <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(201,149,46,0.12);border:1px solid rgba(201,149,46,0.2)">
-            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 6h14M4 10h14M4 14h8" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round"/><circle cx="17" cy="16" r="3" stroke="#C9952E" stroke-width="1.5"/><path d="M19.5 18.5l2 2" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <div class="reveal d200 p-8 rounded-2xl hover-lift" style="background:var(--color-white);border:1px solid var(--color-border);border-radius:12px">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-6" style="background:rgba(46,158,130,0.1);border:1px solid rgba(46,158,130,0.2)">
+            <svg width="22" height="22" viewBox="0 0 22 22" fill="none"><path d="M4 6h14M4 10h14M4 14h8" stroke="#2E9E82" stroke-width="1.5" stroke-linecap="round"/><circle cx="17" cy="16" r="3" stroke="#2E9E82" stroke-width="1.5"/><path d="M19.5 18.5l2 2" stroke="#2E9E82" stroke-width="1.5" stroke-linecap="round"/></svg>
           </div>
-          <h3 class="font-display font-bold text-xl mb-3" style="color:var(--white)">Studying hard — but no progress?</h3>
-          <p class="text-sm leading-relaxed mb-6" style="color:rgba(238,244,255,0.58)">Hours of practice tests, YouTube videos, apps — and the score barely moves. Effort without direction is the most common reason IELTS takers plateau. You need targeted feedback, not more practice.</p>
-          <div class="flex items-center gap-2 text-sm font-medium" style="color:var(--gold)">
+          <h3 class="font-display font-bold text-xl mb-3" style="color:var(--color-navy)">Studying hard — but no progress?</h3>
+          <p class="text-sm leading-relaxed mb-6" style="color:var(--color-slate)">Hours of practice tests, YouTube videos, apps — and the score barely moves. Effort without direction is the most common reason IELTS takers plateau. You need targeted feedback, not more practice.</p>
+          <div class="flex items-center gap-2 text-sm font-medium" style="color:var(--color-teal)">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
             Diagnostic shows exactly what to fix
           </div>
@@ -613,9 +613,9 @@
     @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
     @keyframes demoFadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
     .demo-tab { padding: 6px 16px; border-radius: 20px; font-size: 0.8125rem; font-weight: 500; border: 1px solid #DDD8CE; color: #3D4451; background: transparent; cursor: pointer; transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
-    .demo-tab.active, .demo-tab:hover { background: #1B2B4B; color: #EEF4FF; border-color: #1B2B4B; }
+    .demo-tab.active, .demo-tab:hover { background: var(--color-teal); color: #FFFFFF; border-color: var(--color-teal); }
     .demo-input-area { width: 100%; font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.9375rem; line-height: 1.7; resize: none; border: 1.5px solid #DDD8CE; border-radius: 12px; padding: 16px 20px; background: #fff; color: #1C1C2E; outline: none; transition: border-color 0.2s; }
-    .demo-input-area:focus { border-color: var(--gold); }
+    .demo-input-area:focus { border-color: var(--color-teal); }
     .demo-issue { display: flex; gap: 14px; padding: 14px 16px; border-radius: 10px; background: #fff; border: 1px solid #DDD8CE; }
     .demo-issue-tag { font-size: 0.625rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 2px 8px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; margin-top: 1px; }
     .demo-tag-lr { background: rgba(239,68,68,0.08); color: #ef4444; border: 1px solid rgba(239,68,68,0.2); }
@@ -624,19 +624,19 @@
     .demo-tag-ta { background: rgba(168,85,247,0.08); color: #a855f7; border: 1px solid rgba(168,85,247,0.2); }
     .demo-improved { background: rgba(42,255,214,0.05); border: 1px solid rgba(42,255,214,0.2); border-radius: 10px; padding: 14px 18px; }
     .demo-feedback-enter { animation: demoFadeUp 0.45s cubic-bezier(0.16,1,0.3,1) both; }
-    .demo-analyse-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 8px; font-size: 0.875rem; font-weight: 500; border: none; cursor: pointer; background: #1B2B4B; color: #EEF4FF; transition: background 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
-    .demo-analyse-btn:hover:not(:disabled) { background: #243d6a; }
+    .demo-analyse-btn { display: inline-flex; align-items: center; gap: 8px; padding: 10px 20px; border-radius: 8px; font-size: 0.875rem; font-weight: 500; border: none; cursor: pointer; background: var(--color-teal); color: #FFFFFF; transition: background 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .demo-analyse-btn:hover:not(:disabled) { background: var(--color-teal-dark); }
     .demo-analyse-btn:disabled { opacity: 0.7; cursor: default; }
   </style>
 
-  <section class="py-24 divider" style="background:#F4F1EB">
+  <section class="py-24 divider" style="background:var(--color-mint)">
     <div class="max-w-3xl mx-auto px-6">
       <div class="text-center mb-10 reveal">
         <div class="label mb-4">Try It Free — No Sign-Up Required</div>
-        <h2 class="font-display font-black text-4xl md:text-5xl tracking-tighter leading-tight text-[#1C1C2E] mb-3">
+        <h2 class="font-display font-black text-4xl md:text-5xl tracking-tighter leading-tight mb-3" style="color:var(--color-navy)">
           See what an examiner<br/>actually notices.
         </h2>
-        <p class="text-[#3D4451] text-sm max-w-[48ch] mx-auto leading-relaxed">Pick an example below. Our AI flags the exact issues a Band 9 examiner would penalise — and shows you the fix.</p>
+        <p class="text-sm max-w-[48ch] mx-auto leading-relaxed" style="color:var(--color-slate)">Pick an example below. Our AI flags the exact issues a Band 9 examiner would penalise — and shows you the fix.</p>
       </div>
 
       <div class="reveal">
@@ -736,7 +736,7 @@
 
         fb.innerHTML = '<div class="demo-feedback-enter" style="display:flex;flex-direction:column;gap:12px">'
           + '<div style="display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:10px;background:#1B2B4B">'
-          + '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1z" stroke="#C9952E" stroke-width="1.3"/><path d="M8 7v4M8 5.5V5" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round"/></svg>'
+          + '<svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1z" stroke="#2E9E82" stroke-width="1.3"/><path d="M8 7v4M8 5.5V5" stroke="#2E9E82" stroke-width="1.5" stroke-linecap="round"/></svg>'
           + '<span style="font-size:0.875rem;font-weight:500;color:rgba(238,244,255,0.85)">3 issues found — each one costs band score. Here\'s exactly what to fix:</span>'
           + '</div>'
           + ex.issues.map(function(iss) {
@@ -747,7 +747,7 @@
           + '<div class="demo-improved"><div style="font-size:0.75rem;font-weight:700;color:#2AFFD6;margin-bottom:8px;letter-spacing:0.05em">✓ Band 7+ version</div>'
           + '<p style="font-size:0.9rem;line-height:1.75;color:#1C1C2E;font-style:italic">' + ex.improved + '</p></div>'
           + '<div style="text-align:center;padding-top:4px">'
-          + '<a href="login.html" style="display:inline-flex;align-items:center;gap:8px;padding:11px 28px;border-radius:8px;font-size:0.875rem;font-weight:600;background:linear-gradient(135deg,var(--gold),#a8741f);color:#05081A;text-decoration:none">'
+          + '<a href="login.html" style="display:inline-flex;align-items:center;gap:8px;padding:11px 28px;border-radius:8px;font-size:0.875rem;font-weight:600;background:var(--color-teal);color:#FFFFFF;text-decoration:none;border:none;">'
           + 'Get full essay feedback free →</a>'
           + '<div style="font-size:0.75rem;color:#9CA3AF;margin-top:8px">No credit card required</div></div>'
           + '</div>';
@@ -861,7 +861,7 @@
     .sn-3.sn-done { transform: rotate(-1.5deg); }
   </style>
 
-  <section id="clinic-details" class="py-24 divider" style="background:#F4F1EB">
+  <section id="clinic-details" class="py-24 divider" style="background:var(--color-white)">
     <div class="max-w-7xl mx-auto px-6 lg:px-10">
 
       <!-- Two-column layout -->
@@ -874,23 +874,23 @@
             <span class="text-white text-xs font-medium tracking-widest uppercase">✦ Members Only</span>
           </div>
 
-          <h2 class="tracking-tight leading-tight mb-5" style="font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,64px);font-weight:600;color:#1B2B4B">
+          <h2 class="tracking-tight leading-tight mb-5" style="font-family:'Cormorant Garamond',serif;font-size:clamp(36px,5vw,64px);font-weight:600;color:var(--color-navy)">
             The Writing Clinic
           </h2>
 
-          <p class="text-base leading-relaxed mb-10 max-w-[46ch]" style="color:#3D4451">
+          <p class="text-base leading-relaxed mb-10 max-w-[46ch]" style="color:var(--color-slate)">
             Your personal AI-powered IELTS writing expert. Submit any essay and receive an instant band score, line-by-line corrections, and a model answer — scored exactly like a real examiner.
           </p>
 
           <div class="flex flex-wrap items-center gap-4">
             <a href="writing-clinic/corrector.html"
-               class="inline-flex items-center px-7 py-3.5 rounded-md font-medium text-sm hover-lift"
-               style="background:#1B2B4B;color:#F4F1EB;letter-spacing:0.02em">
+               class="inline-flex items-center px-7 py-3.5 font-medium text-sm hover-lift"
+               style="background:var(--color-teal);color:#FFFFFF;letter-spacing:0.02em;border-radius:8px;border:none;text-decoration:none;">
               Enter The Writing Clinic →
             </a>
             <a href="#clinic-details"
-               class="inline-flex items-center px-7 py-3.5 rounded-md font-medium text-sm transition-colors"
-               style="border:1px solid #1B2B4B;color:#1B2B4B;background:transparent"
+               class="inline-flex items-center px-7 py-3.5 font-medium text-sm transition-colors"
+               style="border:2px solid var(--color-navy);color:var(--color-navy);background:transparent;border-radius:8px;text-decoration:none;"
                onclick="event.preventDefault();document.getElementById('clinic-details').scrollIntoView({behavior:'smooth'})">
               Learn More
             </a>
@@ -940,8 +940,8 @@
       <!-- Bottom CTA -->
       <div class="reveal text-center mt-16 lg:mt-20">
         <a href="writing-clinic/corrector.html"
-           class="inline-flex items-center px-8 py-4 rounded-md font-medium text-sm hover-lift"
-           style="background:var(--gold);color:#1B2B4B;letter-spacing:0.02em">
+           class="inline-flex items-center px-8 py-4 font-medium text-sm hover-lift"
+           style="background:var(--color-teal);color:#FFFFFF;letter-spacing:0.02em;border-radius:8px;border:none;text-decoration:none;">
           Start Your Free Essay Review →
         </a>
       </div>
@@ -968,25 +968,25 @@
   </script>
 
   <!-- ╔══════════════════════════════ BEFORE / AFTER ESSAY ════════════════╗ -->
-  <section class="py-24 divider" style="background:#0d2b4e">
+  <section class="py-24 divider" style="background:var(--color-mint)">
     <div class="max-w-7xl mx-auto px-6 lg:px-10">
 
       <div class="grid lg:grid-cols-2 gap-6 items-end mb-10 reveal">
         <div>
           <div class="label mb-4">Writing Clinic — In Action</div>
-          <h2 class="font-display font-black text-4xl md:text-5xl tracking-tighter leading-tight text-white">
+          <h2 class="font-display font-black text-4xl md:text-5xl tracking-tighter leading-tight" style="color:var(--color-navy)">
             Watch a Band 5.5 essay<br/>become a Band 7.5.
           </h2>
         </div>
         <div>
-          <p class="leading-relaxed max-w-[48ch] lg:ml-auto" style="color:rgba(238,244,255,0.65)">This is a real student essay, anonymised. The AI identified three issues across Lexical Resource, Task Achievement, and Grammatical Range. These are the before and after — after two AI sessions.</p>
+          <p class="leading-relaxed max-w-[48ch] lg:ml-auto" style="color:var(--color-slate)">This is a real student essay, anonymised. The AI identified three issues across Lexical Resource, Task Achievement, and Grammatical Range. These are the before and after — after two AI sessions.</p>
         </div>
       </div>
 
       <!-- Task label -->
       <div class="mb-6 reveal">
         <div class="inline-flex flex-wrap items-center gap-3 px-5 py-3 rounded-xl border" style="background:#fff;border-color:#DDD8CE">
-          <span class="text-xs font-semibold tracking-widest uppercase" style="color:var(--gold)">Task 2 — Opinion Essay</span>
+          <span class="text-xs font-semibold tracking-widest uppercase" style="color:var(--color-teal)">Task 2 — Opinion Essay</span>
           <div class="w-px h-4 hidden sm:block" style="background:#DDD8CE"></div>
           <span class="text-sm text-[#3D4451]">Some people believe children should spend more time outdoors. Do you agree or disagree?</span>
         </div>
@@ -999,7 +999,7 @@
         <div class="rounded-2xl border border-[#DDD8CE] overflow-hidden">
           <div class="px-6 py-4 flex items-center justify-between border-b" style="background:#fff;border-color:#DDD8CE">
             <div class="flex items-center gap-3">
-              <div class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold" style="background:rgba(239,68,68,0.1);color:#ef4444;border:1px solid rgba(239,68,68,0.25)">5.5</div>
+              <div class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold" style="background:var(--color-teal);color:#FFFFFF;border:none;font-weight:500">5.5</div>
               <span class="text-sm font-semibold text-[#1C1C2E]">Original — Band 5.5</span>
             </div>
             <span class="text-xs text-[#9CA3AF]">Before IELTS Lab</span>
@@ -1018,7 +1018,7 @@
         <div class="rounded-2xl border overflow-hidden" style="border-color:rgba(42,255,214,0.25)">
           <div class="px-6 py-4 flex items-center justify-between border-b" style="background:#fff;border-color:#DDD8CE">
             <div class="flex items-center gap-3">
-              <div class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold" style="background:rgba(42,255,214,0.1);color:#16c79a;border:1px solid rgba(42,255,214,0.3)">7.5</div>
+              <div class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold" style="background:var(--color-teal);color:#FFFFFF;border:none;font-weight:500">7.5</div>
               <span class="text-sm font-semibold text-[#1C1C2E]">Revised — Band 7.5</span>
             </div>
             <span class="text-xs text-[#9CA3AF]">After 2 AI sessions</span>
@@ -1038,21 +1038,21 @@
       <div class="grid md:grid-cols-3 gap-4 reveal d100">
         <div class="p-5 rounded-xl border" style="background:#fff;border-color:#DDD8CE">
           <div class="flex items-center gap-2 mb-3">
-            <div class="text-xs font-bold px-2 py-0.5 rounded" style="background:rgba(201,149,46,0.12);color:var(--gold);border:1px solid var(--gold-border)">+1.5</div>
+            <div class="text-xs font-bold px-2 py-0.5 rounded" style="background:rgba(46,158,130,0.12);color:var(--color-teal);border:1px solid rgba(46,158,130,0.25)">+1.5</div>
             <div class="text-xs font-semibold text-[#1C1C2E]">Lexical Resource</div>
           </div>
           <div class="text-xs text-[#3D4451] leading-relaxed">"Very good" became "increasingly pressing." "Make children go" became "encourage children to engage." Every swap raises the band ceiling — and each one is a learnable pattern.</div>
         </div>
         <div class="p-5 rounded-xl border" style="background:#fff;border-color:#DDD8CE">
           <div class="flex items-center gap-2 mb-3">
-            <div class="text-xs font-bold px-2 py-0.5 rounded" style="background:rgba(201,149,46,0.12);color:var(--gold);border:1px solid var(--gold-border)">+1.0</div>
+            <div class="text-xs font-bold px-2 py-0.5 rounded" style="background:rgba(46,158,130,0.12);color:var(--color-teal);border:1px solid rgba(46,158,130,0.25)">+1.0</div>
             <div class="text-xs font-semibold text-[#1C1C2E]">Task Achievement</div>
           </div>
           <div class="text-xs text-[#3D4451] leading-relaxed">The original stated a position but gave no supporting logic. The revision builds a layered argument — health, psychology, social development — which is what examiners look for at Band 7+.</div>
         </div>
         <div class="p-5 rounded-xl border" style="background:#fff;border-color:#DDD8CE">
           <div class="flex items-center gap-2 mb-3">
-            <div class="text-xs font-bold px-2 py-0.5 rounded" style="background:rgba(201,149,46,0.12);color:var(--gold);border:1px solid var(--gold-border)">+1.0</div>
+            <div class="text-xs font-bold px-2 py-0.5 rounded" style="background:rgba(46,158,130,0.12);color:var(--color-teal);border:1px solid rgba(46,158,130,0.25)">+1.0</div>
             <div class="text-xs font-semibold text-[#1C1C2E]">Grammatical Range</div>
           </div>
           <div class="text-xs text-[#3D4451] leading-relaxed">Simple "if-then" sentences replaced with complex noun phrases, non-finite clauses ("to engage in"), and hedged academic structures ("it is imperative that") — all markers of Band 7+ grammar.</div>
@@ -1060,7 +1060,7 @@
       </div>
 
       <div class="text-center mt-10 reveal d200">
-        <a href="login.html" class="inline-flex items-center gap-2 px-8 py-3.5 rounded-xl text-sm font-semibold hover-lift" style="background:#1B2B4B;color:#EEF4FF;text-decoration:none">
+        <a href="login.html" class="inline-flex items-center gap-2 px-8 py-3.5 text-sm font-semibold hover-lift" style="background:var(--color-teal);color:#FFFFFF;text-decoration:none;border-radius:8px;border:none;">
           Get my essays corrected like this →
         </a>
         <div class="text-xs text-[#9CA3AF] mt-3">First essay free · No credit card required</div>
@@ -1081,7 +1081,7 @@
       gap: 0.375rem;
       font-size: 0.875rem;
       font-weight: 600;
-      color: var(--gold);
+      color: var(--color-teal);
       text-decoration: none;
     }
     .study-plan-link::after {
@@ -1091,7 +1091,7 @@
       left: 0;
       width: 0;
       height: 1.5px;
-      background: var(--gold);
+      background: var(--color-teal);
       transition: width 0.3s cubic-bezier(0.22,1,0.36,1);
     }
     .study-plan-link:hover::after { width: 100%; }
@@ -1099,7 +1099,7 @@
       width: 28px;
       height: 28px;
       border-radius: 50%;
-      background: #1B2B4B;
+      background: var(--color-teal);
       color: #fff;
       display: flex;
       align-items: center;
@@ -1111,7 +1111,7 @@
       margin-top: 1px;
     }
   </style>
-  <section class="py-32 divider" style="background:radial-gradient(ellipse 60% 50% at 20% 50%, rgba(201,149,46,0.04) 0%, transparent 70%)">
+  <section class="py-32 divider" style="background:var(--color-white)">
     <div class="max-w-7xl mx-auto px-6 lg:px-10">
       <div class="grid lg:grid-cols-2 gap-16 xl:gap-24 items-center">
 
@@ -1124,7 +1124,7 @@
             </div>
             <div class="space-y-2">
               <!-- Row 1: Completed -->
-              <div class="flex items-center gap-3 p-3 rounded-xl" style="background:var(--gold-dim);border:1px solid var(--gold-border)">
+              <div class="flex items-center gap-3 p-3 rounded-xl" style="background:rgba(46,158,130,0.1);border:1px solid rgba(46,158,130,0.2)">
                 <div class="w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0" style="background:var(--gold)">
                   <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1 5l3 3 5-5" stroke="#09090b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </div>
@@ -1174,10 +1174,10 @@
         <!-- RIGHT: text + steps + teacher box -->
         <div class="reveal-r d200 order-1 lg:order-2">
           <div class="label mb-5">Structured Growth</div>
-          <h2 class="font-display font-black text-4xl md:text-5xl tracking-tighter leading-tight text-[#1C1C2E] mb-6">
+          <h2 class="font-display font-black text-4xl md:text-5xl tracking-tighter leading-tight mb-6" style="color:var(--color-navy)">
             Eight weeks.<br />One goal.
           </h2>
-          <p class="text-[#3D4451] leading-relaxed max-w-[52ch] mb-8">
+          <p class="leading-relaxed max-w-[52ch] mb-8" style="color:var(--color-slate)">
             Enter your test date and current band score. IELTS Lab builds a day-by-day study plan that adapts as you improve — front-loading your weakest skills, tapering into full mock conditions before exam day.
           </p>
           <div class="space-y-5 mb-8">
@@ -1226,11 +1226,11 @@
   </section>
 
   <!-- ╔══════════════════════════════ FOUR SKILLS ═════════════════════════╗ -->
-  <section id="skills" class="py-32 divider">
+  <section id="skills" class="py-32 divider" style="background:var(--color-mint)">
     <div class="max-w-7xl mx-auto px-6 lg:px-10">
       <div class="max-w-xl mb-16 reveal">
         <div class="label mb-4">Four Skills. Zero Gaps.</div>
-        <h2 class="font-display font-black text-4xl md:text-5xl tracking-tighter leading-tight text-[#1C1C2E]">
+        <h2 class="font-display font-black text-4xl md:text-5xl tracking-tighter leading-tight" style="color:var(--color-navy)">
           Full-spectrum preparation, not just practice questions.
         </h2>
       </div>
@@ -1241,13 +1241,13 @@
                style="background:radial-gradient(ellipse 60% 60% at 20% 80%, rgba(201,149,46,0.06) 0%, transparent 70%)"></div>
           <div class="relative">
             <div class="flex items-center justify-between mb-6">
-              <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:var(--gold-dim);border:1px solid var(--gold-border)">
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 4h14M2 8h10M2 12h12M2 16h7" stroke="#C9952E" stroke-width="1.5" stroke-linecap="round"/></svg>
+              <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(46,158,130,0.1);border:1px solid rgba(46,158,130,0.2)">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 4h14M2 8h10M2 12h12M2 16h7" stroke="#2E9E82" stroke-width="1.5" stroke-linecap="round"/></svg>
               </div>
               <span class="text-xs text-[#6B7280] font-medium">Skill 01</span>
             </div>
-            <h3 class="font-display font-bold text-2xl text-[#1C1C2E] tracking-tight mb-3">Reading</h3>
-            <p class="text-[#3D4451] text-sm leading-relaxed max-w-[46ch] mb-6">
+            <h3 class="font-display font-bold text-2xl tracking-tight mb-3" style="color:var(--color-navy)">Reading</h3>
+            <p class="text-sm leading-relaxed max-w-[46ch] mb-6" style="color:var(--color-slate)">
               2,400+ authentic passage questions — Academic and General. Skimming and scanning drills, True/False/Not Given mastery, matching headings at speed. Timed conditions enforced from week three onward.
             </p>
             <div class="flex flex-wrap gap-2">
@@ -1264,13 +1264,13 @@
                style="background:radial-gradient(ellipse 80% 60% at 80% 20%, rgba(201,149,46,0.06) 0%, transparent 70%)"></div>
           <div class="relative">
             <div class="flex items-center justify-between mb-6">
-              <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:var(--gold-dim);border:1px solid var(--gold-border)">
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 14l1.5-1.5L13 5l-2-2-7.5 7.5L2 14h2zm9-11l1.5-1.5a1 1 0 0 1 1.5 1.5L14.5 4.5 13 3z" stroke="#C9952E" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 6l1 1" stroke="#C9952E" stroke-width="1.3" stroke-linecap="round"/></svg>
+              <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(46,158,130,0.1);border:1px solid rgba(46,158,130,0.2)">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 14l1.5-1.5L13 5l-2-2-7.5 7.5L2 14h2zm9-11l1.5-1.5a1 1 0 0 1 1.5 1.5L14.5 4.5 13 3z" stroke="#2E9E82" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 6l1 1" stroke="#2E9E82" stroke-width="1.3" stroke-linecap="round"/></svg>
               </div>
               <span class="text-xs text-[#6B7280] font-medium">Skill 02</span>
             </div>
-            <h3 class="font-display font-bold text-2xl text-[#1C1C2E] tracking-tight mb-3">Writing</h3>
-            <p class="text-[#3D4451] text-sm leading-relaxed mb-5">AI-graded essays with examiner-level feedback. Task 1 data interpretation. Task 2 argumentative structures. Vocabulary range enhancement built into every exercise.</p>
+            <h3 class="font-display font-bold text-2xl tracking-tight mb-3" style="color:var(--color-navy)">Writing</h3>
+            <p class="text-sm leading-relaxed mb-5" style="color:var(--color-slate)">AI-graded essays with examiner-level feedback. Task 1 data interpretation. Task 2 argumentative structures. Vocabulary range enhancement built into every exercise.</p>
             <div class="flex flex-wrap gap-2">
               <span class="text-xs px-3 py-1.5 rounded-full border border-[#DDD8CE] text-[#3D4451]">AI marking</span>
               <span class="text-xs px-3 py-1.5 rounded-full border border-[#DDD8CE] text-[#3D4451]">Task 1 &amp; 2</span>
@@ -1284,13 +1284,13 @@
                style="background:radial-gradient(ellipse 80% 60% at 20% 80%, rgba(201,149,46,0.06) 0%, transparent 70%)"></div>
           <div class="relative">
             <div class="flex items-center justify-between mb-6">
-              <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:var(--gold-dim);border:1px solid var(--gold-border)">
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 1a7 7 0 1 0 0 14A7 7 0 0 0 9 1z" stroke="#C9952E" stroke-width="1.4"/><path d="M5.5 8.5c0 1.93 1.57 3.5 3.5 3.5s3.5-1.57 3.5-3.5" stroke="#C9952E" stroke-width="1.4" stroke-linecap="round"/><line x1="6" y1="6.5" x2="6" y2="6.5" stroke="#C9952E" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="6.5" x2="12" y2="6.5" stroke="#C9952E" stroke-width="2" stroke-linecap="round"/></svg>
+              <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(46,158,130,0.1);border:1px solid rgba(46,158,130,0.2)">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M9 1a7 7 0 1 0 0 14A7 7 0 0 0 9 1z" stroke="#2E9E82" stroke-width="1.4"/><path d="M5.5 8.5c0 1.93 1.57 3.5 3.5 3.5s3.5-1.57 3.5-3.5" stroke="#2E9E82" stroke-width="1.4" stroke-linecap="round"/><line x1="6" y1="6.5" x2="6" y2="6.5" stroke="#2E9E82" stroke-width="2" stroke-linecap="round"/><line x1="12" y1="6.5" x2="12" y2="6.5" stroke="#2E9E82" stroke-width="2" stroke-linecap="round"/></svg>
               </div>
               <span class="text-xs text-[#6B7280] font-medium">Skill 03</span>
             </div>
-            <h3 class="font-display font-bold text-2xl text-[#1C1C2E] tracking-tight mb-3">Listening</h3>
-            <p class="text-[#3D4451] text-sm leading-relaxed mb-5">Native-speaker audio from British, Australian, and American accents. Section 1–4 question formats. Accent adaptation exercises reduce mishearing by an average 34%.</p>
+            <h3 class="font-display font-bold text-2xl tracking-tight mb-3" style="color:var(--color-navy)">Listening</h3>
+            <p class="text-sm leading-relaxed mb-5" style="color:var(--color-slate)">Native-speaker audio from British, Australian, and American accents. Section 1–4 question formats. Accent adaptation exercises reduce mishearing by an average 34%.</p>
             <div class="flex flex-wrap gap-2">
               <span class="text-xs px-3 py-1.5 rounded-full border border-[#DDD8CE] text-[#3D4451]">Multi-accent</span>
               <span class="text-xs px-3 py-1.5 rounded-full border border-[#DDD8CE] text-[#3D4451]">Sections 1–4</span>
@@ -1304,13 +1304,13 @@
                style="background:radial-gradient(ellipse 60% 80% at 80% 30%, rgba(201,149,46,0.06) 0%, transparent 70%)"></div>
           <div class="relative">
             <div class="flex items-center justify-between mb-6">
-              <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:var(--gold-dim);border:1px solid var(--gold-border)">
-                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="6" y="1" width="6" height="9" rx="3" stroke="#C9952E" stroke-width="1.4"/><path d="M3 9c0 3.31 2.69 6 6 6s6-2.69 6-6" stroke="#C9952E" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="15" x2="9" y2="17" stroke="#C9952E" stroke-width="1.4" stroke-linecap="round"/><line x1="6" y1="17" x2="12" y2="17" stroke="#C9952E" stroke-width="1.4" stroke-linecap="round"/></svg>
+              <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:rgba(46,158,130,0.1);border:1px solid rgba(46,158,130,0.2)">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><rect x="6" y="1" width="6" height="9" rx="3" stroke="#2E9E82" stroke-width="1.4"/><path d="M3 9c0 3.31 2.69 6 6 6s6-2.69 6-6" stroke="#2E9E82" stroke-width="1.4" stroke-linecap="round"/><line x1="9" y1="15" x2="9" y2="17" stroke="#2E9E82" stroke-width="1.4" stroke-linecap="round"/><line x1="6" y1="17" x2="12" y2="17" stroke="#2E9E82" stroke-width="1.4" stroke-linecap="round"/></svg>
               </div>
               <span class="text-xs text-[#6B7280] font-medium">Skill 04</span>
             </div>
-            <h3 class="font-display font-bold text-2xl text-[#1C1C2E] tracking-tight mb-3">Speaking</h3>
-            <p class="text-[#3D4451] text-sm leading-relaxed max-w-[46ch] mb-6">Record your response. Receive AI feedback on fluency, pronunciation, vocabulary range, and grammatical accuracy — the same four criteria your examiner will use. Part 1, 2, and 3 formats covered.</p>
+            <h3 class="font-display font-bold text-2xl tracking-tight mb-3" style="color:var(--color-navy)">Speaking</h3>
+            <p class="text-sm leading-relaxed max-w-[46ch] mb-6" style="color:var(--color-slate)">Record your response. Receive AI feedback on fluency, pronunciation, vocabulary range, and grammatical accuracy — the same four criteria your examiner will use. Part 1, 2, and 3 formats covered.</p>
             <div class="flex flex-wrap gap-2">
               <span class="text-xs px-3 py-1.5 rounded-full border border-[#DDD8CE] text-[#3D4451]">Pronunciation scoring</span>
               <span class="text-xs px-3 py-1.5 rounded-full border border-[#DDD8CE] text-[#3D4451]">Fluency analysis</span>
@@ -1327,75 +1327,75 @@
 
 
   <!-- ╔══════════════════════════════ TESTIMONIALS ════════════════════════╗ -->
-  <section class="py-32" style="background:#1B2B4B;border-top:1px solid rgba(255,255,255,0.06)">
+  <section class="py-32" style="background:var(--color-white);border-top:1px solid var(--color-border)">
     <div class="max-w-7xl mx-auto px-6 lg:px-10">
       <div class="max-w-xl mb-16 reveal">
         <div class="label mb-4">Student Results</div>
-        <h2 class="font-display font-black text-4xl md:text-5xl tracking-tighter leading-tight" style="color:var(--white)">
+        <h2 class="font-display font-black text-4xl md:text-5xl tracking-tighter leading-tight" style="color:var(--color-navy)">
           Real scores.<br />Real people.
         </h2>
       </div>
 
       <div class="grid lg:grid-cols-[1fr_380px] gap-6">
-        <div class="reveal p-8 md:p-10 rounded-2xl flex flex-col justify-between" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09)">
+        <div class="reveal p-8 md:p-10 rounded-2xl flex flex-col justify-between" style="background:var(--color-white);border:1px solid var(--color-border)">
           <div>
             <div class="flex items-center gap-3 mb-8">
-              <div class="w-10 h-10 rounded-full flex items-center justify-center font-display font-bold text-lg" style="background:rgba(201,149,46,0.15);border:1px solid rgba(201,149,46,0.3);color:var(--gold)">N</div>
+              <div class="w-10 h-10 rounded-full flex items-center justify-center font-display font-bold text-lg" style="background:rgba(46,158,130,0.12);border:1px solid rgba(46,158,130,0.25);color:var(--color-teal)">N</div>
               <div>
-                <div class="text-sm font-medium" style="color:var(--white)">Nadia K.</div>
-                <div class="text-xs" style="color:rgba(238,244,255,0.5)">Morocco → University of Edinburgh · Architecture</div>
+                <div class="text-sm font-medium" style="color:var(--color-navy)">Nadia K.</div>
+                <div class="text-xs" style="color:var(--color-slate)">Morocco → University of Edinburgh · Architecture</div>
               </div>
-              <div class="ml-auto flex items-center gap-2 px-3 py-1.5 rounded-full" style="background:rgba(201,149,46,0.12);border:1px solid rgba(201,149,46,0.28)">
-                <span class="text-xs" style="color:rgba(238,244,255,0.6)">Band</span>
-                <span class="font-display font-bold text-sm" style="color:var(--gold)">7.5</span>
+              <div class="ml-auto flex items-center gap-2 px-3 py-1.5 rounded-full" style="background:var(--color-teal);border:none">
+                <span class="text-xs" style="color:#FFFFFF">Band</span>
+                <span class="font-display font-bold text-sm" style="color:#FFFFFF;font-weight:500">7.5</span>
               </div>
             </div>
-            <blockquote class="text-lg leading-relaxed" style="color:rgba(238,244,255,0.82)">
+            <blockquote class="text-lg leading-relaxed" style="color:var(--color-slate)">
               "I'd taken IELTS twice before IELTS Lab — both times I scored 6.5 and couldn't understand why. The AI feedback on my essays showed me I was losing marks on task achievement, not grammar. Three weeks of targeted practice fixed exactly that. I got 7.5 on my third attempt and had my unconditional offer within two weeks."
             </blockquote>
           </div>
-          <div class="mt-8 pt-6 flex items-center gap-4" style="border-top:1px solid rgba(255,255,255,0.08)">
-            <div class="text-xs" style="color:rgba(238,244,255,0.4)">Starting band: <span style="color:rgba(238,244,255,0.7)">6.5</span></div>
-            <div class="w-px h-3" style="background:rgba(255,255,255,0.12)"></div>
-            <div class="text-xs" style="color:rgba(238,244,255,0.4)">Achieved: <span style="color:var(--gold)">7.5</span></div>
-            <div class="w-px h-3" style="background:rgba(255,255,255,0.12)"></div>
-            <div class="text-xs" style="color:rgba(238,244,255,0.4)">Time: <span style="color:rgba(238,244,255,0.7)">5 weeks</span></div>
+          <div class="mt-8 pt-6 flex items-center gap-4" style="border-top:1px solid var(--color-border)">
+            <div class="text-xs" style="color:var(--color-slate)">Starting band: <span style="color:var(--color-navy)">6.5</span></div>
+            <div class="w-px h-3" style="background:var(--color-border)"></div>
+            <div class="text-xs" style="color:var(--color-slate)">Achieved: <span style="color:var(--color-teal)">7.5</span></div>
+            <div class="w-px h-3" style="background:var(--color-border)"></div>
+            <div class="text-xs" style="color:var(--color-slate)">Time: <span style="color:var(--color-navy)">5 weeks</span></div>
           </div>
         </div>
 
         <div class="flex flex-col gap-6">
-          <div class="reveal d100 p-7 rounded-2xl flex-1" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09)">
+          <div class="reveal d100 p-7 rounded-2xl flex-1" style="background:var(--color-white);border:1px solid var(--color-border)">
             <div class="flex items-center gap-3 mb-5">
-              <div class="w-9 h-9 rounded-full flex items-center justify-center font-display font-bold" style="background:rgba(201,149,46,0.15);border:1px solid rgba(201,149,46,0.3);color:var(--gold)">O</div>
+              <div class="w-9 h-9 rounded-full flex items-center justify-center font-display font-bold" style="background:rgba(46,158,130,0.12);border:1px solid rgba(46,158,130,0.25);color:var(--color-teal)">O</div>
               <div>
-                <div class="text-sm font-medium" style="color:var(--white)">Omar F.</div>
-                <div class="text-xs" style="color:rgba(238,244,255,0.5)">Egypt → Melbourne · Software Engineering</div>
+                <div class="text-sm font-medium" style="color:var(--color-navy)">Omar F.</div>
+                <div class="text-xs" style="color:var(--color-slate)">Egypt → Melbourne · Software Engineering</div>
               </div>
-              <div class="ml-auto px-2.5 py-1 rounded-full" style="background:rgba(201,149,46,0.12);border:1px solid rgba(201,149,46,0.28)">
-                <span class="font-display font-bold text-sm" style="color:var(--gold)">8.0</span>
+              <div class="ml-auto px-2.5 py-1 rounded-full" style="background:var(--color-teal);border:none">
+                <span class="font-display font-bold text-sm" style="color:#FFFFFF;font-weight:500">8.0</span>
               </div>
             </div>
-            <blockquote class="text-sm leading-relaxed" style="color:rgba(238,244,255,0.72)">
+            <blockquote class="text-sm leading-relaxed" style="color:var(--color-slate)">
               "The speaking module caught that I was overusing filler words — something no textbook had ever told me. Once I fixed that, my fluency score jumped a full band in two sessions."
             </blockquote>
-            <div class="mt-4 text-xs" style="color:rgba(238,244,255,0.35)">6.0 → 8.0 · 9 weeks</div>
+            <div class="mt-4 text-xs" style="color:var(--color-slate)">6.0 → 8.0 · 9 weeks</div>
           </div>
 
-          <div class="reveal d200 p-7 rounded-2xl flex-1" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.09)">
+          <div class="reveal d200 p-7 rounded-2xl flex-1" style="background:var(--color-white);border:1px solid var(--color-border)">
             <div class="flex items-center gap-3 mb-5">
-              <div class="w-9 h-9 rounded-full flex items-center justify-center font-display font-bold" style="background:rgba(201,149,46,0.15);border:1px solid rgba(201,149,46,0.3);color:var(--gold)">P</div>
+              <div class="w-9 h-9 rounded-full flex items-center justify-center font-display font-bold" style="background:rgba(46,158,130,0.12);border:1px solid rgba(46,158,130,0.25);color:var(--color-teal)">P</div>
               <div>
-                <div class="text-sm font-medium" style="color:var(--white)">Priya M.</div>
-                <div class="text-xs" style="color:rgba(238,244,255,0.5)">India → London · Nursing</div>
+                <div class="text-sm font-medium" style="color:var(--color-navy)">Priya M.</div>
+                <div class="text-xs" style="color:var(--color-slate)">India → London · Nursing</div>
               </div>
-              <div class="ml-auto px-2.5 py-1 rounded-full" style="background:rgba(201,149,46,0.12);border:1px solid rgba(201,149,46,0.28)">
-                <span class="font-display font-bold text-sm" style="color:var(--gold)">7.0</span>
+              <div class="ml-auto px-2.5 py-1 rounded-full" style="background:var(--color-teal);border:none">
+                <span class="font-display font-bold text-sm" style="color:#FFFFFF;font-weight:500">7.0</span>
               </div>
             </div>
-            <blockquote class="text-sm leading-relaxed" style="color:rgba(238,244,255,0.72)">
+            <blockquote class="text-sm leading-relaxed" style="color:var(--color-slate)">
               "I needed 7.0 in every section for NMC registration. The daily plan kept me on track without burning out. Hit the requirement on my first attempt with IELTS Lab."
             </blockquote>
-            <div class="mt-4 text-xs" style="color:rgba(238,244,255,0.35)">5.5 → 7.0 · 8 weeks</div>
+            <div class="mt-4 text-xs" style="color:var(--color-slate)">5.5 → 7.0 · 8 weeks</div>
           </div>
         </div>
       </div>
@@ -1403,19 +1403,19 @@
   </section>
 
   <!-- ╔══════════════════════════════ MEET OUR TEACHERS ═══════════════════╗ -->
-  <section id="teachers" class="py-32 divider" style="background:#F4F1EB">
+  <section id="teachers" class="py-32 divider" style="background:var(--color-mint)">
     <div class="max-w-7xl mx-auto px-6 lg:px-10">
 
       <!-- Header -->
       <div class="grid lg:grid-cols-2 gap-6 items-end mb-14">
         <div class="reveal">
           <div class="label mb-4">Meet Our Teachers</div>
-          <h2 class="font-display font-black text-4xl md:text-5xl tracking-tighter leading-tight text-[#1C1C2E]">
+          <h2 class="font-display font-black text-4xl md:text-5xl tracking-tighter leading-tight" style="color:var(--color-navy)">
             Real Humans.<br />Real Guidance.
           </h2>
         </div>
         <div class="reveal d100">
-          <p class="text-[#3D4451] leading-relaxed max-w-[48ch] lg:text-right lg:ml-auto">
+          <p class="leading-relaxed max-w-[48ch] lg:text-right lg:ml-auto" style="color:var(--color-slate)">
             Every teacher is a certified IELTS specialist<br class="hidden lg:block" />
             with proven results.
           </p>
@@ -1430,7 +1430,7 @@
           <div class="teacher-card">
             <div class="avatar-ring">AE</div>
             <div class="font-display font-bold text-[#1C1C2E] text-base mb-0.5">AYOUB ELHEBAZE</div>
-            <div class="text-xs font-medium mb-1" style="color:var(--gold)">CEO &amp; Founder of IELTS Lab</div>
+            <div class="text-xs font-medium mb-1" style="color:var(--color-teal)">CEO &amp; Founder of IELTS Lab</div>
             <div class="text-xs text-[#6B7280] mb-3">Writing &amp; Coherence</div>
             <div class="flex items-center gap-1.5 text-xs text-[#3D4451] mb-1.5">
               <span>🇲🇦</span>
@@ -1446,7 +1446,7 @@
           <div class="teacher-card">
             <div class="avatar-ring">SM</div>
             <div class="font-display font-bold text-[#1C1C2E] text-base mb-0.5">Dr. Sarah Mitchell</div>
-            <div class="text-xs font-medium mb-3" style="color:var(--gold)">Listening &amp; Vocabulary</div>
+            <div class="text-xs font-medium mb-3" style="color:var(--color-teal)">Listening &amp; Vocabulary</div>
             <div class="flex items-center gap-1.5 text-xs text-[#3D4451] mb-1.5">
               <span>🇬🇧</span>
               <span>United Kingdom</span>
@@ -1461,7 +1461,7 @@
           <div class="teacher-card">
             <div class="avatar-ring">ML</div>
             <div class="font-display font-bold text-[#1C1C2E] text-base mb-0.5">Dr. Mei Lin Zhao</div>
-            <div class="text-xs font-medium mb-3" style="color:var(--gold)">Reading &amp; Test Strategy</div>
+            <div class="text-xs font-medium mb-3" style="color:var(--color-teal)">Reading &amp; Test Strategy</div>
             <div class="flex items-center gap-1.5 text-xs text-[#3D4451] mb-1.5">
               <span>🇸🇬</span>
               <span>Singapore</span>
@@ -1476,7 +1476,7 @@
           <div class="teacher-card">
             <div class="avatar-ring">JO</div>
             <div class="font-display font-bold text-[#1C1C2E] text-base mb-0.5">James O'Brien</div>
-            <div class="text-xs font-medium mb-3" style="color:var(--gold)">Speaking &amp; Pronunciation</div>
+            <div class="text-xs font-medium mb-3" style="color:var(--color-teal)">Speaking &amp; Pronunciation</div>
             <div class="flex items-center gap-1.5 text-xs text-[#3D4451] mb-1.5">
               <span>🇮🇪</span>
               <span>Ireland</span>
@@ -1493,7 +1493,10 @@
       <!-- Scroll CTA -->
       <div class="reveal d200 mt-10 flex justify-center">
         <a href="teachers/index.html"
-          class="flex items-center gap-2 text-sm font-medium border border-[#1B2B4B] text-[#1B2B4B] hover:bg-[#1B2B4B] hover:text-white transition-colors px-6 py-3 rounded-md" style="text-decoration:none;">
+          class="flex items-center gap-2 text-sm font-medium transition-colors px-6 py-3"
+          style="border:2px solid var(--color-navy);color:var(--color-navy);background:transparent;border-radius:8px;text-decoration:none;"
+          onmouseover="this.style.background='var(--color-navy)';this.style.color='#FFFFFF'"
+          onmouseout="this.style.background='transparent';this.style.color='var(--color-navy)'">
           Meet All Experts &amp; Book →
         </a>
       </div>
@@ -1502,21 +1505,21 @@
   </section>
 
   <!-- ╔══════════════════════════════ BOOK A SESSION ════════════════════════╗ -->
-  <section id="book-session" class="py-24 divider" style="background:#fff">
+  <section id="book-session" class="py-24 divider" style="background:var(--color-white)">
     <div class="max-w-2xl mx-auto px-6">
 
       <div class="text-center mb-10 reveal">
-        <div class="label mb-4" style="color:var(--gold)">Book a Session</div>
-        <h2 class="font-display font-black text-4xl md:text-5xl tracking-tighter leading-tight text-[#1C1C2E] mb-4">
+        <div class="label mb-4">Book a Session</div>
+        <h2 class="font-display font-black text-4xl md:text-5xl tracking-tighter leading-tight mb-4" style="color:var(--color-navy)">
           1-on-1 with an IELTS Expert
         </h2>
-        <p class="text-[#3D4451] leading-relaxed max-w-[44ch] mx-auto">
+        <p class="leading-relaxed max-w-[44ch] mx-auto" style="color:var(--color-slate)">
           Fill in your details and one of our certified experts will confirm your time slot within a few hours.
         </p>
       </div>
 
       <!-- Form card -->
-      <div class="reveal" style="background:#F4F1EB;border:1px solid #E8E4DC;border-radius:1.25rem;padding:2rem 2.25rem;">
+      <div class="reveal" style="background:var(--color-white);border:1px solid var(--color-border);border-radius:12px;padding:2rem 2.25rem;">
 
         <!-- Success state -->
         <div id="bsSuccess" style="display:none;text-align:center;padding:1.5rem 0;">
@@ -1584,9 +1587,9 @@
           </div>
 
           <button type="submit" id="bsSubmitBtn"
-            style="width:100%;background:linear-gradient(135deg,var(--gold),#DDB05A);color:#0d0f14;font-weight:700;border-radius:0.75rem;padding:0.9rem 2rem;border:none;font-family:inherit;font-size:0.95rem;cursor:pointer;transition:0.2s;"
-            onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 24px rgba(201,149,46,0.3)'"
-            onmouseout="this.style.transform='';this.style.boxShadow=''">
+            style="width:100%;background:var(--color-teal);color:#FFFFFF;font-weight:700;border-radius:8px;padding:0.9rem 2rem;border:none;font-family:inherit;font-size:0.95rem;cursor:pointer;transition:background 0.2s;"
+            onmouseover="this.style.background='var(--color-teal-dark)'"
+            onmouseout="this.style.background='var(--color-teal)'">
             Book My Session →
           </button>
           <p style="text-align:center;font-size:0.75rem;color:#9CA3AF;margin-top:0.75rem;">
@@ -1612,7 +1615,7 @@
       outline: none; transition: border-color 0.2s;
       box-sizing: border-box;
     }
-    .bs-input:focus { border-color: var(--gold); }
+    .bs-input:focus { border-color: var(--color-teal); }
     .bs-input::placeholder { color: #9CA3AF; }
     .bs-select {
       appearance: none;
