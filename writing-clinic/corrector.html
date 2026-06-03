@@ -65,6 +65,9 @@
     .spinner { animation: spin 0.75s linear infinite; }
     @keyframes fadeUp { from{opacity:0;transform:translateY(18px)} to{opacity:1;transform:translateY(0)} }
     .fade-up { animation: fadeUp 0.6s cubic-bezier(0.16,1,0.3,1) both; }
+    @keyframes timerPulse { 0%,100%{opacity:1} 50%{opacity:0.35} }
+    .timer-pulse { animation: timerPulse 1.2s ease-in-out infinite; }
+    #timerRing { transition: stroke-dashoffset 1s linear; }
 
     /* Task buttons */
     .task-btn {
@@ -365,6 +368,19 @@
           <span id="submitBtnText">✦ Correct My Essay</span>
         </button>
 
+        <!-- Countdown Timer -->
+        <div id="countdownTimer" style="display:none;flex-direction:column;align-items:center;padding:24px 0 8px;">
+          <div style="position:relative;width:90px;height:90px;">
+            <svg width="90" height="90" viewBox="0 0 90 90" style="position:absolute;top:0;left:0;transform:rotate(-90deg);">
+              <circle cx="45" cy="45" r="38" fill="none" stroke="#E8F7F3" stroke-width="6"/>
+              <circle id="timerRing" cx="45" cy="45" r="38" fill="none" stroke="#2E9E82" stroke-width="6"
+                stroke-dasharray="238.76" stroke-dashoffset="0"/>
+            </svg>
+            <span id="timerSeconds" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:28px;font-weight:500;color:#1B3054;line-height:1;">35</span>
+          </div>
+          <div id="timerStatus" style="font-size:14px;color:#4A5568;text-align:center;margin-top:12px;">Reading your essay...</div>
+        </div>
+
         <div id="errorMsg" class="hidden px-4 py-3 rounded-xl text-xs border"
              style="color:var(--error);border-color:rgba(220,38,38,0.3);background:rgba(220,38,38,0.05);"></div>
       </div>
@@ -611,13 +627,69 @@
       else                    counter.style.color = 'rgba(255,255,255,0.55)';
     }
 
+    // ── COUNTDOWN TIMER ──────────────────────────────────────────────────────
+    let _timerInterval = null;
+
+    function startTimer() {
+      const timerEl  = document.getElementById('countdownTimer');
+      const ring     = document.getElementById('timerRing');
+      const secEl    = document.getElementById('timerSeconds');
+      const statusEl = document.getElementById('timerStatus');
+      const btn      = document.getElementById('submitBtn');
+
+      const DURATION = 35;
+      const CIRCUMF  = 238.76;
+      const messages = [
+        { at: 0,  msg: 'Reading your essay...' },
+        { at: 9,  msg: 'Analysing band criteria...' },
+        { at: 17, msg: 'Writing your corrections...' },
+        { at: 25, msg: 'Preparing your model answer...' },
+        { at: 33, msg: 'Almost ready...' },
+      ];
+
+      btn.style.display           = 'none';
+      timerEl.style.display       = 'flex';
+      ring.style.strokeDashoffset = '0';
+      secEl.textContent           = String(DURATION);
+      statusEl.textContent        = messages[0].msg;
+      statusEl.classList.remove('timer-pulse');
+
+      let elapsed = 0;
+      _timerInterval = setInterval(() => {
+        elapsed++;
+        const remaining = Math.max(0, DURATION - elapsed);
+        secEl.textContent           = String(remaining);
+        ring.style.strokeDashoffset = String((elapsed / DURATION) * CIRCUMF);
+
+        for (let i = messages.length - 1; i >= 0; i--) {
+          if (elapsed >= messages[i].at) {
+            if (!statusEl.classList.contains('timer-pulse')) statusEl.textContent = messages[i].msg;
+            break;
+          }
+        }
+
+        if (elapsed >= DURATION) {
+          clearInterval(_timerInterval);
+          _timerInterval = null;
+          statusEl.textContent = 'Finalising your feedback...';
+          statusEl.classList.add('timer-pulse');
+        }
+      }, 1000);
+    }
+
+    function stopTimer() {
+      if (_timerInterval) { clearInterval(_timerInterval); _timerInterval = null; }
+      const timerEl = document.getElementById('countdownTimer');
+      const btn     = document.getElementById('submitBtn');
+      timerEl.style.display = 'none';
+      btn.style.display     = '';
+    }
+
     async function submitEssay() {
       const essay    = document.getElementById('essayInput').value.trim();
       const question = document.getElementById('questionInput').value.trim();
       const btn      = document.getElementById('submitBtn');
       const errEl    = document.getElementById('errorMsg');
-      const spinner  = document.getElementById('submitSpinner');
-      const btnText  = document.getElementById('submitBtnText');
 
       errEl.classList.add('hidden');
 
@@ -627,8 +699,7 @@
       }
 
       btn.disabled = true;
-      spinner.classList.remove('hidden');
-      btnText.classList.add('hidden');
+      startTimer();
 
       const taskLabel = {
         'task2':          'Task 2 Essay',
@@ -680,9 +751,8 @@
           : (err.message || 'Something went wrong. Please try again.');
         showError(msg);
       } finally {
+        stopTimer();
         btn.disabled = false;
-        spinner.classList.add('hidden');
-        btnText.classList.remove('hidden');
       }
     }
 

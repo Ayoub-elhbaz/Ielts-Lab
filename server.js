@@ -110,9 +110,9 @@ const CREDIT_AMOUNTS = { credits_10: 10, credits_25: 25, credits_50: 50 };
 const FREE_CORRECTIONS_PER_MONTH = 3;
 const PRO_CORRECTIONS_PER_MONTH  = 30;
 
-const MAX_TOKENS_PASS1 = 8000;
-const MAX_TOKENS_PASS2 = 5000;  // P1-B: raised from 3000 — prevents evidence truncation
-const MAX_TOKENS_PASS3 = 4000;
+const MAX_TOKENS_PASS1 = 3000;
+const MAX_TOKENS_PASS2 = 2500;
+const MAX_TOKENS_PASS3 = 1500;
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app  = express();
