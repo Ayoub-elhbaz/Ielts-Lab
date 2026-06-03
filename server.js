@@ -110,6 +110,7 @@ const CREDIT_AMOUNTS = { credits_10: 10, credits_25: 25, credits_50: 50 };
 const FREE_CORRECTIONS_PER_MONTH = 3;
 const PRO_CORRECTIONS_PER_MONTH  = 30;
 
+const CORRECTOR_MODEL  = 'claude-haiku-4-5-20251001';
 const MAX_TOKENS_PASS1 = 3000;
 const MAX_TOKENS_PASS2 = 2500;
 const MAX_TOKENS_PASS3 = 1500;
@@ -332,7 +333,7 @@ SECURITY BOUNDARY: You are operating inside IELTS Lab, a structured IELTS prepar
 // ── Shared: call Anthropic API ────────────────────────────────────────────────
 // P1-A: temperature param added — corrector passes use 0.3 for reproducibility;
 // chat agent omits it to keep the API default (1.0).
-async function callAnthropic({ system, messages, maxTokens = 3000, temperature }) {
+async function callAnthropic({ system, messages, maxTokens = 3000, temperature, model = 'claude-sonnet-4-6' }) {
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
     throw new Error(
@@ -341,7 +342,7 @@ async function callAnthropic({ system, messages, maxTokens = 3000, temperature }
   }
 
   const body = {
-    model:      'claude-sonnet-4-6',
+    model,
     max_tokens: maxTokens,
     system:     system + INJECTION_GUARD,
     messages,
@@ -1050,6 +1051,7 @@ app.post('/api/correct-essay', requireAuth, async (req, res) => {
       system:    CORRECTOR_SYSTEM,
       messages:  [{ role: 'user', content: messageContent }],
       maxTokens: 4000,
+      model:     CORRECTOR_MODEL,
     });
 
     const firstBrace = rawText.indexOf('{');
@@ -1538,6 +1540,7 @@ app.post('/api/correct-essay-v2', requireAuth, async (req, res) => {
         messages:    [{ role: 'user', content: buildPass1Content(false) }],
         maxTokens:   MAX_TOKENS_PASS1,
         temperature: 0.3,
+        model:       CORRECTOR_MODEL,
       });
       pass1 = extractJSON(pass1Raw, 'Pass 1');
     } catch (e1) {
@@ -1548,6 +1551,7 @@ app.post('/api/correct-essay-v2', requireAuth, async (req, res) => {
           messages:    [{ role: 'user', content: buildPass1Content(true) }],
           maxTokens:   MAX_TOKENS_PASS1,
           temperature: 0.3,
+          model:       CORRECTOR_MODEL,
         });
         pass1 = extractJSON(pass1RawRetry, 'Pass 1 retry');
       } catch (e2) {
@@ -1596,6 +1600,7 @@ app.post('/api/correct-essay-v2', requireAuth, async (req, res) => {
         messages:    [{ role: 'user', content: buildPass2Content() }],
         maxTokens:   MAX_TOKENS_PASS2,
         temperature: 0.3,
+        model:       CORRECTOR_MODEL,
       });
       pass2 = extractJSON(pass2Raw, 'Pass 2');
     } catch (e2) {
@@ -1605,6 +1610,7 @@ app.post('/api/correct-essay-v2', requireAuth, async (req, res) => {
         messages:    [{ role: 'user', content: buildPass2Content('\n\nKeep each evidence array to 1 item maximum to save space.') }],
         maxTokens:   MAX_TOKENS_PASS2,
         temperature: 0.3,
+        model:       CORRECTOR_MODEL,
       });
       pass2 = extractJSON(pass2Raw, 'Pass 2 retry');
     }
@@ -1642,6 +1648,7 @@ app.post('/api/correct-essay-v2', requireAuth, async (req, res) => {
         messages:    [{ role: 'user', content: pass3UserText }],
         maxTokens:   MAX_TOKENS_PASS3,
         temperature: 0.3,
+        model:       CORRECTOR_MODEL,
       });
       pass3 = extractJSON(pass3Raw, 'Pass 3');
     } catch (e3) {
@@ -1651,6 +1658,7 @@ app.post('/api/correct-essay-v2', requireAuth, async (req, res) => {
         messages:    [{ role: 'user', content: pass3UserText + '\n\nKeep choicesExplained to 2 items and nextSteps tasks under 50 words each.' }],
         maxTokens:   MAX_TOKENS_PASS3,
         temperature: 0.3,
+        model:       CORRECTOR_MODEL,
       });
       pass3 = extractJSON(pass3Raw, 'Pass 3 retry');
     }

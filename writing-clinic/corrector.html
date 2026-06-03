@@ -376,7 +376,7 @@
               <circle id="timerRing" cx="45" cy="45" r="38" fill="none" stroke="#2E9E82" stroke-width="6"
                 stroke-dasharray="238.76" stroke-dashoffset="0"/>
             </svg>
-            <span id="timerSeconds" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:28px;font-weight:500;color:#1B3054;line-height:1;">35</span>
+            <span id="timerSeconds" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:28px;font-weight:500;color:#1B3054;line-height:1;">20</span>
           </div>
           <div id="timerStatus" style="font-size:14px;color:#4A5568;text-align:center;margin-top:12px;">Reading your essay...</div>
         </div>
@@ -637,14 +637,13 @@
       const statusEl = document.getElementById('timerStatus');
       const btn      = document.getElementById('submitBtn');
 
-      const DURATION = 35;
+      const DURATION = 20;
       const CIRCUMF  = 238.76;
       const messages = [
         { at: 0,  msg: 'Reading your essay...' },
-        { at: 9,  msg: 'Analysing band criteria...' },
-        { at: 17, msg: 'Writing your corrections...' },
-        { at: 25, msg: 'Preparing your model answer...' },
-        { at: 33, msg: 'Almost ready...' },
+        { at: 5,  msg: 'Scoring band criteria...' },
+        { at: 10, msg: 'Writing corrections...' },
+        { at: 16, msg: 'Almost ready...' },
       ];
 
       btn.style.display           = 'none';
@@ -1630,7 +1629,15 @@
 
     function showError(msg) {
       const el = document.getElementById('errorMsg');
-      el.textContent = '⚠️ ' + msg;
+      el.innerHTML = `
+        <div style="font-size:14px;color:#E24B4A;text-align:center;margin-bottom:10px;">⚠️ ${escapeHtml(msg)}</div>
+        <div style="text-align:center;">
+          <button onclick="document.getElementById('errorMsg').classList.add('hidden')"
+            style="background:#E24B4A;color:#fff;border:none;cursor:pointer;padding:8px 22px;border-radius:8px;font-size:13px;font-weight:600;letter-spacing:0.04em;transition:opacity 0.2s;"
+            onmouseover="this.style.opacity='0.85'" onmouseout="this.style.opacity='1'">
+            Try Again
+          </button>
+        </div>`;
       el.classList.remove('hidden');
     }
 
