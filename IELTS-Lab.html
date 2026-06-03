@@ -783,6 +783,12 @@
       .mock-cta-img-overlay { background: linear-gradient(to bottom, var(--color-navy) 0%, transparent 30%); }
     }
     @media (max-width: 640px) { .mock-bullet-grid { grid-template-columns: 1fr; } }
+
+    /* Testimonials two-column layout — mobile stack */
+    @media (max-width: 768px) {
+      #testimonials-layout { grid-template-columns: 1fr !important; }
+      #teacher-photo-col { min-height: 340px !important; }
+    }
   </style>
 
   <section id="mock-cta-section" class="divider" style="background:var(--color-navy);padding:80px 0;">
@@ -1451,14 +1457,36 @@
   <!-- ╔══════════════════════════════ TESTIMONIALS ════════════════════════╗ -->
   <section class="py-32" style="background:var(--color-white);border-top:1px solid var(--color-border)">
     <div class="max-w-7xl mx-auto px-6 lg:px-10">
-      <div class="max-w-xl mb-16 reveal">
-        <div class="label mb-4">Student Results</div>
+      <div class="text-center mb-16 reveal">
+        <div class="label mb-4" style="color:var(--color-teal);font-size:13px;text-transform:uppercase;letter-spacing:0.08em;">Student Results</div>
         <h2 class="font-display font-black text-4xl md:text-5xl tracking-tighter leading-tight" style="color:var(--color-navy)">
-          Real scores.<br />Real people.
+          Real scores. Real people.
         </h2>
+        <p style="color:var(--color-slate);font-size:16px;margin-top:8px;">Every result below belongs to a real student. No actors, no fabricated scores.</p>
       </div>
 
-      <div class="grid lg:grid-cols-[1fr_380px] gap-6">
+      <!-- Two-column layout: photo left, testimonials right -->
+      <div id="testimonials-layout" style="display:grid;grid-template-columns:38% 1fr;gap:32px;align-items:start;">
+
+        <!-- Photo column -->
+        <div id="teacher-photo-col" style="position:relative;border-radius:20px;overflow:hidden;min-height:520px;height:100%;box-shadow:0 24px 64px rgba(27,48,84,0.25);opacity:0;transform:translateX(-30px);transition:opacity 0.7s ease,transform 0.7s ease;">
+          <!-- Vertical accent line -->
+          <div style="position:absolute;left:0;top:10%;height:80%;width:4px;background:var(--color-teal);border-radius:0 4px 4px 0;z-index:3;"></div>
+          <!-- Photo -->
+          <img src="images/teacher-students.jpg" alt="Ayoub Elhebaze — IELTS Lab Founder" style="width:100%;height:100%;object-fit:cover;object-position:center top;border-radius:20px;display:block;min-height:520px;" />
+          <!-- Bottom gradient overlay -->
+          <div style="position:absolute;bottom:0;left:0;width:100%;height:60%;background:linear-gradient(to top,rgba(27,48,84,0.85) 0%,transparent 50%);z-index:1;"></div>
+          <!-- Caption -->
+          <div style="position:absolute;bottom:0;left:0;padding:24px;display:flex;flex-direction:column;gap:6px;z-index:2;">
+            <span style="font-size:18px;font-weight:500;color:#ffffff;">Ayoub Elhebaze</span>
+            <span style="font-size:13px;color:rgba(255,255,255,0.7);">CEO &amp; Founder · IELTS Lab</span>
+            <span style="font-size:12px;background:rgba(46,158,130,0.25);border:1px solid rgba(46,158,130,0.5);color:#2E9E82;border-radius:9999px;padding:4px 12px;display:inline-flex;width:fit-content;">🇲🇦 Teaching in Ho Chi Minh City, Vietnam</span>
+          </div>
+        </div>
+
+        <!-- Testimonials column -->
+        <div>
+          <div class="grid lg:grid-cols-[1fr_380px] gap-6">
         <div class="reveal p-8 md:p-10 rounded-2xl flex flex-col justify-between" style="background:var(--color-white);border:1px solid var(--color-border);border-left:4px solid var(--color-teal)">
           <div>
             <div class="flex items-center gap-3 mb-8">
@@ -1520,7 +1548,8 @@
             <div class="mt-4 text-xs" style="color:var(--color-slate)">5.5 → 7.0 · 8 weeks</div>
           </div>
         </div>
-      </div>
+      </div><!-- end testimonials column -->
+      </div><!-- end two-column layout -->
     </div>
   </section>
 
@@ -1804,6 +1833,20 @@
 
   <!-- ╔══════════════════════════════ SCRIPTS ═════════════════════════════╗ -->
   <script>
+    // ── Teacher photo entrance animation ─────────────────────────────────
+    const photoCol = document.getElementById('teacher-photo-col');
+    if (photoCol) {
+      const photoObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          photoCol.style.opacity = '1';
+          photoCol.style.transform = 'translateX(0)';
+          photoObs.unobserve(photoCol);
+        });
+      }, { threshold: 0.1 });
+      photoObs.observe(photoCol);
+    }
+
     // ── Scroll reveal ────────────────────────────────────────────────────
     const revealEls = document.querySelectorAll('.reveal, .reveal-l, .reveal-r');
     const observer = new IntersectionObserver((entries) => {
