@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IELTS Lab — Cambridge 19 Full Test 4 · Academic Reading</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <script>tailwind.config={theme:{extend:{fontFamily:{display:['Satoshi','Plus Jakarta Sans','system-ui','sans-serif'],sans:['Plus Jakarta Sans','system-ui','sans-serif']}}}}</script>
+  <style>
+    /* ── DESIGN TOKENS ── */
+    :root {
+      --gold: #C9952E;
+      --gold-light: #DDB05A;
+      --gold-dim: rgba(201,149,46,0.10);
+      --gold-border: rgba(201,149,46,0.30);
+      --navy: #1a3c6e;
+      --navy-mid: #2a4f8a;
+      --page-bg: #F7F8FA;
+      --card-bg: #FFFFFF;
+      --qpanel-bg: #EFF3F9;
+      --border: #E2E8F0;
+      --border-soft: #EEF1F6;
+      --text-primary: #1E2A3A;
+      --text-body: #374151;
+      --text-muted: #64748B;
+      --text-faint: #94A3B8;
+      --passage-font-size: 15px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--page-bg); color: var(--text-primary); }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    h1, h2, h3, h4, .font-display { font-family: 'Satoshi', 'Plus Jakarta Sans', system-ui, sans-serif; }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #EFF2F7; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 3px; }
+
+    /* ── PROGRESS ── */
+    .progress-bar { height: 3px; background: #E2E8F0; position: fixed; top: 64px; left: 0; right: 0; z-index: 40; }
+    .progress-fill { height: 100%; background: linear-gradient(to right, var(--gold), #DDB05A); transition: width 1s linear; width: 0%; }
+
+    /* ── NAV ── */
+    .nav-glass { background: rgba(255,255,255,0.97); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .nav-logo { display: flex; align-items: baseline; gap: 0; text-decoration: none; }
+    .nl-ielts { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; letter-spacing: 1px; color: var(--text-primary); }
+    .nl-lab { font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: 3px; color: var(--gold); margin-left: 5px; }
+    #themeToggle { background: transparent; border: 1.5px solid var(--border); color: var(--text-muted); border-radius: 8px; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; font-size: 15px; flex-shrink: 0; padding: 0; }
+    #themeToggle:hover { border-color: var(--gold-border); color: var(--gold); }
+
+    /* ── TIMER ── */
+    .timer-box { background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 10px; padding: 8px 16px; font-family: 'Space Mono', monospace; font-size: 1.125rem; font-weight: 700; color: var(--text-primary); letter-spacing: 2px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+    .timer-box.warning { color: #b45309; border-color: rgba(180,83,9,0.3); background: #fffbeb; }
+    .timer-box.critical { color: #dc2626; border-color: rgba(220,38,38,0.3); background: #fef2f2; animation: pulse 1s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
+
+    /* ── TIMING STRIP ── */
+    .timing-strip { background: #FAFBFD; border-bottom: 1px solid var(--border); padding: 8px 0; }
+    .timing-item { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+    .timing-label { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
+    .timing-val { font-size: 0.75rem; color: var(--text-muted); }
+
+    /* ── FONT SIZE CONTROLLER ── */
+    .font-ctrl { display: inline-flex; align-items: center; gap: 0; background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 9px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .font-ctrl-btn { padding: 6px 12px; border: none; background: transparent; cursor: pointer; color: var(--text-muted); font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.15s; line-height: 1; border-right: 1px solid var(--border); }
+    .font-ctrl-btn:last-child { border-right: none; }
+    .font-ctrl-btn:hover { background: var(--gold-dim); color: var(--gold); }
+    .font-ctrl-btn.a-small { font-size: 11px; }
+    .font-ctrl-btn.a-mid   { font-size: 13px; }
+    .font-ctrl-btn.a-large { font-size: 16px; }
+    .font-ctrl-label { font-size: 0.625rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); padding: 0 8px; }
+
+    /* ── ACCESSIBILITY TOOLBAR ── */
+    .a11y-bar { display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: #FFFFFF; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .a11y-bar-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); }
+
+    /* ── TAB NAV ── */
+    .tab-nav { display: flex; gap: 4px; margin-bottom: 1rem; background: #EFF3F9; border-radius: 12px; padding: 4px; }
+    .tab-btn { flex: 1; padding: 8px 12px; border: none; border-radius: 9px; background: transparent; color: var(--text-muted); font-size: 0.8125rem; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .tab-btn:hover { background: rgba(255,255,255,0.6); color: var(--text-primary); }
+    .tab-btn.active { background: #FFFFFF; color: var(--navy); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+
+    /* ── SECTION CARDS ── */
+    .section-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 1.75rem; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+
+    /* ── PASSAGE ── */
+    .passage-text { font-size: var(--passage-font-size); line-height: 2.0; color: var(--text-body); transition: font-size 0.2s ease; }
+    .passage-text p { margin-bottom: 1.2rem; }
+    .para-label { display: inline-block; font-family: 'Space Mono', monospace; font-size: 0.6875rem; font-weight: 700; color: var(--navy); background: rgba(26,60,110,0.08); border: 1px solid rgba(26,60,110,0.18); border-radius: 4px; padding: 1px 6px; margin-right: 8px; letter-spacing: 0.05em; }
+
+    /* ── QUESTION BLOCKS ── */
+    .q-block { margin-bottom: 1.25rem; padding: 1rem 1.15rem; border-radius: 12px; background: #FFFFFF; border: 1px solid var(--border); }
+    .q-num { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+    .q-text { font-size: 0.9rem; color: var(--text-body); margin-bottom: 10px; line-height: 1.65; }
+    .q-input { width: 100%; background: #F8FAFC; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text-primary); font-size: 0.9rem; transition: border-color 0.2s, box-shadow 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,149,46,0.12); }
+    .q-select { width: 100%; background: #F8FAFC; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text-primary); font-size: 0.9rem; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-select:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,149,46,0.12); }
+    .q-options { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+    .q-option { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; padding: 9px 12px; border-radius: 8px; border: 1.5px solid var(--border); transition: all 0.2s; background: #F8FAFC; }
+    .q-option:hover { background: var(--gold-dim); border-color: var(--gold-border); }
+    .q-option input[type=radio] { accent-color: var(--gold); margin-top: 3px; flex-shrink: 0; }
+    .q-option label { font-size: 0.9rem; color: var(--text-body); cursor: pointer; line-height: 1.55; }
+
+    /* ── T/F/NG ── */
+    .q-tfng { display: flex; gap: 8px; }
+    .q-tfng-btn { flex: 1; padding: 9px 6px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer; background: #F8FAFC; color: var(--text-muted); transition: all 0.2s; letter-spacing: 0.05em; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-tfng-btn:hover { border-color: var(--gold-border); color: var(--gold); background: var(--gold-dim); }
+    .q-tfng-btn.sel-t { border-color: #16a34a; background: #f0fdf4; color: #16a34a; }
+    .q-tfng-btn.sel-f { border-color: #dc2626; background: #fef2f2; color: #dc2626; }
+    .q-tfng-btn.sel-ng { border-color: #d97706; background: #fffbeb; color: #d97706; }
+
+    /* ── GROUP HEADER ── */
+    .group-header { margin-bottom: 1.25rem; padding: 0.875rem 1rem; border-radius: 12px; background: rgba(26,60,110,0.04); border: 1px solid rgba(26,60,110,0.12); }
+    .group-header p { font-size: 0.8125rem; color: var(--text-muted); line-height: 1.65; margin-top: 6px; }
+
+    /* ── HEADINGS LIST ── */
+    .headings-list { margin: 0.75rem 0; padding: 0.875rem 1rem; background: #FFFFFF; border-radius: 10px; border: 1px solid var(--border); }
+    .headings-list li { font-size: 0.8125rem; color: var(--text-body); line-height: 1.8; padding: 2px 0; }
+    .headings-list li span { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--gold); margin-right: 6px; font-weight: 700; }
+
+    /* ── BUTTONS ── */
+    .btn-gold { background: linear-gradient(135deg, var(--gold) 0%, #a8741f 100%); color: #FFFFFF; border: none; border-radius: 10px; padding: 12px 32px; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.04em; cursor: pointer; transition: all 0.25s ease; box-shadow: 0 2px 12px rgba(201,149,46,0.30); }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 6px 22px rgba(201,149,46,0.42); }
+
+    /* ── CORRECTION REPORT ── */
+    .corr-block { margin-bottom: 1rem; padding: 1rem 1.25rem; border-radius: 12px; border: 1.5px solid; }
+    .corr-correct { background: #f0fdf4; border-color: #bbf7d0; }
+    .corr-wrong { background: #fef2f2; border-color: #fecaca; }
+    .corr-qnum { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+    .corr-qnum.ok { color: #16a34a; }
+    .corr-qnum.bad { color: #dc2626; }
+    .corr-qtext { font-size: 0.875rem; color: var(--text-body); line-height: 1.65; margin-bottom: 8px; }
+    .corr-row { display: flex; gap: 8px; align-items: flex-start; font-size: 0.8125rem; margin-bottom: 4px; }
+    .corr-tag { flex-shrink: 0; padding: 2px 8px; border-radius: 4px; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+    .corr-tag.your { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+    .corr-tag.correct { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .corr-tag.reinforce { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .corr-val { color: var(--text-primary); line-height: 1.5; }
+    .corr-expl { margin-top: 8px; padding: 9px 12px; background: #FFFFFF; border-radius: 8px; border-left: 3px solid var(--gold-border); font-size: 0.8125rem; color: var(--text-muted); line-height: 1.65; }
+    .corr-expl strong { color: var(--text-primary); }
+
+    /* ── RESULTS ── */
+    .score-ring-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .band-feedback { padding: 1.25rem; border-radius: 12px; background: rgba(26,60,110,0.04); border: 1px solid rgba(26,60,110,0.12); font-size: 0.9rem; color: var(--text-body); line-height: 1.8; }
+    .band-feedback strong { color: var(--navy); }
+    .passage-corr-header { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); padding: 10px 0 8px; border-bottom: 1px solid var(--border); margin-bottom: 1rem; }
+
+    /* ── SPINNER ── */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; }
+
+    /* ── SPLIT LAYOUT ── */
+    .split-container { display: flex; height: calc(100vh - 268px); min-height: 560px; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+    .reading-pane { width: 52%; min-width: 25%; max-width: 75%; overflow-y: auto; padding: 1.75rem; background: var(--card-bg); flex-shrink: 0; }
+    .question-pane { flex: 1; overflow-y: auto; padding: 1.75rem; background: var(--qpanel-bg); min-width: 25%; }
+    .resizer-bar { width: 16px; background: #F1F5F9; cursor: col-resize; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; border-left: 1px solid var(--border); border-right: 1px solid var(--border); transition: background 0.15s; user-select: none; -webkit-user-select: none; }
+    .resizer-bar:hover, .resizer-bar.active { background: var(--gold-dim); border-left-color: var(--gold-border); border-right-color: var(--gold-border); }
+    .resizer-btn { background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 8px; padding: 10px 4px; cursor: col-resize; display: flex; flex-direction: column; align-items: center; gap: 5px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); transition: border-color 0.15s, box-shadow 0.15s; pointer-events: none; }
+    .resizer-bar:hover .resizer-btn { border-color: var(--gold-border); box-shadow: 0 2px 8px rgba(201,149,46,0.15); }
+    @media (max-width: 1023px) {
+      .split-container { flex-direction: column; height: auto; overflow: visible; border: none; border-radius: 0; box-shadow: none; gap: 1rem; }
+      .reading-pane { width: 100% !important; min-width: 100%; max-width: 100%; overflow-y: visible; border: 1px solid var(--border); border-radius: 16px; }
+      .resizer-bar { display: none; }
+      .question-pane { min-width: 100%; overflow-y: visible; border: 1px solid var(--border); border-radius: 16px; }
+    }
+  </style>
+  <script>
+    (function(){
+      var raw = localStorage.getItem('ielts_session');
+      if (!raw) { window.location.replace('../login.html'); return; }
+      try { JSON.parse(raw); } catch(e) { localStorage.removeItem('ielts_session'); window.location.replace('../login.html'); }
+    })();
+    (function(){ var t = localStorage.getItem('ieltslab_theme') || 'light'; document.documentElement.setAttribute('data-theme', t); })();
+    function toggleTheme(){ var c = document.documentElement.getAttribute('data-theme') || 'light', n = c === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', n); localStorage.setItem('ieltslab_theme', n); var b = document.getElementById('themeToggle'); if(b) b.textContent = n === 'dark' ? '☀' : '🌙'; }
+    document.addEventListener('DOMContentLoaded', function(){ var b = document.getElementById('themeToggle'); if(b){ var d = (document.documentElement.getAttribute('data-theme') || 'light') === 'dark'; b.textContent = d ? '☀' : '🌙'; } });
+  </script>
+</head>
+<body class="min-h-screen flex flex-col" style="background:var(--page-bg);color:var(--text-primary);">
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<div id="header-container"></div>
+
+<!-- TIMING STRIP -->
+<div class="timing-strip" id="timingStrip">
+  <div class="px-4 flex items-center justify-center gap-10">
+    <div class="timing-item"><span class="timing-label">Passage 1</span><span class="timing-val">15–17 min</span></div>
+    <div style="width:1px;height:24px;background:var(--border);"></div>
+    <div class="timing-item"><span class="timing-label">Passage 2</span><span class="timing-val">20 min</span></div>
+    <div style="width:1px;height:24px;background:var(--border);"></div>
+    <div class="timing-item"><span class="timing-label">Passage 3</span><span class="timing-val">23–25 min</span></div>
+  </div>
+</div>
+
+<!-- TEST MAIN -->
+<main class="flex-1 w-full px-4 py-6" id="testMain">
+
+  <!-- HEADER ROW -->
+  <div class="flex items-start justify-between mb-5 gap-4">
+    <div>
+      <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Cambridge 19 · Full Test 4</div>
+      <h1 class="font-display font-black text-2xl" style="color:var(--text-primary);">Academic Reading — Full Test 4</h1>
+    </div>
+    <div class="flex items-center gap-3 flex-shrink-0">
+      <div id="timerDisplay" class="timer-box">60:00</div>
+    </div>
+  </div>
+
+  <!-- ACCESSIBILITY TOOLBAR -->
+  <div class="a11y-bar">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-muted);flex-shrink:0;"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+    <span class="a11y-bar-label">Text Size</span>
+    <div class="font-ctrl" role="toolbar" aria-label="Adjust passage text size">
+      <button class="font-ctrl-btn a-small" onclick="adjustFontSize(-1)" title="Decrease text size">A−</button>
+      <button class="font-ctrl-btn a-mid"   onclick="adjustFontSize(0)"  title="Reset text size">A</button>
+      <button class="font-ctrl-btn a-large" onclick="adjustFontSize(1)"  title="Increase text size">A+</button>
+    </div>
+    <span style="font-size:0.75rem;color:var(--text-faint);">Adjust the reading passage font size</span>
+    <div class="ml-auto text-xs hidden md:block" style="color:var(--text-muted);">60 minutes · 40 questions · 3 passages</div>
+  </div>
+
+  <!-- TAB NAV -->
+  <div class="tab-nav" id="tabNav">
+    <button class="tab-btn active" onclick="switchTab(1)">Passage 1 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q1–13)</span></button>
+    <button class="tab-btn" onclick="switchTab(2)">Passage 2 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q14–26)</span></button>
+    <button class="tab-btn" onclick="switchTab(3)">Passage 3 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q27–40)</span></button>
+  </div>
+
+  <!-- ══ SPLIT VIEW ══ -->
+  <div class="split-container" id="splitContainer">
+    <div class="reading-pane" id="readingPane">
+
+      <!-- Passage 1 -->
+      <div id="passageContent1">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 1</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">The History of Glass Manufacturing</div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>Glass is one of the oldest manufactured materials in human history, with evidence of its production dating back more than 3,500 years to ancient Mesopotamia and Egypt. The earliest known glass objects, including beads and vessels, were produced around 1500 BCE in regions corresponding to present-day Iraq and Syria. It has been widely documented that these early artisans discovered glass-making techniques by accident, most likely through the observation of naturally occurring glass — known as obsidian — formed by volcanic activity, or through the fusion of sand and natron during high-temperature firing processes associated with ceramic production. From these accidental beginnings, a sophisticated industry gradually emerged that would transform architecture, science, and everyday life across the ancient and modern world.</p>
+
+          <p><span class="para-label">B</span>The development of glassblowing in the first century BCE, attributed to craftsmen working in the Syro-Palestinian region, represented a technological revolution that dramatically reduced the time and skill required to produce hollow glass vessels. Prior to this innovation, glass objects were formed by core-forming — a laborious process in which molten glass was wound around a clay or sand core that was later removed — or by casting in moulds. The introduction of the blowpipe, a hollow iron tube through which a glassworker could inflate a gather of molten glass into a bubble, made it possible to produce containers of varied shapes and sizes with significantly greater efficiency. Roman craftsmen rapidly adopted and refined the technique, and by the first century CE, glassware had become sufficiently affordable to be used by ordinary households throughout the Roman Empire, replacing more expensive ceramic containers for storage and serving purposes.</p>
+
+          <p><span class="para-label">C</span>Following the decline of the Western Roman Empire, the centre of glass production shifted eastward, with Byzantine and Islamic craftsmen sustaining and advancing the tradition. Islamic glassmakers of the ninth and tenth centuries, working primarily in workshops located in Syria, Egypt, and Persia, are credited with pioneering the technique of enamelling — the application of coloured glass paste to a vessel surface, which was then fired to fuse the decoration permanently. A growing body of research has also identified Islamic craftsmen as the originators of lustre painting on glass, a technique that employed metallic compounds to create an iridescent surface finish. These decorative innovations produced objects of extraordinary aesthetic complexity that were exported across the known world and remain highly valued by museum collections today.</p>
+
+          <p><span class="para-label">D</span>The medieval period in Europe witnessed the emergence of Venetian glass as a prestige product whose reputation would endure for several centuries. The Republic of Venice relocated its glassmakers to the island of Murano in 1291, ostensibly to reduce the risk of fire in the densely built city, but the effect was also to concentrate expertise and enforce secrecy. Murano glassmakers were granted exceptional privileges — including the right to wear swords and to marry into Venetian noble families — in exchange for remaining on the island and not revealing their trade secrets to foreign competitors. The innovations produced on Murano during the fifteenth and sixteenth centuries included cristallo, a nearly colourless and extraordinarily clear glass achieved through careful purification of raw materials, and lattimo, an opaque white glass produced by the addition of tin oxide, which successfully imitated the appearance of Chinese porcelain.</p>
+
+          <p><span class="para-label">E</span>The Industrial Revolution of the eighteenth and nineteenth centuries fundamentally transformed glass production from a skilled craft into a large-scale industrial process. The invention of the coal-fired tank furnace, which could maintain continuous high temperatures and accommodate far larger volumes of molten glass than traditional pot furnaces, enabled manufacturers to produce sheet glass for windows on an unprecedented scale. The cylinder process, subsequently superseded by the Fourcault process developed in Belgium in 1902, allowed flat glass to be drawn continuously from the melt rather than blown and cut by hand, reducing costs substantially. Empirical evidence suggests that the widespread availability of affordable window glass during this period had measurable effects on public health, as it allowed natural light to penetrate previously dark urban dwellings while maintaining protection against cold and wind.</p>
+
+          <p><span class="para-label">F</span>The twentieth century brought further transformations through scientific research. The float glass process, developed by Sir Alastair Pilkington in the United Kingdom between 1953 and 1959, became the dominant method of flat glass production worldwide within two decades of its introduction. In this process, molten glass is poured onto a bath of liquid tin, where it spreads under gravity and surface tension to form a perfectly flat ribbon of uniform thickness. Specialist glasses developed during this period include borosilicate glass, first produced by the German company Schott AG in the 1890s and marketed under the trade name Pyrex, which exhibits exceptional resistance to thermal shock and has been adopted for laboratory equipment, cookware, and telescope mirrors. It appears to indicate that the boundaries between glass science and other disciplines have become increasingly blurred as researchers develop optical fibres, photovoltaic cells, and biomedical implants from glass-based materials.</p>
+
+          <p><span class="para-label">G</span>The trajectory of glass manufacturing from ancient bead-making to the production of fibre-optic cables and solar panels reflects a continuous interplay between empirical discovery and systematic scientific inquiry. Each major technological breakthrough — from glassblowing to the float process — was driven by practical need and refined through accumulated craft knowledge before being rationalised by formal scientific understanding. The material's versatility, transparency, and chemical inertness ensure that glass remains central to technological innovation in the twenty-first century, as engineers and materials scientists explore its potential in photonics, architectural glazing systems, and the growing field of sustainable energy capture.</p>
+        </div>
+      </div>
+
+      <!-- Passage 2 -->
+      <div id="passageContent2" style="display:none;">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 2</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">Crop Science and the Green Revolution</div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>Between the late 1940s and the mid-1970s, a series of coordinated agricultural research programmes collectively known as the Green Revolution transformed cereal crop yields across large areas of Asia, Latin America, and parts of Africa. Driven primarily by the work of agronomists at the International Maize and Wheat Improvement Center (CIMMYT) in Mexico and the International Rice Research Institute (IRRI) in the Philippines, the Green Revolution introduced high-yielding varieties of wheat, rice, and maize that responded dramatically to fertiliser inputs and were bred to resist the lodging — the falling over under the weight of a heavy grain head — that had previously prevented farmers from exploiting the full productive potential of nitrogen-rich soils. The agronomist Norman Borlaug, awarded the Nobel Peace Prize in 1970, is regarded as the central figure in this transformation, though the breadth and complexity of the work have been widely documented as products of large collaborative scientific enterprises rather than individual genius.</p>
+
+          <p><span class="para-label">B</span>The physiological basis of the Green Revolution's success lay in the introduction of dwarfing genes that reduced stem height in wheat and rice varieties. Conventional tall-stemmed varieties invested a substantial proportion of photosynthetically fixed carbon into stem tissue; when supplied with large quantities of nitrogen fertiliser, they produced excessive vegetative growth that caused the plant to collapse before harvest. Semi-dwarf varieties, by contrast, allocated a higher fraction of fixed carbon to grain production — a characteristic agronomists refer to as harvest index — and remained erect even under conditions of high fertility. The semi-dwarf wheat varieties developed by Borlaug and his colleagues, incorporating the Norin 10 dwarfing gene sourced originally from Japan, were capable of producing yields two to three times greater than the traditional tall varieties they replaced under equivalent growing conditions.</p>
+
+          <p><span class="para-label">C</span>The social and humanitarian consequences of the yield increases were profound and broadly positive in the short to medium term. India, which had experienced devastating famines as recently as the 1940s and faced a Malthusian population crisis by the 1960s, achieved self-sufficiency in grain production by 1974 following the rapid adoption of semi-dwarf wheat varieties introduced under the collaboration of Indian agronomist M.S. Swaminathan and the Rockefeller Foundation. A growing body of research has confirmed that the Green Revolution prevented a substantial number of deaths from famine and malnutrition during the critical decades of rapid population growth that followed the Second World War, with some estimates suggesting that several hundred million lives may have been saved by increased food availability in the period between 1960 and 2000.</p>
+
+          <p><span class="para-label">D</span>It has been suggested that the technological and humanitarian successes of the Green Revolution were accompanied by significant social and environmental costs that its proponents insufficiently acknowledged at the time. The new crop varieties were dependent on reliable access to irrigation water, synthetic fertilisers, and pesticides — inputs that required capital investment beyond the means of many smallholder farmers in developing countries. As larger and better-capitalised farms rapidly adopted the new varieties and captured the productivity gains, land consolidation accelerated in several regions, displacing subsistence farmers and contributing to rural-to-urban migration on a large scale. In Mexico, the very country in which much of the foundational research had been conducted, small-scale maize farmers found themselves unable to compete with subsidised production and were progressively marginalised within domestic food markets.</p>
+
+          <p><span class="para-label">E</span>Environmental concerns constitute a second major dimension of the critique. The monoculture production systems that the Green Revolution promoted — vast areas planted to genetically uniform varieties of a single crop — were inherently vulnerable to pest and disease outbreaks capable of spreading rapidly through genetically homogeneous populations. The intensified use of synthetic nitrogenous fertilisers has been associated with the eutrophication of water bodies adjacent to agricultural land, as excess nitrogen runs off into rivers and lakes and stimulates the growth of algae that deplete dissolved oxygen and destroy aquatic ecosystems. Additionally, the focus of Green Revolution breeding programmes on yield potential under high-input conditions contributed to the progressive displacement of traditional landraces — genetically diverse, locally adapted crop varieties — whose erosion has been identified as a long-term threat to the adaptive capacity of global food systems in the face of a changing climate.</p>
+
+          <p><span class="para-label">F</span>Contemporary plant science has sought to address some of these limitations through a second phase of genetic improvement. The development of Golden Rice — a variety engineered to produce beta-carotene in the edible grain — represents an attempt to use genetic modification to address nutritional deficiencies in populations where rice is the dietary staple and vitamin A deficiency remains a significant public health problem. Marker-assisted selection, which employs molecular genetic techniques to accelerate the breeding of traits such as drought tolerance, salinity resistance, and nitrogen use efficiency, offers the prospect of developing varieties better suited to the resource-constrained conditions of smallholder farming systems in sub-Saharan Africa and South Asia. Empirical evidence from field trials conducted by CIMMYT and IRRI over the past two decades suggests that these approaches are producing measurable yield improvements under stress conditions where conventional Green Revolution varieties have struggled.</p>
+
+          <p><span class="para-label">G</span>The legacy of the Green Revolution remains a subject of debate among development economists, agricultural scientists, and policy analysts. Its contribution to averting famine on a global scale is not in dispute; what remains contested is the extent to which its model of technology-driven, input-intensive agriculture is appropriate for the challenges of the twenty-first century, in which the goals of food security, environmental sustainability, and equitable rural development must be pursued simultaneously. The scientific institutions and plant breeding programmes it established continue to generate innovations that are being adapted to this broader mandate, suggesting that the Green Revolution is better understood as an ongoing process of agricultural transformation than as a discrete historical episode with a clearly defined beginning and end.</p>
+        </div>
+      </div>
+
+      <!-- Passage 3 -->
+      <div id="passageContent3" style="display:none;">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 3</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">The Sharing Economy and Platform Capitalism</div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>The term 'sharing economy' entered popular discourse around 2010 to describe a class of digital platforms that appeared to enable individuals to share underutilised assets — spare rooms, private vehicles, personal tools — with strangers, creating economic value from resources that would otherwise remain idle. Proponents argued that this model represented a fundamental challenge to the logic of ownership-based consumption, offering a more efficient, sustainable, and community-oriented alternative to traditional commercial transactions. By 2023, companies such as Airbnb, Uber, and TaskRabbit had achieved market valuations in the tens of billions of dollars and operated across dozens of countries, demonstrating the enormous commercial potential of the approach. However, a growing body of research has complicated the early optimistic framing, raising substantive questions about whether these platforms constitute genuine sharing or simply a new form of market exchange with distinctive labour and regulatory characteristics.</p>
+
+          <p><span class="para-label">B</span>The economist Yochai Benkler, whose 2004 paper on commons-based peer production remains a foundational text in the field, drew a careful distinction between sharing arrangements in which participants contributed and received on the basis of social norms rather than price signals, and market transactions in which price served as the coordinating mechanism. By this definition, it has been suggested that the majority of what is commonly described as the sharing economy does not qualify as sharing at all: transactions on Airbnb involve negotiated prices and contractual obligations; Uber drivers are motivated by remuneration rather than reciprocity. The sociologist Juliet Schor, in her 2014 analysis, proposed the more precise term 'platform economy' to describe the phenomenon, reserving 'sharing' for genuinely non-commercial exchanges between peers and arguing that conflating the two categories obscured the commercial nature of the dominant platforms and impeded critical analysis of their social effects.</p>
+
+          <p><span class="para-label">C</span>The labour relations embedded within platform-mediated work have generated substantial legal and academic controversy. Platform companies have consistently classified their workers as independent contractors rather than employees, a classification that relieves them of obligations to provide minimum wage guarantees, paid leave, health insurance, pension contributions, and other protections associated with employment status in most jurisdictions. Critics, including the legal scholar Valerio De Stefano in a widely cited 2016 report for the International Labour Organization, have argued that this classification is inconsistent with the economic reality of the relationship: platform workers are subject to algorithmic management, customer rating systems that effectively discipline their behaviour, and surge pricing mechanisms that structure the temporal patterns of their work in ways that are more characteristic of employment than of independent contracting. Courts in the United Kingdom, France, and several US states have ruled in favour of reclassifying platform workers as employees or as a new intermediate category of 'worker', though the legal landscape remains fragmented across jurisdictions.</p>
+
+          <p><span class="para-label">D</span>A parallel strand of criticism has focused on the relationship between platform businesses and the cities and regions in which they operate. Airbnb has been associated in multiple urban contexts with the removal of long-term rental housing stock from residential markets, as property owners respond to the higher per-night returns available through short-term letting by withdrawing units from the conventional rental market. A 2019 study published in the Journal of Urban Economics estimated that a ten percent increase in Airbnb listings in a given neighbourhood was associated with a 0.42 percent increase in rents and a 0.76 percent increase in property purchase prices, with disproportionate effects concentrated in neighbourhoods with lower baseline housing costs. Municipal governments in Amsterdam, Barcelona, and New York have introduced regulations limiting the number of nights a property may be let through short-term platforms or requiring operators to register with local authorities, with varying degrees of enforcement success.</p>
+
+          <p><span class="para-label">E</span>The concept of platform capitalism, advanced by the sociologist Nick Srnicek in his 2016 monograph of the same name, provides a theoretical framework for situating platform companies within the broader trajectory of capitalist development. Srnicek argues that platforms should be understood not primarily as technology companies or as disruptive innovators but as a novel form of business infrastructure that extracts value by positioning itself as an intermediary between users, workers, and consumers, and by monopolising the data generated through these interactions. This data, collected at no marginal cost from the platform's user base, constitutes what Srnicek terms a 'new kind of raw material' that can be refined into insights, sold to advertisers, and employed to optimise the platform's own operations. The competitive logic of platform markets, he contends, generates powerful tendencies towards monopoly: network effects mean that the most widely used platform in any category tends to become the only platform, as users and service providers migrate towards the largest pool of counterparties.</p>
+
+          <p><span class="para-label">F</span>Defenders of the platform model contest several elements of this critique. Economists sympathetic to the platforms argue that they generate genuine consumer surplus by reducing transaction costs, improving matching efficiency between supply and demand, and enabling individuals to monetise assets that would otherwise generate no return. Research conducted by economists at the University of Chicago estimated that Uber's services generated consumer surplus equivalent to approximately 1.6 times the revenue the company collected in fares, suggesting that users derived significant value beyond what they paid. Platform advocates additionally argue that the flexibility of gig work is valued by substantial numbers of workers who would prefer the autonomy of contractor status to the structured obligations of conventional employment, and that survey evidence consistently shows a majority of platform workers reporting satisfaction with their working arrangements, particularly in contexts where traditional employment alternatives are limited or poorly paid.</p>
+
+          <p><span class="para-label">G</span>The regulatory responses emerging in multiple jurisdictions reflect the contested nature of the analytical frameworks through which platform companies are interpreted. The European Union's Platform Work Directive, provisionally agreed in 2024, establishes a rebuttable presumption of employment for platform workers, placing the burden of proof on platforms to demonstrate that their workers are genuinely independent contractors rather than employees. This legislative approach represents a significant departure from the voluntary classification model that had prevailed in most jurisdictions and is expected to increase labour costs substantially for platform companies operating in European markets. Whether this regulatory pressure will ultimately constrain platform growth, accelerate automation as companies seek to reduce their reliance on human labour, or simply be absorbed into business models that remain highly profitable at scale remains an open question that will define a significant dimension of the political economy of work in the coming decades.</p>
+        </div>
+      </div>
+
+    </div><!-- /reading-pane -->
+
+    <!-- RESIZER BAR -->
+    <div class="resizer-bar" id="resizerBar">
+      <button class="resizer-btn" aria-label="Drag to resize panels">
+        <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M3.5 2L1 6L3.5 10" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span style="display:block;width:2px;height:14px;background:var(--border);border-radius:1px;"></span>
+        <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M6.5 2L9 6L6.5 10" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+
+    <!-- QUESTION PANE -->
+    <div class="question-pane" id="questionPane">
+      <div id="qPanel1"></div>
+      <div id="qPanel2" style="display:none;"></div>
+      <div id="qPanel3" style="display:none;"></div>
+    </div>
+
+  </div><!-- /split-container -->
+
+  <!-- SUBMIT -->
+  <div class="flex justify-center mt-10 mb-16">
+    <button onclick="confirmSubmit()" class="btn-gold px-10 py-4 text-base">Submit Reading Test</button>
+  </div>
+</main>
+
+<!-- RESULTS -->
+<div id="resultsMain" style="display:none;" class="flex-1 max-w-5xl mx-auto px-6 py-10 w-full">
+  <div class="flex items-center gap-3 mb-8">
+    <div>
+      <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Results</div>
+      <h1 class="font-display font-black text-2xl" style="color:var(--text-primary);">Academic Reading — Score Report</h1>
+    </div>
+  </div>
+  <div class="section-card mb-6" id="scoreCard"></div>
+  <div class="section-card mb-8" id="feedbackCard"></div>
+  <div class="section-card mb-6">
+    <div class="passage-corr-header">Passage 1 — The History of Glass Manufacturing</div>
+    <div id="corrPassage1"></div>
+  </div>
+  <div class="section-card mb-6">
+    <div class="passage-corr-header">Passage 2 — Crop Science and the Green Revolution</div>
+    <div id="corrPassage2"></div>
+  </div>
+  <div class="section-card mb-10">
+    <div class="passage-corr-header">Passage 3 — The Sharing Economy and Platform Capitalism</div>
+    <div id="corrPassage3"></div>
+  </div>
+  <div class="flex gap-4 justify-center mb-16">
+    <a href="index.html" class="btn-gold">← Back to Tests</a>
+  </div>
+</div>
+
+<!-- SUBMITTING OVERLAY -->
+<div id="submittingOverlay" style="display:none;position:fixed;inset:0;z-index:300;background:rgba(247,248,250,0.97);flex-direction:column;align-items:center;justify-content:center;" class="flex">
+  <div class="spinner mb-6"></div>
+  <div class="font-display font-bold text-xl mb-2" style="color:var(--text-primary);">Scoring Your Answers</div>
+  <p class="text-sm" style="color:var(--text-muted);">Analysing your responses…</p>
+</div>
+
+<script>
+
+// ─────────────────────────────────────────
+//  TEST DATA
+// ─────────────────────────────────────────
+const GROUPS = [
+  // ── PASSAGE 1 — Matching Headings Q1–5 ──
+  {
+    passageId: 1,
+    type: 'matching_headings',
+    label: 'Questions 1–5',
+    instructions: 'The reading passage has seven paragraphs, <strong>A–G</strong>. Choose the correct heading for paragraphs <strong>B–F</strong> from the list of headings below. Paragraphs A and G are not included. Write the correct Roman numeral in the box.',
+    headings: [
+      { key: 'i',    text: 'A technological breakthrough that made glassware affordable for ordinary people' },
+      { key: 'ii',   text: 'Scientific advances that transformed glass into a precision industrial and optical material' },
+      { key: 'iii',  text: 'Decorative techniques developed by craftsmen in the medieval Islamic world' },
+      { key: 'iv',   text: 'How a city-state used secrecy and privilege to maintain dominance in a luxury craft' },
+      { key: 'v',    text: 'The mechanisation of glass production and its effects on public health and construction' },
+      { key: 'vi',   text: 'Early attempts to classify glass according to its chemical composition' },
+      { key: 'vii',  text: 'The role of volcanic geology in the formation of natural glass deposits' },
+      { key: 'viii', text: 'Why governments across Europe began subsidising glass production in the seventeenth century' },
+    ],
+    questions: [
+      { id: 1, paraLabel: 'B', text: 'Paragraph B',
+        answer: 'i', answerDisplay: 'i — A technological breakthrough that made glassware affordable for ordinary people',
+        explanation: 'Paragraph B describes the invention of glassblowing, which made it possible to produce glass containers with "significantly greater efficiency," resulting in glassware becoming "sufficiently affordable to be used by ordinary households." Heading i captures both the technological breakthrough (glassblowing) and the social consequence (affordability for ordinary people).',
+        reinforcement: 'Correct — paragraph B is organised around the glassblowing revolution and its democratising effect on glassware ownership.' },
+      { id: 2, paraLabel: 'C', text: 'Paragraph C',
+        answer: 'iii', answerDisplay: 'iii — Decorative techniques developed by craftsmen in the medieval Islamic world',
+        explanation: 'Paragraph C is entirely focused on Islamic craftsmen pioneering enamelling and lustre painting on glass — both decorative techniques. "Medieval Islamic world" paraphrases "ninth and tenth centuries" in Syria, Egypt, and Persia. Heading vi (chemical classification) and vii (volcanic geology) are not discussed in the passage.',
+        reinforcement: 'Correct — paragraph C details the specific decorative innovations, enamelling and lustre painting, pioneered by Islamic craftsmen.' },
+      { id: 3, paraLabel: 'D', text: 'Paragraph D',
+        answer: 'iv', answerDisplay: 'iv — How a city-state used secrecy and privilege to maintain dominance in a luxury craft',
+        explanation: 'Paragraph D describes how Venice relocated glassmakers to Murano to enforce secrecy and granted exceptional privileges (wearing swords, marrying into noble families) to prevent knowledge transfer to competitors. "City-state" = the Republic of Venice; "secrecy and privilege" = the core mechanisms described.',
+        reinforcement: 'Correct — paragraph D\'s central argument is that Venice\'s privilege-secrecy system maintained its monopoly on luxury glass production.' },
+      { id: 4, paraLabel: 'E', text: 'Paragraph E',
+        answer: 'v', answerDisplay: 'v — The mechanisation of glass production and its effects on public health and construction',
+        explanation: 'Paragraph E describes the coal-fired tank furnace, the cylinder process, and the Fourcault process — all mechanisation innovations — and explicitly states that widespread window glass availability had "measurable effects on public health" and enabled construction of better-lit urban dwellings.',
+        reinforcement: 'Correct — paragraph E covers both the industrial mechanisation of glass and its downstream effects on health and urban construction.' },
+      { id: 5, paraLabel: 'F', text: 'Paragraph F',
+        answer: 'ii', answerDisplay: 'ii — Scientific advances that transformed glass into a precision industrial and optical material',
+        explanation: 'Paragraph F describes the float glass process (scientific precision engineering), borosilicate glass (laboratory/cookware/telescope), and optical fibres, photovoltaic cells, and biomedical implants — all precision industrial and optical applications. Heading ii maps directly to these twentieth-century science-driven developments.',
+        reinforcement: 'Correct — paragraph F traces scientific advances from the float process to specialist glasses used in optics, industry, and medicine.' },
+    ]
+  },
+  // ── PASSAGE 1 — T/F/NG Q6–9 ──
+  {
+    passageId: 1,
+    type: 'tfng',
+    label: 'Questions 6–9',
+    instructions: 'Do the following statements agree with the information given in the reading passage? Write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      { id: 6, text: 'The earliest glass objects were produced intentionally by craftsmen who had developed specialised furnaces for that purpose.',
+        answer: 'FALSE',
+        explanation: 'Paragraph A states that early artisans discovered glass-making <strong>"by accident"</strong> through observation of natural glass or through the fusion of sand and natron during ceramic firing. The statement claims intentional production with specialised furnaces, which directly contradicts the accidental discovery described in the passage.',
+        reinforcement: 'Correct — paragraph A explicitly states glass-making was discovered "by accident," directly contradicting "intentionally" in the statement.' },
+      { id: 7, text: 'Venetian glassmakers were permitted to marry into noble Venetian families in exchange for keeping their techniques secret.',
+        answer: 'TRUE',
+        explanation: 'Paragraph D: <strong>"Murano glassmakers were granted exceptional privileges — including the right to wear swords and to marry into Venetian noble families — in exchange for remaining on the island and not revealing their trade secrets to foreign competitors."</strong> The statement paraphrases this accurately.',
+        reinforcement: 'Correct — paragraph D explicitly states that marriage into noble families was one of the privileges granted in exchange for maintaining secrecy.' },
+      { id: 8, text: 'The Fourcault process was invented before the cylinder process for producing flat glass.',
+        answer: 'FALSE',
+        explanation: 'Paragraph E states that the cylinder process was <strong>"subsequently superseded by the Fourcault process developed in Belgium in 1902"</strong> — meaning the cylinder process came first and was later replaced by Fourcault. The statement reverses this chronological order.',
+        reinforcement: 'Correct — "subsequently superseded" confirms the cylinder process preceded Fourcault, making the statement FALSE.' },
+      { id: 9, text: 'Sir Alastair Pilkington was employed by the German company Schott AG when he developed the float glass process.',
+        answer: 'NOT GIVEN',
+        explanation: 'Paragraph F attributes the float glass process to Sir Alastair Pilkington and Schott AG to borosilicate glass, but does not state any employment relationship between Pilkington and Schott AG. These are presented as separate developments with no connection between the two individuals or organisations mentioned.',
+        reinforcement: 'Correct — no information about any connection between Pilkington and Schott AG appears in the passage.' },
+    ]
+  },
+  // ── PASSAGE 1 — Sentence Completion Q10–13 ──
+  {
+    passageId: 1,
+    type: 'sentence_completion',
+    label: 'Questions 10–13',
+    instructions: 'Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.',
+    questions: [
+      { id: 10, text: 'Before glassblowing was invented, one method of making hollow glass objects was _______, in which molten glass was wound around a removable clay or sand core.',
+        answer: 'core-forming', answerDisplay: 'core-forming', acceptable: ['core-forming', 'core forming'],
+        explanation: 'Paragraph B: <strong>"glass objects were formed by core-forming — a laborious process in which molten glass was wound around a clay or sand core that was later removed."</strong> "Core-forming" is the exact two-word term naming the technique.',
+        reinforcement: 'Correct — "core-forming" is the passage-exact term in paragraph B describing the pre-glassblowing production method.' },
+      { id: 11, text: 'The Venetian glassmakers on Murano produced a nearly colourless, highly transparent glass called _______, achieved through careful purification of raw materials.',
+        answer: 'cristallo', answerDisplay: 'cristallo', acceptable: ['cristallo'],
+        explanation: 'Paragraph D: <strong>"The innovations produced on Murano during the fifteenth and sixteenth centuries included cristallo, a nearly colourless and extraordinarily clear glass achieved through careful purification of raw materials."</strong> "Cristallo" is the exact term from the passage.',
+        reinforcement: 'Correct — "cristallo" is the passage-exact Venetian glass product described in paragraph D.' },
+      { id: 12, text: 'In the float glass process, molten glass is poured onto a bath of liquid _______, allowing it to spread into a flat ribbon of uniform thickness.',
+        answer: 'tin', answerDisplay: 'tin', acceptable: ['tin'],
+        explanation: 'Paragraph F: <strong>"molten glass is poured onto a bath of liquid tin, where it spreads under gravity and surface tension to form a perfectly flat ribbon of uniform thickness."</strong> "Tin" is the single-word answer.',
+        reinforcement: 'Correct — "tin" is the substance specified in paragraph F as the medium onto which molten glass is poured in the float process.' },
+      { id: 13, text: 'Borosilicate glass is valued for its exceptional resistance to _______, making it suitable for laboratory equipment and cookware.',
+        answer: 'thermal shock', answerDisplay: 'thermal shock', acceptable: ['thermal shock'],
+        explanation: 'Paragraph F: <strong>"borosilicate glass… exhibits exceptional resistance to thermal shock and has been adopted for laboratory equipment, cookware, and telescope mirrors."</strong> "Thermal shock" is the exact two-word phrase.',
+        reinforcement: 'Correct — "thermal shock" is the passage-exact two-word property cited in paragraph F for borosilicate glass.' },
+    ]
+  },
+
+  // ── PASSAGE 2 — Crop Science and the Green Revolution ──
+  {
+    passageId: 2,
+    type: 'matching_headings',
+    label: 'Questions 14–18',
+    instructions: 'The reading passage has seven paragraphs, <strong>A–G</strong>. Choose the correct heading for paragraphs <strong>B–F</strong> from the list of headings below. Paragraphs A and G are not included. Write the correct Roman numeral in the box.',
+    headings: [
+      { key: 'i',    text: 'The genetic mechanism behind the increased grain yields of new crop varieties' },
+      { key: 'ii',   text: 'Evidence that rapid adoption of new varieties averted mass starvation in a populous nation' },
+      { key: 'iii',  text: 'How the benefits of agricultural modernisation were distributed unequally among farming communities' },
+      { key: 'iv',   text: 'The use of molecular breeding techniques to develop varieties suited to resource-poor farmers' },
+      { key: 'v',    text: 'Damage to ecological systems caused by the intensive farming methods the revolution promoted' },
+      { key: 'vi',   text: 'A comparison of traditional and modern seed bank management practices in tropical regions' },
+      { key: 'vii',  text: 'The role of international trade agreements in determining fertiliser pricing for smallholder farmers' },
+      { key: 'viii', text: 'How government investment in rural infrastructure accelerated the adoption of high-yield varieties' },
+    ],
+    questions: [
+      { id: 14, paraLabel: 'B', text: 'Paragraph B',
+        answer: 'i', answerDisplay: 'i — The genetic mechanism behind the increased grain yields of new crop varieties',
+        explanation: 'Paragraph B explains the dwarfing gene mechanism: semi-dwarf varieties allocate a higher proportion of carbon to grain production (harvest index) rather than stem tissue, enabling yields two to three times greater. "Genetic mechanism" = dwarfing genes and harvest index; "increased grain yields" = the two-to-threefold improvement.',
+        reinforcement: 'Correct — paragraph B is structured entirely around the genetic and physiological explanation for why semi-dwarf varieties outyield conventional ones.' },
+      { id: 15, paraLabel: 'C', text: 'Paragraph C',
+        answer: 'ii', answerDisplay: 'ii — Evidence that rapid adoption of new varieties averted mass starvation in a populous nation',
+        explanation: 'Paragraph C describes India achieving grain self-sufficiency by 1974 after adopting semi-dwarf wheat, and cites research suggesting several hundred million lives may have been saved. "Evidence" = growing body of research; "mass starvation" = famines and Malthusian crisis; "populous nation" = India.',
+        reinforcement: 'Correct — paragraph C presents India as the case study demonstrating the Green Revolution\'s humanitarian impact, matching heading ii.' },
+      { id: 16, paraLabel: 'D', text: 'Paragraph D',
+        answer: 'iii', answerDisplay: 'iii — How the benefits of agricultural modernisation were distributed unequally among farming communities',
+        explanation: 'Paragraph D describes how capital requirements for irrigation and inputs excluded smallholders, leading to land consolidation, displacement of subsistence farmers, and marginalisation of small-scale maize farmers in Mexico. "Distributed unequally" = larger farms captured gains while smallholders were excluded and displaced.',
+        reinforcement: 'Correct — paragraph D is the inequality paragraph, documenting how productivity gains were captured by well-capitalised farms at the expense of smallholders.' },
+      { id: 17, paraLabel: 'E', text: 'Paragraph E',
+        answer: 'v', answerDisplay: 'v — Damage to ecological systems caused by the intensive farming methods the revolution promoted',
+        explanation: 'Paragraph E discusses monoculture vulnerability to pests, eutrophication of water bodies from nitrogen runoff, and displacement of genetically diverse landraces. All three are ecological damages caused by Green Revolution farming methods.',
+        reinforcement: 'Correct — paragraph E catalogues the environmental costs (monoculture risk, water eutrophication, genetic erosion) of the intensive methods the Green Revolution promoted.' },
+      { id: 18, paraLabel: 'F', text: 'Paragraph F',
+        answer: 'iv', answerDisplay: 'iv — The use of molecular breeding techniques to develop varieties suited to resource-poor farmers',
+        explanation: 'Paragraph F discusses marker-assisted selection (a molecular breeding technique) to develop drought tolerance, salinity resistance, and nitrogen use efficiency — traits suited to "the resource-constrained conditions of smallholder farming systems in sub-Saharan Africa and South Asia."',
+        reinforcement: 'Correct — paragraph F focuses specifically on molecular/marker-assisted breeding aimed at smallholder conditions, matching heading iv.' },
+    ]
+  },
+  {
+    passageId: 2,
+    type: 'tfng',
+    label: 'Questions 19–22',
+    instructions: 'Do the following statements agree with the information given in the reading passage? Write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      { id: 19, text: 'Norman Borlaug worked alone to develop the semi-dwarf wheat varieties that transformed yields in Asia and Latin America.',
+        answer: 'FALSE',
+        explanation: 'Paragraph A: the breadth of the work has been <strong>"widely documented as products of large collaborative scientific enterprises rather than individual genius."</strong> The passage explicitly contradicts the claim that Borlaug worked alone.',
+        reinforcement: 'Correct — paragraph A explicitly states the work was collaborative, directly contradicting "worked alone."' },
+      { id: 20, text: 'The dwarfing gene used in Borlaug\'s semi-dwarf wheat varieties originally came from Japan.',
+        answer: 'TRUE',
+        explanation: 'Paragraph B: <strong>"The semi-dwarf wheat varieties developed by Borlaug and his colleagues, incorporating the Norin 10 dwarfing gene sourced originally from Japan."</strong> The statement accurately paraphrases this.',
+        reinforcement: 'Correct — paragraph B states the Norin 10 dwarfing gene was sourced from Japan, confirming the statement.' },
+      { id: 21, text: 'Golden Rice has been approved for commercial cultivation in all countries where vitamin A deficiency is a public health problem.',
+        answer: 'NOT GIVEN',
+        explanation: 'Paragraph F mentions Golden Rice and its purpose but provides no information about its regulatory approval status in any country. Approval processes, rejections, or commercial cultivation status are not discussed anywhere in the passage.',
+        reinforcement: 'Correct — the passage describes Golden Rice\'s purpose but gives no information about its approval or commercial cultivation status.' },
+      { id: 22, text: 'The intensive use of synthetic nitrogen fertilisers associated with Green Revolution farming has contributed to the degradation of aquatic ecosystems.',
+        answer: 'TRUE',
+        explanation: 'Paragraph E: <strong>"The intensified use of synthetic nitrogenous fertilisers has been associated with the eutrophication of water bodies adjacent to agricultural land… stimulates the growth of algae that deplete dissolved oxygen and destroy aquatic ecosystems."</strong>',
+        reinforcement: 'Correct — paragraph E explicitly links nitrogen fertiliser use to eutrophication and destruction of aquatic ecosystems.' },
+    ]
+  },
+  {
+    passageId: 2,
+    type: 'sentence_completion',
+    label: 'Questions 23–26',
+    instructions: 'Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.',
+    questions: [
+      { id: 23, text: 'CIMMYT and IRRI were the two principal _______ institutions responsible for developing the high-yielding varieties at the heart of the Green Revolution.',
+        answer: 'agricultural research', answerDisplay: 'agricultural research', acceptable: ['agricultural research', 'research'],
+        explanation: 'Paragraph A: <strong>"Driven primarily by the work of agronomists at the International Maize and Wheat Improvement Center (CIMMYT) in Mexico and the International Rice Research Institute (IRRI) in the Philippines."</strong> Both are agricultural research institutions; "agricultural research" is the two-word descriptor applicable to both.',
+        reinforcement: 'Correct — CIMMYT and IRRI are both agricultural research institutions as described in paragraph A.' },
+      { id: 24, text: 'When high-yielding varieties were supplied with excessive nitrogen fertiliser, conventional tall-stemmed plants would collapse due to a process called _______.',
+        answer: 'lodging', answerDisplay: 'lodging', acceptable: ['lodging'],
+        explanation: 'Paragraph A: <strong>"bred to resist the lodging — the falling over under the weight of a heavy grain head."</strong> "Lodging" is the exact single-word technical term defined in the passage.',
+        reinforcement: 'Correct — "lodging" is the passage-exact term in paragraph A describing the collapse of over-fertilised tall-stemmed plants.' },
+      { id: 25, text: 'In Mexico, small-scale maize farmers were progressively _______ within domestic food markets as a result of competition from subsidised production.',
+        answer: 'marginalised', answerDisplay: 'marginalised', acceptable: ['marginalised', 'marginalized'],
+        explanation: 'Paragraph D: <strong>"small-scale maize farmers found themselves unable to compete with subsidised production and were progressively marginalised within domestic food markets."</strong> "Marginalised" is the passage-exact verb.',
+        reinforcement: 'Correct — "marginalised" is taken directly from paragraph D\'s description of small-scale Mexican maize farmers.' },
+      { id: 26, text: 'Traditional locally adapted crop varieties, known as _______, have been progressively displaced by Green Revolution breeding programmes focused on yield under high-input conditions.',
+        answer: 'landraces', answerDisplay: 'landraces', acceptable: ['landraces'],
+        explanation: 'Paragraph E: <strong>"the progressive displacement of traditional landraces — genetically diverse, locally adapted crop varieties."</strong> "Landraces" is the exact technical term defined in the passage.',
+        reinforcement: 'Correct — "landraces" is the passage-exact term in paragraph E for genetically diverse traditional varieties.' },
+    ]
+  },
+
+  // ── PASSAGE 3 — The Sharing Economy and Platform Capitalism ──
+  {
+    passageId: 3,
+    type: 'matching_info',
+    label: 'Questions 27–31',
+    instructions: 'The reading passage has seven paragraphs, <strong>A–G</strong>. Which paragraph contains the following information? Write the correct letter <strong>A–G</strong> in the box. You may use any letter more than once.',
+    paraOptions: ['A','B','C','D','E','F','G'],
+    questions: [
+      { id: 27, text: 'A reference to a study that quantified the effect of short-term rental platforms on local housing costs.',
+        answer: 'D', answerDisplay: 'D',
+        explanation: 'Paragraph D: <strong>"A 2019 study published in the Journal of Urban Economics estimated that a ten percent increase in Airbnb listings… was associated with a 0.42 percent increase in rents and a 0.76 percent increase in property purchase prices."</strong>',
+        reinforcement: 'Correct — the quantified housing cost study appears in paragraph D.' },
+      { id: 28, text: 'An argument that platforms should be understood as monopoly-generating infrastructure that profits from data collected from its users.',
+        answer: 'E', answerDisplay: 'E',
+        explanation: 'Paragraph E: <strong>"platforms should be understood not primarily as technology companies… but as a novel form of business infrastructure that extracts value by positioning itself as an intermediary… monopolising the data generated through these interactions."</strong>',
+        reinforcement: 'Correct — Srnicek\'s platform capitalism argument about data monopoly infrastructure is developed in paragraph E.' },
+      { id: 29, text: 'A distinction drawn by an academic between genuine non-commercial sharing and commercially mediated transactions that are misleadingly described as sharing.',
+        answer: 'B', answerDisplay: 'B',
+        explanation: 'Paragraph B: Juliet Schor <strong>"proposed the more precise term \'platform economy\'… reserving \'sharing\' for genuinely non-commercial exchanges between peers and arguing that conflating the two categories obscured the commercial nature of the dominant platforms."</strong>',
+        reinforcement: 'Correct — Schor\'s distinction between genuine sharing and commercially mediated transactions is drawn in paragraph B.' },
+      { id: 30, text: 'Evidence from surveys that a majority of platform workers express satisfaction with their working conditions.',
+        answer: 'F', answerDisplay: 'F',
+        explanation: 'Paragraph F: <strong>"survey evidence consistently shows a majority of platform workers reporting satisfaction with their working arrangements, particularly in contexts where traditional employment alternatives are limited or poorly paid."</strong>',
+        reinforcement: 'Correct — the survey satisfaction evidence for platform workers appears in paragraph F.' },
+      { id: 31, text: 'A description of new European Union legislation that shifts responsibility for proving the nature of a working relationship onto platform companies.',
+        answer: 'G', answerDisplay: 'G',
+        explanation: 'Paragraph G: <strong>"The European Union\'s Platform Work Directive… establishes a rebuttable presumption of employment for platform workers, placing the burden of proof on platforms to demonstrate that their workers are genuinely independent contractors."</strong>',
+        reinforcement: 'Correct — the EU Platform Work Directive that shifts the burden of proof to platforms is described in paragraph G.' },
+    ]
+  },
+  {
+    passageId: 3,
+    type: 'tfng',
+    label: 'Questions 32–36',
+    instructions: 'Do the following statements agree with the information given in the reading passage? Write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      { id: 32, text: 'Yochai Benkler argued that most platforms described as part of the sharing economy do not involve genuine sharing because their transactions are coordinated by price rather than social norms.',
+        answer: 'TRUE',
+        explanation: 'Paragraph B: Benkler drew a distinction between sharing based on "social norms rather than price signals, and market transactions in which price served as the coordinating mechanism." The passage then states that <strong>"by this definition… the majority of what is commonly described as the sharing economy does not qualify as sharing at all."</strong>',
+        reinforcement: 'Correct — paragraph B credits Benkler\'s framework as the basis for concluding that most sharing economy platforms are not genuine sharing.' },
+      { id: 33, text: 'Courts in all EU member states have ruled that platform workers should be classified as employees rather than independent contractors.',
+        answer: 'FALSE',
+        explanation: 'Paragraph C states that courts in <strong>"the United Kingdom, France, and several US states"</strong> have ruled in favour of reclassification, but adds that <strong>"the legal landscape remains fragmented across jurisdictions."</strong> The statement\'s claim that all EU member states have made such rulings is directly contradicted.',
+        reinforcement: 'Correct — paragraph C specifies only certain jurisdictions and explicitly notes the fragmented legal landscape, contradicting "all EU member states."' },
+      { id: 34, text: 'Nick Srnicek published his work on platform capitalism in 2016.',
+        answer: 'TRUE',
+        explanation: 'Paragraph E: <strong>"the sociologist Nick Srnicek in his 2016 monograph of the same name."</strong> The statement accurately records the publication year.',
+        reinforcement: 'Correct — paragraph E explicitly states Srnicek\'s monograph was published in 2016.' },
+      { id: 35, text: 'Research from the University of Chicago estimated that the consumer surplus generated by Uber was greater than the revenue Uber collected from fares.',
+        answer: 'TRUE',
+        explanation: 'Paragraph F: <strong>"Research conducted by economists at the University of Chicago estimated that Uber\'s services generated consumer surplus equivalent to approximately 1.6 times the revenue the company collected in fares."</strong> 1.6 times the revenue means consumer surplus was greater than revenue collected.',
+        reinforcement: 'Correct — 1.6 times revenue collected confirms consumer surplus exceeded fare revenue, as stated in paragraph F.' },
+      { id: 36, text: 'Airbnb was founded in a country where short-term rental regulations were already well established at the time of its launch.',
+        answer: 'NOT GIVEN',
+        explanation: 'The passage discusses municipal regulations introduced in response to Airbnb\'s growth in Amsterdam, Barcelona, and New York, but provides no information about the regulatory environment in the country where Airbnb was founded at the time of its launch.',
+        reinforcement: 'Correct — no information about the regulatory environment at the time of Airbnb\'s founding appears in the passage.' },
+    ]
+  },
+  {
+    passageId: 3,
+    type: 'sentence_completion',
+    label: 'Questions 37–40',
+    instructions: 'Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.<br><br><em>Platform companies have consistently classified their workers as (37) _______ rather than employees in order to avoid paying for benefits associated with employment status. Legal scholars such as Valerio De Stefano have argued that this classification ignores the reality of (38) _______ management, customer rating systems, and surge pricing that effectively structure workers\' behaviour. Several courts have sided with workers, though the legal position remains (39) _______ across different countries. The EU\'s Platform Work Directive responds to this by establishing a (40) _______ presumption of employment, placing the burden of proof on platform companies to prove their workers are genuinely self-employed.</em>',
+    questions: [
+      { id: 37, text: '(37) Platform companies classify their workers as _______ rather than employees.',
+        answer: 'independent contractors', answerDisplay: 'independent contractors', acceptable: ['independent contractors'],
+        explanation: 'Paragraph C: <strong>"Platform companies have consistently classified their workers as independent contractors rather than employees."</strong> "Independent contractors" is the exact two-word term used in the passage.',
+        reinforcement: 'Correct — "independent contractors" is the passage-exact classification term from paragraph C.' },
+      { id: 38, text: '(38) De Stefano argued that platform workers are subject to _______ management, rating systems, and surge pricing.',
+        answer: 'algorithmic', answerDisplay: 'algorithmic', acceptable: ['algorithmic'],
+        explanation: 'Paragraph C: <strong>"platform workers are subject to algorithmic management, customer rating systems that effectively discipline their behaviour, and surge pricing mechanisms."</strong> "Algorithmic" is the exact single-word adjective modifying management.',
+        reinforcement: 'Correct — "algorithmic" is the passage-exact modifier describing platform management in paragraph C.' },
+      { id: 39, text: '(39) The legal position on platform worker classification remains _______ across jurisdictions.',
+        answer: 'fragmented', answerDisplay: 'fragmented', acceptable: ['fragmented'],
+        explanation: 'Paragraph C: <strong>"the legal landscape remains fragmented across jurisdictions."</strong> "Fragmented" is the exact adjective used in the passage to describe the inconsistent legal situation.',
+        reinforcement: 'Correct — "fragmented" is the passage-exact adjective in paragraph C describing the inconsistent legal landscape.' },
+      { id: 40, text: '(40) The EU Platform Work Directive responds to the misclassification problem by establishing what lawyers call a _______ presumption of employment.',
+        answer: 'rebuttable', answerDisplay: 'rebuttable', acceptable: ['rebuttable'],
+        explanation: 'Paragraph G: <strong>"establishes a rebuttable presumption of employment for platform workers, placing the burden of proof on platforms to demonstrate that their workers are genuinely independent contractors."</strong> "Rebuttable" is the single passage-exact adjective modifying "presumption."',
+        reinforcement: 'Correct — "rebuttable" is the exact legal adjective from paragraph G describing the type of employment presumption the directive creates.' },
+    ]
+  },
+];
+
+// ─────────────────────────────────────────
+//  STATE
+// ─────────────────────────────────────────
+const answers = {};
+const TOTAL_SECONDS = 3600;
+let secondsLeft = TOTAL_SECONDS;
+let timerInterval = null;
+let submitted = false;
+
+// ─────────────────────────────────────────
+//  TAB SWITCHING
+// ─────────────────────────────────────────
+function switchTab(n) {
+  [1,2,3].forEach(i => {
+    document.getElementById('passageContent' + i).style.display = i === n ? 'block' : 'none';
+    document.getElementById('qPanel' + i).style.display = i === n ? 'block' : 'none';
+    document.getElementById('tabNav').querySelectorAll('.tab-btn')[i-1].classList.toggle('active', i === n);
+  });
+  document.getElementById('readingPane').scrollTop = 0;
+  document.getElementById('questionPane').scrollTop = 0;
+}
+
+// ─────────────────────────────────────────
+//  FONT SIZE CONTROLLER
+// ─────────────────────────────────────────
+const FONT_SIZES = [13, 15, 17, 19];
+let fontSizeIdx = parseInt(localStorage.getItem('ielts_font_size_idx') || '1');
+function initFontSize() {
+  document.documentElement.style.setProperty('--passage-font-size', FONT_SIZES[fontSizeIdx] + 'px');
+}
+function adjustFontSize(delta) {
+  if (delta === 0) {
+    fontSizeIdx = 1;
+  } else {
+    fontSizeIdx = Math.max(0, Math.min(FONT_SIZES.length - 1, fontSizeIdx + delta));
+  }
+  document.documentElement.style.setProperty('--passage-font-size', FONT_SIZES[fontSizeIdx] + 'px');
+  localStorage.setItem('ielts_font_size_idx', fontSizeIdx);
+}
+
+// ─────────────────────────────────────────
+//  SPLIT-PANE RESIZER
+// ─────────────────────────────────────────
+(function initResizer() {
+  const container = document.getElementById('splitContainer');
+  const leftPane  = document.getElementById('readingPane');
+  const resizer   = document.getElementById('resizerBar');
+  if (!container || !leftPane || !resizer) return;
+
+  let isDragging = false;
+  let startX     = 0;
+  let startW     = 0;
+
+  function onStart(clientX) {
+    isDragging = true;
+    startX     = clientX;
+    startW     = leftPane.getBoundingClientRect().width;
+    resizer.classList.add('active');
+    document.body.style.cursor     = 'col-resize';
+    document.body.style.userSelect = 'none';
+  }
+
+  function onMove(clientX) {
+    if (!isDragging) return;
+    const cW    = container.getBoundingClientRect().width;
+    const rW    = resizer.getBoundingClientRect().width;
+    const avail = cW - rW;
+    const minW  = avail * 0.25;
+    const maxW  = avail * 0.75;
+    const newW  = Math.max(minW, Math.min(maxW, startW + (clientX - startX)));
+    leftPane.style.width = ((newW / cW) * 100).toFixed(2) + '%';
+  }
+
+  function onEnd() {
+    if (!isDragging) return;
+    isDragging = false;
+    resizer.classList.remove('active');
+    document.body.style.cursor     = '';
+    document.body.style.userSelect = '';
+  }
+
+  resizer.addEventListener('mousedown',  e => { e.preventDefault(); onStart(e.clientX); });
+  document.addEventListener('mousemove', e => onMove(e.clientX));
+  document.addEventListener('mouseup',   onEnd);
+
+  resizer.addEventListener('touchstart',  e => { e.preventDefault(); onStart(e.touches[0].clientX); }, { passive: false });
+  document.addEventListener('touchmove',  e => { if (isDragging) { e.preventDefault(); onMove(e.touches[0].clientX); } }, { passive: false });
+  document.addEventListener('touchend',   onEnd);
+})();
+
+// ─────────────────────────────────────────
+//  TIMER
+// ─────────────────────────────────────────
+function formatTime(s) {
+  return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+}
+function startTimer() {
+  timerInterval = setInterval(() => {
+    secondsLeft--;
+    const pct = (TOTAL_SECONDS - secondsLeft) / TOTAL_SECONDS * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+    const el = document.getElementById('timerDisplay');
+    el.textContent = formatTime(secondsLeft);
+    if (secondsLeft <= 120) el.className = 'timer-box critical';
+    else if (secondsLeft <= 300) el.className = 'timer-box warning';
+    if (secondsLeft <= 0) { clearInterval(timerInterval); autoSubmit(); }
+  }, 1000);
+}
+
+// ─────────────────────────────────────────
+//  RENDER QUESTIONS
+// ─────────────────────────────────────────
+function renderAll() {
+  [1,2,3].forEach(pid => {
+    const panel = document.getElementById('qPanel' + pid);
+    let html = '';
+    GROUPS.filter(g => g.passageId === pid).forEach(group => {
+      html += `<div class="group-header mb-4">
+        <div class="text-xs font-bold tracking-widest uppercase" style="color:var(--gold);">${group.label}</div>
+        <p>${group.instructions}</p>
+      </div>`;
+
+      if (group.type === 'matching_headings') {
+        html += `<div class="headings-list mb-4"><ul style="list-style:none;">`;
+        group.headings.forEach(h => {
+          html += `<li><span>${h.key}.</span>${h.text}</li>`;
+        });
+        html += `</ul></div>`;
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">Paragraph <strong>${q.paraLabel}</strong></div>
+            <select class="q-select" id="q${q.id}" onchange="recordAnswer(${q.id}, this.value)">
+              <option value="">— Select heading —</option>
+              ${group.headings.map(h => `<option value="${h.key}">${h.key}. ${h.text}</option>`).join('')}
+            </select>
+          </div>`;
+        });
+      } else if (group.type === 'tfng') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <div class="q-tfng">
+              <button class="q-tfng-btn" onclick="selectTFNG(${q.id},'TRUE',this)">TRUE</button>
+              <button class="q-tfng-btn" onclick="selectTFNG(${q.id},'FALSE',this)">FALSE</button>
+              <button class="q-tfng-btn" onclick="selectTFNG(${q.id},'NOT GIVEN',this)">NOT GIVEN</button>
+            </div>
+          </div>`;
+        });
+      } else if (group.type === 'sentence_completion') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <input type="text" class="q-input" id="q${q.id}" placeholder="Your answer…" oninput="recordAnswer(${q.id}, this.value.trim())" />
+          </div>`;
+        });
+      } else if (group.type === 'matching_info') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <select class="q-select" id="q${q.id}" onchange="recordAnswer(${q.id}, this.value)">
+              <option value="">— Select paragraph —</option>
+              ${group.paraOptions.map(p => `<option value="${p}">Paragraph ${p}</option>`).join('')}
+            </select>
+          </div>`;
+        });
+      }
+    });
+    panel.innerHTML = html;
+  });
+}
+
+function selectTFNG(qId, val, btn) {
+  btn.parentElement.querySelectorAll('.q-tfng-btn').forEach(b => { b.className = 'q-tfng-btn'; });
+  btn.classList.add(val === 'TRUE' ? 'sel-t' : val === 'FALSE' ? 'sel-f' : 'sel-ng');
+  recordAnswer(qId, val);
+}
+function recordAnswer(qId, val) { answers[qId] = val; }
+
+// ─────────────────────────────────────────
+//  SCORING
+// ─────────────────────────────────────────
+function scoreAnswer(q, studentRaw) {
+  if (!studentRaw) return false;
+  const student = studentRaw.toString().trim().toLowerCase();
+  if (q.acceptable) return q.acceptable.map(a => a.toLowerCase()).includes(student);
+  return student === q.answer.toLowerCase();
+}
+function bandFromScore(n) {
+  if (n >= 39) return 9.0; if (n >= 37) return 8.5; if (n >= 35) return 8.0;
+  if (n >= 33) return 7.5; if (n >= 30) return 7.0; if (n >= 27) return 6.5;
+  if (n >= 23) return 6.0; if (n >= 19) return 5.5; if (n >= 15) return 5.0;
+  if (n >= 13) return 4.5; if (n >= 10) return 4.0; if (n >= 8) return 3.5;
+  if (n >= 6) return 3.0; return 2.5;
+}
+function bandColour(b) {
+  if (b >= 7) return '#0D9488'; if (b >= 5.5) return '#C9952E'; return '#dc2626';
+}
+function bandAdvice(band, score) {
+  const pct = Math.round(score/40*100);
+  if (band >= 8.5) return `Outstanding — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Near-native comprehension across all three passages. Focus on NOT GIVEN precision and paraphrased sentence completions to push for Band 9.`;
+  if (band >= 7.5) return `Excellent result — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Strong academic reading. To push towards Band 8+: tighten NOT GIVEN judgements (never infer beyond the text) and copy sentence completion answers exactly from the passage.`;
+  if (band >= 6.5) return `Good performance — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Solid comprehension with room to improve. Review: (1) TRUE vs FALSE — verify the exact claim, not just the topic; (2) Matching Headings — identify the paragraph's central argument before selecting; (3) time allocation across all three passages.`;
+  if (band >= 5.5) return `You scored ${score}/40 (${pct}%), giving an estimated <strong>Band ${band}</strong>. Clear potential — prioritise synonym recognition, since every question involves paraphrase. Review each wrong answer and find the exact passage sentence that should have guided your response.`;
+  return `You scored ${score}/40 (${pct}%), giving an estimated <strong>Band ${band}</strong>. Focus on active reading: identify each paragraph's main claim before reading the questions. Daily timed reading of academic texts and vocabulary building will accelerate improvement significantly.`;
+}
+
+// ─────────────────────────────────────────
+//  SUBMIT
+// ─────────────────────────────────────────
+function confirmSubmit() { if (!confirm('Submit your reading test now?')) return; doSubmit(); }
+function autoSubmit() { if (submitted) return; doSubmit(); }
+function doSubmit() {
+  if (submitted) return;
+  submitted = true;
+  clearInterval(timerInterval);
+  document.getElementById('submittingOverlay').style.display = 'flex';
+  setTimeout(showResults, 800);
+}
+
+// ─────────────────────────────────────────
+//  RESULTS
+// ─────────────────────────────────────────
+function showResults() {
+  document.getElementById('submittingOverlay').style.display = 'none';
+  document.getElementById('testMain').style.display = 'none';
+  document.getElementById('timingStrip').style.display = 'none';
+  document.getElementById('resultsMain').style.display = 'block';
+
+  let correct = 0;
+  const allQs = GROUPS.flatMap(g => g.questions);
+  allQs.forEach(q => { if (scoreAnswer(q, answers[q.id])) correct++; });
+  const band = bandFromScore(correct);
+  const bCol = bandColour(band);
+
+  // Save result
+  const results = JSON.parse(localStorage.getItem('ielts_mock_results') || '[]');
+  results.push({ date: Date.now(), book: 19, testNum: 4, skill: 'reading', scores: { reading: band } });
+  localStorage.setItem('ielts_mock_results', JSON.stringify(results));
+
+  // Per-passage breakdown
+  const passageChips = [1,2,3].map(p => {
+    const pQs = GROUPS.filter(g => g.passageId === p).flatMap(g => g.questions);
+    const pC = pQs.filter(q => scoreAnswer(q, answers[q.id])).length;
+    const pCol = bandColour(bandFromScore(Math.round(pC/pQs.length*40)));
+    return `<div style="background:#EFF3F9;border:1px solid var(--border);border-radius:10px;padding:10px 14px;text-align:center;min-width:80px;">
+      <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px;">Passage ${p}</div>
+      <div style="font-family:'Space Mono',monospace;font-size:1.125rem;font-weight:700;color:${pCol};">${pC}/${pQs.length}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('scoreCard').innerHTML = `
+    <div class="flex flex-col md:flex-row gap-6 items-center">
+      <div class="score-ring-wrap">
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#E2E8F0" stroke-width="8"/>
+          <circle cx="60" cy="60" r="50" fill="none" stroke="${bCol}" stroke-width="8"
+            stroke-dasharray="${Math.round(correct/40*314)} 314" stroke-linecap="round"
+            transform="rotate(-90 60 60)" style="transition:stroke-dasharray 1.2s cubic-bezier(.16,1,.3,1)"/>
+        </svg>
+        <div style="margin-top:-70px;text-align:center;pointer-events:none;">
+          <div style="font-family:'Space Mono',monospace;font-size:1.75rem;font-weight:700;color:${bCol};">${correct}</div>
+          <div style="font-size:0.75rem;color:var(--text-muted);">out of 40</div>
+        </div>
+        <div style="margin-top:16px;"></div>
+      </div>
+      <div class="flex-1">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Your Score</div>
+        <div class="font-display font-black text-4xl mb-1" style="color:${bCol};">Band ${band}</div>
+        <div class="text-sm mb-4" style="color:var(--text-muted);">${correct} correct answers out of 40</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">${passageChips}</div>
+      </div>
+    </div>`;
+
+  document.getElementById('feedbackCard').innerHTML = `
+    <div class="text-xs font-bold tracking-widest uppercase mb-3" style="color:var(--gold);">Overall Feedback</div>
+    <div class="band-feedback">${bandAdvice(band, correct)}</div>`;
+
+  [1,2,3].forEach(pid => {
+    let html = '';
+    GROUPS.filter(g => g.passageId === pid).forEach(group => {
+      html += `<div style="margin-bottom:0.5rem;padding:6px 0 8px;border-bottom:1px solid var(--border-soft);">
+        <span style="font-size:0.6875rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-faint);">${group.label} — ${labelType(group.type)}</span>
+      </div>`;
+      group.questions.forEach(q => {
+        const isCorrect = scoreAnswer(q, answers[q.id]);
+        const studentAns = answers[q.id] ? answers[q.id].toString() : '(no answer)';
+        const correctAns = q.answerDisplay || q.answer;
+        html += `<div class="corr-block ${isCorrect ? 'corr-correct' : 'corr-wrong'}">
+          <div class="corr-qnum ${isCorrect ? 'ok' : 'bad'}">${isCorrect ? '✓' : '✗'} Question ${q.id}</div>
+          <div class="corr-qtext">${q.text}</div>`;
+        if (isCorrect) {
+          html += `<div class="corr-row"><span class="corr-tag reinforce">✓ Correct</span><span class="corr-val">${studentAns}</span></div>
+            <div class="corr-expl">${q.reinforcement || ''}</div>`;
+        } else {
+          html += `<div class="corr-row"><span class="corr-tag your">Your answer</span><span class="corr-val">${studentAns}</span></div>
+            <div class="corr-row"><span class="corr-tag correct">Correct answer</span><span class="corr-val">${correctAns}${q.acceptable && q.acceptable.length > 1 ? ' <span style="font-size:0.75rem;color:var(--text-faint);">(also: ' + q.acceptable.filter(a=>a!==q.answer).join(', ') + ')</span>' : ''}</span></div>
+            <div class="corr-expl">${q.explanation || ''}</div>`;
+        }
+        html += `</div>`;
+      });
+    });
+    document.getElementById('corrPassage' + pid).innerHTML = html;
+  });
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function labelType(t) {
+  return { tfng:'True / False / Not Given', mc:'Multiple Choice', matching_headings:'Matching Headings', matching_info:'Matching Information', sentence_completion:'Sentence Completion', diagram_labelling:'Diagram Labelling', matching_feature:'Matching Features' }[t] || t;
+}
+
+// ─────────────────────────────────────────
+//  INIT
+// ─────────────────────────────────────────
+initFontSize();
+renderAll();
+startTimer();
+</script>
+<script src="/js/components.js"></script>
+<script>
+  IELTSLab.loadNav({ basePath: '../', breadcrumb: 'Mock Tests', authenticated: true, themeDefault: 'light' });
+</script>
+</body>
+</html>

@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IELTS Lab — Cambridge 17 Full Test 4 · Academic Reading</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <script>tailwind.config={theme:{extend:{fontFamily:{display:['Satoshi','Plus Jakarta Sans','system-ui','sans-serif'],sans:['Plus Jakarta Sans','system-ui','sans-serif']}}}}</script>
+  <style>
+    /* ── DESIGN TOKENS ── */
+    :root {
+      --gold: #C9952E;
+      --gold-light: #DDB05A;
+      --gold-dim: rgba(201,149,46,0.10);
+      --gold-border: rgba(201,149,46,0.30);
+      --navy: #1a3c6e;
+      --navy-mid: #2a4f8a;
+      --page-bg: #F7F8FA;
+      --card-bg: #FFFFFF;
+      --qpanel-bg: #EFF3F9;
+      --border: #E2E8F0;
+      --border-soft: #EEF1F6;
+      --text-primary: #1E2A3A;
+      --text-body: #374151;
+      --text-muted: #64748B;
+      --text-faint: #94A3B8;
+      --passage-font-size: 15px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--page-bg); color: var(--text-primary); }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    h1, h2, h3, h4, .font-display { font-family: 'Satoshi', 'Plus Jakarta Sans', system-ui, sans-serif; }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #EFF2F7; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 3px; }
+
+    /* ── PROGRESS ── */
+    .progress-bar { height: 3px; background: #E2E8F0; position: fixed; top: 64px; left: 0; right: 0; z-index: 40; }
+    .progress-fill { height: 100%; background: linear-gradient(to right, var(--gold), #DDB05A); transition: width 1s linear; width: 0%; }
+
+    /* ── NAV ── */
+    .nav-glass { background: rgba(255,255,255,0.97); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .nav-logo { display: flex; align-items: baseline; gap: 0; text-decoration: none; }
+    .nl-ielts { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; letter-spacing: 1px; color: var(--text-primary); }
+    .nl-lab { font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: 3px; color: var(--gold); margin-left: 5px; }
+    #themeToggle { background: transparent; border: 1.5px solid var(--border); color: var(--text-muted); border-radius: 8px; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; font-size: 15px; flex-shrink: 0; padding: 0; }
+    #themeToggle:hover { border-color: var(--gold-border); color: var(--gold); }
+
+    /* ── TIMER ── */
+    .timer-box { background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 10px; padding: 8px 16px; font-family: 'Space Mono', monospace; font-size: 1.125rem; font-weight: 700; color: var(--text-primary); letter-spacing: 2px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+    .timer-box.warning { color: #b45309; border-color: rgba(180,83,9,0.3); background: #fffbeb; }
+    .timer-box.critical { color: #dc2626; border-color: rgba(220,38,38,0.3); background: #fef2f2; animation: pulse 1s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
+
+    /* ── TIMING STRIP ── */
+    .timing-strip { background: #FAFBFD; border-bottom: 1px solid var(--border); padding: 8px 0; }
+    .timing-item { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+    .timing-label { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
+    .timing-val { font-size: 0.75rem; color: var(--text-muted); }
+
+    /* ── FONT SIZE CONTROLLER ── */
+    .font-ctrl { display: inline-flex; align-items: center; gap: 0; background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 9px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .font-ctrl-btn { padding: 6px 12px; border: none; background: transparent; cursor: pointer; color: var(--text-muted); font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.15s; line-height: 1; border-right: 1px solid var(--border); }
+    .font-ctrl-btn:last-child { border-right: none; }
+    .font-ctrl-btn:hover { background: var(--gold-dim); color: var(--gold); }
+    .font-ctrl-btn.a-small { font-size: 11px; }
+    .font-ctrl-btn.a-mid   { font-size: 13px; }
+    .font-ctrl-btn.a-large { font-size: 16px; }
+    .font-ctrl-label { font-size: 0.625rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); padding: 0 8px; }
+
+    /* ── ACCESSIBILITY TOOLBAR ── */
+    .a11y-bar { display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: #FFFFFF; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .a11y-bar-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); }
+
+    /* ── TAB NAV ── */
+    .tab-nav { display: flex; gap: 4px; margin-bottom: 1rem; background: #EFF3F9; border-radius: 12px; padding: 4px; }
+    .tab-btn { flex: 1; padding: 8px 12px; border: none; border-radius: 9px; background: transparent; color: var(--text-muted); font-size: 0.8125rem; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .tab-btn:hover { background: rgba(255,255,255,0.6); color: var(--text-primary); }
+    .tab-btn.active { background: #FFFFFF; color: var(--navy); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+
+    /* ── SECTION CARDS ── */
+    .section-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 1.75rem; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+
+    /* ── PASSAGE ── */
+    .passage-text { font-size: var(--passage-font-size); line-height: 2.0; color: var(--text-body); transition: font-size 0.2s ease; }
+    .passage-text p { margin-bottom: 1.2rem; }
+    .para-label { display: inline-block; font-family: 'Space Mono', monospace; font-size: 0.6875rem; font-weight: 700; color: var(--navy); background: rgba(26,60,110,0.08); border: 1px solid rgba(26,60,110,0.18); border-radius: 4px; padding: 1px 6px; margin-right: 8px; letter-spacing: 0.05em; }
+
+    /* ── QUESTION BLOCKS ── */
+    .q-block { margin-bottom: 1.25rem; padding: 1rem 1.15rem; border-radius: 12px; background: #FFFFFF; border: 1px solid var(--border); }
+    .q-num { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+    .q-text { font-size: 0.9rem; color: var(--text-body); margin-bottom: 10px; line-height: 1.65; }
+    .q-input { width: 100%; background: #F8FAFC; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text-primary); font-size: 0.9rem; transition: border-color 0.2s, box-shadow 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,149,46,0.12); }
+    .q-select { width: 100%; background: #F8FAFC; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text-primary); font-size: 0.9rem; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-select:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,149,46,0.12); }
+    .q-options { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+    .q-option { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; padding: 9px 12px; border-radius: 8px; border: 1.5px solid var(--border); transition: all 0.2s; background: #F8FAFC; }
+    .q-option:hover { background: var(--gold-dim); border-color: var(--gold-border); }
+    .q-option input[type=radio] { accent-color: var(--gold); margin-top: 3px; flex-shrink: 0; }
+    .q-option label { font-size: 0.9rem; color: var(--text-body); cursor: pointer; line-height: 1.55; }
+
+    /* ── T/F/NG ── */
+    .q-tfng { display: flex; gap: 8px; }
+    .q-tfng-btn { flex: 1; padding: 9px 6px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer; background: #F8FAFC; color: var(--text-muted); transition: all 0.2s; letter-spacing: 0.05em; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-tfng-btn:hover { border-color: var(--gold-border); color: var(--gold); background: var(--gold-dim); }
+    .q-tfng-btn.sel-t { border-color: #16a34a; background: #f0fdf4; color: #16a34a; }
+    .q-tfng-btn.sel-f { border-color: #dc2626; background: #fef2f2; color: #dc2626; }
+    .q-tfng-btn.sel-ng { border-color: #d97706; background: #fffbeb; color: #d97706; }
+
+    /* ── GROUP HEADER ── */
+    .group-header { margin-bottom: 1.25rem; padding: 0.875rem 1rem; border-radius: 12px; background: rgba(26,60,110,0.04); border: 1px solid rgba(26,60,110,0.12); }
+    .group-header p { font-size: 0.8125rem; color: var(--text-muted); line-height: 1.65; margin-top: 6px; }
+
+    /* ── HEADINGS LIST ── */
+    .headings-list { margin: 0.75rem 0; padding: 0.875rem 1rem; background: #FFFFFF; border-radius: 10px; border: 1px solid var(--border); }
+    .headings-list li { font-size: 0.8125rem; color: var(--text-body); line-height: 1.8; padding: 2px 0; }
+    .headings-list li span { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--gold); margin-right: 6px; font-weight: 700; }
+
+    /* ── BUTTONS ── */
+    .btn-gold { background: linear-gradient(135deg, var(--gold) 0%, #a8741f 100%); color: #FFFFFF; border: none; border-radius: 10px; padding: 12px 32px; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.04em; cursor: pointer; transition: all 0.25s ease; box-shadow: 0 2px 12px rgba(201,149,46,0.30); }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 6px 22px rgba(201,149,46,0.42); }
+
+    /* ── CORRECTION REPORT ── */
+    .corr-block { margin-bottom: 1rem; padding: 1rem 1.25rem; border-radius: 12px; border: 1.5px solid; }
+    .corr-correct { background: #f0fdf4; border-color: #bbf7d0; }
+    .corr-wrong { background: #fef2f2; border-color: #fecaca; }
+    .corr-qnum { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+    .corr-qnum.ok { color: #16a34a; }
+    .corr-qnum.bad { color: #dc2626; }
+    .corr-qtext { font-size: 0.875rem; color: var(--text-body); line-height: 1.65; margin-bottom: 8px; }
+    .corr-row { display: flex; gap: 8px; align-items: flex-start; font-size: 0.8125rem; margin-bottom: 4px; }
+    .corr-tag { flex-shrink: 0; padding: 2px 8px; border-radius: 4px; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+    .corr-tag.your { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+    .corr-tag.correct { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .corr-tag.reinforce { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .corr-val { color: var(--text-primary); line-height: 1.5; }
+    .corr-expl { margin-top: 8px; padding: 9px 12px; background: #FFFFFF; border-radius: 8px; border-left: 3px solid var(--gold-border); font-size: 0.8125rem; color: var(--text-muted); line-height: 1.65; }
+    .corr-expl strong { color: var(--text-primary); }
+
+    /* ── RESULTS ── */
+    .score-ring-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .band-feedback { padding: 1.25rem; border-radius: 12px; background: rgba(26,60,110,0.04); border: 1px solid rgba(26,60,110,0.12); font-size: 0.9rem; color: var(--text-body); line-height: 1.8; }
+    .band-feedback strong { color: var(--navy); }
+    .passage-corr-header { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); padding: 10px 0 8px; border-bottom: 1px solid var(--border); margin-bottom: 1rem; }
+
+    /* ── SPINNER ── */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; }
+
+    /* ── SPLIT LAYOUT ── */
+    .split-container { display: flex; height: calc(100vh - 268px); min-height: 560px; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+    .reading-pane { width: 52%; min-width: 25%; max-width: 75%; overflow-y: auto; padding: 1.75rem; background: var(--card-bg); flex-shrink: 0; }
+    .question-pane { flex: 1; overflow-y: auto; padding: 1.75rem; background: var(--qpanel-bg); min-width: 25%; }
+    .resizer-bar { width: 16px; background: #F1F5F9; cursor: col-resize; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; border-left: 1px solid var(--border); border-right: 1px solid var(--border); transition: background 0.15s; user-select: none; -webkit-user-select: none; }
+    .resizer-bar:hover, .resizer-bar.active { background: var(--gold-dim); border-left-color: var(--gold-border); border-right-color: var(--gold-border); }
+    .resizer-btn { background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 8px; padding: 10px 4px; cursor: col-resize; display: flex; flex-direction: column; align-items: center; gap: 5px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); transition: border-color 0.15s, box-shadow 0.15s; pointer-events: none; }
+    .resizer-bar:hover .resizer-btn { border-color: var(--gold-border); box-shadow: 0 2px 8px rgba(201,149,46,0.15); }
+    @media (max-width: 1023px) {
+      .split-container { flex-direction: column; height: auto; overflow: visible; border: none; border-radius: 0; box-shadow: none; gap: 1rem; }
+      .reading-pane { width: 100% !important; min-width: 100%; max-width: 100%; overflow-y: visible; border: 1px solid var(--border); border-radius: 16px; }
+      .resizer-bar { display: none; }
+      .question-pane { min-width: 100%; overflow-y: visible; border: 1px solid var(--border); border-radius: 16px; }
+    }
+  </style>
+  <script>
+    (function(){
+      var raw = localStorage.getItem('ielts_session');
+      if (!raw) { window.location.replace('../login.html'); return; }
+      try { JSON.parse(raw); } catch(e) { localStorage.removeItem('ielts_session'); window.location.replace('../login.html'); }
+    })();
+    (function(){ var t = localStorage.getItem('ieltslab_theme') || 'light'; document.documentElement.setAttribute('data-theme', t); })();
+    function toggleTheme(){ var c = document.documentElement.getAttribute('data-theme') || 'light', n = c === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', n); localStorage.setItem('ieltslab_theme', n); var b = document.getElementById('themeToggle'); if(b) b.textContent = n === 'dark' ? '☀' : '🌙'; }
+    document.addEventListener('DOMContentLoaded', function(){ var b = document.getElementById('themeToggle'); if(b){ var d = (document.documentElement.getAttribute('data-theme') || 'light') === 'dark'; b.textContent = d ? '☀' : '🌙'; } });
+  </script>
+</head>
+<body class="min-h-screen flex flex-col" style="background:var(--page-bg);color:var(--text-primary);">
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<div id="header-container"></div>
+
+<!-- TIMING STRIP -->
+<div class="timing-strip" id="timingStrip">
+  <div class="px-4 flex items-center justify-center gap-10">
+    <div class="timing-item"><span class="timing-label">Passage 1</span><span class="timing-val">15–17 min</span></div>
+    <div style="width:1px;height:24px;background:var(--border);"></div>
+    <div class="timing-item"><span class="timing-label">Passage 2</span><span class="timing-val">20 min</span></div>
+    <div style="width:1px;height:24px;background:var(--border);"></div>
+    <div class="timing-item"><span class="timing-label">Passage 3</span><span class="timing-val">23–25 min</span></div>
+  </div>
+</div>
+
+<!-- TEST MAIN -->
+<main class="flex-1 w-full px-4 py-6" id="testMain">
+
+  <!-- HEADER ROW -->
+  <div class="flex items-start justify-between mb-5 gap-4">
+    <div>
+      <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Cambridge 17 · Full Test 4</div>
+      <h1 class="font-display font-black text-2xl" style="color:var(--text-primary);">Academic Reading — Full Test 4</h1>
+    </div>
+    <div class="flex items-center gap-3 flex-shrink-0">
+      <div id="timerDisplay" class="timer-box">60:00</div>
+    </div>
+  </div>
+
+  <!-- ACCESSIBILITY TOOLBAR -->
+  <div class="a11y-bar">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-muted);flex-shrink:0;"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+    <span class="a11y-bar-label">Text Size</span>
+    <div class="font-ctrl" role="toolbar" aria-label="Adjust passage text size">
+      <button class="font-ctrl-btn a-small" onclick="adjustFontSize(-1)" title="Decrease text size">A−</button>
+      <button class="font-ctrl-btn a-mid"   onclick="adjustFontSize(0)"  title="Reset text size">A</button>
+      <button class="font-ctrl-btn a-large" onclick="adjustFontSize(1)"  title="Increase text size">A+</button>
+    </div>
+    <span style="font-size:0.75rem;color:var(--text-faint);">Adjust the reading passage font size</span>
+    <div class="ml-auto text-xs hidden md:block" style="color:var(--text-muted);">60 minutes · 40 questions · 3 passages</div>
+  </div>
+
+  <!-- TAB NAV -->
+  <div class="tab-nav" id="tabNav">
+    <button class="tab-btn active" onclick="switchTab(1)">Passage 1 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q1–13)</span></button>
+    <button class="tab-btn" onclick="switchTab(2)">Passage 2 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q14–26)</span></button>
+    <button class="tab-btn" onclick="switchTab(3)">Passage 3 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q27–40)</span></button>
+  </div>
+
+  <!-- ══ SPLIT VIEW ══ -->
+  <div class="split-container" id="splitContainer">
+    <div class="reading-pane" id="readingPane">
+
+      <!-- Passage 1 -->
+      <div id="passageContent1">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 1</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">Coral Reef Ecosystems: Biology, Function, and Threats</div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>Coral reefs are among the most biologically diverse ecosystems on Earth, covering less than one percent of the ocean floor yet supporting an estimated twenty-five percent of all known marine species. Formed over thousands of years through the accumulation of calcium carbonate secreted by colonies of tiny invertebrates known as coral polyps, these structures provide habitat, food, and shelter for an extraordinary range of organisms. Despite their apparent solidity, reefs are dynamic living systems whose continued existence depends on a finely balanced set of biological and chemical conditions that are increasingly being disrupted by human activity.</p>
+
+          <p><span class="para-label">B</span>The architectural foundation of every coral reef is the symbiotic relationship between coral polyps and microscopic algae called zooxanthellae, which reside within the polyps' tissues. Through photosynthesis, these algae supply the polyp with up to ninety percent of its energy requirements, while the polyp in turn provides the algae with shelter and the carbon dioxide and nutrients needed for photosynthesis. This partnership is extraordinarily productive in warm, clear, nutrient-poor tropical waters, where it allows corals to build massive calcium carbonate skeletons at rates that can exceed ten millimetres of vertical growth per year under optimal conditions. The entire reef framework is thus an expression of this biochemical cooperation operating across millions of individual colonies simultaneously.</p>
+
+          <p><span class="para-label">C</span>The ecological function of reef structures extends far beyond the coral organisms themselves. The complex three-dimensional architecture of a mature reef creates an enormous surface area of microhabitats — crevices, overhangs, sandy patches, and open water columns — that are exploited by fish, crustaceans, molluscs, echinoderms, and a vast array of other invertebrates. Ecologists estimate that a single hectare of healthy reef may support more than one thousand fish species and hundreds of thousands of invertebrate species simultaneously. This concentration of biodiversity generates ecological processes — predation, competition, nutrient cycling, and larval dispersal — that maintain the reef's structural integrity and resilience against periodic disturbance events such as storms or disease outbreaks.</p>
+
+          <p><span class="para-label">D</span>Reefs also perform critical services for human populations living adjacent to tropical coastlines. The physical structure of a reef dissipates wave energy with considerable efficiency, reducing coastal erosion and protecting low-lying shorelines from storm surge damage. Studies conducted by the World Resources Institute have estimated that reefs provide coastal protection benefits valued at approximately nine billion US dollars annually at the global level, a figure that rises substantially when the livelihoods of the estimated one billion people who depend at least partially on reef-associated fisheries are included. Reef ecosystems furthermore support tourism industries — particularly in regions such as the Caribbean, the Indo-Pacific, and the Red Sea — that contribute billions more to national economies each year.</p>
+
+          <p><span class="para-label">E</span>The principal threat to coral reefs in the contemporary period is ocean warming driven by the accumulation of anthropogenic greenhouse gases. When seawater temperatures rise by even one degree Celsius above the seasonal maximum and remain elevated for several weeks, the partnership between coral polyps and zooxanthellae breaks down: the algae are expelled from the polyp's tissues, leaving the coral visibly bleached and vulnerable to disease and starvation. Mass bleaching events of the kind documented on the Great Barrier Reef in 2016 and 2017 can cause mortality across hundreds of kilometres of reef in a single season. The Australian Institute of Marine Science recorded that those two consecutive bleaching events killed approximately fifty percent of the shallow-water coral cover on the northern and central sections of the Great Barrier Reef.</p>
+
+          <p><span class="para-label">F</span>Ocean acidification presents a secondary but compounding threat. As the ocean absorbs increasing quantities of atmospheric carbon dioxide, seawater chemistry shifts towards greater acidity, reducing the concentration of carbonate ions that corals require to build their calcium carbonate skeletons. Laboratory experiments conducted by researchers at the Carnegie Institution for Science demonstrated that coral calcification rates decline measurably at pH levels projected to occur under moderate emissions scenarios by 2100. In combination with thermal stress, reduced calcification impairs the reef's capacity to recover from physical damage and may eventually render growth insufficient to keep pace with bioerosion — the gradual breakdown of reef structure by boring sponges, sea urchins, and parrotfish.</p>
+
+          <p><span class="para-label">G</span>Conservation responses have ranged from the establishment of marine protected areas and restrictions on destructive fishing practices to experimental programmes of assisted evolution and coral gardening, in which heat-resistant coral fragments are cultivated in nurseries and transplanted onto degraded reef sections. The scientific consensus, however, holds that these interventions can at best buy time: without substantial reductions in global greenhouse gas emissions, the combination of warming and acidification will, on current trajectories, degrade the majority of the world's coral reefs beyond functional recovery before the end of the present century.</p>
+        </div>
+      </div>
+
+      <!-- Passage 2 -->
+      <div id="passageContent2" style="display:none;">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 2</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">The History and Politics of International Trade Agreements</div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>The governance of international trade has been one of the defining political projects of the post-war era, reshaping the economic relationships between nations and generating persistent controversies about sovereignty, inequality, and the distribution of gains from cross-border commerce. From the General Agreement on Tariffs and Trade signed in Geneva in 1947 to the sprawling network of bilateral and regional agreements that characterise the contemporary landscape, the institutional architecture of trade has evolved in ways that reflect both genuine cooperation among states and the exercise of concentrated economic and diplomatic power by the most influential actors in the system.</p>
+
+          <p><span class="para-label">B</span>The foundational rationale for trade liberalisation is rooted in comparative advantage — the economic principle, associated most directly with David Ricardo's 1817 work, that nations maximise collective welfare by specialising in the production of goods they can produce at relatively lower opportunity cost, even if another nation could produce all goods more efficiently in absolute terms. This framework predicts that the removal of tariff barriers and other trade restrictions will generate welfare gains across participating economies, though it also implies that the gains may be unevenly distributed within countries: industries that cannot compete against imports are contracted, while export-competitive sectors expand. The political management of this internal distributional tension has been a persistent challenge for governments seeking to sustain public support for liberalisation agreements.</p>
+
+          <p><span class="para-label">C</span>The multilateral trading system that emerged from the 1947 Geneva negotiations was explicitly designed to prevent the recurrence of the protectionist spiral that had deepened and prolonged the economic depression of the 1930s. The Smoot-Hawley Tariff Act of 1930, which raised average US import duties to nearly fifty percent and provoked retaliatory tariff increases by trading partners, is widely credited by economic historians with accelerating the collapse of global trade volumes by more than sixty percent between 1929 and 1932. The GATT framework institutionalised the non-discrimination principle through most-favoured-nation status — the requirement that any trade concession extended to one signatory must be extended equally to all — and established a dispute settlement mechanism that, for the first time, subjected trade policy to binding international adjudication.</p>
+
+          <p><span class="para-label">D</span>The transformation of the GATT into the World Trade Organisation in 1995 extended the scope of trade governance well beyond tariff reduction, incorporating new disciplines covering intellectual property rights, trade in services, and investment measures. Developing country governments and civil society organisations raised pointed objections to several of these extensions, arguing that the Agreement on Trade-Related Aspects of Intellectual Property Rights (TRIPS), in particular, constrained their ability to produce generic versions of patented medicines and thereby imposed significant public health costs. The subsequent Doha Declaration of 2001 attempted to clarify that TRIPS should not prevent WTO members from taking measures to protect public health, but the implementation of this flexibility in national law has remained contested and uneven.</p>
+
+          <p><span class="para-label">E</span>The early twenty-first century witnessed a partial retreat from the multilateral framework as major economies increasingly pursued trade objectives through bilateral and regional free trade agreements. The proliferation of these preferential arrangements — there were fewer than fifty in force globally in 1990, compared with more than three hundred by 2020 — has created what economists describe as a 'spaghetti bowl' of overlapping and sometimes contradictory rules of origin, tariff schedules, and dispute resolution mechanisms. Proponents argue that bilateral agreements allow more ambitious liberalisation between willing partners than the consensus-based WTO process permits; critics contend that they systematically favour economically powerful negotiating parties, embed regulatory frameworks that limit policy space for weaker states, and divert trade from more efficient non-member suppliers.</p>
+
+          <p><span class="para-label">F</span>The politics of trade agreements have become markedly more contentious in democratic societies since the mid-2010s, a shift often attributed to the visible concentration of adjustment costs in specific communities and sectors rather than any aggregate change in the overall welfare calculus. Research by economists David Autor, David Dorn, and Gordon Hanson demonstrated that US manufacturing regions exposed to import competition from China experienced sustained and severe employment losses that conventional trade adjustment mechanisms failed to adequately compensate. These findings challenged the prior academic consensus that labour market adjustment to trade liberalisation was relatively swift and smooth, and provided empirical grounding for political movements that framed trade agreements as instruments of elite interests that imposed hidden costs on working populations.</p>
+
+          <p><span class="para-label">G</span>The future direction of international trade governance remains genuinely uncertain. The WTO's dispute settlement mechanism was effectively paralysed between 2019 and 2024, when the United States blocked the appointment of new Appellate Body members, removing the institution's capacity to issue binding rulings on contested cases. Efforts to negotiate a comprehensive multilateral agreement under the Doha Development Round, launched in 2001, have stalled indefinitely. Whether the system can be reformed to address distributional inequities while maintaining the welfare-enhancing core of trade liberalisation — or whether it will fragment further into competing blocs of preferential arrangements — remains one of the central unresolved questions in international economic governance.</p>
+        </div>
+      </div>
+
+      <!-- Passage 3 -->
+      <div id="passageContent3" style="display:none;">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 3</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">Risk Perception and Behavioural Economics: Why Humans Misjudge Danger</div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>In a landmark series of experiments conducted in the early 1970s, psychologists Daniel Kahneman and Amos Tversky demonstrated that human beings do not evaluate risk in accordance with the probabilistic calculations prescribed by classical expected utility theory. Instead, they employ a set of cognitive shortcuts — which the researchers termed heuristics — that generate rapid, intuitive judgements under uncertainty. These heuristics are often functionally adequate for everyday decisions, but they introduce systematic and predictable distortions, or biases, that cause people to over-weight vivid, emotionally salient dangers while underestimating statistical risks that are diffuse, abstract, or unfamiliar. The implications of this research programme have extended far beyond academic psychology, reshaping the theoretical foundations of economics, public policy, and regulatory practice across multiple domains.</p>
+
+          <p><span class="para-label">B</span>The availability heuristic — the tendency to judge the likelihood of an event by the ease with which relevant examples come to mind — provides one of the most studied illustrations of systematic risk miscalibration. Events that are dramatic, recent, or widely covered in the media are cognitively accessible and therefore judged to be more probable than they statistically are. Following a high-profile aeroplane crash, surveys consistently record elevated perceptions of aviation risk and measurable reductions in air travel bookings, even though the statistical probability of dying in a given commercial flight has fallen continuously over decades and now stands in the range of one in eleven million journeys. By contrast, far more statistically significant causes of mortality — cardiovascular disease, road traffic accidents, falls in the home — attract comparatively modest levels of perceived risk because they occur incrementally and without dramatic narrative salience.</p>
+
+          <p><span class="para-label">C</span>Prospect theory, the descriptive model of decision-making under risk that Kahneman and Tversky developed as an alternative to expected utility theory, identified loss aversion as a further source of systematic distortion. Their experiments demonstrated that the subjective pain of losing a given sum of money is approximately twice as intense as the pleasure derived from gaining an equivalent amount — a finding that has proved extraordinarily robust across cultural contexts, experimental designs, and populations. Loss aversion distorts risk perception by causing individuals to treat the prospect of losing an existing endowment as categorically worse than the prospect of failing to acquire an equivalent gain, even when the objective probabilities and magnitudes are identical. In the domain of public health communication, this asymmetry suggests that messages framed in terms of the costs of inaction are likely to be substantially more persuasive than equivalent messages framed as the benefits of action.</p>
+
+          <p><span class="para-label">D</span>The optimism bias — the well-documented tendency of individuals to assess their own future as more favourable than statistical base rates would justify — represents a further mechanism through which risk is chronically underestimated at the personal level. Studies across populations in more than twenty countries have found that the large majority of respondents rate their personal probability of experiencing adverse health events, divorce, unemployment, or accident as substantially below the population average — a statistical impossibility given that an average cannot be exceeded by fewer than half of those assessed against it. Researchers at University College London have identified neural correlates of optimism bias in selective updating processes within the frontal cortex, suggesting that the bias may be partially hard-wired into the architecture of human cognition rather than purely a product of motivated reasoning or cultural influence.</p>
+
+          <p><span class="para-label">E</span>These psychological regularities carry significant and contested implications for regulatory policy. The rational-actor framework that has underpinned much of welfare economics holds that informed adults are the best judges of their own interests, and that paternalistic intervention is therefore unjustified unless there are clearly identified external costs to third parties. Behavioural economists have challenged this position on the grounds that the systematic biases documented in the psychological literature constitute failures of individual rationality that the market cannot correct unaided. Richard Thaler and Cass Sunstein's concept of libertarian paternalism — subsequently elaborated through the notion of 'nudge' policy — proposes that policy designers can exploit the same heuristic processes that generate bias to steer behaviour towards objectively better outcomes, without restricting formal freedom of choice. Critics of this approach argue that it infantilises citizens, that the definition of 'better outcomes' embeds contested value judgements, and that nudge interventions are insufficiently transparent about the manipulation of choice architecture they entail.</p>
+
+          <p><span class="para-label">F</span>The application of behavioural insights to insurance markets illustrates the complexity of translating psychological findings into workable policy. Standard economic theory predicts that risk-averse individuals will purchase insurance against events whose costs would significantly exceed their ability to self-finance. In practice, take-up of flood insurance, health insurance, and retirement savings products is persistently below the levels that rational self-interest would predict, even when products are subsidised or information barriers are removed. Research by Elke Weber at Princeton University has attributed this paradox partly to what she terms finite pool of worry — the proposition that the total quantity of risk concern an individual can sustain is constrained, so that heightened anxiety about one category of risk crowds out attention to others. In environments of elevated background anxiety, genuinely high-probability risks may paradoxically receive less active management than lower-stakes concerns.</p>
+
+          <p><span class="para-label">G</span>The debate about how deeply behavioural economics should inform the design of public institutions and regulatory frameworks remains unresolved and reflects broader tensions between different conceptions of human agency and the proper scope of state intervention. The accumulated evidence strongly suggests that human risk perception is neither simply irrational — the heuristics that generate bias also generate fast, computationally cheap, and frequently adequate judgements under uncertainty — nor effortlessly correctable through information provision alone. Effective risk communication and policy design must therefore engage with the psychological architecture of risk perception as it actually operates, rather than as the models of rational choice theory assume it should.</p>
+        </div>
+      </div>
+
+    </div><!-- /reading-pane -->
+
+    <!-- RESIZER BAR -->
+    <div class="resizer-bar" id="resizerBar">
+      <button class="resizer-btn" aria-label="Drag to resize panels">
+        <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M3.5 2L1 6L3.5 10" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span style="display:block;width:2px;height:14px;background:var(--border);border-radius:1px;"></span>
+        <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M6.5 2L9 6L6.5 10" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+
+    <!-- QUESTION PANE -->
+    <div class="question-pane" id="questionPane">
+      <div id="qPanel1"></div>
+      <div id="qPanel2" style="display:none;"></div>
+      <div id="qPanel3" style="display:none;"></div>
+    </div>
+
+  </div><!-- /split-container -->
+
+  <!-- SUBMIT -->
+  <div class="flex justify-center mt-10 mb-16">
+    <button onclick="confirmSubmit()" class="btn-gold px-10 py-4 text-base">Submit Reading Test</button>
+  </div>
+</main>
+
+<!-- RESULTS -->
+<div id="resultsMain" style="display:none;" class="flex-1 max-w-5xl mx-auto px-6 py-10 w-full">
+  <div class="flex items-center gap-3 mb-8">
+    <div>
+      <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Results</div>
+      <h1 class="font-display font-black text-2xl" style="color:var(--text-primary);">Academic Reading — Score Report</h1>
+    </div>
+  </div>
+  <div class="section-card mb-6" id="scoreCard"></div>
+  <div class="section-card mb-8" id="feedbackCard"></div>
+  <div class="section-card mb-6">
+    <div class="passage-corr-header">Passage 1 — Coral Reef Ecosystems</div>
+    <div id="corrPassage1"></div>
+  </div>
+  <div class="section-card mb-6">
+    <div class="passage-corr-header">Passage 2 — The History and Politics of International Trade Agreements</div>
+    <div id="corrPassage2"></div>
+  </div>
+  <div class="section-card mb-10">
+    <div class="passage-corr-header">Passage 3 — Risk Perception and Behavioural Economics</div>
+    <div id="corrPassage3"></div>
+  </div>
+  <div class="flex gap-4 justify-center mb-16">
+    <a href="index.html" class="btn-gold">← Back to Tests</a>
+  </div>
+</div>
+
+<!-- SUBMITTING OVERLAY -->
+<div id="submittingOverlay" style="display:none;position:fixed;inset:0;z-index:300;background:rgba(247,248,250,0.97);flex-direction:column;align-items:center;justify-content:center;" class="flex">
+  <div class="spinner mb-6"></div>
+  <div class="font-display font-bold text-xl mb-2" style="color:var(--text-primary);">Scoring Your Answers</div>
+  <p class="text-sm" style="color:var(--text-muted);">Analysing your responses…</p>
+</div>
+
+<script>
+
+// ─────────────────────────────────────────
+//  TEST DATA
+// ─────────────────────────────────────────
+const GROUPS = [
+  // ── PASSAGE 1 — Coral Reef Ecosystems — Matching Headings Q1–5 ──
+  {
+    passageId: 1,
+    type: 'matching_headings',
+    label: 'Questions 1–5',
+    instructions: 'The reading passage has seven paragraphs, <strong>A–G</strong>. Choose the correct heading for paragraphs <strong>B–F</strong> from the list of headings below. Paragraphs A and G are not included. Write the correct Roman numeral in the box.',
+    headings: [
+      { key: 'i',    text: 'The symbiotic relationship that enables coral polyps to build reef structures' },
+      { key: 'ii',   text: 'How reef architecture creates habitats that sustain exceptional biodiversity' },
+      { key: 'iii',  text: 'The economic and protective services that reefs provide to coastal communities' },
+      { key: 'iv',   text: 'The mechanism by which rising seawater temperatures damage coral tissue' },
+      { key: 'v',    text: 'A chemical process that weakens the ability of corals to construct their skeletons' },
+      { key: 'vi',   text: 'Government policies targeting the illegal trade in coral reef organisms' },
+      { key: 'vii',  text: 'How rainfall patterns affect the distribution of reef ecosystems across ocean basins' },
+      { key: 'viii', text: 'The role of reef ecosystems in regulating global ocean oxygen levels' },
+    ],
+    questions: [
+      { id: 1, paraLabel: 'B', text: 'Paragraph B', answer: 'i', answerDisplay: 'i — The symbiotic relationship that enables coral polyps to build reef structures',
+        explanation: 'Paragraph B is entirely organised around the symbiosis between coral polyps and zooxanthellae — the algae supply energy, the polyp provides shelter and nutrients, and the result is calcium carbonate skeleton construction. Heading ii belongs to C; heading iv (bleaching/warming) belongs to E.',
+        reinforcement: 'Correct — paragraph B describes the zooxanthellae symbiosis as the foundational relationship enabling reef construction, matching heading i.' },
+      { id: 2, paraLabel: 'C', text: 'Paragraph C', answer: 'ii', answerDisplay: 'ii — How reef architecture creates habitats that sustain exceptional biodiversity',
+        explanation: 'Paragraph C describes the three-dimensional microhabitats created by reef architecture and quantifies the resulting biodiversity (over one thousand fish species per hectare). Heading i belongs to B; headings vi, vii, viii have no basis in the passage.',
+        reinforcement: 'Correct — paragraph C explains how the structural complexity of reefs generates microhabitats that support extraordinary biodiversity, matching heading ii.' },
+      { id: 3, paraLabel: 'D', text: 'Paragraph D', answer: 'iii', answerDisplay: 'iii — The economic and protective services that reefs provide to coastal communities',
+        explanation: 'Paragraph D describes wave-energy dissipation that protects coastlines and quantifies the nine-billion-dollar coastal protection value plus fishery and tourism contributions. "Protective services" = wave energy dissipation; "economic services" = fisheries and tourism revenues.',
+        reinforcement: 'Correct — paragraph D is the ecosystem services paragraph, enumerating coastal protection value and economic contributions, matching heading iii.' },
+      { id: 4, paraLabel: 'E', text: 'Paragraph E', answer: 'iv', answerDisplay: 'iv — The mechanism by which rising seawater temperatures damage coral tissue',
+        explanation: 'Paragraph E explains the bleaching mechanism: temperature rise causes zooxanthellae expulsion, leaving coral bleached and vulnerable. It then quantifies the resulting mortality on the Great Barrier Reef. "Mechanism by which rising temperatures damage coral tissue" precisely describes this bleaching process.',
+        reinforcement: 'Correct — paragraph E describes the thermal bleaching mechanism and its documented mortality outcomes, matching heading iv.' },
+      { id: 5, paraLabel: 'F', text: 'Paragraph F', answer: 'v', answerDisplay: 'v — A chemical process that weakens the ability of corals to construct their skeletons',
+        explanation: 'Paragraph F describes ocean acidification: increased atmospheric CO₂ reduces carbonate ion concentration, which impairs coral calcification (skeleton building). "Chemical process" = acidification; "weakens ability to construct skeletons" = reduced calcification rates.',
+        reinforcement: 'Correct — paragraph F details the acidification mechanism that reduces calcification, matching heading v.' },
+    ]
+  },
+  // ── PASSAGE 1 — T/F/NG Q6–9 ──
+  {
+    passageId: 1,
+    type: 'tfng',
+    label: 'Questions 6–9',
+    instructions: 'Do the following statements agree with the information given in the reading passage? Write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      { id: 6, text: 'Coral reefs cover less than one percent of the ocean floor but support around a quarter of all known marine species.',
+        answer: 'TRUE',
+        explanation: 'Paragraph A: <strong>"covering less than one percent of the ocean floor yet supporting an estimated twenty-five percent of all known marine species."</strong> The statement is a direct paraphrase — "around a quarter" = "twenty-five percent."',
+        reinforcement: 'Correct — paragraph A states both figures explicitly, confirming this statement as TRUE.' },
+      { id: 7, text: 'Zooxanthellae supply coral polyps with all of the energy they require for survival.',
+        answer: 'FALSE',
+        explanation: 'Paragraph B states that zooxanthellae supply <strong>"up to ninety percent"</strong> of the polyp\'s energy requirements — not all of it. "All of the energy" directly contradicts "up to ninety percent."',
+        reinforcement: 'Correct — "up to ninety percent" explicitly contradicts "all of the energy," making this FALSE.' },
+      { id: 8, text: 'The World Resources Institute calculated that reef-related fisheries support the livelihoods of approximately one billion people.',
+        answer: 'TRUE',
+        explanation: 'Paragraph D: the World Resources Institute figure covers coastal protection, and the passage states <strong>"the estimated one billion people who depend at least partially on reef-associated fisheries."</strong> The statement accurately attributes both the source and the figure.',
+        reinforcement: 'Correct — paragraph D attributes the one-billion-person fisheries estimate to WRI data, confirming this as TRUE.' },
+      { id: 9, text: 'The coral gardening programmes mentioned in the passage have already restored reef ecosystems to their pre-bleaching condition in several locations.',
+        answer: 'NOT GIVEN',
+        explanation: 'Paragraph G mentions coral gardening as an intervention that can "buy time," but provides no information about whether reef ecosystems have been restored to pre-bleaching condition anywhere. The passage does not confirm, contradict, or quantify restoration outcomes.',
+        reinforcement: 'Correct — the passage mentions coral gardening but provides no evidence of restoration to pre-bleaching condition, making this NOT GIVEN.' },
+    ]
+  },
+  // ── PASSAGE 1 — Sentence Completion Q10–13 ──
+  {
+    passageId: 1,
+    type: 'sentence_completion',
+    label: 'Questions 10–13',
+    instructions: 'Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.',
+    questions: [
+      { id: 10, text: 'The calcium carbonate structures of coral reefs are built up over thousands of years from the secretions of colonies of tiny invertebrates called coral _______.',
+        answer: 'polyps', answerDisplay: 'polyps', acceptable: ['polyps'],
+        explanation: 'Paragraph A: <strong>"the accumulation of calcium carbonate secreted by colonies of tiny invertebrates known as coral polyps."</strong> The sentence frame paraphrases "accumulation of calcium carbonate secreted"; "polyps" is the one-word answer.',
+        reinforcement: 'Correct — "polyps" is the exact noun in paragraph A identifying the organisms that build reef structures.' },
+      { id: 11, text: 'In optimal conditions, some coral colonies can add more than ten millimetres of _______ growth per year.',
+        answer: 'vertical', answerDisplay: 'vertical', acceptable: ['vertical'],
+        explanation: 'Paragraph B: <strong>"build massive calcium carbonate skeletons at rates that can exceed ten millimetres of vertical growth per year under optimal conditions."</strong> "Vertical" is the passage-exact adjective modifying "growth."',
+        reinforcement: 'Correct — "vertical" is retrieved exactly from paragraph B\'s description of coral growth rates.' },
+      { id: 12, text: 'The mass bleaching events of 2016 and 2017 killed approximately fifty percent of the _______ coral cover on the northern and central Great Barrier Reef.',
+        answer: 'shallow-water', answerDisplay: 'shallow-water', acceptable: ['shallow-water', 'shallow water'],
+        explanation: 'Paragraph E: <strong>"killed approximately fifty percent of the shallow-water coral cover on the northern and central sections of the Great Barrier Reef."</strong> "Shallow-water" is the compound adjective — two words — that specifies the type of coral cover affected.',
+        reinforcement: 'Correct — "shallow-water" is the passage-exact qualifier in paragraph E describing the affected coral cover.' },
+      { id: 13, text: 'Ocean acidification may eventually cause reef growth to fall short of the rate of _______, which gradually breaks down reef structure.',
+        answer: 'bioerosion', answerDisplay: 'bioerosion', acceptable: ['bioerosion'],
+        explanation: 'Paragraph F: <strong>"may eventually render growth insufficient to keep pace with bioerosion — the gradual breakdown of reef structure by boring sponges, sea urchins, and parrotfish."</strong> "Bioerosion" is the single technical term defined by the clause that follows it.',
+        reinforcement: 'Correct — "bioerosion" is the passage-exact term in paragraph F describing the structural breakdown process that acidification may allow to outpace coral growth.' },
+    ]
+  },
+
+  // ── PASSAGE 2 — International Trade Agreements — Matching Headings Q14–18 ──
+  {
+    passageId: 2,
+    type: 'matching_headings',
+    label: 'Questions 14–18',
+    instructions: 'The reading passage has seven paragraphs, <strong>A–G</strong>. Choose the correct heading for paragraphs <strong>B–F</strong> from the list of headings below. Paragraphs A and G are not included. Write the correct Roman numeral in the box.',
+    headings: [
+      { key: 'i',    text: 'The theoretical economic case for trade liberalisation and its distributional tensions' },
+      { key: 'ii',   text: 'How lessons from the 1930s shaped the rules and institutions of post-war trade governance' },
+      { key: 'iii',  text: 'The extension of trade rules into new policy areas and the resulting disputes over public health' },
+      { key: 'iv',   text: 'The growth of bilateral agreements and the debate about their effects on weaker economies' },
+      { key: 'v',    text: 'Evidence that localised employment losses have fuelled political opposition to trade liberalisation' },
+      { key: 'vi',   text: 'The role of currency manipulation in undermining the benefits of international trade agreements' },
+      { key: 'vii',  text: 'A comparison of tariff schedules across developed and developing economies before 1950' },
+      { key: 'viii', text: 'How agricultural subsidies in wealthy nations distort competition with developing country producers' },
+    ],
+    questions: [
+      { id: 14, paraLabel: 'B', text: 'Paragraph B', answer: 'i', answerDisplay: 'i — The theoretical economic case for trade liberalisation and its distributional tensions',
+        explanation: 'Paragraph B presents the comparative advantage rationale (Ricardo, 1817) as the theoretical case for liberalisation, then immediately introduces the internal distributional tension — some industries contract while others expand. Heading ii belongs to C; headings vi, vii, viii are absent from the passage.',
+        reinforcement: 'Correct — paragraph B presents both the theoretical justification and the distributional challenge of trade liberalisation, matching heading i precisely.' },
+      { id: 15, paraLabel: 'C', text: 'Paragraph C', answer: 'ii', answerDisplay: 'ii — How lessons from the 1930s shaped the rules and institutions of post-war trade governance',
+        explanation: 'Paragraph C explains that the GATT was explicitly designed to prevent a recurrence of the 1930s protectionist spiral (Smoot-Hawley), and then describes the institutional rules it established. "Lessons from the 1930s" = the Smoot-Hawley example; "rules and institutions" = MFN status and dispute settlement.',
+        reinforcement: 'Correct — paragraph C draws the direct historical line from the 1930s depression to the GATT\'s institutional design, matching heading ii.' },
+      { id: 16, paraLabel: 'D', text: 'Paragraph D', answer: 'iii', answerDisplay: 'iii — The extension of trade rules into new policy areas and the resulting disputes over public health',
+        explanation: 'Paragraph D describes the WTO\'s expansion into IP rights, services, and investment (new policy areas), then focuses on TRIPS and generic medicines as the central public health dispute. "Extension into new policy areas" = WTO vs GATT scope; "disputes over public health" = TRIPS/medicines controversy.',
+        reinforcement: 'Correct — paragraph D covers the scope expansion of the WTO and the public health controversy over TRIPS, matching heading iii.' },
+      { id: 17, paraLabel: 'E', text: 'Paragraph E', answer: 'iv', answerDisplay: 'iv — The growth of bilateral agreements and the debate about their effects on weaker economies',
+        explanation: 'Paragraph E documents the proliferation from fewer than fifty to more than three hundred bilateral/regional agreements and then presents both sides of the debate — proponents (more ambition) and critics (favour powerful parties, limit weaker states\' policy space). "Growth of bilateral agreements" = the quantified proliferation; "debate about effects on weaker economies" = the critics\' arguments.',
+        reinforcement: 'Correct — paragraph E describes the explosion of bilateral agreements and the contested arguments about their effect on weaker states, matching heading iv.' },
+      { id: 18, paraLabel: 'F', text: 'Paragraph F', answer: 'v', answerDisplay: 'v — Evidence that localised employment losses have fuelled political opposition to trade liberalisation',
+        explanation: 'Paragraph F cites the Autor, Dorn, and Hanson research showing severe localised employment losses from Chinese import competition, and connects this to political movements that framed agreements as elite instruments. "Localised employment losses" = the research findings; "fuelled political opposition" = political movements it grounded.',
+        reinforcement: 'Correct — paragraph F presents empirical evidence of localised job losses and explicitly connects them to political opposition, matching heading v.' },
+    ]
+  },
+  // ── PASSAGE 2 — T/F/NG Q19–22 ──
+  {
+    passageId: 2,
+    type: 'tfng',
+    label: 'Questions 19–22',
+    instructions: 'Do the following statements agree with the information given in the reading passage? Write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      { id: 19, text: 'The Smoot-Hawley Tariff Act was passed in 1930 and raised average US import duties to nearly fifty percent.',
+        answer: 'TRUE',
+        explanation: 'Paragraph C: <strong>"The Smoot-Hawley Tariff Act of 1930, which raised average US import duties to nearly fifty percent."</strong> Both the date and the duty level are stated explicitly.',
+        reinforcement: 'Correct — paragraph C provides both the 1930 date and the fifty-percent duty figure, confirming this as TRUE.' },
+      { id: 20, text: 'The Doha Declaration of 2001 fully resolved all disputes among WTO members regarding access to generic medicines.',
+        answer: 'FALSE',
+        explanation: 'Paragraph D states that the Doha Declaration <strong>"attempted to clarify"</strong> TRIPS flexibilities but that <strong>"implementation… has remained contested and uneven."</strong> "Fully resolved all disputes" directly contradicts the passage.',
+        reinforcement: 'Correct — the passage states implementation remained contested, making "fully resolved" FALSE.' },
+      { id: 21, text: 'By 2020, there were more than three hundred bilateral or regional free trade agreements in force globally.',
+        answer: 'TRUE',
+        explanation: 'Paragraph E: <strong>"there were fewer than fifty in force globally in 1990, compared with more than three hundred by 2020."</strong> The statement reproduces the 2020 figure exactly.',
+        reinforcement: 'Correct — paragraph E states more than three hundred agreements in force by 2020, confirming this as TRUE.' },
+      { id: 22, text: 'Economists have calculated the precise value of the welfare losses caused by the WTO Appellate Body crisis between 2019 and 2024.',
+        answer: 'NOT GIVEN',
+        explanation: 'Paragraph G mentions that the Appellate Body was paralysed and could not issue binding rulings, but no economists\' welfare loss calculations related to this crisis are cited anywhere in the passage.',
+        reinforcement: 'Correct — the passage describes the Appellate Body crisis but provides no welfare loss calculations, making this NOT GIVEN.' },
+    ]
+  },
+  // ── PASSAGE 2 — Sentence Completion Q23–26 ──
+  {
+    passageId: 2,
+    type: 'sentence_completion',
+    label: 'Questions 23–26',
+    instructions: 'Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.',
+    questions: [
+      { id: 23, text: 'According to David Ricardo\'s principle of _______, nations benefit most by specialising in producing goods they can make at relatively lower opportunity cost.',
+        answer: 'comparative advantage', answerDisplay: 'comparative advantage', acceptable: ['comparative advantage'],
+        explanation: 'Paragraph B: <strong>"The foundational rationale for trade liberalisation is rooted in comparative advantage — the economic principle, associated most directly with David Ricardo\'s 1817 work."</strong> "Comparative advantage" is the two-word technical term.',
+        reinforcement: 'Correct — "comparative advantage" is the exact economic principle named in paragraph B.' },
+      { id: 24, text: 'The GATT\'s most-favoured-nation rule requires that any trade concession granted to one signatory must be extended equally to all other _______.',
+        answer: 'signatories', answerDisplay: 'signatories', acceptable: ['signatories'],
+        explanation: 'Paragraph C: <strong>"any trade concession extended to one signatory must be extended equally to all."</strong> The question frames "all" as "all other signatories" — "signatories" is the passage-exact plural completing the meaning.',
+        reinforcement: 'Correct — "signatories" is the passage-exact noun in paragraph C describing the parties to whom MFN concessions must be extended.' },
+      { id: 25, text: 'Economists who argue against trade agreements generating a "spaghetti bowl" of rules contend that bilateral deals systematically favour _______ negotiating parties.',
+        answer: 'economically powerful', answerDisplay: 'economically powerful', acceptable: ['economically powerful'],
+        explanation: 'Paragraph E: <strong>"critics contend that they systematically favour economically powerful negotiating parties."</strong> "Economically powerful" is the two-word adjective phrase used in the passage.',
+        reinforcement: 'Correct — "economically powerful" is retrieved exactly from paragraph E\'s summary of critics\' arguments about bilateral agreements.' },
+      { id: 26, text: 'Research by Autor, Dorn, and Hanson challenged the prior academic consensus that labour market adjustment to trade liberalisation was relatively _______ and smooth.',
+        answer: 'swift', answerDisplay: 'swift', acceptable: ['swift'],
+        explanation: 'Paragraph F: <strong>"challenged the prior academic consensus that labour market adjustment to trade liberalisation was relatively swift and smooth."</strong> "Swift" is the passage-exact adjective paired with "smooth."',
+        reinforcement: 'Correct — "swift" is retrieved exactly from paragraph F\'s description of the consensus that the research challenged.' },
+    ]
+  },
+
+  // ── PASSAGE 3 — Risk Perception and Behavioural Economics ──
+  {
+    passageId: 3,
+    type: 'matching_info',
+    label: 'Questions 27–31',
+    instructions: 'The reading passage has seven paragraphs, <strong>A–G</strong>. Which paragraph contains the following information? Write the correct letter <strong>A–G</strong> in the box. You may use any letter more than once.',
+    paraOptions: ['A','B','C','D','E','F','G'],
+    questions: [
+      { id: 27, text: 'A reference to neural evidence suggesting that optimism bias may be at least partly a feature of brain architecture rather than purely psychological motivation.',
+        answer: 'D', answerDisplay: 'D',
+        explanation: 'Paragraph D: <strong>"Researchers at University College London have identified neural correlates of optimism bias in selective updating processes within the frontal cortex, suggesting that the bias may be partially hard-wired into the architecture of human cognition."</strong>',
+        reinforcement: 'Correct — the neuroscientific evidence for hard-wired optimism bias is presented in paragraph D.' },
+      { id: 28, text: 'An explanation of why people who have recently heard about an air crash overestimate the danger of flying.',
+        answer: 'B', answerDisplay: 'B',
+        explanation: 'Paragraph B: the availability heuristic means that vivid, recent, media-covered events are judged more probable than they are. <strong>"Following a high-profile aeroplane crash, surveys consistently record elevated perceptions of aviation risk."</strong>',
+        reinforcement: 'Correct — paragraph B explains the availability heuristic as the mechanism behind post-crash elevated aviation risk perception.' },
+      { id: 29, text: 'A description of a proposal that uses knowledge of human cognitive biases to guide people towards better decisions without formally removing their freedom to choose.',
+        answer: 'E', answerDisplay: 'E',
+        explanation: 'Paragraph E: <strong>"Richard Thaler and Cass Sunstein\'s concept of libertarian paternalism… proposes that policy designers can exploit the same heuristic processes that generate bias to steer behaviour towards objectively better outcomes, without restricting formal freedom of choice."</strong>',
+        reinforcement: 'Correct — the nudge/libertarian paternalism concept described in paragraph E matches this description exactly.' },
+      { id: 30, text: 'An argument that heightened concern about one type of risk may reduce the attention given to a different, more serious risk.',
+        answer: 'F', answerDisplay: 'F',
+        explanation: 'Paragraph F: <strong>"finite pool of worry — the proposition that the total quantity of risk concern an individual can sustain is constrained, so that heightened anxiety about one category of risk crowds out attention to others."</strong>',
+        reinforcement: 'Correct — the finite pool of worry concept in paragraph F describes exactly how concern about one risk can crowd out attention to another.' },
+      { id: 31, text: 'An observation that the shortcuts humans use to assess risk, while sometimes producing errors, also have genuine advantages in terms of speed and efficiency.',
+        answer: 'G', answerDisplay: 'G',
+        explanation: 'Paragraph G: <strong>"human risk perception is neither simply irrational — the heuristics that generate bias also generate fast, computationally cheap, and frequently adequate judgements under uncertainty."</strong>',
+        reinforcement: 'Correct — paragraph G acknowledges the adaptive advantages of heuristics alongside their bias-generating tendencies.' },
+    ]
+  },
+  // ── PASSAGE 3 — T/F/NG Q32–36 ──
+  {
+    passageId: 3,
+    type: 'tfng',
+    label: 'Questions 32–36',
+    instructions: 'Do the following statements agree with the information given in the reading passage? Write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      { id: 32, text: 'Kahneman and Tversky\'s early experiments showed that people evaluate risk in line with classical expected utility theory.',
+        answer: 'FALSE',
+        explanation: 'Paragraph A: Kahneman and Tversky demonstrated that humans <strong>"do not evaluate risk in accordance with the probabilistic calculations prescribed by classical expected utility theory."</strong> The statement directly contradicts this.',
+        reinforcement: 'Correct — paragraph A explicitly states that people do NOT follow expected utility theory, making this FALSE.' },
+      { id: 33, text: 'Research has found that the subjective pain of financial loss is approximately twice as strong as the pleasure of an equivalent financial gain.',
+        answer: 'TRUE',
+        explanation: 'Paragraph C: <strong>"the subjective pain of losing a given sum of money is approximately twice as intense as the pleasure derived from gaining an equivalent amount."</strong> The statement is a direct paraphrase.',
+        reinforcement: 'Correct — paragraph C states the 2:1 loss-to-gain ratio for subjective experience explicitly, confirming this as TRUE.' },
+      { id: 34, text: 'Studies across more than twenty countries found that most people believe their personal risk of adverse events is above the population average.',
+        answer: 'FALSE',
+        explanation: 'Paragraph D: respondents rate their personal probability of adverse events as <strong>"substantially below the population average"</strong> — not above it. The statement reverses the direction of the bias.',
+        reinforcement: 'Correct — paragraph D states respondents judge themselves below average for adverse events; the statement says above, making this FALSE.' },
+      { id: 35, text: 'Critics of the nudge approach have argued that it lacks transparency about how it manipulates the choices available to people.',
+        answer: 'TRUE',
+        explanation: 'Paragraph E: <strong>"Critics of this approach argue that… nudge interventions are insufficiently transparent about the manipulation of choice architecture they entail."</strong> "Lacks transparency about manipulation" paraphrases "insufficiently transparent about the manipulation of choice architecture."',
+        reinforcement: 'Correct — paragraph E explicitly states that critics raise a transparency objection, confirming this as TRUE.' },
+      { id: 36, text: 'Elke Weber\'s research at Princeton concluded that removing information barriers was sufficient on its own to raise insurance take-up to predicted levels.',
+        answer: 'FALSE',
+        explanation: 'Paragraph F states that take-up remains below predicted levels <strong>"even when products are subsidised or information barriers are removed."</strong> Weber\'s research provides an explanation (finite pool of worry) for why removing information barriers is insufficient — directly contradicting the statement.',
+        reinforcement: 'Correct — paragraph F states that removing information barriers does not raise take-up to predicted levels, making the claim that this alone is sufficient FALSE.' },
+    ]
+  },
+  // ── PASSAGE 3 — Summary Completion Q37–40 ──
+  {
+    passageId: 3,
+    type: 'sentence_completion',
+    label: 'Questions 37–40',
+    instructions: 'Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.<br><br><em>Prospect theory, developed by Kahneman and Tversky as an alternative to (37) _______ theory, identified loss aversion as a key cognitive bias. Their experiments showed that losing money causes approximately twice as much subjective distress as gaining the same amount causes pleasure — a finding described as (38) _______ across different cultural contexts and study designs. In the field of public health communication, this asymmetry implies that messages framed in terms of the (39) _______ of inaction should be more persuasive than equivalent messages framed as the benefits of action. The (40) _______ bias — the tendency to rate one\'s own future prospects as better than statistical averages would predict — represents a separate mechanism through which individuals consistently underestimate personal risk.</em>',
+    questions: [
+      { id: 37, text: '(37) Prospect theory was developed as an alternative to _______ theory.',
+        answer: 'expected utility', answerDisplay: 'expected utility', acceptable: ['expected utility'],
+        explanation: 'Paragraph C: <strong>"Prospect theory, the descriptive model of decision-making under risk that Kahneman and Tversky developed as an alternative to expected utility theory."</strong> "Expected utility" is the two-word technical term.',
+        reinforcement: 'Correct — "expected utility" is retrieved exactly from paragraph C\'s description of prospect theory\'s theoretical context.' },
+      { id: 38, text: '(38) The 2:1 loss-to-gain ratio has proved _______ across cultural contexts and experimental designs.',
+        answer: 'extraordinarily robust', answerDisplay: 'extraordinarily robust', acceptable: ['extraordinarily robust'],
+        explanation: 'Paragraph C: <strong>"a finding that has proved extraordinarily robust across cultural contexts, experimental designs, and populations."</strong> "Extraordinarily robust" is the two-word phrase used to characterise the finding\'s consistency.',
+        reinforcement: 'Correct — "extraordinarily robust" is retrieved exactly from paragraph C\'s description of the loss aversion finding.' },
+      { id: 39, text: '(39) Health messages framed in terms of the _______ of inaction are predicted to be more persuasive.',
+        answer: 'costs', answerDisplay: 'costs', acceptable: ['costs'],
+        explanation: 'Paragraph C: <strong>"messages framed in terms of the costs of inaction are likely to be substantially more persuasive than equivalent messages framed as the benefits of action."</strong> "Costs" is the single word completing the phrase.',
+        reinforcement: 'Correct — "costs" is the passage-exact noun in paragraph C\'s public health communication implication.' },
+      { id: 40, text: '(40) The _______ bias causes people to rate their personal future outcomes as better than base-rate statistics would predict.',
+        answer: 'optimism', answerDisplay: 'optimism', acceptable: ['optimism'],
+        explanation: 'Paragraph D: <strong>"The optimism bias — the well-documented tendency of individuals to assess their own future as more favourable than statistical base rates would justify."</strong> "Optimism" is the passage-exact noun naming the bias.',
+        reinforcement: 'Correct — "optimism" is the passage-exact term in paragraph D naming the bias that causes favourable self-assessment.' },
+    ]
+  },
+];
+
+// ─────────────────────────────────────────
+//  STATE
+// ─────────────────────────────────────────
+const answers = {};
+const TOTAL_SECONDS = 3600;
+let secondsLeft = TOTAL_SECONDS;
+let timerInterval = null;
+let submitted = false;
+
+// ─────────────────────────────────────────
+//  TAB SWITCHING
+// ─────────────────────────────────────────
+function switchTab(n) {
+  [1,2,3].forEach(i => {
+    document.getElementById('passageContent' + i).style.display = i === n ? 'block' : 'none';
+    document.getElementById('qPanel' + i).style.display = i === n ? 'block' : 'none';
+    document.getElementById('tabNav').querySelectorAll('.tab-btn')[i-1].classList.toggle('active', i === n);
+  });
+  document.getElementById('readingPane').scrollTop = 0;
+  document.getElementById('questionPane').scrollTop = 0;
+}
+
+// ─────────────────────────────────────────
+//  FONT SIZE CONTROLLER
+// ─────────────────────────────────────────
+const FONT_SIZES = [13, 15, 17, 19];
+let fontSizeIdx = parseInt(localStorage.getItem('ielts_font_size_idx') || '1');
+function initFontSize() {
+  document.documentElement.style.setProperty('--passage-font-size', FONT_SIZES[fontSizeIdx] + 'px');
+}
+function adjustFontSize(delta) {
+  if (delta === 0) {
+    fontSizeIdx = 1;
+  } else {
+    fontSizeIdx = Math.max(0, Math.min(FONT_SIZES.length - 1, fontSizeIdx + delta));
+  }
+  document.documentElement.style.setProperty('--passage-font-size', FONT_SIZES[fontSizeIdx] + 'px');
+  localStorage.setItem('ielts_font_size_idx', fontSizeIdx);
+}
+
+// ─────────────────────────────────────────
+//  SPLIT-PANE RESIZER
+// ─────────────────────────────────────────
+(function initResizer() {
+  const container = document.getElementById('splitContainer');
+  const leftPane  = document.getElementById('readingPane');
+  const resizer   = document.getElementById('resizerBar');
+  if (!container || !leftPane || !resizer) return;
+
+  let isDragging = false;
+  let startX     = 0;
+  let startW     = 0;
+
+  function onStart(clientX) {
+    isDragging = true;
+    startX     = clientX;
+    startW     = leftPane.getBoundingClientRect().width;
+    resizer.classList.add('active');
+    document.body.style.cursor     = 'col-resize';
+    document.body.style.userSelect = 'none';
+  }
+
+  function onMove(clientX) {
+    if (!isDragging) return;
+    const cW    = container.getBoundingClientRect().width;
+    const rW    = resizer.getBoundingClientRect().width;
+    const avail = cW - rW;
+    const minW  = avail * 0.25;
+    const maxW  = avail * 0.75;
+    const newW  = Math.max(minW, Math.min(maxW, startW + (clientX - startX)));
+    leftPane.style.width = ((newW / cW) * 100).toFixed(2) + '%';
+  }
+
+  function onEnd() {
+    if (!isDragging) return;
+    isDragging = false;
+    resizer.classList.remove('active');
+    document.body.style.cursor     = '';
+    document.body.style.userSelect = '';
+  }
+
+  resizer.addEventListener('mousedown',  e => { e.preventDefault(); onStart(e.clientX); });
+  document.addEventListener('mousemove', e => onMove(e.clientX));
+  document.addEventListener('mouseup',   onEnd);
+
+  resizer.addEventListener('touchstart',  e => { e.preventDefault(); onStart(e.touches[0].clientX); }, { passive: false });
+  document.addEventListener('touchmove',  e => { if (isDragging) { e.preventDefault(); onMove(e.touches[0].clientX); } }, { passive: false });
+  document.addEventListener('touchend',   onEnd);
+})();
+
+// ─────────────────────────────────────────
+//  TIMER
+// ─────────────────────────────────────────
+function formatTime(s) {
+  return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+}
+function startTimer() {
+  timerInterval = setInterval(() => {
+    secondsLeft--;
+    const pct = (TOTAL_SECONDS - secondsLeft) / TOTAL_SECONDS * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+    const el = document.getElementById('timerDisplay');
+    el.textContent = formatTime(secondsLeft);
+    if (secondsLeft <= 120) el.className = 'timer-box critical';
+    else if (secondsLeft <= 300) el.className = 'timer-box warning';
+    if (secondsLeft <= 0) { clearInterval(timerInterval); autoSubmit(); }
+  }, 1000);
+}
+
+// ─────────────────────────────────────────
+//  RENDER QUESTIONS
+// ─────────────────────────────────────────
+function renderAll() {
+  [1,2,3].forEach(pid => {
+    const panel = document.getElementById('qPanel' + pid);
+    let html = '';
+    GROUPS.filter(g => g.passageId === pid).forEach(group => {
+      html += `<div class="group-header mb-4">
+        <div class="text-xs font-bold tracking-widest uppercase" style="color:var(--gold);">${group.label}</div>
+        <p>${group.instructions}</p>
+      </div>`;
+
+      if (group.type === 'matching_headings') {
+        html += `<div class="headings-list mb-4"><ul style="list-style:none;">`;
+        group.headings.forEach(h => {
+          html += `<li><span>${h.key}.</span>${h.text}</li>`;
+        });
+        html += `</ul></div>`;
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">Paragraph <strong>${q.paraLabel}</strong></div>
+            <select class="q-select" id="q${q.id}" onchange="recordAnswer(${q.id}, this.value)">
+              <option value="">— Select heading —</option>
+              ${group.headings.map(h => `<option value="${h.key}">${h.key}. ${h.text}</option>`).join('')}
+            </select>
+          </div>`;
+        });
+      } else if (group.type === 'tfng') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <div class="q-tfng">
+              <button class="q-tfng-btn" onclick="selectTFNG(${q.id},'TRUE',this)">TRUE</button>
+              <button class="q-tfng-btn" onclick="selectTFNG(${q.id},'FALSE',this)">FALSE</button>
+              <button class="q-tfng-btn" onclick="selectTFNG(${q.id},'NOT GIVEN',this)">NOT GIVEN</button>
+            </div>
+          </div>`;
+        });
+      } else if (group.type === 'sentence_completion') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <input type="text" class="q-input" id="q${q.id}" placeholder="Your answer…" oninput="recordAnswer(${q.id}, this.value.trim())" />
+          </div>`;
+        });
+      } else if (group.type === 'matching_info') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <select class="q-select" id="q${q.id}" onchange="recordAnswer(${q.id}, this.value)">
+              <option value="">— Select paragraph —</option>
+              ${group.paraOptions.map(p => `<option value="${p}">Paragraph ${p}</option>`).join('')}
+            </select>
+          </div>`;
+        });
+      }
+    });
+    panel.innerHTML = html;
+  });
+}
+
+function selectTFNG(qId, val, btn) {
+  btn.parentElement.querySelectorAll('.q-tfng-btn').forEach(b => { b.className = 'q-tfng-btn'; });
+  btn.classList.add(val === 'TRUE' ? 'sel-t' : val === 'FALSE' ? 'sel-f' : 'sel-ng');
+  recordAnswer(qId, val);
+}
+function recordAnswer(qId, val) { answers[qId] = val; }
+
+// ─────────────────────────────────────────
+//  SCORING
+// ─────────────────────────────────────────
+function scoreAnswer(q, studentRaw) {
+  if (!studentRaw) return false;
+  const student = studentRaw.toString().trim().toLowerCase();
+  if (q.acceptable) return q.acceptable.map(a => a.toLowerCase()).includes(student);
+  return student === q.answer.toLowerCase();
+}
+function bandFromScore(n) {
+  if (n >= 39) return 9.0; if (n >= 37) return 8.5; if (n >= 35) return 8.0;
+  if (n >= 33) return 7.5; if (n >= 30) return 7.0; if (n >= 27) return 6.5;
+  if (n >= 23) return 6.0; if (n >= 19) return 5.5; if (n >= 15) return 5.0;
+  if (n >= 13) return 4.5; if (n >= 10) return 4.0; if (n >= 8) return 3.5;
+  if (n >= 6) return 3.0; return 2.5;
+}
+function bandColour(b) {
+  if (b >= 7) return '#0D9488'; if (b >= 5.5) return '#C9952E'; return '#dc2626';
+}
+function bandAdvice(band, score) {
+  const pct = Math.round(score/40*100);
+  if (band >= 8.5) return `Outstanding — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Near-native comprehension across all three passages. Focus on NOT GIVEN precision and paraphrased sentence completions to push for Band 9.`;
+  if (band >= 7.5) return `Excellent result — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Strong academic reading. To push towards Band 8+: tighten NOT GIVEN judgements (never infer beyond the text) and copy sentence completion answers exactly from the passage.`;
+  if (band >= 6.5) return `Good performance — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Solid comprehension with room to improve. Review: (1) TRUE vs FALSE — verify the exact claim, not just the topic; (2) Matching Headings — identify the paragraph's central argument before selecting; (3) time allocation across all three passages.`;
+  if (band >= 5.5) return `You scored ${score}/40 (${pct}%), giving an estimated <strong>Band ${band}</strong>. Clear potential — prioritise synonym recognition, since every question involves paraphrase. Review each wrong answer and find the exact passage sentence that should have guided your response.`;
+  return `You scored ${score}/40 (${pct}%), giving an estimated <strong>Band ${band}</strong>. Focus on active reading: identify each paragraph's main claim before reading the questions. Daily timed reading of academic texts and vocabulary building will accelerate improvement significantly.`;
+}
+
+// ─────────────────────────────────────────
+//  SUBMIT
+// ─────────────────────────────────────────
+function confirmSubmit() { if (!confirm('Submit your reading test now?')) return; doSubmit(); }
+function autoSubmit() { if (submitted) return; doSubmit(); }
+function doSubmit() {
+  if (submitted) return;
+  submitted = true;
+  clearInterval(timerInterval);
+  document.getElementById('submittingOverlay').style.display = 'flex';
+  setTimeout(showResults, 800);
+}
+
+// ─────────────────────────────────────────
+//  RESULTS
+// ─────────────────────────────────────────
+function showResults() {
+  document.getElementById('submittingOverlay').style.display = 'none';
+  document.getElementById('testMain').style.display = 'none';
+  document.getElementById('timingStrip').style.display = 'none';
+  document.getElementById('resultsMain').style.display = 'block';
+
+  let correct = 0;
+  const allQs = GROUPS.flatMap(g => g.questions);
+  allQs.forEach(q => { if (scoreAnswer(q, answers[q.id])) correct++; });
+  const band = bandFromScore(correct);
+  const bCol = bandColour(band);
+
+  // Save result
+  const results = JSON.parse(localStorage.getItem('ielts_mock_results') || '[]');
+  results.push({ date: Date.now(), book: 17, testNum: 4, skill: 'reading', scores: { reading: band } });
+  localStorage.setItem('ielts_mock_results', JSON.stringify(results));
+
+  // Per-passage breakdown
+  const passageChips = [1,2,3].map(p => {
+    const pQs = GROUPS.filter(g => g.passageId === p).flatMap(g => g.questions);
+    const pC = pQs.filter(q => scoreAnswer(q, answers[q.id])).length;
+    const pCol = bandColour(bandFromScore(Math.round(pC/pQs.length*40)));
+    return `<div style="background:#EFF3F9;border:1px solid var(--border);border-radius:10px;padding:10px 14px;text-align:center;min-width:80px;">
+      <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px;">Passage ${p}</div>
+      <div style="font-family:'Space Mono',monospace;font-size:1.125rem;font-weight:700;color:${pCol};">${pC}/${pQs.length}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('scoreCard').innerHTML = `
+    <div class="flex flex-col md:flex-row gap-6 items-center">
+      <div class="score-ring-wrap">
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#E2E8F0" stroke-width="8"/>
+          <circle cx="60" cy="60" r="50" fill="none" stroke="${bCol}" stroke-width="8"
+            stroke-dasharray="${Math.round(correct/40*314)} 314" stroke-linecap="round"
+            transform="rotate(-90 60 60)" style="transition:stroke-dasharray 1.2s cubic-bezier(.16,1,.3,1)"/>
+        </svg>
+        <div style="margin-top:-70px;text-align:center;pointer-events:none;">
+          <div style="font-family:'Space Mono',monospace;font-size:1.75rem;font-weight:700;color:${bCol};">${correct}</div>
+          <div style="font-size:0.75rem;color:var(--text-muted);">out of 40</div>
+        </div>
+        <div style="margin-top:16px;"></div>
+      </div>
+      <div class="flex-1">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Your Score</div>
+        <div class="font-display font-black text-4xl mb-1" style="color:${bCol};">Band ${band}</div>
+        <div class="text-sm mb-4" style="color:var(--text-muted);">${correct} correct answers out of 40</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">${passageChips}</div>
+      </div>
+    </div>`;
+
+  document.getElementById('feedbackCard').innerHTML = `
+    <div class="text-xs font-bold tracking-widest uppercase mb-3" style="color:var(--gold);">Overall Feedback</div>
+    <div class="band-feedback">${bandAdvice(band, correct)}</div>`;
+
+  [1,2,3].forEach(pid => {
+    let html = '';
+    GROUPS.filter(g => g.passageId === pid).forEach(group => {
+      html += `<div style="margin-bottom:0.5rem;padding:6px 0 8px;border-bottom:1px solid var(--border-soft);">
+        <span style="font-size:0.6875rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-faint);">${group.label} — ${labelType(group.type)}</span>
+      </div>`;
+      group.questions.forEach(q => {
+        const isCorrect = scoreAnswer(q, answers[q.id]);
+        const studentAns = answers[q.id] ? answers[q.id].toString() : '(no answer)';
+        const correctAns = q.answerDisplay || q.answer;
+        html += `<div class="corr-block ${isCorrect ? 'corr-correct' : 'corr-wrong'}">
+          <div class="corr-qnum ${isCorrect ? 'ok' : 'bad'}">${isCorrect ? '✓' : '✗'} Question ${q.id}</div>
+          <div class="corr-qtext">${q.text}</div>`;
+        if (isCorrect) {
+          html += `<div class="corr-row"><span class="corr-tag reinforce">✓ Correct</span><span class="corr-val">${studentAns}</span></div>
+            <div class="corr-expl">${q.reinforcement || ''}</div>`;
+        } else {
+          html += `<div class="corr-row"><span class="corr-tag your">Your answer</span><span class="corr-val">${studentAns}</span></div>
+            <div class="corr-row"><span class="corr-tag correct">Correct answer</span><span class="corr-val">${correctAns}${q.acceptable && q.acceptable.length > 1 ? ' <span style="font-size:0.75rem;color:var(--text-faint);">(also: ' + q.acceptable.filter(a=>a!==q.answer).join(', ') + ')</span>' : ''}</span></div>
+            <div class="corr-expl">${q.explanation || ''}</div>`;
+        }
+        html += `</div>`;
+      });
+    });
+    document.getElementById('corrPassage' + pid).innerHTML = html;
+  });
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function labelType(t) {
+  return { tfng:'True / False / Not Given', mc:'Multiple Choice', matching_headings:'Matching Headings', matching_info:'Matching Information', sentence_completion:'Sentence Completion', diagram_labelling:'Diagram Labelling', matching_feature:'Matching Features' }[t] || t;
+}
+
+// ─────────────────────────────────────────
+//  INIT
+// ─────────────────────────────────────────
+initFontSize();
+renderAll();
+startTimer();
+</script>
+<script src="/js/components.js"></script>
+<script>
+  IELTSLab.loadNav({ basePath: '../', breadcrumb: 'Mock Tests', authenticated: true, themeDefault: 'light' });
+</script>
+</body>
+</html>

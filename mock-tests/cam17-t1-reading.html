@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IELTS Lab — Cambridge 17 Full Test 1 · Academic Reading</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <script>tailwind.config={theme:{extend:{fontFamily:{display:['Satoshi','Plus Jakarta Sans','system-ui','sans-serif'],sans:['Plus Jakarta Sans','system-ui','sans-serif']}}}}</script>
+  <style>
+    /* ── DESIGN TOKENS ── */
+    :root {
+      --gold: #C9952E;
+      --gold-light: #DDB05A;
+      --gold-dim: rgba(201,149,46,0.10);
+      --gold-border: rgba(201,149,46,0.30);
+      --navy: #1a3c6e;
+      --navy-mid: #2a4f8a;
+      --page-bg: #F7F8FA;
+      --card-bg: #FFFFFF;
+      --qpanel-bg: #EFF3F9;
+      --border: #E2E8F0;
+      --border-soft: #EEF1F6;
+      --text-primary: #1E2A3A;
+      --text-body: #374151;
+      --text-muted: #64748B;
+      --text-faint: #94A3B8;
+      --passage-font-size: 15px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--page-bg); color: var(--text-primary); }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    h1, h2, h3, h4, .font-display { font-family: 'Satoshi', 'Plus Jakarta Sans', system-ui, sans-serif; }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #EFF2F7; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 3px; }
+
+    /* ── PROGRESS ── */
+    .progress-bar { height: 3px; background: #E2E8F0; position: fixed; top: 64px; left: 0; right: 0; z-index: 40; }
+    .progress-fill { height: 100%; background: linear-gradient(to right, var(--gold), #DDB05A); transition: width 1s linear; width: 0%; }
+
+    /* ── NAV ── */
+    .nav-glass { background: rgba(255,255,255,0.97); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .nav-logo { display: flex; align-items: baseline; gap: 0; text-decoration: none; }
+    .nl-ielts { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; letter-spacing: 1px; color: var(--text-primary); }
+    .nl-lab { font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: 3px; color: var(--gold); margin-left: 5px; }
+    #themeToggle { background: transparent; border: 1.5px solid var(--border); color: var(--text-muted); border-radius: 8px; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; font-size: 15px; flex-shrink: 0; padding: 0; }
+    #themeToggle:hover { border-color: var(--gold-border); color: var(--gold); }
+
+    /* ── TIMER ── */
+    .timer-box { background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 10px; padding: 8px 16px; font-family: 'Space Mono', monospace; font-size: 1.125rem; font-weight: 700; color: var(--text-primary); letter-spacing: 2px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+    .timer-box.warning { color: #b45309; border-color: rgba(180,83,9,0.3); background: #fffbeb; }
+    .timer-box.critical { color: #dc2626; border-color: rgba(220,38,38,0.3); background: #fef2f2; animation: pulse 1s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
+
+    /* ── TIMING STRIP ── */
+    .timing-strip { background: #FAFBFD; border-bottom: 1px solid var(--border); padding: 8px 0; }
+    .timing-item { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+    .timing-label { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
+    .timing-val { font-size: 0.75rem; color: var(--text-muted); }
+
+    /* ── FONT SIZE CONTROLLER ── */
+    .font-ctrl { display: inline-flex; align-items: center; gap: 0; background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 9px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .font-ctrl-btn { padding: 6px 12px; border: none; background: transparent; cursor: pointer; color: var(--text-muted); font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.15s; line-height: 1; border-right: 1px solid var(--border); }
+    .font-ctrl-btn:last-child { border-right: none; }
+    .font-ctrl-btn:hover { background: var(--gold-dim); color: var(--gold); }
+    .font-ctrl-btn.a-small { font-size: 11px; }
+    .font-ctrl-btn.a-mid   { font-size: 13px; }
+    .font-ctrl-btn.a-large { font-size: 16px; }
+    .font-ctrl-label { font-size: 0.625rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); padding: 0 8px; }
+
+    /* ── ACCESSIBILITY TOOLBAR ── */
+    .a11y-bar { display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: #FFFFFF; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .a11y-bar-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); }
+
+    /* ── TAB NAV ── */
+    .tab-nav { display: flex; gap: 4px; margin-bottom: 1rem; background: #EFF3F9; border-radius: 12px; padding: 4px; }
+    .tab-btn { flex: 1; padding: 8px 12px; border: none; border-radius: 9px; background: transparent; color: var(--text-muted); font-size: 0.8125rem; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .tab-btn:hover { background: rgba(255,255,255,0.6); color: var(--text-primary); }
+    .tab-btn.active { background: #FFFFFF; color: var(--navy); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+
+    /* ── SECTION CARDS ── */
+    .section-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 1.75rem; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+
+    /* ── PASSAGE ── */
+    .passage-text { font-size: var(--passage-font-size); line-height: 2.0; color: var(--text-body); transition: font-size 0.2s ease; }
+    .passage-text p { margin-bottom: 1.2rem; }
+    .para-label { display: inline-block; font-family: 'Space Mono', monospace; font-size: 0.6875rem; font-weight: 700; color: var(--navy); background: rgba(26,60,110,0.08); border: 1px solid rgba(26,60,110,0.18); border-radius: 4px; padding: 1px 6px; margin-right: 8px; letter-spacing: 0.05em; }
+
+    /* ── QUESTION BLOCKS ── */
+    .q-block { margin-bottom: 1.25rem; padding: 1rem 1.15rem; border-radius: 12px; background: #FFFFFF; border: 1px solid var(--border); }
+    .q-num { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+    .q-text { font-size: 0.9rem; color: var(--text-body); margin-bottom: 10px; line-height: 1.65; }
+    .q-input { width: 100%; background: #F8FAFC; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text-primary); font-size: 0.9rem; transition: border-color 0.2s, box-shadow 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,149,46,0.12); }
+    .q-select { width: 100%; background: #F8FAFC; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text-primary); font-size: 0.9rem; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-select:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,149,46,0.12); }
+    .q-options { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+    .q-option { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; padding: 9px 12px; border-radius: 8px; border: 1.5px solid var(--border); transition: all 0.2s; background: #F8FAFC; }
+    .q-option:hover { background: var(--gold-dim); border-color: var(--gold-border); }
+    .q-option input[type=radio] { accent-color: var(--gold); margin-top: 3px; flex-shrink: 0; }
+    .q-option label { font-size: 0.9rem; color: var(--text-body); cursor: pointer; line-height: 1.55; }
+
+    /* ── T/F/NG ── */
+    .q-tfng { display: flex; gap: 8px; }
+    .q-tfng-btn { flex: 1; padding: 9px 6px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer; background: #F8FAFC; color: var(--text-muted); transition: all 0.2s; letter-spacing: 0.05em; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-tfng-btn:hover { border-color: var(--gold-border); color: var(--gold); background: var(--gold-dim); }
+    .q-tfng-btn.sel-t { border-color: #16a34a; background: #f0fdf4; color: #16a34a; }
+    .q-tfng-btn.sel-f { border-color: #dc2626; background: #fef2f2; color: #dc2626; }
+    .q-tfng-btn.sel-ng { border-color: #d97706; background: #fffbeb; color: #d97706; }
+
+    /* ── GROUP HEADER ── */
+    .group-header { margin-bottom: 1.25rem; padding: 0.875rem 1rem; border-radius: 12px; background: rgba(26,60,110,0.04); border: 1px solid rgba(26,60,110,0.12); }
+    .group-header p { font-size: 0.8125rem; color: var(--text-muted); line-height: 1.65; margin-top: 6px; }
+
+    /* ── HEADINGS LIST ── */
+    .headings-list { margin: 0.75rem 0; padding: 0.875rem 1rem; background: #FFFFFF; border-radius: 10px; border: 1px solid var(--border); }
+    .headings-list li { font-size: 0.8125rem; color: var(--text-body); line-height: 1.8; padding: 2px 0; }
+    .headings-list li span { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--gold); margin-right: 6px; font-weight: 700; }
+
+    /* ── BUTTONS ── */
+    .btn-gold { background: linear-gradient(135deg, var(--gold) 0%, #a8741f 100%); color: #FFFFFF; border: none; border-radius: 10px; padding: 12px 32px; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.04em; cursor: pointer; transition: all 0.25s ease; box-shadow: 0 2px 12px rgba(201,149,46,0.30); }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 6px 22px rgba(201,149,46,0.42); }
+
+    /* ── CORRECTION REPORT ── */
+    .corr-block { margin-bottom: 1rem; padding: 1rem 1.25rem; border-radius: 12px; border: 1.5px solid; }
+    .corr-correct { background: #f0fdf4; border-color: #bbf7d0; }
+    .corr-wrong { background: #fef2f2; border-color: #fecaca; }
+    .corr-qnum { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+    .corr-qnum.ok { color: #16a34a; }
+    .corr-qnum.bad { color: #dc2626; }
+    .corr-qtext { font-size: 0.875rem; color: var(--text-body); line-height: 1.65; margin-bottom: 8px; }
+    .corr-row { display: flex; gap: 8px; align-items: flex-start; font-size: 0.8125rem; margin-bottom: 4px; }
+    .corr-tag { flex-shrink: 0; padding: 2px 8px; border-radius: 4px; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+    .corr-tag.your { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+    .corr-tag.correct { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .corr-tag.reinforce { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .corr-val { color: var(--text-primary); line-height: 1.5; }
+    .corr-expl { margin-top: 8px; padding: 9px 12px; background: #FFFFFF; border-radius: 8px; border-left: 3px solid var(--gold-border); font-size: 0.8125rem; color: var(--text-muted); line-height: 1.65; }
+    .corr-expl strong { color: var(--text-primary); }
+
+    /* ── RESULTS ── */
+    .score-ring-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .band-feedback { padding: 1.25rem; border-radius: 12px; background: rgba(26,60,110,0.04); border: 1px solid rgba(26,60,110,0.12); font-size: 0.9rem; color: var(--text-body); line-height: 1.8; }
+    .band-feedback strong { color: var(--navy); }
+    .passage-corr-header { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); padding: 10px 0 8px; border-bottom: 1px solid var(--border); margin-bottom: 1rem; }
+
+    /* ── SPINNER ── */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; }
+
+    /* ── SPLIT LAYOUT ── */
+    .split-container { display: flex; height: calc(100vh - 268px); min-height: 560px; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+    .reading-pane { width: 52%; min-width: 25%; max-width: 75%; overflow-y: auto; padding: 1.75rem; background: var(--card-bg); flex-shrink: 0; }
+    .question-pane { flex: 1; overflow-y: auto; padding: 1.75rem; background: var(--qpanel-bg); min-width: 25%; }
+    .resizer-bar { width: 16px; background: #F1F5F9; cursor: col-resize; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; border-left: 1px solid var(--border); border-right: 1px solid var(--border); transition: background 0.15s; user-select: none; -webkit-user-select: none; }
+    .resizer-bar:hover, .resizer-bar.active { background: var(--gold-dim); border-left-color: var(--gold-border); border-right-color: var(--gold-border); }
+    .resizer-btn { background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 8px; padding: 10px 4px; cursor: col-resize; display: flex; flex-direction: column; align-items: center; gap: 5px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); transition: border-color 0.15s, box-shadow 0.15s; pointer-events: none; }
+    .resizer-bar:hover .resizer-btn { border-color: var(--gold-border); box-shadow: 0 2px 8px rgba(201,149,46,0.15); }
+    @media (max-width: 1023px) {
+      .split-container { flex-direction: column; height: auto; overflow: visible; border: none; border-radius: 0; box-shadow: none; gap: 1rem; }
+      .reading-pane { width: 100% !important; min-width: 100%; max-width: 100%; overflow-y: visible; border: 1px solid var(--border); border-radius: 16px; }
+      .resizer-bar { display: none; }
+      .question-pane { min-width: 100%; overflow-y: visible; border: 1px solid var(--border); border-radius: 16px; }
+    }
+  </style>
+  <script>
+    (function(){
+      var raw = localStorage.getItem('ielts_session');
+      if (!raw) { window.location.replace('../login.html'); return; }
+      try { JSON.parse(raw); } catch(e) { localStorage.removeItem('ielts_session'); window.location.replace('../login.html'); }
+    })();
+    (function(){ var t = localStorage.getItem('ieltslab_theme') || 'light'; document.documentElement.setAttribute('data-theme', t); })();
+    function toggleTheme(){ var c = document.documentElement.getAttribute('data-theme') || 'light', n = c === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', n); localStorage.setItem('ieltslab_theme', n); var b = document.getElementById('themeToggle'); if(b) b.textContent = n === 'dark' ? '☀' : '🌙'; }
+    document.addEventListener('DOMContentLoaded', function(){ var b = document.getElementById('themeToggle'); if(b){ var d = (document.documentElement.getAttribute('data-theme') || 'light') === 'dark'; b.textContent = d ? '☀' : '🌙'; } });
+  </script>
+</head>
+<body class="min-h-screen flex flex-col" style="background:var(--page-bg);color:var(--text-primary);">
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<div id="header-container"></div>
+
+<!-- TIMING STRIP -->
+<div class="timing-strip" id="timingStrip">
+  <div class="px-4 flex items-center justify-center gap-10">
+    <div class="timing-item"><span class="timing-label">Passage 1</span><span class="timing-val">15–17 min</span></div>
+    <div style="width:1px;height:24px;background:var(--border);"></div>
+    <div class="timing-item"><span class="timing-label">Passage 2</span><span class="timing-val">20 min</span></div>
+    <div style="width:1px;height:24px;background:var(--border);"></div>
+    <div class="timing-item"><span class="timing-label">Passage 3</span><span class="timing-val">23–25 min</span></div>
+  </div>
+</div>
+
+<!-- TEST MAIN -->
+<main class="flex-1 w-full px-4 py-6" id="testMain">
+
+  <!-- HEADER ROW -->
+  <div class="flex items-start justify-between mb-5 gap-4">
+    <div>
+      <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Cambridge 17 · Full Test 1</div>
+      <h1 class="font-display font-black text-2xl" style="color:var(--text-primary);">Academic Reading — Full Test 1</h1>
+    </div>
+    <div class="flex items-center gap-3 flex-shrink-0">
+      <div id="timerDisplay" class="timer-box">60:00</div>
+    </div>
+  </div>
+
+  <!-- ACCESSIBILITY TOOLBAR -->
+  <div class="a11y-bar">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-muted);flex-shrink:0;"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+    <span class="a11y-bar-label">Text Size</span>
+    <div class="font-ctrl" role="toolbar" aria-label="Adjust passage text size">
+      <button class="font-ctrl-btn a-small" onclick="adjustFontSize(-1)" title="Decrease text size">A−</button>
+      <button class="font-ctrl-btn a-mid"   onclick="adjustFontSize(0)"  title="Reset text size">A</button>
+      <button class="font-ctrl-btn a-large" onclick="adjustFontSize(1)"  title="Increase text size">A+</button>
+    </div>
+    <span style="font-size:0.75rem;color:var(--text-faint);">Adjust the reading passage font size</span>
+    <div class="ml-auto text-xs hidden md:block" style="color:var(--text-muted);">60 minutes · 40 questions · 3 passages</div>
+  </div>
+
+  <!-- TAB NAV -->
+  <div class="tab-nav" id="tabNav">
+    <button class="tab-btn active" onclick="switchTab(1)">Passage 1 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q1–13)</span></button>
+    <button class="tab-btn" onclick="switchTab(2)">Passage 2 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q14–26)</span></button>
+    <button class="tab-btn" onclick="switchTab(3)">Passage 3 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q27–40)</span></button>
+  </div>
+
+  <!-- ══ SPLIT VIEW ══ -->
+  <div class="split-container" id="splitContainer">
+    <div class="reading-pane" id="readingPane">
+
+      <!-- Passage 1 -->
+      <div id="passageContent1">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 1</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">The History of Cartography: Mapping the World</div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>The impulse to represent the known world in graphic form is among the oldest documented human activities. Clay tablets discovered at Ga-Sur in present-day Iraq, dated to approximately 2300 BCE, depict a river valley flanked by hills and are widely regarded as among the earliest surviving maps. Such early representations were not neutral records of geographic fact; they encoded beliefs, power relations, and cosmological assumptions as readily as they conveyed topographical information. The study of cartographic history has evolved considerably since the mid-twentieth century, shifting from a narrow focus on technical accuracy toward a broader recognition that maps are cultural artefacts whose content and form reflect the preoccupations of the societies that produced them.</p>
+
+          <p><span class="para-label">B</span>Ancient Greek scholars made foundational contributions to the intellectual foundations of Western cartography. Anaximander of Miletus, working in the sixth century BCE, is credited with producing the first theoretical world map based on reasoning rather than direct observation alone. Eratosthenes of Cyrene, the chief librarian of the Library of Alexandria, calculated the circumference of the Earth with remarkable precision around 240 BCE by measuring the angle of the sun's shadow at two locations a known distance apart. His estimate of approximately 40,000 kilometres is within one percent of the actual value accepted today. Ptolemy, writing in the second century CE, synthesised existing geographic knowledge into his Geographia, a systematic treatise that introduced the concept of latitude and longitude as a coordinate grid — a framework that remains the basis of all modern geographic referencing systems.</p>
+
+          <p><span class="para-label">C</span>Medieval European cartography departed substantially from the rational geographic tradition of the classical world. The mappa mundi tradition, exemplified by the Hereford Map of approximately 1300 CE, placed Jerusalem at the centre of the world and oriented the map with East at the top — a layout dictated by theological rather than geographic logic. Such maps were not intended as navigational tools but as visual encyclopaedias of sacred and secular knowledge, depicting biblical events, mythological creatures, and morally significant places alongside actual geographical features. The persistence of this tradition has been interpreted by historians as evidence that the primary function of medieval maps was didactic and devotional rather than practical, though ongoing research suggests that navigational knowledge was maintained in parallel through portolan charts used by Mediterranean sailors.</p>
+
+          <p><span class="para-label">D</span>The recovery of Ptolemy's Geographia in Western Europe during the early fifteenth century, transmitted via Byzantine scholars, catalysed a transformation in cartographic practice that aligned with the commercial and exploratory ambitions of emerging maritime states. Portuguese and Spanish navigators began generating empirical coastal surveys of unprecedented accuracy, recording headings, distances, and coastal profiles in charts that were treated as state secrets. The projection techniques developed by Flemish cartographer Gerardus Mercator in 1569 addressed a practical problem of navigation: his cylindrical projection preserved angles and compass bearings at the expense of relative area, making it possible for sailors to plot straight-line courses on a flat map. The Mercator projection remains in widespread use today, though its tendency to exaggerate the apparent size of landmasses in high latitudes has been the subject of sustained criticism from cartographic theorists.</p>
+
+          <p><span class="para-label">E</span>The eighteenth and nineteenth centuries witnessed the systematic triangulation surveys that established the modern cartographic record of most of the inhabited world. The Ordnance Survey of Britain, initiated in 1791 following military concerns about the inadequacy of existing maps during the Jacobite rebellions, became the model for national mapping programmes across Europe and the colonial territories. Trigonometric methods allowed surveyors to calculate the precise positions of landmarks across vast distances by measuring angles from a carefully established baseline. The Great Trigonometrical Survey of India, conducted between 1802 and 1871, produced the first accurate measurements of the Himalayan peaks and established the height of what became known as Mount Everest — a feat that required coordinating observations across hundreds of kilometres under conditions of extreme logistical difficulty.</p>
+
+          <p><span class="para-label">F</span>The advent of aerial photography in the early twentieth century and satellite imaging in the latter half of the century fundamentally altered the conditions of cartographic production. Where triangulation surveys required years of fieldwork to map a single region, satellite-borne sensors can now acquire global surface data at resolutions below one metre within hours. Geographic Information Systems (GIS), developed from the 1960s onward, enable the simultaneous analysis of multiple spatial data layers — combining topography, land use, infrastructure, and demographic information in dynamic, queryable databases. The practical applications have expanded into virtually every domain of public and commercial life, from urban planning and disaster response to precision agriculture and logistics optimisation.</p>
+
+          <p><span class="para-label">G</span>Despite the technological revolution that has reshaped the discipline, fundamental questions about the nature and purpose of maps remain actively debated. Cartographic theorist J. B. Harley argued in a series of influential essays published in the 1980s that maps are never politically neutral and that their apparent objectivity serves to naturalise particular distributions of power and territory. The emergence of participatory and counter-mapping initiatives — in which indigenous communities and marginalised groups produce their own geographic representations to assert territorial claims or document traditional knowledge — suggests that the democratisation of mapping technology has not resolved the social dimensions of cartographic practice but has instead opened new arenas in which they are contested.</p>
+        </div>
+      </div>
+
+      <!-- Passage 2 -->
+      <div id="passageContent2" style="display:none;">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 2</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">Biomimicry: Engineering Solutions Inspired by Nature</div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>In 1989, Swiss engineer George de Mestral filed the patent that formalised what would become one of the twentieth century's most commercially successful technological concepts — the hook-and-loop fastener. His observation that burdock burrs adhered tenaciously to his dog's coat because of microscopic hooked spines that engaged fibrous loops had occurred decades earlier, but the translation of that biological principle into a manufacturable product required years of iterative material development. The field that has since emerged around such insights — biomimicry, or the deliberate emulation of biological strategies to address human design challenges — has expanded dramatically in scope and ambition, with researchers now applying evolutionary solutions to problems ranging from structural engineering and hydrodynamics to drug delivery and urban water management.</p>
+
+          <p><span class="para-label">B</span>The intellectual foundations of biomimicry rest on a straightforward observation: biological organisms have been subjected to evolutionary selection pressure for hundreds of millions of years, and the structures and processes that persist are, in a meaningful sense, optimised solutions to the physical and chemical constraints they faced. The wing structures of birds and bats, the drag-reducing surface texture of shark skin, the self-cleaning properties of the lotus leaf's superhydrophobic surface, and the tensile strength of spider silk relative to its weight represent evolutionary refinements that human engineering has struggled to replicate despite the advantages of deliberate design and sophisticated manufacturing. Janine Benyus, whose 1997 book Biomimicry: Innovation Inspired by Nature is credited with popularising the term, characterised this approach as "learning from and then emulating natural forms, processes, and ecosystems to create more sustainable designs."</p>
+
+          <p><span class="para-label">C</span>Some of the most commercially significant applications of biomimetic principles have been developed in the field of fluid dynamics. The humpback whale's pectoral fins are lined with irregular tubercles — rounded protrusions approximately the size of a human fist — that were long assumed to be hydrodynamically suboptimal. Research conducted at Duke University and subsequently replicated by independent teams demonstrated that these tubercles generate vortices that delay stall and improve lift at high angles of attack by up to 32 percent compared with smooth-edged fins. This finding has been applied in the design of wind turbine blades, industrial fans, and aircraft wing profiles, where the tubercle geometry reduces drag, decreases noise, and improves energy efficiency under variable airflow conditions. The commercial implications are substantial: wind turbines incorporating bio-inspired blade profiles have been shown to generate measurably higher power outputs at lower wind speeds than conventional designs.</p>
+
+          <p><span class="para-label">D</span>The structural properties of biological materials have attracted particular attention from materials scientists and civil engineers seeking alternatives to resource-intensive conventional construction. The nacre, or mother-of-pearl, lining the interior of mollusc shells achieves a fracture toughness approximately three thousand times greater than the calcium carbonate of which it is almost entirely composed, by arranging microscopic aragonite tablets in a hierarchical brick-and-mortar architecture that deflects crack propagation through multiple energy-dissipating mechanisms. Researchers at MIT and the Lawrence Berkeley National Laboratory have produced synthetic analogues of this structure using additive manufacturing techniques, demonstrating that the fracture resistance can be largely reproduced in non-biological materials. Similarly, the light-harvesting efficiency of the deep-sea glass sponge Euplectella aspergillum, whose siliceous skeleton is organised into a fibre-optic lattice capable of transmitting bioluminescent signals, has informed the design of structural optical fibres capable of simultaneous mechanical load-bearing and light transmission.</p>
+
+          <p><span class="para-label">E</span>The application of biomimetic principles to water management and architecture has generated a distinct cluster of innovations with significant implications for arid regions. The Namib Desert beetle collects atmospheric moisture by alternating hydrophilic and hydrophobic surface regions on its back that cause water droplets to condense and roll toward its mouth — a passive, energy-free harvesting mechanism that extracts water from fog at efficiencies comparable to active collection systems. The fog collection nets deployed in coastal communities in Peru and Chile were partially informed by analyses of this beetle's surface microstructure, and subsequent research has aimed to replicate the surface chemistry in scalable synthetic coatings. In architectural contexts, the lotus effect — the extremely low surface adhesion arising from hierarchical micro- and nano-scale roughness — has been incorporated into exterior building materials that shed water and resist accumulation of particulate contamination, substantially reducing the maintenance requirements of large building facades.</p>
+
+          <p><span class="para-label">F</span>Biomimicry has not escaped critical scrutiny, and a number of researchers have cautioned against uncritical enthusiasm for the field's potential. A review published in Bioinspiration and Biomimetics in 2014 noted that the path from biological insight to commercially viable product is rarely straightforward, and that the mechanical properties of biological materials are frequently dependent on hierarchical structures and active metabolic processes that cannot be readily replicated by passive manufacturing. Biological solutions are also optimised for specific ecological contexts and may not translate efficiently to different scales, temperatures, or material systems. Critics have further argued that the term biomimicry is applied so broadly — encompassing everything from direct structural copying to the loose inspiration of a design metaphor — as to risk becoming analytically meaningless unless more precise taxonomies of biological emulation are adopted by the research community.</p>
+
+          <p><span class="para-label">G</span>Notwithstanding these limitations, the trajectory of the field suggests that the systematic cataloguing of biological strategies will continue to expand the reservoir of design principles available to engineers and architects. Several research initiatives — among them AskNature, a database of biological strategies maintained by the Biomimicry Institute — are engaged in the formal indexing of natural solutions by the functional problems they address, aiming to make biological knowledge accessible to designers without specialist training in biology. As manufacturing technologies advance toward finer scales of precision, the prospect of replicating the hierarchical complexity that confers remarkable properties on many biological materials becomes increasingly plausible, and the distance between evolutionary innovation and engineered application continues to contract.</p>
+        </div>
+      </div>
+
+      <!-- Passage 3 -->
+      <div id="passageContent3" style="display:none;">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 3</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">Social Media and Political Polarisation</div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>The relationship between digital media and political polarisation has attracted intensive scholarly scrutiny since the mid-2010s, when a convergence of political upheavals in established democracies appeared to coincide with the rapid expansion of social media use. The intuitive narrative that emerged — platforms algorithmically amplify emotionally charged partisan content, herding users into ideological echo chambers and eroding the shared informational foundation that democratic deliberation requires — achieved wide currency in journalistic and policy discourse. The empirical evidence, however, is considerably more equivocal than this narrative implies, and a careful examination of the research literature reveals persistent disagreements about the magnitude, direction, and causal mechanisms of any relationship between platform use and political division.</p>
+
+          <p><span class="para-label">B</span>The echo chamber hypothesis holds that recommendation algorithms, by optimising for engagement, preferentially surface content that confirms users' pre-existing beliefs and minimises exposure to challenging perspectives. The psychological mechanism invoked is selective exposure — a well-documented tendency in media consumption research for individuals to favour information congruent with their existing attitudes. Eli Pariser's 2011 concept of the "filter bubble" — the personalised information environment created by algorithmic curation — formalised the concern that platform architecture was systematically reducing ideological diversity in the information diets of their users. Subsequent empirical work has produced a more complicated picture. A study by Eytan Bakshy and colleagues at Facebook, published in Science in 2015, found that while the News Feed algorithm did reduce exposure to cross-cutting ideological content, the reduction attributable to algorithmic curation was substantially smaller than the reduction attributable to users' own sharing behaviour and choice to follow like-minded sources.</p>
+
+          <p><span class="para-label">C</span>The cross-national dimensions of polarisation research raise further complications. Comparative studies consistently find that countries with high rates of social media penetration exhibit widely varying levels of political polarisation, suggesting that platform architecture alone cannot account for observed trends. Denmark and Germany, for instance, have social media adoption rates comparable to the United States but have not experienced the same degree of affective polarisation — the extent to which partisans report negative attitudes toward political outgroups — that has been documented in American political psychology research. Researchers including Levi Boxell and colleagues have pointed to the paradoxical finding that in the United States, affective polarisation has increased most sharply among demographic groups — principally older adults — with the lowest rates of social media use, a pattern difficult to reconcile with a platform-centric explanation of polarisation.</p>
+
+          <p><span class="para-label">D</span>The mechanisms by which social media might plausibly contribute to polarisation, even in the absence of a direct causal relationship with measured attitudinal change, remain an active area of theoretical development. Researchers have proposed that platforms may foster what sociologist Zeynep Tufekci describes as "context collapse" — the flattening of multiple social contexts into a single undifferentiated audience — which incentivises the expression of more extreme, clearly legible political identities at the expense of the nuanced, context-sensitive positions that characterise private political reasoning. The dynamics of public shaming and social sanctioning on platforms, amplified by the scale and persistence of online audiences, may additionally suppress the expression of heterodox views in ways that distort apparent consensus without necessarily altering underlying beliefs. These structural features of platform communication are distinct from the content recommendation mechanisms on which the echo chamber literature has focused.</p>
+
+          <p><span class="para-label">E</span>A separate strand of research has examined the relationship between social media use and affective rather than ideological polarisation — distinguishing between disagreement about policy positions and hostility toward political outgroups. The distinction is analytically important because evidence suggests that affective polarisation has grown more rapidly than ideological divergence on most policy questions in several democracies, implying that the emotional dimensions of political identity may be more susceptible to platform dynamics than substantive policy disagreement. Chris Bail and colleagues at Duke University conducted a randomised controlled experiment in which a subset of Twitter users were paid to follow a bot that exposed them to the opposing party's political content for one month. Counter-intuitively, Republicans who followed the liberal bot became significantly more conservative in their policy attitudes by the end of the period, a finding the researchers attributed to the reactive reinforcement of identity under conditions of perceived ideological threat.</p>
+
+          <p><span class="para-label">F</span>The challenge of establishing causal claims in this domain is significant. Much of the available evidence is observational and cross-sectional, making it difficult to determine whether social media use drives polarisation or whether already-polarised individuals are differentially drawn to partisan content. The ecological fallacy — inferring individual-level causal relationships from aggregate correlations — is a persistent methodological concern in research that uses country-level or platform-level data. Randomised experiments such as those conducted by Bail and colleagues address some of these concerns but face their own limitations: the populations willing to participate in such studies may not be representative, and relatively brief exposure periods may not capture the cumulative effects of years of platform use on political cognition and identity.</p>
+
+          <p><span class="para-label">G</span>The policy implications of this contested evidence base are genuinely difficult to navigate. If social media platforms bear significant causal responsibility for political polarisation, interventions ranging from algorithmic transparency requirements to mandatory exposure to cross-cutting content may be warranted. If, alternatively, platforms function primarily as amplifiers of pre-existing social divisions rooted in economic inequality, residential segregation, and the decline of shared civic institutions, platform regulation may address symptoms while leaving underlying causes undisturbed. The most intellectually honest position may be that social media constitutes one contributing factor among several in a multidimensional phenomenon, and that the relative weight of platform effects varies substantially across political contexts, demographic groups, and time periods in ways that current research methods have not yet resolved.</p>
+        </div>
+      </div>
+
+    </div><!-- /reading-pane -->
+
+    <!-- RESIZER BAR -->
+    <div class="resizer-bar" id="resizerBar">
+      <button class="resizer-btn" aria-label="Drag to resize panels">
+        <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M3.5 2L1 6L3.5 10" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span style="display:block;width:2px;height:14px;background:var(--border);border-radius:1px;"></span>
+        <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M6.5 2L9 6L6.5 10" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+
+    <!-- QUESTION PANE -->
+    <div class="question-pane" id="questionPane">
+      <div id="qPanel1"></div>
+      <div id="qPanel2" style="display:none;"></div>
+      <div id="qPanel3" style="display:none;"></div>
+    </div>
+
+  </div><!-- /split-container -->
+
+  <!-- SUBMIT -->
+  <div class="flex justify-center mt-10 mb-16">
+    <button onclick="confirmSubmit()" class="btn-gold px-10 py-4 text-base">Submit Reading Test</button>
+  </div>
+</main>
+
+<!-- RESULTS -->
+<div id="resultsMain" style="display:none;" class="flex-1 max-w-5xl mx-auto px-6 py-10 w-full">
+  <div class="flex items-center gap-3 mb-8">
+    <div>
+      <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Results</div>
+      <h1 class="font-display font-black text-2xl" style="color:var(--text-primary);">Academic Reading — Score Report</h1>
+    </div>
+  </div>
+  <div class="section-card mb-6" id="scoreCard"></div>
+  <div class="section-card mb-8" id="feedbackCard"></div>
+  <div class="section-card mb-6">
+    <div class="passage-corr-header">Passage 1 — The History of Cartography</div>
+    <div id="corrPassage1"></div>
+  </div>
+  <div class="section-card mb-6">
+    <div class="passage-corr-header">Passage 2 — Biomimicry</div>
+    <div id="corrPassage2"></div>
+  </div>
+  <div class="section-card mb-10">
+    <div class="passage-corr-header">Passage 3 — Social Media and Political Polarisation</div>
+    <div id="corrPassage3"></div>
+  </div>
+  <div class="flex gap-4 justify-center mb-16">
+    <a href="index.html" class="btn-gold">← Back to Tests</a>
+  </div>
+</div>
+
+<!-- SUBMITTING OVERLAY -->
+<div id="submittingOverlay" style="display:none;position:fixed;inset:0;z-index:300;background:rgba(247,248,250,0.97);flex-direction:column;align-items:center;justify-content:center;" class="flex">
+  <div class="spinner mb-6"></div>
+  <div class="font-display font-bold text-xl mb-2" style="color:var(--text-primary);">Scoring Your Answers</div>
+  <p class="text-sm" style="color:var(--text-muted);">Analysing your responses…</p>
+</div>
+
+<script>
+
+// ─────────────────────────────────────────
+//  TEST DATA
+// ─────────────────────────────────────────
+const GROUPS = [
+  // ── PASSAGE 1 — The History of Cartography — Matching Headings Q1–5 ──
+  {
+    passageId: 1,
+    type: 'matching_headings',
+    label: 'Questions 1–5',
+    instructions: 'The reading passage has seven paragraphs, <strong>A–G</strong>. Choose the correct heading for paragraphs <strong>B–F</strong> from the list of headings below. Paragraphs A and G are not included. Write the correct Roman numeral in the box.',
+    headings: [
+      { key: 'i',    text: 'How Greek scholars established a mathematical basis for representing the Earth\'s surface' },
+      { key: 'ii',   text: 'The adoption of new projection techniques by navigators to solve a practical problem at sea' },
+      { key: 'iii',  text: 'The replacement of fieldwork-based surveying methods with technology derived from aerial and satellite observation' },
+      { key: 'iv',   text: 'A tradition of mapmaking in which religious and symbolic considerations overrode geographic accuracy' },
+      { key: 'v',    text: 'The use of triangulation to produce accurate measurements of large-scale terrain, including mountain heights' },
+      { key: 'vi',   text: 'The economic pressures that led colonial governments to invest in surveying expeditions in tropical regions' },
+      { key: 'vii',  text: 'The recovery of an ancient geographic text that transformed the technical standards of European mapmaking' },
+      { key: 'viii', text: 'The political use of Roman roads as the organising framework for the first administrative maps of the empire' },
+    ],
+    questions: [
+      { id: 1, paraLabel: 'B', text: 'Paragraph B', answer: 'i', answerDisplay: 'i — How Greek scholars established a mathematical basis for representing the Earth\'s surface',
+        explanation: 'Paragraph B describes Anaximander\'s theoretical world map, Eratosthenes\' mathematical calculation of Earth\'s circumference, and Ptolemy\'s coordinate grid using latitude and longitude. All three contributions are mathematical and conceptual, establishing a "mathematical basis for representing the Earth\'s surface." Heading vii (recovery of an ancient text) maps to D; heading ii (navigation projections) maps to D as well.',
+        reinforcement: 'Correct — paragraph B is organised around three successive Greek scholars who provided mathematical and theoretical foundations for cartography, matching heading i.' },
+      { id: 2, paraLabel: 'C', text: 'Paragraph C', answer: 'iv', answerDisplay: 'iv — A tradition of mapmaking in which religious and symbolic considerations overrode geographic accuracy',
+        explanation: 'Paragraph C describes the mappa mundi tradition, noting that Jerusalem was placed at the centre and East at the top "dictated by theological rather than geographic logic." The maps were "didactic and devotional rather than practical." This directly matches "religious and symbolic considerations overrode geographic accuracy." Heading i belongs to B.',
+        reinforcement: 'Correct — paragraph C\'s entire argument concerns a cartographic tradition driven by theology rather than geographic fidelity, matching heading iv precisely.' },
+      { id: 3, paraLabel: 'D', text: 'Paragraph D', answer: 'ii', answerDisplay: 'ii — The adoption of new projection techniques by navigators to solve a practical problem at sea',
+        explanation: 'Paragraph D describes Mercator\'s 1569 cylindrical projection, which "addressed a practical problem of navigation" by allowing sailors to "plot straight-line courses on a flat map." The recovery of Ptolemy\'s Geographia is mentioned as background context, but the paragraph\'s main focus is the practical navigational solution provided by Mercator\'s projection. Heading vii (recovery of ancient text) is a secondary detail, not the central claim.',
+        reinforcement: 'Correct — the organising argument of paragraph D is Mercator\'s projection as a navigational solution, matching "new projection techniques adopted to solve a practical problem at sea."' },
+      { id: 4, paraLabel: 'E', text: 'Paragraph E', answer: 'v', answerDisplay: 'v — The use of triangulation to produce accurate measurements of large-scale terrain, including mountain heights',
+        explanation: 'Paragraph E describes triangulation surveys in Britain and the Great Trigonometrical Survey of India, which "produced the first accurate measurements of the Himalayan peaks" including Mount Everest. "Triangulation to produce accurate measurements of large-scale terrain, including mountain heights" is a precise match for the paragraph\'s content. Heading iii (aerial/satellite technology) maps to F.',
+        reinforcement: 'Correct — paragraph E is devoted to triangulation surveys and culminates in the Himalayan height measurements, matching heading v exactly.' },
+      { id: 5, paraLabel: 'F', text: 'Paragraph F', answer: 'iii', answerDisplay: 'iii — The replacement of fieldwork-based surveying methods with technology derived from aerial and satellite observation',
+        explanation: 'Paragraph F opens with "the advent of aerial photography… and satellite imaging" as replacements for earlier fieldwork-based triangulation surveys, and continues with GIS. "Replacement of fieldwork-based surveying methods with technology derived from aerial and satellite observation" matches perfectly. Heading v belongs to E.',
+        reinforcement: 'Correct — paragraph F describes how aerial photography and satellite imaging replaced traditional fieldwork surveys, matching heading iii.' },
+    ]
+  },
+  // ── PASSAGE 1 — T/F/NG Q6–9 ──
+  {
+    passageId: 1,
+    type: 'tfng',
+    label: 'Questions 6–9',
+    instructions: 'Do the following statements agree with the information given in the reading passage? Write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      { id: 6, text: 'Eratosthenes\' estimate of the Earth\'s circumference was less than one percent different from the value accepted today.',
+        answer: 'TRUE',
+        explanation: 'Paragraph B: <strong>"His estimate of approximately 40,000 kilometres is within one percent of the actual value accepted today."</strong> The statement paraphrases "within one percent" as "less than one percent different," which is an accurate equivalence.',
+        reinforcement: 'Correct — paragraph B explicitly states Eratosthenes\'s estimate was within one percent of the modern accepted value.' },
+      { id: 7, text: 'Medieval mappa mundi were primarily designed to assist sailors in navigating Mediterranean shipping routes.',
+        answer: 'FALSE',
+        explanation: 'Paragraph C states mappa mundi were "not intended as navigational tools but as visual encyclopaedias of sacred and secular knowledge." The statement claims they were "primarily designed to assist sailors," which directly contradicts the passage. Portolan charts — not mappa mundi — were used by Mediterranean sailors.',
+        reinforcement: 'Correct — paragraph C explicitly states mappa mundi were not navigational tools, directly contradicting the statement.' },
+      { id: 8, text: 'The Ordnance Survey of Britain was established partly in response to concerns about military mapping deficiencies.',
+        answer: 'TRUE',
+        explanation: 'Paragraph E: <strong>"initiated in 1791 following military concerns about the inadequacy of existing maps during the Jacobite rebellions."</strong> "Established partly in response to concerns about military mapping deficiencies" accurately paraphrases "following military concerns about the inadequacy of existing maps."',
+        reinforcement: 'Correct — paragraph E explicitly links the Ordnance Survey\'s establishment to military mapping concerns during the Jacobite rebellions.' },
+      { id: 9, text: 'J. B. Harley argued that maps produced in the medieval period were particularly prone to encoding political bias.',
+        answer: 'NOT GIVEN',
+        explanation: 'Paragraph G mentions Harley\'s argument that "maps are never politically neutral," but no restriction to medieval maps is stated or implied. The passage does not specify which historical period or type of map Harley considered most politically biased.',
+        reinforcement: 'Correct — Harley\'s argument in paragraph G applies to maps in general, not specifically to medieval maps; no such specification appears in the passage.' },
+    ]
+  },
+  // ── PASSAGE 1 — Sentence Completion Q10–13 ──
+  {
+    passageId: 1,
+    type: 'sentence_completion',
+    label: 'Questions 10–13',
+    instructions: 'Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.',
+    questions: [
+      { id: 10, text: 'Ptolemy\'s Geographia introduced the concept of latitude and longitude as a _______, which underpins all modern geographic referencing systems.',
+        answer: 'coordinate grid', answerDisplay: 'coordinate grid', acceptable: ['coordinate grid'],
+        explanation: 'Paragraph B: <strong>"introducing the concept of latitude and longitude as a coordinate grid — a framework that remains the basis of all modern geographic referencing systems."</strong> "Coordinate grid" is the two-word exact phrase from the passage.',
+        reinforcement: 'Correct — "coordinate grid" is retrieved exactly from paragraph B\'s description of Ptolemy\'s contribution.' },
+      { id: 11, text: 'The Mercator projection preserves angles and _______ at the cost of distorting the relative size of landmasses.',
+        answer: 'compass bearings', answerDisplay: 'compass bearings', acceptable: ['compass bearings'],
+        explanation: 'Paragraph D: <strong>"his cylindrical projection preserved angles and compass bearings at the expense of relative area."</strong> The sentence frame paraphrases "at the expense of relative area" as "distorting the relative size of landmasses"; "compass bearings" is the two-word answer.',
+        reinforcement: 'Correct — "compass bearings" is the exact two-word phrase in paragraph D completing the description of what the Mercator projection preserves.' },
+      { id: 12, text: 'Trigonometric surveys calculate the positions of landmarks across large distances by measuring angles from a carefully established _______.',
+        answer: 'baseline', answerDisplay: 'baseline', acceptable: ['baseline'],
+        explanation: 'Paragraph E: <strong>"measuring angles from a carefully established baseline."</strong> The sentence frame closely mirrors the passage; "baseline" is the one-word exact answer.',
+        reinforcement: 'Correct — "baseline" is retrieved directly from paragraph E\'s explanation of triangulation methodology.' },
+      { id: 13, text: 'Counter-mapping initiatives have been used by indigenous communities to assert _______ or document traditional knowledge.',
+        answer: 'territorial claims', answerDisplay: 'territorial claims', acceptable: ['territorial claims'],
+        explanation: 'Paragraph G: <strong>"indigenous communities and marginalised groups produce their own geographic representations to assert territorial claims or document traditional knowledge."</strong> "Territorial claims" is the exact two-word phrase from the passage.',
+        reinforcement: 'Correct — "territorial claims" is the passage-exact phrase in paragraph G describing one purpose of counter-mapping.' },
+    ]
+  },
+
+  // ── PASSAGE 2 — Biomimicry — Matching Headings Q14–18 ──
+  {
+    passageId: 2,
+    type: 'matching_headings',
+    label: 'Questions 14–18',
+    instructions: 'The reading passage has seven paragraphs, <strong>A–G</strong>. Choose the correct heading for paragraphs <strong>B–F</strong> from the list of headings below. Paragraphs A and G are not included. Write the correct Roman numeral in the box.',
+    headings: [
+      { key: 'i',    text: 'The theoretical justification for treating biology as a source of optimised engineering solutions' },
+      { key: 'ii',   text: 'How an aquatic mammal\'s anatomy has been adapted to improve energy efficiency in wind energy and aviation' },
+      { key: 'iii',  text: 'The application of biological surface properties to address water scarcity and building maintenance' },
+      { key: 'iv',   text: 'Doubts raised about whether biological principles can be reliably and usefully transferred to manufactured products' },
+      { key: 'v',    text: 'The discovery that microscopic architectural arrangements in shells can be replicated to enhance manufactured materials' },
+      { key: 'vi',   text: 'The economic arguments for investing in biomimetic research over conventional materials testing' },
+      { key: 'vii',  text: 'The use of insect flight mechanics to develop lighter aircraft frames for commercial aviation' },
+      { key: 'viii', text: 'A comparison between the cost of biological and synthetic production of high-performance fibres' },
+    ],
+    questions: [
+      { id: 14, paraLabel: 'B', text: 'Paragraph B', answer: 'i', answerDisplay: 'i — The theoretical justification for treating biology as a source of optimised engineering solutions',
+        explanation: 'Paragraph B explains that organisms have been subjected to evolutionary selection pressure for hundreds of millions of years, and that persistent structures are "optimised solutions to the physical and chemical constraints they faced." This is a theoretical argument for biomimicry as a discipline. Heading ii (whale anatomy → wind energy) maps to C.',
+        reinforcement: 'Correct — paragraph B presents the evolutionary logic that justifies treating biological systems as a source of engineering solutions, matching heading i.' },
+      { id: 15, paraLabel: 'C', text: 'Paragraph C', answer: 'ii', answerDisplay: 'ii — How an aquatic mammal\'s anatomy has been adapted to improve energy efficiency in wind energy and aviation',
+        explanation: 'Paragraph C focuses on humpback whale tubercles applied to wind turbine blades and aircraft wing profiles. The humpback whale is an aquatic mammal; the applications include wind energy and aviation. "Improve energy efficiency" matches "reduces drag… improves energy efficiency." Heading v (shell structures) maps to D.',
+        reinforcement: 'Correct — paragraph C is organised around the humpback whale\'s pectoral fins and their application to wind turbines and aircraft, matching heading ii.' },
+      { id: 16, paraLabel: 'D', text: 'Paragraph D', answer: 'v', answerDisplay: 'v — The discovery that microscopic architectural arrangements in shells can be replicated to enhance manufactured materials',
+        explanation: 'Paragraph D describes nacre\'s "hierarchical brick-and-mortar architecture" (microscopic architectural arrangements in shells) and how researchers at MIT have produced synthetic analogues (replicated to enhance manufactured materials). The fracture toughness is the enhancement. Heading iii (water and buildings) maps to E.',
+        reinforcement: 'Correct — paragraph D is entirely about nacre\'s microscopic brick-and-mortar structure being replicated in synthetic materials, matching heading v.' },
+      { id: 17, paraLabel: 'E', text: 'Paragraph E', answer: 'iii', answerDisplay: 'iii — The application of biological surface properties to address water scarcity and building maintenance',
+        explanation: 'Paragraph E describes the Namib Desert beetle\'s surface properties applied to fog collection nets (water scarcity) and the lotus effect applied to exterior building materials (building maintenance). "Biological surface properties" = the beetle\'s hydrophilic/hydrophobic surface and the lotus\'s superhydrophobic surface. Heading iv (doubts) maps to F.',
+        reinforcement: 'Correct — paragraph E covers water harvesting from fog and self-cleaning building facades, both applications of biological surface properties, matching heading iii.' },
+      { id: 18, paraLabel: 'F', text: 'Paragraph F', answer: 'iv', answerDisplay: 'iv — Doubts raised about whether biological principles can be reliably and usefully transferred to manufactured products',
+        explanation: 'Paragraph F is a critical review paragraph: it describes a 2014 paper noting that "the path from biological insight to commercially viable product is rarely straightforward" and that biological properties depend on "hierarchical structures and active metabolic processes that cannot be readily replicated." This is precisely "doubts raised about whether biological principles can be reliably and usefully transferred." Heading i belongs to B.',
+        reinforcement: 'Correct — paragraph F presents the critical case against biomimicry\'s practical transferability, matching heading iv directly.' },
+    ]
+  },
+  // ── PASSAGE 2 — T/F/NG Q19–22 ──
+  {
+    passageId: 2,
+    type: 'tfng',
+    label: 'Questions 19–22',
+    instructions: 'Do the following statements agree with the information given in the reading passage? Write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      { id: 19, text: 'Research teams independent of Duke University confirmed that humpback whale tubercles improve lift at high angles of attack.',
+        answer: 'TRUE',
+        explanation: 'Paragraph C: <strong>"Research conducted at Duke University and subsequently replicated by independent teams demonstrated that these tubercles generate vortices that delay stall and improve lift at high angles of attack."</strong> The statement accurately paraphrases "subsequently replicated by independent teams."',
+        reinforcement: 'Correct — paragraph C explicitly states that independent teams replicated the Duke University findings.' },
+      { id: 20, text: 'The fracture toughness of nacre is three thousand times greater than that of pure calcium carbonate.',
+        answer: 'TRUE',
+        explanation: 'Paragraph D: <strong>"nacre… achieves a fracture toughness approximately three thousand times greater than the calcium carbonate of which it is almost entirely composed."</strong> The statement is a direct paraphrase.',
+        reinforcement: 'Correct — paragraph D explicitly states the fracture toughness ratio of three thousand times.' },
+      { id: 21, text: 'The fog collection nets used in Peru and Chile were designed entirely based on the Namib Desert beetle\'s surface structure.',
+        answer: 'FALSE',
+        explanation: 'Paragraph E states the nets "were partially informed by analyses of this beetle\'s surface microstructure." The word "partially" directly contradicts "designed entirely based on." This is a degree-of-attribution trap.',
+        reinforcement: 'Correct — paragraph E says "partially informed," not "entirely designed based on," making the statement FALSE.' },
+      { id: 22, text: 'The AskNature database was originally developed to help manufacturers reduce production costs.',
+        answer: 'NOT GIVEN',
+        explanation: 'Paragraph G describes AskNature as "a database of biological strategies… engaged in the formal indexing of natural solutions by the functional problems they address, aiming to make biological knowledge accessible to designers without specialist training in biology." No mention is made of production costs as a purpose.',
+        reinforcement: 'Correct — the passage describes AskNature\'s purpose as accessibility for designers, not cost reduction; the latter is not mentioned.' },
+    ]
+  },
+  // ── PASSAGE 2 — Sentence Completion Q23–26 ──
+  {
+    passageId: 2,
+    type: 'sentence_completion',
+    label: 'Questions 23–26',
+    instructions: 'Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.',
+    questions: [
+      { id: 23, text: 'Janine Benyus described biomimicry as "learning from and then emulating natural forms, processes, and ecosystems to create more _______ designs."',
+        answer: 'sustainable', answerDisplay: 'sustainable', acceptable: ['sustainable'],
+        explanation: 'Paragraph B: <strong>"learning from and then emulating natural forms, processes, and ecosystems to create more sustainable designs."</strong> This is a direct quotation; "sustainable" is the single word completing Benyus\'s definition.',
+        reinforcement: 'Correct — "sustainable" is the exact word in Benyus\'s quoted definition in paragraph B.' },
+      { id: 24, text: 'The humpback whale\'s pectoral fins feature irregular _______ that were once assumed to be hydrodynamically suboptimal.',
+        answer: 'tubercles', answerDisplay: 'tubercles', acceptable: ['tubercles'],
+        explanation: 'Paragraph C: <strong>"The humpback whale\'s pectoral fins are lined with irregular tubercles — rounded protrusions approximately the size of a human fist — that were long assumed to be hydrodynamically suboptimal."</strong> "Tubercles" is the one-word answer.',
+        reinforcement: 'Correct — "tubercles" is the passage-exact term in paragraph C for the whale\'s fin protrusions.' },
+      { id: 25, text: 'The deep-sea glass sponge Euplectella aspergillum has a skeleton organised into a _______ lattice capable of transmitting bioluminescent signals.',
+        answer: 'fibre-optic', answerDisplay: 'fibre-optic', acceptable: ['fibre-optic', 'fiber-optic'],
+        explanation: 'Paragraph D: <strong>"the deep-sea glass sponge Euplectella aspergillum, whose siliceous skeleton is organised into a fibre-optic lattice capable of transmitting bioluminescent signals."</strong> "Fibre-optic" is the exact two-word modifier.',
+        reinforcement: 'Correct — "fibre-optic" (or "fiber-optic") is the exact two-word modifier from paragraph D describing the sponge\'s skeleton lattice.' },
+      { id: 26, text: 'Critics have argued that the term biomimicry is applied so broadly that it risks becoming analytically meaningless unless more precise _______ of biological emulation are adopted.',
+        answer: 'taxonomies', answerDisplay: 'taxonomies', acceptable: ['taxonomies'],
+        explanation: 'Paragraph F: <strong>"the term biomimicry is applied so broadly… as to risk becoming analytically meaningless unless more precise taxonomies of biological emulation are adopted by the research community."</strong> "Taxonomies" is the one-word passage-exact answer.',
+        reinforcement: 'Correct — "taxonomies" is the exact noun in paragraph F\'s critical argument about definitional precision.' },
+    ]
+  },
+
+  // ── PASSAGE 3 — Social Media and Political Polarisation — Matching Info Q27–31 ──
+  {
+    passageId: 3,
+    type: 'matching_info',
+    label: 'Questions 27–31',
+    instructions: 'The reading passage has seven paragraphs, <strong>A–G</strong>. Which paragraph contains the following information? Write the correct letter <strong>A–G</strong> in the box. You may use any letter more than once.',
+    paraOptions: ['A','B','C','D','E','F','G'],
+    questions: [
+      { id: 27, text: 'A description of a randomised experiment in which exposure to opposing political views unexpectedly increased partisan attitudes.',
+        answer: 'E', answerDisplay: 'E',
+        explanation: 'Paragraph E: <strong>"Chris Bail and colleagues at Duke University conducted a randomised controlled experiment… Republicans who followed the liberal bot became significantly more conservative in their policy attitudes by the end of the period."</strong> This is the unexpected increase in partisan attitudes following exposure to opposing views.',
+        reinforcement: 'Correct — the Bail et al. experiment and its counter-intuitive result are described in paragraph E.' },
+      { id: 28, text: 'An explanation of how platform communication dynamics may suppress the open expression of minority views without changing those underlying views.',
+        answer: 'D', answerDisplay: 'D',
+        explanation: 'Paragraph D: <strong>"The dynamics of public shaming and social sanctioning on platforms… may additionally suppress the expression of heterodox views in ways that distort apparent consensus without necessarily altering underlying beliefs."</strong>',
+        reinforcement: 'Correct — the suppression of heterodox expression without changing underlying beliefs is described in paragraph D.' },
+      { id: 29, text: 'A reference to research showing that the demographic group most affected by polarisation in the United States has the lowest rates of social media use.',
+        answer: 'C', answerDisplay: 'C',
+        explanation: 'Paragraph C: <strong>"affective polarisation has increased most sharply among demographic groups — principally older adults — with the lowest rates of social media use."</strong>',
+        reinforcement: 'Correct — the paradoxical finding about older adults and low social media use is in paragraph C.' },
+      { id: 30, text: 'An identification of a methodological problem arising from the use of aggregate data to draw conclusions about the behaviour of individuals.',
+        answer: 'F', answerDisplay: 'F',
+        explanation: 'Paragraph F: <strong>"The ecological fallacy — inferring individual-level causal relationships from aggregate correlations — is a persistent methodological concern in research that uses country-level or platform-level data."</strong>',
+        reinforcement: 'Correct — the ecological fallacy as a methodological concern when using aggregate data is described in paragraph F.' },
+      { id: 31, text: 'A description of how platforms may encourage users to display more extreme identities because their audience includes many different social groups simultaneously.',
+        answer: 'D', answerDisplay: 'D',
+        explanation: 'Paragraph D: <strong>"\'context collapse\' — the flattening of multiple social contexts into a single undifferentiated audience — which incentivises the expression of more extreme, clearly legible political identities at the expense of nuanced, context-sensitive positions."</strong>',
+        reinforcement: 'Correct — context collapse and its effect on identity expression are described in paragraph D.' },
+    ]
+  },
+  // ── PASSAGE 3 — T/F/NG Q32–36 ──
+  {
+    passageId: 3,
+    type: 'tfng',
+    label: 'Questions 32–36',
+    instructions: 'Do the following statements agree with the information given in the reading passage? Write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      { id: 32, text: 'The 2015 Facebook study found that the News Feed algorithm was the primary cause of reduced exposure to opposing political views.',
+        answer: 'FALSE',
+        explanation: 'Paragraph B: <strong>"the reduction attributable to algorithmic curation was substantially smaller than the reduction attributable to users\' own sharing behaviour and choice to follow like-minded sources."</strong> The algorithm was not the primary cause — user behaviour was the larger factor.',
+        reinforcement: 'Correct — the Facebook study found user behaviour, not the algorithm, was the dominant cause of reduced cross-cutting exposure, making the statement FALSE.' },
+      { id: 33, text: 'Countries such as Denmark and Germany have experienced levels of affective polarisation similar to those recorded in the United States.',
+        answer: 'FALSE',
+        explanation: 'Paragraph C states Denmark and Germany "have not experienced the same degree of affective polarisation… that has been documented in American political psychology research." The statement claims "similar levels," which contradicts the passage.',
+        reinforcement: 'Correct — the passage explicitly contrasts Denmark and Germany\'s lower polarisation with the United States, making "similar levels" FALSE.' },
+      { id: 34, text: 'Zeynep Tufekci is described in the passage as a researcher in the field of political psychology.',
+        answer: 'NOT GIVEN',
+        explanation: 'Paragraph D refers to Zeynep Tufekci only as a "sociologist." No mention is made of her working in political psychology specifically. Her disciplinary affiliation is stated as sociology.',
+        reinforcement: 'Correct — the passage identifies Tufekci as a sociologist, not a political psychologist; no such identification is made.' },
+      { id: 35, text: 'The passage states that affective polarisation has grown more rapidly than ideological divergence on policy issues in some democracies.',
+        answer: 'TRUE',
+        explanation: 'Paragraph E: <strong>"affective polarisation has grown more rapidly than ideological divergence on most policy questions in several democracies."</strong> The statement accurately paraphrases this claim.',
+        reinforcement: 'Correct — paragraph E explicitly states that affective polarisation has outpaced ideological divergence on policy in several democracies.' },
+      { id: 36, text: 'The passage concludes that social media platforms bear the primary causal responsibility for political polarisation in contemporary democracies.',
+        answer: 'FALSE',
+        explanation: 'Paragraph G argues that "the most intellectually honest position may be that social media constitutes one contributing factor among several in a multidimensional phenomenon." This is explicitly a rejection of social media as the primary cause.',
+        reinforcement: 'Correct — paragraph G explicitly frames social media as one factor among several, not the primary cause, making the claim of primary responsibility FALSE.' },
+    ]
+  },
+  // ── PASSAGE 3 — Sentence Completion Q37–40 ──
+  {
+    passageId: 3,
+    type: 'sentence_completion',
+    label: 'Questions 37–40',
+    instructions: 'Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.<br><br><em>Eli Pariser\'s concept of the "(37) _______" described the personalised information environment created by algorithmic curation, formalising the concern that platforms were reducing (38) _______ diversity in users\' information diets. However, researchers at Facebook found that users\' own (39) _______ behaviour was a larger cause of reduced cross-cutting exposure than algorithmic filtering. A key distinction in the research literature separates ideological disagreement from (40) _______ polarisation — hostility toward political outgroups — which appears to have grown more rapidly across several democracies.</em>',
+    questions: [
+      { id: 37, text: '(37) Eli Pariser\'s concept describing the personalised information environment created by algorithmic curation.',
+        answer: 'filter bubble', answerDisplay: 'filter bubble', acceptable: ['filter bubble'],
+        explanation: 'Paragraph B: <strong>"Eli Pariser\'s 2011 concept of the \'filter bubble\' — the personalised information environment created by algorithmic curation."</strong> "Filter bubble" is the exact two-word term.',
+        reinforcement: 'Correct — "filter bubble" is retrieved directly from paragraph B\'s description of Pariser\'s concept.' },
+      { id: 38, text: '(38) The type of diversity that platforms were alleged to be reducing in users\' information diets.',
+        answer: 'ideological', answerDisplay: 'ideological', acceptable: ['ideological'],
+        explanation: 'Paragraph B: <strong>"platform architecture was systematically reducing ideological diversity in the information diets of their users."</strong> "Ideological" is the one-word answer.',
+        reinforcement: 'Correct — "ideological" is the exact modifier in paragraph B describing the type of diversity being reduced.' },
+      { id: 39, text: '(39) The type of user behaviour identified by the Facebook study as a larger cause of reduced cross-cutting exposure than the algorithm.',
+        answer: 'sharing', answerDisplay: 'sharing', acceptable: ['sharing'],
+        explanation: 'Paragraph B: <strong>"the reduction attributable to algorithmic curation was substantially smaller than the reduction attributable to users\' own sharing behaviour."</strong> "Sharing" is the one-word answer completing "sharing behaviour."',
+        reinforcement: 'Correct — "sharing" is the passage-exact word in paragraph B identifying the dominant user behaviour.' },
+      { id: 40, text: '(40) The term used in the passage for hostility toward political outgroups, as distinct from policy disagreement.',
+        answer: 'affective', answerDisplay: 'affective', acceptable: ['affective'],
+        explanation: 'Paragraph E: <strong>"affective rather than ideological polarisation — distinguishing between disagreement about policy positions and hostility toward political outgroups."</strong> "Affective" is the one-word answer designating the hostility-based form of polarisation.',
+        reinforcement: 'Correct — "affective" is the exact term in paragraphs C and E describing polarisation based on outgroup hostility rather than policy disagreement.' },
+    ]
+  },
+];
+
+// ─────────────────────────────────────────
+//  STATE
+// ─────────────────────────────────────────
+const answers = {};
+const TOTAL_SECONDS = 3600;
+let secondsLeft = TOTAL_SECONDS;
+let timerInterval = null;
+let submitted = false;
+
+// ─────────────────────────────────────────
+//  TAB SWITCHING
+// ─────────────────────────────────────────
+function switchTab(n) {
+  [1,2,3].forEach(i => {
+    document.getElementById('passageContent' + i).style.display = i === n ? 'block' : 'none';
+    document.getElementById('qPanel' + i).style.display = i === n ? 'block' : 'none';
+    document.getElementById('tabNav').querySelectorAll('.tab-btn')[i-1].classList.toggle('active', i === n);
+  });
+  document.getElementById('readingPane').scrollTop = 0;
+  document.getElementById('questionPane').scrollTop = 0;
+}
+
+// ─────────────────────────────────────────
+//  FONT SIZE CONTROLLER
+// ─────────────────────────────────────────
+const FONT_SIZES = [13, 15, 17, 19];
+let fontSizeIdx = parseInt(localStorage.getItem('ielts_font_size_idx') || '1');
+function initFontSize() {
+  document.documentElement.style.setProperty('--passage-font-size', FONT_SIZES[fontSizeIdx] + 'px');
+}
+function adjustFontSize(delta) {
+  if (delta === 0) {
+    fontSizeIdx = 1;
+  } else {
+    fontSizeIdx = Math.max(0, Math.min(FONT_SIZES.length - 1, fontSizeIdx + delta));
+  }
+  document.documentElement.style.setProperty('--passage-font-size', FONT_SIZES[fontSizeIdx] + 'px');
+  localStorage.setItem('ielts_font_size_idx', fontSizeIdx);
+}
+
+// ─────────────────────────────────────────
+//  SPLIT-PANE RESIZER
+// ─────────────────────────────────────────
+(function initResizer() {
+  const container = document.getElementById('splitContainer');
+  const leftPane  = document.getElementById('readingPane');
+  const resizer   = document.getElementById('resizerBar');
+  if (!container || !leftPane || !resizer) return;
+
+  let isDragging = false;
+  let startX     = 0;
+  let startW     = 0;
+
+  function onStart(clientX) {
+    isDragging = true;
+    startX     = clientX;
+    startW     = leftPane.getBoundingClientRect().width;
+    resizer.classList.add('active');
+    document.body.style.cursor     = 'col-resize';
+    document.body.style.userSelect = 'none';
+  }
+
+  function onMove(clientX) {
+    if (!isDragging) return;
+    const cW    = container.getBoundingClientRect().width;
+    const rW    = resizer.getBoundingClientRect().width;
+    const avail = cW - rW;
+    const minW  = avail * 0.25;
+    const maxW  = avail * 0.75;
+    const newW  = Math.max(minW, Math.min(maxW, startW + (clientX - startX)));
+    leftPane.style.width = ((newW / cW) * 100).toFixed(2) + '%';
+  }
+
+  function onEnd() {
+    if (!isDragging) return;
+    isDragging = false;
+    resizer.classList.remove('active');
+    document.body.style.cursor     = '';
+    document.body.style.userSelect = '';
+  }
+
+  resizer.addEventListener('mousedown',  e => { e.preventDefault(); onStart(e.clientX); });
+  document.addEventListener('mousemove', e => onMove(e.clientX));
+  document.addEventListener('mouseup',   onEnd);
+
+  resizer.addEventListener('touchstart',  e => { e.preventDefault(); onStart(e.touches[0].clientX); }, { passive: false });
+  document.addEventListener('touchmove',  e => { if (isDragging) { e.preventDefault(); onMove(e.touches[0].clientX); } }, { passive: false });
+  document.addEventListener('touchend',   onEnd);
+})();
+
+// ─────────────────────────────────────────
+//  TIMER
+// ─────────────────────────────────────────
+function formatTime(s) {
+  return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+}
+function startTimer() {
+  timerInterval = setInterval(() => {
+    secondsLeft--;
+    const pct = (TOTAL_SECONDS - secondsLeft) / TOTAL_SECONDS * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+    const el = document.getElementById('timerDisplay');
+    el.textContent = formatTime(secondsLeft);
+    if (secondsLeft <= 120) el.className = 'timer-box critical';
+    else if (secondsLeft <= 300) el.className = 'timer-box warning';
+    if (secondsLeft <= 0) { clearInterval(timerInterval); autoSubmit(); }
+  }, 1000);
+}
+
+// ─────────────────────────────────────────
+//  RENDER QUESTIONS
+// ─────────────────────────────────────────
+function renderAll() {
+  [1,2,3].forEach(pid => {
+    const panel = document.getElementById('qPanel' + pid);
+    let html = '';
+    GROUPS.filter(g => g.passageId === pid).forEach(group => {
+      html += `<div class="group-header mb-4">
+        <div class="text-xs font-bold tracking-widest uppercase" style="color:var(--gold);">${group.label}</div>
+        <p>${group.instructions}</p>
+      </div>`;
+
+      if (group.type === 'matching_headings') {
+        html += `<div class="headings-list mb-4"><ul style="list-style:none;">`;
+        group.headings.forEach(h => {
+          html += `<li><span>${h.key}.</span>${h.text}</li>`;
+        });
+        html += `</ul></div>`;
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">Paragraph <strong>${q.paraLabel}</strong></div>
+            <select class="q-select" id="q${q.id}" onchange="recordAnswer(${q.id}, this.value)">
+              <option value="">— Select heading —</option>
+              ${group.headings.map(h => `<option value="${h.key}">${h.key}. ${h.text}</option>`).join('')}
+            </select>
+          </div>`;
+        });
+      } else if (group.type === 'tfng') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <div class="q-tfng">
+              <button class="q-tfng-btn" onclick="selectTFNG(${q.id},'TRUE',this)">TRUE</button>
+              <button class="q-tfng-btn" onclick="selectTFNG(${q.id},'FALSE',this)">FALSE</button>
+              <button class="q-tfng-btn" onclick="selectTFNG(${q.id},'NOT GIVEN',this)">NOT GIVEN</button>
+            </div>
+          </div>`;
+        });
+      } else if (group.type === 'sentence_completion') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <input type="text" class="q-input" id="q${q.id}" placeholder="Your answer…" oninput="recordAnswer(${q.id}, this.value.trim())" />
+          </div>`;
+        });
+      } else if (group.type === 'matching_info') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <select class="q-select" id="q${q.id}" onchange="recordAnswer(${q.id}, this.value)">
+              <option value="">— Select paragraph —</option>
+              ${group.paraOptions.map(p => `<option value="${p}">Paragraph ${p}</option>`).join('')}
+            </select>
+          </div>`;
+        });
+      }
+    });
+    panel.innerHTML = html;
+  });
+}
+
+function selectTFNG(qId, val, btn) {
+  btn.parentElement.querySelectorAll('.q-tfng-btn').forEach(b => { b.className = 'q-tfng-btn'; });
+  btn.classList.add(val === 'TRUE' ? 'sel-t' : val === 'FALSE' ? 'sel-f' : 'sel-ng');
+  recordAnswer(qId, val);
+}
+function recordAnswer(qId, val) { answers[qId] = val; }
+
+// ─────────────────────────────────────────
+//  SCORING
+// ─────────────────────────────────────────
+function scoreAnswer(q, studentRaw) {
+  if (!studentRaw) return false;
+  const student = studentRaw.toString().trim().toLowerCase();
+  if (q.acceptable) return q.acceptable.map(a => a.toLowerCase()).includes(student);
+  return student === q.answer.toLowerCase();
+}
+function bandFromScore(n) {
+  if (n >= 39) return 9.0; if (n >= 37) return 8.5; if (n >= 35) return 8.0;
+  if (n >= 33) return 7.5; if (n >= 30) return 7.0; if (n >= 27) return 6.5;
+  if (n >= 23) return 6.0; if (n >= 19) return 5.5; if (n >= 15) return 5.0;
+  if (n >= 13) return 4.5; if (n >= 10) return 4.0; if (n >= 8) return 3.5;
+  if (n >= 6) return 3.0; return 2.5;
+}
+function bandColour(b) {
+  if (b >= 7) return '#0D9488'; if (b >= 5.5) return '#C9952E'; return '#dc2626';
+}
+function bandAdvice(band, score) {
+  const pct = Math.round(score/40*100);
+  if (band >= 8.5) return `Outstanding — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Near-native comprehension across all three passages. Focus on NOT GIVEN precision and paraphrased sentence completions to push for Band 9.`;
+  if (band >= 7.5) return `Excellent result — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Strong academic reading. To push towards Band 8+: tighten NOT GIVEN judgements (never infer beyond the text) and copy sentence completion answers exactly from the passage.`;
+  if (band >= 6.5) return `Good performance — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Solid comprehension with room to improve. Review: (1) TRUE vs FALSE — verify the exact claim, not just the topic; (2) Matching Headings — identify the paragraph's central argument before selecting; (3) time allocation across all three passages.`;
+  if (band >= 5.5) return `You scored ${score}/40 (${pct}%), giving an estimated <strong>Band ${band}</strong>. Clear potential — prioritise synonym recognition, since every question involves paraphrase. Review each wrong answer and find the exact passage sentence that should have guided your response.`;
+  return `You scored ${score}/40 (${pct}%), giving an estimated <strong>Band ${band}</strong>. Focus on active reading: identify each paragraph's main claim before reading the questions. Daily timed reading of academic texts and vocabulary building will accelerate improvement significantly.`;
+}
+
+// ─────────────────────────────────────────
+//  SUBMIT
+// ─────────────────────────────────────────
+function confirmSubmit() { if (!confirm('Submit your reading test now?')) return; doSubmit(); }
+function autoSubmit() { if (submitted) return; doSubmit(); }
+function doSubmit() {
+  if (submitted) return;
+  submitted = true;
+  clearInterval(timerInterval);
+  document.getElementById('submittingOverlay').style.display = 'flex';
+  setTimeout(showResults, 800);
+}
+
+// ─────────────────────────────────────────
+//  RESULTS
+// ─────────────────────────────────────────
+function showResults() {
+  document.getElementById('submittingOverlay').style.display = 'none';
+  document.getElementById('testMain').style.display = 'none';
+  document.getElementById('timingStrip').style.display = 'none';
+  document.getElementById('resultsMain').style.display = 'block';
+
+  let correct = 0;
+  const allQs = GROUPS.flatMap(g => g.questions);
+  allQs.forEach(q => { if (scoreAnswer(q, answers[q.id])) correct++; });
+  const band = bandFromScore(correct);
+  const bCol = bandColour(band);
+
+  // Save result
+  const results = JSON.parse(localStorage.getItem('ielts_mock_results') || '[]');
+  results.push({ date: Date.now(), book: 17, testNum: 1, skill: 'reading', scores: { reading: band } });
+  localStorage.setItem('ielts_mock_results', JSON.stringify(results));
+
+  // Per-passage breakdown
+  const passageChips = [1,2,3].map(p => {
+    const pQs = GROUPS.filter(g => g.passageId === p).flatMap(g => g.questions);
+    const pC = pQs.filter(q => scoreAnswer(q, answers[q.id])).length;
+    const pCol = bandColour(bandFromScore(Math.round(pC/pQs.length*40)));
+    return `<div style="background:#EFF3F9;border:1px solid var(--border);border-radius:10px;padding:10px 14px;text-align:center;min-width:80px;">
+      <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px;">Passage ${p}</div>
+      <div style="font-family:'Space Mono',monospace;font-size:1.125rem;font-weight:700;color:${pCol};">${pC}/${pQs.length}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('scoreCard').innerHTML = `
+    <div class="flex flex-col md:flex-row gap-6 items-center">
+      <div class="score-ring-wrap">
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#E2E8F0" stroke-width="8"/>
+          <circle cx="60" cy="60" r="50" fill="none" stroke="${bCol}" stroke-width="8"
+            stroke-dasharray="${Math.round(correct/40*314)} 314" stroke-linecap="round"
+            transform="rotate(-90 60 60)" style="transition:stroke-dasharray 1.2s cubic-bezier(.16,1,.3,1)"/>
+        </svg>
+        <div style="margin-top:-70px;text-align:center;pointer-events:none;">
+          <div style="font-family:'Space Mono',monospace;font-size:1.75rem;font-weight:700;color:${bCol};">${correct}</div>
+          <div style="font-size:0.75rem;color:var(--text-muted);">out of 40</div>
+        </div>
+        <div style="margin-top:16px;"></div>
+      </div>
+      <div class="flex-1">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Your Score</div>
+        <div class="font-display font-black text-4xl mb-1" style="color:${bCol};">Band ${band}</div>
+        <div class="text-sm mb-4" style="color:var(--text-muted);">${correct} correct answers out of 40</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">${passageChips}</div>
+      </div>
+    </div>`;
+
+  document.getElementById('feedbackCard').innerHTML = `
+    <div class="text-xs font-bold tracking-widest uppercase mb-3" style="color:var(--gold);">Overall Feedback</div>
+    <div class="band-feedback">${bandAdvice(band, correct)}</div>`;
+
+  [1,2,3].forEach(pid => {
+    let html = '';
+    GROUPS.filter(g => g.passageId === pid).forEach(group => {
+      html += `<div style="margin-bottom:0.5rem;padding:6px 0 8px;border-bottom:1px solid var(--border-soft);">
+        <span style="font-size:0.6875rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-faint);">${group.label} — ${labelType(group.type)}</span>
+      </div>`;
+      group.questions.forEach(q => {
+        const isCorrect = scoreAnswer(q, answers[q.id]);
+        const studentAns = answers[q.id] ? answers[q.id].toString() : '(no answer)';
+        const correctAns = q.answerDisplay || q.answer;
+        html += `<div class="corr-block ${isCorrect ? 'corr-correct' : 'corr-wrong'}">
+          <div class="corr-qnum ${isCorrect ? 'ok' : 'bad'}">${isCorrect ? '✓' : '✗'} Question ${q.id}</div>
+          <div class="corr-qtext">${q.text}</div>`;
+        if (isCorrect) {
+          html += `<div class="corr-row"><span class="corr-tag reinforce">✓ Correct</span><span class="corr-val">${studentAns}</span></div>
+            <div class="corr-expl">${q.reinforcement || ''}</div>`;
+        } else {
+          html += `<div class="corr-row"><span class="corr-tag your">Your answer</span><span class="corr-val">${studentAns}</span></div>
+            <div class="corr-row"><span class="corr-tag correct">Correct answer</span><span class="corr-val">${correctAns}${q.acceptable && q.acceptable.length > 1 ? ' <span style="font-size:0.75rem;color:var(--text-faint);">(also: ' + q.acceptable.filter(a=>a!==q.answer).join(', ') + ')</span>' : ''}</span></div>
+            <div class="corr-expl">${q.explanation || ''}</div>`;
+        }
+        html += `</div>`;
+      });
+    });
+    document.getElementById('corrPassage' + pid).innerHTML = html;
+  });
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function labelType(t) {
+  return { tfng:'True / False / Not Given', mc:'Multiple Choice', matching_headings:'Matching Headings', matching_info:'Matching Information', sentence_completion:'Sentence Completion', diagram_labelling:'Diagram Labelling', matching_feature:'Matching Features' }[t] || t;
+}
+
+// ─────────────────────────────────────────
+//  INIT
+// ─────────────────────────────────────────
+initFontSize();
+renderAll();
+startTimer();
+</script>
+<script src="/js/components.js"></script>
+<script>
+  IELTSLab.loadNav({ basePath: '../', breadcrumb: 'Mock Tests', authenticated: true, themeDefault: 'light' });
+</script>
+</body>
+</html>

@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IELTS Lab — Cambridge 18 Full Test 2 · Academic Reading</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <script>tailwind.config={theme:{extend:{fontFamily:{display:['Satoshi','Plus Jakarta Sans','system-ui','sans-serif'],sans:['Plus Jakarta Sans','system-ui','sans-serif']}}}}</script>
+  <style>
+    /* ── DESIGN TOKENS ── */
+    :root {
+      --gold: #C9952E;
+      --gold-light: #DDB05A;
+      --gold-dim: rgba(201,149,46,0.10);
+      --gold-border: rgba(201,149,46,0.30);
+      --navy: #1a3c6e;
+      --navy-mid: #2a4f8a;
+      --page-bg: #F7F8FA;
+      --card-bg: #FFFFFF;
+      --qpanel-bg: #EFF3F9;
+      --border: #E2E8F0;
+      --border-soft: #EEF1F6;
+      --text-primary: #1E2A3A;
+      --text-body: #374151;
+      --text-muted: #64748B;
+      --text-faint: #94A3B8;
+      --passage-font-size: 15px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--page-bg); color: var(--text-primary); }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    h1, h2, h3, h4, .font-display { font-family: 'Satoshi', 'Plus Jakarta Sans', system-ui, sans-serif; }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #EFF2F7; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 3px; }
+
+    /* ── PROGRESS ── */
+    .progress-bar { height: 3px; background: #E2E8F0; position: fixed; top: 64px; left: 0; right: 0; z-index: 40; }
+    .progress-fill { height: 100%; background: linear-gradient(to right, var(--gold), #DDB05A); transition: width 1s linear; width: 0%; }
+
+    /* ── NAV ── */
+    .nav-glass { background: rgba(255,255,255,0.97); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .nav-logo { display: flex; align-items: baseline; gap: 0; text-decoration: none; }
+    .nl-ielts { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; letter-spacing: 1px; color: var(--text-primary); }
+    .nl-lab { font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: 3px; color: var(--gold); margin-left: 5px; }
+    #themeToggle { background: transparent; border: 1.5px solid var(--border); color: var(--text-muted); border-radius: 8px; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; font-size: 15px; flex-shrink: 0; padding: 0; }
+    #themeToggle:hover { border-color: var(--gold-border); color: var(--gold); }
+
+    /* ── TIMER ── */
+    .timer-box { background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 10px; padding: 8px 16px; font-family: 'Space Mono', monospace; font-size: 1.125rem; font-weight: 700; color: var(--text-primary); letter-spacing: 2px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+    .timer-box.warning { color: #b45309; border-color: rgba(180,83,9,0.3); background: #fffbeb; }
+    .timer-box.critical { color: #dc2626; border-color: rgba(220,38,38,0.3); background: #fef2f2; animation: pulse 1s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
+
+    /* ── TIMING STRIP ── */
+    .timing-strip { background: #FAFBFD; border-bottom: 1px solid var(--border); padding: 8px 0; }
+    .timing-item { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+    .timing-label { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
+    .timing-val { font-size: 0.75rem; color: var(--text-muted); }
+
+    /* ── FONT SIZE CONTROLLER ── */
+    .font-ctrl { display: inline-flex; align-items: center; gap: 0; background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 9px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .font-ctrl-btn { padding: 6px 12px; border: none; background: transparent; cursor: pointer; color: var(--text-muted); font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.15s; line-height: 1; border-right: 1px solid var(--border); }
+    .font-ctrl-btn:last-child { border-right: none; }
+    .font-ctrl-btn:hover { background: var(--gold-dim); color: var(--gold); }
+    .font-ctrl-btn.a-small { font-size: 11px; }
+    .font-ctrl-btn.a-mid   { font-size: 13px; }
+    .font-ctrl-btn.a-large { font-size: 16px; }
+    .font-ctrl-label { font-size: 0.625rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); padding: 0 8px; }
+
+    /* ── ACCESSIBILITY TOOLBAR ── */
+    .a11y-bar { display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: #FFFFFF; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .a11y-bar-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); }
+
+    /* ── TAB NAV ── */
+    .tab-nav { display: flex; gap: 4px; margin-bottom: 1rem; background: #EFF3F9; border-radius: 12px; padding: 4px; }
+    .tab-btn { flex: 1; padding: 8px 12px; border: none; border-radius: 9px; background: transparent; color: var(--text-muted); font-size: 0.8125rem; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .tab-btn:hover { background: rgba(255,255,255,0.6); color: var(--text-primary); }
+    .tab-btn.active { background: #FFFFFF; color: var(--navy); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+
+    /* ── SECTION CARDS ── */
+    .section-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 1.75rem; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+
+    /* ── PASSAGE ── */
+    .passage-text { font-size: var(--passage-font-size); line-height: 2.0; color: var(--text-body); transition: font-size 0.2s ease; }
+    .passage-text p { margin-bottom: 1.2rem; }
+    .para-label { display: inline-block; font-family: 'Space Mono', monospace; font-size: 0.6875rem; font-weight: 700; color: var(--navy); background: rgba(26,60,110,0.08); border: 1px solid rgba(26,60,110,0.18); border-radius: 4px; padding: 1px 6px; margin-right: 8px; letter-spacing: 0.05em; }
+
+    /* ── QUESTION BLOCKS ── */
+    .q-block { margin-bottom: 1.25rem; padding: 1rem 1.15rem; border-radius: 12px; background: #FFFFFF; border: 1px solid var(--border); }
+    .q-num { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+    .q-text { font-size: 0.9rem; color: var(--text-body); margin-bottom: 10px; line-height: 1.65; }
+    .q-input { width: 100%; background: #F8FAFC; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text-primary); font-size: 0.9rem; transition: border-color 0.2s, box-shadow 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,149,46,0.12); }
+    .q-select { width: 100%; background: #F8FAFC; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text-primary); font-size: 0.9rem; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-select:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,149,46,0.12); }
+    .q-options { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+    .q-option { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; padding: 9px 12px; border-radius: 8px; border: 1.5px solid var(--border); transition: all 0.2s; background: #F8FAFC; }
+    .q-option:hover { background: var(--gold-dim); border-color: var(--gold-border); }
+    .q-option input[type=radio] { accent-color: var(--gold); margin-top: 3px; flex-shrink: 0; }
+    .q-option label { font-size: 0.9rem; color: var(--text-body); cursor: pointer; line-height: 1.55; }
+
+    /* ── T/F/NG ── */
+    .q-tfng { display: flex; gap: 8px; }
+    .q-tfng-btn { flex: 1; padding: 9px 6px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer; background: #F8FAFC; color: var(--text-muted); transition: all 0.2s; letter-spacing: 0.05em; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-tfng-btn:hover { border-color: var(--gold-border); color: var(--gold); background: var(--gold-dim); }
+    .q-tfng-btn.sel-t { border-color: #16a34a; background: #f0fdf4; color: #16a34a; }
+    .q-tfng-btn.sel-f { border-color: #dc2626; background: #fef2f2; color: #dc2626; }
+    .q-tfng-btn.sel-ng { border-color: #d97706; background: #fffbeb; color: #d97706; }
+
+    /* ── GROUP HEADER ── */
+    .group-header { margin-bottom: 1.25rem; padding: 0.875rem 1rem; border-radius: 12px; background: rgba(26,60,110,0.04); border: 1px solid rgba(26,60,110,0.12); }
+    .group-header p { font-size: 0.8125rem; color: var(--text-muted); line-height: 1.65; margin-top: 6px; }
+
+    /* ── HEADINGS LIST ── */
+    .headings-list { margin: 0.75rem 0; padding: 0.875rem 1rem; background: #FFFFFF; border-radius: 10px; border: 1px solid var(--border); }
+    .headings-list li { font-size: 0.8125rem; color: var(--text-body); line-height: 1.8; padding: 2px 0; }
+    .headings-list li span { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--gold); margin-right: 6px; font-weight: 700; }
+
+    /* ── BUTTONS ── */
+    .btn-gold { background: linear-gradient(135deg, var(--gold) 0%, #a8741f 100%); color: #FFFFFF; border: none; border-radius: 10px; padding: 12px 32px; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.04em; cursor: pointer; transition: all 0.25s ease; box-shadow: 0 2px 12px rgba(201,149,46,0.30); }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 6px 22px rgba(201,149,46,0.42); }
+
+    /* ── CORRECTION REPORT ── */
+    .corr-block { margin-bottom: 1rem; padding: 1rem 1.25rem; border-radius: 12px; border: 1.5px solid; }
+    .corr-correct { background: #f0fdf4; border-color: #bbf7d0; }
+    .corr-wrong { background: #fef2f2; border-color: #fecaca; }
+    .corr-qnum { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+    .corr-qnum.ok { color: #16a34a; }
+    .corr-qnum.bad { color: #dc2626; }
+    .corr-qtext { font-size: 0.875rem; color: var(--text-body); line-height: 1.65; margin-bottom: 8px; }
+    .corr-row { display: flex; gap: 8px; align-items: flex-start; font-size: 0.8125rem; margin-bottom: 4px; }
+    .corr-tag { flex-shrink: 0; padding: 2px 8px; border-radius: 4px; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+    .corr-tag.your { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+    .corr-tag.correct { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .corr-tag.reinforce { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .corr-val { color: var(--text-primary); line-height: 1.5; }
+    .corr-expl { margin-top: 8px; padding: 9px 12px; background: #FFFFFF; border-radius: 8px; border-left: 3px solid var(--gold-border); font-size: 0.8125rem; color: var(--text-muted); line-height: 1.65; }
+    .corr-expl strong { color: var(--text-primary); }
+
+    /* ── RESULTS ── */
+    .score-ring-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .band-feedback { padding: 1.25rem; border-radius: 12px; background: rgba(26,60,110,0.04); border: 1px solid rgba(26,60,110,0.12); font-size: 0.9rem; color: var(--text-body); line-height: 1.8; }
+    .band-feedback strong { color: var(--navy); }
+    .passage-corr-header { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); padding: 10px 0 8px; border-bottom: 1px solid var(--border); margin-bottom: 1rem; }
+
+    /* ── SPINNER ── */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; }
+
+    /* ── SPLIT LAYOUT ── */
+    .split-container { display: flex; height: calc(100vh - 268px); min-height: 560px; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+    .reading-pane { width: 52%; min-width: 25%; max-width: 75%; overflow-y: auto; padding: 1.75rem; background: var(--card-bg); flex-shrink: 0; }
+    .question-pane { flex: 1; overflow-y: auto; padding: 1.75rem; background: var(--qpanel-bg); min-width: 25%; }
+    .resizer-bar { width: 16px; background: #F1F5F9; cursor: col-resize; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; border-left: 1px solid var(--border); border-right: 1px solid var(--border); transition: background 0.15s; user-select: none; -webkit-user-select: none; }
+    .resizer-bar:hover, .resizer-bar.active { background: var(--gold-dim); border-left-color: var(--gold-border); border-right-color: var(--gold-border); }
+    .resizer-btn { background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 8px; padding: 10px 4px; cursor: col-resize; display: flex; flex-direction: column; align-items: center; gap: 5px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); transition: border-color 0.15s, box-shadow 0.15s; pointer-events: none; }
+    .resizer-bar:hover .resizer-btn { border-color: var(--gold-border); box-shadow: 0 2px 8px rgba(201,149,46,0.15); }
+    @media (max-width: 1023px) {
+      .split-container { flex-direction: column; height: auto; overflow: visible; border: none; border-radius: 0; box-shadow: none; gap: 1rem; }
+      .reading-pane { width: 100% !important; min-width: 100%; max-width: 100%; overflow-y: visible; border: 1px solid var(--border); border-radius: 16px; }
+      .resizer-bar { display: none; }
+      .question-pane { min-width: 100%; overflow-y: visible; border: 1px solid var(--border); border-radius: 16px; }
+    }
+  </style>
+  <script>
+    (function(){
+      var raw = localStorage.getItem('ielts_session');
+      if (!raw) { window.location.replace('../login.html'); return; }
+      try { JSON.parse(raw); } catch(e) { localStorage.removeItem('ielts_session'); window.location.replace('../login.html'); }
+    })();
+    (function(){ var t = localStorage.getItem('ieltslab_theme') || 'light'; document.documentElement.setAttribute('data-theme', t); })();
+    function toggleTheme(){ var c = document.documentElement.getAttribute('data-theme') || 'light', n = c === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', n); localStorage.setItem('ieltslab_theme', n); var b = document.getElementById('themeToggle'); if(b) b.textContent = n === 'dark' ? '☀' : '🌙'; }
+    document.addEventListener('DOMContentLoaded', function(){ var b = document.getElementById('themeToggle'); if(b){ var d = (document.documentElement.getAttribute('data-theme') || 'light') === 'dark'; b.textContent = d ? '☀' : '🌙'; } });
+  </script>
+</head>
+<body class="min-h-screen flex flex-col" style="background:var(--page-bg);color:var(--text-primary);">
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<div id="header-container"></div>
+
+<!-- TIMING STRIP -->
+<div class="timing-strip" id="timingStrip">
+  <div class="px-4 flex items-center justify-center gap-10">
+    <div class="timing-item"><span class="timing-label">Passage 1</span><span class="timing-val">15–17 min</span></div>
+    <div style="width:1px;height:24px;background:var(--border);"></div>
+    <div class="timing-item"><span class="timing-label">Passage 2</span><span class="timing-val">20 min</span></div>
+    <div style="width:1px;height:24px;background:var(--border);"></div>
+    <div class="timing-item"><span class="timing-label">Passage 3</span><span class="timing-val">23–25 min</span></div>
+  </div>
+</div>
+
+<!-- TEST MAIN -->
+<main class="flex-1 w-full px-4 py-6" id="testMain">
+
+  <!-- HEADER ROW -->
+  <div class="flex items-start justify-between mb-5 gap-4">
+    <div>
+      <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Cambridge 18 · Full Test 2</div>
+      <h1 class="font-display font-black text-2xl" style="color:var(--text-primary);">Academic Reading — Full Test 2</h1>
+    </div>
+    <div class="flex items-center gap-3 flex-shrink-0">
+      <div id="timerDisplay" class="timer-box">60:00</div>
+    </div>
+  </div>
+
+  <!-- ACCESSIBILITY TOOLBAR -->
+  <div class="a11y-bar">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-muted);flex-shrink:0;"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+    <span class="a11y-bar-label">Text Size</span>
+    <div class="font-ctrl" role="toolbar" aria-label="Adjust passage text size">
+      <button class="font-ctrl-btn a-small" onclick="adjustFontSize(-1)" title="Decrease text size">A−</button>
+      <button class="font-ctrl-btn a-mid"   onclick="adjustFontSize(0)"  title="Reset text size">A</button>
+      <button class="font-ctrl-btn a-large" onclick="adjustFontSize(1)"  title="Increase text size">A+</button>
+    </div>
+    <span style="font-size:0.75rem;color:var(--text-faint);">Adjust the reading passage font size</span>
+    <div class="ml-auto text-xs hidden md:block" style="color:var(--text-muted);">60 minutes · 40 questions · 3 passages</div>
+  </div>
+
+  <!-- TAB NAV -->
+  <div class="tab-nav" id="tabNav">
+    <button class="tab-btn active" onclick="switchTab(1)">Passage 1 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q1–13)</span></button>
+    <button class="tab-btn" onclick="switchTab(2)">Passage 2 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q14–26)</span></button>
+    <button class="tab-btn" onclick="switchTab(3)">Passage 3 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q27–40)</span></button>
+  </div>
+
+  <!-- ══ SPLIT VIEW ══ -->
+  <div class="split-container" id="splitContainer">
+    <div class="reading-pane" id="readingPane">
+
+      <!-- Passage 1 -->
+      <div id="passageContent1">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 1</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">Colony Collapse Disorder: The Disappearing Honeybee</div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>In the winter of 2006, commercial beekeeper Dave Hackenberg opened his hives in Florida and discovered something deeply unsettling: more than two thousand of his colonies had been abandoned. Adult worker bees had vanished, leaving behind queens, capped brood, and untouched honey stores. No dead bodies were found near the hives. Similar reports surfaced rapidly across the United States and, within months, throughout Europe and parts of Asia. Scientists named the phenomenon Colony Collapse Disorder, or CCD, and its emergence signalled a crisis for agricultural systems that had long depended on the honeybee as their primary pollinator. Approximately one-third of the human food supply relies on insect pollination, and the honeybee, Apis mellifera, is responsible for the majority of that service.</p>
+
+          <p><span class="para-label">B</span>The honeybee colony is a highly organised social structure comprising a single reproductive queen, thousands of sterile female workers, and a smaller number of male drones whose sole function is reproduction. Workers perform a sequence of specialised roles as they age: nursing larvae, producing wax, guarding the hive entrance, and finally foraging for nectar and pollen beyond its walls. This division of labour confers remarkable efficiency, but it also makes the colony vulnerable to disruptions that disproportionately affect any one functional group. When foragers fail to return — as occurs during CCD — the hive rapidly loses the capacity to sustain itself, since incoming food and the workers who process it are both absent simultaneously.</p>
+
+          <p><span class="para-label">C</span>A leading hypothesis implicates a class of systemic insecticides known as neonicotinoids, which were introduced commercially during the 1990s and had achieved widespread use in agriculture by the time CCD was first documented. Neonicotinoids are applied as seed coatings on crops such as maize and oilseed rape; as the plant grows, the chemical is distributed throughout its tissues, including pollen and nectar. Bees that forage on treated crops are consequently exposed to sub-lethal doses of the insecticide with each visit. Research published in Science by Whitehorn and colleagues in 2012 demonstrated that bumblebee colonies exposed to field-realistic concentrations of the neonicotinoid imidacloprid showed significantly reduced queen production — by up to 85 percent — compared with unexposed control colonies, suggesting that even concentrations insufficient to kill individual bees outright can impair colony reproduction at ecologically significant levels.</p>
+
+          <p><span class="para-label">D</span>A second body of evidence focuses on the role of pathogens, particularly the microsporidian fungus Nosema ceranae and the parasitic mite Varroa destructor. Varroa, which attaches to developing and adult bees and feeds on their fatty body tissues, was first detected in Western honeybee populations in the 1980s following its transfer from the Eastern honeybee, Apis cerana, to which it is largely non-lethal. In Apis mellifera, however, Varroa infestation causes physical damage and acts as a vector for a range of debilitating viruses, including Deformed Wing Virus and Sacbrood. A study conducted by the USDA Agricultural Research Service found that colonies with high Varroa loads were between three and five times more likely to collapse during winter than those in which mite populations had been effectively managed, establishing a robust statistical association even where causation remained difficult to isolate.</p>
+
+          <p><span class="para-label">E</span>The loss of diverse foraging habitat has been identified as a further contributing factor. Modern agricultural landscapes, characterised by large monoculture fields and the removal of hedgerows, wildflower margins, and other semi-natural features, provide bees with periodic abundance when a single crop is in flower but prolonged nutritional deprivation for the remainder of the season. A diet consisting predominantly of pollen from a single plant species has been shown to impair immune function in bees, reducing their resistance to the pathogens described above. Research from the University of Sussex documented that colonies located in regions with greater floral diversity maintained significantly higher haemolymph protein levels — an established indicator of bee nutritional status — than those foraging in agriculturally simplified landscapes, even when total pollen availability was comparable.</p>
+
+          <p><span class="para-label">F</span>The prevailing scientific consensus, informed by a substantial body of research conducted over two decades, is that CCD does not arise from a single cause but represents the combined effect of multiple interacting stressors. Neonicotinoids may compromise the navigational and immune capacities of individual bees, rendering them more susceptible to pathogens that a healthy colony would otherwise manage. Nutritional deficiency compounds both effects. This interaction hypothesis is supported by experimental work showing that bees fed pollen diets of reduced diversity and simultaneously exposed to sub-lethal neonicotinoid doses exhibited substantially higher Nosema infection rates than either treatment alone would predict, suggesting synergistic rather than merely additive effects between the stressors.</p>
+
+          <p><span class="para-label">G</span>Policy responses have varied markedly across jurisdictions. The European Union introduced a moratorium on the outdoor use of three neonicotinoids — clothianidin, imidacloprid, and thiamethoxam — in 2013, later extended to a near-total ban in 2018. In the United States, the Environmental Protection Agency has pursued a case-by-case review process, approving certain neonicotinoid uses while restricting others. Conservation organisations and beekeeping associations have called for more ambitious agri-environment schemes that incentivise the restoration of wildflower habitats across agricultural land. The debate reflects a fundamental tension between the short-term economic interests of farmers relying on pest control and the long-term ecological and agricultural costs of declining pollinator populations — a tension that has not yet been resolved to the satisfaction of either constituency.</p>
+        </div>
+      </div>
+
+      <!-- Passage 2 -->
+      <div id="passageContent2" style="display:none;">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 2</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">The Economics of Microfinance: Promise, Practice, and Persistent Debate</div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>When Muhammad Yunus founded the Grameen Bank in Bangladesh in 1983, extending small loans to rural women without collateral requirements, he articulated a proposition that would reshape development economics for a generation: that access to credit, rather than grants or subsidies, was the primary instrument required to release the productive potential of the poor. The institution he created grew to serve more than nine million borrowers by 2010, and the microfinance model it pioneered was replicated across Latin America, sub-Saharan Africa, and South and Southeast Asia. Yunus was awarded the Nobel Peace Prize in 2006, and the sector attracted billions of dollars in international development funding and, increasingly, commercial investment. Yet the subsequent two decades produced a body of rigorous empirical evidence that has substantially complicated the optimistic consensus that surrounded the model's early expansion.</p>
+
+          <p><span class="para-label">B</span>The theoretical basis for microfinance rests on the concept of credit market failure in low-income economies. Conventional commercial banks typically require collateral, documented income histories, and legal identity records that large segments of the rural poor do not possess; the transaction costs of administering small loans to geographically dispersed, information-poor borrowers further discourage formal lending institutions from serving this population. Microfinance institutions address these barriers through group lending mechanisms — in which several borrowers jointly guarantee each other's repayment — and through close monitoring by loan officers who maintain frequent contact with borrowers. These design features, proponents argue, substitute social capital and peer pressure for the collateral and documentation requirements of conventional banking, extending access to productive credit where markets have failed.</p>
+
+          <p><span class="para-label">C</span>The empirical record on microfinance's impact on household income and poverty reduction is considerably more contested than the movement's founders anticipated. A series of randomised controlled trials conducted in the 2010s — in Bosnia, Ethiopia, India, Mexico, Mongolia, and Morocco — found that access to microfinance loans produced modest improvements in business investment and asset accumulation for a subset of borrowers, but failed to generate the transformative increases in income and consumption that earlier observational studies had suggested. Abhijit Banerjee and Esther Duflo, economists at MIT who received the Nobel Memorial Prize in Economic Sciences in 2019 partly for this research programme, characterised the overall evidence as showing that microfinance is useful for some households in some circumstances, but is not a reliable engine of broad-based poverty alleviation when deployed at scale.</p>
+
+          <p><span class="para-label">D</span>A significant concern that has emerged from the sector's expansion is the problem of over-indebtedness. As microfinance institutions proliferated in markets such as Andhra Pradesh in India and Compartamos in Mexico, borrowers in some regions accumulated loans from multiple lenders simultaneously, driven by social pressure to maintain repayment schedules on existing debts. A financial crisis in Andhra Pradesh in 2010 — precipitated by reports of aggressive collection practices and a series of borrower suicides attributed to debt stress — prompted the state government to impose restrictions on microfinance operations and led to the near-collapse of the sector in that region. Investigators subsequently identified that a substantial proportion of borrowers had been using new microloans to service existing debts rather than to fund productive investments, undermining the fundamental premise of the credit-access hypothesis.</p>
+
+          <p><span class="para-label">E</span>Critics have also questioned the gender equity claims that have been central to microfinance advocacy. Targeting women as primary borrowers was justified on multiple grounds: women were argued to be more reliable repayers, more likely to invest loan proceeds in household welfare, and more in need of economic empowerment than their male counterparts. However, qualitative research conducted in Bangladesh, India, and Kenya found that in a substantial proportion of cases, loan funds were effectively controlled by male household members despite being formally issued to women, reproducing rather than disrupting existing patterns of intra-household resource allocation. The repayment obligation, by contrast, remained with the female borrower, creating an asymmetry between financial responsibility and economic benefit that some researchers have characterised as an additional burden rather than an empowerment mechanism.</p>
+
+          <p><span class="para-label">F</span>The commercialisation of microfinance has generated a further set of concerns regarding the alignment of institutional incentives with borrower welfare. When microfinance institutions transition from non-governmental organisations to profit-seeking entities and access capital markets through initial public offerings — as Compartamos Banco did in Mexico in 2007, generating substantial returns for early investors while charging borrowers annual interest rates exceeding 100 percent — the original social mission risks subordination to shareholder value maximisation. Advocates within the sector have responded by promoting social performance management frameworks and impact measurement standards designed to hold institutions accountable to dual objectives; critics remain sceptical that market mechanisms alone can reliably discipline institutions whose commercial incentives diverge from the interests of their most financially vulnerable clients.</p>
+
+          <p><span class="para-label">G</span>The accumulated evidence suggests that microfinance occupies a more modest and contingent place in the development toolkit than its early proponents envisioned. Access to credit undoubtedly benefits some entrepreneurs in some contexts, particularly those with viable business opportunities who lack only capital. The challenge lies in identifying these individuals at scale, delivering credit at interest rates that do not transfer a disproportionate share of productive gains to lenders, and embedding financial services within broader support structures — including savings products, insurance, and business development assistance — that address the multiple dimensions of economic vulnerability. Whether microfinance institutions, operating under the pressures of financial sustainability, can consistently achieve this more nuanced mandate remains an open and consequential question for development policy.</p>
+        </div>
+      </div>
+
+      <!-- Passage 3 -->
+      <div id="passageContent3" style="display:none;">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 3</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">Coral Reefs in a Warming Ocean: Mechanisms, Projections, and the Politics of Intervention</div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>Coral reefs occupy less than one percent of the ocean floor yet support an estimated twenty-five percent of all marine species, providing spawning grounds, nursery habitat, and feeding areas for organisms ranging from microscopic invertebrates to apex predators. They underpin the livelihoods of an estimated one billion people through fisheries, coastal protection, and tourism revenues valued in the hundreds of billions of dollars annually. Yet the structural integrity of reef ecosystems worldwide is under sustained and accelerating threat from anthropogenic climate change. The mechanisms through which rising ocean temperatures damage coral are now well understood, and the projections for reef survival under plausible warming scenarios are, to a degree that the scientific community regards with considerable gravity, deeply unfavourable.</p>
+
+          <p><span class="para-label">B</span>The foundational vulnerability of corals to temperature stress stems from their symbiotic relationship with photosynthetic algae of the genus Symbiodinium, commonly referred to as zooxanthellae. These organisms reside within the tissues of coral polyps and provide up to ninety percent of their host's energy requirements through photosynthesis. When seawater temperatures exceed the thermal tolerance of the zooxanthellae by as little as one degree Celsius above the maximum monthly mean for four or more weeks, the algae produce reactive oxygen species that are toxic to the coral tissue. The polyp responds by expelling the zooxanthellae — a process known as bleaching — leaving the coral's white calcium carbonate skeleton visible through the now-transparent tissue. Bleached corals are not immediately dead but are severely energy-deficient; sustained bleaching of six to eight weeks typically results in mass mortality.</p>
+
+          <p><span class="para-label">C</span>Mass bleaching events have become dramatically more frequent as global mean sea surface temperatures have risen. The first globally significant bleaching event was recorded in 1998, when the El Niño-induced thermal anomaly of that year caused an estimated sixteen percent of the world's coral reefs to bleach. The second major global event occurred in 2010. The third, which began in 2015 and continued through 2017, was unprecedented in both spatial extent and duration, affecting reefs across all three major ocean basins simultaneously and causing bleaching on more than seventy percent of the Great Barrier Reef in consecutive years. Terry Hughes of James Cook University, who led aerial surveys of the Great Barrier Reef during this period, characterised the recurrence interval between bleaching events as having shortened from decades to years — a transformation that eliminates the recovery window that reef communities require.</p>
+
+          <p><span class="para-label">D</span>Ocean acidification presents a distinct but compounding threat. As the ocean absorbs approximately thirty percent of anthropogenic carbon dioxide emissions, dissolved CO₂ reacts with seawater to form carbonic acid, reducing ocean pH. Since pre-industrial times, average ocean surface pH has declined from 8.2 to approximately 8.1 — a change that represents a twenty-six percent increase in hydrogen ion concentration. Coral skeletons are composed of aragonite, a form of calcium carbonate that becomes increasingly soluble under acidic conditions. Studies conducted at natural CO₂ seeps in Papua New Guinea — which function as analogues of future ocean chemistry — found that coral diversity declined by fifty percent and structural complexity by forty percent relative to adjacent unaffected reefs, demonstrating the cumulative effect of acidification on reef architecture even without the superimposition of thermal stress.</p>
+
+          <p><span class="para-label">E</span>The projections generated by Earth system models are stark. Under a high-emission scenario (RCP 8.5), average sea surface temperatures in coral reef regions are projected to exceed the bleaching threshold annually by 2050 and to exceed the mortality threshold — two degrees Celsius above the maximum monthly mean — across the majority of reef systems by mid-century. Even under a moderate mitigation scenario (RCP 4.5), the IPCC's Special Report on the Ocean and Cryosphere concludes with high confidence that ten to thirty percent of warm-water coral reefs will undergo severe degradation by 2030, and that the proportion surviving in a functionally intact state will decline precipitously thereafter. A two-degree Celsius increase in global mean temperature above pre-industrial levels, the upper limit of the Paris Agreement's stated ambition, is projected to result in the loss of seventy to ninety percent of existing coral reef area.</p>
+
+          <p><span class="para-label">F</span>These projections have prompted an increasingly active debate about whether technological interventions — often grouped under the heading of reef restoration or assisted evolution — can meaningfully supplement emissions mitigation as a conservation strategy. Approaches under development include selective breeding and genetic modification programmes aimed at producing thermally tolerant coral strains, the translocation of naturally heat-resistant corals from low-latitude refugia to degraded reefs, and the deployment of shading structures and localised cooling systems to buffer temperature anomalies during bleaching events. Proponents argue that such interventions buy time for emissions reduction to take effect and maintain reef biodiversity through the critical decades ahead; critics contend that the scale of the intervention required — covering millions of square kilometres of reef globally — renders these approaches impractical as system-wide solutions, and that emphasis on technological fixes risks diverting political attention from the emissions reductions that represent the only durable remedy.</p>
+
+          <p><span class="para-label">G</span>The politics of reef conservation are further complicated by the divergence of interests between states that are primarily responsible for greenhouse gas emissions and those that bear the most immediate consequences of reef degradation. Small island developing states — many of which contribute negligibly to global emissions — face the prospect of losing not only the marine biodiversity that sustains their fisheries but also the natural coastal defences that protect inhabited land from storm surge and sea-level rise. At international climate negotiations, these states have consistently advocated for the more ambitious 1.5-degree Celsius warming target rather than the two-degree ceiling, on the grounds that the difference between these thresholds represents, for many reef systems, the difference between severe damage and functional extinction. Whether the international community will deliver the emissions reductions required to honour that ambition is a question on which the trajectory of the world's coral reefs ultimately depends.</p>
+        </div>
+      </div>
+
+    </div><!-- /reading-pane -->
+
+    <!-- RESIZER BAR -->
+    <div class="resizer-bar" id="resizerBar">
+      <button class="resizer-btn" aria-label="Drag to resize panels">
+        <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M3.5 2L1 6L3.5 10" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span style="display:block;width:2px;height:14px;background:var(--border);border-radius:1px;"></span>
+        <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M6.5 2L9 6L6.5 10" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+
+    <!-- QUESTION PANE -->
+    <div class="question-pane" id="questionPane">
+      <div id="qPanel1"></div>
+      <div id="qPanel2" style="display:none;"></div>
+      <div id="qPanel3" style="display:none;"></div>
+    </div>
+
+  </div><!-- /split-container -->
+
+  <!-- SUBMIT -->
+  <div class="flex justify-center mt-10 mb-16">
+    <button onclick="confirmSubmit()" class="btn-gold px-10 py-4 text-base">Submit Reading Test</button>
+  </div>
+</main>
+
+<!-- RESULTS -->
+<div id="resultsMain" style="display:none;" class="flex-1 max-w-5xl mx-auto px-6 py-10 w-full">
+  <div class="flex items-center gap-3 mb-8">
+    <div>
+      <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Results</div>
+      <h1 class="font-display font-black text-2xl" style="color:var(--text-primary);">Academic Reading — Score Report</h1>
+    </div>
+  </div>
+  <div class="section-card mb-6" id="scoreCard"></div>
+  <div class="section-card mb-8" id="feedbackCard"></div>
+  <div class="section-card mb-6">
+    <div class="passage-corr-header">Passage 1 — Colony Collapse Disorder</div>
+    <div id="corrPassage1"></div>
+  </div>
+  <div class="section-card mb-6">
+    <div class="passage-corr-header">Passage 2 — The Economics of Microfinance</div>
+    <div id="corrPassage2"></div>
+  </div>
+  <div class="section-card mb-10">
+    <div class="passage-corr-header">Passage 3 — Coral Reefs in a Warming Ocean</div>
+    <div id="corrPassage3"></div>
+  </div>
+  <div class="flex gap-4 justify-center mb-16">
+    <a href="index.html" class="btn-gold">← Back to Tests</a>
+  </div>
+</div>
+
+<!-- SUBMITTING OVERLAY -->
+<div id="submittingOverlay" style="display:none;position:fixed;inset:0;z-index:300;background:rgba(247,248,250,0.97);flex-direction:column;align-items:center;justify-content:center;" class="flex">
+  <div class="spinner mb-6"></div>
+  <div class="font-display font-bold text-xl mb-2" style="color:var(--text-primary);">Scoring Your Answers</div>
+  <p class="text-sm" style="color:var(--text-muted);">Analysing your responses…</p>
+</div>
+
+<script>
+
+// ─────────────────────────────────────────
+//  TEST DATA
+// ─────────────────────────────────────────
+const GROUPS = [
+  // ── PASSAGE 1 — Colony Collapse Disorder — Matching Headings Q1–5 ──
+  {
+    passageId: 1,
+    type: 'matching_headings',
+    label: 'Questions 1–5',
+    instructions: 'The reading passage has seven paragraphs, <strong>A–G</strong>. Choose the correct heading for paragraphs <strong>B–F</strong> from the list of headings below. Paragraphs A and G are not included. Write the correct Roman numeral in the box.',
+    headings: [
+      { key: 'i',    text: 'How the social structure of a bee colony makes it susceptible to sudden collapse' },
+      { key: 'ii',   text: 'The combined and synergistic nature of the threats facing bee populations' },
+      { key: 'iii',  text: 'Evidence linking a widely used agricultural chemical to impaired bee reproduction' },
+      { key: 'iv',   text: 'The role of parasites and disease organisms in weakening and destroying colonies' },
+      { key: 'v',    text: 'How a simplified agricultural landscape reduces nutritional variety for foraging bees' },
+      { key: 'vi',   text: 'The economic impact of honeybee decline on global commodity markets' },
+      { key: 'vii',  text: 'The history of beekeeping practices that inadvertently spread disease between hives' },
+      { key: 'viii', text: 'The migration routes that forager bees use to locate new food sources' },
+    ],
+    questions: [
+      { id: 1, paraLabel: 'B', text: 'Paragraph B', answer: 'i', answerDisplay: 'i — How the social structure of a bee colony makes it susceptible to sudden collapse',
+        explanation: 'Paragraph B describes the division of labour within the colony and explains how the loss of foragers specifically causes the whole structure to fail. "Social structure" = the division of roles; "susceptible to sudden collapse" = hive rapidly loses sustaining capacity when foragers disappear. Heading vi (economic impact) and vii (beekeeping history) are absent from this paragraph.',
+        reinforcement: 'Correct — paragraph B explains the colony\'s role-based structure and shows precisely why the loss of one group (foragers) triggers collapse, matching heading i.' },
+      { id: 2, paraLabel: 'C', text: 'Paragraph C', answer: 'iii', answerDisplay: 'iii — Evidence linking a widely used agricultural chemical to impaired bee reproduction',
+        explanation: 'Paragraph C introduces neonicotinoids — a widely used agricultural chemical class — and cites the Whitehorn et al. (2012) Science study showing up to 85% reduction in queen production in exposed colonies. "Evidence linking" = the cited research; "widely used agricultural chemical" = neonicotinoids; "impaired bee reproduction" = reduced queen production.',
+        reinforcement: 'Correct — paragraph C is entirely organised around the neonicotinoid-reproduction evidence, matching heading iii precisely.' },
+      { id: 3, paraLabel: 'D', text: 'Paragraph D', answer: 'iv', answerDisplay: 'iv — The role of parasites and disease organisms in weakening and destroying colonies',
+        explanation: 'Paragraph D discusses Varroa destructor (a parasitic mite) and Nosema ceranae (a fungal pathogen) as well as associated viruses. "Parasites" = Varroa; "disease organisms" = Nosema and viruses; "weakening and destroying" = colonies with high Varroa loads were three to five times more likely to collapse. Heading iii belongs to C.',
+        reinforcement: 'Correct — paragraph D is the parasite and pathogen paragraph, matching heading iv directly.' },
+      { id: 4, paraLabel: 'E', text: 'Paragraph E', answer: 'v', answerDisplay: 'v — How a simplified agricultural landscape reduces nutritional variety for foraging bees',
+        explanation: 'Paragraph E discusses the removal of hedgerows and wildflower margins, monoculture fields providing only periodic abundance, and the University of Sussex research linking floral diversity to haemolymph protein levels. "Simplified agricultural landscape" = monocultures and removed semi-natural features; "reduces nutritional variety" = single-species pollen diet impairing immune function.',
+        reinforcement: 'Correct — paragraph E is organised entirely around habitat simplification and its nutritional consequences for bees, matching heading v.' },
+      { id: 5, paraLabel: 'F', text: 'Paragraph F', answer: 'ii', answerDisplay: 'ii — The combined and synergistic nature of the threats facing bee populations',
+        explanation: 'Paragraph F presents the interaction hypothesis — that neonicotinoids, pathogens, and nutritional deficiency combine synergistically rather than additively. "Combined and synergistic" directly paraphrases the paragraph\'s experimental finding. Heading v belongs to E (habitat); heading iii belongs to C (neonicotinoids alone).',
+        reinforcement: 'Correct — paragraph F\'s central argument is that the three stressors interact synergistically, which is precisely what heading ii describes.' },
+    ]
+  },
+  // ── PASSAGE 1 — T/F/NG Q6–9 ──
+  {
+    passageId: 1,
+    type: 'tfng',
+    label: 'Questions 6–9',
+    instructions: 'Do the following statements agree with the information given in the reading passage? Write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      { id: 6, text: 'When Dave Hackenberg discovered his collapsed colonies in 2006, large numbers of dead worker bees were found beside the hives.',
+        answer: 'FALSE',
+        explanation: 'Paragraph A states explicitly: <strong>"No dead bodies were found near the hives."</strong> The statement claims the opposite — that dead workers were found — directly contradicting the passage.',
+        reinforcement: 'Correct — paragraph A explicitly states no dead bees were found, making this statement FALSE.' },
+      { id: 7, text: 'Varroa destructor was originally a parasite of the Eastern honeybee before spreading to Western honeybee populations.',
+        answer: 'TRUE',
+        explanation: 'Paragraph D states: <strong>"following its transfer from the Eastern honeybee, Apis cerana, to which it is largely non-lethal."</strong> The statement accurately paraphrases this — Varroa originated on Apis cerana before spreading to Apis mellifera.',
+        reinforcement: 'Correct — paragraph D confirms Varroa transferred from the Eastern honeybee, Apis cerana, to Western populations.' },
+      { id: 8, text: 'The Whitehorn et al. study found that bumblebee colonies exposed to imidacloprid produced no queens at all.',
+        answer: 'FALSE',
+        explanation: 'Paragraph C states queen production was <strong>"reduced… by up to 85 percent"</strong> — not eliminated entirely. "Up to 85 percent" reduction means some queen production may have occurred; "no queens at all" overstates the finding and contradicts it.',
+        reinforcement: 'Correct — "up to 85 percent reduction" is not the same as producing no queens; the statement overstates the finding and is FALSE.' },
+      { id: 9, text: 'Beekeepers in some European countries have been financially compensated by governments for losses caused by CCD.',
+        answer: 'NOT GIVEN',
+        explanation: 'The passage discusses the EU neonicotinoid moratorium and US EPA review processes, but contains no information about financial compensation schemes for beekeepers in any jurisdiction.',
+        reinforcement: 'Correct — government compensation for beekeepers is not mentioned anywhere in the passage.' },
+    ]
+  },
+  // ── PASSAGE 1 — Sentence Completion Q10–13 ──
+  {
+    passageId: 1,
+    type: 'sentence_completion',
+    label: 'Questions 10–13',
+    instructions: 'Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.',
+    questions: [
+      { id: 10, text: 'Neonicotinoids are applied as _______ on crops such as maize, meaning the chemical is distributed throughout the plant including its pollen and nectar.',
+        answer: 'seed coatings', answerDisplay: 'seed coatings', acceptable: ['seed coatings'],
+        explanation: 'Paragraph C: <strong>"Neonicotinoids are applied as seed coatings on crops such as maize and oilseed rape."</strong> "Seed coatings" is the two-word phrase completing the sentence frame.',
+        reinforcement: 'Correct — "seed coatings" is retrieved exactly from paragraph C\'s description of neonicotinoid application.' },
+      { id: 11, text: 'Research by the USDA found that colonies with high Varroa infestations were between three and five times more likely to collapse during _______ than well-managed colonies.',
+        answer: 'winter', answerDisplay: 'winter', acceptable: ['winter'],
+        explanation: 'Paragraph D: <strong>"colonies with high Varroa loads were between three and five times more likely to collapse during winter."</strong> "Winter" is the single word specifying the time of collapse.',
+        reinforcement: 'Correct — "winter" is the exact seasonal timeframe stated in paragraph D\'s USDA research finding.' },
+      { id: 12, text: 'University of Sussex research found that bees in areas of greater floral diversity had higher _______ levels, an established indicator of nutritional status.',
+        answer: 'haemolymph protein', answerDisplay: 'haemolymph protein', acceptable: ['haemolymph protein'],
+        explanation: 'Paragraph E: <strong>"colonies located in regions with greater floral diversity maintained significantly higher haemolymph protein levels — an established indicator of bee nutritional status."</strong> The two-word phrase "haemolymph protein" completes the sentence.',
+        reinforcement: 'Correct — "haemolymph protein" is the exact two-word scientific term in paragraph E describing the nutritional indicator.' },
+      { id: 13, text: 'Experimental work showed that bees given pollen of reduced diversity and exposed to neonicotinoids simultaneously had substantially higher rates of _______ infection.',
+        answer: 'nosema', answerDisplay: 'Nosema', acceptable: ['nosema', 'nosema ceranae'],
+        explanation: 'Paragraph F: <strong>"bees fed pollen diets of reduced diversity and simultaneously exposed to sub-lethal neonicotinoid doses exhibited substantially higher Nosema infection rates."</strong> "Nosema" is the passage-exact pathogen name.',
+        reinforcement: 'Correct — "Nosema" (or "Nosema ceranae") is the exact pathogen named in paragraph F\'s interaction experiment.' },
+    ]
+  },
+
+  // ── PASSAGE 2 — The Economics of Microfinance — Matching Headings Q14–18 ──
+  {
+    passageId: 2,
+    type: 'matching_headings',
+    label: 'Questions 14–18',
+    instructions: 'The reading passage has seven paragraphs, <strong>A–G</strong>. Choose the correct heading for paragraphs <strong>B–F</strong> from the list of headings below. Paragraphs A and G are not included. Write the correct Roman numeral in the box.',
+    headings: [
+      { key: 'i',    text: 'The theoretical reasons why conventional banks do not serve low-income borrowers' },
+      { key: 'ii',   text: 'Evidence that rigorous evaluation found only modest and conditional benefits from microlending' },
+      { key: 'iii',  text: 'How multiple loans and aggressive collection practices created a regional crisis' },
+      { key: 'iv',   text: 'The tension between commercial returns and social mission as institutions seek profit' },
+      { key: 'v',    text: 'Research questioning whether female borrowers retain control of the funds they receive' },
+      { key: 'vi',   text: 'International trade restrictions that limit the reach of microfinance in rural areas' },
+      { key: 'vii',  text: 'The history of interest rate regulation in developing country banking systems' },
+      { key: 'viii', text: 'The role of savings accounts in reducing borrower dependence on credit products' },
+    ],
+    questions: [
+      { id: 14, paraLabel: 'B', text: 'Paragraph B', answer: 'i', answerDisplay: 'i — The theoretical reasons why conventional banks do not serve low-income borrowers',
+        explanation: 'Paragraph B explains credit market failure theory — conventional banks require collateral and documentation that the poor lack, and face high transaction costs for small loans. "Theoretical reasons" = credit market failure concept; "conventional banks do not serve" = formal banks are excluded by these barriers. Heading vi and vii are absent from the passage.',
+        reinforcement: 'Correct — paragraph B is the theoretical foundation paragraph, explaining why credit markets fail for the poor, matching heading i.' },
+      { id: 15, paraLabel: 'C', text: 'Paragraph C', answer: 'ii', answerDisplay: 'ii — Evidence that rigorous evaluation found only modest and conditional benefits from microlending',
+        explanation: 'Paragraph C describes the randomised controlled trials across six countries and cites Banerjee and Duflo characterising results as "modest improvements… for a subset of borrowers" — "useful for some… but not a reliable engine." "Rigorous evaluation" = RCTs; "modest and conditional" = for some households, in some circumstances.',
+        reinforcement: 'Correct — paragraph C is the RCT evidence paragraph showing conditional benefits, matching heading ii.' },
+      { id: 16, paraLabel: 'D', text: 'Paragraph D', answer: 'iii', answerDisplay: 'iii — How multiple loans and aggressive collection practices created a regional crisis',
+        explanation: 'Paragraph D describes the Andhra Pradesh crisis — borrowers accumulating multiple loans, aggressive collection, borrower suicides — leading to government restrictions and near-collapse. "Multiple loans" = loans from multiple lenders; "aggressive collection practices" = directly stated; "regional crisis" = near-collapse in Andhra Pradesh.',
+        reinforcement: 'Correct — paragraph D describes the over-indebtedness crisis in Andhra Pradesh, matching heading iii exactly.' },
+      { id: 17, paraLabel: 'E', text: 'Paragraph E', answer: 'v', answerDisplay: 'v — Research questioning whether female borrowers retain control of the funds they receive',
+        explanation: 'Paragraph E presents qualitative research finding that "loan funds were effectively controlled by male household members despite being formally issued to women." "Research questioning" = the qualitative studies; "whether female borrowers retain control" = exactly what that research found they did not.',
+        reinforcement: 'Correct — paragraph E is entirely about intra-household fund control and women borrowers, matching heading v.' },
+      { id: 18, paraLabel: 'F', text: 'Paragraph F', answer: 'iv', answerDisplay: 'iv — The tension between commercial returns and social mission as institutions seek profit',
+        explanation: 'Paragraph F discusses Compartamos Banco\'s IPO, 100%+ annual interest rates, shareholder returns, and the subordination of social mission. "Tension between commercial returns and social mission" = the core argument. "Heading viii (savings accounts)" is absent from this paragraph.',
+        reinforcement: 'Correct — paragraph F focuses on commercialisation and the social-mission vs profit tension, matching heading iv.' },
+    ]
+  },
+  // ── PASSAGE 2 — T/F/NG Q19–22 ──
+  {
+    passageId: 2,
+    type: 'tfng',
+    label: 'Questions 19–22',
+    instructions: 'Do the following statements agree with the information given in the reading passage? Write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      { id: 19, text: 'Muhammad Yunus was awarded the Nobel Peace Prize in 2006 for his work with the Grameen Bank.',
+        answer: 'TRUE',
+        explanation: 'Paragraph A: <strong>"Yunus was awarded the Nobel Peace Prize in 2006."</strong> The statement is an accurate restatement of this fact.',
+        reinforcement: 'Correct — paragraph A explicitly states Yunus received the Nobel Peace Prize in 2006.' },
+      { id: 20, text: 'The randomised controlled trials conducted in the 2010s consistently showed that microfinance dramatically increased household income across all the countries studied.',
+        answer: 'FALSE',
+        explanation: 'Paragraph C states the RCTs found only <strong>"modest improvements in business investment and asset accumulation for a subset of borrowers"</strong> and <strong>"failed to generate the transformative increases in income and consumption"</strong> suggested by earlier studies. "Dramatically increased… across all countries" directly contradicts this.',
+        reinforcement: 'Correct — paragraph C explicitly states outcomes were modest and limited to a subset, contradicting "dramatically increased across all countries."' },
+      { id: 21, text: 'In the Andhra Pradesh crisis, investigators found that many borrowers were using new loans to repay earlier debts rather than to fund businesses.',
+        answer: 'TRUE',
+        explanation: 'Paragraph D: <strong>"a substantial proportion of borrowers had been using new microloans to service existing debts rather than to fund productive investments."</strong> The statement is an accurate paraphrase.',
+        reinforcement: 'Correct — paragraph D confirms borrowers were using new loans to service existing debts, matching the statement.' },
+      { id: 22, text: 'Grameen Bank has been criticised by development economists for charging interest rates higher than those offered by commercial banks in Bangladesh.',
+        answer: 'NOT GIVEN',
+        explanation: 'The passage discusses high interest rates at Compartamos Banco (Mexico), but no comparison of Grameen Bank\'s interest rates with commercial bank rates in Bangladesh is made anywhere in the passage.',
+        reinforcement: 'Correct — Grameen Bank interest rate comparisons with Bangladeshi commercial banks are not mentioned in the passage.' },
+    ]
+  },
+  // ── PASSAGE 2 — Sentence Completion Q23–26 ──
+  {
+    passageId: 2,
+    type: 'sentence_completion',
+    label: 'Questions 23–26',
+    instructions: 'Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.',
+    questions: [
+      { id: 23, text: 'In group lending, several borrowers jointly _______ each other\'s repayment, substituting social capital for the collateral requirements of conventional banks.',
+        answer: 'guarantee', answerDisplay: 'guarantee', acceptable: ['guarantee'],
+        explanation: 'Paragraph B: <strong>"group lending mechanisms — in which several borrowers jointly guarantee each other\'s repayment."</strong> "Guarantee" is the exact verb used.',
+        reinforcement: 'Correct — "guarantee" is retrieved directly from paragraph B\'s description of the group lending mechanism.' },
+      { id: 24, text: 'Abhijit Banerjee and Esther Duflo described microfinance as useful for some households in some circumstances, but not as a reliable _______ of broad-based poverty alleviation.',
+        answer: 'engine', answerDisplay: 'engine', acceptable: ['engine'],
+        explanation: 'Paragraph C: <strong>"microfinance is useful for some households in some circumstances, but is not a reliable engine of broad-based poverty alleviation when deployed at scale."</strong> "Engine" is the exact noun in this quotation.',
+        reinforcement: 'Correct — "engine" is the passage-exact noun in Banerjee and Duflo\'s characterisation in paragraph C.' },
+      { id: 25, text: 'The Compartamos Banco IPO in 2007 was criticised because the institution charged annual interest rates exceeding _______ percent while generating returns for investors.',
+        answer: '100', answerDisplay: '100', acceptable: ['100', 'one hundred'],
+        explanation: 'Paragraph F: <strong>"charging borrowers annual interest rates exceeding 100 percent."</strong> The answer is "100" (the numerical value stated in the passage).',
+        reinforcement: 'Correct — "100" (percent) is the explicit figure cited in paragraph F regarding Compartamos\'s interest rates.' },
+      { id: 26, text: 'Critics argue that market mechanisms alone cannot reliably discipline institutions whose _______ incentives diverge from the interests of their most vulnerable clients.',
+        answer: 'commercial', answerDisplay: 'commercial', acceptable: ['commercial'],
+        explanation: 'Paragraph F: <strong>"institutions whose commercial incentives diverge from the interests of their most financially vulnerable clients."</strong> "Commercial" is the exact adjective modifying incentives.',
+        reinforcement: 'Correct — "commercial" is the precise modifier in paragraph F describing the divergent incentives of profit-seeking microfinance institutions.' },
+    ]
+  },
+
+  // ── PASSAGE 3 — Coral Reefs — Matching Information Q27–31 ──
+  {
+    passageId: 3,
+    type: 'matching_info',
+    label: 'Questions 27–31',
+    instructions: 'The reading passage has seven paragraphs, <strong>A–G</strong>. Which paragraph contains the following information? Write the correct letter <strong>A–G</strong> in the box. You may use any letter more than once.',
+    paraOptions: ['A','B','C','D','E','F','G'],
+    questions: [
+      { id: 27, text: 'A description of how naturally occurring ocean vents have been used to model the future effects of acidification on reef structures.',
+        answer: 'D', answerDisplay: 'D',
+        explanation: 'Paragraph D: <strong>"Studies conducted at natural CO₂ seeps in Papua New Guinea — which function as analogues of future ocean chemistry — found that coral diversity declined by fifty percent."</strong> "CO₂ seeps" = naturally occurring vents used as models.',
+        reinforcement: 'Correct — natural CO₂ seeps as analogues for future acidification are described in paragraph D.' },
+      { id: 28, text: 'A reference to scientific survey work that documented the shortening of the interval between successive bleaching events on a major reef system.',
+        answer: 'C', answerDisplay: 'C',
+        explanation: 'Paragraph C: <strong>"Terry Hughes of James Cook University, who led aerial surveys of the Great Barrier Reef… characterised the recurrence interval between bleaching events as having shortened from decades to years."</strong>',
+        reinforcement: 'Correct — the shortening of bleaching intervals on the Great Barrier Reef and the aerial surveys are described in paragraph C.' },
+      { id: 29, text: 'An account of the political conflict between high-emitting nations and vulnerable small states at international climate negotiations.',
+        answer: 'G', answerDisplay: 'G',
+        explanation: 'Paragraph G: <strong>"the divergence of interests between states that are primarily responsible for greenhouse gas emissions and those that bear the most immediate consequences"</strong> and small island developing states advocating for the 1.5-degree target at international negotiations.',
+        reinforcement: 'Correct — the divergence between emitting states and small island states at climate negotiations is described in paragraph G.' },
+      { id: 30, text: 'An explanation of the physiological process by which coral expels the organisms it depends on for energy when temperature stress occurs.',
+        answer: 'B', answerDisplay: 'B',
+        explanation: 'Paragraph B describes the zooxanthellae relationship and the bleaching process: <strong>"The polyp responds by expelling the zooxanthellae — a process known as bleaching."</strong> This is the physiological expulsion process.',
+        reinforcement: 'Correct — the mechanism of zooxanthellae expulsion during thermal stress is explained in paragraph B.' },
+      { id: 31, text: 'A description of proposed technical measures to protect reefs that are criticised for being impossible to apply at the necessary global scale.',
+        answer: 'F', answerDisplay: 'F',
+        explanation: 'Paragraph F: <strong>"critics contend that the scale of the intervention required — covering millions of square kilometres of reef globally — renders these approaches impractical as system-wide solutions."</strong>',
+        reinforcement: 'Correct — the criticism that technological interventions cannot be scaled globally is stated explicitly in paragraph F.' },
+    ]
+  },
+  // ── PASSAGE 3 — T/F/NG Q32–36 ──
+  {
+    passageId: 3,
+    type: 'tfng',
+    label: 'Questions 32–36',
+    instructions: 'Do the following statements agree with the information given in the reading passage? Write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      { id: 32, text: 'Coral reefs cover less than one percent of the ocean floor but support approximately a quarter of all marine species.',
+        answer: 'TRUE',
+        explanation: 'Paragraph A: <strong>"Coral reefs occupy less than one percent of the ocean floor yet support an estimated twenty-five percent of all marine species."</strong> "Twenty-five percent" = "approximately a quarter." Direct match.',
+        reinforcement: 'Correct — paragraph A states both figures explicitly: less than one percent of the ocean floor and twenty-five percent of marine species.' },
+      { id: 33, text: 'Bleached corals die immediately once the zooxanthellae are expelled from their tissues.',
+        answer: 'FALSE',
+        explanation: 'Paragraph B: <strong>"Bleached corals are not immediately dead but are severely energy-deficient."</strong> The statement claims immediate death, which the passage explicitly contradicts.',
+        reinforcement: 'Correct — paragraph B explicitly states bleached corals are not immediately dead, making the statement FALSE.' },
+      { id: 34, text: 'Since pre-industrial times, average ocean surface pH has fallen from 8.2 to approximately 8.1.',
+        answer: 'TRUE',
+        explanation: 'Paragraph D: <strong>"average ocean surface pH has declined from 8.2 to approximately 8.1."</strong> The statement is an exact restatement of these figures.',
+        reinforcement: 'Correct — paragraph D provides these exact pH values, confirming the statement as TRUE.' },
+      { id: 35, text: 'Under the Paris Agreement\'s most ambitious warming target of 1.5 degrees Celsius, the majority of coral reefs are projected to survive intact.',
+        answer: 'NOT GIVEN',
+        explanation: 'Paragraph E provides projections for RCP 8.5 and RCP 4.5 scenarios, and paragraph G references the 1.5-degree target preferred by small island states, but no specific survival projection for reefs under 1.5 degrees is given in the passage.',
+        reinforcement: 'Correct — no reef survival projection specifically for the 1.5-degree target is stated in the passage.' },
+      { id: 36, text: 'Under a high-emission scenario, sea surface temperatures in coral reef regions are projected to exceed the mortality threshold across most reef systems by mid-century.',
+        answer: 'TRUE',
+        explanation: 'Paragraph E: <strong>"Under a high-emission scenario (RCP 8.5)… exceed the mortality threshold — two degrees Celsius above the maximum monthly mean — across the majority of reef systems by mid-century."</strong> Direct match.',
+        reinforcement: 'Correct — paragraph E explicitly states this projection for the high-emission scenario.' },
+    ]
+  },
+  // ── PASSAGE 3 — Sentence/Summary Completion Q37–40 ──
+  {
+    passageId: 3,
+    type: 'sentence_completion',
+    label: 'Questions 37–40',
+    instructions: 'Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.<br><br><em>The bleaching process begins when seawater temperatures rise above the (37) _______ tolerance of the zooxanthellae, causing them to produce toxic compounds. The coral polyp expels these algae and becomes energy-deficient; sustained bleaching typically leads to (38) _______ if it continues for six to eight weeks. The frequency of bleaching events has increased dramatically: the third global bleaching event, which lasted from 2015 to 2017, caused bleaching on more than seventy percent of the Great Barrier Reef in (39) _______ years. Scientists studying the Great Barrier Reef noted that the (40) _______ interval between bleaching events had shortened from decades to years, eliminating the time reefs need to recover.</em>',
+    questions: [
+      { id: 37, text: '(37) The bleaching process starts when temperatures exceed the _______ tolerance of the zooxanthellae.',
+        answer: 'thermal', answerDisplay: 'thermal', acceptable: ['thermal'],
+        explanation: 'Paragraph B: <strong>"When seawater temperatures exceed the thermal tolerance of the zooxanthellae."</strong> "Thermal" is the exact adjective modifying "tolerance" in this sentence.',
+        reinforcement: 'Correct — "thermal" is retrieved directly from paragraph B\'s description of the temperature threshold for bleaching.' },
+      { id: 38, text: '(38) Bleaching sustained for six to eight weeks typically results in _______.',
+        answer: 'mass mortality', answerDisplay: 'mass mortality', acceptable: ['mass mortality'],
+        explanation: 'Paragraph B: <strong>"Sustained bleaching of six to eight weeks typically results in mass mortality."</strong> "Mass mortality" is the two-word phrase completing the summary sentence.',
+        reinforcement: 'Correct — "mass mortality" is the passage-exact two-word outcome stated in paragraph B for sustained bleaching.' },
+      { id: 39, text: '(39) The 2015–2017 bleaching event caused damage on more than seventy percent of the Great Barrier Reef in _______ years.',
+        answer: 'consecutive', answerDisplay: 'consecutive', acceptable: ['consecutive'],
+        explanation: 'Paragraph C: <strong>"causing bleaching on more than seventy percent of the Great Barrier Reef in consecutive years."</strong> "Consecutive" is the exact adjective modifying "years."',
+        reinforcement: 'Correct — "consecutive" is the precise word in paragraph C describing the year-on-year nature of the Great Barrier Reef bleaching.' },
+      { id: 40, text: '(40) Scientists noted that the _______ interval between bleaching events had shortened from decades to years.',
+        answer: 'recurrence', answerDisplay: 'recurrence', acceptable: ['recurrence'],
+        explanation: 'Paragraph C: <strong>"characterised the recurrence interval between bleaching events as having shortened from decades to years."</strong> "Recurrence" is the exact noun preceding "interval" in Terry Hughes\'s characterisation.',
+        reinforcement: 'Correct — "recurrence" is retrieved from paragraph C\'s description of the shortened bleaching cycle on the Great Barrier Reef.' },
+    ]
+  },
+];
+
+// ─────────────────────────────────────────
+//  STATE
+// ─────────────────────────────────────────
+const answers = {};
+const TOTAL_SECONDS = 3600;
+let secondsLeft = TOTAL_SECONDS;
+let timerInterval = null;
+let submitted = false;
+
+// ─────────────────────────────────────────
+//  TAB SWITCHING
+// ─────────────────────────────────────────
+function switchTab(n) {
+  [1,2,3].forEach(i => {
+    document.getElementById('passageContent' + i).style.display = i === n ? 'block' : 'none';
+    document.getElementById('qPanel' + i).style.display = i === n ? 'block' : 'none';
+    document.getElementById('tabNav').querySelectorAll('.tab-btn')[i-1].classList.toggle('active', i === n);
+  });
+  document.getElementById('readingPane').scrollTop = 0;
+  document.getElementById('questionPane').scrollTop = 0;
+}
+
+// ─────────────────────────────────────────
+//  FONT SIZE CONTROLLER
+// ─────────────────────────────────────────
+const FONT_SIZES = [13, 15, 17, 19];
+let fontSizeIdx = parseInt(localStorage.getItem('ielts_font_size_idx') || '1');
+function initFontSize() {
+  document.documentElement.style.setProperty('--passage-font-size', FONT_SIZES[fontSizeIdx] + 'px');
+}
+function adjustFontSize(delta) {
+  if (delta === 0) {
+    fontSizeIdx = 1;
+  } else {
+    fontSizeIdx = Math.max(0, Math.min(FONT_SIZES.length - 1, fontSizeIdx + delta));
+  }
+  document.documentElement.style.setProperty('--passage-font-size', FONT_SIZES[fontSizeIdx] + 'px');
+  localStorage.setItem('ielts_font_size_idx', fontSizeIdx);
+}
+
+// ─────────────────────────────────────────
+//  SPLIT-PANE RESIZER
+// ─────────────────────────────────────────
+(function initResizer() {
+  const container = document.getElementById('splitContainer');
+  const leftPane  = document.getElementById('readingPane');
+  const resizer   = document.getElementById('resizerBar');
+  if (!container || !leftPane || !resizer) return;
+
+  let isDragging = false;
+  let startX     = 0;
+  let startW     = 0;
+
+  function onStart(clientX) {
+    isDragging = true;
+    startX     = clientX;
+    startW     = leftPane.getBoundingClientRect().width;
+    resizer.classList.add('active');
+    document.body.style.cursor     = 'col-resize';
+    document.body.style.userSelect = 'none';
+  }
+
+  function onMove(clientX) {
+    if (!isDragging) return;
+    const cW    = container.getBoundingClientRect().width;
+    const rW    = resizer.getBoundingClientRect().width;
+    const avail = cW - rW;
+    const minW  = avail * 0.25;
+    const maxW  = avail * 0.75;
+    const newW  = Math.max(minW, Math.min(maxW, startW + (clientX - startX)));
+    leftPane.style.width = ((newW / cW) * 100).toFixed(2) + '%';
+  }
+
+  function onEnd() {
+    if (!isDragging) return;
+    isDragging = false;
+    resizer.classList.remove('active');
+    document.body.style.cursor     = '';
+    document.body.style.userSelect = '';
+  }
+
+  resizer.addEventListener('mousedown',  e => { e.preventDefault(); onStart(e.clientX); });
+  document.addEventListener('mousemove', e => onMove(e.clientX));
+  document.addEventListener('mouseup',   onEnd);
+
+  resizer.addEventListener('touchstart',  e => { e.preventDefault(); onStart(e.touches[0].clientX); }, { passive: false });
+  document.addEventListener('touchmove',  e => { if (isDragging) { e.preventDefault(); onMove(e.touches[0].clientX); } }, { passive: false });
+  document.addEventListener('touchend',   onEnd);
+})();
+
+// ─────────────────────────────────────────
+//  TIMER
+// ─────────────────────────────────────────
+function formatTime(s) {
+  return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+}
+function startTimer() {
+  timerInterval = setInterval(() => {
+    secondsLeft--;
+    const pct = (TOTAL_SECONDS - secondsLeft) / TOTAL_SECONDS * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+    const el = document.getElementById('timerDisplay');
+    el.textContent = formatTime(secondsLeft);
+    if (secondsLeft <= 120) el.className = 'timer-box critical';
+    else if (secondsLeft <= 300) el.className = 'timer-box warning';
+    if (secondsLeft <= 0) { clearInterval(timerInterval); autoSubmit(); }
+  }, 1000);
+}
+
+// ─────────────────────────────────────────
+//  RENDER QUESTIONS
+// ─────────────────────────────────────────
+function renderAll() {
+  [1,2,3].forEach(pid => {
+    const panel = document.getElementById('qPanel' + pid);
+    let html = '';
+    GROUPS.filter(g => g.passageId === pid).forEach(group => {
+      html += `<div class="group-header mb-4">
+        <div class="text-xs font-bold tracking-widest uppercase" style="color:var(--gold);">${group.label}</div>
+        <p>${group.instructions}</p>
+      </div>`;
+
+      if (group.type === 'matching_headings') {
+        html += `<div class="headings-list mb-4"><ul style="list-style:none;">`;
+        group.headings.forEach(h => {
+          html += `<li><span>${h.key}.</span>${h.text}</li>`;
+        });
+        html += `</ul></div>`;
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">Paragraph <strong>${q.paraLabel}</strong></div>
+            <select class="q-select" id="q${q.id}" onchange="recordAnswer(${q.id}, this.value)">
+              <option value="">— Select heading —</option>
+              ${group.headings.map(h => `<option value="${h.key}">${h.key}. ${h.text}</option>`).join('')}
+            </select>
+          </div>`;
+        });
+      } else if (group.type === 'tfng') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <div class="q-tfng">
+              <button class="q-tfng-btn" onclick="selectTFNG(${q.id},'TRUE',this)">TRUE</button>
+              <button class="q-tfng-btn" onclick="selectTFNG(${q.id},'FALSE',this)">FALSE</button>
+              <button class="q-tfng-btn" onclick="selectTFNG(${q.id},'NOT GIVEN',this)">NOT GIVEN</button>
+            </div>
+          </div>`;
+        });
+      } else if (group.type === 'sentence_completion') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <input type="text" class="q-input" id="q${q.id}" placeholder="Your answer…" oninput="recordAnswer(${q.id}, this.value.trim())" />
+          </div>`;
+        });
+      } else if (group.type === 'matching_info') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <select class="q-select" id="q${q.id}" onchange="recordAnswer(${q.id}, this.value)">
+              <option value="">— Select paragraph —</option>
+              ${group.paraOptions.map(p => `<option value="${p}">Paragraph ${p}</option>`).join('')}
+            </select>
+          </div>`;
+        });
+      }
+    });
+    panel.innerHTML = html;
+  });
+}
+
+function selectTFNG(qId, val, btn) {
+  btn.parentElement.querySelectorAll('.q-tfng-btn').forEach(b => { b.className = 'q-tfng-btn'; });
+  btn.classList.add(val === 'TRUE' ? 'sel-t' : val === 'FALSE' ? 'sel-f' : 'sel-ng');
+  recordAnswer(qId, val);
+}
+function recordAnswer(qId, val) { answers[qId] = val; }
+
+// ─────────────────────────────────────────
+//  SCORING
+// ─────────────────────────────────────────
+function scoreAnswer(q, studentRaw) {
+  if (!studentRaw) return false;
+  const student = studentRaw.toString().trim().toLowerCase();
+  if (q.acceptable) return q.acceptable.map(a => a.toLowerCase()).includes(student);
+  return student === q.answer.toLowerCase();
+}
+function bandFromScore(n) {
+  if (n >= 39) return 9.0; if (n >= 37) return 8.5; if (n >= 35) return 8.0;
+  if (n >= 33) return 7.5; if (n >= 30) return 7.0; if (n >= 27) return 6.5;
+  if (n >= 23) return 6.0; if (n >= 19) return 5.5; if (n >= 15) return 5.0;
+  if (n >= 13) return 4.5; if (n >= 10) return 4.0; if (n >= 8) return 3.5;
+  if (n >= 6) return 3.0; return 2.5;
+}
+function bandColour(b) {
+  if (b >= 7) return '#0D9488'; if (b >= 5.5) return '#C9952E'; return '#dc2626';
+}
+function bandAdvice(band, score) {
+  const pct = Math.round(score/40*100);
+  if (band >= 8.5) return `Outstanding — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Near-native comprehension across all three passages. Focus on NOT GIVEN precision and paraphrased sentence completions to push for Band 9.`;
+  if (band >= 7.5) return `Excellent result — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Strong academic reading. To push towards Band 8+: tighten NOT GIVEN judgements (never infer beyond the text) and copy sentence completion answers exactly from the passage.`;
+  if (band >= 6.5) return `Good performance — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Solid comprehension with room to improve. Review: (1) TRUE vs FALSE — verify the exact claim, not just the topic; (2) Matching Headings — identify the paragraph's central argument before selecting; (3) time allocation across all three passages.`;
+  if (band >= 5.5) return `You scored ${score}/40 (${pct}%), giving an estimated <strong>Band ${band}</strong>. Clear potential — prioritise synonym recognition, since every question involves paraphrase. Review each wrong answer and find the exact passage sentence that should have guided your response.`;
+  return `You scored ${score}/40 (${pct}%), giving an estimated <strong>Band ${band}</strong>. Focus on active reading: identify each paragraph's main claim before reading the questions. Daily timed reading of academic texts and vocabulary building will accelerate improvement significantly.`;
+}
+
+// ─────────────────────────────────────────
+//  SUBMIT
+// ─────────────────────────────────────────
+function confirmSubmit() { if (!confirm('Submit your reading test now?')) return; doSubmit(); }
+function autoSubmit() { if (submitted) return; doSubmit(); }
+function doSubmit() {
+  if (submitted) return;
+  submitted = true;
+  clearInterval(timerInterval);
+  document.getElementById('submittingOverlay').style.display = 'flex';
+  setTimeout(showResults, 800);
+}
+
+// ─────────────────────────────────────────
+//  RESULTS
+// ─────────────────────────────────────────
+function showResults() {
+  document.getElementById('submittingOverlay').style.display = 'none';
+  document.getElementById('testMain').style.display = 'none';
+  document.getElementById('timingStrip').style.display = 'none';
+  document.getElementById('resultsMain').style.display = 'block';
+
+  let correct = 0;
+  const allQs = GROUPS.flatMap(g => g.questions);
+  allQs.forEach(q => { if (scoreAnswer(q, answers[q.id])) correct++; });
+  const band = bandFromScore(correct);
+  const bCol = bandColour(band);
+
+  // Save result
+  const results = JSON.parse(localStorage.getItem('ielts_mock_results') || '[]');
+  results.push({ date: Date.now(), book: 18, testNum: 2, skill: 'reading', scores: { reading: band } });
+  localStorage.setItem('ielts_mock_results', JSON.stringify(results));
+
+  // Per-passage breakdown
+  const passageChips = [1,2,3].map(p => {
+    const pQs = GROUPS.filter(g => g.passageId === p).flatMap(g => g.questions);
+    const pC = pQs.filter(q => scoreAnswer(q, answers[q.id])).length;
+    const pCol = bandColour(bandFromScore(Math.round(pC/pQs.length*40)));
+    return `<div style="background:#EFF3F9;border:1px solid var(--border);border-radius:10px;padding:10px 14px;text-align:center;min-width:80px;">
+      <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px;">Passage ${p}</div>
+      <div style="font-family:'Space Mono',monospace;font-size:1.125rem;font-weight:700;color:${pCol};">${pC}/${pQs.length}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('scoreCard').innerHTML = `
+    <div class="flex flex-col md:flex-row gap-6 items-center">
+      <div class="score-ring-wrap">
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#E2E8F0" stroke-width="8"/>
+          <circle cx="60" cy="60" r="50" fill="none" stroke="${bCol}" stroke-width="8"
+            stroke-dasharray="${Math.round(correct/40*314)} 314" stroke-linecap="round"
+            transform="rotate(-90 60 60)" style="transition:stroke-dasharray 1.2s cubic-bezier(.16,1,.3,1)"/>
+        </svg>
+        <div style="margin-top:-70px;text-align:center;pointer-events:none;">
+          <div style="font-family:'Space Mono',monospace;font-size:1.75rem;font-weight:700;color:${bCol};">${correct}</div>
+          <div style="font-size:0.75rem;color:var(--text-muted);">out of 40</div>
+        </div>
+        <div style="margin-top:16px;"></div>
+      </div>
+      <div class="flex-1">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Your Score</div>
+        <div class="font-display font-black text-4xl mb-1" style="color:${bCol};">Band ${band}</div>
+        <div class="text-sm mb-4" style="color:var(--text-muted);">${correct} correct answers out of 40</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">${passageChips}</div>
+      </div>
+    </div>`;
+
+  document.getElementById('feedbackCard').innerHTML = `
+    <div class="text-xs font-bold tracking-widest uppercase mb-3" style="color:var(--gold);">Overall Feedback</div>
+    <div class="band-feedback">${bandAdvice(band, correct)}</div>`;
+
+  [1,2,3].forEach(pid => {
+    let html = '';
+    GROUPS.filter(g => g.passageId === pid).forEach(group => {
+      html += `<div style="margin-bottom:0.5rem;padding:6px 0 8px;border-bottom:1px solid var(--border-soft);">
+        <span style="font-size:0.6875rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-faint);">${group.label} — ${labelType(group.type)}</span>
+      </div>`;
+      group.questions.forEach(q => {
+        const isCorrect = scoreAnswer(q, answers[q.id]);
+        const studentAns = answers[q.id] ? answers[q.id].toString() : '(no answer)';
+        const correctAns = q.answerDisplay || q.answer;
+        html += `<div class="corr-block ${isCorrect ? 'corr-correct' : 'corr-wrong'}">
+          <div class="corr-qnum ${isCorrect ? 'ok' : 'bad'}">${isCorrect ? '✓' : '✗'} Question ${q.id}</div>
+          <div class="corr-qtext">${q.text}</div>`;
+        if (isCorrect) {
+          html += `<div class="corr-row"><span class="corr-tag reinforce">✓ Correct</span><span class="corr-val">${studentAns}</span></div>
+            <div class="corr-expl">${q.reinforcement || ''}</div>`;
+        } else {
+          html += `<div class="corr-row"><span class="corr-tag your">Your answer</span><span class="corr-val">${studentAns}</span></div>
+            <div class="corr-row"><span class="corr-tag correct">Correct answer</span><span class="corr-val">${correctAns}${q.acceptable && q.acceptable.length > 1 ? ' <span style="font-size:0.75rem;color:var(--text-faint);">(also: ' + q.acceptable.filter(a=>a!==q.answer).join(', ') + ')</span>' : ''}</span></div>
+            <div class="corr-expl">${q.explanation || ''}</div>`;
+        }
+        html += `</div>`;
+      });
+    });
+    document.getElementById('corrPassage' + pid).innerHTML = html;
+  });
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function labelType(t) {
+  return { tfng:'True / False / Not Given', mc:'Multiple Choice', matching_headings:'Matching Headings', matching_info:'Matching Information', sentence_completion:'Sentence Completion', diagram_labelling:'Diagram Labelling', matching_feature:'Matching Features' }[t] || t;
+}
+
+// ─────────────────────────────────────────
+//  INIT
+// ─────────────────────────────────────────
+initFontSize();
+renderAll();
+startTimer();
+</script>
+<script src="/js/components.js"></script>
+<script>
+  IELTSLab.loadNav({ basePath: '../', breadcrumb: 'Mock Tests', authenticated: true, themeDefault: 'light' });
+</script>
+</body>
+</html>

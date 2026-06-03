@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IELTS Lab — Cambridge 17 Full Test 2 · Academic Reading</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <script>tailwind.config={theme:{extend:{fontFamily:{display:['Satoshi','Plus Jakarta Sans','system-ui','sans-serif'],sans:['Plus Jakarta Sans','system-ui','sans-serif']}}}}</script>
+  <style>
+    /* ── DESIGN TOKENS ── */
+    :root {
+      --gold: #C9952E;
+      --gold-light: #DDB05A;
+      --gold-dim: rgba(201,149,46,0.10);
+      --gold-border: rgba(201,149,46,0.30);
+      --navy: #1a3c6e;
+      --navy-mid: #2a4f8a;
+      --page-bg: #F7F8FA;
+      --card-bg: #FFFFFF;
+      --qpanel-bg: #EFF3F9;
+      --border: #E2E8F0;
+      --border-soft: #EEF1F6;
+      --text-primary: #1E2A3A;
+      --text-body: #374151;
+      --text-muted: #64748B;
+      --text-faint: #94A3B8;
+      --passage-font-size: 15px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--page-bg); color: var(--text-primary); }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    h1, h2, h3, h4, .font-display { font-family: 'Satoshi', 'Plus Jakarta Sans', system-ui, sans-serif; }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #EFF2F7; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 3px; }
+
+    /* ── PROGRESS ── */
+    .progress-bar { height: 3px; background: #E2E8F0; position: fixed; top: 64px; left: 0; right: 0; z-index: 40; }
+    .progress-fill { height: 100%; background: linear-gradient(to right, var(--gold), #DDB05A); transition: width 1s linear; width: 0%; }
+
+    /* ── NAV ── */
+    .nav-glass { background: rgba(255,255,255,0.97); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .nav-logo { display: flex; align-items: baseline; gap: 0; text-decoration: none; }
+    .nl-ielts { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; letter-spacing: 1px; color: var(--text-primary); }
+    .nl-lab { font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: 3px; color: var(--gold); margin-left: 5px; }
+    #themeToggle { background: transparent; border: 1.5px solid var(--border); color: var(--text-muted); border-radius: 8px; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; font-size: 15px; flex-shrink: 0; padding: 0; }
+    #themeToggle:hover { border-color: var(--gold-border); color: var(--gold); }
+
+    /* ── TIMER ── */
+    .timer-box { background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 10px; padding: 8px 16px; font-family: 'Space Mono', monospace; font-size: 1.125rem; font-weight: 700; color: var(--text-primary); letter-spacing: 2px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+    .timer-box.warning { color: #b45309; border-color: rgba(180,83,9,0.3); background: #fffbeb; }
+    .timer-box.critical { color: #dc2626; border-color: rgba(220,38,38,0.3); background: #fef2f2; animation: pulse 1s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
+
+    /* ── TIMING STRIP ── */
+    .timing-strip { background: #FAFBFD; border-bottom: 1px solid var(--border); padding: 8px 0; }
+    .timing-item { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+    .timing-label { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
+    .timing-val { font-size: 0.75rem; color: var(--text-muted); }
+
+    /* ── FONT SIZE CONTROLLER ── */
+    .font-ctrl { display: inline-flex; align-items: center; gap: 0; background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 9px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .font-ctrl-btn { padding: 6px 12px; border: none; background: transparent; cursor: pointer; color: var(--text-muted); font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.15s; line-height: 1; border-right: 1px solid var(--border); }
+    .font-ctrl-btn:last-child { border-right: none; }
+    .font-ctrl-btn:hover { background: var(--gold-dim); color: var(--gold); }
+    .font-ctrl-btn.a-small { font-size: 11px; }
+    .font-ctrl-btn.a-mid   { font-size: 13px; }
+    .font-ctrl-btn.a-large { font-size: 16px; }
+    .font-ctrl-label { font-size: 0.625rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); padding: 0 8px; }
+
+    /* ── ACCESSIBILITY TOOLBAR ── */
+    .a11y-bar { display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: #FFFFFF; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .a11y-bar-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); }
+
+    /* ── TAB NAV ── */
+    .tab-nav { display: flex; gap: 4px; margin-bottom: 1rem; background: #EFF3F9; border-radius: 12px; padding: 4px; }
+    .tab-btn { flex: 1; padding: 8px 12px; border: none; border-radius: 9px; background: transparent; color: var(--text-muted); font-size: 0.8125rem; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .tab-btn:hover { background: rgba(255,255,255,0.6); color: var(--text-primary); }
+    .tab-btn.active { background: #FFFFFF; color: var(--navy); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+
+    /* ── SECTION CARDS ── */
+    .section-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 1.75rem; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+
+    /* ── PASSAGE ── */
+    .passage-text { font-size: var(--passage-font-size); line-height: 2.0; color: var(--text-body); transition: font-size 0.2s ease; }
+    .passage-text p { margin-bottom: 1.2rem; }
+    .para-label { display: inline-block; font-family: 'Space Mono', monospace; font-size: 0.6875rem; font-weight: 700; color: var(--navy); background: rgba(26,60,110,0.08); border: 1px solid rgba(26,60,110,0.18); border-radius: 4px; padding: 1px 6px; margin-right: 8px; letter-spacing: 0.05em; }
+
+    /* ── QUESTION BLOCKS ── */
+    .q-block { margin-bottom: 1.25rem; padding: 1rem 1.15rem; border-radius: 12px; background: #FFFFFF; border: 1px solid var(--border); }
+    .q-num { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+    .q-text { font-size: 0.9rem; color: var(--text-body); margin-bottom: 10px; line-height: 1.65; }
+    .q-input { width: 100%; background: #F8FAFC; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text-primary); font-size: 0.9rem; transition: border-color 0.2s, box-shadow 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,149,46,0.12); }
+    .q-select { width: 100%; background: #F8FAFC; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text-primary); font-size: 0.9rem; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-select:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,149,46,0.12); }
+    .q-options { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+    .q-option { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; padding: 9px 12px; border-radius: 8px; border: 1.5px solid var(--border); transition: all 0.2s; background: #F8FAFC; }
+    .q-option:hover { background: var(--gold-dim); border-color: var(--gold-border); }
+    .q-option input[type=radio] { accent-color: var(--gold); margin-top: 3px; flex-shrink: 0; }
+    .q-option label { font-size: 0.9rem; color: var(--text-body); cursor: pointer; line-height: 1.55; }
+
+    /* ── T/F/NG ── */
+    .q-tfng { display: flex; gap: 8px; }
+    .q-tfng-btn { flex: 1; padding: 9px 6px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer; background: #F8FAFC; color: var(--text-muted); transition: all 0.2s; letter-spacing: 0.05em; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-tfng-btn:hover { border-color: var(--gold-border); color: var(--gold); background: var(--gold-dim); }
+    .q-tfng-btn.sel-t { border-color: #16a34a; background: #f0fdf4; color: #16a34a; }
+    .q-tfng-btn.sel-f { border-color: #dc2626; background: #fef2f2; color: #dc2626; }
+    .q-tfng-btn.sel-ng { border-color: #d97706; background: #fffbeb; color: #d97706; }
+
+    /* ── GROUP HEADER ── */
+    .group-header { margin-bottom: 1.25rem; padding: 0.875rem 1rem; border-radius: 12px; background: rgba(26,60,110,0.04); border: 1px solid rgba(26,60,110,0.12); }
+    .group-header p { font-size: 0.8125rem; color: var(--text-muted); line-height: 1.65; margin-top: 6px; }
+
+    /* ── HEADINGS LIST ── */
+    .headings-list { margin: 0.75rem 0; padding: 0.875rem 1rem; background: #FFFFFF; border-radius: 10px; border: 1px solid var(--border); }
+    .headings-list li { font-size: 0.8125rem; color: var(--text-body); line-height: 1.8; padding: 2px 0; }
+    .headings-list li span { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--gold); margin-right: 6px; font-weight: 700; }
+
+    /* ── BUTTONS ── */
+    .btn-gold { background: linear-gradient(135deg, var(--gold) 0%, #a8741f 100%); color: #FFFFFF; border: none; border-radius: 10px; padding: 12px 32px; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.04em; cursor: pointer; transition: all 0.25s ease; box-shadow: 0 2px 12px rgba(201,149,46,0.30); }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 6px 22px rgba(201,149,46,0.42); }
+
+    /* ── CORRECTION REPORT ── */
+    .corr-block { margin-bottom: 1rem; padding: 1rem 1.25rem; border-radius: 12px; border: 1.5px solid; }
+    .corr-correct { background: #f0fdf4; border-color: #bbf7d0; }
+    .corr-wrong { background: #fef2f2; border-color: #fecaca; }
+    .corr-qnum { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+    .corr-qnum.ok { color: #16a34a; }
+    .corr-qnum.bad { color: #dc2626; }
+    .corr-qtext { font-size: 0.875rem; color: var(--text-body); line-height: 1.65; margin-bottom: 8px; }
+    .corr-row { display: flex; gap: 8px; align-items: flex-start; font-size: 0.8125rem; margin-bottom: 4px; }
+    .corr-tag { flex-shrink: 0; padding: 2px 8px; border-radius: 4px; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+    .corr-tag.your { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+    .corr-tag.correct { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .corr-tag.reinforce { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .corr-val { color: var(--text-primary); line-height: 1.5; }
+    .corr-expl { margin-top: 8px; padding: 9px 12px; background: #FFFFFF; border-radius: 8px; border-left: 3px solid var(--gold-border); font-size: 0.8125rem; color: var(--text-muted); line-height: 1.65; }
+    .corr-expl strong { color: var(--text-primary); }
+
+    /* ── RESULTS ── */
+    .score-ring-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .band-feedback { padding: 1.25rem; border-radius: 12px; background: rgba(26,60,110,0.04); border: 1px solid rgba(26,60,110,0.12); font-size: 0.9rem; color: var(--text-body); line-height: 1.8; }
+    .band-feedback strong { color: var(--navy); }
+    .passage-corr-header { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); padding: 10px 0 8px; border-bottom: 1px solid var(--border); margin-bottom: 1rem; }
+
+    /* ── SPINNER ── */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; }
+
+    /* ── SPLIT LAYOUT ── */
+    .split-container { display: flex; height: calc(100vh - 268px); min-height: 560px; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+    .reading-pane { width: 52%; min-width: 25%; max-width: 75%; overflow-y: auto; padding: 1.75rem; background: var(--card-bg); flex-shrink: 0; }
+    .question-pane { flex: 1; overflow-y: auto; padding: 1.75rem; background: var(--qpanel-bg); min-width: 25%; }
+    .resizer-bar { width: 16px; background: #F1F5F9; cursor: col-resize; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; border-left: 1px solid var(--border); border-right: 1px solid var(--border); transition: background 0.15s; user-select: none; -webkit-user-select: none; }
+    .resizer-bar:hover, .resizer-bar.active { background: var(--gold-dim); border-left-color: var(--gold-border); border-right-color: var(--gold-border); }
+    .resizer-btn { background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 8px; padding: 10px 4px; cursor: col-resize; display: flex; flex-direction: column; align-items: center; gap: 5px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); transition: border-color 0.15s, box-shadow 0.15s; pointer-events: none; }
+    .resizer-bar:hover .resizer-btn { border-color: var(--gold-border); box-shadow: 0 2px 8px rgba(201,149,46,0.15); }
+    @media (max-width: 1023px) {
+      .split-container { flex-direction: column; height: auto; overflow: visible; border: none; border-radius: 0; box-shadow: none; gap: 1rem; }
+      .reading-pane { width: 100% !important; min-width: 100%; max-width: 100%; overflow-y: visible; border: 1px solid var(--border); border-radius: 16px; }
+      .resizer-bar { display: none; }
+      .question-pane { min-width: 100%; overflow-y: visible; border: 1px solid var(--border); border-radius: 16px; }
+    }
+  </style>
+  <script>
+    (function(){
+      var raw = localStorage.getItem('ielts_session');
+      if (!raw) { window.location.replace('../login.html'); return; }
+      try { JSON.parse(raw); } catch(e) { localStorage.removeItem('ielts_session'); window.location.replace('../login.html'); }
+    })();
+    (function(){ var t = localStorage.getItem('ieltslab_theme') || 'light'; document.documentElement.setAttribute('data-theme', t); })();
+    function toggleTheme(){ var c = document.documentElement.getAttribute('data-theme') || 'light', n = c === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', n); localStorage.setItem('ieltslab_theme', n); var b = document.getElementById('themeToggle'); if(b) b.textContent = n === 'dark' ? '☀' : '🌙'; }
+    document.addEventListener('DOMContentLoaded', function(){ var b = document.getElementById('themeToggle'); if(b){ var d = (document.documentElement.getAttribute('data-theme') || 'light') === 'dark'; b.textContent = d ? '☀' : '🌙'; } });
+  </script>
+</head>
+<body class="min-h-screen flex flex-col" style="background:var(--page-bg);color:var(--text-primary);">
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<div id="header-container"></div>
+
+<!-- TIMING STRIP -->
+<div class="timing-strip" id="timingStrip">
+  <div class="px-4 flex items-center justify-center gap-10">
+    <div class="timing-item"><span class="timing-label">Passage 1</span><span class="timing-val">15–17 min</span></div>
+    <div style="width:1px;height:24px;background:var(--border);"></div>
+    <div class="timing-item"><span class="timing-label">Passage 2</span><span class="timing-val">20 min</span></div>
+    <div style="width:1px;height:24px;background:var(--border);"></div>
+    <div class="timing-item"><span class="timing-label">Passage 3</span><span class="timing-val">23–25 min</span></div>
+  </div>
+</div>
+
+<!-- TEST MAIN -->
+<main class="flex-1 w-full px-4 py-6" id="testMain">
+
+  <!-- HEADER ROW -->
+  <div class="flex items-start justify-between mb-5 gap-4">
+    <div>
+      <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Cambridge 17 · Full Test 2</div>
+      <h1 class="font-display font-black text-2xl" style="color:var(--text-primary);">Academic Reading — Full Test 2</h1>
+    </div>
+    <div class="flex items-center gap-3 flex-shrink-0">
+      <div id="timerDisplay" class="timer-box">60:00</div>
+    </div>
+  </div>
+
+  <!-- ACCESSIBILITY TOOLBAR -->
+  <div class="a11y-bar">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-muted);flex-shrink:0;"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+    <span class="a11y-bar-label">Text Size</span>
+    <div class="font-ctrl" role="toolbar" aria-label="Adjust passage text size">
+      <button class="font-ctrl-btn a-small" onclick="adjustFontSize(-1)" title="Decrease text size">A−</button>
+      <button class="font-ctrl-btn a-mid"   onclick="adjustFontSize(0)"  title="Reset text size">A</button>
+      <button class="font-ctrl-btn a-large" onclick="adjustFontSize(1)"  title="Increase text size">A+</button>
+    </div>
+    <span style="font-size:0.75rem;color:var(--text-faint);">Adjust the reading passage font size</span>
+    <div class="ml-auto text-xs hidden md:block" style="color:var(--text-muted);">60 minutes · 40 questions · 3 passages</div>
+  </div>
+
+  <!-- TAB NAV -->
+  <div class="tab-nav" id="tabNav">
+    <button class="tab-btn active" onclick="switchTab(1)">Passage 1 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q1–13)</span></button>
+    <button class="tab-btn" onclick="switchTab(2)">Passage 2 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q14–26)</span></button>
+    <button class="tab-btn" onclick="switchTab(3)">Passage 3 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q27–40)</span></button>
+  </div>
+
+  <!-- ══ SPLIT VIEW ══ -->
+  <div class="split-container" id="splitContainer">
+    <div class="reading-pane" id="readingPane">
+
+      <!-- Passage 1 -->
+      <div id="passageContent1">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 1</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">Seismology and the Science of Earthquake Prediction</div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>Each year, the Earth experiences approximately half a million detectable earthquakes, of which around one hundred thousand are strong enough to be felt by people near the epicentre and roughly one hundred cause significant damage. The destructive potential of major seismic events has motivated scientists to develop methods of prediction for well over a century, yet reliable short-term forecasting — the ability to specify the location, magnitude, and timing of an earthquake days or weeks before it strikes — remains one of the most elusive goals in the natural sciences. Seismology has made enormous advances in understanding how and why earthquakes occur, but translating that understanding into operational warnings has proved extraordinarily difficult.</p>
+
+          <p><span class="para-label">B</span>The fundamental mechanism of earthquake generation is now well established. The Earth's outer shell is divided into a mosaic of rigid tectonic plates that move continuously, driven by convection currents in the underlying mantle. At the boundaries where plates meet, stress accumulates over decades or centuries as the plates grind against one another along geological features known as faults. When accumulated stress exceeds the frictional resistance holding the fault surfaces together, a sudden rupture occurs: the two sides of the fault slip rapidly past each other, releasing enormous quantities of stored elastic energy as seismic waves that radiate outward in all directions. The point at which rupture initiates is called the focus or hypocentre, and the point on the surface directly above it is the epicentre.</p>
+
+          <p><span class="para-label">C</span>Seismologists measure ground motion using instruments called seismometers, which detect and record the minute vibrations produced by seismic wave passage. Modern seismometer networks, such as the Global Seismographic Network operated jointly by the Incorporated Research Institutions for Seismology and the United States Geological Survey, comprise hundreds of stations distributed across all continents and many oceanic islands. Data from these stations are transmitted in real time to processing centres, where sophisticated algorithms determine the location, depth, and magnitude of earthquakes within minutes of their occurrence. This monitoring infrastructure, which did not exist in its current form before the 1990s, has transformed the scientific understanding of global seismicity patterns and fault behaviour.</p>
+
+          <p><span class="para-label">D</span>The search for reliable precursory signals — observable phenomena that consistently precede major earthquakes — has occupied researchers for decades without producing definitive results. Proposed precursors have included anomalous variations in radon gas concentrations in groundwater, changes in the electrical resistivity of crustal rocks, unusual animal behaviour, and fluctuations in the ionosphere detectable by satellite. Controlled studies have repeatedly found that while some of these phenomena do sometimes occur before earthquakes, they also occur independently of seismic activity, rendering them unreliable as predictive indicators. A precursor that generates many false alarms — predicting earthquakes that do not materialise — is of limited practical value, particularly when the social and economic costs of unnecessary evacuations are considered.</p>
+
+          <p><span class="para-label">E</span>Probabilistic seismic hazard assessment offers a more tractable approach. Rather than predicting individual earthquakes, this methodology calculates the probability that ground shaking of a specified intensity will occur at a given location within a defined future period — typically thirty or fifty years. These assessments draw on historical seismicity catalogues, geological mapping of active faults, and models of how seismic waves attenuate with distance from the source. The resulting hazard maps inform building codes, insurance risk calculations, and land-use planning decisions. In earthquake-prone regions such as Japan, the western United States, and Turkey, probabilistic hazard assessment has become a cornerstone of public safety policy, even though it cannot tell citizens exactly when or where the next damaging event will strike.</p>
+
+          <p><span class="para-label">F</span>Operational earthquake forecasting — issuing publicly communicated probability estimates over shorter time horizons of days to weeks — has been piloted in several jurisdictions following major earthquakes. The 2009 L'Aquila earthquake in Italy, which killed more than three hundred people, prompted a controversial legal case in which scientists were initially convicted of manslaughter partly on the grounds that their public communications had failed to adequately convey risk to the population. Although the convictions were subsequently overturned on appeal, the episode highlighted the profound difficulties of communicating probabilistic information to non-specialist audiences and the legal liabilities that scientists may face when expert advice is linked to policy decisions with life-or-death consequences.</p>
+
+          <p><span class="para-label">G</span>The prospects for earthquake prediction continue to generate active debate within the seismological community. Some researchers maintain that the inherently chaotic nature of fault systems — in which minute variations in initial conditions can produce dramatically different outcomes — imposes a fundamental limit on the predictability of individual events, regardless of the density or quality of observational data available. Others are more optimistic, pointing to advances in machine learning applied to seismic catalogues and to the potential of distributed sensing networks, including smartphone accelerometers, to detect subtle precursory signals that traditional seismometers might miss. Whether prediction remains permanently beyond reach or merely awaits the right combination of data and analytical technique is a question that divides the field and continues to drive its most ambitious research programmes.</p>
+        </div>
+      </div>
+
+      <!-- Passage 2 -->
+      <div id="passageContent2" style="display:none;">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 2</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">Urban Agriculture and Metropolitan Food Security</div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>By 2050, the United Nations projects that approximately two-thirds of the global population will reside in urban areas, placing unprecedented demands on food supply chains that have historically been organised around the physical separation of production and consumption. This demographic shift has prompted a reassessment of urban space as a potential site of agricultural activity, with proponents arguing that integrating food production into the built environment can simultaneously address food security vulnerabilities, reduce the environmental costs of long-distance supply chains, and contribute to the social cohesion and ecological resilience of cities. Urban agriculture encompasses a range of practices — from rooftop gardens and community allotments to sophisticated hydroponic installations and aquaponic systems — that differ substantially in their scale, productivity, and economic viability.</p>
+
+          <p><span class="para-label">B</span>The most extensively documented model of urban food production operates at the community level, through networks of allotment gardens and neighbourhood growing plots that provide participants with access to fresh vegetables and social interaction but contribute minimally to the aggregate food supply of the surrounding metropolitan area. Research conducted by the University of Sheffield estimated that if all available urban green space in the United Kingdom were converted to food production, the resulting output would supply approximately fifteen percent of the national requirement for vegetables — a meaningful contribution, but one that presupposes a degree of land-use conversion that is neither politically feasible nor ecologically desirable. The psychological and community health benefits of allotment gardening, however, are increasingly well documented and represent a dimension of urban food growing that purely economic analyses fail to capture.</p>
+
+          <p><span class="para-label">C</span>Commercial urban agriculture operates under significantly different economic logic. Enterprises that sell produce to restaurants, retailers, or directly to consumers must achieve cost structures competitive with rural producers or must command a sufficient price premium from customers willing to pay for the attributes — freshness, minimal transport, reduced packaging — that urban proximity enables. Several studies have identified a consistent tension between the high land costs characteristic of urban environments and the thin margins typical of fresh produce markets: only crops with sufficiently high value per unit area — culinary herbs, microgreens, specialty salad varieties, and certain mushroom species — can be grown profitably in urban settings without substantial subsidy or at a scale that justifies significant capital investment in controlled-environment technology.</p>
+
+          <p><span class="para-label">D</span>Aquaponics — the integrated cultivation of fish and plants in a recirculating water system, in which fish waste provides nutrients for plant growth and plant roots filter the water returned to the fish tanks — has attracted particular interest as a model for high-density urban food production. Several pilot projects, including the ECF Farm in Berlin and the Urban Farmers installation in The Hague, have demonstrated that aquaponic systems can produce both fish protein and leafy vegetables from a small urban footprint with water consumption significantly lower than conventional agriculture. Critics, however, note that the complexity of managing a balanced biological system, combined with the energy requirements of maintaining optimal water temperature and lighting for both fish and plant species simultaneously, creates operational challenges that have prevented many aquaponic enterprises from achieving sustained commercial viability.</p>
+
+          <p><span class="para-label">E</span>Policy frameworks play a central role in determining whether urban agriculture can scale beyond niche demonstration projects. Municipal governments that have most successfully incorporated food production into urban planning — Havana, Cuba, following the economic disruptions of the early 1990s; Detroit, Michigan, responding to post-industrial land vacancy; and several cities in the Netherlands and Germany pursuing integrated urban food strategies — have typically provided dedicated land tenure, technical assistance, and favourable planning regulations, and in some cases direct financial support. Without such enabling frameworks, urban farmers frequently face prohibitive regulatory barriers: zoning laws that exclude agricultural activity from commercial or residential districts, building codes that do not accommodate rooftop structural loads, and water utility regulations designed for conventional domestic or industrial users rather than intensive horticultural applications.</p>
+
+          <p><span class="para-label">F</span>The environmental case for urban agriculture is more nuanced than its advocates sometimes acknowledge. Life-cycle analyses that account for the full range of inputs — energy for heating, lighting, and pumping; materials for construction and ongoing maintenance; water and nutrients — frequently find that the carbon footprint per kilogram of produce from urban systems is higher than that of conventionally farmed equivalents, even after transport-related emissions are credited. These findings do not necessarily invalidate urban food production as an environmental strategy, but they do suggest that the environmental benefits depend critically on the specific technological approach, the energy source, the crop type, and the distance over which conventionally produced alternatives would otherwise be transported. A rooftop herb garden in a dense city served by renewable electricity has a very different environmental profile from an energy-intensive indoor farm in a suburban location powered by a coal-heavy grid.</p>
+
+          <p><span class="para-label">G</span>Urban agriculture is unlikely to displace conventional food systems in the foreseeable future, but its role as a complementary component of metropolitan resilience strategies deserves serious policy attention. Cities that are subject to supply chain disruptions — whether caused by extreme weather events, logistical failures, or geopolitical instability — benefit from maintaining diverse food sourcing arrangements, and localised production capacity, even if limited in absolute terms, contributes to this diversity. The most productive direction for the sector may lie not in maximising yield per unit area but in identifying the specific niches — high-value perishables, community health programmes, educational initiatives, emergency preparedness reserves — where urban food production offers advantages that neither rural agriculture nor conventional supply chains can readily replicate.</p>
+        </div>
+      </div>
+
+      <!-- Passage 3 -->
+      <div id="passageContent3" style="display:none;">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 3</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">The Neuroscience of Decision Making: Rationality, Bias, and Behaviour</div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>For much of the twentieth century, the dominant paradigm in economics and decision theory held that human agents were essentially rational — that they gathered available information, processed it according to consistent preferences, and selected the option that maximised their expected utility. This framework, formalised in von Neumann and Morgenstern's expected utility theory and extended through subsequent decades of microeconomic modelling, proved extraordinarily productive as an analytical tool even as accumulating empirical evidence revealed systematic deviations from its predictions. The effort to understand why humans so frequently make choices that appear inconsistent, self-defeating, or irrational has generated one of the most productive interdisciplinary research programmes of the late twentieth and early twenty-first centuries, bridging cognitive psychology, neuroscience, and economics in ways that continue to reshape both scientific understanding and practical policy.</p>
+
+          <p><span class="para-label">B</span>The foundational empirical challenge to the rational agent model came from the collaborative research of psychologists Daniel Kahneman and Amos Tversky, whose series of experiments conducted at the Hebrew University of Jerusalem in the 1970s and early 1980s systematically documented a catalogue of cognitive biases — consistent, predictable departures from rational decision making that could not be explained as random error. Their prospect theory, published in Econometrica in 1979, demonstrated that people evaluate outcomes relative to a reference point rather than in absolute terms, and that losses loom larger psychologically than equivalent gains — a phenomenon they termed loss aversion. This asymmetry has since been replicated across thousands of studies in diverse cultural and economic contexts and is now considered one of the most robust findings in behavioural science.</p>
+
+          <p><span class="para-label">C</span>Kahneman subsequently synthesised this body of research into a dual-process framework, most accessibly presented in his 2011 book Thinking, Fast and Slow. The framework distinguishes between two modes of cognition: System 1, which operates automatically, rapidly, and with little conscious effort, drawing on heuristics — mental shortcuts that produce efficient but sometimes erroneous judgements; and System 2, which is slow, deliberate, and effortful, capable of logical reasoning and probabilistic computation but easily fatigued and prone to accepting the outputs of System 1 without scrutiny. Most everyday decisions are dominated by System 1 processing, which is why cognitive biases are so pervasive and persistent even among individuals who are aware of them and motivated to avoid them. Awareness of a bias does not reliably reduce its influence on behaviour.</p>
+
+          <p><span class="para-label">D</span>The neurological substrates of these two processing modes have been a major focus of cognitive neuroscience research. Neuroimaging studies using functional magnetic resonance imaging have identified distinct patterns of brain activation associated with deliberative versus intuitive decision making. The prefrontal cortex, particularly the dorsolateral prefrontal cortex, is strongly activated during tasks requiring sustained reasoning, working memory, and the suppression of impulsive responses — functions associated with System 2 processing. Conversely, the amygdala and ventromedial prefrontal cortex are implicated in emotional evaluation and the rapid, affectively charged responses characteristic of System 1. Research by Antonio Damasio at the University of Iowa demonstrated that patients with damage to the ventromedial prefrontal cortex, while retaining normal intellectual functioning on standard cognitive tests, showed severely impaired decision making in real-life contexts — suggesting that emotional signalling is not merely an interference with rational thought but an essential component of functional decision making.</p>
+
+          <p><span class="para-label">E</span>The question of whether human decision making is best described as fundamentally irrational or as rational within real-world constraints has generated substantial debate. Gerd Gigerenzer of the Max Planck Institute for Human Development has challenged what he regards as the overly negative framing of the heuristics-and-biases research programme, arguing that the fast, frugal heuristics employed by System 1 are not systematic errors but evolved cognitive tools that are well adapted to environments characterised by time pressure, incomplete information, and complexity. A heuristic that performs adequately across a wide range of realistic conditions may be superior in practice to a computationally expensive analytical strategy that produces optimal solutions only when all relevant information is available and the decision maker has unlimited time and cognitive resources. Gigerenzer's ecological rationality perspective suggests that the apparent irrationality of human choices reflects the mismatch between laboratory conditions and the environments in which human cognition evolved, rather than a fundamental cognitive deficiency.</p>
+
+          <p><span class="para-label">F</span>The applied implications of behavioural decision research have attracted considerable attention, particularly in the domain of public policy. The concept of libertarian paternalism, developed by Cass Sunstein and Richard Thaler in their influential 2008 book Nudge, proposes that policy makers can improve outcomes by redesigning the environments in which choices are made — so-called choice architectures — to exploit rather than attempt to override the predictable patterns of System 1 processing. By making a desirable option the default, simplifying the presentation of complex information, or positioning choices in sequences that take advantage of contextual framing effects, governments can substantially increase the adoption of behaviours — retirement saving, organ donation, energy conservation, preventive health measures — that individuals would endorse if they deliberated carefully but frequently fail to choose under the cognitive conditions of everyday life. Critics of nudge theory have raised concerns about the potential for manipulation, the paternalistic assumptions embedded in the designation of certain outcomes as desirable, and the limits of behavioural interventions that address symptoms rather than structural causes.</p>
+
+          <p><span class="para-label">G</span>The neuroscience of decision making remains a field in active development, with significant unresolved questions about the degree to which cognitive biases are modifiable through training, the extent to which individual differences in neural architecture predict susceptibility to specific biases, and the degree of cross-cultural universality of the patterns identified predominantly in Western, educated, industrialised, rich, and democratic — so-called WEIRD — populations. Recent cross-cultural studies have found both considerable consistency in basic loss aversion effects and meaningful variation in the magnitude and expression of other biases across different social and economic contexts, suggesting that the interaction between evolved cognitive tendencies and cultural learning is more complex than either the universalist or the cultural relativist position fully accommodates. The field's capacity to inform practical design of policies, institutions, and products rests ultimately on its ability to characterise this complexity with greater precision.</p>
+        </div>
+      </div>
+
+    </div><!-- /reading-pane -->
+
+    <!-- RESIZER BAR -->
+    <div class="resizer-bar" id="resizerBar">
+      <button class="resizer-btn" aria-label="Drag to resize panels">
+        <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M3.5 2L1 6L3.5 10" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span style="display:block;width:2px;height:14px;background:var(--border);border-radius:1px;"></span>
+        <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M6.5 2L9 6L6.5 10" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+
+    <!-- QUESTION PANE -->
+    <div class="question-pane" id="questionPane">
+      <div id="qPanel1"></div>
+      <div id="qPanel2" style="display:none;"></div>
+      <div id="qPanel3" style="display:none;"></div>
+    </div>
+
+  </div><!-- /split-container -->
+
+  <!-- SUBMIT -->
+  <div class="flex justify-center mt-10 mb-16">
+    <button onclick="confirmSubmit()" class="btn-gold px-10 py-4 text-base">Submit Reading Test</button>
+  </div>
+</main>
+
+<!-- RESULTS -->
+<div id="resultsMain" style="display:none;" class="flex-1 max-w-5xl mx-auto px-6 py-10 w-full">
+  <div class="flex items-center gap-3 mb-8">
+    <div>
+      <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Results</div>
+      <h1 class="font-display font-black text-2xl" style="color:var(--text-primary);">Academic Reading — Score Report</h1>
+    </div>
+  </div>
+  <div class="section-card mb-6" id="scoreCard"></div>
+  <div class="section-card mb-8" id="feedbackCard"></div>
+  <div class="section-card mb-6">
+    <div class="passage-corr-header">Passage 1 — Seismology and the Science of Earthquake Prediction</div>
+    <div id="corrPassage1"></div>
+  </div>
+  <div class="section-card mb-6">
+    <div class="passage-corr-header">Passage 2 — Urban Agriculture and Metropolitan Food Security</div>
+    <div id="corrPassage2"></div>
+  </div>
+  <div class="section-card mb-10">
+    <div class="passage-corr-header">Passage 3 — The Neuroscience of Decision Making</div>
+    <div id="corrPassage3"></div>
+  </div>
+  <div class="flex gap-4 justify-center mb-16">
+    <a href="index.html" class="btn-gold">← Back to Tests</a>
+  </div>
+</div>
+
+<!-- SUBMITTING OVERLAY -->
+<div id="submittingOverlay" style="display:none;position:fixed;inset:0;z-index:300;background:rgba(247,248,250,0.97);flex-direction:column;align-items:center;justify-content:center;" class="flex">
+  <div class="spinner mb-6"></div>
+  <div class="font-display font-bold text-xl mb-2" style="color:var(--text-primary);">Scoring Your Answers</div>
+  <p class="text-sm" style="color:var(--text-muted);">Analysing your responses…</p>
+</div>
+
+<script>
+
+// ─────────────────────────────────────────
+//  TEST DATA
+// ─────────────────────────────────────────
+const GROUPS = [
+  // ── PASSAGE 1 — Seismology — Matching Headings Q1–5 ──
+  {
+    passageId: 1,
+    type: 'matching_headings',
+    label: 'Questions 1–5',
+    instructions: 'The reading passage has seven paragraphs, <strong>A–G</strong>. Choose the correct heading for paragraphs <strong>B–F</strong> from the list of headings below. Paragraphs A and G are not included. Write the correct Roman numeral in the box.',
+    headings: [
+      { key: 'i',    text: 'How elastic energy stored in faults is suddenly released as seismic waves' },
+      { key: 'ii',   text: 'The infrastructure that enables rapid detection and location of seismic events worldwide' },
+      { key: 'iii',  text: 'Why proposed warning signs fail to provide reliable advance notice of earthquakes' },
+      { key: 'iv',   text: 'The legal and communicative challenges revealed by a deadly Italian earthquake' },
+      { key: 'v',    text: 'A statistical approach that guides planning decisions without forecasting specific events' },
+      { key: 'vi',   text: 'The historical causes of coastal erosion in seismically active regions' },
+      { key: 'vii',  text: 'How seismometers are calibrated for use in deep-ocean monitoring environments' },
+      { key: 'viii', text: 'The economic costs borne by communities that relocate ahead of predicted earthquakes' },
+    ],
+    questions: [
+      { id: 1, paraLabel: 'B', text: 'Paragraph B', answer: 'i', answerDisplay: 'i — How elastic energy stored in faults is suddenly released as seismic waves',
+        explanation: 'Paragraph B describes tectonic plate movement, stress accumulation on faults, and the sudden rupture that releases stored elastic energy as seismic waves. "Elastic energy stored in faults" maps directly to the paragraph\'s discussion of accumulated stress; "released as seismic waves" matches the passage exactly. Headings vi, vii, and viii have no basis anywhere in the passage.',
+        reinforcement: 'Correct — paragraph B is entirely organised around explaining the fault rupture mechanism and the release of elastic energy, matching heading i precisely.' },
+      { id: 2, paraLabel: 'C', text: 'Paragraph C', answer: 'ii', answerDisplay: 'ii — The infrastructure that enables rapid detection and location of seismic events worldwide',
+        explanation: 'Paragraph C describes seismometer networks, the Global Seismographic Network, real-time data transmission, and algorithms that determine earthquake location and magnitude within minutes. "Infrastructure" = the network of stations; "rapid detection and location" = the processing centre algorithms; "worldwide" = distributed across all continents.',
+        reinforcement: 'Correct — paragraph C describes the monitoring network that enables worldwide rapid detection, matching heading ii.' },
+      { id: 3, paraLabel: 'D', text: 'Paragraph D', answer: 'iii', answerDisplay: 'iii — Why proposed warning signs fail to provide reliable advance notice of earthquakes',
+        explanation: 'Paragraph D explains that proposed precursors — radon, electrical resistivity, animal behaviour, ionospheric changes — occur independently of seismic activity and generate false alarms, making them unreliable as predictive indicators. "Proposed warning signs fail to provide reliable advance notice" is a precise paraphrase of this argument.',
+        reinforcement: 'Correct — paragraph D\'s entire argument is that identified precursors are unreliable because they also occur without earthquakes, matching heading iii.' },
+      { id: 4, paraLabel: 'E', text: 'Paragraph E', answer: 'v', answerDisplay: 'v — A statistical approach that guides planning decisions without forecasting specific events',
+        explanation: 'Paragraph E describes probabilistic seismic hazard assessment — a statistical methodology that informs building codes and land-use planning without predicting individual earthquakes. "Statistical approach" = probabilistic methodology; "guides planning decisions" = building codes, insurance, land-use; "without forecasting specific events" = "cannot tell citizens exactly when or where."',
+        reinforcement: 'Correct — paragraph E describes probabilistic hazard assessment as a planning tool that deliberately avoids predicting specific events, matching heading v.' },
+      { id: 5, paraLabel: 'F', text: 'Paragraph F', answer: 'iv', answerDisplay: 'iv — The legal and communicative challenges revealed by a deadly Italian earthquake',
+        explanation: 'Paragraph F discusses the L\'Aquila earthquake (Italy, 309+ deaths), the manslaughter convictions of scientists for inadequate risk communication, the overturned convictions, and the broader difficulties of communicating probabilistic risk. "Legal challenges" = manslaughter convictions; "communicative challenges" = probabilistic communication difficulties; "deadly Italian earthquake" = L\'Aquila 2009.',
+        reinforcement: 'Correct — paragraph F is entirely focused on the L\'Aquila legal case and the communication difficulties it revealed, matching heading iv.' },
+    ]
+  },
+  // ── PASSAGE 1 — T/F/NG Q6–9 ──
+  {
+    passageId: 1,
+    type: 'tfng',
+    label: 'Questions 6–9',
+    instructions: 'Do the following statements agree with the information given in the reading passage? Write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      { id: 6, text: 'The Global Seismographic Network is operated solely by the United States Geological Survey.',
+        answer: 'FALSE',
+        explanation: 'Paragraph C states the Global Seismographic Network is operated <strong>"jointly by the Incorporated Research Institutions for Seismology and the United States Geological Survey."</strong> "Solely by the United States Geological Survey" contradicts "jointly."',
+        reinforcement: 'Correct — paragraph C specifies joint operation by two organisations, directly contradicting "solely."' },
+      { id: 7, text: 'Studies have found that some proposed earthquake precursors occur in the absence of seismic activity.',
+        answer: 'TRUE',
+        explanation: 'Paragraph D: <strong>"they also occur independently of seismic activity."</strong> "Occur in the absence of seismic activity" is a direct paraphrase of "occur independently of seismic activity."',
+        reinforcement: 'Correct — paragraph D explicitly states that proposed precursors occur independently of earthquakes, confirming the statement.' },
+      { id: 8, text: 'The scientists convicted following the L\'Aquila earthquake were ultimately found guilty and sentenced to imprisonment.',
+        answer: 'FALSE',
+        explanation: 'Paragraph F: <strong>"Although the convictions were subsequently overturned on appeal."</strong> The statement implies a final guilty verdict, but the passage states the convictions were overturned.',
+        reinforcement: 'Correct — paragraph F explicitly states the convictions were overturned, contradicting the claim of a final guilty verdict.' },
+      { id: 9, text: 'Researchers at Japanese universities have developed smartphone applications capable of detecting precursory seismic signals.',
+        answer: 'NOT GIVEN',
+        explanation: 'Paragraph G mentions smartphone accelerometers as a potential tool for detecting subtle precursory signals, but no Japanese university researchers or specific applications are mentioned anywhere in the passage.',
+        reinforcement: 'Correct — the passage mentions smartphones generally in paragraph G but gives no information about Japanese researchers or specific applications.' },
+    ]
+  },
+  // ── PASSAGE 1 — Sentence Completion Q10–13 ──
+  {
+    passageId: 1,
+    type: 'sentence_completion',
+    label: 'Questions 10–13',
+    instructions: 'Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.',
+    questions: [
+      { id: 10, text: 'The point on the surface directly above where an earthquake rupture begins is called the _______.',
+        answer: 'epicentre', answerDisplay: 'epicentre', acceptable: ['epicentre', 'epicenter'],
+        explanation: 'Paragraph B: <strong>"The point on the surface directly above it is the epicentre."</strong> The sentence frame closely paraphrases this definition; "epicentre" (or US spelling "epicenter") is the one-word answer.',
+        reinforcement: 'Correct — "epicentre" is defined in paragraph B as the surface point above the earthquake focus.' },
+      { id: 11, text: 'Probabilistic seismic hazard assessment draws on historical seismicity catalogues, fault mapping, and models of how seismic waves _______ with distance from the source.',
+        answer: 'attenuate', answerDisplay: 'attenuate', acceptable: ['attenuate'],
+        explanation: 'Paragraph E: <strong>"models of how seismic waves attenuate with distance from the source."</strong> The sentence frame incorporates the surrounding context; "attenuate" is the exact verb used.',
+        reinforcement: 'Correct — "attenuate" is retrieved directly from paragraph E\'s description of the components of probabilistic hazard assessment.' },
+      { id: 12, text: 'A precursor that generates many _______ — predicting earthquakes that do not materialise — is of limited practical value.',
+        answer: 'false alarms', answerDisplay: 'false alarms', acceptable: ['false alarms'],
+        explanation: 'Paragraph D: <strong>"A precursor that generates many false alarms — predicting earthquakes that do not materialise — is of limited practical value."</strong> The sentence frame is a near-direct quotation from paragraph D with the answer phrase omitted.',
+        reinforcement: 'Correct — "false alarms" is retrieved exactly from paragraph D\'s explanation of why unreliable precursors are not useful.' },
+      { id: 13, text: 'Some seismologists argue that fault systems are inherently _______ in nature, which may impose a fundamental limit on the predictability of individual earthquakes.',
+        answer: 'chaotic', answerDisplay: 'chaotic', acceptable: ['chaotic'],
+        explanation: 'Paragraph G: <strong>"the inherently chaotic nature of fault systems — in which minute variations in initial conditions can produce dramatically different outcomes — imposes a fundamental limit on the predictability of individual events."</strong> "Chaotic" is the exact adjective used.',
+        reinforcement: 'Correct — "chaotic" is the precise descriptor in paragraph G for the nature of fault systems that limits predictability.' },
+    ]
+  },
+
+  // ── PASSAGE 2 — Urban Agriculture — Matching Headings Q14–18 ──
+  {
+    passageId: 2,
+    type: 'matching_headings',
+    label: 'Questions 14–18',
+    instructions: 'The reading passage has seven paragraphs, <strong>A–G</strong>. Choose the correct heading for paragraphs <strong>B–F</strong> from the list of headings below. Paragraphs A and G are not included. Write the correct Roman numeral in the box.',
+    headings: [
+      { key: 'i',    text: 'The social and health benefits of small-scale neighbourhood growing initiatives' },
+      { key: 'ii',   text: 'The economic pressures that restrict commercial urban food production to specific high-value crops' },
+      { key: 'iii',  text: 'How a recirculating biological system integrates fish and plant cultivation in a limited space' },
+      { key: 'iv',   text: 'The regulatory and administrative obstacles that prevent urban food growing from expanding' },
+      { key: 'v',    text: 'Why the environmental advantages of urban food systems depend on the specific production context' },
+      { key: 'vi',   text: 'Government export incentives that help urban farms compete with rural producers' },
+      { key: 'vii',  text: 'The contribution of community allotments to national food production and urban wellbeing' },
+      { key: 'viii', text: 'International agreements that govern the labelling of locally produced food in urban areas' },
+    ],
+    questions: [
+      { id: 14, paraLabel: 'B', text: 'Paragraph B', answer: 'vii', answerDisplay: 'vii — The contribution of community allotments to national food production and urban wellbeing',
+        explanation: 'Paragraph B discusses the University of Sheffield estimate of urban green space converted to food production (contributing 15% of UK vegetable needs) and documents psychological and community health benefits of allotment gardening. "Contribution to national food production" = the 15% estimate; "urban wellbeing" = psychological and community health benefits. Heading i is a plausible distractor but focuses only on benefits while paragraph B balances both the limited production contribution and the health/social benefits.',
+        reinforcement: 'Correct — paragraph B addresses both the measured production contribution of community allotments and their documented wellbeing benefits, matching heading vii.' },
+      { id: 15, paraLabel: 'C', text: 'Paragraph C', answer: 'ii', answerDisplay: 'ii — The economic pressures that restrict commercial urban food production to specific high-value crops',
+        explanation: 'Paragraph C explains the tension between high urban land costs and thin fresh produce margins, concluding that only high value-per-unit-area crops (herbs, microgreens, specialty salads, mushrooms) can be grown profitably. "Economic pressures" = land cost vs margin tension; "restrict to specific high-value crops" = the paragraph\'s conclusion. Heading vi (government export incentives) is not discussed anywhere.',
+        reinforcement: 'Correct — paragraph C\'s logic centres on cost structure and crop selection, matching "economic pressures restrict to high-value crops."' },
+      { id: 16, paraLabel: 'D', text: 'Paragraph D', answer: 'iii', answerDisplay: 'iii — How a recirculating biological system integrates fish and plant cultivation in a limited space',
+        explanation: 'Paragraph D describes aquaponics: a recirculating water system in which fish waste provides nutrients for plants and plant roots filter water returned to fish tanks. "Recirculating biological system" = the aquaponic cycle; "integrates fish and plant cultivation" = the dual-species system; "limited space" = "small urban footprint."',
+        reinforcement: 'Correct — paragraph D is a description of aquaponics as an integrated fish-and-plant recirculating system, matching heading iii.' },
+      { id: 17, paraLabel: 'E', text: 'Paragraph E', answer: 'iv', answerDisplay: 'iv — The regulatory and administrative obstacles that prevent urban food growing from expanding',
+        explanation: 'Paragraph E discusses zoning laws that exclude agriculture from urban districts, building codes that do not accommodate rooftop loads, and water utility regulations not designed for horticultural users — all regulatory/administrative obstacles. The enabling examples (Havana, Detroit, Netherlands) reinforce the point that without policy support, these barriers are prohibitive.',
+        reinforcement: 'Correct — the second half of paragraph E enumerates specific regulatory barriers, matching heading iv precisely.' },
+      { id: 18, paraLabel: 'F', text: 'Paragraph F', answer: 'v', answerDisplay: 'v — Why the environmental advantages of urban food systems depend on the specific production context',
+        explanation: 'Paragraph F states that life-cycle analyses frequently find urban carbon footprints higher than conventional equivalents, but notes that environmental benefits "depend critically on the specific technological approach, the energy source, the crop type, and the distance." "Environmental advantages depend on specific production context" directly paraphrases this conclusion.',
+        reinforcement: 'Correct — paragraph F\'s argument is that environmental credentials vary by context, matching "depend on specific production context."' },
+    ]
+  },
+  // ── PASSAGE 2 — T/F/NG Q19–22 ──
+  {
+    passageId: 2,
+    type: 'tfng',
+    label: 'Questions 19–22',
+    instructions: 'Do the following statements agree with the information given in the reading passage? Write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      { id: 19, text: 'According to University of Sheffield research, converting all available urban green space in the UK to food production would meet all of the national requirement for vegetables.',
+        answer: 'FALSE',
+        explanation: 'Paragraph B: the University of Sheffield estimate was that full conversion would supply <strong>"approximately fifteen percent of the national requirement for vegetables"</strong> — not all of it. "All of the national requirement" directly contradicts "approximately fifteen percent."',
+        reinforcement: 'Correct — paragraph B gives 15%, not 100%, making "all of the national requirement" FALSE.' },
+      { id: 20, text: 'The ECF Farm in Berlin and the Urban Farmers installation in The Hague have both been cited as examples of aquaponic urban food production.',
+        answer: 'TRUE',
+        explanation: 'Paragraph D: <strong>"Several pilot projects, including the ECF Farm in Berlin and the Urban Farmers installation in The Hague, have demonstrated that aquaponic systems can produce both fish protein and leafy vegetables."</strong> The statement is an exact paraphrase.',
+        reinforcement: 'Correct — paragraph D explicitly names both Berlin and The Hague installations as aquaponic examples.' },
+      { id: 21, text: 'Havana expanded urban food production in response to economic disruptions in the early 1990s.',
+        answer: 'TRUE',
+        explanation: 'Paragraph E: <strong>"Havana, Cuba, following the economic disruptions of the early 1990s"</strong> is listed among cities that successfully incorporated food production into urban planning.',
+        reinforcement: 'Correct — paragraph E explicitly links Havana\'s urban agriculture expansion to economic disruptions of the early 1990s.' },
+      { id: 22, text: 'Urban agriculture is predicted to supply the majority of food consumed in most major cities by 2050.',
+        answer: 'NOT GIVEN',
+        explanation: 'Paragraph G states that urban agriculture is "unlikely to displace conventional food systems in the foreseeable future," but no specific projection about majority food supply by 2050 in major cities is made anywhere in the passage.',
+        reinforcement: 'Correct — the passage explicitly says urban agriculture will not displace conventional food systems, and no 2050 majority-supply prediction appears.' },
+    ]
+  },
+  // ── PASSAGE 2 — Sentence Completion Q23–26 ──
+  {
+    passageId: 2,
+    type: 'sentence_completion',
+    label: 'Questions 23–26',
+    instructions: 'Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.',
+    questions: [
+      { id: 23, text: 'In aquaponic systems, fish waste provides _______ for plant growth, while plant roots filter the water that is returned to the fish tanks.',
+        answer: 'nutrients', answerDisplay: 'nutrients', acceptable: ['nutrients'],
+        explanation: 'Paragraph D: <strong>"fish waste provides nutrients for plant growth and plant roots filter the water returned to the fish tanks."</strong> The sentence frame mirrors the passage almost word for word; "nutrients" is the one-word answer.',
+        reinforcement: 'Correct — "nutrients" is retrieved exactly from paragraph D\'s definition of aquaponics.' },
+      { id: 24, text: 'Only crops with a sufficiently high _______ per unit area can be grown profitably in urban settings without substantial subsidy.',
+        answer: 'value', answerDisplay: 'value', acceptable: ['value'],
+        explanation: 'Paragraph C: <strong>"only crops with sufficiently high value per unit area… can be grown profitably in urban settings without substantial subsidy."</strong> The sentence frame is a close paraphrase; "value" is the key noun in the phrase "value per unit area."',
+        reinforcement: 'Correct — "value" is the exact noun in paragraph C\'s description of the criterion for profitable urban crop selection.' },
+      { id: 25, text: 'Life-cycle analyses of urban food systems must account for a full range of inputs, including energy, materials, water, and _______.',
+        answer: 'nutrients', answerDisplay: 'nutrients', acceptable: ['nutrients'],
+        explanation: 'Paragraph F: <strong>"energy for heating, lighting, and pumping; materials for construction and ongoing maintenance; water and nutrients."</strong> The sentence frame lists energy, materials, and water, requiring "nutrients" as the final item from the passage\'s list.',
+        reinforcement: 'Correct — "nutrients" completes the four-item list in paragraph F\'s life-cycle analysis inputs.' },
+      { id: 26, text: 'Cities subject to supply chain disruptions benefit from maintaining diverse food sourcing arrangements, to which localised production contributes even if its absolute output is _______.',
+        answer: 'limited', answerDisplay: 'limited', acceptable: ['limited'],
+        explanation: 'Paragraph G: <strong>"localised production capacity, even if limited in absolute terms, contributes to this diversity."</strong> The sentence frame paraphrases this clause; "limited" is the exact adjective from the passage.',
+        reinforcement: 'Correct — "limited" is the passage-exact adjective in paragraph G describing the scale of localised production.' },
+    ]
+  },
+
+  // ── PASSAGE 3 — Neuroscience of Decision Making — Matching Info Q27–31 ──
+  {
+    passageId: 3,
+    type: 'matching_info',
+    label: 'Questions 27–31',
+    instructions: 'The reading passage has seven paragraphs, <strong>A–G</strong>. Which paragraph contains the following information? Write the correct letter <strong>A–G</strong> in the box. You may use any letter more than once.',
+    paraOptions: ['A','B','C','D','E','F','G'],
+    questions: [
+      { id: 27, text: 'A description of research showing that patients with a specific type of brain damage performed normally on intellectual tests but made poor decisions in real life.',
+        answer: 'D', answerDisplay: 'D',
+        explanation: 'Paragraph D: <strong>"Research by Antonio Damasio at the University of Iowa demonstrated that patients with damage to the ventromedial prefrontal cortex, while retaining normal intellectual functioning on standard cognitive tests, showed severely impaired decision making in real-life contexts."</strong>',
+        reinforcement: 'Correct — Damasio\'s patient research on ventromedial prefrontal cortex damage is described in paragraph D.' },
+      { id: 28, text: 'An argument that human heuristics represent adapted cognitive tools suited to real-world conditions rather than evidence of systematic irrationality.',
+        answer: 'E', answerDisplay: 'E',
+        explanation: 'Paragraph E: Gigerenzer argues that <strong>"the fast, frugal heuristics employed by System 1 are not systematic errors but evolved cognitive tools that are well adapted to environments characterised by time pressure, incomplete information, and complexity."</strong>',
+        reinforcement: 'Correct — Gigerenzer\'s ecological rationality argument in paragraph E frames heuristics as adaptive tools, not errors.' },
+      { id: 29, text: 'A reference to the psychological phenomenon whereby potential losses are weighted more heavily than equivalent gains.',
+        answer: 'B', answerDisplay: 'B',
+        explanation: 'Paragraph B: <strong>"losses loom larger psychologically than equivalent gains — a phenomenon they termed loss aversion."</strong> "Losses weighted more heavily than equivalent gains" is a direct paraphrase of loss aversion.',
+        reinforcement: 'Correct — loss aversion is defined and named in paragraph B.' },
+      { id: 30, text: 'A discussion of how governments can increase desired behaviours by adjusting the way choices are structured and presented.',
+        answer: 'F', answerDisplay: 'F',
+        explanation: 'Paragraph F: <strong>"policy makers can improve outcomes by redesigning the environments in which choices are made — so-called choice architectures."</strong> Making desirable options default, simplifying information, and framing effects all constitute adjusting how choices are structured and presented.',
+        reinforcement: 'Correct — the nudge/choice architecture framework described in paragraph F is about structuring choices to increase desired behaviours.' },
+      { id: 31, text: 'A mention of concerns that research findings about decision making may not apply universally across different societies and cultures.',
+        answer: 'G', answerDisplay: 'G',
+        explanation: 'Paragraph G: <strong>"the degree of cross-cultural universality of the patterns identified predominantly in Western, educated, industrialised, rich, and democratic — so-called WEIRD — populations."</strong> Cross-cultural universality concerns are explicitly raised here.',
+        reinforcement: 'Correct — paragraph G raises the WEIRD population concern and discusses cross-cultural variation in bias patterns.' },
+    ]
+  },
+  // ── PASSAGE 3 — T/F/NG Q32–36 ──
+  {
+    passageId: 3,
+    type: 'tfng',
+    label: 'Questions 32–36',
+    instructions: 'Do the following statements agree with the information given in the reading passage? Write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      { id: 32, text: 'Kahneman and Tversky conducted their foundational experiments at the Hebrew University of Jerusalem.',
+        answer: 'TRUE',
+        explanation: 'Paragraph B: <strong>"the collaborative research of psychologists Daniel Kahneman and Amos Tversky, whose series of experiments conducted at the Hebrew University of Jerusalem."</strong> Direct match.',
+        reinforcement: 'Correct — paragraph B explicitly states the Hebrew University of Jerusalem as the location of Kahneman and Tversky\'s experiments.' },
+      { id: 33, text: 'Prospect theory was published in the journal Nature in 1979.',
+        answer: 'FALSE',
+        explanation: 'Paragraph B: <strong>"Their prospect theory, published in Econometrica in 1979."</strong> The statement says Nature; the passage says Econometrica.',
+        reinforcement: 'Correct — paragraph B states the journal was Econometrica, not Nature, making the statement FALSE.' },
+      { id: 34, text: 'According to Kahneman\'s dual-process framework, awareness of a cognitive bias reliably reduces its influence on an individual\'s decisions.',
+        answer: 'FALSE',
+        explanation: 'Paragraph C: <strong>"Awareness of a bias does not reliably reduce its influence on behaviour."</strong> The statement directly contradicts this.',
+        reinforcement: 'Correct — paragraph C explicitly states that awareness does NOT reliably reduce bias influence, contradicting the statement.' },
+      { id: 35, text: 'Gigerenzer argues that the apparent irrationality of human choices reflects a mismatch between laboratory conditions and the environments in which human cognition evolved.',
+        answer: 'TRUE',
+        explanation: 'Paragraph E: <strong>"Gigerenzer\'s ecological rationality perspective suggests that the apparent irrationality of human choices reflects the mismatch between laboratory conditions and the environments in which human cognition evolved."</strong> Direct match.',
+        reinforcement: 'Correct — paragraph E states Gigerenzer\'s mismatch argument exactly as described in the statement.' },
+      { id: 36, text: 'Critics of nudge theory have expressed concern that behavioural interventions may address symptoms rather than structural causes.',
+        answer: 'TRUE',
+        explanation: 'Paragraph F: critics raise concerns about <strong>"the limits of behavioural interventions that address symptoms rather than structural causes."</strong> The statement is a direct paraphrase.',
+        reinforcement: 'Correct — paragraph F lists this as one of the criticisms of nudge theory explicitly.' },
+    ]
+  },
+  // ── PASSAGE 3 — Summary/Sentence Completion Q37–40 ──
+  {
+    passageId: 3,
+    type: 'sentence_completion',
+    label: 'Questions 37–40',
+    instructions: 'Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.<br><br><em>Kahneman\'s dual-process model distinguishes two modes of thinking. System 1 is rapid and automatic, relying on (37) _______ — mental shortcuts that are efficient but sometimes produce incorrect judgements. System 2 is slow and deliberate but becomes easily (38) _______ and may accept System 1 outputs without proper scrutiny. Neuroimaging research has linked deliberative reasoning to the (39) _______ prefrontal cortex, while emotional evaluations involve the amygdala. Antonio Damasio\'s patient studies showed that emotional signalling is not merely an interference with reasoning but an essential component of (40) _______ decision making.</em>',
+    questions: [
+      { id: 37, text: '(37) System 1 relies on _______, which are mental shortcuts that produce efficient but sometimes erroneous judgements.',
+        answer: 'heuristics', answerDisplay: 'heuristics', acceptable: ['heuristics'],
+        explanation: 'Paragraph C: <strong>"System 1, which operates automatically, rapidly, and with little conscious effort, drawing on heuristics — mental shortcuts that produce efficient but sometimes erroneous judgements."</strong> "Heuristics" is the passage-exact noun.',
+        reinforcement: 'Correct — "heuristics" is retrieved from paragraph C\'s definition of System 1 processing.' },
+      { id: 38, text: '(38) System 2 is slow and deliberate but becomes easily _______ and may accept System 1 outputs uncritically.',
+        answer: 'fatigued', answerDisplay: 'fatigued', acceptable: ['fatigued'],
+        explanation: 'Paragraph C: <strong>"System 2, which is slow, deliberate, and effortful, capable of logical reasoning and probabilistic computation but easily fatigued and prone to accepting the outputs of System 1 without scrutiny."</strong> "Fatigued" is the exact adjective.',
+        reinforcement: 'Correct — "fatigued" is the passage-exact adjective describing System 2\'s key limitation in paragraph C.' },
+      { id: 39, text: '(39) Neuroimaging links deliberative reasoning to the _______ prefrontal cortex.',
+        answer: 'dorsolateral', answerDisplay: 'dorsolateral', acceptable: ['dorsolateral'],
+        explanation: 'Paragraph D: <strong>"The prefrontal cortex, particularly the dorsolateral prefrontal cortex, is strongly activated during tasks requiring sustained reasoning, working memory, and the suppression of impulsive responses."</strong> "Dorsolateral" is the exact modifier.',
+        reinforcement: 'Correct — "dorsolateral" is the neuroanatomical qualifier in paragraph D specifying which part of the prefrontal cortex is associated with deliberative reasoning.' },
+      { id: 40, text: '(40) Damasio\'s research showed that emotional signalling is an essential component of _______ decision making.',
+        answer: 'functional', answerDisplay: 'functional', acceptable: ['functional'],
+        explanation: 'Paragraph D: <strong>"emotional signalling is not merely an interference with rational thought but an essential component of functional decision making."</strong> "Functional" is the exact adjective modifying "decision making."',
+        reinforcement: 'Correct — "functional" is retrieved exactly from paragraph D\'s conclusion about the role of emotional signalling.' },
+    ]
+  },
+];
+
+// ─────────────────────────────────────────
+//  STATE
+// ─────────────────────────────────────────
+const answers = {};
+const TOTAL_SECONDS = 3600;
+let secondsLeft = TOTAL_SECONDS;
+let timerInterval = null;
+let submitted = false;
+
+// ─────────────────────────────────────────
+//  TAB SWITCHING
+// ─────────────────────────────────────────
+function switchTab(n) {
+  [1,2,3].forEach(i => {
+    document.getElementById('passageContent' + i).style.display = i === n ? 'block' : 'none';
+    document.getElementById('qPanel' + i).style.display = i === n ? 'block' : 'none';
+    document.getElementById('tabNav').querySelectorAll('.tab-btn')[i-1].classList.toggle('active', i === n);
+  });
+  document.getElementById('readingPane').scrollTop = 0;
+  document.getElementById('questionPane').scrollTop = 0;
+}
+
+// ─────────────────────────────────────────
+//  FONT SIZE CONTROLLER
+// ─────────────────────────────────────────
+const FONT_SIZES = [13, 15, 17, 19];
+let fontSizeIdx = parseInt(localStorage.getItem('ielts_font_size_idx') || '1');
+function initFontSize() {
+  document.documentElement.style.setProperty('--passage-font-size', FONT_SIZES[fontSizeIdx] + 'px');
+}
+function adjustFontSize(delta) {
+  if (delta === 0) {
+    fontSizeIdx = 1;
+  } else {
+    fontSizeIdx = Math.max(0, Math.min(FONT_SIZES.length - 1, fontSizeIdx + delta));
+  }
+  document.documentElement.style.setProperty('--passage-font-size', FONT_SIZES[fontSizeIdx] + 'px');
+  localStorage.setItem('ielts_font_size_idx', fontSizeIdx);
+}
+
+// ─────────────────────────────────────────
+//  SPLIT-PANE RESIZER
+// ─────────────────────────────────────────
+(function initResizer() {
+  const container = document.getElementById('splitContainer');
+  const leftPane  = document.getElementById('readingPane');
+  const resizer   = document.getElementById('resizerBar');
+  if (!container || !leftPane || !resizer) return;
+
+  let isDragging = false;
+  let startX     = 0;
+  let startW     = 0;
+
+  function onStart(clientX) {
+    isDragging = true;
+    startX     = clientX;
+    startW     = leftPane.getBoundingClientRect().width;
+    resizer.classList.add('active');
+    document.body.style.cursor     = 'col-resize';
+    document.body.style.userSelect = 'none';
+  }
+
+  function onMove(clientX) {
+    if (!isDragging) return;
+    const cW    = container.getBoundingClientRect().width;
+    const rW    = resizer.getBoundingClientRect().width;
+    const avail = cW - rW;
+    const minW  = avail * 0.25;
+    const maxW  = avail * 0.75;
+    const newW  = Math.max(minW, Math.min(maxW, startW + (clientX - startX)));
+    leftPane.style.width = ((newW / cW) * 100).toFixed(2) + '%';
+  }
+
+  function onEnd() {
+    if (!isDragging) return;
+    isDragging = false;
+    resizer.classList.remove('active');
+    document.body.style.cursor     = '';
+    document.body.style.userSelect = '';
+  }
+
+  resizer.addEventListener('mousedown',  e => { e.preventDefault(); onStart(e.clientX); });
+  document.addEventListener('mousemove', e => onMove(e.clientX));
+  document.addEventListener('mouseup',   onEnd);
+
+  resizer.addEventListener('touchstart',  e => { e.preventDefault(); onStart(e.touches[0].clientX); }, { passive: false });
+  document.addEventListener('touchmove',  e => { if (isDragging) { e.preventDefault(); onMove(e.touches[0].clientX); } }, { passive: false });
+  document.addEventListener('touchend',   onEnd);
+})();
+
+// ─────────────────────────────────────────
+//  TIMER
+// ─────────────────────────────────────────
+function formatTime(s) {
+  return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+}
+function startTimer() {
+  timerInterval = setInterval(() => {
+    secondsLeft--;
+    const pct = (TOTAL_SECONDS - secondsLeft) / TOTAL_SECONDS * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+    const el = document.getElementById('timerDisplay');
+    el.textContent = formatTime(secondsLeft);
+    if (secondsLeft <= 120) el.className = 'timer-box critical';
+    else if (secondsLeft <= 300) el.className = 'timer-box warning';
+    if (secondsLeft <= 0) { clearInterval(timerInterval); autoSubmit(); }
+  }, 1000);
+}
+
+// ─────────────────────────────────────────
+//  RENDER QUESTIONS
+// ─────────────────────────────────────────
+function renderAll() {
+  [1,2,3].forEach(pid => {
+    const panel = document.getElementById('qPanel' + pid);
+    let html = '';
+    GROUPS.filter(g => g.passageId === pid).forEach(group => {
+      html += `<div class="group-header mb-4">
+        <div class="text-xs font-bold tracking-widest uppercase" style="color:var(--gold);">${group.label}</div>
+        <p>${group.instructions}</p>
+      </div>`;
+
+      if (group.type === 'matching_headings') {
+        html += `<div class="headings-list mb-4"><ul style="list-style:none;">`;
+        group.headings.forEach(h => {
+          html += `<li><span>${h.key}.</span>${h.text}</li>`;
+        });
+        html += `</ul></div>`;
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">Paragraph <strong>${q.paraLabel}</strong></div>
+            <select class="q-select" id="q${q.id}" onchange="recordAnswer(${q.id}, this.value)">
+              <option value="">— Select heading —</option>
+              ${group.headings.map(h => `<option value="${h.key}">${h.key}. ${h.text}</option>`).join('')}
+            </select>
+          </div>`;
+        });
+      } else if (group.type === 'tfng') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <div class="q-tfng">
+              <button class="q-tfng-btn" onclick="selectTFNG(${q.id},'TRUE',this)">TRUE</button>
+              <button class="q-tfng-btn" onclick="selectTFNG(${q.id},'FALSE',this)">FALSE</button>
+              <button class="q-tfng-btn" onclick="selectTFNG(${q.id},'NOT GIVEN',this)">NOT GIVEN</button>
+            </div>
+          </div>`;
+        });
+      } else if (group.type === 'sentence_completion') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <input type="text" class="q-input" id="q${q.id}" placeholder="Your answer…" oninput="recordAnswer(${q.id}, this.value.trim())" />
+          </div>`;
+        });
+      } else if (group.type === 'matching_info') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <select class="q-select" id="q${q.id}" onchange="recordAnswer(${q.id}, this.value)">
+              <option value="">— Select paragraph —</option>
+              ${group.paraOptions.map(p => `<option value="${p}">Paragraph ${p}</option>`).join('')}
+            </select>
+          </div>`;
+        });
+      }
+    });
+    panel.innerHTML = html;
+  });
+}
+
+function selectTFNG(qId, val, btn) {
+  btn.parentElement.querySelectorAll('.q-tfng-btn').forEach(b => { b.className = 'q-tfng-btn'; });
+  btn.classList.add(val === 'TRUE' ? 'sel-t' : val === 'FALSE' ? 'sel-f' : 'sel-ng');
+  recordAnswer(qId, val);
+}
+function recordAnswer(qId, val) { answers[qId] = val; }
+
+// ─────────────────────────────────────────
+//  SCORING
+// ─────────────────────────────────────────
+function scoreAnswer(q, studentRaw) {
+  if (!studentRaw) return false;
+  const student = studentRaw.toString().trim().toLowerCase();
+  if (q.acceptable) return q.acceptable.map(a => a.toLowerCase()).includes(student);
+  return student === q.answer.toLowerCase();
+}
+function bandFromScore(n) {
+  if (n >= 39) return 9.0; if (n >= 37) return 8.5; if (n >= 35) return 8.0;
+  if (n >= 33) return 7.5; if (n >= 30) return 7.0; if (n >= 27) return 6.5;
+  if (n >= 23) return 6.0; if (n >= 19) return 5.5; if (n >= 15) return 5.0;
+  if (n >= 13) return 4.5; if (n >= 10) return 4.0; if (n >= 8) return 3.5;
+  if (n >= 6) return 3.0; return 2.5;
+}
+function bandColour(b) {
+  if (b >= 7) return '#0D9488'; if (b >= 5.5) return '#C9952E'; return '#dc2626';
+}
+function bandAdvice(band, score) {
+  const pct = Math.round(score/40*100);
+  if (band >= 8.5) return `Outstanding — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Near-native comprehension across all three passages. Focus on NOT GIVEN precision and paraphrased sentence completions to push for Band 9.`;
+  if (band >= 7.5) return `Excellent result — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Strong academic reading. To push towards Band 8+: tighten NOT GIVEN judgements (never infer beyond the text) and copy sentence completion answers exactly from the passage.`;
+  if (band >= 6.5) return `Good performance — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Solid comprehension with room to improve. Review: (1) TRUE vs FALSE — verify the exact claim, not just the topic; (2) Matching Headings — identify the paragraph's central argument before selecting; (3) time allocation across all three passages.`;
+  if (band >= 5.5) return `You scored ${score}/40 (${pct}%), giving an estimated <strong>Band ${band}</strong>. Clear potential — prioritise synonym recognition, since every question involves paraphrase. Review each wrong answer and find the exact passage sentence that should have guided your response.`;
+  return `You scored ${score}/40 (${pct}%), giving an estimated <strong>Band ${band}</strong>. Focus on active reading: identify each paragraph's main claim before reading the questions. Daily timed reading of academic texts and vocabulary building will accelerate improvement significantly.`;
+}
+
+// ─────────────────────────────────────────
+//  SUBMIT
+// ─────────────────────────────────────────
+function confirmSubmit() { if (!confirm('Submit your reading test now?')) return; doSubmit(); }
+function autoSubmit() { if (submitted) return; doSubmit(); }
+function doSubmit() {
+  if (submitted) return;
+  submitted = true;
+  clearInterval(timerInterval);
+  document.getElementById('submittingOverlay').style.display = 'flex';
+  setTimeout(showResults, 800);
+}
+
+// ─────────────────────────────────────────
+//  RESULTS
+// ─────────────────────────────────────────
+function showResults() {
+  document.getElementById('submittingOverlay').style.display = 'none';
+  document.getElementById('testMain').style.display = 'none';
+  document.getElementById('timingStrip').style.display = 'none';
+  document.getElementById('resultsMain').style.display = 'block';
+
+  let correct = 0;
+  const allQs = GROUPS.flatMap(g => g.questions);
+  allQs.forEach(q => { if (scoreAnswer(q, answers[q.id])) correct++; });
+  const band = bandFromScore(correct);
+  const bCol = bandColour(band);
+
+  // Save result
+  const results = JSON.parse(localStorage.getItem('ielts_mock_results') || '[]');
+  results.push({ date: Date.now(), book: 17, testNum: 2, skill: 'reading', scores: { reading: band } });
+  localStorage.setItem('ielts_mock_results', JSON.stringify(results));
+
+  // Per-passage breakdown
+  const passageChips = [1,2,3].map(p => {
+    const pQs = GROUPS.filter(g => g.passageId === p).flatMap(g => g.questions);
+    const pC = pQs.filter(q => scoreAnswer(q, answers[q.id])).length;
+    const pCol = bandColour(bandFromScore(Math.round(pC/pQs.length*40)));
+    return `<div style="background:#EFF3F9;border:1px solid var(--border);border-radius:10px;padding:10px 14px;text-align:center;min-width:80px;">
+      <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px;">Passage ${p}</div>
+      <div style="font-family:'Space Mono',monospace;font-size:1.125rem;font-weight:700;color:${pCol};">${pC}/${pQs.length}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('scoreCard').innerHTML = `
+    <div class="flex flex-col md:flex-row gap-6 items-center">
+      <div class="score-ring-wrap">
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#E2E8F0" stroke-width="8"/>
+          <circle cx="60" cy="60" r="50" fill="none" stroke="${bCol}" stroke-width="8"
+            stroke-dasharray="${Math.round(correct/40*314)} 314" stroke-linecap="round"
+            transform="rotate(-90 60 60)" style="transition:stroke-dasharray 1.2s cubic-bezier(.16,1,.3,1)"/>
+        </svg>
+        <div style="margin-top:-70px;text-align:center;pointer-events:none;">
+          <div style="font-family:'Space Mono',monospace;font-size:1.75rem;font-weight:700;color:${bCol};">${correct}</div>
+          <div style="font-size:0.75rem;color:var(--text-muted);">out of 40</div>
+        </div>
+        <div style="margin-top:16px;"></div>
+      </div>
+      <div class="flex-1">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Your Score</div>
+        <div class="font-display font-black text-4xl mb-1" style="color:${bCol};">Band ${band}</div>
+        <div class="text-sm mb-4" style="color:var(--text-muted);">${correct} correct answers out of 40</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">${passageChips}</div>
+      </div>
+    </div>`;
+
+  document.getElementById('feedbackCard').innerHTML = `
+    <div class="text-xs font-bold tracking-widest uppercase mb-3" style="color:var(--gold);">Overall Feedback</div>
+    <div class="band-feedback">${bandAdvice(band, correct)}</div>`;
+
+  [1,2,3].forEach(pid => {
+    let html = '';
+    GROUPS.filter(g => g.passageId === pid).forEach(group => {
+      html += `<div style="margin-bottom:0.5rem;padding:6px 0 8px;border-bottom:1px solid var(--border-soft);">
+        <span style="font-size:0.6875rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-faint);">${group.label} — ${labelType(group.type)}</span>
+      </div>`;
+      group.questions.forEach(q => {
+        const isCorrect = scoreAnswer(q, answers[q.id]);
+        const studentAns = answers[q.id] ? answers[q.id].toString() : '(no answer)';
+        const correctAns = q.answerDisplay || q.answer;
+        html += `<div class="corr-block ${isCorrect ? 'corr-correct' : 'corr-wrong'}">
+          <div class="corr-qnum ${isCorrect ? 'ok' : 'bad'}">${isCorrect ? '✓' : '✗'} Question ${q.id}</div>
+          <div class="corr-qtext">${q.text}</div>`;
+        if (isCorrect) {
+          html += `<div class="corr-row"><span class="corr-tag reinforce">✓ Correct</span><span class="corr-val">${studentAns}</span></div>
+            <div class="corr-expl">${q.reinforcement || ''}</div>`;
+        } else {
+          html += `<div class="corr-row"><span class="corr-tag your">Your answer</span><span class="corr-val">${studentAns}</span></div>
+            <div class="corr-row"><span class="corr-tag correct">Correct answer</span><span class="corr-val">${correctAns}${q.acceptable && q.acceptable.length > 1 ? ' <span style="font-size:0.75rem;color:var(--text-faint);">(also: ' + q.acceptable.filter(a=>a!==q.answer).join(', ') + ')</span>' : ''}</span></div>
+            <div class="corr-expl">${q.explanation || ''}</div>`;
+        }
+        html += `</div>`;
+      });
+    });
+    document.getElementById('corrPassage' + pid).innerHTML = html;
+  });
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function labelType(t) {
+  return { tfng:'True / False / Not Given', mc:'Multiple Choice', matching_headings:'Matching Headings', matching_info:'Matching Information', sentence_completion:'Sentence Completion', diagram_labelling:'Diagram Labelling', matching_feature:'Matching Features' }[t] || t;
+}
+
+// ─────────────────────────────────────────
+//  INIT
+// ─────────────────────────────────────────
+initFontSize();
+renderAll();
+startTimer();
+</script>
+<script src="/js/components.js"></script>
+<script>
+  IELTSLab.loadNav({ basePath: '../', breadcrumb: 'Mock Tests', authenticated: true, themeDefault: 'light' });
+</script>
+</body>
+</html>

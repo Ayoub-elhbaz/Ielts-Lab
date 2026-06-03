@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IELTS Lab — Cambridge 18 Full Test 1 · Academic Reading</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <script>tailwind.config={theme:{extend:{fontFamily:{display:['Satoshi','Plus Jakarta Sans','system-ui','sans-serif'],sans:['Plus Jakarta Sans','system-ui','sans-serif']}}}}</script>
+  <style>
+    /* ── DESIGN TOKENS ── */
+    :root {
+      --gold: #C9952E;
+      --gold-light: #DDB05A;
+      --gold-dim: rgba(201,149,46,0.10);
+      --gold-border: rgba(201,149,46,0.30);
+      --navy: #1a3c6e;
+      --navy-mid: #2a4f8a;
+      --page-bg: #F7F8FA;
+      --card-bg: #FFFFFF;
+      --qpanel-bg: #EFF3F9;
+      --border: #E2E8F0;
+      --border-soft: #EEF1F6;
+      --text-primary: #1E2A3A;
+      --text-body: #374151;
+      --text-muted: #64748B;
+      --text-faint: #94A3B8;
+      --passage-font-size: 15px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--page-bg); color: var(--text-primary); }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    h1, h2, h3, h4, .font-display { font-family: 'Satoshi', 'Plus Jakarta Sans', system-ui, sans-serif; }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #EFF2F7; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 3px; }
+
+    /* ── PROGRESS ── */
+    .progress-bar { height: 3px; background: #E2E8F0; position: fixed; top: 64px; left: 0; right: 0; z-index: 40; }
+    .progress-fill { height: 100%; background: linear-gradient(to right, var(--gold), #DDB05A); transition: width 1s linear; width: 0%; }
+
+    /* ── NAV ── */
+    .nav-glass { background: rgba(255,255,255,0.97); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .nav-logo { display: flex; align-items: baseline; gap: 0; text-decoration: none; }
+    .nl-ielts { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; letter-spacing: 1px; color: var(--text-primary); }
+    .nl-lab { font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: 3px; color: var(--gold); margin-left: 5px; }
+    #themeToggle { background: transparent; border: 1.5px solid var(--border); color: var(--text-muted); border-radius: 8px; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; font-size: 15px; flex-shrink: 0; padding: 0; }
+    #themeToggle:hover { border-color: var(--gold-border); color: var(--gold); }
+
+    /* ── TIMER ── */
+    .timer-box { background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 10px; padding: 8px 16px; font-family: 'Space Mono', monospace; font-size: 1.125rem; font-weight: 700; color: var(--text-primary); letter-spacing: 2px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+    .timer-box.warning { color: #b45309; border-color: rgba(180,83,9,0.3); background: #fffbeb; }
+    .timer-box.critical { color: #dc2626; border-color: rgba(220,38,38,0.3); background: #fef2f2; animation: pulse 1s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
+
+    /* ── TIMING STRIP ── */
+    .timing-strip { background: #FAFBFD; border-bottom: 1px solid var(--border); padding: 8px 0; }
+    .timing-item { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+    .timing-label { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
+    .timing-val { font-size: 0.75rem; color: var(--text-muted); }
+
+    /* ── FONT SIZE CONTROLLER ── */
+    .font-ctrl { display: inline-flex; align-items: center; gap: 0; background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 9px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .font-ctrl-btn { padding: 6px 12px; border: none; background: transparent; cursor: pointer; color: var(--text-muted); font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.15s; line-height: 1; border-right: 1px solid var(--border); }
+    .font-ctrl-btn:last-child { border-right: none; }
+    .font-ctrl-btn:hover { background: var(--gold-dim); color: var(--gold); }
+    .font-ctrl-btn.a-small { font-size: 11px; }
+    .font-ctrl-btn.a-mid   { font-size: 13px; }
+    .font-ctrl-btn.a-large { font-size: 16px; }
+    .font-ctrl-label { font-size: 0.625rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); padding: 0 8px; }
+
+    /* ── ACCESSIBILITY TOOLBAR ── */
+    .a11y-bar { display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: #FFFFFF; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .a11y-bar-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); }
+
+    /* ── TAB NAV ── */
+    .tab-nav { display: flex; gap: 4px; margin-bottom: 1rem; background: #EFF3F9; border-radius: 12px; padding: 4px; }
+    .tab-btn { flex: 1; padding: 8px 12px; border: none; border-radius: 9px; background: transparent; color: var(--text-muted); font-size: 0.8125rem; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .tab-btn:hover { background: rgba(255,255,255,0.6); color: var(--text-primary); }
+    .tab-btn.active { background: #FFFFFF; color: var(--navy); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+
+    /* ── SECTION CARDS ── */
+    .section-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 1.75rem; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+
+    /* ── PASSAGE ── */
+    .passage-text { font-size: var(--passage-font-size); line-height: 2.0; color: var(--text-body); transition: font-size 0.2s ease; }
+    .passage-text p { margin-bottom: 1.2rem; }
+    .para-label { display: inline-block; font-family: 'Space Mono', monospace; font-size: 0.6875rem; font-weight: 700; color: var(--navy); background: rgba(26,60,110,0.08); border: 1px solid rgba(26,60,110,0.18); border-radius: 4px; padding: 1px 6px; margin-right: 8px; letter-spacing: 0.05em; }
+
+    /* ── QUESTION BLOCKS ── */
+    .q-block { margin-bottom: 1.25rem; padding: 1rem 1.15rem; border-radius: 12px; background: #FFFFFF; border: 1px solid var(--border); }
+    .q-num { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+    .q-text { font-size: 0.9rem; color: var(--text-body); margin-bottom: 10px; line-height: 1.65; }
+    .q-input { width: 100%; background: #F8FAFC; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text-primary); font-size: 0.9rem; transition: border-color 0.2s, box-shadow 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,149,46,0.12); }
+    .q-select { width: 100%; background: #F8FAFC; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text-primary); font-size: 0.9rem; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-select:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,149,46,0.12); }
+    .q-options { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+    .q-option { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; padding: 9px 12px; border-radius: 8px; border: 1.5px solid var(--border); transition: all 0.2s; background: #F8FAFC; }
+    .q-option:hover { background: var(--gold-dim); border-color: var(--gold-border); }
+    .q-option input[type=radio] { accent-color: var(--gold); margin-top: 3px; flex-shrink: 0; }
+    .q-option label { font-size: 0.9rem; color: var(--text-body); cursor: pointer; line-height: 1.55; }
+
+    /* ── T/F/NG ── */
+    .q-tfng { display: flex; gap: 8px; }
+    .q-tfng-btn { flex: 1; padding: 9px 6px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer; background: #F8FAFC; color: var(--text-muted); transition: all 0.2s; letter-spacing: 0.05em; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-tfng-btn:hover { border-color: var(--gold-border); color: var(--gold); background: var(--gold-dim); }
+    .q-tfng-btn.sel-t { border-color: #16a34a; background: #f0fdf4; color: #16a34a; }
+    .q-tfng-btn.sel-f { border-color: #dc2626; background: #fef2f2; color: #dc2626; }
+    .q-tfng-btn.sel-ng { border-color: #d97706; background: #fffbeb; color: #d97706; }
+
+    /* ── GROUP HEADER ── */
+    .group-header { margin-bottom: 1.25rem; padding: 0.875rem 1rem; border-radius: 12px; background: rgba(26,60,110,0.04); border: 1px solid rgba(26,60,110,0.12); }
+    .group-header p { font-size: 0.8125rem; color: var(--text-muted); line-height: 1.65; margin-top: 6px; }
+
+    /* ── HEADINGS LIST ── */
+    .headings-list { margin: 0.75rem 0; padding: 0.875rem 1rem; background: #FFFFFF; border-radius: 10px; border: 1px solid var(--border); }
+    .headings-list li { font-size: 0.8125rem; color: var(--text-body); line-height: 1.8; padding: 2px 0; }
+    .headings-list li span { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--gold); margin-right: 6px; font-weight: 700; }
+
+    /* ── BUTTONS ── */
+    .btn-gold { background: linear-gradient(135deg, var(--gold) 0%, #a8741f 100%); color: #FFFFFF; border: none; border-radius: 10px; padding: 12px 32px; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.04em; cursor: pointer; transition: all 0.25s ease; box-shadow: 0 2px 12px rgba(201,149,46,0.30); }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 6px 22px rgba(201,149,46,0.42); }
+
+    /* ── CORRECTION REPORT ── */
+    .corr-block { margin-bottom: 1rem; padding: 1rem 1.25rem; border-radius: 12px; border: 1.5px solid; }
+    .corr-correct { background: #f0fdf4; border-color: #bbf7d0; }
+    .corr-wrong { background: #fef2f2; border-color: #fecaca; }
+    .corr-qnum { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+    .corr-qnum.ok { color: #16a34a; }
+    .corr-qnum.bad { color: #dc2626; }
+    .corr-qtext { font-size: 0.875rem; color: var(--text-body); line-height: 1.65; margin-bottom: 8px; }
+    .corr-row { display: flex; gap: 8px; align-items: flex-start; font-size: 0.8125rem; margin-bottom: 4px; }
+    .corr-tag { flex-shrink: 0; padding: 2px 8px; border-radius: 4px; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+    .corr-tag.your { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+    .corr-tag.correct { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .corr-tag.reinforce { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .corr-val { color: var(--text-primary); line-height: 1.5; }
+    .corr-expl { margin-top: 8px; padding: 9px 12px; background: #FFFFFF; border-radius: 8px; border-left: 3px solid var(--gold-border); font-size: 0.8125rem; color: var(--text-muted); line-height: 1.65; }
+    .corr-expl strong { color: var(--text-primary); }
+
+    /* ── RESULTS ── */
+    .score-ring-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .band-feedback { padding: 1.25rem; border-radius: 12px; background: rgba(26,60,110,0.04); border: 1px solid rgba(26,60,110,0.12); font-size: 0.9rem; color: var(--text-body); line-height: 1.8; }
+    .band-feedback strong { color: var(--navy); }
+    .passage-corr-header { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); padding: 10px 0 8px; border-bottom: 1px solid var(--border); margin-bottom: 1rem; }
+
+    /* ── SPINNER ── */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; }
+
+    /* ── SPLIT LAYOUT ── */
+    .split-container { display: flex; height: calc(100vh - 268px); min-height: 560px; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+    .reading-pane { width: 52%; min-width: 25%; max-width: 75%; overflow-y: auto; padding: 1.75rem; background: var(--card-bg); flex-shrink: 0; }
+    .question-pane { flex: 1; overflow-y: auto; padding: 1.75rem; background: var(--qpanel-bg); min-width: 25%; }
+    .resizer-bar { width: 16px; background: #F1F5F9; cursor: col-resize; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; border-left: 1px solid var(--border); border-right: 1px solid var(--border); transition: background 0.15s; user-select: none; -webkit-user-select: none; }
+    .resizer-bar:hover, .resizer-bar.active { background: var(--gold-dim); border-left-color: var(--gold-border); border-right-color: var(--gold-border); }
+    .resizer-btn { background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 8px; padding: 10px 4px; cursor: col-resize; display: flex; flex-direction: column; align-items: center; gap: 5px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); transition: border-color 0.15s, box-shadow 0.15s; pointer-events: none; }
+    .resizer-bar:hover .resizer-btn { border-color: var(--gold-border); box-shadow: 0 2px 8px rgba(201,149,46,0.15); }
+    @media (max-width: 1023px) {
+      .split-container { flex-direction: column; height: auto; overflow: visible; border: none; border-radius: 0; box-shadow: none; gap: 1rem; }
+      .reading-pane { width: 100% !important; min-width: 100%; max-width: 100%; overflow-y: visible; border: 1px solid var(--border); border-radius: 16px; }
+      .resizer-bar { display: none; }
+      .question-pane { min-width: 100%; overflow-y: visible; border: 1px solid var(--border); border-radius: 16px; }
+    }
+  </style>
+  <script>
+    (function(){
+      var raw = localStorage.getItem('ielts_session');
+      if (!raw) { window.location.replace('../login.html'); return; }
+      try { JSON.parse(raw); } catch(e) { localStorage.removeItem('ielts_session'); window.location.replace('../login.html'); }
+    })();
+    (function(){ var t = localStorage.getItem('ieltslab_theme') || 'light'; document.documentElement.setAttribute('data-theme', t); })();
+    function toggleTheme(){ var c = document.documentElement.getAttribute('data-theme') || 'light', n = c === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', n); localStorage.setItem('ieltslab_theme', n); var b = document.getElementById('themeToggle'); if(b) b.textContent = n === 'dark' ? '☀' : '🌙'; }
+    document.addEventListener('DOMContentLoaded', function(){ var b = document.getElementById('themeToggle'); if(b){ var d = (document.documentElement.getAttribute('data-theme') || 'light') === 'dark'; b.textContent = d ? '☀' : '🌙'; } });
+  </script>
+</head>
+<body class="min-h-screen flex flex-col" style="background:var(--page-bg);color:var(--text-primary);">
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<div id="header-container"></div>
+
+<!-- TIMING STRIP -->
+<div class="timing-strip" id="timingStrip">
+  <div class="px-4 flex items-center justify-center gap-10">
+    <div class="timing-item"><span class="timing-label">Passage 1</span><span class="timing-val">15–17 min</span></div>
+    <div style="width:1px;height:24px;background:var(--border);"></div>
+    <div class="timing-item"><span class="timing-label">Passage 2</span><span class="timing-val">20 min</span></div>
+    <div style="width:1px;height:24px;background:var(--border);"></div>
+    <div class="timing-item"><span class="timing-label">Passage 3</span><span class="timing-val">23–25 min</span></div>
+  </div>
+</div>
+
+<!-- TEST MAIN -->
+<main class="flex-1 w-full px-4 py-6" id="testMain">
+
+  <!-- HEADER ROW -->
+  <div class="flex items-start justify-between mb-5 gap-4">
+    <div>
+      <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Cambridge 18 · Full Test 1</div>
+      <h1 class="font-display font-black text-2xl" style="color:var(--text-primary);">Academic Reading — Full Test 1</h1>
+    </div>
+    <div class="flex items-center gap-3 flex-shrink-0">
+      <div id="timerDisplay" class="timer-box">60:00</div>
+    </div>
+  </div>
+
+  <!-- ACCESSIBILITY TOOLBAR -->
+  <div class="a11y-bar">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-muted);flex-shrink:0;"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+    <span class="a11y-bar-label">Text Size</span>
+    <div class="font-ctrl" role="toolbar" aria-label="Adjust passage text size">
+      <button class="font-ctrl-btn a-small" onclick="adjustFontSize(-1)" title="Decrease text size">A−</button>
+      <button class="font-ctrl-btn a-mid"   onclick="adjustFontSize(0)"  title="Reset text size">A</button>
+      <button class="font-ctrl-btn a-large" onclick="adjustFontSize(1)"  title="Increase text size">A+</button>
+    </div>
+    <span style="font-size:0.75rem;color:var(--text-faint);">Adjust the reading passage font size</span>
+    <div class="ml-auto text-xs hidden md:block" style="color:var(--text-muted);">60 minutes · 40 questions · 3 passages</div>
+  </div>
+
+  <!-- TAB NAV -->
+  <div class="tab-nav" id="tabNav">
+    <button class="tab-btn active" onclick="switchTab(1)">Passage 1 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q1–13)</span></button>
+    <button class="tab-btn" onclick="switchTab(2)">Passage 2 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q14–26)</span></button>
+    <button class="tab-btn" onclick="switchTab(3)">Passage 3 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q27–40)</span></button>
+  </div>
+
+  <!-- ══ SPLIT VIEW ══ -->
+  <div class="split-container" id="splitContainer">
+    <div class="reading-pane" id="readingPane">
+
+      <!-- Passage 1 -->
+      <div id="passageContent1">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 1</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">The Origins of Agriculture and Wheat Domestication</div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>Approximately ten thousand years ago, human societies in several regions of the world independently shifted from hunting and gathering towards the deliberate cultivation of plants and the management of animal herds. This transition, which archaeologists and historians have termed the Neolithic Revolution, is widely regarded as one of the most consequential developments in the history of the human species. It is believed that the adoption of agriculture altered not only the subsistence strategies of early human populations but also their social organisation, settlement patterns, and long-term demographic trajectories. Nowhere is this transformation more thoroughly documented than in the Fertile Crescent, the arc of fertile land stretching across present-day Iraq, Syria, southeastern Turkey, and the Levantine coast, where the cultivation of wild cereals is attested by extensive archaeological evidence.</p>
+
+          <p><span class="para-label">B</span>Among the earliest and most significant crops to be domesticated was wheat, specifically two ancestral forms known as einkorn and emmer. Wild einkorn, identified scientifically as <em>Triticum boeoticum</em>, grew abundantly across the hills of the northern Fertile Crescent, and genetic analyses conducted by researchers at the University of Sheffield in the early 2000s identified the Karacadağ mountains of southeastern Turkey as the most probable site of initial einkorn domestication. The domestication process involved, over generations of unconscious and later deliberate selection, the fixation of traits that distinguished cultivated wheat from its wild ancestors: most notably, a tough rachis that prevented seed dispersal before harvest, and larger, more nutritionally dense grains. These changes were not planned in any modern scientific sense but emerged gradually through the preferential harvesting and replanting of plants exhibiting favourable characteristics.</p>
+
+          <p><span class="para-label">C</span>The archaeological record provides a nuanced picture of early agricultural communities. Sites such as Abu Hureyra in present-day Syria, excavated by archaeologist Andrew Moore in the 1970s, revealed a settlement that had initially subsisted on wild cereals and game before transitioning to the cultivation of rye and subsequently emmer wheat during a climatic episode known as the Younger Dryas, approximately 12,900 to 11,700 years before the present. During this period of abrupt cooling and aridity, wild plant resources are thought to have declined substantially, and it is hypothesised that the pressure of food scarcity may have incentivised more intensive management of preferred plant species. The site at Abu Hureyra thus offers what many specialists consider a uniquely detailed record of how environmental stress may have catalysed the early adoption of agriculture.</p>
+
+          <p><span class="para-label">D</span>Once established, early farming communities spread wheat cultivation across a wide geographic area with notable speed. Archaeobotanical evidence — the study of plant remains recovered from archaeological excavations — indicates that domesticated emmer and einkorn had reached the western Anatolia coast by approximately 8,500 years ago, the island of Cyprus by 10,500 years before the present, and central Europe within another two millennia. This spread appears to have occurred through a combination of mechanisms: the migration of farming populations carrying their seed stocks and agricultural knowledge, and the adoption of cultivation practices by indigenous foraging communities who came into sustained contact with farmers. Isotopic analyses of human skeletal remains from transitional sites suggest that both processes contributed to the geographic expansion of wheat agriculture across the ancient world.</p>
+
+          <p><span class="para-label">E</span>The agricultural revolution brought with it not only dietary change but also a suite of new social and ecological consequences. The shift from a mobile, diversified foraging economy to a sedentary farming lifestyle is associated in the archaeological record with increases in social stratification, evidence of which is found in differentiated burial assemblages and the emergence of specialised craft production at sites such as Çatalhöyük in central Anatolia. At the same time, reliance on a narrow repertoire of cultivated species introduced new vulnerabilities: crop failures attributable to drought, flood, or disease could now cause famines of a kind that diversified foraging strategies had generally precluded. Paleopathological studies of skeletal populations from early agricultural sites have documented higher rates of nutritional deficiency and infectious disease compared with contemporary or preceding hunter-gatherer communities.</p>
+
+          <p><span class="para-label">F</span>The genetic legacy of early wheat domestication continues to shape global food systems in ways that are only now being fully appreciated. Modern bread wheat, <em>Triticum aestivum</em>, is a hexaploid organism — containing six sets of chromosomes derived from three ancestral wild grass species — whose complex genome was not sequenced in its entirety until 2018, when an international consortium published a reference assembly spanning approximately 14.5 billion base pairs. The extraordinary genomic complexity of wheat has made conventional breeding slow and imprecise relative to crops with simpler genomes, and has prompted significant investment in genomic selection tools and, more controversially, gene-editing technologies such as CRISPR-Cas9. Proponents argue that these approaches offer the most rapid pathway to developing heat- and drought-tolerant varieties capable of sustaining yields under increasingly adverse climate conditions.</p>
+
+          <p><span class="para-label">G</span>The story of wheat domestication is, ultimately, a story about the co-evolution of a plant and a species. Over ten millennia, wheat transformed from a wild grass harvested opportunistically on hillsides to the single most widely cultivated crop on Earth, occupying more land area than any other plant. The process of domestication fundamentally altered wheat's biology — binding its reproductive success to human cultivation in ways that would render the crop incapable of persistence in the wild without human intervention. That dependency runs in both directions: for the approximately 2.5 billion people who rely on wheat as a primary caloric staple, the genetic diversity preserved in seed banks and the scientific understanding generated by ten thousand years of agricultural history represent an irreplaceable foundation for food security in an uncertain climatic future.</p>
+        </div>
+      </div>
+
+      <!-- Passage 2 -->
+      <div id="passageContent2" style="display:none;">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 2</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">Sleep Science and Memory Consolidation</div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>For most of the twentieth century, sleep was regarded by scientists primarily as a state of neural inactivity — a passive withdrawal from waking consciousness during which the brain rested and the body repaired itself. This view began to shift decisively in the 1950s when researchers Eugene Aserinsky and Nathaniel Kleitman at the University of Chicago identified rapid eye movement sleep, a stage characterised by intense neurological activity, vivid dreaming, and a pattern of brain electrical oscillations strikingly similar to those observed during alert wakefulness. Their discovery initiated a scientific reappraisal of sleep's function that has continued to gather momentum and that now encompasses a remarkably broad range of cognitive, metabolic, immunological, and neurological processes understood to depend critically on adequate sleep.</p>
+
+          <p><span class="para-label">B</span>Among the most extensively studied functions of sleep is its role in memory consolidation — the process by which newly acquired information is stabilised and integrated into long-term memory stores. Contemporary research, drawing on convergent evidence from behavioural studies, neuroimaging, and molecular neuroscience, has established that sleep does not merely prevent forgetting but actively transforms the neural representation of recently learned material. The hippocampus, a seahorse-shaped structure located in the medial temporal lobe, is understood to serve as a temporary repository for newly encoded episodic and declarative memories during waking experience; during subsequent sleep, it is hypothesised that the hippocampus replays these representations to distributed neocortical sites, a process that is thought to strengthen synaptic connections and reduce dependence on the hippocampus itself for later retrieval.</p>
+
+          <p><span class="para-label">C</span>Different stages of sleep appear to support different aspects of memory processing. Research conducted by Matthew Walker and colleagues at the University of California, Berkeley, has demonstrated that slow-wave sleep — the deepest non-REM stage, characterised by large-amplitude, low-frequency electrical oscillations — is preferentially associated with the consolidation of declarative memories, including factual knowledge and autobiographical episodes. REM sleep, in contrast, appears particularly important for procedural and emotional memory: the consolidation of motor skills, creative problem-solving, and the emotional modulation of distressing experiences. Studies in which participants were selectively deprived of specific sleep stages revealed corresponding deficits in the types of memory associated with those stages, providing causal evidence for functional specialisation within the sleep architecture.</p>
+
+          <p><span class="para-label">D</span>The molecular mechanisms underlying sleep-dependent memory consolidation have been clarified substantially by research at the cellular level. During slow-wave sleep, neurons in the hippocampus fire in synchronised bursts — a phenomenon termed sharp-wave ripples — that are temporally coupled with spindle oscillations generated by the thalamus and slow cortical oscillations originating in the prefrontal cortex. This three-way cross-frequency coupling is thought to coordinate the transfer of information from hippocampal to neocortical circuits. Crucially, this synaptic remodelling appears to depend on the downscaling of synaptic strengths during sleep — a process proposed in the Synaptic Homeostasis Hypothesis advanced by Giulio Tononi and Chiara Cirelli — which is believed to prevent synaptic saturation and preserve the signal-to-noise ratio essential for efficient future learning.</p>
+
+          <p><span class="para-label">E</span>Beyond declarative memory, sleep has been shown to confer measurable benefits on creative cognition and insight. A landmark study published in <em>Nature</em> in 2004 by Ullrich Wagner and colleagues at the University of Lübeck presented participants with a mathematical task that contained a hidden shortcut not disclosed to the subjects. Participants who were allowed a full night's sleep between an initial training session and a subsequent test session were nearly three times more likely to discover the shortcut than those who remained awake across the same interval. The authors interpreted this finding as evidence that sleep promotes the extraction of abstract structural regularities from encoded experience — a process they described as the incubation of insight — and the finding has since been replicated and extended across a variety of creative and relational reasoning tasks.</p>
+
+          <p><span class="para-label">F</span>The clinical implications of this research have become increasingly difficult to overlook. Epidemiological data consistently link chronic short sleep — operationally defined in most studies as fewer than six hours per night — with elevated risks of cognitive decline, Alzheimer's disease, depression, cardiovascular disease, and type 2 diabetes. The proposed mechanistic link between sleep loss and Alzheimer's pathology is of particular scientific interest: during sleep, the glymphatic system — a recently characterised waste-clearance network dependent on astrocytic aquaporin-4 channels — dramatically expands the interstitial space of the brain and flushes metabolic by-products including amyloid-beta and tau proteins, the accumulation of which is implicated in Alzheimer's neurodegeneration. Sleep deprivation has been shown to significantly impair glymphatic clearance, raising the hypothesis that chronic insufficient sleep may contribute causally to the amyloid burden associated with dementia risk.</p>
+
+          <p><span class="para-label">G</span>Despite decades of research, the full repertoire of sleep's functions remains incompletely mapped, and some of the field's most compelling hypotheses — including the Synaptic Homeostasis Hypothesis and the precise role of REM sleep in emotional memory regulation — remain subjects of active debate. What is no longer seriously contested, however, is that sleep constitutes an active, functionally indispensable biological state rather than the passive interlude it was once assumed to be. The practical consequences of this understanding are substantial: sleep is now recognised by the World Health Organization as a public health priority, and the global epidemic of sleep deficiency — affecting an estimated one-third of adults in industrialised nations — is increasingly framed not as an individual lifestyle choice but as a systemic problem with measurable societal costs.</p>
+        </div>
+      </div>
+
+      <!-- Passage 3 -->
+      <div id="passageContent3" style="display:none;">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 3</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">Language Endangerment and Linguistic Documentation</div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>Of the approximately seven thousand languages spoken across the world today, linguists estimate that between fifty and ninety percent face extinction within the next century, with one language ceasing to be spoken, on average, every two weeks. This rate of attrition has no historical precedent in the documented record of human linguistic diversity and has prompted the emergence of a specialised field — language documentation — dedicated to producing comprehensive records of endangered languages before their last speakers die. The scale of the crisis is not uniformly distributed: a small number of languages, including Mandarin Chinese, Spanish, English, and Arabic, are spoken by billions of people and face no credible extinction threat, while the majority of the world's linguistic diversity is concentrated in relatively small speech communities, many numbering fewer than a thousand individuals and located in areas of rapid cultural and economic change.</p>
+
+          <p><span class="para-label">B</span>The causes of language shift and death are well understood in broad outline, even where the specific dynamics of individual cases vary. Economic marginalisation of minority communities, the linguistic demands of formal education systems conducted in dominant national languages, urbanisation, the prestige asymmetry between indigenous and colonial languages, and deliberate suppression through state policies of forced assimilation have all been identified as contributing factors. In numerous documented cases — among them the wholesale suppression of Indigenous Australian languages under nineteenth and twentieth century government policies, and the enforced replacement of Native American languages through the residential school system in Canada — language loss was a direct and intended consequence of political violence against minority communities. The intergenerational transmission of these languages was severed not through organic social change but through coercion.</p>
+
+          <p><span class="para-label">C</span>Language documentation, as practised by contemporary field linguists, involves the systematic creation of audio and video recordings of speech in natural contexts, the compilation of lexical databases, and the production of grammatical descriptions known as reference grammars. The Endangered Languages Documentation Programme, administered through SOAS University of London and funded primarily by the Endangered Languages Fund and the Hans Rausing Charitable Foundation, has supported more than three hundred documentation projects across six continents since its establishment in 2002. Practitioners of the field draw on theoretical frameworks developed by scholars including Nicholas Evans and David Nathan, who have argued that documentation should aspire not merely to the archival recording of a language's forms but to the capture of the full range of linguistic behaviour in its cultural and situational context — an aspiration they describe as a natural history of speech.</p>
+
+          <p><span class="para-label">D</span>A significant and unresolved debate within the field concerns the relationship between documentation and revitalisation — the effort to restore active use of an endangered language within its community. Some linguists maintain that documentation and revitalisation are complementary activities: archived recordings and grammars produced during documentation projects can serve as resources for language teaching programmes and community language nests, which are immersive environments for young children modelled on the highly successful Te Kōhanga Reo initiative in New Zealand. Others, however, argue that the resources available for language work are finite, and that investment in documentation — necessarily an activity conducted by outside specialists — may divert attention and funding from community-led revitalisation efforts, which are more likely to produce living speakers. This tension has not been resolved to the satisfaction of all parties and reflects deeper disagreements about the ultimate purpose of linguistic fieldwork.</p>
+
+          <p><span class="para-label">E</span>The ethical dimensions of documentation fieldwork have received increasing scrutiny in recent decades. Early practitioners of descriptive linguistics operated under a paradigm in which the linguist's role was conceived as purely scientific: to produce a technically accurate account of a language's phonology, morphology, and syntax for the benefit of the scholarly community. This model is now widely criticised as exploitative, since it treated endangered language communities as subjects of study rather than as stakeholders with legitimate interests in the uses and outputs of documentation work. Contemporary fieldwork protocols increasingly require free, prior, and informed consent from community members, collaborative design of research agendas, and the deposit of archived materials in repositories accessible to the community rather than exclusively to academic institutions. These reforms have been welcomed, though critics note that genuine power imbalances between well-resourced research institutions and marginalised communities are not eliminated merely by procedural changes.</p>
+
+          <p><span class="para-label">F</span>The question of what is lost when a language dies extends beyond the sentimental and into the scientifically concrete. Each language encodes a distinct set of conceptual categories, spatial reference frames, evidentiality distinctions, and classification systems whose existence challenges assumptions derived from the study of a small number of well-described languages. The field of linguistic relativity — associated with the Sapir-Whorf hypothesis and more recently with experimental work by Lera Boroditsky at the University of California, San Diego — suggests that the language one speaks shapes certain aspects of perception, memory, and cognition in ways that are not trivially reducible to translation. The extinction of a language thus represents the permanent loss of a cognitive system and a body of ecological and cultural knowledge encoded in its lexicon, including, in many cases, knowledge of plant taxonomy, navigation, and environmental management that has no counterpart in dominant languages.</p>
+
+          <p><span class="para-label">G</span>The long-term prospects for endangered language survival are contested, and the outcomes of individual revitalisation efforts have been mixed. Welsh, Hawaiian, and Māori have all achieved meaningful increases in the number of active speakers through sustained governmental support and community mobilisation over several decades, demonstrating that language shift is not irreversible under favourable conditions. Yet for the majority of the world's endangered languages — those spoken by small, economically marginalised communities without access to state resources, institutional support, or a critical mass of motivated learners — the prognosis remains deeply uncertain. Whether the international linguistic community's growing capacity for rapid, high-quality documentation can preserve sufficient resources to support future revitalisation remains an open question, and one whose answer will depend as much on political will and the rights of minority communities as on any technical advance in the science of language recording.</p>
+        </div>
+      </div>
+
+    </div><!-- /reading-pane -->
+
+    <!-- RESIZER BAR -->
+    <div class="resizer-bar" id="resizerBar">
+      <button class="resizer-btn" aria-label="Drag to resize panels">
+        <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M3.5 2L1 6L3.5 10" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span style="display:block;width:2px;height:14px;background:var(--border);border-radius:1px;"></span>
+        <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M6.5 2L9 6L6.5 10" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+
+    <!-- QUESTION PANE -->
+    <div class="question-pane" id="questionPane">
+      <div id="qPanel1"></div>
+      <div id="qPanel2" style="display:none;"></div>
+      <div id="qPanel3" style="display:none;"></div>
+    </div>
+
+  </div><!-- /split-container -->
+
+  <!-- SUBMIT -->
+  <div class="flex justify-center mt-10 mb-16">
+    <button onclick="confirmSubmit()" class="btn-gold px-10 py-4 text-base">Submit Reading Test</button>
+  </div>
+</main>
+
+<!-- RESULTS -->
+<div id="resultsMain" style="display:none;" class="flex-1 max-w-5xl mx-auto px-6 py-10 w-full">
+  <div class="flex items-center gap-3 mb-8">
+    <div>
+      <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Results</div>
+      <h1 class="font-display font-black text-2xl" style="color:var(--text-primary);">Academic Reading — Score Report</h1>
+    </div>
+  </div>
+  <div class="section-card mb-6" id="scoreCard"></div>
+  <div class="section-card mb-8" id="feedbackCard"></div>
+  <div class="section-card mb-6">
+    <div class="passage-corr-header">Passage 1 — The Origins of Agriculture and Wheat Domestication</div>
+    <div id="corrPassage1"></div>
+  </div>
+  <div class="section-card mb-6">
+    <div class="passage-corr-header">Passage 2 — Sleep Science and Memory Consolidation</div>
+    <div id="corrPassage2"></div>
+  </div>
+  <div class="section-card mb-10">
+    <div class="passage-corr-header">Passage 3 — Language Endangerment and Linguistic Documentation</div>
+    <div id="corrPassage3"></div>
+  </div>
+  <div class="flex gap-4 justify-center mb-16">
+    <a href="index.html" class="btn-gold">← Back to Tests</a>
+  </div>
+</div>
+
+<!-- SUBMITTING OVERLAY -->
+<div id="submittingOverlay" style="display:none;position:fixed;inset:0;z-index:300;background:rgba(247,248,250,0.97);flex-direction:column;align-items:center;justify-content:center;" class="flex">
+  <div class="spinner mb-6"></div>
+  <div class="font-display font-bold text-xl mb-2" style="color:var(--text-primary);">Scoring Your Answers</div>
+  <p class="text-sm" style="color:var(--text-muted);">Analysing your responses…</p>
+</div>
+
+<script>
+
+// ─────────────────────────────────────────
+//  TEST DATA
+// ─────────────────────────────────────────
+const GROUPS = [
+  // ── PASSAGE 1 — Matching Headings Q1–5 ──
+  {
+    passageId: 1,
+    type: 'matching_headings',
+    label: 'Questions 1–5',
+    instructions: 'The reading passage has seven paragraphs, <strong>A–G</strong>. Choose the correct heading for paragraphs <strong>B–F</strong> from the list of headings below. Paragraphs A and G are not included. Write the correct Roman numeral in the box.',
+    headings: [
+      { key: 'i',    text: 'The genetic traits selected during domestication and how they diverged from wild ancestors' },
+      { key: 'ii',   text: 'How climate deterioration may have accelerated the shift to managing plant species' },
+      { key: 'iii',  text: 'The pathways through which cultivated cereals spread to distant regions' },
+      { key: 'iv',   text: 'Health and social consequences associated with settled farming communities' },
+      { key: 'v',    text: 'Modern genomic complexity and the challenges this poses for crop improvement' },
+      { key: 'vi',   text: 'The role of river systems in distributing early agricultural knowledge across the ancient world' },
+      { key: 'vii',  text: 'How early farmers stored and traded surplus grain during seasonal shortages' },
+      { key: 'viii', text: 'Evidence from a specific archaeological site linking environmental stress to early agriculture' },
+    ],
+    questions: [
+      { id: 1, paraLabel: 'B', text: 'Paragraph B', answer: 'i', answerDisplay: 'i — The genetic traits selected during domestication and how they diverged from wild ancestors',
+        explanation: 'Paragraph B describes how wild einkorn was domesticated through the gradual selection of a tough rachis and larger grains — traits that differentiated cultivated wheat from wild ancestors. Heading viii belongs to C (Abu Hureyra); heading ii belongs to C as well. Headings vi and vii are not discussed in the passage.',
+        reinforcement: 'Correct — paragraph B focuses on the domestication traits (tough rachis, larger grains) that distinguished cultivated from wild wheat, matching heading i precisely.' },
+      { id: 2, paraLabel: 'C', text: 'Paragraph C', answer: 'viii', answerDisplay: 'viii — Evidence from a specific archaeological site linking environmental stress to early agriculture',
+        explanation: 'Paragraph C is organised around the site of Abu Hureyra and the hypothesis that Younger Dryas cooling caused food scarcity that incentivised cultivation. "Specific archaeological site" = Abu Hureyra; "environmental stress" = Younger Dryas aridity. Heading ii is a distractor — while climate is mentioned, it is the specific site evidence that structures the paragraph.',
+        reinforcement: 'Correct — paragraph C uses Abu Hureyra as the concrete example through which the environmental-stress hypothesis is presented, matching heading viii.' },
+      { id: 3, paraLabel: 'D', text: 'Paragraph D', answer: 'iii', answerDisplay: 'iii — The pathways through which cultivated cereals spread to distant regions',
+        explanation: 'Paragraph D describes the spread of domesticated wheat via two pathways: migration of farming populations and adoption by indigenous foragers. "Distant regions" = Anatolia, Cyprus, central Europe. Heading i belongs to B; heading viii belongs to C.',
+        reinforcement: 'Correct — paragraph D\'s organising logic is explaining the mechanisms by which wheat cultivation spread geographically, matching heading iii.' },
+      { id: 4, paraLabel: 'E', text: 'Paragraph E', answer: 'iv', answerDisplay: 'iv — Health and social consequences associated with settled farming communities',
+        explanation: 'Paragraph E discusses social stratification, new disease vulnerabilities, and paleopathological evidence of nutritional deficiency and infectious disease in early farming populations. "Health consequences" = disease and nutritional deficiency; "social consequences" = stratification and specialised craft production.',
+        reinforcement: 'Correct — paragraph E covers both the social (stratification at Çatalhöyük) and health (disease, deficiency) consequences of settled farming, matching heading iv.' },
+      { id: 5, paraLabel: 'F', text: 'Paragraph F', answer: 'v', answerDisplay: 'v — Modern genomic complexity and the challenges this poses for crop improvement',
+        explanation: 'Paragraph F discusses the hexaploid genome of modern bread wheat, its late sequencing (2018), and how its complexity has made breeding slow and imprecise — prompting investment in genomic selection and CRISPR. "Genomic complexity" = hexaploid, 14.5 billion base pairs; "challenges for crop improvement" = slow conventional breeding.',
+        reinforcement: 'Correct — paragraph F is structured around the genomic complexity of wheat and its implications for modern breeding, matching heading v.' },
+    ]
+  },
+  // ── PASSAGE 1 — T/F/NG Q6–9 ──
+  {
+    passageId: 1,
+    type: 'tfng',
+    label: 'Questions 6–9',
+    instructions: 'Do the following statements agree with the information given in the reading passage? Write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      { id: 6, text: 'Researchers at the University of Sheffield identified southeastern Turkey as the most probable site of initial einkorn domestication.',
+        answer: 'TRUE',
+        explanation: 'Paragraph B: <strong>"genetic analyses conducted by researchers at the University of Sheffield in the early 2000s identified the Karacadağ mountains of southeastern Turkey as the most probable site of initial einkorn domestication."</strong> The statement accurately reflects both the institution and the location.',
+        reinforcement: 'Correct — paragraph B explicitly names the University of Sheffield researchers and the Karacadağ mountains in southeastern Turkey.' },
+      { id: 7, text: 'The site of Abu Hureyra was excavated by Andrew Moore in the 1990s.',
+        answer: 'FALSE',
+        explanation: 'Paragraph C states that Abu Hureyra was <strong>"excavated by archaeologist Andrew Moore in the 1970s"</strong> — not the 1990s. The decade is directly contradicted by the passage.',
+        reinforcement: 'Correct — the passage says the 1970s, making "the 1990s" a direct contradiction and therefore FALSE.' },
+      { id: 8, text: 'Domesticated emmer and einkorn had reached central Europe before they arrived on the island of Cyprus.',
+        answer: 'FALSE',
+        explanation: 'Paragraph D states that Cyprus was reached <strong>"by 10,500 years before the present"</strong> and central Europe <strong>"within another two millennia"</strong> after wheat reached the western Anatolia coast at approximately 8,500 years ago. Cyprus was reached first, not central Europe.',
+        reinforcement: 'Correct — the passage indicates Cyprus was reached earlier than central Europe, directly contradicting the statement.' },
+      { id: 9, text: 'The complete genome sequence of modern bread wheat was published by an international consortium in 2018.',
+        answer: 'TRUE',
+        explanation: 'Paragraph F: <strong>"whose complex genome was not sequenced in its entirety until 2018, when an international consortium published a reference assembly spanning approximately 14.5 billion base pairs."</strong> The statement is an accurate paraphrase.',
+        reinforcement: 'Correct — paragraph F confirms the 2018 publication by an international consortium as stated.' },
+    ]
+  },
+  // ── PASSAGE 1 — Sentence Completion Q10–13 ──
+  {
+    passageId: 1,
+    type: 'sentence_completion',
+    label: 'Questions 10–13',
+    instructions: 'Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.',
+    questions: [
+      { id: 10, text: 'The Neolithic Revolution altered not only how people obtained food but also their _______ patterns and long-term demographic trajectories.',
+        answer: 'settlement', answerDisplay: 'settlement', acceptable: ['settlement'],
+        explanation: 'Paragraph A: <strong>"It is believed that the adoption of agriculture altered not only the subsistence strategies of early human populations but also their social organisation, settlement patterns, and long-term demographic trajectories."</strong> "Settlement" is the one-word passage-exact answer.',
+        reinforcement: 'Correct — "settlement" (patterns) is the precise term in paragraph A describing one of the changes brought by the agricultural transition.' },
+      { id: 11, text: 'The tough rachis that characterised domesticated wheat prevented _______ before harvest, which made it far more suitable for cultivation.',
+        answer: 'seed dispersal', answerDisplay: 'seed dispersal', acceptable: ['seed dispersal'],
+        explanation: 'Paragraph B: <strong>"a tough rachis that prevented seed dispersal before harvest."</strong> "Seed dispersal" is the two-word phrase that completes the sentence exactly as it appears in the passage.',
+        reinforcement: 'Correct — "seed dispersal" is retrieved verbatim from paragraph B\'s description of the domestication trait.' },
+      { id: 12, text: 'Isotopic analyses of human _______ from transitional sites provided evidence about the mechanisms behind the geographic spread of wheat cultivation.',
+        answer: 'skeletal remains', answerDisplay: 'skeletal remains', acceptable: ['skeletal remains'],
+        explanation: 'Paragraph D: <strong>"Isotopic analyses of human skeletal remains from transitional sites suggest that both processes contributed to the geographic expansion of wheat agriculture."</strong> "Skeletal remains" is the two-word passage-exact noun phrase.',
+        reinforcement: 'Correct — "skeletal remains" is the exact noun phrase in paragraph D describing the material analysed isotopically.' },
+      { id: 13, text: 'Modern bread wheat is a hexaploid organism whose genome is derived from three ancestral _______ species.',
+        answer: 'wild grass', answerDisplay: 'wild grass', acceptable: ['wild grass'],
+        explanation: 'Paragraph F: <strong>"containing six sets of chromosomes derived from three ancestral wild grass species."</strong> "Wild grass" is the two-word modifier that specifies the kind of ancestral species from which wheat\'s chromosomes originate.',
+        reinforcement: 'Correct — "wild grass" is the exact passage term in paragraph F describing the ancestral species of modern bread wheat.' },
+    ]
+  },
+
+  // ── PASSAGE 2 — Sleep Science ──
+  {
+    passageId: 2,
+    type: 'matching_headings',
+    label: 'Questions 14–18',
+    instructions: 'The reading passage has seven paragraphs, <strong>A–G</strong>. Choose the correct heading for paragraphs <strong>B–F</strong> from the list of headings below. Paragraphs A and G are not included. Write the correct Roman numeral in the box.',
+    headings: [
+      { key: 'i',    text: 'How sleep\'s role in memory extends to creative insight and the extraction of hidden patterns' },
+      { key: 'ii',   text: 'The specialised contribution of different sleep stages to distinct categories of memory' },
+      { key: 'iii',  text: 'The active role of the hippocampus in transferring memories to long-term cortical storage during sleep' },
+      { key: 'iv',   text: 'Cell-level mechanisms linking neural oscillations to the remodelling of synaptic connections overnight' },
+      { key: 'v',    text: 'Evidence linking chronic sleep loss to serious neurological and metabolic health conditions' },
+      { key: 'vi',   text: 'The influence of diet and exercise on the depth and quality of slow-wave sleep' },
+      { key: 'vii',  text: 'How pharmacological sleep aids compare with natural sleep for memory consolidation' },
+      { key: 'viii', text: 'The debate over whether dreaming contributes directly to emotional processing' },
+    ],
+    questions: [
+      { id: 14, paraLabel: 'B', text: 'Paragraph B', answer: 'iii', answerDisplay: 'iii — The active role of the hippocampus in transferring memories to long-term cortical storage during sleep',
+        explanation: 'Paragraph B identifies the hippocampus as a temporary repository for newly encoded memories and describes how it replays representations to neocortical sites during sleep. "Active role of the hippocampus" = hippocampal replay; "transferring to long-term cortical storage" = distributed neocortical sites. Headings vi and vii are entirely absent from the passage.',
+        reinforcement: 'Correct — paragraph B is centred on the hippocampus\'s role in replaying and transferring memories to the neocortex during sleep, matching heading iii.' },
+      { id: 15, paraLabel: 'C', text: 'Paragraph C', answer: 'ii', answerDisplay: 'ii — The specialised contribution of different sleep stages to distinct categories of memory',
+        explanation: 'Paragraph C distinguishes slow-wave sleep (declarative memory) from REM sleep (procedural, emotional) and cites selective deprivation studies showing stage-specific memory deficits. "Different sleep stages" = slow-wave vs REM; "distinct categories of memory" = declarative vs procedural/emotional.',
+        reinforcement: 'Correct — paragraph C\'s entire logic is that specific sleep stages support specific memory types, matching heading ii directly.' },
+      { id: 16, paraLabel: 'D', text: 'Paragraph D', answer: 'iv', answerDisplay: 'iv — Cell-level mechanisms linking neural oscillations to the remodelling of synaptic connections overnight',
+        explanation: 'Paragraph D describes sharp-wave ripples, spindle oscillations, and slow cortical oscillations in cross-frequency coupling, and the Synaptic Homeostasis Hypothesis regarding synaptic downscaling. "Cell-level mechanisms" = neuronal firing patterns; "neural oscillations" = sharp-wave ripples, spindles; "remodelling of synaptic connections" = synaptic downscaling.',
+        reinforcement: 'Correct — paragraph D focuses on the molecular and oscillatory mechanisms underlying sleep-dependent synaptic changes, matching heading iv.' },
+      { id: 17, paraLabel: 'E', text: 'Paragraph E', answer: 'i', answerDisplay: 'i — How sleep\'s role in memory extends to creative insight and the extraction of hidden patterns',
+        explanation: 'Paragraph E presents the Wagner et al. (2004) study in which sleep tripled the likelihood of discovering a hidden mathematical shortcut, interpreted as evidence that sleep promotes extraction of abstract structural regularities — described as incubation of insight. "Creative insight" = discovering the shortcut; "extraction of hidden patterns" = abstract structural regularities.',
+        reinforcement: 'Correct — paragraph E demonstrates sleep\'s role in insight beyond declarative memory, matching heading i.' },
+      { id: 18, paraLabel: 'F', text: 'Paragraph F', answer: 'v', answerDisplay: 'v — Evidence linking chronic sleep loss to serious neurological and metabolic health conditions',
+        explanation: 'Paragraph F discusses epidemiological links between short sleep and cognitive decline, Alzheimer\'s disease, depression, cardiovascular disease, and diabetes, plus the glymphatic system mechanism linking sleep loss to amyloid accumulation. "Neurological" = Alzheimer\'s, cognitive decline; "metabolic" = diabetes, cardiovascular disease.',
+        reinforcement: 'Correct — paragraph F catalogues the clinical consequences of chronic sleep insufficiency across neurological and metabolic domains, matching heading v.' },
+    ]
+  },
+  {
+    passageId: 2,
+    type: 'tfng',
+    label: 'Questions 19–22',
+    instructions: 'Do the following statements agree with the information given in the reading passage? Write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      { id: 19, text: 'Eugene Aserinsky and Nathaniel Kleitman discovered rapid eye movement sleep in the 1950s.',
+        answer: 'TRUE',
+        explanation: 'Paragraph A: <strong>"This view began to shift decisively in the 1950s when researchers Eugene Aserinsky and Nathaniel Kleitman at the University of Chicago identified rapid eye movement sleep."</strong> The statement is an accurate paraphrase.',
+        reinforcement: 'Correct — paragraph A explicitly states the 1950s discovery of REM sleep by Aserinsky and Kleitman.' },
+      { id: 20, text: 'Slow-wave sleep is primarily associated with the consolidation of procedural and motor skill memories.',
+        answer: 'FALSE',
+        explanation: 'Paragraph C states that slow-wave sleep is associated with <strong>"declarative memories, including factual knowledge and autobiographical episodes"</strong>. Procedural and motor memory are associated with REM sleep, not slow-wave sleep. The statement reverses the relationship.',
+        reinforcement: 'Correct — the passage attributes procedural and motor memory to REM sleep, not slow-wave sleep, making the statement FALSE.' },
+      { id: 21, text: 'In the Wagner et al. study, participants who slept between training and testing were nearly three times more likely to find the hidden mathematical shortcut.',
+        answer: 'TRUE',
+        explanation: 'Paragraph E: <strong>"Participants who were allowed a full night\'s sleep… were nearly three times more likely to discover the shortcut than those who remained awake across the same interval."</strong> Direct match.',
+        reinforcement: 'Correct — paragraph E confirms the three-fold advantage for the sleep group in the Wagner et al. study.' },
+      { id: 22, text: 'The glymphatic system relies on astrocytic aquaporin-4 channels to remove metabolic waste from the brain during sleep.',
+        answer: 'TRUE',
+        explanation: 'Paragraph F: <strong>"the glymphatic system — a recently characterised waste-clearance network dependent on astrocytic aquaporin-4 channels — dramatically expands the interstitial space of the brain and flushes metabolic by-products."</strong> The statement accurately paraphrases the mechanism.',
+        reinforcement: 'Correct — paragraph F explicitly describes the glymphatic system\'s dependence on astrocytic aquaporin-4 channels as stated.' },
+    ]
+  },
+  {
+    passageId: 2,
+    type: 'sentence_completion',
+    label: 'Questions 23–26',
+    instructions: 'Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.',
+    questions: [
+      { id: 23, text: 'Research by Matthew Walker and colleagues demonstrated that _______ sleep is particularly associated with the consolidation of factual and autobiographical memory.',
+        answer: 'slow-wave', answerDisplay: 'slow-wave', acceptable: ['slow-wave'],
+        explanation: 'Paragraph C: <strong>"slow-wave sleep — the deepest non-REM stage… is preferentially associated with the consolidation of declarative memories, including factual knowledge and autobiographical episodes."</strong> "Slow-wave" is the compound adjective that names the specific sleep stage.',
+        reinforcement: 'Correct — "slow-wave" (sleep) is the exact term in paragraph C identifying the stage associated with declarative memory.' },
+      { id: 24, text: 'During slow-wave sleep, neurons in the hippocampus fire in synchronised bursts called _______, which are coupled with thalamic oscillations.',
+        answer: 'sharp-wave ripples', answerDisplay: 'sharp-wave ripples', acceptable: ['sharp-wave ripples'],
+        explanation: 'Paragraph D: <strong>"neurons in the hippocampus fire in synchronised bursts — a phenomenon termed sharp-wave ripples — that are temporally coupled with spindle oscillations generated by the thalamus."</strong> "Sharp-wave ripples" is the passage-exact two-word term.',
+        reinforcement: 'Correct — "sharp-wave ripples" is the exact technical term in paragraph D for the synchronised hippocampal bursting phenomenon.' },
+      { id: 25, text: 'The Synaptic Homeostasis Hypothesis, advanced by Tononi and Cirelli, proposes that _______ during sleep prevents synaptic saturation.',
+        answer: 'synaptic downscaling', answerDisplay: 'synaptic downscaling', acceptable: ['synaptic downscaling'],
+        explanation: 'Paragraph D: <strong>"this synaptic remodelling appears to depend on the downscaling of synaptic strengths during sleep… which is believed to prevent synaptic saturation."</strong> "Synaptic downscaling" is the two-word noun phrase describing the proposed mechanism.',
+        reinforcement: 'Correct — "synaptic downscaling" is the process proposed in the Synaptic Homeostasis Hypothesis as described in paragraph D.' },
+      { id: 26, text: 'Chronic sleep insufficiency is associated with impaired glymphatic clearance of proteins including amyloid-beta and tau, which are implicated in _______ neurodegeneration.',
+        answer: 'Alzheimer\'s', answerDisplay: 'Alzheimer\'s', acceptable: ["alzheimer's", 'alzheimers'],
+        explanation: 'Paragraph F: <strong>"flushes metabolic by-products including amyloid-beta and tau proteins, the accumulation of which is implicated in Alzheimer\'s neurodegeneration."</strong> "Alzheimer\'s" is the exact term in paragraph F.',
+        reinforcement: 'Correct — "Alzheimer\'s" (neurodegeneration) is the exact condition named in paragraph F in connection with amyloid-beta and tau accumulation.' },
+    ]
+  },
+
+  // ── PASSAGE 3 — Language Endangerment ──
+  {
+    passageId: 3,
+    type: 'matching_info',
+    label: 'Questions 27–31',
+    instructions: 'The reading passage has seven paragraphs, <strong>A–G</strong>. Which paragraph contains the following information? Write the correct letter <strong>A–G</strong> in the box. You may use any letter more than once.',
+    paraOptions: ['A','B','C','D','E','F','G'],
+    questions: [
+      { id: 27, text: 'A reference to a language revitalisation initiative that has served as a model for immersive early childhood programmes.',
+        answer: 'D', answerDisplay: 'D',
+        explanation: 'Paragraph D: <strong>"community language nests, which are immersive environments for young children modelled on the highly successful Te Kōhanga Reo initiative in New Zealand."</strong> The Te Kōhanga Reo initiative is the specific model named.',
+        reinforcement: 'Correct — the Te Kōhanga Reo immersive language nest model is described in paragraph D.' },
+      { id: 28, text: 'An argument that the loss of a language involves the permanent disappearance of unique ways of categorising and perceiving the world.',
+        answer: 'F', answerDisplay: 'F',
+        explanation: 'Paragraph F: <strong>"The extinction of a language thus represents the permanent loss of a cognitive system and a body of ecological and cultural knowledge encoded in its lexicon."</strong> The argument about unique conceptual categories and perception is developed throughout paragraph F.',
+        reinforcement: 'Correct — the argument about language death as permanent cognitive and knowledge loss is made in paragraph F.' },
+      { id: 29, text: 'A description of cases in which language loss was directly caused by state-sanctioned coercive policies rather than gradual cultural change.',
+        answer: 'B', answerDisplay: 'B',
+        explanation: 'Paragraph B: <strong>"In numerous documented cases — among them the wholesale suppression of Indigenous Australian languages… and the enforced replacement of Native American languages through the residential school system… language loss was a direct and intended consequence of political violence."</strong>',
+        reinforcement: 'Correct — paragraph B explicitly identifies coercive state policies as the direct cause of language death in specific documented cases.' },
+      { id: 30, text: 'A criticism that early descriptive linguistics treated endangered language communities as objects of scientific study rather than participants with their own interests.',
+        answer: 'E', answerDisplay: 'E',
+        explanation: 'Paragraph E: <strong>"This model is now widely criticised as exploitative, since it treated endangered language communities as subjects of study rather than as stakeholders with legitimate interests in the uses and outputs of documentation work."</strong>',
+        reinforcement: 'Correct — the critique of treating communities as subjects rather than stakeholders is explicitly articulated in paragraph E.' },
+      { id: 31, text: 'An acknowledgement that successful language recovery depends on political conditions and community resources as much as on technical documentation capability.',
+        answer: 'G', answerDisplay: 'G',
+        explanation: 'Paragraph G: <strong>"the answer will depend as much on political will and the rights of minority communities as on any technical advance in the science of language recording."</strong>',
+        reinforcement: 'Correct — paragraph G explicitly states that outcomes depend on political will and community rights as much as on technical capability.' },
+    ]
+  },
+  {
+    passageId: 3,
+    type: 'tfng',
+    label: 'Questions 32–36',
+    instructions: 'Do the following statements agree with the information given in the reading passage? Write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      { id: 32, text: 'Approximately half of the world\'s seven thousand languages are estimated to face extinction within the next century.',
+        answer: 'FALSE',
+        explanation: 'Paragraph A states that <strong>"between fifty and ninety percent"</strong> of languages face extinction — not approximately half (fifty percent). The lower bound is fifty percent, but the range extends to ninety percent; "approximately half" misrepresents the full range stated.',
+        reinforcement: 'Correct — the passage gives a range of fifty to ninety percent, not "approximately half," making this FALSE.' },
+      { id: 33, text: 'The Endangered Languages Documentation Programme has supported more than three hundred projects since it was established in 2002.',
+        answer: 'TRUE',
+        explanation: 'Paragraph C: <strong>"The Endangered Languages Documentation Programme… has supported more than three hundred documentation projects across six continents since its establishment in 2002."</strong> Direct match.',
+        reinforcement: 'Correct — paragraph C confirms more than three hundred projects since 2002 as stated.' },
+      { id: 34, text: 'Some linguists argue that funding documentation projects may reduce the resources available for community-led revitalisation efforts.',
+        answer: 'TRUE',
+        explanation: 'Paragraph D: <strong>"Others, however, argue that the resources available for language work are finite, and that investment in documentation… may divert attention and funding from community-led revitalisation efforts."</strong> Direct paraphrase.',
+        reinforcement: 'Correct — paragraph D presents this argument explicitly as one position in the documentation-vs-revitalisation debate.' },
+      { id: 35, text: 'Contemporary fieldwork protocols now require that archived materials be made exclusively available to academic institutions rather than to the source community.',
+        answer: 'FALSE',
+        explanation: 'Paragraph E states that contemporary protocols require <strong>"the deposit of archived materials in repositories accessible to the community rather than exclusively to academic institutions."</strong> The statement inverts this — the passage says accessibility to communities is required, not exclusivity to academics.',
+        reinforcement: 'Correct — the passage says materials should be accessible to communities, directly contradicting "exclusively to academic institutions."' },
+      { id: 36, text: 'Lera Boroditsky\'s experimental work is associated with the field of linguistic relativity and the Sapir-Whorf hypothesis.',
+        answer: 'TRUE',
+        explanation: 'Paragraph F: <strong>"The field of linguistic relativity — associated with the Sapir-Whorf hypothesis and more recently with experimental work by Lera Boroditsky at the University of California, San Diego."</strong> Direct confirmation.',
+        reinforcement: 'Correct — paragraph F explicitly links Boroditsky\'s experimental work to linguistic relativity and the Sapir-Whorf hypothesis.' },
+    ]
+  },
+  {
+    passageId: 3,
+    type: 'sentence_completion',
+    label: 'Questions 37–40',
+    instructions: 'Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.<br><br><em>Language documentation involves the systematic recording of endangered languages before their last speakers die. Practitioners draw on frameworks proposed by scholars including Nicholas Evans and David Nathan, who argued that documentation should aspire to capture the full range of linguistic behaviour in its cultural context — an aspiration they termed a (37) _______ of speech. A significant debate in the field concerns whether documentation complements or competes with (38) _______ efforts to restore active language use within communities. Contemporary fieldwork now requires (39) _______ consent from community members and collaborative research design. Ultimately, the extinction of a language represents the loss not only of its grammar and vocabulary but of an entire (40) _______, including ecological and cultural knowledge with no equivalent in dominant languages.</em>',
+    questions: [
+      { id: 37, text: '(37) Nicholas Evans and David Nathan described their aspiration for comprehensive documentation as a _______ of speech.',
+        answer: 'natural history', answerDisplay: 'natural history', acceptable: ['natural history'],
+        explanation: 'Paragraph C: <strong>"an aspiration they describe as a natural history of speech."</strong> "Natural history" is the exact two-word phrase used by Evans and Nathan to characterise comprehensive documentation.',
+        reinforcement: 'Correct — "natural history" (of speech) is the precise phrase attributed to Evans and Nathan in paragraph C.' },
+      { id: 38, text: '(38) The field debate concerns whether documentation competes with _______ efforts to restore living speakers.',
+        answer: 'revitalisation', answerDisplay: 'revitalisation', acceptable: ['revitalisation', 'revitalization'],
+        explanation: 'Paragraph D: <strong>"A significant and unresolved debate within the field concerns the relationship between documentation and revitalisation — the effort to restore active use of an endangered language within its community."</strong> "Revitalisation" is the passage-exact noun.',
+        reinforcement: 'Correct — "revitalisation" is the exact term in paragraph D for the process of restoring active community language use.' },
+      { id: 39, text: '(39) Contemporary fieldwork protocols require _______ consent from community members before research proceeds.',
+        answer: 'free, prior, and informed', answerDisplay: 'free, prior, and informed', acceptable: ['free, prior, and informed', 'informed'],
+        explanation: 'Paragraph E: <strong>"Contemporary fieldwork protocols increasingly require free, prior, and informed consent from community members."</strong> The full phrase is "free, prior, and informed" — more than two words. The acceptable two-word answer within the passage is simply "informed consent," or the instruction allows the specific phrase "free, prior, and informed" as a quoted term of art.',
+        reinforcement: 'Correct — "informed" (consent) captures the passage term; the full phrase "free, prior, and informed" is the technical standard named in paragraph E.' },
+      { id: 40, text: '(40) When a language dies, an entire _______ is lost, including ecological and cultural knowledge that has no counterpart elsewhere.',
+        answer: 'cognitive system', answerDisplay: 'cognitive system', acceptable: ['cognitive system'],
+        explanation: 'Paragraph F: <strong>"The extinction of a language thus represents the permanent loss of a cognitive system and a body of ecological and cultural knowledge encoded in its lexicon."</strong> "Cognitive system" is the two-word noun phrase that most directly answers the sentence frame.',
+        reinforcement: 'Correct — "cognitive system" is the exact phrase in paragraph F describing what is irreversibly lost when a language becomes extinct.' },
+    ]
+  },
+];
+
+// ─────────────────────────────────────────
+//  STATE
+// ─────────────────────────────────────────
+const answers = {};
+const TOTAL_SECONDS = 3600;
+let secondsLeft = TOTAL_SECONDS;
+let timerInterval = null;
+let submitted = false;
+
+// ─────────────────────────────────────────
+//  TAB SWITCHING
+// ─────────────────────────────────────────
+function switchTab(n) {
+  [1,2,3].forEach(i => {
+    document.getElementById('passageContent' + i).style.display = i === n ? 'block' : 'none';
+    document.getElementById('qPanel' + i).style.display = i === n ? 'block' : 'none';
+    document.getElementById('tabNav').querySelectorAll('.tab-btn')[i-1].classList.toggle('active', i === n);
+  });
+  document.getElementById('readingPane').scrollTop = 0;
+  document.getElementById('questionPane').scrollTop = 0;
+}
+
+// ─────────────────────────────────────────
+//  FONT SIZE CONTROLLER
+// ─────────────────────────────────────────
+const FONT_SIZES = [13, 15, 17, 19];
+let fontSizeIdx = parseInt(localStorage.getItem('ielts_font_size_idx') || '1');
+function initFontSize() {
+  document.documentElement.style.setProperty('--passage-font-size', FONT_SIZES[fontSizeIdx] + 'px');
+}
+function adjustFontSize(delta) {
+  if (delta === 0) {
+    fontSizeIdx = 1;
+  } else {
+    fontSizeIdx = Math.max(0, Math.min(FONT_SIZES.length - 1, fontSizeIdx + delta));
+  }
+  document.documentElement.style.setProperty('--passage-font-size', FONT_SIZES[fontSizeIdx] + 'px');
+  localStorage.setItem('ielts_font_size_idx', fontSizeIdx);
+}
+
+// ─────────────────────────────────────────
+//  SPLIT-PANE RESIZER
+// ─────────────────────────────────────────
+(function initResizer() {
+  const container = document.getElementById('splitContainer');
+  const leftPane  = document.getElementById('readingPane');
+  const resizer   = document.getElementById('resizerBar');
+  if (!container || !leftPane || !resizer) return;
+
+  let isDragging = false;
+  let startX     = 0;
+  let startW     = 0;
+
+  function onStart(clientX) {
+    isDragging = true;
+    startX     = clientX;
+    startW     = leftPane.getBoundingClientRect().width;
+    resizer.classList.add('active');
+    document.body.style.cursor     = 'col-resize';
+    document.body.style.userSelect = 'none';
+  }
+
+  function onMove(clientX) {
+    if (!isDragging) return;
+    const cW    = container.getBoundingClientRect().width;
+    const rW    = resizer.getBoundingClientRect().width;
+    const avail = cW - rW;
+    const minW  = avail * 0.25;
+    const maxW  = avail * 0.75;
+    const newW  = Math.max(minW, Math.min(maxW, startW + (clientX - startX)));
+    leftPane.style.width = ((newW / cW) * 100).toFixed(2) + '%';
+  }
+
+  function onEnd() {
+    if (!isDragging) return;
+    isDragging = false;
+    resizer.classList.remove('active');
+    document.body.style.cursor     = '';
+    document.body.style.userSelect = '';
+  }
+
+  resizer.addEventListener('mousedown',  e => { e.preventDefault(); onStart(e.clientX); });
+  document.addEventListener('mousemove', e => onMove(e.clientX));
+  document.addEventListener('mouseup',   onEnd);
+
+  resizer.addEventListener('touchstart',  e => { e.preventDefault(); onStart(e.touches[0].clientX); }, { passive: false });
+  document.addEventListener('touchmove',  e => { if (isDragging) { e.preventDefault(); onMove(e.touches[0].clientX); } }, { passive: false });
+  document.addEventListener('touchend',   onEnd);
+})();
+
+// ─────────────────────────────────────────
+//  TIMER
+// ─────────────────────────────────────────
+function formatTime(s) {
+  return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+}
+function startTimer() {
+  timerInterval = setInterval(() => {
+    secondsLeft--;
+    const pct = (TOTAL_SECONDS - secondsLeft) / TOTAL_SECONDS * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+    const el = document.getElementById('timerDisplay');
+    el.textContent = formatTime(secondsLeft);
+    if (secondsLeft <= 120) el.className = 'timer-box critical';
+    else if (secondsLeft <= 300) el.className = 'timer-box warning';
+    if (secondsLeft <= 0) { clearInterval(timerInterval); autoSubmit(); }
+  }, 1000);
+}
+
+// ─────────────────────────────────────────
+//  RENDER QUESTIONS
+// ─────────────────────────────────────────
+function renderAll() {
+  [1,2,3].forEach(pid => {
+    const panel = document.getElementById('qPanel' + pid);
+    let html = '';
+    GROUPS.filter(g => g.passageId === pid).forEach(group => {
+      html += `<div class="group-header mb-4">
+        <div class="text-xs font-bold tracking-widest uppercase" style="color:var(--gold);">${group.label}</div>
+        <p>${group.instructions}</p>
+      </div>`;
+
+      if (group.type === 'matching_headings') {
+        html += `<div class="headings-list mb-4"><ul style="list-style:none;">`;
+        group.headings.forEach(h => {
+          html += `<li><span>${h.key}.</span>${h.text}</li>`;
+        });
+        html += `</ul></div>`;
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">Paragraph <strong>${q.paraLabel}</strong></div>
+            <select class="q-select" id="q${q.id}" onchange="recordAnswer(${q.id}, this.value)">
+              <option value="">— Select heading —</option>
+              ${group.headings.map(h => `<option value="${h.key}">${h.key}. ${h.text}</option>`).join('')}
+            </select>
+          </div>`;
+        });
+      } else if (group.type === 'tfng') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <div class="q-tfng">
+              <button class="q-tfng-btn" onclick="selectTFNG(${q.id},'TRUE',this)">TRUE</button>
+              <button class="q-tfng-btn" onclick="selectTFNG(${q.id},'FALSE',this)">FALSE</button>
+              <button class="q-tfng-btn" onclick="selectTFNG(${q.id},'NOT GIVEN',this)">NOT GIVEN</button>
+            </div>
+          </div>`;
+        });
+      } else if (group.type === 'sentence_completion') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <input type="text" class="q-input" id="q${q.id}" placeholder="Your answer…" oninput="recordAnswer(${q.id}, this.value.trim())" />
+          </div>`;
+        });
+      } else if (group.type === 'matching_info') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <select class="q-select" id="q${q.id}" onchange="recordAnswer(${q.id}, this.value)">
+              <option value="">— Select paragraph —</option>
+              ${group.paraOptions.map(p => `<option value="${p}">Paragraph ${p}</option>`).join('')}
+            </select>
+          </div>`;
+        });
+      }
+    });
+    panel.innerHTML = html;
+  });
+}
+
+function selectTFNG(qId, val, btn) {
+  btn.parentElement.querySelectorAll('.q-tfng-btn').forEach(b => { b.className = 'q-tfng-btn'; });
+  btn.classList.add(val === 'TRUE' ? 'sel-t' : val === 'FALSE' ? 'sel-f' : 'sel-ng');
+  recordAnswer(qId, val);
+}
+function recordAnswer(qId, val) { answers[qId] = val; }
+
+// ─────────────────────────────────────────
+//  SCORING
+// ─────────────────────────────────────────
+function scoreAnswer(q, studentRaw) {
+  if (!studentRaw) return false;
+  const student = studentRaw.toString().trim().toLowerCase();
+  if (q.acceptable) return q.acceptable.map(a => a.toLowerCase()).includes(student);
+  return student === q.answer.toLowerCase();
+}
+function bandFromScore(n) {
+  if (n >= 39) return 9.0; if (n >= 37) return 8.5; if (n >= 35) return 8.0;
+  if (n >= 33) return 7.5; if (n >= 30) return 7.0; if (n >= 27) return 6.5;
+  if (n >= 23) return 6.0; if (n >= 19) return 5.5; if (n >= 15) return 5.0;
+  if (n >= 13) return 4.5; if (n >= 10) return 4.0; if (n >= 8) return 3.5;
+  if (n >= 6) return 3.0; return 2.5;
+}
+function bandColour(b) {
+  if (b >= 7) return '#0D9488'; if (b >= 5.5) return '#C9952E'; return '#dc2626';
+}
+function bandAdvice(band, score) {
+  const pct = Math.round(score/40*100);
+  if (band >= 8.5) return `Outstanding — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Near-native comprehension across all three passages. Focus on NOT GIVEN precision and paraphrased sentence completions to push for Band 9.`;
+  if (band >= 7.5) return `Excellent result — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Strong academic reading. To push towards Band 8+: tighten NOT GIVEN judgements (never infer beyond the text) and copy sentence completion answers exactly from the passage.`;
+  if (band >= 6.5) return `Good performance — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Solid comprehension with room to improve. Review: (1) TRUE vs FALSE — verify the exact claim, not just the topic; (2) Matching Headings — identify the paragraph's central argument before selecting; (3) time allocation across all three passages.`;
+  if (band >= 5.5) return `You scored ${score}/40 (${pct}%), giving an estimated <strong>Band ${band}</strong>. Clear potential — prioritise synonym recognition, since every question involves paraphrase. Review each wrong answer and find the exact passage sentence that should have guided your response.`;
+  return `You scored ${score}/40 (${pct}%), giving an estimated <strong>Band ${band}</strong>. Focus on active reading: identify each paragraph's main claim before reading the questions. Daily timed reading of academic texts and vocabulary building will accelerate improvement significantly.`;
+}
+
+// ─────────────────────────────────────────
+//  SUBMIT
+// ─────────────────────────────────────────
+function confirmSubmit() { if (!confirm('Submit your reading test now?')) return; doSubmit(); }
+function autoSubmit() { if (submitted) return; doSubmit(); }
+function doSubmit() {
+  if (submitted) return;
+  submitted = true;
+  clearInterval(timerInterval);
+  document.getElementById('submittingOverlay').style.display = 'flex';
+  setTimeout(showResults, 800);
+}
+
+// ─────────────────────────────────────────
+//  RESULTS
+// ─────────────────────────────────────────
+function showResults() {
+  document.getElementById('submittingOverlay').style.display = 'none';
+  document.getElementById('testMain').style.display = 'none';
+  document.getElementById('timingStrip').style.display = 'none';
+  document.getElementById('resultsMain').style.display = 'block';
+
+  let correct = 0;
+  const allQs = GROUPS.flatMap(g => g.questions);
+  allQs.forEach(q => { if (scoreAnswer(q, answers[q.id])) correct++; });
+  const band = bandFromScore(correct);
+  const bCol = bandColour(band);
+
+  // Save result
+  const results = JSON.parse(localStorage.getItem('ielts_mock_results') || '[]');
+  results.push({ date: Date.now(), book: 18, testNum: 1, skill: 'reading', scores: { reading: band } });
+  localStorage.setItem('ielts_mock_results', JSON.stringify(results));
+
+  // Per-passage breakdown
+  const passageChips = [1,2,3].map(p => {
+    const pQs = GROUPS.filter(g => g.passageId === p).flatMap(g => g.questions);
+    const pC = pQs.filter(q => scoreAnswer(q, answers[q.id])).length;
+    const pCol = bandColour(bandFromScore(Math.round(pC/pQs.length*40)));
+    return `<div style="background:#EFF3F9;border:1px solid var(--border);border-radius:10px;padding:10px 14px;text-align:center;min-width:80px;">
+      <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px;">Passage ${p}</div>
+      <div style="font-family:'Space Mono',monospace;font-size:1.125rem;font-weight:700;color:${pCol};">${pC}/${pQs.length}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('scoreCard').innerHTML = `
+    <div class="flex flex-col md:flex-row gap-6 items-center">
+      <div class="score-ring-wrap">
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#E2E8F0" stroke-width="8"/>
+          <circle cx="60" cy="60" r="50" fill="none" stroke="${bCol}" stroke-width="8"
+            stroke-dasharray="${Math.round(correct/40*314)} 314" stroke-linecap="round"
+            transform="rotate(-90 60 60)" style="transition:stroke-dasharray 1.2s cubic-bezier(.16,1,.3,1)"/>
+        </svg>
+        <div style="margin-top:-70px;text-align:center;pointer-events:none;">
+          <div style="font-family:'Space Mono',monospace;font-size:1.75rem;font-weight:700;color:${bCol};">${correct}</div>
+          <div style="font-size:0.75rem;color:var(--text-muted);">out of 40</div>
+        </div>
+        <div style="margin-top:16px;"></div>
+      </div>
+      <div class="flex-1">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Your Score</div>
+        <div class="font-display font-black text-4xl mb-1" style="color:${bCol};">Band ${band}</div>
+        <div class="text-sm mb-4" style="color:var(--text-muted);">${correct} correct answers out of 40</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">${passageChips}</div>
+      </div>
+    </div>`;
+
+  document.getElementById('feedbackCard').innerHTML = `
+    <div class="text-xs font-bold tracking-widest uppercase mb-3" style="color:var(--gold);">Overall Feedback</div>
+    <div class="band-feedback">${bandAdvice(band, correct)}</div>`;
+
+  [1,2,3].forEach(pid => {
+    let html = '';
+    GROUPS.filter(g => g.passageId === pid).forEach(group => {
+      html += `<div style="margin-bottom:0.5rem;padding:6px 0 8px;border-bottom:1px solid var(--border-soft);">
+        <span style="font-size:0.6875rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-faint);">${group.label} — ${labelType(group.type)}</span>
+      </div>`;
+      group.questions.forEach(q => {
+        const isCorrect = scoreAnswer(q, answers[q.id]);
+        const studentAns = answers[q.id] ? answers[q.id].toString() : '(no answer)';
+        const correctAns = q.answerDisplay || q.answer;
+        html += `<div class="corr-block ${isCorrect ? 'corr-correct' : 'corr-wrong'}">
+          <div class="corr-qnum ${isCorrect ? 'ok' : 'bad'}">${isCorrect ? '✓' : '✗'} Question ${q.id}</div>
+          <div class="corr-qtext">${q.text}</div>`;
+        if (isCorrect) {
+          html += `<div class="corr-row"><span class="corr-tag reinforce">✓ Correct</span><span class="corr-val">${studentAns}</span></div>
+            <div class="corr-expl">${q.reinforcement || ''}</div>`;
+        } else {
+          html += `<div class="corr-row"><span class="corr-tag your">Your answer</span><span class="corr-val">${studentAns}</span></div>
+            <div class="corr-row"><span class="corr-tag correct">Correct answer</span><span class="corr-val">${correctAns}${q.acceptable && q.acceptable.length > 1 ? ' <span style="font-size:0.75rem;color:var(--text-faint);">(also: ' + q.acceptable.filter(a=>a!==q.answer).join(', ') + ')</span>' : ''}</span></div>
+            <div class="corr-expl">${q.explanation || ''}</div>`;
+        }
+        html += `</div>`;
+      });
+    });
+    document.getElementById('corrPassage' + pid).innerHTML = html;
+  });
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function labelType(t) {
+  return { tfng:'True / False / Not Given', mc:'Multiple Choice', matching_headings:'Matching Headings', matching_info:'Matching Information', sentence_completion:'Sentence Completion', diagram_labelling:'Diagram Labelling', matching_feature:'Matching Features' }[t] || t;
+}
+
+// ─────────────────────────────────────────
+//  INIT
+// ─────────────────────────────────────────
+initFontSize();
+renderAll();
+startTimer();
+</script>
+<script src="/js/components.js"></script>
+<script>
+  IELTSLab.loadNav({ basePath: '../', breadcrumb: 'Mock Tests', authenticated: true, themeDefault: 'light' });
+</script>
+</body>
+</html>

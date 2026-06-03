@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IELTS Lab — Cambridge 17 Full Test 3 · Academic Reading</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <script>tailwind.config={theme:{extend:{fontFamily:{display:['Satoshi','Plus Jakarta Sans','system-ui','sans-serif'],sans:['Plus Jakarta Sans','system-ui','sans-serif']}}}}</script>
+  <style>
+    /* ── DESIGN TOKENS ── */
+    :root {
+      --gold: #C9952E;
+      --gold-light: #DDB05A;
+      --gold-dim: rgba(201,149,46,0.10);
+      --gold-border: rgba(201,149,46,0.30);
+      --navy: #1a3c6e;
+      --navy-mid: #2a4f8a;
+      --page-bg: #F7F8FA;
+      --card-bg: #FFFFFF;
+      --qpanel-bg: #EFF3F9;
+      --border: #E2E8F0;
+      --border-soft: #EEF1F6;
+      --text-primary: #1E2A3A;
+      --text-body: #374151;
+      --text-muted: #64748B;
+      --text-faint: #94A3B8;
+      --passage-font-size: 15px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--page-bg); color: var(--text-primary); }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    h1, h2, h3, h4, .font-display { font-family: 'Satoshi', 'Plus Jakarta Sans', system-ui, sans-serif; }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #EFF2F7; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 3px; }
+
+    /* ── PROGRESS ── */
+    .progress-bar { height: 3px; background: #E2E8F0; position: fixed; top: 64px; left: 0; right: 0; z-index: 40; }
+    .progress-fill { height: 100%; background: linear-gradient(to right, var(--gold), #DDB05A); transition: width 1s linear; width: 0%; }
+
+    /* ── NAV ── */
+    .nav-glass { background: rgba(255,255,255,0.97); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .nav-logo { display: flex; align-items: baseline; gap: 0; text-decoration: none; }
+    .nl-ielts { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; letter-spacing: 1px; color: var(--text-primary); }
+    .nl-lab { font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: 3px; color: var(--gold); margin-left: 5px; }
+    #themeToggle { background: transparent; border: 1.5px solid var(--border); color: var(--text-muted); border-radius: 8px; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; font-size: 15px; flex-shrink: 0; padding: 0; }
+    #themeToggle:hover { border-color: var(--gold-border); color: var(--gold); }
+
+    /* ── TIMER ── */
+    .timer-box { background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 10px; padding: 8px 16px; font-family: 'Space Mono', monospace; font-size: 1.125rem; font-weight: 700; color: var(--text-primary); letter-spacing: 2px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+    .timer-box.warning { color: #b45309; border-color: rgba(180,83,9,0.3); background: #fffbeb; }
+    .timer-box.critical { color: #dc2626; border-color: rgba(220,38,38,0.3); background: #fef2f2; animation: pulse 1s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
+
+    /* ── TIMING STRIP ── */
+    .timing-strip { background: #FAFBFD; border-bottom: 1px solid var(--border); padding: 8px 0; }
+    .timing-item { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+    .timing-label { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
+    .timing-val { font-size: 0.75rem; color: var(--text-muted); }
+
+    /* ── FONT SIZE CONTROLLER ── */
+    .font-ctrl { display: inline-flex; align-items: center; gap: 0; background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 9px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .font-ctrl-btn { padding: 6px 12px; border: none; background: transparent; cursor: pointer; color: var(--text-muted); font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.15s; line-height: 1; border-right: 1px solid var(--border); }
+    .font-ctrl-btn:last-child { border-right: none; }
+    .font-ctrl-btn:hover { background: var(--gold-dim); color: var(--gold); }
+    .font-ctrl-btn.a-small { font-size: 11px; }
+    .font-ctrl-btn.a-mid   { font-size: 13px; }
+    .font-ctrl-btn.a-large { font-size: 16px; }
+    .font-ctrl-label { font-size: 0.625rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); padding: 0 8px; }
+
+    /* ── ACCESSIBILITY TOOLBAR ── */
+    .a11y-bar { display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: #FFFFFF; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .a11y-bar-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); }
+
+    /* ── TAB NAV ── */
+    .tab-nav { display: flex; gap: 4px; margin-bottom: 1rem; background: #EFF3F9; border-radius: 12px; padding: 4px; }
+    .tab-btn { flex: 1; padding: 8px 12px; border: none; border-radius: 9px; background: transparent; color: var(--text-muted); font-size: 0.8125rem; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .tab-btn:hover { background: rgba(255,255,255,0.6); color: var(--text-primary); }
+    .tab-btn.active { background: #FFFFFF; color: var(--navy); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+
+    /* ── SECTION CARDS ── */
+    .section-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 1.75rem; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+
+    /* ── PASSAGE ── */
+    .passage-text { font-size: var(--passage-font-size); line-height: 2.0; color: var(--text-body); transition: font-size 0.2s ease; }
+    .passage-text p { margin-bottom: 1.2rem; }
+    .para-label { display: inline-block; font-family: 'Space Mono', monospace; font-size: 0.6875rem; font-weight: 700; color: var(--navy); background: rgba(26,60,110,0.08); border: 1px solid rgba(26,60,110,0.18); border-radius: 4px; padding: 1px 6px; margin-right: 8px; letter-spacing: 0.05em; }
+
+    /* ── QUESTION BLOCKS ── */
+    .q-block { margin-bottom: 1.25rem; padding: 1rem 1.15rem; border-radius: 12px; background: #FFFFFF; border: 1px solid var(--border); }
+    .q-num { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+    .q-text { font-size: 0.9rem; color: var(--text-body); margin-bottom: 10px; line-height: 1.65; }
+    .q-input { width: 100%; background: #F8FAFC; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text-primary); font-size: 0.9rem; transition: border-color 0.2s, box-shadow 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,149,46,0.12); }
+    .q-select { width: 100%; background: #F8FAFC; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text-primary); font-size: 0.9rem; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-select:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,149,46,0.12); }
+    .q-options { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+    .q-option { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; padding: 9px 12px; border-radius: 8px; border: 1.5px solid var(--border); transition: all 0.2s; background: #F8FAFC; }
+    .q-option:hover { background: var(--gold-dim); border-color: var(--gold-border); }
+    .q-option input[type=radio] { accent-color: var(--gold); margin-top: 3px; flex-shrink: 0; }
+    .q-option label { font-size: 0.9rem; color: var(--text-body); cursor: pointer; line-height: 1.55; }
+
+    /* ── T/F/NG ── */
+    .q-tfng { display: flex; gap: 8px; }
+    .q-tfng-btn { flex: 1; padding: 9px 6px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer; background: #F8FAFC; color: var(--text-muted); transition: all 0.2s; letter-spacing: 0.05em; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-tfng-btn:hover { border-color: var(--gold-border); color: var(--gold); background: var(--gold-dim); }
+    .q-tfng-btn.sel-t { border-color: #16a34a; background: #f0fdf4; color: #16a34a; }
+    .q-tfng-btn.sel-f { border-color: #dc2626; background: #fef2f2; color: #dc2626; }
+    .q-tfng-btn.sel-ng { border-color: #d97706; background: #fffbeb; color: #d97706; }
+
+    /* ── GROUP HEADER ── */
+    .group-header { margin-bottom: 1.25rem; padding: 0.875rem 1rem; border-radius: 12px; background: rgba(26,60,110,0.04); border: 1px solid rgba(26,60,110,0.12); }
+    .group-header p { font-size: 0.8125rem; color: var(--text-muted); line-height: 1.65; margin-top: 6px; }
+
+    /* ── HEADINGS LIST ── */
+    .headings-list { margin: 0.75rem 0; padding: 0.875rem 1rem; background: #FFFFFF; border-radius: 10px; border: 1px solid var(--border); }
+    .headings-list li { font-size: 0.8125rem; color: var(--text-body); line-height: 1.8; padding: 2px 0; }
+    .headings-list li span { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--gold); margin-right: 6px; font-weight: 700; }
+
+    /* ── BUTTONS ── */
+    .btn-gold { background: linear-gradient(135deg, var(--gold) 0%, #a8741f 100%); color: #FFFFFF; border: none; border-radius: 10px; padding: 12px 32px; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.04em; cursor: pointer; transition: all 0.25s ease; box-shadow: 0 2px 12px rgba(201,149,46,0.30); }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 6px 22px rgba(201,149,46,0.42); }
+
+    /* ── CORRECTION REPORT ── */
+    .corr-block { margin-bottom: 1rem; padding: 1rem 1.25rem; border-radius: 12px; border: 1.5px solid; }
+    .corr-correct { background: #f0fdf4; border-color: #bbf7d0; }
+    .corr-wrong { background: #fef2f2; border-color: #fecaca; }
+    .corr-qnum { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+    .corr-qnum.ok { color: #16a34a; }
+    .corr-qnum.bad { color: #dc2626; }
+    .corr-qtext { font-size: 0.875rem; color: var(--text-body); line-height: 1.65; margin-bottom: 8px; }
+    .corr-row { display: flex; gap: 8px; align-items: flex-start; font-size: 0.8125rem; margin-bottom: 4px; }
+    .corr-tag { flex-shrink: 0; padding: 2px 8px; border-radius: 4px; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+    .corr-tag.your { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+    .corr-tag.correct { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .corr-tag.reinforce { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .corr-val { color: var(--text-primary); line-height: 1.5; }
+    .corr-expl { margin-top: 8px; padding: 9px 12px; background: #FFFFFF; border-radius: 8px; border-left: 3px solid var(--gold-border); font-size: 0.8125rem; color: var(--text-muted); line-height: 1.65; }
+    .corr-expl strong { color: var(--text-primary); }
+
+    /* ── RESULTS ── */
+    .score-ring-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .band-feedback { padding: 1.25rem; border-radius: 12px; background: rgba(26,60,110,0.04); border: 1px solid rgba(26,60,110,0.12); font-size: 0.9rem; color: var(--text-body); line-height: 1.8; }
+    .band-feedback strong { color: var(--navy); }
+    .passage-corr-header { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); padding: 10px 0 8px; border-bottom: 1px solid var(--border); margin-bottom: 1rem; }
+
+    /* ── SPINNER ── */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; }
+
+    /* ── SPLIT LAYOUT ── */
+    .split-container { display: flex; height: calc(100vh - 268px); min-height: 560px; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+    .reading-pane { width: 52%; min-width: 25%; max-width: 75%; overflow-y: auto; padding: 1.75rem; background: var(--card-bg); flex-shrink: 0; }
+    .question-pane { flex: 1; overflow-y: auto; padding: 1.75rem; background: var(--qpanel-bg); min-width: 25%; }
+    .resizer-bar { width: 16px; background: #F1F5F9; cursor: col-resize; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; border-left: 1px solid var(--border); border-right: 1px solid var(--border); transition: background 0.15s; user-select: none; -webkit-user-select: none; }
+    .resizer-bar:hover, .resizer-bar.active { background: var(--gold-dim); border-left-color: var(--gold-border); border-right-color: var(--gold-border); }
+    .resizer-btn { background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 8px; padding: 10px 4px; cursor: col-resize; display: flex; flex-direction: column; align-items: center; gap: 5px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); transition: border-color 0.15s, box-shadow 0.15s; pointer-events: none; }
+    .resizer-bar:hover .resizer-btn { border-color: var(--gold-border); box-shadow: 0 2px 8px rgba(201,149,46,0.15); }
+    @media (max-width: 1023px) {
+      .split-container { flex-direction: column; height: auto; overflow: visible; border: none; border-radius: 0; box-shadow: none; gap: 1rem; }
+      .reading-pane { width: 100% !important; min-width: 100%; max-width: 100%; overflow-y: visible; border: 1px solid var(--border); border-radius: 16px; }
+      .resizer-bar { display: none; }
+      .question-pane { min-width: 100%; overflow-y: visible; border: 1px solid var(--border); border-radius: 16px; }
+    }
+  </style>
+  <script>
+    (function(){
+      var raw = localStorage.getItem('ielts_session');
+      if (!raw) { window.location.replace('../login.html'); return; }
+      try { JSON.parse(raw); } catch(e) { localStorage.removeItem('ielts_session'); window.location.replace('../login.html'); }
+    })();
+    (function(){ var t = localStorage.getItem('ieltslab_theme') || 'light'; document.documentElement.setAttribute('data-theme', t); })();
+    function toggleTheme(){ var c = document.documentElement.getAttribute('data-theme') || 'light', n = c === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', n); localStorage.setItem('ieltslab_theme', n); var b = document.getElementById('themeToggle'); if(b) b.textContent = n === 'dark' ? '☀' : '🌙'; }
+    document.addEventListener('DOMContentLoaded', function(){ var b = document.getElementById('themeToggle'); if(b){ var d = (document.documentElement.getAttribute('data-theme') || 'light') === 'dark'; b.textContent = d ? '☀' : '🌙'; } });
+  </script>
+</head>
+<body class="min-h-screen flex flex-col" style="background:var(--page-bg);color:var(--text-primary);">
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<div id="header-container"></div>
+
+<!-- TIMING STRIP -->
+<div class="timing-strip" id="timingStrip">
+  <div class="px-4 flex items-center justify-center gap-10">
+    <div class="timing-item"><span class="timing-label">Passage 1</span><span class="timing-val">15–17 min</span></div>
+    <div style="width:1px;height:24px;background:var(--border);"></div>
+    <div class="timing-item"><span class="timing-label">Passage 2</span><span class="timing-val">20 min</span></div>
+    <div style="width:1px;height:24px;background:var(--border);"></div>
+    <div class="timing-item"><span class="timing-label">Passage 3</span><span class="timing-val">23–25 min</span></div>
+  </div>
+</div>
+
+<!-- TEST MAIN -->
+<main class="flex-1 w-full px-4 py-6" id="testMain">
+
+  <!-- HEADER ROW -->
+  <div class="flex items-start justify-between mb-5 gap-4">
+    <div>
+      <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Cambridge 17 · Full Test 3</div>
+      <h1 class="font-display font-black text-2xl" style="color:var(--text-primary);">Academic Reading — Full Test 3</h1>
+    </div>
+    <div class="flex items-center gap-3 flex-shrink-0">
+      <div id="timerDisplay" class="timer-box">60:00</div>
+    </div>
+  </div>
+
+  <!-- ACCESSIBILITY TOOLBAR -->
+  <div class="a11y-bar">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-muted);flex-shrink:0;"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+    <span class="a11y-bar-label">Text Size</span>
+    <div class="font-ctrl" role="toolbar" aria-label="Adjust passage text size">
+      <button class="font-ctrl-btn a-small" onclick="adjustFontSize(-1)" title="Decrease text size">A−</button>
+      <button class="font-ctrl-btn a-mid"   onclick="adjustFontSize(0)"  title="Reset text size">A</button>
+      <button class="font-ctrl-btn a-large" onclick="adjustFontSize(1)"  title="Increase text size">A+</button>
+    </div>
+    <span style="font-size:0.75rem;color:var(--text-faint);">Adjust the reading passage font size</span>
+    <div class="ml-auto text-xs hidden md:block" style="color:var(--text-muted);">60 minutes · 40 questions · 3 passages</div>
+  </div>
+
+  <!-- TAB NAV -->
+  <div class="tab-nav" id="tabNav">
+    <button class="tab-btn active" onclick="switchTab(1)">Passage 1 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q1–13)</span></button>
+    <button class="tab-btn" onclick="switchTab(2)">Passage 2 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q14–26)</span></button>
+    <button class="tab-btn" onclick="switchTab(3)">Passage 3 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q27–40)</span></button>
+  </div>
+
+  <!-- ══ SPLIT VIEW ══ -->
+  <div class="split-container" id="splitContainer">
+    <div class="reading-pane" id="readingPane">
+
+      <!-- Passage 1 -->
+      <div id="passageContent1">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 1</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">Roman Aqueduct Engineering: Water Supply in the Ancient World</div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>Few engineering achievements of the ancient world have commanded as much admiration as the Roman aqueduct system. Spanning more than four centuries of active construction from approximately 312 BCE to the late imperial period, Roman aqueducts delivered fresh water to cities, agricultural estates, and military garrisons across an empire that stretched from Britain to Mesopotamia. At the height of the Roman Empire, the city of Rome alone was served by eleven major aqueducts capable of supplying an estimated one million cubic metres of water daily — a per capita provision that rivalled or exceeded that of many European cities in the nineteenth century. The engineering principles underlying this system, though developed without modern instrumentation, demonstrated a precision of design and an understanding of hydraulic principles that continue to attract scholarly investigation.</p>
+
+          <p><span class="para-label">B</span>The construction of a Roman aqueduct began with detailed surveying of the landscape between the water source — typically a spring, lake, or river in elevated terrain — and the destination settlement. Roman engineers, known as <em>libratores</em>, employed a graduated instrument called the <em>groma</em> and a water-levelling device called the <em>chorobates</em> to establish a consistent downward gradient along the intended route. The gradient was carefully calibrated: too steep, and the velocity of flowing water would erode the channel lining; too shallow, and sediment would accumulate and restrict flow. Vitruvius, writing in the first century BCE, recommended a gradient of no less than half a foot per hundred feet, and surviving aqueducts confirm that most Roman engineers achieved gradients within this range, often maintaining them across distances of tens of kilometres.</p>
+
+          <p><span class="para-label">C</span>The channel itself, known as the <em>specus</em>, was constructed from dressed stone or concrete lined with a waterproof hydraulic mortar comprising lime, volcanic sand called <em>pozzolana</em>, and ceramic fragments. This mortar, once cured, was highly resistant to water penetration and biological growth, properties that have allowed sections of surviving aqueduct channels to remain structurally sound after two millennia of exposure. The channel was typically covered with vaulted stone caps or brick arches to prevent evaporation, contamination from animals or vegetation, and the warming of water during transport. Maintenance teams known as <em>aquarii</em> were permanently assigned to each aqueduct, responsible for clearing obstructions, repairing fractures, and removing the mineral deposits — principally calcium carbonate — that accumulated on channel walls at a rate that could, if left unaddressed, reduce flow capacity by as much as forty percent over several decades.</p>
+
+          <p><span class="para-label">D</span>Where the natural terrain presented valleys or depressions that interrupted the required gradient, Roman engineers devised two principal solutions. The first was the arcaded bridge, or <em>aqua ducta</em> in its literal architectural sense: a series of superimposed stone arches carrying the channel across the gap at the required elevation. The Pont du Gard, constructed near Nîmes in southern France around 50 CE, remains the most celebrated example — three tiers of arches rising forty-nine metres above the Gardon River and carrying the channel of the Nîmes aqueduct across a span of 275 metres. The second solution was the inverted siphon, in which the water was directed downward through sealed lead or stone pipes under pressure, rose on the far side of the depression by hydraulic pressure, and re-entered an open channel at the original level. Siphons were technically demanding and required precise calculation of hydrostatic pressure to avoid pipe failure.</p>
+
+          <p><span class="para-label">E</span>Water distribution within the receiving city was managed through a hierarchical infrastructure. The aqueduct's flow was received first into a large cistern known as the <em>castellum divisorium</em>, where it was allowed to settle and from which it was distributed through three separate pipe networks serving, respectively, public fountains and basins, the imperial baths and public thermae, and the private residences of those wealthy enough to pay for a domestic connection. The <em>curator aquarum</em>, a senior administrative official appointed by the emperor from the first century CE onwards, held responsibility for the entire water supply network of Rome, overseeing both its physical maintenance and the legal framework governing water rights, allocation, and the prosecution of those who illegally tapped supply pipes.</p>
+
+          <p><span class="para-label">F</span>Despite their sophistication, Roman aqueducts were not without significant limitations. The predominantly gravitational design meant that the system could not supply water to upper floors of buildings, requiring residents above ground level to collect water from street-level fountains and carry it manually — an arrangement that influenced the social geography of Roman cities, with poorer residents concentrated in upper storeys. Lead pipes, used extensively in the distribution network, have prompted scholarly debate about their contribution to elevated blood lead levels in Roman populations, though recent archaeometric studies suggest that the scale of lead exposure from drinking water was partially offset by the formation of calcium carbonate deposits inside pipes that reduced direct contact between water and metal. The aqueducts were also vulnerable to military disruption: the Gothic sieges of Rome in the sixth century CE deliberately targeted the aqueduct infrastructure, and the resulting loss of water supply contributed materially to the demographic collapse of the city.</p>
+
+          <p><span class="para-label">G</span>The legacy of Roman hydraulic engineering extended well beyond the empire's political boundaries and temporal limits. Arab engineers in the medieval Near East adapted Roman siphon and channel technologies for irrigation systems that expanded agricultural production across semi-arid landscapes. The technical vocabulary of hydrology retains Latin terminology — <em>aquifer</em>, <em>conduit</em>, <em>cistern</em> — that reflects the Romans' foundational contribution to the discipline. Several surviving aqueducts in Spain, Portugal, and Turkey continued to supply water to settlements into the nineteenth and even twentieth centuries, a functional longevity that testifies to the quality of original construction and serves as a subject of ongoing study by civil engineers examining durable infrastructure design.</p>
+        </div>
+      </div>
+
+      <!-- Passage 2 -->
+      <div id="passageContent2" style="display:none;">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 2</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">The Circular Economy: Principles, Practices, and Policy Challenges</div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>The linear economy — extract, produce, consume, discard — has dominated industrial civilisation since the onset of the first Industrial Revolution. By the early twenty-first century, however, the mounting environmental costs of this model had generated sufficient pressure to elevate an alternative framework — the circular economy — to the centre of policy debate in governments, multilateral institutions, and corporate boardrooms across the developed world. Broadly defined, a circular economy is one in which products, components, and materials are kept in circulation at their highest possible utility for as long as possible, through strategies of reuse, remanufacturing, refurbishment, and recycling, with waste generation minimised and ideally eliminated. The Ellen MacArthur Foundation, which has done more than any other single institution to codify and disseminate circular economy thinking, estimates that a full transition to circular principles in the European Union alone could generate net benefits of more than 1.8 trillion euros annually by 2030.</p>
+
+          <p><span class="para-label">B</span>The intellectual foundations of the circular economy draw on several distinct traditions of economic and ecological thought. The concept of industrial ecology, developed in the 1980s by researchers including Robert Frosch and Nicholas Gallopoulos at General Motors, proposed that industrial systems could be redesigned to emulate biological ecosystems, in which the waste output of one organism becomes the nutritive input of another. Walter Stahel, a Swiss architect and economist, independently articulated what he termed the "performance economy" — a model in which manufacturers retain ownership of products and lease their functionality to users, creating a financial incentive to design for longevity and repairability rather than planned obsolescence. Simultaneously, the concept of biomimicry, associated most prominently with the biologist Janine Benyus, argued that nature's design principles — closed material loops, waste elimination, and energy efficiency — provided templates for sustainable industrial innovation.</p>
+
+          <p><span class="para-label">C</span>In practice, circular economy strategies are commonly organised around a hierarchy of interventions ranked by their capacity to retain material value. At the highest level sits product life extension through maintenance, repair, and reuse — activities that consume minimal additional resources and preserve the embodied energy and processing invested in the original product. Below this sits remanufacturing, in which core components of a used product are restored to original specification and incorporated into a new product, a practice long established in industries such as automotive parts, aircraft engines, and industrial machinery. Recycling, in which materials are recovered from end-of-life products and reprocessed into secondary raw materials, occupies a lower position in this hierarchy because it dissipates both the material's structural integrity and the energy embodied in its prior processing. Cascading use — deploying a material in progressively lower-value applications before final disposal — represents the last intervention before waste generation.</p>
+
+          <p><span class="para-label">D</span>Despite growing institutional endorsement, the transition to circular practices faces substantial structural impediments. Product design decisions made decades ago continue to constrain recycling infrastructure, as materials engineers have historically prioritised performance and cost minimisation over disassembly and material recovery. Multi-material composites — carbon fibre reinforced polymers, laminated packaging, electronic circuit boards — present particular challenges because the bonding between constituent materials is difficult or energy-intensive to reverse without degrading the individual components. Moreover, the economics of secondary materials are inherently volatile: when virgin raw material prices fall, as they frequently do in response to supply expansions or demand contractions, the financial incentive to invest in collection, sorting, and reprocessing infrastructure weakens, leaving circular economy businesses vulnerable to commodity price cycles that they cannot control.</p>
+
+          <p><span class="para-label">E</span>Policy instruments to accelerate circular transitions have proliferated in recent years, with the European Union emerging as the most ambitious regulatory actor. The EU's Circular Economy Action Plans of 2015 and 2020 introduced extended producer responsibility requirements across multiple product categories, obliging manufacturers to finance end-of-life collection and processing systems for the products they place on the market. Ecodesign regulations have been progressively extended beyond energy-using products to encompass textiles, electronics, and construction materials, mandating minimum standards for durability, repairability, and recycled content. A proposed EU Right to Repair directive, under development as of 2024, would require manufacturers to supply spare parts and repair documentation for defined product categories for a minimum period following their placement on the market — a measure that critics from the manufacturing sector have argued would impose disproportionate cost burdens on smaller producers.</p>
+
+          <p><span class="para-label">F</span>The evidence base for the claimed economic benefits of circular economy transitions remains, at this stage, less comprehensive than its proponents sometimes acknowledge. Several rigorous analyses have found that circular business models deliver measurable cost savings and revenue opportunities at the firm level, particularly in sectors characterised by high-value, long-lived assets such as capital goods, construction, and automotive manufacturing. The case is considerably weaker for fast-moving consumer goods, where low product prices, high consumption volumes, and complex supply chains make material recovery economically marginal under current conditions. A meta-analysis of fifty-seven case studies published in the journal Resources, Conservation and Recycling in 2022 concluded that the reported financial benefits of circular interventions were frequently overstated due to the selective exclusion of infrastructure costs, transaction costs, and the opportunity costs of capital invested in collection and reprocessing systems.</p>
+
+          <p><span class="para-label">G</span>The circular economy represents a genuinely important reorientation of industrial thinking, and its core insight — that material flows should be designed as loops rather than lines — is both ecologically sound and logically compelling. Translating this insight into economy-wide practice, however, requires resolving tensions between the interests of producers, consumers, recyclers, and regulators that decades of policy effort have not yet fully addressed. The trajectory of adoption will likely be determined less by the elegance of the theoretical framework than by the interaction of regulatory mandates, technological capabilities in material separation and remanufacturing, and the long-run price dynamics of virgin versus secondary raw materials in global commodity markets.</p>
+        </div>
+      </div>
+
+      <!-- Passage 3 -->
+      <div id="passageContent3" style="display:none;">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 3</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">Cognitive Load Theory and Its Implications for Education</div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>Few theoretical frameworks have exerted as sustained an influence on instructional design as cognitive load theory, first articulated by educational psychologist John Sweller in a landmark 1988 paper published in Cognitive Science. The theory begins from an empirically well-supported premise: human working memory — the cognitive subsystem responsible for the active manipulation, integration, and temporary storage of information — operates under severe capacity constraints. Sweller proposed that the demands placed on working memory by an instructional task could be classified into three additive categories, and that effective instruction required minimising unnecessary cognitive demands while optimising those that directly supported the construction of durable knowledge structures in long-term memory. The framework has generated several hundred empirical studies and has been invoked to justify instructional decisions ranging from the design of mathematics textbook problems to the layout of aircraft cockpit displays.</p>
+
+          <p><span class="para-label">B</span>The three load categories central to the theory are intrinsic load, extraneous load, and germane load. Intrinsic load is determined by the inherent complexity of the material being learned, specifically by the number of interacting elements that must be held simultaneously in working memory to comprehend the content. It is, in principle, irreducible without simplifying the material itself, though it can be managed through careful sequencing — presenting simpler component skills before combining them into complex wholes. Extraneous load arises from features of the instructional presentation that do not contribute to learning: redundant information, poorly designed diagrams, split-attention formats in which related verbal and visual information are physically separated, and unnecessarily complex problem structures that divert cognitive resources away from the target schema. Germane load, the most debated category, was originally proposed to represent the cognitive effort invested specifically in schema formation and automation — the productive processing that yields transferable knowledge.</p>
+
+          <p><span class="para-label">C</span>From these theoretical foundations, Sweller and colleagues derived a series of instructional design principles that have been widely adopted in educational research and practice. The worked example effect demonstrates that novice learners acquire problem-solving schemas more efficiently by studying solved examples than by independently attempting equivalent problems — because problem-solving imposes heavy extraneous load on novices who lack the guiding schemas that would make search strategies efficient. The split-attention effect predicts that presenting related textual and diagrammatic information in integrated formats — explanatory labels placed directly on a diagram rather than in a separate legend — reduces the working memory demands of cross-referencing and improves learning outcomes. The redundancy effect cautions that presenting the same information in multiple formats simultaneously — reading aloud a narration while displaying identical written text on screen — can increase total cognitive load rather than providing reinforcement, particularly for learners who have already developed adequate schemas for the material.</p>
+
+          <p><span class="para-label">D</span>The theory's account of expertise reversal — perhaps its most counterintuitive prediction — holds that instructional designs optimised for novices become suboptimal or even harmful when applied to more advanced learners. A worked example that efficiently guides a novice through an unfamiliar problem structure imposes redundancy costs on an expert, whose existing schemas render the explicit guidance unnecessary and whose cognitive resources are diverted into processing information that adds nothing to understanding. This reversal has practical implications for adaptive learning systems: instructional scaffolding that benefits beginners must be progressively withdrawn as competence develops, and the timing of this withdrawal requires reliable diagnosis of the learner's current schema development — a challenge that remains technically demanding even in contemporary machine-learning-assisted educational platforms.</p>
+
+          <p><span class="para-label">E</span>Despite its influence, cognitive load theory has attracted significant methodological and conceptual criticism. A fundamental objection concerns the theory's measurability: cognitive load is an unobservable construct, and its empirical operationalisation has relied primarily on self-report ratings of mental effort and, more recently, on psychophysiological proxies such as pupil dilation and heart rate variability. Critics have argued that these measures conflate the three load categories rather than discriminating among them, undermining the theoretical precision that the tripartite distinction implies. A further challenge arises from the revision of the germane load construct: the original claim that germane load could be distinguished from intrinsic load on the basis of its productive versus unproductive character has been questioned on the grounds that no reliable means of independently measuring germane load has been established, leading several theorists to propose that the concept be abandoned or reconceptualised as a quality of intrinsic rather than a separate third load.</p>
+
+          <p><span class="para-label">F</span>The relationship between cognitive load theory and broader theories of learning and memory has also been contested. Some researchers have argued that the theory's account of long-term memory as an effectively unlimited repository of schemas, contrasted with the severely limited working memory, oversimplifies what is known about memory system architecture from cognitive neuroscience. In particular, evidence from neuroimaging studies suggests that the boundary between working memory and long-term memory is less categorical than the theory implies, with long-term memory structures actively supporting working memory processing in ways that the original model did not accommodate. Moreover, cognitive load theory has been criticised for underspecifying the role of motivation, affect, and metacognition in learning — factors that influence not only the effort learners invest in processing but also the strategies they deploy when cognitive demands become challenging.</p>
+
+          <p><span class="para-label">G</span>Notwithstanding these limitations, cognitive load theory retains substantial explanatory and predictive utility across a wide range of educational contexts. Its core contributions — identifying working memory capacity as the primary bottleneck in instruction, systematising the distinction between productive and unproductive cognitive demand, and generating a programme of empirically testable instructional design principles — represent a durable contribution to educational science. Ongoing research is extending the framework in productive directions: integrating cognitive load considerations with desirable difficulties research, exploring its applications in immersive virtual learning environments, and refining the adaptive algorithms that govern the sequencing of instructional challenge in intelligent tutoring systems. The theory's capacity to generate falsifiable predictions and to connect fundamental cognitive science with practical instructional design decisions ensures its continued relevance to researchers and practitioners alike.</p>
+        </div>
+      </div>
+
+    </div><!-- /reading-pane -->
+
+    <!-- RESIZER BAR -->
+    <div class="resizer-bar" id="resizerBar">
+      <button class="resizer-btn" aria-label="Drag to resize panels">
+        <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M3.5 2L1 6L3.5 10" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span style="display:block;width:2px;height:14px;background:var(--border);border-radius:1px;"></span>
+        <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M6.5 2L9 6L6.5 10" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+
+    <!-- QUESTION PANE -->
+    <div class="question-pane" id="questionPane">
+      <div id="qPanel1"></div>
+      <div id="qPanel2" style="display:none;"></div>
+      <div id="qPanel3" style="display:none;"></div>
+    </div>
+
+  </div><!-- /split-container -->
+
+  <!-- SUBMIT -->
+  <div class="flex justify-center mt-10 mb-16">
+    <button onclick="confirmSubmit()" class="btn-gold px-10 py-4 text-base">Submit Reading Test</button>
+  </div>
+</main>
+
+<!-- RESULTS -->
+<div id="resultsMain" style="display:none;" class="flex-1 max-w-5xl mx-auto px-6 py-10 w-full">
+  <div class="flex items-center gap-3 mb-8">
+    <div>
+      <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Results</div>
+      <h1 class="font-display font-black text-2xl" style="color:var(--text-primary);">Academic Reading — Score Report</h1>
+    </div>
+  </div>
+  <div class="section-card mb-6" id="scoreCard"></div>
+  <div class="section-card mb-8" id="feedbackCard"></div>
+  <div class="section-card mb-6">
+    <div class="passage-corr-header">Passage 1 — Roman Aqueduct Engineering</div>
+    <div id="corrPassage1"></div>
+  </div>
+  <div class="section-card mb-6">
+    <div class="passage-corr-header">Passage 2 — The Circular Economy</div>
+    <div id="corrPassage2"></div>
+  </div>
+  <div class="section-card mb-10">
+    <div class="passage-corr-header">Passage 3 — Cognitive Load Theory</div>
+    <div id="corrPassage3"></div>
+  </div>
+  <div class="flex gap-4 justify-center mb-16">
+    <a href="index.html" class="btn-gold">← Back to Tests</a>
+  </div>
+</div>
+
+<!-- SUBMITTING OVERLAY -->
+<div id="submittingOverlay" style="display:none;position:fixed;inset:0;z-index:300;background:rgba(247,248,250,0.97);flex-direction:column;align-items:center;justify-content:center;" class="flex">
+  <div class="spinner mb-6"></div>
+  <div class="font-display font-bold text-xl mb-2" style="color:var(--text-primary);">Scoring Your Answers</div>
+  <p class="text-sm" style="color:var(--text-muted);">Analysing your responses…</p>
+</div>
+
+<script>
+
+// ─────────────────────────────────────────
+//  TEST DATA
+// ─────────────────────────────────────────
+const GROUPS = [
+  // ── PASSAGE 1 — Roman Aqueducts — Matching Headings Q1–5 ──
+  {
+    passageId: 1,
+    type: 'matching_headings',
+    label: 'Questions 1–5',
+    instructions: 'The reading passage has seven paragraphs, <strong>A–G</strong>. Choose the correct heading for paragraphs <strong>B–F</strong> from the list of headings below. Paragraphs A and G are not included. Write the correct Roman numeral in the box.',
+    headings: [
+      { key: 'i',    text: 'The tools and calculations used to plan the course of a water channel' },
+      { key: 'ii',   text: 'How water was divided and regulated once it reached a city' },
+      { key: 'iii',  text: 'The durable materials and ongoing maintenance required to keep channels functional' },
+      { key: 'iv',   text: 'Engineering solutions for crossing terrain that interrupted the required level' },
+      { key: 'v',    text: 'Social and health consequences of the system, and its vulnerability to attack' },
+      { key: 'vi',   text: 'An account of the financial cost of constructing aqueducts across the empire' },
+      { key: 'vii',  text: 'The role of military engineers in surveying conquered territories' },
+      { key: 'viii', text: 'Why Roman bridges were preferred over underground tunnels in most provinces' },
+    ],
+    questions: [
+      { id: 1, paraLabel: 'B', text: 'Paragraph B', answer: 'i', answerDisplay: 'i — The tools and calculations used to plan the course of a water channel',
+        explanation: 'Paragraph B describes the surveying instruments used by Roman engineers — the groma and chorobates — and the precise gradient calculations required, citing Vitruvius. Heading ii (city distribution) maps to E; headings vi and vii (financial cost, military surveying) are not discussed in the passage.',
+        reinforcement: 'Correct — paragraph B is entirely organised around the surveying tools and gradient calculations needed to plan the channel route, matching heading i.' },
+      { id: 2, paraLabel: 'C', text: 'Paragraph C', answer: 'iii', answerDisplay: 'iii — The durable materials and ongoing maintenance required to keep channels functional',
+        explanation: 'Paragraph C describes the hydraulic mortar lining that gave the channel structural durability, the vaulted covers, and the permanent maintenance teams (aquarii) who cleared obstructions and mineral deposits. "Durable materials" = pozzolana mortar; "ongoing maintenance" = aquarii and their tasks.',
+        reinforcement: 'Correct — paragraph C covers both the construction materials that ensured longevity and the maintenance regime required to preserve capacity, matching heading iii.' },
+      { id: 3, paraLabel: 'D', text: 'Paragraph D', answer: 'iv', answerDisplay: 'iv — Engineering solutions for crossing terrain that interrupted the required level',
+        explanation: 'Paragraph D presents two solutions for valley crossings: the arcaded bridge (Pont du Gard example) and the inverted siphon. "Terrain that interrupted the required level" = valleys and depressions; "engineering solutions" = arcades and siphons.',
+        reinforcement: 'Correct — paragraph D is devoted to the two engineering responses to topographical obstacles, directly matching heading iv.' },
+      { id: 4, paraLabel: 'E', text: 'Paragraph E', answer: 'ii', answerDisplay: 'ii — How water was divided and regulated once it reached a city',
+        explanation: 'Paragraph E describes the castellum divisorium, the three distribution networks, and the curator aquarum who oversaw legal allocation. "Divided and regulated once it reached a city" = castellum and three-pipe distribution system.',
+        reinforcement: 'Correct — paragraph E describes the urban distribution hierarchy and administrative oversight, matching heading ii.' },
+      { id: 5, paraLabel: 'F', text: 'Paragraph F', answer: 'v', answerDisplay: 'v — Social and health consequences of the system, and its vulnerability to attack',
+        explanation: 'Paragraph F covers the social geography of upper storeys, the lead pipe health debate, and the Gothic sieges that destroyed the aqueducts. "Social consequences" = upper-floor poverty; "health consequences" = lead exposure debate; "vulnerability to attack" = Gothic sieges.',
+        reinforcement: 'Correct — paragraph F addresses social impacts, health questions, and military vulnerability, matching the three elements in heading v.' },
+    ]
+  },
+  // ── PASSAGE 1 — T/F/NG Q6–9 ──
+  {
+    passageId: 1,
+    type: 'tfng',
+    label: 'Questions 6–9',
+    instructions: 'Do the following statements agree with the information given in the reading passage? Write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      { id: 6, text: 'The per capita water supply provided by Rome\'s aqueducts at their peak was greater than that of some nineteenth-century European cities.',
+        answer: 'TRUE',
+        explanation: 'Paragraph A: <strong>"a per capita provision that rivalled or exceeded that of many European cities in the nineteenth century."</strong> "Greater than that of some nineteenth-century European cities" accurately paraphrases "exceeded that of many."',
+        reinforcement: 'Correct — paragraph A explicitly states that Rome\'s per capita supply equalled or surpassed many nineteenth-century European cities.' },
+      { id: 7, text: 'Vitruvius recommended that the gradient of an aqueduct channel should not exceed one foot per hundred feet.',
+        answer: 'FALSE',
+        explanation: 'Paragraph B: Vitruvius recommended a gradient of <strong>"no less than half a foot per hundred feet"</strong> — a minimum, not a maximum. The statement inverts both the direction of the recommendation (minimum vs maximum) and the figure (half a foot vs one foot).',
+        reinforcement: 'Correct — Vitruvius stated a minimum gradient of half a foot per hundred feet; the question reverses this as a maximum of one foot, making it FALSE.' },
+      { id: 8, text: 'The aquarii were responsible for removing calcium carbonate deposits from aqueduct channels.',
+        answer: 'TRUE',
+        explanation: 'Paragraph C: <strong>"removing the mineral deposits — principally calcium carbonate — that accumulated on channel walls."</strong> This is a direct match to the statement.',
+        reinforcement: 'Correct — paragraph C explicitly names the aquarii and calcium carbonate deposits in the same sentence.' },
+      { id: 9, text: 'The Pont du Gard was built to supply water to the city of Rome.',
+        answer: 'FALSE',
+        explanation: 'Paragraph D states the Pont du Gard is located <strong>"near Nîmes in southern France"</strong> and carried <strong>"the channel of the Nîmes aqueduct"</strong> — it supplied Nîmes, not Rome.',
+        reinforcement: 'Correct — paragraph D explicitly identifies the Pont du Gard as part of the Nîmes aqueduct, not a Roman supply structure.' },
+    ]
+  },
+  // ── PASSAGE 1 — Sentence Completion Q10–13 ──
+  {
+    passageId: 1,
+    type: 'sentence_completion',
+    label: 'Questions 10–13',
+    instructions: 'Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.',
+    questions: [
+      { id: 10, text: 'Roman engineers used a water-levelling device called the _______ to establish a consistent gradient along the planned route.',
+        answer: 'chorobates', answerDisplay: 'chorobates', acceptable: ['chorobates'],
+        explanation: 'Paragraph B: <strong>"a water-levelling device called the chorobates to establish a consistent downward gradient along the intended route."</strong> The sentence frame paraphrases the passage precisely; "chorobates" is the exact answer.',
+        reinforcement: 'Correct — "chorobates" is the water-levelling instrument named in paragraph B.' },
+      { id: 11, text: 'The waterproof mortar used to line aqueduct channels incorporated volcanic sand known as _______.',
+        answer: 'pozzolana', answerDisplay: 'pozzolana', acceptable: ['pozzolana'],
+        explanation: 'Paragraph C: <strong>"hydraulic mortar comprising lime, volcanic sand called pozzolana, and ceramic fragments."</strong> The sentence frame substitutes "volcanic sand known as" for the passage\'s appositive structure; "pozzolana" is the exact term.',
+        reinforcement: 'Correct — "pozzolana" is the exact term for the volcanic sand in paragraph C\'s description of the channel mortar.' },
+      { id: 12, text: 'Unaddressed calcium carbonate deposits could reduce an aqueduct\'s flow capacity by as much as _______ over several decades.',
+        answer: 'forty percent', answerDisplay: 'forty percent', acceptable: ['forty percent', '40 percent', '40%'],
+        explanation: 'Paragraph C: <strong>"reduce flow capacity by as much as forty percent over several decades."</strong> The sentence frame paraphrases "if left unaddressed"; "forty percent" is the exact two-word figure.',
+        reinforcement: 'Correct — "forty percent" is the maximum flow reduction cited in paragraph C.' },
+      { id: 13, text: 'In the inverted siphon design, water was driven upward on the far side of a depression by _______.',
+        answer: 'hydraulic pressure', answerDisplay: 'hydraulic pressure', acceptable: ['hydraulic pressure'],
+        explanation: 'Paragraph D: <strong>"rose on the far side of the depression by hydraulic pressure."</strong> The sentence frame paraphrases the siphon mechanism; "hydraulic pressure" is the exact two-word phrase.',
+        reinforcement: 'Correct — "hydraulic pressure" is the mechanism specified in paragraph D\'s description of the inverted siphon.' },
+    ]
+  },
+
+  // ── PASSAGE 2 — Circular Economy — Matching Headings Q14–18 ──
+  {
+    passageId: 2,
+    type: 'matching_headings',
+    label: 'Questions 14–18',
+    instructions: 'The reading passage has seven paragraphs, <strong>A–G</strong>. Choose the correct heading for paragraphs <strong>B–F</strong> from the list of headings below. Paragraphs A and G are not included. Write the correct Roman numeral in the box.',
+    headings: [
+      { key: 'i',    text: 'The intellectual traditions and theorists who laid the foundations for circular thinking' },
+      { key: 'ii',   text: 'A ranked classification of strategies according to how much material value they preserve' },
+      { key: 'iii',  text: 'The regulatory measures introduced by a major political bloc to accelerate circular transitions' },
+      { key: 'iv',   text: 'Evidence that the financial case for circularity is weaker in some sectors than is often claimed' },
+      { key: 'v',    text: 'Structural barriers to circular practices rooted in past design choices and market volatility' },
+      { key: 'vi',   text: 'A comparison of circular economy approaches in developed and developing countries' },
+      { key: 'vii',  text: 'The environmental impact of recycling processes on air quality in urban areas' },
+      { key: 'viii', text: 'Consumer behaviour patterns that undermine the effectiveness of take-back schemes' },
+    ],
+    questions: [
+      { id: 14, paraLabel: 'B', text: 'Paragraph B', answer: 'i', answerDisplay: 'i — The intellectual traditions and theorists who laid the foundations for circular thinking',
+        explanation: 'Paragraph B traces three intellectual lineages: industrial ecology (Frosch and Gallopoulos), the performance economy (Walter Stahel), and biomimicry (Janine Benyus). "Intellectual traditions and theorists who laid the foundations" = these three named thinkers and their frameworks.',
+        reinforcement: 'Correct — paragraph B is entirely devoted to the intellectual origins and founding theorists of circular economy thinking, matching heading i.' },
+      { id: 15, paraLabel: 'C', text: 'Paragraph C', answer: 'ii', answerDisplay: 'ii — A ranked classification of strategies according to how much material value they preserve',
+        explanation: 'Paragraph C explicitly presents a "hierarchy of interventions ranked by their capacity to retain material value," listing product life extension, remanufacturing, recycling, and cascading use in descending order. "Ranked classification" = hierarchy; "material value they preserve" = capacity to retain material value.',
+        reinforcement: 'Correct — paragraph C introduces and explains the value-retention hierarchy of circular interventions, directly matching heading ii.' },
+      { id: 16, paraLabel: 'D', text: 'Paragraph D', answer: 'v', answerDisplay: 'v — Structural barriers to circular practices rooted in past design choices and market volatility',
+        explanation: 'Paragraph D identifies two barriers: historically poor disassembly design (past design choices) and volatile secondary material prices that weaken investment incentives (market volatility). "Structural barriers" = impediments; "rooted in past design choices" = decisions made decades ago; "market volatility" = commodity price cycles.',
+        reinforcement: 'Correct — paragraph D describes both legacy design constraints and commodity price volatility as structural barriers, matching heading v.' },
+      { id: 17, paraLabel: 'E', text: 'Paragraph E', answer: 'iii', answerDisplay: 'iii — The regulatory measures introduced by a major political bloc to accelerate circular transitions',
+        explanation: 'Paragraph E describes EU Circular Economy Action Plans, ecodesign regulations, extended producer responsibility, and the proposed Right to Repair directive. "Major political bloc" = European Union; "regulatory measures to accelerate circular transitions" = these four policy instruments.',
+        reinforcement: 'Correct — paragraph E catalogues EU regulatory instruments for circular transition, matching heading iii.' },
+      { id: 18, paraLabel: 'F', text: 'Paragraph F', answer: 'iv', answerDisplay: 'iv — Evidence that the financial case for circularity is weaker in some sectors than is often claimed',
+        explanation: 'Paragraph F presents the meta-analysis finding that benefits are "frequently overstated" and that the case is "considerably weaker for fast-moving consumer goods." "Weaker in some sectors than is often claimed" = both the sector-specific qualification and the overstatement critique.',
+        reinforcement: 'Correct — paragraph F critically examines the evidence base, finding sector-specific weaknesses and methodological inflation of benefits, matching heading iv.' },
+    ]
+  },
+  // ── PASSAGE 2 — T/F/NG Q19–22 ──
+  {
+    passageId: 2,
+    type: 'tfng',
+    label: 'Questions 19–22',
+    instructions: 'Do the following statements agree with the information given in the reading passage? Write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      { id: 19, text: 'Walter Stahel proposed a model in which manufacturers sell products outright to consumers rather than retaining ownership.',
+        answer: 'FALSE',
+        explanation: 'Paragraph B: Stahel\'s performance economy involves manufacturers <strong>"retain[ing] ownership of products and leas[ing] their functionality to users."</strong> The statement directly contradicts this by claiming products are sold outright.',
+        reinforcement: 'Correct — paragraph B states Stahel advocated retained ownership and leasing, the opposite of outright sale.' },
+      { id: 20, text: 'The Ellen MacArthur Foundation has estimated that a complete circular transition in the EU could generate annual net benefits exceeding 1.8 trillion euros by 2030.',
+        answer: 'TRUE',
+        explanation: 'Paragraph A: <strong>"could generate net benefits of more than 1.8 trillion euros annually by 2030."</strong> The statement is an exact paraphrase.',
+        reinforcement: 'Correct — paragraph A cites the Ellen MacArthur Foundation figure of over 1.8 trillion euros annually by 2030 explicitly.' },
+      { id: 21, text: 'The EU Right to Repair directive had been fully adopted into law by all member states by 2024.',
+        answer: 'NOT GIVEN',
+        explanation: 'Paragraph E describes the Right to Repair directive as <strong>"under development as of 2024"</strong> — a proposed measure, not yet adopted. No information about member state adoption into national law is provided anywhere.',
+        reinforcement: 'Correct — the passage says the directive was under development in 2024; no information about final adoption or national implementation is given.' },
+      { id: 22, text: 'The meta-analysis published in Resources, Conservation and Recycling examined fifty-seven case studies of circular economy interventions.',
+        answer: 'TRUE',
+        explanation: 'Paragraph F: <strong>"A meta-analysis of fifty-seven case studies published in the journal Resources, Conservation and Recycling in 2022."</strong> Direct match.',
+        reinforcement: 'Correct — paragraph F explicitly states the meta-analysis covered fifty-seven case studies.' },
+    ]
+  },
+  // ── PASSAGE 2 — Sentence Completion Q23–26 ──
+  {
+    passageId: 2,
+    type: 'sentence_completion',
+    label: 'Questions 23–26',
+    instructions: 'Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.',
+    questions: [
+      { id: 23, text: 'The concept of industrial ecology proposed that industrial systems could be redesigned to emulate biological _______, in which the waste of one organism nourishes another.',
+        answer: 'ecosystems', answerDisplay: 'ecosystems', acceptable: ['ecosystems'],
+        explanation: 'Paragraph B: <strong>"industrial systems could be redesigned to emulate biological ecosystems, in which the waste output of one organism becomes the nutritive input of another."</strong> "Ecosystems" is the exact noun required.',
+        reinforcement: 'Correct — "ecosystems" is the term used in paragraph B to describe the biological model that industrial ecology seeks to emulate.' },
+      { id: 24, text: 'In the circular economy hierarchy, product life extension through maintenance and reuse is ranked above remanufacturing because it consumes minimal additional resources and preserves _______ energy.',
+        answer: 'embodied', answerDisplay: 'embodied', acceptable: ['embodied'],
+        explanation: 'Paragraph C: <strong>"preserve the embodied energy and processing invested in the original product."</strong> "Embodied" is the exact adjective modifying "energy" in this context.',
+        reinforcement: 'Correct — "embodied" is the precise qualifier for "energy" in paragraph C\'s justification of product life extension\'s top-ranked status.' },
+      { id: 25, text: 'When virgin raw material prices fall, the financial incentive to invest in circular economy _______ infrastructure weakens.',
+        answer: 'reprocessing', answerDisplay: 'reprocessing', acceptable: ['reprocessing', 'collection'],
+        explanation: 'Paragraph D: <strong>"the financial incentive to invest in collection, sorting, and reprocessing infrastructure weakens."</strong> "Reprocessing" is the most specific term completing the sentence frame; "collection" is also acceptable.',
+        reinforcement: 'Correct — paragraph D identifies "reprocessing infrastructure" as the investment that becomes financially unattractive when virgin material prices fall.' },
+      { id: 26, text: 'Extended producer responsibility requirements oblige manufacturers to finance _______ collection and processing systems for the products they place on the market.',
+        answer: 'end-of-life', answerDisplay: 'end-of-life', acceptable: ['end-of-life'],
+        explanation: 'Paragraph E: <strong>"obliging manufacturers to finance end-of-life collection and processing systems."</strong> "End-of-life" is a hyphenated two-word phrase used verbatim in the passage.',
+        reinforcement: 'Correct — "end-of-life" is the exact phrase preceding "collection and processing systems" in paragraph E.' },
+    ]
+  },
+
+  // ── PASSAGE 3 — Cognitive Load Theory — Matching Information Q27–31 ──
+  {
+    passageId: 3,
+    type: 'matching_info',
+    label: 'Questions 27–31',
+    instructions: 'The reading passage has seven paragraphs, <strong>A–G</strong>. Which paragraph contains the following information? Write the correct letter <strong>A–G</strong> in the box. You may use any letter more than once.',
+    paraOptions: ['A','B','C','D','E','F','G'],
+    questions: [
+      { id: 27, text: 'A description of a phenomenon in which instructional support that helps beginners becomes counterproductive for more experienced learners.',
+        answer: 'D', answerDisplay: 'D',
+        explanation: 'Paragraph D: <strong>"the expertise reversal… holds that instructional designs optimised for novices become suboptimal or even harmful when applied to more advanced learners."</strong>',
+        reinforcement: 'Correct — the expertise reversal effect, in which scaffolding helpful to novices harms experts, is described in paragraph D.' },
+      { id: 28, text: 'A reference to empirical evidence suggesting that the boundary between two memory systems is less fixed than cognitive load theory originally assumed.',
+        answer: 'F', answerDisplay: 'F',
+        explanation: 'Paragraph F: <strong>"neuroimaging studies suggests that the boundary between working memory and long-term memory is less categorical than the theory implies."</strong>',
+        reinforcement: 'Correct — the neuroimaging evidence softening the working/long-term memory boundary is presented in paragraph F.' },
+      { id: 29, text: 'An identification of the cognitive demand arising from how instructional material is presented, rather than from its inherent complexity.',
+        answer: 'B', answerDisplay: 'B',
+        explanation: 'Paragraph B defines extraneous load as arising from <strong>"features of the instructional presentation that do not contribute to learning"</strong> — this is the demand from presentation format, not content complexity.',
+        reinforcement: 'Correct — extraneous load, defined as demand from presentational features rather than content complexity, is defined in paragraph B.' },
+      { id: 30, text: 'An explanation of why presenting identical information in both written and spoken form simultaneously may increase rather than reduce cognitive demand.',
+        answer: 'C', answerDisplay: 'C',
+        explanation: 'Paragraph C describes the redundancy effect: <strong>"presenting the same information in multiple formats simultaneously… can increase total cognitive load rather than providing reinforcement."</strong>',
+        reinforcement: 'Correct — the redundancy effect explaining why simultaneous identical formats increase load is detailed in paragraph C.' },
+      { id: 31, text: 'A claim that the theory\'s account of a specific construct has been questioned because no reliable way to measure it independently has been established.',
+        answer: 'E', answerDisplay: 'E',
+        explanation: 'Paragraph E: <strong>"no reliable means of independently measuring germane load has been established, leading several theorists to propose that the concept be abandoned."</strong>',
+        reinforcement: 'Correct — the critique that germane load cannot be independently measured and should perhaps be abandoned is in paragraph E.' },
+    ]
+  },
+  // ── PASSAGE 3 — T/F/NG Q32–36 ──
+  {
+    passageId: 3,
+    type: 'tfng',
+    label: 'Questions 32–36',
+    instructions: 'Do the following statements agree with the information given in the reading passage? Write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      { id: 32, text: 'John Sweller first published his cognitive load theory in a paper that appeared in the journal Cognitive Science in 1988.',
+        answer: 'TRUE',
+        explanation: 'Paragraph A: <strong>"first articulated by educational psychologist John Sweller in a landmark 1988 paper published in Cognitive Science."</strong> Direct match.',
+        reinforcement: 'Correct — paragraph A gives the 1988 Cognitive Science paper as the origin of cognitive load theory.' },
+      { id: 33, text: 'Intrinsic load can be eliminated entirely if material is simplified sufficiently before being presented to learners.',
+        answer: 'FALSE',
+        explanation: 'Paragraph B: intrinsic load <strong>"is, in principle, irreducible without simplifying the material itself."</strong> It can be managed through sequencing but cannot be eliminated — only reduced by changing the material. "Eliminated entirely" overstates what the passage claims.',
+        reinforcement: 'Correct — paragraph B describes intrinsic load as irreducible (not eliminable), making "eliminated entirely" FALSE.' },
+      { id: 34, text: 'The worked example effect predicts that novice learners benefit more from studying solved examples than from attempting equivalent problems themselves.',
+        answer: 'TRUE',
+        explanation: 'Paragraph C: <strong>"novice learners acquire problem-solving schemas more efficiently by studying solved examples than by independently attempting equivalent problems."</strong> Direct match.',
+        reinforcement: 'Correct — paragraph C states the worked example effect precisely as described in the question.' },
+      { id: 35, text: 'Cognitive load theory has been criticised for failing to account adequately for the role of motivation and metacognition in learning.',
+        answer: 'TRUE',
+        explanation: 'Paragraph F: <strong>"cognitive load theory has been criticised for underspecifying the role of motivation, affect, and metacognition in learning."</strong> "Failing to account adequately" paraphrases "underspecifying."',
+        reinforcement: 'Correct — paragraph F explicitly names motivation and metacognition as factors the theory underspecifies.' },
+      { id: 36, text: 'Researchers have found that pupil dilation is a more reliable measure of cognitive load than self-report ratings of mental effort.',
+        answer: 'NOT GIVEN',
+        explanation: 'Paragraph E mentions pupil dilation and self-report ratings as two types of measures used, but makes no comparative claim about which is more reliable. No such ranking appears anywhere in the passage.',
+        reinforcement: 'Correct — paragraph E lists both measures without comparing their relative reliability; no such comparison is made anywhere in the passage.' },
+    ]
+  },
+  // ── PASSAGE 3 — Summary Completion Q37–40 ──
+  {
+    passageId: 3,
+    type: 'sentence_completion',
+    label: 'Questions 37–40',
+    instructions: 'Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.<br><br><em>Cognitive load theory classifies cognitive demands into three types. The first, intrinsic load, reflects the inherent complexity of material, determined by the number of (37) _______ elements that must be held simultaneously in working memory. The second, extraneous load, results from poorly designed instruction, including (38) _______ formats that force learners to cross-reference separated text and diagrams. The third category was originally proposed to represent the cognitive effort devoted specifically to (39) _______ formation — the building of transferable knowledge structures. However, this third category has attracted criticism because researchers have been unable to establish a reliable method of measuring it (40) _______.</em>',
+    questions: [
+      { id: 37, text: '(37) Intrinsic load is determined by the number of _______ elements that must be held simultaneously in working memory.',
+        answer: 'interacting', answerDisplay: 'interacting', acceptable: ['interacting'],
+        explanation: 'Paragraph B: <strong>"the number of interacting elements that must be held simultaneously in working memory to comprehend the content."</strong> "Interacting" is the exact adjective.',
+        reinforcement: 'Correct — "interacting" is the precise modifier for "elements" in paragraph B\'s definition of intrinsic load.' },
+      { id: 38, text: '(38) Extraneous load includes _______ formats that require learners to mentally integrate separated text and diagrams.',
+        answer: 'split-attention', answerDisplay: 'split-attention', acceptable: ['split-attention'],
+        explanation: 'Paragraph B: <strong>"split-attention formats in which related verbal and visual information are physically separated."</strong> "Split-attention" is the exact hyphenated term.',
+        reinforcement: 'Correct — "split-attention" is the precise term in paragraph B for formats that separate related verbal and visual information.' },
+      { id: 39, text: '(39) The third load category was originally proposed to represent effort devoted to _______ formation.',
+        answer: 'schema', answerDisplay: 'schema', acceptable: ['schema'],
+        explanation: 'Paragraph B: <strong>"the cognitive effort invested specifically in schema formation and automation."</strong> "Schema" is the exact noun completing the phrase "schema formation."',
+        reinforcement: 'Correct — "schema" is the exact term used in paragraph B to describe what germane load was proposed to support.' },
+      { id: 40, text: '(40) The third category has been criticised because no reliable method of measuring it _______ has been established.',
+        answer: 'independently', answerDisplay: 'independently', acceptable: ['independently'],
+        explanation: 'Paragraph E: <strong>"no reliable means of independently measuring germane load has been established."</strong> "Independently" is the exact adverb modifying "measuring" in this critique.',
+        reinforcement: 'Correct — "independently" is the exact adverb in paragraph E\'s critique of the germane load construct.' },
+    ]
+  },
+];
+
+// ─────────────────────────────────────────
+//  STATE
+// ─────────────────────────────────────────
+const answers = {};
+const TOTAL_SECONDS = 3600;
+let secondsLeft = TOTAL_SECONDS;
+let timerInterval = null;
+let submitted = false;
+
+// ─────────────────────────────────────────
+//  TAB SWITCHING
+// ─────────────────────────────────────────
+function switchTab(n) {
+  [1,2,3].forEach(i => {
+    document.getElementById('passageContent' + i).style.display = i === n ? 'block' : 'none';
+    document.getElementById('qPanel' + i).style.display = i === n ? 'block' : 'none';
+    document.getElementById('tabNav').querySelectorAll('.tab-btn')[i-1].classList.toggle('active', i === n);
+  });
+  document.getElementById('readingPane').scrollTop = 0;
+  document.getElementById('questionPane').scrollTop = 0;
+}
+
+// ─────────────────────────────────────────
+//  FONT SIZE CONTROLLER
+// ─────────────────────────────────────────
+const FONT_SIZES = [13, 15, 17, 19];
+let fontSizeIdx = parseInt(localStorage.getItem('ielts_font_size_idx') || '1');
+function initFontSize() {
+  document.documentElement.style.setProperty('--passage-font-size', FONT_SIZES[fontSizeIdx] + 'px');
+}
+function adjustFontSize(delta) {
+  if (delta === 0) {
+    fontSizeIdx = 1;
+  } else {
+    fontSizeIdx = Math.max(0, Math.min(FONT_SIZES.length - 1, fontSizeIdx + delta));
+  }
+  document.documentElement.style.setProperty('--passage-font-size', FONT_SIZES[fontSizeIdx] + 'px');
+  localStorage.setItem('ielts_font_size_idx', fontSizeIdx);
+}
+
+// ─────────────────────────────────────────
+//  SPLIT-PANE RESIZER
+// ─────────────────────────────────────────
+(function initResizer() {
+  const container = document.getElementById('splitContainer');
+  const leftPane  = document.getElementById('readingPane');
+  const resizer   = document.getElementById('resizerBar');
+  if (!container || !leftPane || !resizer) return;
+
+  let isDragging = false;
+  let startX     = 0;
+  let startW     = 0;
+
+  function onStart(clientX) {
+    isDragging = true;
+    startX     = clientX;
+    startW     = leftPane.getBoundingClientRect().width;
+    resizer.classList.add('active');
+    document.body.style.cursor     = 'col-resize';
+    document.body.style.userSelect = 'none';
+  }
+
+  function onMove(clientX) {
+    if (!isDragging) return;
+    const cW    = container.getBoundingClientRect().width;
+    const rW    = resizer.getBoundingClientRect().width;
+    const avail = cW - rW;
+    const minW  = avail * 0.25;
+    const maxW  = avail * 0.75;
+    const newW  = Math.max(minW, Math.min(maxW, startW + (clientX - startX)));
+    leftPane.style.width = ((newW / cW) * 100).toFixed(2) + '%';
+  }
+
+  function onEnd() {
+    if (!isDragging) return;
+    isDragging = false;
+    resizer.classList.remove('active');
+    document.body.style.cursor     = '';
+    document.body.style.userSelect = '';
+  }
+
+  resizer.addEventListener('mousedown',  e => { e.preventDefault(); onStart(e.clientX); });
+  document.addEventListener('mousemove', e => onMove(e.clientX));
+  document.addEventListener('mouseup',   onEnd);
+
+  resizer.addEventListener('touchstart',  e => { e.preventDefault(); onStart(e.touches[0].clientX); }, { passive: false });
+  document.addEventListener('touchmove',  e => { if (isDragging) { e.preventDefault(); onMove(e.touches[0].clientX); } }, { passive: false });
+  document.addEventListener('touchend',   onEnd);
+})();
+
+// ─────────────────────────────────────────
+//  TIMER
+// ─────────────────────────────────────────
+function formatTime(s) {
+  return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+}
+function startTimer() {
+  timerInterval = setInterval(() => {
+    secondsLeft--;
+    const pct = (TOTAL_SECONDS - secondsLeft) / TOTAL_SECONDS * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+    const el = document.getElementById('timerDisplay');
+    el.textContent = formatTime(secondsLeft);
+    if (secondsLeft <= 120) el.className = 'timer-box critical';
+    else if (secondsLeft <= 300) el.className = 'timer-box warning';
+    if (secondsLeft <= 0) { clearInterval(timerInterval); autoSubmit(); }
+  }, 1000);
+}
+
+// ─────────────────────────────────────────
+//  RENDER QUESTIONS
+// ─────────────────────────────────────────
+function renderAll() {
+  [1,2,3].forEach(pid => {
+    const panel = document.getElementById('qPanel' + pid);
+    let html = '';
+    GROUPS.filter(g => g.passageId === pid).forEach(group => {
+      html += `<div class="group-header mb-4">
+        <div class="text-xs font-bold tracking-widest uppercase" style="color:var(--gold);">${group.label}</div>
+        <p>${group.instructions}</p>
+      </div>`;
+
+      if (group.type === 'matching_headings') {
+        html += `<div class="headings-list mb-4"><ul style="list-style:none;">`;
+        group.headings.forEach(h => {
+          html += `<li><span>${h.key}.</span>${h.text}</li>`;
+        });
+        html += `</ul></div>`;
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">Paragraph <strong>${q.paraLabel}</strong></div>
+            <select class="q-select" id="q${q.id}" onchange="recordAnswer(${q.id}, this.value)">
+              <option value="">— Select heading —</option>
+              ${group.headings.map(h => `<option value="${h.key}">${h.key}. ${h.text}</option>`).join('')}
+            </select>
+          </div>`;
+        });
+      } else if (group.type === 'tfng') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <div class="q-tfng">
+              <button class="q-tfng-btn" onclick="selectTFNG(${q.id},'TRUE',this)">TRUE</button>
+              <button class="q-tfng-btn" onclick="selectTFNG(${q.id},'FALSE',this)">FALSE</button>
+              <button class="q-tfng-btn" onclick="selectTFNG(${q.id},'NOT GIVEN',this)">NOT GIVEN</button>
+            </div>
+          </div>`;
+        });
+      } else if (group.type === 'sentence_completion') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <input type="text" class="q-input" id="q${q.id}" placeholder="Your answer…" oninput="recordAnswer(${q.id}, this.value.trim())" />
+          </div>`;
+        });
+      } else if (group.type === 'matching_info') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <select class="q-select" id="q${q.id}" onchange="recordAnswer(${q.id}, this.value)">
+              <option value="">— Select paragraph —</option>
+              ${group.paraOptions.map(p => `<option value="${p}">Paragraph ${p}</option>`).join('')}
+            </select>
+          </div>`;
+        });
+      }
+    });
+    panel.innerHTML = html;
+  });
+}
+
+function selectTFNG(qId, val, btn) {
+  btn.parentElement.querySelectorAll('.q-tfng-btn').forEach(b => { b.className = 'q-tfng-btn'; });
+  btn.classList.add(val === 'TRUE' ? 'sel-t' : val === 'FALSE' ? 'sel-f' : 'sel-ng');
+  recordAnswer(qId, val);
+}
+function recordAnswer(qId, val) { answers[qId] = val; }
+
+// ─────────────────────────────────────────
+//  SCORING
+// ─────────────────────────────────────────
+function scoreAnswer(q, studentRaw) {
+  if (!studentRaw) return false;
+  const student = studentRaw.toString().trim().toLowerCase();
+  if (q.acceptable) return q.acceptable.map(a => a.toLowerCase()).includes(student);
+  return student === q.answer.toLowerCase();
+}
+function bandFromScore(n) {
+  if (n >= 39) return 9.0; if (n >= 37) return 8.5; if (n >= 35) return 8.0;
+  if (n >= 33) return 7.5; if (n >= 30) return 7.0; if (n >= 27) return 6.5;
+  if (n >= 23) return 6.0; if (n >= 19) return 5.5; if (n >= 15) return 5.0;
+  if (n >= 13) return 4.5; if (n >= 10) return 4.0; if (n >= 8) return 3.5;
+  if (n >= 6) return 3.0; return 2.5;
+}
+function bandColour(b) {
+  if (b >= 7) return '#0D9488'; if (b >= 5.5) return '#C9952E'; return '#dc2626';
+}
+function bandAdvice(band, score) {
+  const pct = Math.round(score/40*100);
+  if (band >= 8.5) return `Outstanding — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Near-native comprehension across all three passages. Focus on NOT GIVEN precision and paraphrased sentence completions to push for Band 9.`;
+  if (band >= 7.5) return `Excellent result — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Strong academic reading. To push towards Band 8+: tighten NOT GIVEN judgements (never infer beyond the text) and copy sentence completion answers exactly from the passage.`;
+  if (band >= 6.5) return `Good performance — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Solid comprehension with room to improve. Review: (1) TRUE vs FALSE — verify the exact claim, not just the topic; (2) Matching Headings — identify the paragraph's central argument before selecting; (3) time allocation across all three passages.`;
+  if (band >= 5.5) return `You scored ${score}/40 (${pct}%), giving an estimated <strong>Band ${band}</strong>. Clear potential — prioritise synonym recognition, since every question involves paraphrase. Review each wrong answer and find the exact passage sentence that should have guided your response.`;
+  return `You scored ${score}/40 (${pct}%), giving an estimated <strong>Band ${band}</strong>. Focus on active reading: identify each paragraph's main claim before reading the questions. Daily timed reading of academic texts and vocabulary building will accelerate improvement significantly.`;
+}
+
+// ─────────────────────────────────────────
+//  SUBMIT
+// ─────────────────────────────────────────
+function confirmSubmit() { if (!confirm('Submit your reading test now?')) return; doSubmit(); }
+function autoSubmit() { if (submitted) return; doSubmit(); }
+function doSubmit() {
+  if (submitted) return;
+  submitted = true;
+  clearInterval(timerInterval);
+  document.getElementById('submittingOverlay').style.display = 'flex';
+  setTimeout(showResults, 800);
+}
+
+// ─────────────────────────────────────────
+//  RESULTS
+// ─────────────────────────────────────────
+function showResults() {
+  document.getElementById('submittingOverlay').style.display = 'none';
+  document.getElementById('testMain').style.display = 'none';
+  document.getElementById('timingStrip').style.display = 'none';
+  document.getElementById('resultsMain').style.display = 'block';
+
+  let correct = 0;
+  const allQs = GROUPS.flatMap(g => g.questions);
+  allQs.forEach(q => { if (scoreAnswer(q, answers[q.id])) correct++; });
+  const band = bandFromScore(correct);
+  const bCol = bandColour(band);
+
+  // Save result
+  const results = JSON.parse(localStorage.getItem('ielts_mock_results') || '[]');
+  results.push({ date: Date.now(), book: 17, testNum: 3, skill: 'reading', scores: { reading: band } });
+  localStorage.setItem('ielts_mock_results', JSON.stringify(results));
+
+  // Per-passage breakdown
+  const passageChips = [1,2,3].map(p => {
+    const pQs = GROUPS.filter(g => g.passageId === p).flatMap(g => g.questions);
+    const pC = pQs.filter(q => scoreAnswer(q, answers[q.id])).length;
+    const pCol = bandColour(bandFromScore(Math.round(pC/pQs.length*40)));
+    return `<div style="background:#EFF3F9;border:1px solid var(--border);border-radius:10px;padding:10px 14px;text-align:center;min-width:80px;">
+      <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px;">Passage ${p}</div>
+      <div style="font-family:'Space Mono',monospace;font-size:1.125rem;font-weight:700;color:${pCol};">${pC}/${pQs.length}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('scoreCard').innerHTML = `
+    <div class="flex flex-col md:flex-row gap-6 items-center">
+      <div class="score-ring-wrap">
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#E2E8F0" stroke-width="8"/>
+          <circle cx="60" cy="60" r="50" fill="none" stroke="${bCol}" stroke-width="8"
+            stroke-dasharray="${Math.round(correct/40*314)} 314" stroke-linecap="round"
+            transform="rotate(-90 60 60)" style="transition:stroke-dasharray 1.2s cubic-bezier(.16,1,.3,1)"/>
+        </svg>
+        <div style="margin-top:-70px;text-align:center;pointer-events:none;">
+          <div style="font-family:'Space Mono',monospace;font-size:1.75rem;font-weight:700;color:${bCol};">${correct}</div>
+          <div style="font-size:0.75rem;color:var(--text-muted);">out of 40</div>
+        </div>
+        <div style="margin-top:16px;"></div>
+      </div>
+      <div class="flex-1">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Your Score</div>
+        <div class="font-display font-black text-4xl mb-1" style="color:${bCol};">Band ${band}</div>
+        <div class="text-sm mb-4" style="color:var(--text-muted);">${correct} correct answers out of 40</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">${passageChips}</div>
+      </div>
+    </div>`;
+
+  document.getElementById('feedbackCard').innerHTML = `
+    <div class="text-xs font-bold tracking-widest uppercase mb-3" style="color:var(--gold);">Overall Feedback</div>
+    <div class="band-feedback">${bandAdvice(band, correct)}</div>`;
+
+  [1,2,3].forEach(pid => {
+    let html = '';
+    GROUPS.filter(g => g.passageId === pid).forEach(group => {
+      html += `<div style="margin-bottom:0.5rem;padding:6px 0 8px;border-bottom:1px solid var(--border-soft);">
+        <span style="font-size:0.6875rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-faint);">${group.label} — ${labelType(group.type)}</span>
+      </div>`;
+      group.questions.forEach(q => {
+        const isCorrect = scoreAnswer(q, answers[q.id]);
+        const studentAns = answers[q.id] ? answers[q.id].toString() : '(no answer)';
+        const correctAns = q.answerDisplay || q.answer;
+        html += `<div class="corr-block ${isCorrect ? 'corr-correct' : 'corr-wrong'}">
+          <div class="corr-qnum ${isCorrect ? 'ok' : 'bad'}">${isCorrect ? '✓' : '✗'} Question ${q.id}</div>
+          <div class="corr-qtext">${q.text}</div>`;
+        if (isCorrect) {
+          html += `<div class="corr-row"><span class="corr-tag reinforce">✓ Correct</span><span class="corr-val">${studentAns}</span></div>
+            <div class="corr-expl">${q.reinforcement || ''}</div>`;
+        } else {
+          html += `<div class="corr-row"><span class="corr-tag your">Your answer</span><span class="corr-val">${studentAns}</span></div>
+            <div class="corr-row"><span class="corr-tag correct">Correct answer</span><span class="corr-val">${correctAns}${q.acceptable && q.acceptable.length > 1 ? ' <span style="font-size:0.75rem;color:var(--text-faint);">(also: ' + q.acceptable.filter(a=>a!==q.answer).join(', ') + ')</span>' : ''}</span></div>
+            <div class="corr-expl">${q.explanation || ''}</div>`;
+        }
+        html += `</div>`;
+      });
+    });
+    document.getElementById('corrPassage' + pid).innerHTML = html;
+  });
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function labelType(t) {
+  return { tfng:'True / False / Not Given', mc:'Multiple Choice', matching_headings:'Matching Headings', matching_info:'Matching Information', sentence_completion:'Sentence Completion', diagram_labelling:'Diagram Labelling', matching_feature:'Matching Features' }[t] || t;
+}
+
+// ─────────────────────────────────────────
+//  INIT
+// ─────────────────────────────────────────
+initFontSize();
+renderAll();
+startTimer();
+</script>
+<script src="/js/components.js"></script>
+<script>
+  IELTSLab.loadNav({ basePath: '../', breadcrumb: 'Mock Tests', authenticated: true, themeDefault: 'light' });
+</script>
+</body>
+</html>

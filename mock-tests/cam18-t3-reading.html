@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IELTS Lab — Cambridge 18 Full Test 3 · Academic Reading</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700,900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+  <script>tailwind.config={theme:{extend:{fontFamily:{display:['Satoshi','Plus Jakarta Sans','system-ui','sans-serif'],sans:['Plus Jakarta Sans','system-ui','sans-serif']}}}}</script>
+  <style>
+    /* ── DESIGN TOKENS ── */
+    :root {
+      --gold: #C9952E;
+      --gold-light: #DDB05A;
+      --gold-dim: rgba(201,149,46,0.10);
+      --gold-border: rgba(201,149,46,0.30);
+      --navy: #1a3c6e;
+      --navy-mid: #2a4f8a;
+      --page-bg: #F7F8FA;
+      --card-bg: #FFFFFF;
+      --qpanel-bg: #EFF3F9;
+      --border: #E2E8F0;
+      --border-soft: #EEF1F6;
+      --text-primary: #1E2A3A;
+      --text-body: #374151;
+      --text-muted: #64748B;
+      --text-faint: #94A3B8;
+      --passage-font-size: 15px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { background: var(--page-bg); color: var(--text-primary); }
+    body { font-family: 'Plus Jakarta Sans', system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    h1, h2, h3, h4, .font-display { font-family: 'Satoshi', 'Plus Jakarta Sans', system-ui, sans-serif; }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #EFF2F7; }
+    ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 3px; }
+
+    /* ── PROGRESS ── */
+    .progress-bar { height: 3px; background: #E2E8F0; position: fixed; top: 64px; left: 0; right: 0; z-index: 40; }
+    .progress-fill { height: 100%; background: linear-gradient(to right, var(--gold), #DDB05A); transition: width 1s linear; width: 0%; }
+
+    /* ── NAV ── */
+    .nav-glass { background: rgba(255,255,255,0.97); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .nav-logo { display: flex; align-items: baseline; gap: 0; text-decoration: none; }
+    .nl-ielts { font-family: 'Cormorant Garamond', serif; font-size: 20px; font-weight: 600; letter-spacing: 1px; color: var(--text-primary); }
+    .nl-lab { font-family: 'Space Mono', monospace; font-size: 12px; font-weight: 700; letter-spacing: 3px; color: var(--gold); margin-left: 5px; }
+    #themeToggle { background: transparent; border: 1.5px solid var(--border); color: var(--text-muted); border-radius: 8px; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; font-size: 15px; flex-shrink: 0; padding: 0; }
+    #themeToggle:hover { border-color: var(--gold-border); color: var(--gold); }
+
+    /* ── TIMER ── */
+    .timer-box { background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 10px; padding: 8px 16px; font-family: 'Space Mono', monospace; font-size: 1.125rem; font-weight: 700; color: var(--text-primary); letter-spacing: 2px; box-shadow: 0 1px 4px rgba(0,0,0,0.07); }
+    .timer-box.warning { color: #b45309; border-color: rgba(180,83,9,0.3); background: #fffbeb; }
+    .timer-box.critical { color: #dc2626; border-color: rgba(220,38,38,0.3); background: #fef2f2; animation: pulse 1s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
+
+    /* ── TIMING STRIP ── */
+    .timing-strip { background: #FAFBFD; border-bottom: 1px solid var(--border); padding: 8px 0; }
+    .timing-item { display: flex; flex-direction: column; align-items: center; gap: 1px; }
+    .timing-label { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); }
+    .timing-val { font-size: 0.75rem; color: var(--text-muted); }
+
+    /* ── FONT SIZE CONTROLLER ── */
+    .font-ctrl { display: inline-flex; align-items: center; gap: 0; background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 9px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+    .font-ctrl-btn { padding: 6px 12px; border: none; background: transparent; cursor: pointer; color: var(--text-muted); font-weight: 700; font-family: 'Plus Jakarta Sans', sans-serif; transition: all 0.15s; line-height: 1; border-right: 1px solid var(--border); }
+    .font-ctrl-btn:last-child { border-right: none; }
+    .font-ctrl-btn:hover { background: var(--gold-dim); color: var(--gold); }
+    .font-ctrl-btn.a-small { font-size: 11px; }
+    .font-ctrl-btn.a-mid   { font-size: 13px; }
+    .font-ctrl-btn.a-large { font-size: 16px; }
+    .font-ctrl-label { font-size: 0.625rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); padding: 0 8px; }
+
+    /* ── ACCESSIBILITY TOOLBAR ── */
+    .a11y-bar { display: flex; align-items: center; gap: 12px; padding: 8px 12px; background: #FFFFFF; border: 1px solid var(--border); border-radius: 10px; margin-bottom: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.04); }
+    .a11y-bar-label { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint); }
+
+    /* ── TAB NAV ── */
+    .tab-nav { display: flex; gap: 4px; margin-bottom: 1rem; background: #EFF3F9; border-radius: 12px; padding: 4px; }
+    .tab-btn { flex: 1; padding: 8px 12px; border: none; border-radius: 9px; background: transparent; color: var(--text-muted); font-size: 0.8125rem; font-weight: 600; cursor: pointer; transition: all 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .tab-btn:hover { background: rgba(255,255,255,0.6); color: var(--text-primary); }
+    .tab-btn.active { background: #FFFFFF; color: var(--navy); box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+
+    /* ── SECTION CARDS ── */
+    .section-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 1.75rem; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+
+    /* ── PASSAGE ── */
+    .passage-text { font-size: var(--passage-font-size); line-height: 2.0; color: var(--text-body); transition: font-size 0.2s ease; }
+    .passage-text p { margin-bottom: 1.2rem; }
+    .para-label { display: inline-block; font-family: 'Space Mono', monospace; font-size: 0.6875rem; font-weight: 700; color: var(--navy); background: rgba(26,60,110,0.08); border: 1px solid rgba(26,60,110,0.18); border-radius: 4px; padding: 1px 6px; margin-right: 8px; letter-spacing: 0.05em; }
+
+    /* ── QUESTION BLOCKS ── */
+    .q-block { margin-bottom: 1.25rem; padding: 1rem 1.15rem; border-radius: 12px; background: #FFFFFF; border: 1px solid var(--border); }
+    .q-num { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+    .q-text { font-size: 0.9rem; color: var(--text-body); margin-bottom: 10px; line-height: 1.65; }
+    .q-input { width: 100%; background: #F8FAFC; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text-primary); font-size: 0.9rem; transition: border-color 0.2s, box-shadow 0.2s; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,149,46,0.12); }
+    .q-select { width: 100%; background: #F8FAFC; border: 1.5px solid var(--border); border-radius: 8px; padding: 9px 12px; color: var(--text-primary); font-size: 0.9rem; cursor: pointer; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-select:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,149,46,0.12); }
+    .q-options { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+    .q-option { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; padding: 9px 12px; border-radius: 8px; border: 1.5px solid var(--border); transition: all 0.2s; background: #F8FAFC; }
+    .q-option:hover { background: var(--gold-dim); border-color: var(--gold-border); }
+    .q-option input[type=radio] { accent-color: var(--gold); margin-top: 3px; flex-shrink: 0; }
+    .q-option label { font-size: 0.9rem; color: var(--text-body); cursor: pointer; line-height: 1.55; }
+
+    /* ── T/F/NG ── */
+    .q-tfng { display: flex; gap: 8px; }
+    .q-tfng-btn { flex: 1; padding: 9px 6px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.75rem; font-weight: 700; cursor: pointer; background: #F8FAFC; color: var(--text-muted); transition: all 0.2s; letter-spacing: 0.05em; font-family: 'Plus Jakarta Sans', sans-serif; }
+    .q-tfng-btn:hover { border-color: var(--gold-border); color: var(--gold); background: var(--gold-dim); }
+    .q-tfng-btn.sel-t { border-color: #16a34a; background: #f0fdf4; color: #16a34a; }
+    .q-tfng-btn.sel-f { border-color: #dc2626; background: #fef2f2; color: #dc2626; }
+    .q-tfng-btn.sel-ng { border-color: #d97706; background: #fffbeb; color: #d97706; }
+
+    /* ── GROUP HEADER ── */
+    .group-header { margin-bottom: 1.25rem; padding: 0.875rem 1rem; border-radius: 12px; background: rgba(26,60,110,0.04); border: 1px solid rgba(26,60,110,0.12); }
+    .group-header p { font-size: 0.8125rem; color: var(--text-muted); line-height: 1.65; margin-top: 6px; }
+
+    /* ── HEADINGS LIST ── */
+    .headings-list { margin: 0.75rem 0; padding: 0.875rem 1rem; background: #FFFFFF; border-radius: 10px; border: 1px solid var(--border); }
+    .headings-list li { font-size: 0.8125rem; color: var(--text-body); line-height: 1.8; padding: 2px 0; }
+    .headings-list li span { font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--gold); margin-right: 6px; font-weight: 700; }
+
+    /* ── BUTTONS ── */
+    .btn-gold { background: linear-gradient(135deg, var(--gold) 0%, #a8741f 100%); color: #FFFFFF; border: none; border-radius: 10px; padding: 12px 32px; font-size: 0.9rem; font-weight: 700; letter-spacing: 0.04em; cursor: pointer; transition: all 0.25s ease; box-shadow: 0 2px 12px rgba(201,149,46,0.30); }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 6px 22px rgba(201,149,46,0.42); }
+
+    /* ── CORRECTION REPORT ── */
+    .corr-block { margin-bottom: 1rem; padding: 1rem 1.25rem; border-radius: 12px; border: 1.5px solid; }
+    .corr-correct { background: #f0fdf4; border-color: #bbf7d0; }
+    .corr-wrong { background: #fef2f2; border-color: #fecaca; }
+    .corr-qnum { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+    .corr-qnum.ok { color: #16a34a; }
+    .corr-qnum.bad { color: #dc2626; }
+    .corr-qtext { font-size: 0.875rem; color: var(--text-body); line-height: 1.65; margin-bottom: 8px; }
+    .corr-row { display: flex; gap: 8px; align-items: flex-start; font-size: 0.8125rem; margin-bottom: 4px; }
+    .corr-tag { flex-shrink: 0; padding: 2px 8px; border-radius: 4px; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
+    .corr-tag.your { background: #fef2f2; color: #dc2626; border: 1px solid #fecaca; }
+    .corr-tag.correct { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .corr-tag.reinforce { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    .corr-val { color: var(--text-primary); line-height: 1.5; }
+    .corr-expl { margin-top: 8px; padding: 9px 12px; background: #FFFFFF; border-radius: 8px; border-left: 3px solid var(--gold-border); font-size: 0.8125rem; color: var(--text-muted); line-height: 1.65; }
+    .corr-expl strong { color: var(--text-primary); }
+
+    /* ── RESULTS ── */
+    .score-ring-wrap { display: flex; flex-direction: column; align-items: center; gap: 8px; }
+    .band-feedback { padding: 1.25rem; border-radius: 12px; background: rgba(26,60,110,0.04); border: 1px solid rgba(26,60,110,0.12); font-size: 0.9rem; color: var(--text-body); line-height: 1.8; }
+    .band-feedback strong { color: var(--navy); }
+    .passage-corr-header { font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); padding: 10px 0 8px; border-bottom: 1px solid var(--border); margin-bottom: 1rem; }
+
+    /* ── SPINNER ── */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { width: 36px; height: 36px; border: 3px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.8s linear infinite; }
+
+    /* ── SPLIT LAYOUT ── */
+    .split-container { display: flex; height: calc(100vh - 268px); min-height: 560px; border: 1px solid var(--border); border-radius: 16px; overflow: hidden; box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+    .reading-pane { width: 52%; min-width: 25%; max-width: 75%; overflow-y: auto; padding: 1.75rem; background: var(--card-bg); flex-shrink: 0; }
+    .question-pane { flex: 1; overflow-y: auto; padding: 1.75rem; background: var(--qpanel-bg); min-width: 25%; }
+    .resizer-bar { width: 16px; background: #F1F5F9; cursor: col-resize; display: flex; flex-direction: column; align-items: center; justify-content: center; flex-shrink: 0; border-left: 1px solid var(--border); border-right: 1px solid var(--border); transition: background 0.15s; user-select: none; -webkit-user-select: none; }
+    .resizer-bar:hover, .resizer-bar.active { background: var(--gold-dim); border-left-color: var(--gold-border); border-right-color: var(--gold-border); }
+    .resizer-btn { background: #FFFFFF; border: 1.5px solid var(--border); border-radius: 8px; padding: 10px 4px; cursor: col-resize; display: flex; flex-direction: column; align-items: center; gap: 5px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); transition: border-color 0.15s, box-shadow 0.15s; pointer-events: none; }
+    .resizer-bar:hover .resizer-btn { border-color: var(--gold-border); box-shadow: 0 2px 8px rgba(201,149,46,0.15); }
+    @media (max-width: 1023px) {
+      .split-container { flex-direction: column; height: auto; overflow: visible; border: none; border-radius: 0; box-shadow: none; gap: 1rem; }
+      .reading-pane { width: 100% !important; min-width: 100%; max-width: 100%; overflow-y: visible; border: 1px solid var(--border); border-radius: 16px; }
+      .resizer-bar { display: none; }
+      .question-pane { min-width: 100%; overflow-y: visible; border: 1px solid var(--border); border-radius: 16px; }
+    }
+  </style>
+  <script>
+    (function(){
+      var raw = localStorage.getItem('ielts_session');
+      if (!raw) { window.location.replace('../login.html'); return; }
+      try { JSON.parse(raw); } catch(e) { localStorage.removeItem('ielts_session'); window.location.replace('../login.html'); }
+    })();
+    (function(){ var t = localStorage.getItem('ieltslab_theme') || 'light'; document.documentElement.setAttribute('data-theme', t); })();
+    function toggleTheme(){ var c = document.documentElement.getAttribute('data-theme') || 'light', n = c === 'dark' ? 'light' : 'dark'; document.documentElement.setAttribute('data-theme', n); localStorage.setItem('ieltslab_theme', n); var b = document.getElementById('themeToggle'); if(b) b.textContent = n === 'dark' ? '☀' : '🌙'; }
+    document.addEventListener('DOMContentLoaded', function(){ var b = document.getElementById('themeToggle'); if(b){ var d = (document.documentElement.getAttribute('data-theme') || 'light') === 'dark'; b.textContent = d ? '☀' : '🌙'; } });
+  </script>
+</head>
+<body class="min-h-screen flex flex-col" style="background:var(--page-bg);color:var(--text-primary);">
+
+<div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+
+<div id="header-container"></div>
+
+<!-- TIMING STRIP -->
+<div class="timing-strip" id="timingStrip">
+  <div class="px-4 flex items-center justify-center gap-10">
+    <div class="timing-item"><span class="timing-label">Passage 1</span><span class="timing-val">15–17 min</span></div>
+    <div style="width:1px;height:24px;background:var(--border);"></div>
+    <div class="timing-item"><span class="timing-label">Passage 2</span><span class="timing-val">20 min</span></div>
+    <div style="width:1px;height:24px;background:var(--border);"></div>
+    <div class="timing-item"><span class="timing-label">Passage 3</span><span class="timing-val">23–25 min</span></div>
+  </div>
+</div>
+
+<!-- TEST MAIN -->
+<main class="flex-1 w-full px-4 py-6" id="testMain">
+
+  <!-- HEADER ROW -->
+  <div class="flex items-start justify-between mb-5 gap-4">
+    <div>
+      <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Cambridge 18 · Full Test 3</div>
+      <h1 class="font-display font-black text-2xl" style="color:var(--text-primary);">Academic Reading — Full Test 3</h1>
+    </div>
+    <div class="flex items-center gap-3 flex-shrink-0">
+      <div id="timerDisplay" class="timer-box">60:00</div>
+    </div>
+  </div>
+
+  <!-- ACCESSIBILITY TOOLBAR -->
+  <div class="a11y-bar">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-muted);flex-shrink:0;"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+    <span class="a11y-bar-label">Text Size</span>
+    <div class="font-ctrl" role="toolbar" aria-label="Adjust passage text size">
+      <button class="font-ctrl-btn a-small" onclick="adjustFontSize(-1)" title="Decrease text size">A−</button>
+      <button class="font-ctrl-btn a-mid"   onclick="adjustFontSize(0)"  title="Reset text size">A</button>
+      <button class="font-ctrl-btn a-large" onclick="adjustFontSize(1)"  title="Increase text size">A+</button>
+    </div>
+    <span style="font-size:0.75rem;color:var(--text-faint);">Adjust the reading passage font size</span>
+    <div class="ml-auto text-xs hidden md:block" style="color:var(--text-muted);">60 minutes · 40 questions · 3 passages</div>
+  </div>
+
+  <!-- TAB NAV -->
+  <div class="tab-nav" id="tabNav">
+    <button class="tab-btn active" onclick="switchTab(1)">Passage 1 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q1–13)</span></button>
+    <button class="tab-btn" onclick="switchTab(2)">Passage 2 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q14–26)</span></button>
+    <button class="tab-btn" onclick="switchTab(3)">Passage 3 <span style="color:var(--text-faint);font-weight:400;font-size:0.75rem;">(Q27–40)</span></button>
+  </div>
+
+  <!-- ══ SPLIT VIEW ══ -->
+  <div class="split-container" id="splitContainer">
+    <div class="reading-pane" id="readingPane">
+
+      <!-- Passage 1 -->
+      <div id="passageContent1">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 1</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">The Printing Press and the Spread of Knowledge</div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>When Johannes Gutenberg completed his movable-type printing press in the German city of Mainz around 1450, he could not have anticipated the scale of the transformation he was initiating. Prior to this invention, the reproduction of written texts in Europe depended almost entirely on manual copying by scribes, a labour-intensive process that confined books to monasteries, wealthy courts, and the households of a narrow scholarly elite. A single scribe required several months to complete one copy of a lengthy manuscript, and the resulting object was prohibitively expensive by any ordinary measure. Gutenberg's press, which could produce several hundred pages per day, represented an acceleration of textual reproduction so dramatic that it effectively redefined the relationship between written knowledge and the broader population.</p>
+
+          <p><span class="para-label">B</span>The technological principle underlying the Gutenberg press was not entirely without precedent. Woodblock printing had been practised in China since at least the seventh century, and movable type using ceramic and later metal characters had been developed in East Asia centuries before Gutenberg's innovation. What distinguished the European press was its combination of several existing technologies — a durable alloy of lead, tin, and antimony for casting individual type pieces; an oil-based ink capable of adhering uniformly to metal surfaces; and a screw-press mechanism adapted from those used in winemaking and papermaking — assembled into a system capable of rapid, consistent, and economically viable mass reproduction. The contribution was not any single element but the integration of existing components into a functional and scalable whole.</p>
+
+          <p><span class="para-label">C</span>The initial decades following the press's introduction witnessed an extraordinary expansion in the volume of printed material available across Europe. By 1500, approximately fifteen to twenty million individual books had been produced by an estimated 250 printing establishments operating in more than sixty European cities. Scholars estimate that this figure exceeded the total output of European manuscript production across the entire preceding millennium. The output was dominated initially by religious texts — Bibles, prayer books, and devotional literature — but was rapidly diversified to include works on law, medicine, natural philosophy, classical literature, and practical subjects such as agriculture and navigation. The breadth of subjects brought into print within a generation of the press's introduction underscores the latent demand for written knowledge that manuscript culture had been structurally incapable of satisfying.</p>
+
+          <p><span class="para-label">D</span>One consequence of mass print production that is frequently underestimated in popular accounts is its role in the standardisation of language. Manuscript culture had tolerated considerable regional variation in spelling, grammar, and vocabulary, since each copy was an individual artefact produced by a single scribe working within a local tradition. Printed editions, by contrast, fixed a particular version of a text and disseminated it identically across wide geographic areas. Printers, driven by commercial incentives to reach the broadest possible readership, gradually adopted orthographic conventions that transcended local dialects. This standardisation process is credited by many linguists with accelerating the development of vernacular literary languages in England, France, Germany, and elsewhere, and with strengthening the cultural coherence of emerging nation-states by establishing shared written norms.</p>
+
+          <p><span class="para-label">E</span>The press also played a significant, if contested, role in the religious upheavals of the sixteenth century. When Martin Luther posted his Ninety-Five Theses in 1517 — a critique of ecclesiastical practices directed initially at a local academic audience — the document was translated, printed, and distributed across the German-speaking territories within weeks. Within two months, it had circulated through much of Europe. Historians have debated how much of the subsequent Reformation can be attributed to the printing press itself, as opposed to the theological content of Lutheran and Calvinist arguments. The consensus that has emerged holds that the press was a necessary but not sufficient condition for the Reformation's speed and geographic reach: it amplified existing religious tensions rather than creating them, but the amplification was so powerful that it fundamentally altered the trajectory of European Christianity.</p>
+
+          <p><span class="para-label">F</span>The scientific revolution of the seventeenth century was also deeply shaped by the capacity of print to circulate experimental findings and theoretical arguments across national and linguistic boundaries. The publication of works such as Copernicus's De Revolutionibus (1543), Galileo's Siderius Nuncius (1610), and Newton's Principia Mathematica (1687) created a shared body of knowledge to which natural philosophers across Europe could respond, critique, and build upon. The correspondence networks that characterised early modern science depended on the reliability and speed of printed publication for the codification of discoveries that might otherwise have remained local or transient. Print transformed natural philosophy from a collection of isolated inquiries into a cumulative, self-correcting enterprise — a structure that is recognisably the ancestor of modern scientific practice.</p>
+
+          <p><span class="para-label">G</span>The legacy of the Gutenberg press extends well beyond the texts it produced. By establishing a model in which knowledge could be reproduced and disseminated at scale, it set a precedent that subsequent communication technologies — from the steam-powered rotary press of the nineteenth century to the internet of the twentieth — would replicate and amplify. Each successive innovation in information reproduction has been accompanied by debates about the democratisation of knowledge, the stability of authority, and the social consequences of rapid change that echo the arguments first raised in the decades following Gutenberg's invention. Understanding the original printing revolution remains, for this reason, a productive frame through which to examine the information transformations of the present day.</p>
+        </div>
+      </div>
+
+      <!-- Passage 2 -->
+      <div id="passageContent2" style="display:none;">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 2</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">Fair Trade: Origins, Mechanisms, and Outcomes</div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>The fair trade movement emerged from a convergence of development concerns and ethical consumerism that gathered momentum during the 1980s and 1990s. Its central premise was that the conventional terms of commodity trade systematically disadvantaged small-scale producers in the developing world, delivering the economic surplus generated along global supply chains predominantly to intermediaries, exporters, and retailers in wealthy importing countries. By establishing minimum price guarantees, social premiums, and direct trading relationships, the movement aimed to redirect a more equitable share of the final product's value to the farmers and cooperatives at the point of origin. By 2022, the Fairtrade International network alone certified more than two million farmers and workers across 73 countries, and global retail sales of certified products exceeded twelve billion US dollars annually.</p>
+
+          <p><span class="para-label">B</span>The structural mechanism of fair trade certification rests on three interconnected commitments. The first is the guaranteed minimum price: producers receive a floor price set above the cost of sustainable production, insulating them from the price volatility that characterises global commodity markets for coffee, cocoa, bananas, and other key products. When the market price exceeds the minimum, producers receive the higher market price, ensuring they benefit from favourable conditions while remaining protected against downturns. The second commitment is the social premium — an additional payment, typically around ten percent above the product price, directed to a democratic producer organisation for investment in community infrastructure, education, healthcare, or agricultural improvement. The third is a set of labour and environmental standards that certified producers must meet, covering issues from child labour prohibition to restrictions on the most hazardous pesticides.</p>
+
+          <p><span class="para-label">C</span>The academic evidence on fair trade's effectiveness is considerably more mixed than its promotional literature implies. A series of rigorous impact evaluations conducted between 2010 and 2020 found that the income gains realised by fair trade-certified farmers were in many cases modest and uneven in their distribution. A landmark study by the School of Oriental and African Studies (SOAS), published in 2014, examined coffee and tea producers in Uganda and Ethiopia and found that workers on Fairtrade-certified farms earned wages significantly below those of workers on comparable non-certified farms in the same regions. The study attributed this counterintuitive finding to the structural incentive for certified cooperatives to minimise labour costs in order to maximise the distribution of social premiums to cooperative members, who were typically land-owning farmers rather than landless wage workers — the population most vulnerable to poverty.</p>
+
+          <p><span class="para-label">D</span>Proponents of fair trade have raised methodological objections to several of the critical studies, arguing that selection bias — the tendency for cooperatives to join fair trade certification schemes precisely because they are already better organised and more commercially capable — makes comparisons with non-certified counterparts unreliable. When this self-selection effect is controlled for, some studies find more positive outcomes. Additionally, defenders of the model argue that income measures alone capture only a fraction of the relevant benefits: price stability, the development of collective bargaining capacity, access to credit, and improvements in local infrastructure are welfare-relevant outcomes that monetary income comparisons systematically exclude. The debate reflects a broader methodological challenge in development economics — the difficulty of isolating the causal effect of any single intervention within the complexity of rural agricultural economies.</p>
+
+          <p><span class="para-label">E</span>Consumer behaviour represents a further area of uncertainty. Fair trade's viability depends on the willingness of consumers in wealthy markets to sustain a price premium for certified products, a willingness that surveys consistently overestimate relative to actual purchasing behaviour — a phenomenon social scientists refer to as the attitude-behaviour gap. Studies conducted in the United Kingdom, Germany, and the Netherlands have found that while large majorities of respondents endorse fair trade in principle, only a small minority actively seek certified products when shopping, and a smaller fraction still are willing to pay the full premium differential when a conventional alternative is visibly priced alongside. Retailer decisions about shelf placement, promotional pricing, and own-brand certification have consequently proved more decisive in determining fair trade sales volumes than consumer attitudes, a structural reality that constrains the movement's capacity for independent growth.</p>
+
+          <p><span class="para-label">F</span>The certification landscape has grown significantly more complex since the early years of the movement. Multiple competing certification schemes — including Rainforest Alliance, UTZ (now merged with Rainforest Alliance), and various corporate social responsibility programmes operated directly by major food companies — now offer consumers similar ethical assurances under different standards and audit frameworks. The proliferation of labels has generated consumer confusion and diluted the communicative value of any individual certification mark. Some fair trade advocates argue that the entry of large corporate actors into ethical certification, driven primarily by risk management and reputational considerations rather than developmental commitment, has depressed standards across the sector and eroded the distinctiveness of fair trade's original mission of producer empowerment through democratic cooperative structures.</p>
+
+          <p><span class="para-label">G</span>The fair trade model continues to evolve in response to these pressures. Several certification bodies have introduced differentiated tiers, distinguishing between products that meet basic ethical standards and those produced under more demanding conditions that come closer to the movement's founding ideals. A growing emphasis on farmer income benchmarking — measuring actual farm household income against a defined living income threshold — has begun to replace reliance on minimum price guarantees as the primary metric of impact, a shift that may more directly address the poverty the movement was founded to alleviate. Whether the movement can sustain both commercial scale and developmental rigour remains an open question, but its influence on how global supply chains are governed and evaluated has proved more durable than many early critics anticipated.</p>
+        </div>
+      </div>
+
+      <!-- Passage 3 -->
+      <div id="passageContent3" style="display:none;">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Passage 3</div>
+        <div class="text-base font-bold mb-4" style="color:var(--navy);">Dark Matter: Evidence, Hypotheses, and Cosmological Implications</div>
+        <div class="passage-text">
+          <p><span class="para-label">A</span>Among the most consequential puzzles in contemporary physics is the nature of dark matter: a form of mass that is inferred from its gravitational effects on visible structures but has never been directly detected by any instrument. Current cosmological models, calibrated against decades of observational data, hold that ordinary baryonic matter — the atoms, molecules, and radiation that comprise everything that can be seen, measured, or interacted with electromagnetically — accounts for only approximately five percent of the total mass-energy content of the universe. Dark matter is estimated to constitute around twenty-seven percent, with the remainder attributed to the still more enigmatic dark energy. The nomenclature is deliberately agnostic: dark matter is so named not because it is known to be dark in any optical sense, but because it does not interact with the electromagnetic force and therefore emits, absorbs, and reflects no light.</p>
+
+          <p><span class="para-label">B</span>The earliest compelling evidence for invisible mass came from the study of galaxy rotation curves. In the 1970s, astronomer Vera Rubin and her collaborator Kent Ford conducted systematic measurements of the rotational velocities of stars at different distances from the centres of spiral galaxies. Classical gravitational mechanics, extrapolated from the visible mass distribution of a galaxy, predicts that stars in the outer regions should orbit more slowly than those near the luminous centre — analogous to how the outer planets of the solar system move more slowly than the inner planets. Rubin and Ford found, instead, that the rotational velocities of stars remained approximately constant regardless of their distance from the galactic centre — a so-called flat rotation curve. The most parsimonious explanation was the presence of an extensive halo of unseen mass surrounding each galaxy, providing the additional gravitational pull required to sustain the observed velocities.</p>
+
+          <p><span class="para-label">C</span>Independent lines of evidence converging on the same conclusion have reinforced the dark matter inference substantially. Gravitational lensing — the bending of light from distant sources by intervening mass, predicted by general relativity — reveals mass concentrations in galaxy clusters that far exceed the contribution of visible matter. The Bullet Cluster, formed by the collision of two galaxy clusters approximately 150 million years ago, is particularly instructive: X-ray observations map the hot gas that constitutes most of the ordinary matter in the clusters, while gravitational lensing maps the total mass distribution. The two maps are spatially offset — the lensing signal is concentrated at two locations where the galaxies of each cluster have passed through each other, while the hot gas has been slowed by electromagnetic interactions and remains in the centre. This spatial separation is precisely what dark matter models predict and provides one of the most direct lines of evidence that the gravitating mass is not ordinary matter.</p>
+
+          <p><span class="para-label">D</span>The leading particle physics candidate for dark matter has long been the weakly interacting massive particle, or WIMP. WIMPs are hypothetical particles that interact with ordinary matter only through the weak nuclear force and gravity, making them undetectable by conventional electromagnetic means. Their theoretical appeal derives partly from the so-called WIMP miracle: independent calculations from particle physics suggest that particles with masses in the range of tens to hundreds of times the proton mass, interacting via the weak force, would have been produced in the early universe in quantities that match the observed dark matter density remarkably closely. This coincidence, though it may be numerological rather than physically meaningful, motivated several decades of experimental effort directed at detecting WIMPs through their rare interactions with atomic nuclei in highly shielded underground detectors.</p>
+
+          <p><span class="para-label">E</span>Despite significant investment in increasingly sensitive detection experiments — including LUX-ZEPLIN in South Dakota, XENON1T at the Gran Sasso laboratory in Italy, and PandaX in China — no confirmed WIMP signal has been reported. The null results from these experiments have not disproved WIMP dark matter, since the interaction cross-section of any actual WIMP candidate may lie below current detection thresholds, but they have eliminated large regions of the parameter space that theorists had considered most plausible. As each successive generation of experiments has reported null results, the WIMP hypothesis has attracted increasing scepticism, and alternative candidates have received renewed theoretical and experimental attention.</p>
+
+          <p><span class="para-label">F</span>Among the most actively investigated alternatives is the axion — a very light particle originally proposed in 1977 by physicists Roberto Peccei and Helen Quinn to resolve a separate problem in quantum chromodynamics, the theory of the strong nuclear force. Axions, if they exist, would have been produced abundantly in the early universe and would interact with ordinary matter and radiation so weakly as to have evaded all detection so far. Detection strategies for axions differ fundamentally from those for WIMPs, relying on microwave cavities and strong magnetic fields to convert axions into photons detectable by sensitive receivers. The ADMX experiment in the United States has achieved sensitivities sufficient to probe a portion of the theoretically favoured axion mass range, and several new experiments are planned to extend coverage across a broader range of masses within the current decade.</p>
+
+          <p><span class="para-label">G</span>A minority of physicists has proposed that the dark matter inference may itself rest on an incorrect premise — that rather than invoking unseen mass, the anomalous gravitational behaviours attributed to dark matter might be better explained by modifying the laws of gravity at low accelerations. Modified Newtonian Dynamics, or MOND, proposed by Mordehai Milgrom in 1983, reproduces the flat rotation curves of many spiral galaxies with a single parameter adjustment that cannot be accommodated within standard Newtonian or relativistic frameworks. While MOND accounts well for certain galactic-scale observations, it struggles to explain the large-scale structure of the universe, the cosmic microwave background anisotropies, or the Bullet Cluster evidence, all of which are naturally accommodated by dark matter models. The prevailing view in the cosmological community remains that some form of dark matter is the most robust explanation for the full body of evidence, though the question of its precise composition continues to resist resolution.</p>
+        </div>
+      </div>
+
+    </div><!-- /reading-pane -->
+
+    <!-- RESIZER BAR -->
+    <div class="resizer-bar" id="resizerBar">
+      <button class="resizer-btn" aria-label="Drag to resize panels">
+        <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M3.5 2L1 6L3.5 10" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span style="display:block;width:2px;height:14px;background:var(--border);border-radius:1px;"></span>
+        <svg width="10" height="12" viewBox="0 0 10 12" fill="none"><path d="M6.5 2L9 6L6.5 10" stroke="#94A3B8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+
+    <!-- QUESTION PANE -->
+    <div class="question-pane" id="questionPane">
+      <div id="qPanel1"></div>
+      <div id="qPanel2" style="display:none;"></div>
+      <div id="qPanel3" style="display:none;"></div>
+    </div>
+
+  </div><!-- /split-container -->
+
+  <!-- SUBMIT -->
+  <div class="flex justify-center mt-10 mb-16">
+    <button onclick="confirmSubmit()" class="btn-gold px-10 py-4 text-base">Submit Reading Test</button>
+  </div>
+</main>
+
+<!-- RESULTS -->
+<div id="resultsMain" style="display:none;" class="flex-1 max-w-5xl mx-auto px-6 py-10 w-full">
+  <div class="flex items-center gap-3 mb-8">
+    <div>
+      <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Results</div>
+      <h1 class="font-display font-black text-2xl" style="color:var(--text-primary);">Academic Reading — Score Report</h1>
+    </div>
+  </div>
+  <div class="section-card mb-6" id="scoreCard"></div>
+  <div class="section-card mb-8" id="feedbackCard"></div>
+  <div class="section-card mb-6">
+    <div class="passage-corr-header">Passage 1 — The Printing Press and the Spread of Knowledge</div>
+    <div id="corrPassage1"></div>
+  </div>
+  <div class="section-card mb-6">
+    <div class="passage-corr-header">Passage 2 — Fair Trade: Origins, Mechanisms, and Outcomes</div>
+    <div id="corrPassage2"></div>
+  </div>
+  <div class="section-card mb-10">
+    <div class="passage-corr-header">Passage 3 — Dark Matter: Evidence, Hypotheses, and Cosmological Implications</div>
+    <div id="corrPassage3"></div>
+  </div>
+  <div class="flex gap-4 justify-center mb-16">
+    <a href="index.html" class="btn-gold">← Back to Tests</a>
+  </div>
+</div>
+
+<!-- SUBMITTING OVERLAY -->
+<div id="submittingOverlay" style="display:none;position:fixed;inset:0;z-index:300;background:rgba(247,248,250,0.97);flex-direction:column;align-items:center;justify-content:center;" class="flex">
+  <div class="spinner mb-6"></div>
+  <div class="font-display font-bold text-xl mb-2" style="color:var(--text-primary);">Scoring Your Answers</div>
+  <p class="text-sm" style="color:var(--text-muted);">Analysing your responses…</p>
+</div>
+
+<script>
+
+// ─────────────────────────────────────────
+//  TEST DATA
+// ─────────────────────────────────────────
+const GROUPS = [
+  // ── PASSAGE 1 — Matching Headings Q1–5 ──
+  {
+    passageId: 1,
+    type: 'matching_headings',
+    label: 'Questions 1–5',
+    instructions: 'The reading passage has seven paragraphs, <strong>A–G</strong>. Choose the correct heading for paragraphs <strong>B–F</strong> from the list of headings below. Paragraphs A and G are not included. Write the correct Roman numeral in the box.',
+    headings: [
+      { key: 'i',    text: 'How print technology enabled the emergence of standardised written languages' },
+      { key: 'ii',   text: 'Earlier printing traditions and the specific innovations that made Gutenberg\'s press commercially viable' },
+      { key: 'iii',  text: 'The role of printed books in enabling scientists across Europe to build on each other\'s discoveries' },
+      { key: 'iv',   text: 'The rapid diversification of printed content and the scale of early print production' },
+      { key: 'v',    text: 'How the press accelerated the circulation of religious critique and altered European Christianity' },
+      { key: 'vi',   text: 'The economic barriers that limited manuscript production to a small privileged class' },
+      { key: 'vii',  text: 'Disputes between printers and Church authorities over the content of early publications' },
+      { key: 'viii', text: 'Government censorship of printed material and its effect on the flow of information' },
+    ],
+    questions: [
+      { id: 1, paraLabel: 'B', text: 'Paragraph B', answer: 'ii', answerDisplay: 'ii — Earlier printing traditions and the specific innovations that made Gutenberg\'s press commercially viable',
+        explanation: 'Paragraph B describes Chinese and East Asian predecessors (earlier traditions) then explains the specific combination of metal alloy type, oil-based ink, and screw-press mechanism that made the European press viable. Heading vi (economic barriers) belongs to A; headings vii and viii (censorship/Church disputes) are absent from the passage.',
+        reinforcement: 'Correct — paragraph B introduces earlier Asian precedents and then identifies Gutenberg\'s key integrative innovations, matching heading ii precisely.' },
+      { id: 2, paraLabel: 'C', text: 'Paragraph C', answer: 'iv', answerDisplay: 'iv — The rapid diversification of printed content and the scale of early print production',
+        explanation: 'Paragraph C provides statistics on total output (fifteen to twenty million books by 1500), number of printing establishments (250), and the diversification from religious texts into law, medicine, natural philosophy, and practical subjects. "Rapid diversification" = the breadth of subjects; "scale" = the volume figures.',
+        reinforcement: 'Correct — paragraph C is organised around two ideas — the enormous volume and the wide range of subjects printed — which map directly to heading iv.' },
+      { id: 3, paraLabel: 'D', text: 'Paragraph D', answer: 'i', answerDisplay: 'i — How print technology enabled the emergence of standardised written languages',
+        explanation: 'Paragraph D explains how printed editions fixed orthographic conventions that spread identically across wide areas, gradually standardising spelling and grammar and accelerating the development of vernacular literary languages. "Standardised written languages" = vernacular literary languages with shared written norms.',
+        reinforcement: 'Correct — the entire argument of paragraph D is that commercial printing drove linguistic standardisation, matching heading i exactly.' },
+      { id: 4, paraLabel: 'E', text: 'Paragraph E', answer: 'v', answerDisplay: 'v — How the press accelerated the circulation of religious critique and altered European Christianity',
+        explanation: 'Paragraph E traces Luther\'s Theses from a local document to European-wide circulation within weeks, then frames the press as a necessary condition for the Reformation\'s speed and geographic reach. "Accelerated the circulation of religious critique" = the rapid spread of Luther\'s arguments; "altered European Christianity" = fundamentally changed the trajectory.',
+        reinforcement: 'Correct — paragraph E\'s organising claim is that the press amplified the Reformation, matching heading v.' },
+      { id: 5, paraLabel: 'F', text: 'Paragraph F', answer: 'iii', answerDisplay: 'iii — The role of printed books in enabling scientists across Europe to build on each other\'s discoveries',
+        explanation: 'Paragraph F discusses Copernicus, Galileo, and Newton as examples of print making findings available across national and linguistic boundaries, and describes print transforming science into a "cumulative, self-correcting enterprise." "Build on each other\'s discoveries" = cumulative, self-correcting enterprise.',
+        reinforcement: 'Correct — paragraph F shows how print circulation made natural philosophy cumulative and pan-European, directly matching heading iii.' },
+    ]
+  },
+  // ── PASSAGE 1 — T/F/NG Q6–9 ──
+  {
+    passageId: 1,
+    type: 'tfng',
+    label: 'Questions 6–9',
+    instructions: 'Do the following statements agree with the information given in the reading passage? Write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      { id: 6, text: 'Before the printing press, a single scribe could complete a copy of a lengthy manuscript in a few weeks.',
+        answer: 'FALSE',
+        explanation: 'Paragraph A states that a single scribe required <strong>"several months to complete one copy of a lengthy manuscript."</strong> "A few weeks" directly contradicts "several months."',
+        reinforcement: 'Correct — "several months" in paragraph A directly contradicts the claim that copying took only "a few weeks," making this FALSE.' },
+      { id: 7, text: 'Movable type using metal characters had been developed in East Asia before Gutenberg\'s invention.',
+        answer: 'TRUE',
+        explanation: 'Paragraph B: <strong>"movable type using ceramic and later metal characters had been developed in East Asia centuries before Gutenberg\'s innovation."</strong> The statement accurately paraphrases this claim.',
+        reinforcement: 'Correct — paragraph B explicitly states that metal movable type existed in East Asia centuries before Gutenberg, confirming the statement as TRUE.' },
+      { id: 8, text: 'The standardisation of European languages was driven primarily by government policy rather than by commercial printing decisions.',
+        answer: 'NOT GIVEN',
+        explanation: 'Paragraph D attributes linguistic standardisation to commercial printing incentives but makes no mention of government policy as a driver. The passage neither confirms nor denies a government role in language standardisation.',
+        reinforcement: 'Correct — the passage discusses only commercial printer incentives as the driver; government policy is never mentioned, making this NOT GIVEN.' },
+      { id: 9, text: 'Martin Luther\'s Ninety-Five Theses had circulated throughout much of Europe within two months of being posted.',
+        answer: 'TRUE',
+        explanation: 'Paragraph E: <strong>"Within two months, it had circulated through much of Europe."</strong> The statement is a direct paraphrase of this sentence.',
+        reinforcement: 'Correct — paragraph E explicitly states that Luther\'s Theses reached much of Europe within two months, confirming the statement as TRUE.' },
+    ]
+  },
+  // ── PASSAGE 1 — Sentence Completion Q10–13 ──
+  {
+    passageId: 1,
+    type: 'sentence_completion',
+    label: 'Questions 10–13',
+    instructions: 'Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.',
+    questions: [
+      { id: 10, text: 'By 1500, the total number of individual books produced in Europe since Gutenberg\'s invention exceeded the entire manuscript output of the preceding _______.',
+        answer: 'millennium', answerDisplay: 'millennium', acceptable: ['millennium'],
+        explanation: 'Paragraph C: <strong>"Scholars estimate that this figure exceeded the total output of European manuscript production across the entire preceding millennium."</strong> "Millennium" is the passage-exact single word required.',
+        reinforcement: 'Correct — "millennium" is directly stated in paragraph C as the time span against which early print output is compared.' },
+      { id: 11, text: 'Gutenberg\'s press used a durable _______ of lead, tin, and antimony to cast individual type pieces.',
+        answer: 'alloy', answerDisplay: 'alloy', acceptable: ['alloy'],
+        explanation: 'Paragraph B: <strong>"a durable alloy of lead, tin, and antimony for casting individual type pieces."</strong> The sentence frame is a near-direct quotation; "alloy" is the one-word answer.',
+        reinforcement: 'Correct — "alloy" is the precise noun in paragraph B describing the material used for casting Gutenberg\'s type pieces.' },
+      { id: 12, text: 'Luther\'s Theses were translated, printed, and distributed across the German-speaking territories within _______ of being posted.',
+        answer: 'weeks', answerDisplay: 'weeks', acceptable: ['weeks'],
+        explanation: 'Paragraph E: <strong>"the document was translated, printed, and distributed across the German-speaking territories within weeks."</strong> "Weeks" is the single passage-exact word completing the time frame.',
+        reinforcement: 'Correct — "weeks" is the exact time word in paragraph E\'s account of the rapid distribution of Luther\'s Theses.' },
+      { id: 13, text: 'Print transformed natural philosophy from a collection of isolated inquiries into a cumulative, _______ enterprise.',
+        answer: 'self-correcting', answerDisplay: 'self-correcting', acceptable: ['self-correcting'],
+        explanation: 'Paragraph F: <strong>"Print transformed natural philosophy from a collection of isolated inquiries into a cumulative, self-correcting enterprise."</strong> The sentence frame mirrors the passage closely; "self-correcting" is the passage-exact adjective required.',
+        reinforcement: 'Correct — "self-correcting" is the exact modifier in paragraph F describing the character print gave to early modern science.' },
+    ]
+  },
+
+  // ── PASSAGE 2 — Fair Trade ──
+  {
+    passageId: 2,
+    type: 'matching_headings',
+    label: 'Questions 14–18',
+    instructions: 'The reading passage has seven paragraphs, <strong>A–G</strong>. Choose the correct heading for paragraphs <strong>B–F</strong> from the list of headings below. Paragraphs A and G are not included. Write the correct Roman numeral in the box.',
+    headings: [
+      { key: 'i',    text: 'The three core commitments that form the foundation of fair trade certification' },
+      { key: 'ii',   text: 'A counterintuitive finding showing that certification may harm the most vulnerable workers' },
+      { key: 'iii',  text: 'Why the gap between consumers\' stated values and their actual purchasing behaviour limits fair trade growth' },
+      { key: 'iv',   text: 'How methodological objections and broader benefit measures complicate the evidence picture' },
+      { key: 'v',    text: 'The dilution of fair trade\'s identity caused by the entry of competing certification schemes' },
+      { key: 'vi',   text: 'Fair trade\'s origins in the critique of unequal commodity trade and its current commercial scale' },
+      { key: 'vii',  text: 'Government regulation of ethical labelling standards in export markets' },
+      { key: 'viii', text: 'The use of fair trade premiums to fund infrastructure projects in producer countries' },
+    ],
+    questions: [
+      { id: 14, paraLabel: 'B', text: 'Paragraph B', answer: 'i', answerDisplay: 'i — The three core commitments that form the foundation of fair trade certification',
+        explanation: 'Paragraph B explicitly enumerates three commitments: the minimum price guarantee, the social premium, and the labour and environmental standards. "Three core commitments" is an exact structural match. Heading viii (premiums funding infrastructure) is mentioned within the social premium description but does not capture the paragraph\'s full scope.',
+        reinforcement: 'Correct — paragraph B is structured as a list of three commitments, matching heading i precisely.' },
+      { id: 15, paraLabel: 'C', text: 'Paragraph C', answer: 'ii', answerDisplay: 'ii — A counterintuitive finding showing that certification may harm the most vulnerable workers',
+        explanation: 'Paragraph C describes the SOAS finding that workers on certified farms earned less than those on non-certified farms — a counterintuitive result. It identifies the most vulnerable (landless wage workers) as those left worse off. "Counterintuitive finding" = the SOAS paradox; "most vulnerable workers" = landless wage workers.',
+        reinforcement: 'Correct — paragraph C\'s organising argument is the unexpected negative finding for the most vulnerable, matching heading ii.' },
+      { id: 16, paraLabel: 'D', text: 'Paragraph D', answer: 'iv', answerDisplay: 'iv — How methodological objections and broader benefit measures complicate the evidence picture',
+        explanation: 'Paragraph D raises two responses: selection bias as a methodological objection to critical studies, and the argument that non-monetary benefits (price stability, credit, infrastructure) are excluded from income measures. Both are captured by "methodological objections" and "broader benefit measures."',
+        reinforcement: 'Correct — paragraph D responds to criticism on methodological grounds and by broadening what counts as benefit, matching heading iv.' },
+      { id: 17, paraLabel: 'E', text: 'Paragraph E', answer: 'iii', answerDisplay: 'iii — Why the gap between consumers\' stated values and their actual purchasing behaviour limits fair trade growth',
+        explanation: 'Paragraph E discusses the attitude-behaviour gap — surveys overestimating willingness to pay premiums relative to actual behaviour — and concludes that retailer decisions are more decisive than consumer attitudes. "Gap between stated values and actual purchasing behaviour" = the attitude-behaviour gap.',
+        reinforcement: 'Correct — paragraph E is structured around the attitude-behaviour gap concept and its constraining effect on fair trade growth, matching heading iii.' },
+      { id: 18, paraLabel: 'F', text: 'Paragraph F', answer: 'v', answerDisplay: 'v — The dilution of fair trade\'s identity caused by the entry of competing certification schemes',
+        explanation: 'Paragraph F describes the proliferation of Rainforest Alliance, UTZ, and corporate CSR programmes, which have generated consumer confusion and diluted the communicative value of fair trade\'s label. "Dilution of identity" = eroded distinctiveness; "competing certification schemes" = the multiple alternative labels.',
+        reinforcement: 'Correct — paragraph F is about how competitors have diluted fair trade\'s distinctive identity, matching heading v.' },
+    ]
+  },
+  {
+    passageId: 2,
+    type: 'tfng',
+    label: 'Questions 19–22',
+    instructions: 'Do the following statements agree with the information given in the reading passage? Write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      { id: 19, text: 'When the market price for a fair trade commodity exceeds the minimum guaranteed price, producers receive only the minimum price.',
+        answer: 'FALSE',
+        explanation: 'Paragraph B: <strong>"When the market price exceeds the minimum, producers receive the higher market price."</strong> The statement claims they receive only the minimum — a direct contradiction.',
+        reinforcement: 'Correct — paragraph B explicitly states producers get the higher market price when it exceeds the minimum, making the statement FALSE.' },
+      { id: 20, text: 'The SOAS study found that workers on Fairtrade-certified farms in Uganda and Ethiopia earned less than workers on comparable non-certified farms.',
+        answer: 'TRUE',
+        explanation: 'Paragraph C: <strong>"workers on Fairtrade-certified farms earned wages significantly below those of workers on comparable non-certified farms in the same regions."</strong> The statement is an accurate paraphrase.',
+        reinforcement: 'Correct — paragraph C explicitly reports the SOAS finding of lower wages on certified farms, confirming the statement as TRUE.' },
+      { id: 21, text: 'Fairtrade International\'s certification standards are more rigorous than those applied by the Rainforest Alliance.',
+        answer: 'NOT GIVEN',
+        explanation: 'Paragraph F mentions both organisations and notes that multiple schemes have "different standards and audit frameworks," but makes no comparative judgement about which standards are more rigorous. No comparison of stringency between the two is made anywhere in the passage.',
+        reinforcement: 'Correct — the passage mentions both schemes but never compares their relative rigour, making this NOT GIVEN.' },
+      { id: 22, text: 'Research in several European countries found that most consumers do not actively seek fair trade products when shopping, despite supporting them in surveys.',
+        answer: 'TRUE',
+        explanation: 'Paragraph E: <strong>"while large majorities of respondents endorse fair trade in principle, only a small minority actively seek certified products when shopping."</strong> Studies were conducted in the UK, Germany, and the Netherlands — European countries.',
+        reinforcement: 'Correct — paragraph E reports this precise finding from European research, confirming the statement as TRUE.' },
+    ]
+  },
+  {
+    passageId: 2,
+    type: 'sentence_completion',
+    label: 'Questions 23–26',
+    instructions: 'Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.',
+    questions: [
+      { id: 23, text: 'By 2022, global retail sales of Fairtrade International-certified products exceeded twelve billion US dollars, and the network certified more than two million farmers and workers across _______ countries.',
+        answer: '73', answerDisplay: '73', acceptable: ['73'],
+        explanation: 'Paragraph A: <strong>"the Fairtrade International network alone certified more than two million farmers and workers across 73 countries."</strong> "73" is the exact figure required.',
+        reinforcement: 'Correct — "73" is stated explicitly in paragraph A as the number of countries covered by Fairtrade International certification.' },
+      { id: 24, text: 'Critics of fair trade research argue that cooperatives join certification schemes because they are already better organised, creating a _______ bias that makes comparisons with non-certified farms unreliable.',
+        answer: 'selection', answerDisplay: 'selection', acceptable: ['selection'],
+        explanation: 'Paragraph D: <strong>"selection bias — the tendency for cooperatives to join fair trade certification schemes precisely because they are already better organised."</strong> "Selection" is the passage-exact single word identifying the type of bias.',
+        reinforcement: 'Correct — "selection" (bias) is the precise term in paragraph D used to describe the methodological problem with comparative studies.' },
+      { id: 25, text: 'Social scientists use the term _______ to describe the gap between consumers\' positive attitudes towards fair trade and their actual purchasing behaviour.',
+        answer: 'attitude-behaviour gap', answerDisplay: 'attitude-behaviour gap', acceptable: ['attitude-behaviour gap'],
+        explanation: 'Paragraph E: <strong>"a phenomenon social scientists refer to as the attitude-behaviour gap."</strong> This is the passage-exact two-word term (hyphenated compound).',
+        reinforcement: 'Correct — "attitude-behaviour gap" is the exact term defined in paragraph E to name the discrepancy between stated values and shopping behaviour.' },
+      { id: 26, text: 'Several certification bodies have introduced differentiated tiers distinguishing basic ethical standards from more demanding conditions that approach the movement\'s founding ideals of producer empowerment through democratic _______ structures.',
+        answer: 'cooperative', answerDisplay: 'cooperative', acceptable: ['cooperative'],
+        explanation: 'Paragraph G: <strong>"the movement\'s founding ideals of producer empowerment through democratic cooperative structures."</strong> "Cooperative" is the passage-exact adjective completing "cooperative structures."',
+        reinforcement: 'Correct — "cooperative" is the precise modifier in paragraph G describing the organisational structures that define fair trade\'s founding ideals.' },
+    ]
+  },
+
+  // ── PASSAGE 3 — Dark Matter ──
+  {
+    passageId: 3,
+    type: 'matching_info',
+    label: 'Questions 27–31',
+    instructions: 'The reading passage has seven paragraphs, <strong>A–G</strong>. Which paragraph contains the following information? Write the correct letter <strong>A–G</strong> in the box. You may use any letter more than once.',
+    paraOptions: ['A','B','C','D','E','F','G'],
+    questions: [
+      { id: 27, text: 'A description of a cosmic collision event that provides direct evidence separating gravitating dark mass from ordinary hot gas.',
+        answer: 'C', answerDisplay: 'C',
+        explanation: 'Paragraph C describes the Bullet Cluster, formed by the collision of two galaxy clusters, where X-ray observations map hot gas and gravitational lensing maps total mass — the two are spatially offset in a way that dark matter models predict.',
+        reinforcement: 'Correct — the Bullet Cluster collision evidence is described in paragraph C.' },
+      { id: 28, text: 'An explanation of why the theoretical properties of a candidate particle coincidentally match the observed density of dark matter in the universe.',
+        answer: 'D', answerDisplay: 'D',
+        explanation: 'Paragraph D describes the "WIMP miracle": independent calculations from particle physics predict that particles with the right mass range and weak-force interaction would have been produced in quantities that match the observed dark matter density.',
+        reinforcement: 'Correct — the WIMP miracle coincidence between theory and observation is explained in paragraph D.' },
+      { id: 29, text: 'A reference to a proposal that dark matter may not exist and that the gravitational anomalies attributed to it might reflect an incomplete understanding of gravity.',
+        answer: 'G', answerDisplay: 'G',
+        explanation: 'Paragraph G introduces MOND (Modified Newtonian Dynamics) as the alternative hypothesis that modifies the laws of gravity rather than invoking dark matter, as proposed by Mordehai Milgrom in 1983.',
+        reinforcement: 'Correct — MOND\'s proposal that gravity modification might replace dark matter is described in paragraph G.' },
+      { id: 30, text: 'A description of observational measurements that showed stars at the edges of galaxies moving unexpectedly fast.',
+        answer: 'B', answerDisplay: 'B',
+        explanation: 'Paragraph B describes Vera Rubin and Kent Ford\'s measurements of flat rotation curves — stars in outer regions orbiting at approximately constant velocity rather than slowing down, contrary to classical predictions.',
+        reinforcement: 'Correct — the flat rotation curve measurements showing unexpectedly fast outer-galaxy stars are in paragraph B.' },
+      { id: 31, text: 'A statement that experiments designed to detect a leading dark matter candidate have consistently produced negative results.',
+        answer: 'E', answerDisplay: 'E',
+        explanation: 'Paragraph E reports that LUX-ZEPLIN, XENON1T, and PandaX — experiments designed to detect WIMPs — have reported no confirmed signal, describing the "null results" as eliminating large regions of the parameter space.',
+        reinforcement: 'Correct — paragraph E reports the null results from multiple WIMP detection experiments.' },
+    ]
+  },
+  {
+    passageId: 3,
+    type: 'tfng',
+    label: 'Questions 32–36',
+    instructions: 'Do the following statements agree with the information given in the reading passage? Write <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.',
+    questions: [
+      { id: 32, text: 'Ordinary baryonic matter accounts for approximately five percent of the total mass-energy content of the universe.',
+        answer: 'TRUE',
+        explanation: 'Paragraph A: <strong>"ordinary baryonic matter… accounts for only approximately five percent of the total mass-energy content of the universe."</strong> The statement is a direct paraphrase.',
+        reinforcement: 'Correct — paragraph A explicitly states the five percent figure for baryonic matter, confirming the statement as TRUE.' },
+      { id: 33, text: 'Vera Rubin predicted flat rotation curves before conducting observational measurements of spiral galaxies.',
+        answer: 'NOT GIVEN',
+        explanation: 'Paragraph B describes Rubin and Ford conducting measurements and finding flat rotation curves, but says nothing about whether Rubin predicted this outcome in advance. No information about prior predictions is provided.',
+        reinforcement: 'Correct — the passage describes only Rubin\'s observational findings, not any prior prediction, making this NOT GIVEN.' },
+      { id: 34, text: 'The null results from WIMP detection experiments have proven conclusively that WIMPs do not exist.',
+        answer: 'FALSE',
+        explanation: 'Paragraph E: <strong>"The null results from these experiments have not disproved WIMP dark matter, since the interaction cross-section of any actual WIMP candidate may lie below current detection thresholds."</strong> "Proven conclusively" directly contradicts "have not disproved."',
+        reinforcement: 'Correct — paragraph E explicitly states null results have not disproved WIMPs, making the claim of conclusive proof FALSE.' },
+      { id: 35, text: 'The axion was originally proposed as a solution to a problem in quantum chromodynamics, not as a dark matter candidate.',
+        answer: 'TRUE',
+        explanation: 'Paragraph F: <strong>"a very light particle originally proposed in 1977 by physicists Roberto Peccei and Helen Quinn to resolve a separate problem in quantum chromodynamics."</strong> The statement accurately reflects that the axion was proposed for a different purpose.',
+        reinforcement: 'Correct — paragraph F confirms the axion was originally proposed for a QCD problem, not as a dark matter candidate, making this TRUE.' },
+      { id: 36, text: 'Modified Newtonian Dynamics successfully explains the large-scale structure of the universe.',
+        answer: 'FALSE',
+        explanation: 'Paragraph G: MOND <strong>"struggles to explain the large-scale structure of the universe, the cosmic microwave background anisotropies, or the Bullet Cluster evidence."</strong> "Successfully explains" directly contradicts "struggles to explain."',
+        reinforcement: 'Correct — paragraph G explicitly states MOND struggles with large-scale structure, making the claim of successful explanation FALSE.' },
+    ]
+  },
+  {
+    passageId: 3,
+    type: 'sentence_completion',
+    label: 'Questions 37–40',
+    instructions: 'Complete the summary below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.<br><br><em>Gravitational lensing provides independent evidence for dark matter by revealing mass concentrations that far exceed the contribution of (37) _______ matter. The Bullet Cluster is particularly instructive: X-ray observations map the hot gas, while lensing maps the total mass, and the two signals are spatially (38) _______. This offset is precisely what dark matter models predict. The leading particle candidate, the WIMP, was theoretically favoured because calculations suggested its production in the early universe would match the observed dark matter (39) _______. The axion — an alternative candidate — would be detected not in underground shielded chambers but using microwave cavities and strong (40) _______ fields to convert axions into detectable photons.</em>',
+    questions: [
+      { id: 37, text: '(37) Gravitational lensing reveals mass concentrations exceeding the contribution of _______ matter.',
+        answer: 'visible', answerDisplay: 'visible', acceptable: ['visible'],
+        explanation: 'Paragraph C: <strong>"gravitational lensing… reveals mass concentrations in galaxy clusters that far exceed the contribution of visible matter."</strong> "Visible" is the passage-exact adjective.',
+        reinforcement: 'Correct — "visible" is the exact modifier in paragraph C contrasting lensing-inferred mass with ordinary observable matter.' },
+      { id: 38, text: '(38) In the Bullet Cluster, the X-ray and lensing signals are spatially _______.',
+        answer: 'offset', answerDisplay: 'offset', acceptable: ['offset'],
+        explanation: 'Paragraph C: <strong>"The two maps are spatially offset."</strong> "Offset" is the passage-exact adjective completing the description of the Bullet Cluster evidence.',
+        reinforcement: 'Correct — "offset" is the precise term in paragraph C describing the spatial separation between the gas and mass maps.' },
+      { id: 39, text: '(39) WIMPs were theoretically favoured because their predicted production would match the observed dark matter _______.',
+        answer: 'density', answerDisplay: 'density', acceptable: ['density'],
+        explanation: 'Paragraph D: <strong>"produced in the early universe in quantities that match the observed dark matter density remarkably closely."</strong> "Density" is the passage-exact noun.',
+        reinforcement: 'Correct — "density" is the exact noun in paragraph D describing what the WIMP miracle calculation matches.' },
+      { id: 40, text: '(40) Axion detection experiments rely on microwave cavities and strong _______ fields.',
+        answer: 'magnetic', answerDisplay: 'magnetic', acceptable: ['magnetic'],
+        explanation: 'Paragraph F: <strong>"relying on microwave cavities and strong magnetic fields to convert axions into photons detectable by sensitive receivers."</strong> "Magnetic" is the passage-exact adjective.',
+        reinforcement: 'Correct — "magnetic" is the precise modifier in paragraph F describing the fields used in axion detection experiments.' },
+    ]
+  },
+];
+
+// ─────────────────────────────────────────
+//  STATE
+// ─────────────────────────────────────────
+const answers = {};
+const TOTAL_SECONDS = 3600;
+let secondsLeft = TOTAL_SECONDS;
+let timerInterval = null;
+let submitted = false;
+
+// ─────────────────────────────────────────
+//  TAB SWITCHING
+// ─────────────────────────────────────────
+function switchTab(n) {
+  [1,2,3].forEach(i => {
+    document.getElementById('passageContent' + i).style.display = i === n ? 'block' : 'none';
+    document.getElementById('qPanel' + i).style.display = i === n ? 'block' : 'none';
+    document.getElementById('tabNav').querySelectorAll('.tab-btn')[i-1].classList.toggle('active', i === n);
+  });
+  document.getElementById('readingPane').scrollTop = 0;
+  document.getElementById('questionPane').scrollTop = 0;
+}
+
+// ─────────────────────────────────────────
+//  FONT SIZE CONTROLLER
+// ─────────────────────────────────────────
+const FONT_SIZES = [13, 15, 17, 19];
+let fontSizeIdx = parseInt(localStorage.getItem('ielts_font_size_idx') || '1');
+function initFontSize() {
+  document.documentElement.style.setProperty('--passage-font-size', FONT_SIZES[fontSizeIdx] + 'px');
+}
+function adjustFontSize(delta) {
+  if (delta === 0) {
+    fontSizeIdx = 1;
+  } else {
+    fontSizeIdx = Math.max(0, Math.min(FONT_SIZES.length - 1, fontSizeIdx + delta));
+  }
+  document.documentElement.style.setProperty('--passage-font-size', FONT_SIZES[fontSizeIdx] + 'px');
+  localStorage.setItem('ielts_font_size_idx', fontSizeIdx);
+}
+
+// ─────────────────────────────────────────
+//  SPLIT-PANE RESIZER
+// ─────────────────────────────────────────
+(function initResizer() {
+  const container = document.getElementById('splitContainer');
+  const leftPane  = document.getElementById('readingPane');
+  const resizer   = document.getElementById('resizerBar');
+  if (!container || !leftPane || !resizer) return;
+
+  let isDragging = false;
+  let startX     = 0;
+  let startW     = 0;
+
+  function onStart(clientX) {
+    isDragging = true;
+    startX     = clientX;
+    startW     = leftPane.getBoundingClientRect().width;
+    resizer.classList.add('active');
+    document.body.style.cursor     = 'col-resize';
+    document.body.style.userSelect = 'none';
+  }
+
+  function onMove(clientX) {
+    if (!isDragging) return;
+    const cW    = container.getBoundingClientRect().width;
+    const rW    = resizer.getBoundingClientRect().width;
+    const avail = cW - rW;
+    const minW  = avail * 0.25;
+    const maxW  = avail * 0.75;
+    const newW  = Math.max(minW, Math.min(maxW, startW + (clientX - startX)));
+    leftPane.style.width = ((newW / cW) * 100).toFixed(2) + '%';
+  }
+
+  function onEnd() {
+    if (!isDragging) return;
+    isDragging = false;
+    resizer.classList.remove('active');
+    document.body.style.cursor     = '';
+    document.body.style.userSelect = '';
+  }
+
+  resizer.addEventListener('mousedown',  e => { e.preventDefault(); onStart(e.clientX); });
+  document.addEventListener('mousemove', e => onMove(e.clientX));
+  document.addEventListener('mouseup',   onEnd);
+
+  resizer.addEventListener('touchstart',  e => { e.preventDefault(); onStart(e.touches[0].clientX); }, { passive: false });
+  document.addEventListener('touchmove',  e => { if (isDragging) { e.preventDefault(); onMove(e.touches[0].clientX); } }, { passive: false });
+  document.addEventListener('touchend',   onEnd);
+})();
+
+// ─────────────────────────────────────────
+//  TIMER
+// ─────────────────────────────────────────
+function formatTime(s) {
+  return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+}
+function startTimer() {
+  timerInterval = setInterval(() => {
+    secondsLeft--;
+    const pct = (TOTAL_SECONDS - secondsLeft) / TOTAL_SECONDS * 100;
+    document.getElementById('progressFill').style.width = pct + '%';
+    const el = document.getElementById('timerDisplay');
+    el.textContent = formatTime(secondsLeft);
+    if (secondsLeft <= 120) el.className = 'timer-box critical';
+    else if (secondsLeft <= 300) el.className = 'timer-box warning';
+    if (secondsLeft <= 0) { clearInterval(timerInterval); autoSubmit(); }
+  }, 1000);
+}
+
+// ─────────────────────────────────────────
+//  RENDER QUESTIONS
+// ─────────────────────────────────────────
+function renderAll() {
+  [1,2,3].forEach(pid => {
+    const panel = document.getElementById('qPanel' + pid);
+    let html = '';
+    GROUPS.filter(g => g.passageId === pid).forEach(group => {
+      html += `<div class="group-header mb-4">
+        <div class="text-xs font-bold tracking-widest uppercase" style="color:var(--gold);">${group.label}</div>
+        <p>${group.instructions}</p>
+      </div>`;
+
+      if (group.type === 'matching_headings') {
+        html += `<div class="headings-list mb-4"><ul style="list-style:none;">`;
+        group.headings.forEach(h => {
+          html += `<li><span>${h.key}.</span>${h.text}</li>`;
+        });
+        html += `</ul></div>`;
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">Paragraph <strong>${q.paraLabel}</strong></div>
+            <select class="q-select" id="q${q.id}" onchange="recordAnswer(${q.id}, this.value)">
+              <option value="">— Select heading —</option>
+              ${group.headings.map(h => `<option value="${h.key}">${h.key}. ${h.text}</option>`).join('')}
+            </select>
+          </div>`;
+        });
+      } else if (group.type === 'tfng') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <div class="q-tfng">
+              <button class="q-tfng-btn" onclick="selectTFNG(${q.id},'TRUE',this)">TRUE</button>
+              <button class="q-tfng-btn" onclick="selectTFNG(${q.id},'FALSE',this)">FALSE</button>
+              <button class="q-tfng-btn" onclick="selectTFNG(${q.id},'NOT GIVEN',this)">NOT GIVEN</button>
+            </div>
+          </div>`;
+        });
+      } else if (group.type === 'sentence_completion') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <input type="text" class="q-input" id="q${q.id}" placeholder="Your answer…" oninput="recordAnswer(${q.id}, this.value.trim())" />
+          </div>`;
+        });
+      } else if (group.type === 'matching_info') {
+        group.questions.forEach(q => {
+          html += `<div class="q-block">
+            <div class="q-num">Question ${q.id}</div>
+            <div class="q-text">${q.text}</div>
+            <select class="q-select" id="q${q.id}" onchange="recordAnswer(${q.id}, this.value)">
+              <option value="">— Select paragraph —</option>
+              ${group.paraOptions.map(p => `<option value="${p}">Paragraph ${p}</option>`).join('')}
+            </select>
+          </div>`;
+        });
+      }
+    });
+    panel.innerHTML = html;
+  });
+}
+
+function selectTFNG(qId, val, btn) {
+  btn.parentElement.querySelectorAll('.q-tfng-btn').forEach(b => { b.className = 'q-tfng-btn'; });
+  btn.classList.add(val === 'TRUE' ? 'sel-t' : val === 'FALSE' ? 'sel-f' : 'sel-ng');
+  recordAnswer(qId, val);
+}
+function recordAnswer(qId, val) { answers[qId] = val; }
+
+// ─────────────────────────────────────────
+//  SCORING
+// ─────────────────────────────────────────
+function scoreAnswer(q, studentRaw) {
+  if (!studentRaw) return false;
+  const student = studentRaw.toString().trim().toLowerCase();
+  if (q.acceptable) return q.acceptable.map(a => a.toLowerCase()).includes(student);
+  return student === q.answer.toLowerCase();
+}
+function bandFromScore(n) {
+  if (n >= 39) return 9.0; if (n >= 37) return 8.5; if (n >= 35) return 8.0;
+  if (n >= 33) return 7.5; if (n >= 30) return 7.0; if (n >= 27) return 6.5;
+  if (n >= 23) return 6.0; if (n >= 19) return 5.5; if (n >= 15) return 5.0;
+  if (n >= 13) return 4.5; if (n >= 10) return 4.0; if (n >= 8) return 3.5;
+  if (n >= 6) return 3.0; return 2.5;
+}
+function bandColour(b) {
+  if (b >= 7) return '#0D9488'; if (b >= 5.5) return '#C9952E'; return '#dc2626';
+}
+function bandAdvice(band, score) {
+  const pct = Math.round(score/40*100);
+  if (band >= 8.5) return `Outstanding — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Near-native comprehension across all three passages. Focus on NOT GIVEN precision and paraphrased sentence completions to push for Band 9.`;
+  if (band >= 7.5) return `Excellent result — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Strong academic reading. To push towards Band 8+: tighten NOT GIVEN judgements (never infer beyond the text) and copy sentence completion answers exactly from the passage.`;
+  if (band >= 6.5) return `Good performance — ${score}/40 (${pct}%) gives an estimated <strong>Band ${band}</strong>. Solid comprehension with room to improve. Review: (1) TRUE vs FALSE — verify the exact claim, not just the topic; (2) Matching Headings — identify the paragraph's central argument before selecting; (3) time allocation across all three passages.`;
+  if (band >= 5.5) return `You scored ${score}/40 (${pct}%), giving an estimated <strong>Band ${band}</strong>. Clear potential — prioritise synonym recognition, since every question involves paraphrase. Review each wrong answer and find the exact passage sentence that should have guided your response.`;
+  return `You scored ${score}/40 (${pct}%), giving an estimated <strong>Band ${band}</strong>. Focus on active reading: identify each paragraph's main claim before reading the questions. Daily timed reading of academic texts and vocabulary building will accelerate improvement significantly.`;
+}
+
+// ─────────────────────────────────────────
+//  SUBMIT
+// ─────────────────────────────────────────
+function confirmSubmit() { if (!confirm('Submit your reading test now?')) return; doSubmit(); }
+function autoSubmit() { if (submitted) return; doSubmit(); }
+function doSubmit() {
+  if (submitted) return;
+  submitted = true;
+  clearInterval(timerInterval);
+  document.getElementById('submittingOverlay').style.display = 'flex';
+  setTimeout(showResults, 800);
+}
+
+// ─────────────────────────────────────────
+//  RESULTS
+// ─────────────────────────────────────────
+function showResults() {
+  document.getElementById('submittingOverlay').style.display = 'none';
+  document.getElementById('testMain').style.display = 'none';
+  document.getElementById('timingStrip').style.display = 'none';
+  document.getElementById('resultsMain').style.display = 'block';
+
+  let correct = 0;
+  const allQs = GROUPS.flatMap(g => g.questions);
+  allQs.forEach(q => { if (scoreAnswer(q, answers[q.id])) correct++; });
+  const band = bandFromScore(correct);
+  const bCol = bandColour(band);
+
+  // Save result
+  const results = JSON.parse(localStorage.getItem('ielts_mock_results') || '[]');
+  results.push({ date: Date.now(), book: 18, testNum: 3, skill: 'reading', scores: { reading: band } });
+  localStorage.setItem('ielts_mock_results', JSON.stringify(results));
+
+  // Per-passage breakdown
+  const passageChips = [1,2,3].map(p => {
+    const pQs = GROUPS.filter(g => g.passageId === p).flatMap(g => g.questions);
+    const pC = pQs.filter(q => scoreAnswer(q, answers[q.id])).length;
+    const pCol = bandColour(bandFromScore(Math.round(pC/pQs.length*40)));
+    return `<div style="background:#EFF3F9;border:1px solid var(--border);border-radius:10px;padding:10px 14px;text-align:center;min-width:80px;">
+      <div style="font-size:0.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px;">Passage ${p}</div>
+      <div style="font-family:'Space Mono',monospace;font-size:1.125rem;font-weight:700;color:${pCol};">${pC}/${pQs.length}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('scoreCard').innerHTML = `
+    <div class="flex flex-col md:flex-row gap-6 items-center">
+      <div class="score-ring-wrap">
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#E2E8F0" stroke-width="8"/>
+          <circle cx="60" cy="60" r="50" fill="none" stroke="${bCol}" stroke-width="8"
+            stroke-dasharray="${Math.round(correct/40*314)} 314" stroke-linecap="round"
+            transform="rotate(-90 60 60)" style="transition:stroke-dasharray 1.2s cubic-bezier(.16,1,.3,1)"/>
+        </svg>
+        <div style="margin-top:-70px;text-align:center;pointer-events:none;">
+          <div style="font-family:'Space Mono',monospace;font-size:1.75rem;font-weight:700;color:${bCol};">${correct}</div>
+          <div style="font-size:0.75rem;color:var(--text-muted);">out of 40</div>
+        </div>
+        <div style="margin-top:16px;"></div>
+      </div>
+      <div class="flex-1">
+        <div class="text-xs font-bold tracking-widest uppercase mb-1" style="color:var(--gold);">Your Score</div>
+        <div class="font-display font-black text-4xl mb-1" style="color:${bCol};">Band ${band}</div>
+        <div class="text-sm mb-4" style="color:var(--text-muted);">${correct} correct answers out of 40</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">${passageChips}</div>
+      </div>
+    </div>`;
+
+  document.getElementById('feedbackCard').innerHTML = `
+    <div class="text-xs font-bold tracking-widest uppercase mb-3" style="color:var(--gold);">Overall Feedback</div>
+    <div class="band-feedback">${bandAdvice(band, correct)}</div>`;
+
+  [1,2,3].forEach(pid => {
+    let html = '';
+    GROUPS.filter(g => g.passageId === pid).forEach(group => {
+      html += `<div style="margin-bottom:0.5rem;padding:6px 0 8px;border-bottom:1px solid var(--border-soft);">
+        <span style="font-size:0.6875rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-faint);">${group.label} — ${labelType(group.type)}</span>
+      </div>`;
+      group.questions.forEach(q => {
+        const isCorrect = scoreAnswer(q, answers[q.id]);
+        const studentAns = answers[q.id] ? answers[q.id].toString() : '(no answer)';
+        const correctAns = q.answerDisplay || q.answer;
+        html += `<div class="corr-block ${isCorrect ? 'corr-correct' : 'corr-wrong'}">
+          <div class="corr-qnum ${isCorrect ? 'ok' : 'bad'}">${isCorrect ? '✓' : '✗'} Question ${q.id}</div>
+          <div class="corr-qtext">${q.text}</div>`;
+        if (isCorrect) {
+          html += `<div class="corr-row"><span class="corr-tag reinforce">✓ Correct</span><span class="corr-val">${studentAns}</span></div>
+            <div class="corr-expl">${q.reinforcement || ''}</div>`;
+        } else {
+          html += `<div class="corr-row"><span class="corr-tag your">Your answer</span><span class="corr-val">${studentAns}</span></div>
+            <div class="corr-row"><span class="corr-tag correct">Correct answer</span><span class="corr-val">${correctAns}${q.acceptable && q.acceptable.length > 1 ? ' <span style="font-size:0.75rem;color:var(--text-faint);">(also: ' + q.acceptable.filter(a=>a!==q.answer).join(', ') + ')</span>' : ''}</span></div>
+            <div class="corr-expl">${q.explanation || ''}</div>`;
+        }
+        html += `</div>`;
+      });
+    });
+    document.getElementById('corrPassage' + pid).innerHTML = html;
+  });
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function labelType(t) {
+  return { tfng:'True / False / Not Given', mc:'Multiple Choice', matching_headings:'Matching Headings', matching_info:'Matching Information', sentence_completion:'Sentence Completion', diagram_labelling:'Diagram Labelling', matching_feature:'Matching Features' }[t] || t;
+}
+
+// ─────────────────────────────────────────
+//  INIT
+// ─────────────────────────────────────────
+initFontSize();
+renderAll();
+startTimer();
+</script>
+<script src="/js/components.js"></script>
+<script>
+  IELTSLab.loadNav({ basePath: '../', breadcrumb: 'Mock Tests', authenticated: true, themeDefault: 'light' });
+</script>
+</body>
+</html>
