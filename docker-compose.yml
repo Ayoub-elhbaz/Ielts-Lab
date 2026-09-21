@@ -1,0 +1,12 @@
+services:
+  ielts-lab:
+    build:
+      context: https://github.com/Ayoub-elhbaz/Ielts-Lab.git#main
+      dockerfile: Dockerfile
+    container_name: ielts-lab
+    restart: unless-stopped
+    ports:
+      - "3001:3000"
+    environment:
+      NODE_ENV: production
+      PORT: 3000
