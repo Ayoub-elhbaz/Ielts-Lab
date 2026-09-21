@@ -16,9 +16,3 @@ services:
       - "traefik.http.routers.ielts-lab.entrypoints=websecure"
       - "traefik.http.routers.ielts-lab.tls.certresolver=letsencrypt"
       - "traefik.http.services.ielts-lab.loadbalancer.server.port=3000"
-    networks:
-      - traefik-proxy
-
-networks:
-  traefik-proxy:
-    external: true
