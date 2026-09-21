@@ -1,7 +1,7 @@
 services:
   ielts-lab:
     build:
-      context: https://github.com/Ayoub-elhbaz/Ielts-Lab.git#main
+      context: .
       dockerfile: Dockerfile
     container_name: ielts-lab
     restart: unless-stopped
