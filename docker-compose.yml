@@ -10,3 +10,15 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3000
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ielts-lab.rule=Host(`ieltslab.io`) || Host(`www.ieltslab.io`)"
+      - "traefik.http.routers.ielts-lab.entrypoints=websecure"
+      - "traefik.http.routers.ielts-lab.tls.certresolver=letsencrypt"
+      - "traefik.http.services.ielts-lab.loadbalancer.server.port=3000"
+    networks:
+      - traefik-proxy
+
+networks:
+  traefik-proxy:
+    external: true
