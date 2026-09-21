@@ -817,6 +817,135 @@
       .reference-stage { transform:none !important; transition:none; }
       .reference-stage.reference-loaded { animation:none; }
     }
+
+    /* Full-screen hero; all layout overrides stay within this section. */
+    #hero-section.reference-homepage {
+      display:flex;
+      flex-direction:column;
+      min-height:100svh;
+    }
+    #hero-section .hero-nav { max-width:none; padding-inline:6.7%; }
+    #hero-section .reference-art-window {
+      flex:1;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-end;
+      padding-top:36%;
+      min-height:0;
+    }
+    #hero-section .reference-stage { width:110%; left:-8%; margin-top:-5.116279%; }
+    #hero-section .reference-art { mask-image:linear-gradient(to bottom,var(--page-ink) 68%,transparent 78%); }
+    #hero-section .hero-skill-area { padding-bottom:28px; }
+    #hero-section .hero-skill-row { width:86.6%; }
+    #hero-section .hero-explore { margin-top:32px; }
+    @media (max-width:1200px) {
+      #hero-section .hero-nav { padding-inline:24px; }
+    }
+    @media (max-width:1023px) {
+      #hero-section .reference-art-window {
+        padding:24px 24px 0;
+        background-image:linear-gradient(to bottom,var(--color-white) 25%,transparent 70%),url('images/homepage-reference-exact.png');
+        background-size:100% 100%,1400% auto;
+      }
+      #hero-section .reference-stage { display:contents; }
+      #hero-section .reference-art {
+        position:absolute;
+        top:230px;
+        left:-80%;
+        width:180%;
+        clip-path:inset(9% 0 21% 54%);
+        mask-image:linear-gradient(to right,transparent 53%,var(--page-ink) 65%),linear-gradient(to bottom,transparent 9%,var(--page-ink) 18%,var(--page-ink) 65%,transparent 79%);
+        pointer-events:none;
+      }
+      #hero-section .reference-word-glow { display:none; }
+      #hero-section .reference-copy {
+        position:relative;
+        z-index:2;
+        width:auto;
+        height:auto;
+        margin:0;
+        overflow:visible;
+        clip-path:none;
+        white-space:normal;
+        max-width:560px;
+      }
+      #hero-section .reference-copy > p:first-child {
+        color:var(--color-teal-dark);
+        font:10px 'Space Mono',monospace;
+        letter-spacing:.12em;
+        text-transform:uppercase;
+        margin-bottom:14px;
+      }
+      #hero-section .reference-copy h1 {
+        font-family:'Satoshi',sans-serif;
+        color:var(--page-ink);
+        font-size:clamp(30px,5vw,46px);
+        font-weight:700;
+        letter-spacing:-1.2px;
+        line-height:1.08;
+        max-width:500px;
+      }
+      #hero-section .reference-copy h1 span { color:var(--color-teal-dark); }
+      #hero-section .reference-copy > p:last-child {
+        color:var(--page-muted);
+        font-size:13px;
+        line-height:1.6;
+        margin-top:14px;
+        max-width:440px;
+      }
+      #hero-section.reference-homepage .ui {
+        position:relative;
+        inset:auto;
+        width:auto;
+        height:auto;
+        display:flex;
+        flex-direction:row;
+        align-items:flex-start;
+        justify-content:flex-start;
+        gap:10px;
+        margin:20px 0 0;
+        padding:0;
+        z-index:2;
+      }
+      #hero-section .reference-hit {
+        position:static;
+        width:auto;
+        height:auto;
+        min-height:44px;
+        padding:12px 16px;
+        border:1px solid var(--page-line);
+        border-radius:10px;
+        background:var(--page-ink) !important;
+        color:var(--color-white) !important;
+        font-size:12px !important;
+        font-weight:600;
+      }
+      #hero-section .reference-hit + .reference-hit {
+        background:var(--color-white) !important;
+        color:var(--page-ink) !important;
+      }
+      #hero-section .hero-skill-area { margin-top:auto; padding-top:180px; padding-bottom:24px; }
+      #hero-section .hero-skill-row { width:100%; gap:12px; }
+      #hero-section .skill-card-cta { min-height:76px; padding:12px; }
+      #hero-section .hero-explore { margin-top:26px; }
+    }
+    @media (max-width:600px) {
+      #hero-section .hero-nav { padding-inline:16px; }
+      #hero-section .reference-art-window { padding-inline:20px; }
+      #hero-section .reference-copy { max-width:360px; }
+      #hero-section .reference-copy h1 { max-width:340px; }
+    }
+    @media (max-width:1023px) and (max-height:740px) {
+      #hero-section .reference-art-window { padding-top:16px; }
+      #hero-section .reference-copy h1 { font-size:28px; }
+      #hero-section .reference-copy > p:first-child { margin-bottom:10px; }
+      #hero-section .reference-copy > p:last-child { font-size:12px; margin-top:10px; }
+      #hero-section.reference-homepage .ui { margin-top:14px; }
+      #hero-section .reference-art { top:195px; }
+      #hero-section .hero-skill-area { padding-top:80px; padding-bottom:20px; }
+      #hero-section .skill-card-cta { min-height:66px; }
+      #hero-section .hero-explore { margin-top:18px; }
+    }
   </style>
 
 
@@ -856,12 +985,12 @@
         <img class="reference-word-glow" src="images/ielts-word-glow.svg" width="264" height="208" alt="" aria-hidden="true" />
         <div class="reference-copy">
           <p>Your IELTS preparation lab</p>
-          <h1 id="reference-heading">Turn your effort into your IELTS success.</h1>
+          <h1 id="reference-heading">Turn your effort into your <span>IELTS</span> success.</h1>
           <p>Practice Reading, Writing, Listening and Speaking with AI feedback, expert guidance, and a clear study plan designed to get you results.</p>
         </div>
         <div class="ui">
-          <button class="reference-hit" onclick="window.location.href='https://ieltslab.io/writing-clinic/index.html'" aria-label="Start Free Trial — Writing Clinic" style="--hit-x:13.40%;--hit-y:61.42%;--hit-w:11.80%;--hit-h:7.70%"></button>
-          <button class="reference-hit" onclick="window.location.href='https://ieltslab.io/teachers/index.html'" aria-label="See How It Works" style="--hit-x:26.10%;--hit-y:61.42%;--hit-w:13.10%;--hit-h:7.70%"></button>
+          <button class="reference-hit" onclick="window.location.href='https://ieltslab.io/writing-clinic/index.html'" aria-label="Start Free Trial — Writing Clinic" style="--hit-x:13.40%;--hit-y:61.42%;--hit-w:11.80%;--hit-h:7.70%">Start Free Trial →</button>
+          <button class="reference-hit" onclick="window.location.href='https://ieltslab.io/teachers/index.html'" aria-label="See How It Works" style="--hit-x:26.10%;--hit-y:61.42%;--hit-w:13.10%;--hit-h:7.70%">▷ See How It Works</button>
         </div>
       </div>
       <div class="hero-skill-area">
