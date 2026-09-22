@@ -5,11 +5,20 @@ services:
       dockerfile: Dockerfile
     container_name: ielts-lab
     restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
     ports:
       - "3001:3000"
     environment:
       NODE_ENV: production
       PORT: 3000
+      PGHOST: postgres
+      PGDATABASE: ielts_lab
+      PGUSER: ielts_lab
+      PGPASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}
+      DATABASE_SSL: "false"
+      JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET}
       RESEND_API_KEY: ${RESEND_API_KEY:-}
       RESEND_FROM_EMAIL: ${RESEND_FROM_EMAIL:-onboarding@resend.dev}
     labels:
@@ -18,3 +27,23 @@ services:
       - "traefik.http.routers.ielts-lab.entrypoints=websecure"
       - "traefik.http.routers.ielts-lab.tls.certresolver=letsencrypt"
       - "traefik.http.services.ielts-lab.loadbalancer.server.port=3000"
+
+  postgres:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ielts_lab
+      POSTGRES_USER: ielts_lab
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ielts_lab -d ielts_lab"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    labels:
+      - "traefik.enable=false"
+
+volumes:
+  postgres-data:

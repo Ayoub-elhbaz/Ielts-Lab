@@ -30,9 +30,11 @@ import crypto        from 'crypto';
 const { Pool } = pkg;
 
 // ── Database ──────────────────────────────────────────────────────────────────
-const db = process.env.DATABASE_URL ? new Pool({
+const db = (process.env.DATABASE_URL || process.env.PGHOST) ? new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false },
+  ssl: process.env.DATABASE_SSL === 'false' ? false : { rejectUnauthorized: false },
+  connectionTimeoutMillis: 5000,
+  query_timeout: 10000,
 }) : null;
 
 async function initDB() {
@@ -91,7 +93,8 @@ async function initDB() {
   `);
   console.log('[db] Schema ready');
 }
-initDB().catch(err => console.error('[db] Init failed:', err.message));
+const databaseReady = initDB();
+databaseReady.catch(err => console.error('[db] Init failed:', err.message));
 
 // ── Stripe ────────────────────────────────────────────────────────────────────
 const stripe = process.env.STRIPE_SECRET_KEY
@@ -211,7 +214,7 @@ const IS_PROD = process.env.NODE_ENV === 'production';
 const _jwtSecret = process.env.JWT_SECRET || (() => {
   const s = crypto.randomBytes(32).toString('hex');
   if (process.env.NODE_ENV === 'production') {
-    console.warn('[auth] JWT_SECRET not set — sessions will reset on server restart. Set JWT_SECRET in Railway env vars.');
+    throw new Error('JWT_SECRET must be configured in production.');
   }
   return s;
 })();
@@ -320,8 +323,14 @@ app.get('/', (_req, res) => {
 });
 
 // ── GET /api/health ───────────────────────────────────────────────────────────
-app.get('/api/health', (_req, res) => {
-  res.json({ status: 'ok', server: 'IELTS Lab API v1.1' });
+app.get('/api/health', async (_req, res) => {
+  try {
+    if (!db) throw new Error('Database not configured');
+    await db.query('SELECT 1');
+    res.json({ status: 'ok', database: 'connected', server: 'IELTS Lab API v1.1' });
+  } catch {
+    res.status(503).json({ status: 'unavailable', database: 'unavailable' });
+  }
 });
 
 // ── Prompt-injection guardrail appended to every system prompt ────────────────
@@ -553,6 +562,7 @@ async function sendEmail(to, subject, html, replyToOverride) {
 
 // POST /api/auth/send-verification ───────────────────────────────────────────
 app.post('/api/auth/send-verification', async (req, res) => {
+  if (!db) return res.status(503).json({ error: 'Account storage is temporarily unavailable. Please try again later.' });
   const { email, name, mode } = req.body;
   if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return res.status(400).json({ error: 'A valid email address is required.' });
@@ -573,11 +583,7 @@ app.post('/api/auth/send-verification', async (req, res) => {
       }
     } catch (dbErr) {
       console.error('[send-verification] DB check failed:', dbErr.message);
-      // For signup: fail closed — block if we can't confirm user doesn't exist
-      if (mode === 'signup') {
-        return res.status(503).json({ error: 'Unable to verify account status. Please try again.' });
-      }
-      // For signin: fail open — allow the attempt
+      return res.status(503).json({ error: 'Unable to verify account status. Please try again.' });
     }
   } else {
     console.warn('[send-verification] No DB — skipping account existence check');
@@ -664,27 +670,25 @@ app.post('/api/auth/verify-code', async (req, res) => {
   codeAttempts.delete(emailKey);
   console.log(`[verify-code] Verified: ${emailKey} from ${requestIp}`);
 
-  // Check if user already existed BEFORE upsert (used to detect duplicate signups)
-  let alreadyExisted = false;
-  if (db) {
-    const precheck = await db.query('SELECT id FROM users WHERE email=$1', [emailKey]).catch(() => null);
-    alreadyExisted = precheck && precheck.rows.length > 0;
+  try {
+    if (!db) throw new Error('Database unavailable');
+    const precheck = await db.query('SELECT id FROM users WHERE email=$1', [emailKey]);
+    const user = await getOrCreateUser(emailKey, record.name || null);
+    const ob = await db.query('SELECT full_name FROM onboarding WHERE user_id=$1', [user.id]);
+    const planInfo = await getUserPlan(emailKey);
+    res.json({
+      success: true,
+      token: generateAuthToken(emailKey),
+      name: ob.rows[0]?.full_name || user.name || null,
+      plan: planInfo?.plan || 'free',
+      credits: planInfo?.credits || 0,
+      onboarding_done: ob.rows.length > 0,
+      already_existed: precheck.rows.length > 0,
+    });
+  } catch (err) {
+    console.error('[verify-code] Could not load saved account:', err.message);
+    res.status(503).json({ error: 'Could not load your saved account. Please request a new code and try again.' });
   }
-
-  // Upsert user in DB and return plan info
-  const name = record.name || null;
-  const user = await getOrCreateUser(emailKey, name).catch(err => {
-    console.error(`[verify-code] getOrCreateUser failed for ${emailKey}:`, err.message);
-    return null;
-  });
-  if (!user) console.warn(`[verify-code] User NOT saved to DB for ${emailKey} — signup check will not work`);
-  const planInfo = user ? await getUserPlan(emailKey).catch(() => null) : null;
-  let onboardingDone = false;
-  if (db && user) {
-    const ob = await db.query('SELECT id FROM onboarding WHERE user_id=$1', [user.id]).catch(() => ({ rows: [] }));
-    onboardingDone = ob.rows.length > 0;
-  }
-  res.json({ success: true, token: generateAuthToken(emailKey), plan: planInfo?.plan || 'free', credits: planInfo?.credits || 0, onboarding_done: onboardingDone, already_existed: alreadyExisted });
 });
 
 // POST /api/auth/login — issue session token for password/Google sign-in
@@ -701,27 +705,27 @@ app.post('/api/auth/login', authLimiter, async (req, res) => {
 
 // GET /api/onboarding/status ──────────────────────────────────────────────────
 app.get('/api/onboarding/status', requireAuth, async (req, res) => {
-  if (!db) return res.json({ done: true }); // no DB = skip onboarding gate
+  if (!db) return res.status(503).json({ error: 'Account storage is temporarily unavailable.' });
   try {
-    const user = await getOrCreateUser(req.userEmail, null).catch(() => null);
-    if (!user) return res.json({ done: false });
+    const user = await getOrCreateUser(req.userEmail, null);
     const r = await db.query('SELECT id FROM onboarding WHERE user_id=$1', [user.id]);
     res.json({ done: r.rows.length > 0 });
   } catch {
-    res.json({ done: true }); // fail open so users aren't stuck
+    res.status(503).json({ error: 'Could not load your saved profile. Please try again.' });
   }
 });
 
 // POST /api/onboarding ────────────────────────────────────────────────────────
 app.post('/api/onboarding', requireAuth, async (req, res) => {
+  if (!db) return res.status(503).json({ error: 'Your profile could not be saved because account storage is unavailable. Please try again later.' });
   const { full_name, phone, country, age, current_band, target_band, exam_date, main_skill, ielts_reason, referral_source } = req.body;
   const email = req.userEmail;
   if (!full_name) return res.status(400).json({ error: 'Full name is required.' });
 
   try {
-    // Save to DB only if available — email is sent regardless
+    // A successful response requires a persisted profile.
     if (db) {
-      const user = await getOrCreateUser(email, full_name).catch(() => null);
+      const user = await getOrCreateUser(email, full_name);
       if (user) {
         await db.query(`
         INSERT INTO onboarding (user_id, full_name, phone, country, age, current_band, target_band, exam_date, main_skill, ielts_reason, referral_source)
@@ -2668,6 +2672,8 @@ app.get('/api/mock-test-copy', async (_req, res) => {
 });
 
 // ── Start ─────────────────────────────────────────────────────────────────────
+await databaseReady;
+if (IS_PROD && !db) throw new Error('A persistent database must be configured in production.');
 app.listen(PORT, () => {
   const keyOk = !!process.env.ANTHROPIC_API_KEY;
   console.log(`\n✅  IELTS Lab server running`);

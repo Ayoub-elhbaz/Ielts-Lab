@@ -491,15 +491,7 @@
     if (!email) { errEl.textContent = 'Please enter your email address.'; return; }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { errEl.textContent = 'Please enter a valid email address.'; return; }
 
-    // Signup mode: block if a session already exists in this browser
-    if (currentMode === 'signup') {
-      const existing = localStorage.getItem('ielts_session');
-      const onboardingDone = localStorage.getItem('ielts_onboarding_done');
-      if (existing || onboardingDone) {
-        errEl.innerHTML = 'This email already has an account. <a onclick="switchMode(\'signin\')" style="color:var(--royal-blue);font-weight:600;cursor:pointer;text-decoration:underline;">Sign in instead</a>.';
-        return;
-      }
-    }
+    // The server checks this email against the persistent account database.
 
     setBtn('sendBtn', true, 'Send code');
     try {
@@ -567,7 +559,7 @@
 
       // Determine name: previously stored > email prefix
       const storedName = getStoredName();
-      const name = storedName || pendingEmail.split('@')[0];
+      const name = data.name || storedName || pendingEmail.split('@')[0];
 
       // Save session
       localStorage.setItem('ielts_session', JSON.stringify({ name, email: pendingEmail }));
@@ -575,6 +567,7 @@
 
       // Redirect to onboarding if not yet completed
       if (!data.onboarding_done) {
+        localStorage.removeItem('ielts_onboarding_done');
         window.location.replace('./onboarding.html?next=' + encodeURIComponent(getRedirect()));
       } else {
         localStorage.setItem('ielts_onboarding_done', '1'); // cache so localStorage signup check works

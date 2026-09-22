@@ -269,6 +269,22 @@
   if (!session) window.location.replace('./login.html');
   const token = localStorage.getItem('ielts_auth_token');
 
+  // Use the saved profile even when this browser has no onboarding cache.
+  if (token) {
+    fetch('/api/onboarding/status', {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then(async (response) => {
+        if (!response.ok) return;
+        const result = await response.json();
+        if (result.done) {
+          localStorage.setItem('ielts_onboarding_done', '1');
+          window.location.replace(getNext());
+        }
+      })
+      .catch(() => {});
+  }
+
   function getNext() {
     const p = new URLSearchParams(window.location.search);
     const next = p.get('next');
