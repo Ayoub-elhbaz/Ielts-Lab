@@ -10,6 +10,8 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3000
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      RESEND_FROM_EMAIL: ${RESEND_FROM_EMAIL:-onboarding@resend.dev}
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.ielts-lab.rule=Host(`ieltslab.io`) || Host(`www.ieltslab.io`)"
