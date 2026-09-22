@@ -27,3 +27,6 @@ jobs:
           virtual-machine: ${{ vars.HOSTINGER_VM_ID }}
           project-name: ielts-lab
           docker-compose-path: docker-compose.yml
+          environment-variables: |
+            RESEND_API_KEY=${{ secrets.RESEND_API_KEY }}
+            RESEND_FROM_EMAIL=${{ secrets.RESEND_FROM_EMAIL }}
